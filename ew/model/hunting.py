@@ -208,3 +208,49 @@ class EwAttackType:
         self.str_crit = str_crit
         self.str_miss = str_miss
         self.str_groupattack = str_groupattack
+
+
+class EwNpc:
+    id_npc = "" #unique id for each npc
+
+    active = True #whether an npc spawns
+
+    str_name = "" #Name of the NPC
+
+    poi_list = [] #list of locations an NPC roams in
+
+    dialogue = {} #list of dialogue an npc can use
+
+    func_ai = None # function the enemy's AI uses
+
+    id_profile = "" #image link to add to dialogue embeds
+
+    defaultslime = ""
+
+    defaultlevel = ""
+
+    rewards = []
+    
+    def __init__(
+        self,
+        id_npc = "", 
+        active = True, 
+        str_name = "", 
+        poi_list = [],
+        dialogue = {}, 
+        func_ai = None,
+        image_profile = "",
+        defaultslime = "",
+        defaultlevel = "",
+        rewards = []
+    ):
+        self.id_npc = id_npc
+        self.active = active
+        self.str_name = str_name
+        self.poi_list = poi_list
+        self.dialogue = dialogue
+        self.func_ai = func_ai
+        self.id_profile = image_profile
+        self.defaultslime = defaultslime
+        self.defaultlevel = defaultlevel
+        self.rewards = rewards

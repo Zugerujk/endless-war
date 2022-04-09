@@ -1582,6 +1582,8 @@ crime_status = {
 1000000:"Not even {their} fellow gangsters can tolerate the sight of {them} now. {their} voice is spun of poison and {their} footsteps leave destruction in {their} wake. Fucking goons."
 }
 
+#if a profile image is absent, this is used
+default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"
 
 # how often to apply weather effects
 weather_tick_length = 10

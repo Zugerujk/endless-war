@@ -2,6 +2,7 @@ import random
 
 from . import cfg as ewcfg
 from ..model.hunting import EwAttackType
+from ..model.hunting import EwNpc
 
 
 # Attacking type effects
@@ -371,6 +372,26 @@ enemy_attack_type_list = [
         fn_effect=atf_tusks
     ),
 ]
+
+
+npc_list = [
+    EwNpc(
+        id_npc="thedrinkster",  # unique id for each npc
+        active = True,  # whether an npc spawns
+        str_name = "",  # Name of the NPC
+        poi_list = [ewcfg.poi_id_711],  # list of locations an NPC roams in
+        dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"]},  # list of dialogue an npc can use
+        func_ai = None,  # function the enemy's AI uses
+        image_profile = "",  # image link to add to dialogue embeds
+        defaultslime = 200,
+        defaultlevel = 1,
+        rewards = ["bluedrink"]
+    )
+
+]
+
+
+
 
 # A map of id_type to EwAttackType objects.
 attack_type_map = {}

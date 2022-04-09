@@ -646,3 +646,26 @@ async def get_member(guild, member_id):
         member = mem_list[0] if len(mem_list) == 1 else None
 
     return member
+
+
+async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None):
+    bubble = discord.Embed()
+    client = ewutils.get_client()
+
+    if name != "" and channel is not None:
+        if npc_obj == None:
+            bubble.description = name
+            if image == "":
+                bubble.set_thumbnail(url=ewcfg.default_thumbnail)
+            else:
+                bubble.set_thumbnail(url=image)
+        elif npc_obj != None:
+            bubble.description = npc_obj.str_name
+            bubble.set_thumbnail(url=npc_obj.image_profile)
+
+        if color != "":
+            bubble.color = color
+        else:
+            bubble.color = "33cc4a"
+        bubble.add_field(name='\u200b', value=response)
+        await send_message(client, channel, embed=bubble)
