@@ -27,4 +27,6 @@ cmd_map = {
 
     # gender??? OMG???
     ewcfg.cmd_identify: juviecmds.identify,
+
+    ewcfg.cmd_talk: juviecmds.talk
 }

@@ -594,6 +594,17 @@ async def mine(cmd):
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+"""Talk with someone. Oh god, somebody answer."""
+
+async def talk(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    if user_data.poi in ewcfg.vendor_dialogue.keys():
+        response = random.choice(ewcfg.vendor_dialogue.get(user_data.poi))
+        thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)
+        name = "{}{}{}".format("*__", ewcfg.vendor_npc_names.get(user_data.poi), "__*")
+        return await fe_utils.talk_bubble(response = response, name = name, image = thumbnail, channel = cmd.message.channel)
+
+
 """ mine for slime (or endless rocks) """
 
 

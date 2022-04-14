@@ -1294,6 +1294,8 @@ cmd_festivity = cmd_prefix + 'festivity'
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
+cmd_talk = cmd_prefix + 'talk'
+
 offline_cmds = [
     cmd_move,
     cmd_move_alt1,
@@ -2572,6 +2574,18 @@ vendor_atomicforest = "Atomic Forest Stockpile"  # Storage of atomic forest
 vendor_downpourlaboratory = "Downpour Armament Vending Machines"  # Store for shamblers to get stuff
 vendor_breakroom = "The Breakroom"  # Security officers can order items here for free.
 vendor_rpcity = "RP City"  # Double halloween costume store
+
+vendor_thumbnails = {
+    poi_id_speakeasy:"https://cdn.discordapp.com/attachments/431238867459375145/782030947184541726/unknown.png"
+}
+
+vendor_dialogue = {
+    poi_id_speakeasy:['Hey, you can talk to me? What, is this Shin Megami Tensei?', 'Oh, random line selection? Yeah, I totally buy that, jackass.']
+}
+
+vendor_npc_names = {
+    poi_id_speakeasy:"CAPTAIN ALBERT ALEXANDER"
+}
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
@@ -4009,6 +4023,7 @@ enemy_type_microslime = 'microslime'
 enemy_type_grey = 'grey'
 enemy_type_tangeloid = 'tangeloid'
 enemy_type_alienscum = 'alienscum'
+enemy_type_npc = 'npc'
 
 enemy_type_mammoslimebull = 'mammoslimebull'
 enemy_type_slimeofgreed = 'slimeofgreed'
@@ -4490,6 +4505,14 @@ enemy_data_table = {
         "displayname": "Suspicious Slimeoid Trainer",
         "raredisplayname": "Villainous Slimeoid Champion",
         "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"]
+    },
+    enemy_type_npc: {
+        "slimerange": [100000, 100000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "NPC",
+        "raredisplayname": "NPC Template",
+        "aliases": []
     },
 }
 

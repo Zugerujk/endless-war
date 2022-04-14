@@ -14,8 +14,15 @@ from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 from ..static import items as static_items
 from ..static import poi as poi_static
+from ..static import hunting as hunting_static
 
-
+def gen_npc(enemy):
+    chosen_npc = random.choice(hunting_static.active_npcs_map.values())
+    enemy.display_name = chosen_npc.str_name
+    enemy.slimes = chosen_npc.defaultslime
+    enemy.level = chosen_npc.defaultlevel
+    enemy.poi = random.choice(chosen_npc.poi_list)
+    return enemy
 
 
 # Spawns an enemy in a randomized outskirt district. If a district is full, it will try again, up to 5 times.
@@ -155,6 +162,10 @@ def spawn_enemy(
         enemy.owner = -1 if pre_chosen_owner is None else pre_chosen_owner
         enemy.gvs_coord = '' if pre_chosen_coord is None else pre_chosen_coord
         enemy.rare_status = enemy.rare_status if pre_chosen_rarity is None else pre_chosen_rarity
+
+        if enemy.enemytype == ewcfg.enemy_type_npc:
+            enemy = gen_npc(enemy=enemy)
+
 
         if pre_chosen_weather != ewcfg.enemy_weathertype_normal:
             if pre_chosen_weather == ewcfg.enemy_weathertype_rainresist:

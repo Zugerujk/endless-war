@@ -664,8 +664,9 @@ async def talk_bubble(response = "", name = "", image = None, channel = None, co
             bubble.set_thumbnail(url=npc_obj.image_profile)
 
         if color != "":
-            bubble.color = color
+            bubble.color = discord.Colour(int(color, 16))
+
         else:
-            bubble.color = "33cc4a"
+            bubble.color = discord.Colour(int("33cc4a", 16))
         bubble.add_field(name='\u200b', value=response)
         await send_message(client, channel, embed=bubble)

@@ -390,6 +390,13 @@ npc_list = [
 
 ]
 
+active_npcs_map = {}
+
+for npc in npc_list:
+    if npc.active:
+        active_npcs_map[npc.id_npc] = npc
+
+
 
 
 
