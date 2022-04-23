@@ -962,6 +962,10 @@ class EwEnemy(EwEnemyBase):
                 if destination_poi_data.is_subzone or destination_poi_data.is_gangbase or not destination_poi_data.pvp:
                     destinations.remove(destination)
 
+                if self.enemytype == ewcfg.enemy_type_npc:
+                    npc_obj = hunt_static.active_npcs_map.get(self.enemyclass)
+                    if destination not in npc_obj.poi_list and npc_obj.poi_list != []:
+                        destinations.remove(destination)
                 if self.poi in poi_static.outskirts_depths:
                     if destination in poi_static.outskirts_depths:
                         destinations.remove(destination)
@@ -1785,6 +1789,7 @@ async def enemy_perform_action(id_server):
         enemy = EwEnemy(id_enemy=row[0], id_server=id_server)
         enemy_statuses = enemy.getStatusEffects()
         resp_cont = EwResponseContainer(id_server=id_server)
+        npc_obj = None
 
         # If an enemy is marked for death or has been alive too long, delete it
         if enemy.life_state == ewcfg.enemy_lifestate_dead or (enemy.expiration_date < time_now):
@@ -1797,6 +1802,14 @@ async def enemy_perform_action(id_server):
                     resp_cont = enemy.move()
                     if resp_cont != None:
                         await resp_cont.post(delete_after=120)
+
+            ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+            channel_obj = fe_utils.get_channel(server=client.get_guild(id_server), channel_name=ch_name)
+            if enemy.enemytype == ewcfg.enemy_type_npc:
+
+                npc_obj = hunt_static.active_npcs_map.get(enemy.enemyclass)
+                await npc_obj.func_ai(keyword = 'move', enemy = enemy, channel = channel_obj) #get npc movement action
+
 
             # If an enemy is alive and not a sandbag, make it perform the kill function.
             if enemy.enemytype != ewcfg.enemy_type_sandbag:
@@ -1836,6 +1849,8 @@ async def enemy_perform_action(id_server):
                         fe_utils.delete_last_message(client, last_messages, ewcfg.enemy_attack_tick_length))
                     resp_cont = None
 
+                elif npc_obj is not None:
+                    await npc_obj.func_ai(keyword='act', enemy = enemy, channel = channel_obj) #trigger enemy ai for generic action in front of a player
                 elif any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(
                         10) == 0:
                     resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()

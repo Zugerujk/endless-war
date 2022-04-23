@@ -378,7 +378,7 @@ npc_list = [
     EwNpc(
         id_npc="thedrinkster",  # unique id for each npc
         active = True,  # whether an npc spawns
-        str_name = "",  # Name of the NPC
+        str_name = "The Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_711],  # list of locations an NPC roams in
         dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"]},  # list of dialogue an npc can use
         func_ai = None,  # function the enemy's AI uses

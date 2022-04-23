@@ -2587,6 +2587,8 @@ vendor_npc_names = {
     poi_id_speakeasy:"CAPTAIN ALBERT ALEXANDER"
 }
 
+pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
+
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
 item_id_monstersoup = 'monstersoup'
@@ -3498,6 +3500,8 @@ status_high_id = "high"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
+
+status_enemy_hostile_id = "hostile"
 # status_juviemode_id = "juviemode"
 
 status_n1 = "n1"

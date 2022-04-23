@@ -17,12 +17,35 @@ from ..static import poi as poi_static
 from ..static import hunting as hunting_static
 
 def gen_npc(enemy):
-    chosen_npc = random.choice(hunting_static.active_npcs_map.values())
-    enemy.display_name = chosen_npc.str_name
-    enemy.slimes = chosen_npc.defaultslime
-    enemy.level = chosen_npc.defaultlevel
-    enemy.poi = random.choice(chosen_npc.poi_list)
-    return enemy
+
+    loop_count = 0
+    chosen_npc = None
+
+    while loop_count < 1000:
+        chosen_npc = random.choice(hunting_static.active_npcs_map.values())
+        enemydata = bknd_core.execute_sql_query(
+                "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
+                    id_enemy=ewcfg.col_id_enemy,
+                    display_name=ewcfg.col_display_name,
+                    life_state=ewcfg.col_enemy_life_state
+                ), (
+                    chosen_npc.str_name,
+                ))
+        if len(enemydata) > 0:
+            break
+        else:
+            loop_count += 1
+
+    if chosen_npc != None:
+
+        enemy.display_name = chosen_npc.str_name
+        enemy.slimes = chosen_npc.defaultslime
+        enemy.level = chosen_npc.defaultlevel
+        enemy.poi = random.choice(chosen_npc.poi_list)
+        enemy.enemyclass = chosen_npc.id_npc
+        return enemy
+    else:
+        return enemy
 
 
 # Spawns an enemy in a randomized outskirt district. If a district is full, it will try again, up to 5 times.
@@ -187,6 +210,15 @@ def spawn_enemy(
         enemy.enemy_props = props if pre_chosen_props is None else pre_chosen_props
 
         enemy.persist()
+        if enemy.enemytype == 'npc':
+            chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
+            ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+            client = ewutils.get_client()
+            server = client.get_guild(id_server)
+            channel = fe_utils.get_channel(server=server, channel_name=ch_name)
+            await chosen_npc.func_ai(keyword='spawn', channel=channel, enemy=enemy)
+
+
 
         # Recursively spawn enemies that belong to groups.
         if enemytype in ewcfg.enemy_group_leaders:
@@ -244,7 +276,7 @@ def spawn_enemy(
                                                                                                     enemy.slimes)
                 
 
-        ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+        #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
 
     if len(response) > 0 and len(ch_name) > 0:
         resp_cont.add_channel_response(ch_name, response)
