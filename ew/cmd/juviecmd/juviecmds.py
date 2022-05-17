@@ -26,6 +26,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
+from ew.utils.frontend import EwResponseContainer
 from . import juviecmdutils
 from .juviecmdutils import create_mining_event
 from .juviecmdutils import gen_scavenge_captcha
@@ -45,6 +46,7 @@ except:
 async def crush(cmd):
     member = cmd.message.author
     user_data = EwUser(member=member)
+    resp_cont = EwResponseContainer(id_server=cmd.guild.id)
     response = ""  # if it's not overwritten
     crush_slimes = ewcfg.crush_slimes
 
@@ -142,14 +144,23 @@ async def crush(cmd):
                     )
 
                     gristcount += 1
+
         elif item_data.item_props.get("id_item") == ewcfg.item_id_negapoudrin:
-            # delete a negapoudrin from the player's inventory
+
+            # Delete a negapoudrin from the player's inventory
             bknd_item.item_delete(id_item=sought_id)
             crush_slimes = -1000000
-            # kill player if they have less than 1 million slime
+
+            # Kill player if they have less than 1 million slime
             if user_data.slimes < 1000000:
-                user_data.die(cause=ewcfg.cause_suicide)
-            # remove 1 million slime from the player
+                die_resp = user_data.die(cause=ewcfg.cause_suicide)
+                resp_cont.add_response_container(die_resp)
+
+                response = "You {} your hard-earned slime crystal with your bare teeth.\nAs the nerve endings in your teeth explode, you realize you bit into a negapoudrin! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
+
+                user_data.persist()
+
+            # Remove 1 million slime from the player
             else:
                 levelup_response = user_data.change_slimes(n = crush_slimes, source = ewcfg.source_crush)
                 user_data.persist()
@@ -157,7 +168,50 @@ async def crush(cmd):
                 response = "You {} your hard-earned slime crystal with your bare teeth.\nAs the nerve endings in your teeth explode, you realize you bit into a negapoudrin! You writhe on the ground as slime gushes from all of your orifices.".format(command)
             
                 if len(levelup_response) > 0:
-                    response += "\n\n" + levelup_response	
+                    response += "\n\n" + levelup_response
+                    	
+        # If the item is a negaslimeoidheart
+        elif item_data.item_props.get("context") == ewcfg.context_negaslimeoidheart:
+            
+            # Delete a core from the player's inventory
+            bknd_item.item_delete(id_item=sought_id)
+            crush_slimes = -1000000
+
+            # Kill player if they have less than 1 million slime
+            if user_data.slimes < 1000000:
+                die_resp = user_data.die(cause=ewcfg.cause_suicide)
+                resp_cont.add_response_container(die_resp)
+                
+                response = "You {} the Negaslimeoid core with your bare teeth.\nAs the nerve endings in your teeth explode, you recoil in pain! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
+
+                user_data.persist()
+
+            # Remove 1 million slime from the player
+            else:
+                levelup_response = user_data.change_slimes(n = crush_slimes, source = ewcfg.source_crush)
+                user_data.persist()
+
+                # Give the player a negative dye
+                bknd_item.item_create(
+                    item_type=ewcfg.it_item,
+                    id_user=cmd.message.author.id,
+                    id_server=cmd.guild.id,
+                    item_props={
+                        'context': 'dye',
+                        'item_name': '||Negative Dye||',
+                        'item_desc': 'A small vial of ||negative dye||.',
+                        'id_item': 'negativedye'
+                                }
+                )
+
+                response = "You {} the Negaslimeoid core with your bare teeth.\nAs the nerve endings in your teeth explode, you recoil in pain! You writhe on the ground as slime gushes from all of your orifices. \n\nFrom within the Negaslimeoid's core, you recover a sample of ||Negative Dye||! This piece here is pretty rare, so don't waste it!".format(command)
+            
+                if len(levelup_response) > 0:
+                    response += "\n\n" + levelup_response
+
+
+
+
 
     else:
         if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -166,7 +220,8 @@ async def crush(cmd):
             response = "{} which item? (check **!inventory**)".format(command)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_cont.add_channel_response(cmd.message.channel.name, fe_utils.formatMessage(cmd.message.author, response))
+    await resp_cont.post()
 
 
 """ player enlists in a faction/gang """
@@ -174,9 +229,6 @@ async def crush(cmd):
 
 async def enlist(cmd):
     user_data = EwUser(member=cmd.message.author)
-    if user_data.life_state == ewcfg.life_state_shambler:
-        response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     user_slimes = user_data.slimes
     time_now = int(time.time())
@@ -224,6 +276,8 @@ async def enlist(cmd):
 
         else:
             response = "Enlisting in the {}.".format(ewcfg.faction_killers)
+            if user_data.race == ewcfg.race_clown:
+                user_data.race = ewcfg.race_humanoid
             user_data.life_state = ewcfg.life_state_enlisted
             user_data.faction = ewcfg.faction_killers
             user_data.time_lastenlist = time_now + ewcfg.cd_enlist
@@ -277,9 +331,6 @@ async def enlist(cmd):
 
 async def renounce(cmd):
     user_data = EwUser(member=cmd.message.author)
-    if user_data.life_state == ewcfg.life_state_shambler:
-        response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = "You're dead, bitch."
@@ -311,9 +362,6 @@ async def renounce(cmd):
 async def mine(cmd):
     market_data = EwMarket(id_server=cmd.message.author.guild.id)
     user_data = EwUser(member=cmd.message.author)
-    if user_data.life_state == ewcfg.life_state_shambler:
-        response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     mutations = user_data.get_mutations()
     cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
@@ -340,11 +388,6 @@ async def mine(cmd):
     # Mine only in the mines.
     if cmd.message.channel.name in ewcfg.mining_channels:
         poi = poi_static.id_to_poi.get(user_data.poi)
-        district_data = EwDistrict(district=poi.id_poi, id_server=user_data.id_server)
-
-        if district_data.is_degraded():
-            response = "{} has been degraded by shamblers. You can't {} here anymore.".format(poi.str_name, cmd.tokens[0])
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if user_data.hunger >= user_data.get_hunger_max():
             return await mismine(cmd, user_data, "exhaustion")
@@ -584,10 +627,6 @@ async def mine(cmd):
             if printgrid:
                 await print_grid(cmd)
 
-            # gangsters don't need their roles updated
-            if user_data.life_state == ewcfg.life_state_juvenile:
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
-
     else:
         return await mismine(cmd, user_data, "channel")
     # response = "You can't mine here! Go to the mines in Juvie's Row, Toxington, or Cratersville!"
@@ -636,9 +675,6 @@ async def flag(cmd):
     market_data = EwMarket(id_server=cmd.message.author.guild.id)
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
-    if user_data.life_state == ewcfg.life_state_shambler:
-        response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     mutations = user_data.get_mutations()
     time_now = int(time.time())
@@ -662,12 +698,6 @@ async def flag(cmd):
 
     # Mine only in the mines.
     if cmd.message.channel.name in ewcfg.mining_channels:
-        poi = poi_static.id_to_poi.get(user_data.poi)
-        district_data = EwDistrict(district=poi.id_poi, id_server=user_data.id_server)
-
-        if district_data.is_degraded():
-            response = "{} has been degraded by shamblers. You can't {} here anymore.".format(poi.str_name, cmd.tokens[0])
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if user_data.hunger >= user_data.get_hunger_max():
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You've exhausted yourself from mining. You'll need some refreshment before getting back to work."))
@@ -778,10 +808,7 @@ async def scavenge(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Slow down, you filthy hyena."))
 
     if user_data.poi == ewcfg.poi_id_slimesea:
-        if user_data.life_state == ewcfg.life_state_shambler:
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Are you trying to grab random trash instead of !searchingforbrainz? Pretty cringe bro..."))
-        else:
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You consider diving down to the bottom of the sea to grab some sick loot, but quickly change your mind when you {}.".format(random.choice(ewcfg.sea_scavenge_responses))))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You consider diving down to the bottom of the sea to grab some sick loot, but quickly change your mind when you {}.".format(random.choice(ewcfg.sea_scavenge_responses))))
 
     # Scavenge only in location channels
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == True:
@@ -818,8 +845,13 @@ async def scavenge(cmd):
 
             scavenge_yield = math.floor(scavenge_mod * district_data.slimes)
 
+            if district_data.slimes < scavenge_yield:
+                scavenge_yield = district_data.slimes
+
             levelup_response = user_data.change_slimes(n=scavenge_yield, source=ewcfg.source_scavenging)
             district_data.change_slimes(n=-1 * scavenge_yield, source=ewcfg.source_scavenging)
+            if district_data.slimes < 0:
+                district_data.slimes = 0
             district_data.persist()
 
             if levelup_response != "":
@@ -889,10 +921,6 @@ async def scavenge(cmd):
             user_data.time_lastscavenge = time_now
 
             user_data.persist()
-
-            # gangsters don't need their roles updated
-            if user_data.life_state == ewcfg.life_state_juvenile:
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
             if not response == "":
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

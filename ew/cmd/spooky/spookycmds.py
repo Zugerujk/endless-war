@@ -89,25 +89,39 @@ async def revive(cmd, player_auto = None):
             # Set time of last revive. This used to provied spawn protection, but currently isn't used.
             player_data.time_lastrevive = time_now
 
-            if False: #player_data.degradation >= 100:
-                player_data.life_state = ewcfg.life_state_shambler
-                player_data.change_slimes(n=0.5 * ewcfg.slimes_shambler)
-                player_data.trauma = ""
-                poi_death = poi_static.id_to_poi.get(player_data.poi_death)
-                if move_utils.inaccessible(poi=poi_death, user_data=player_data):
-                    player_data.poi = ewcfg.poi_id_endlesswar
-                else:
-                    player_data.poi = poi_death.id_poi
-            else:
-                # Set life state. This is what determines whether the player is actually alive.
-                player_data.life_state = ewcfg.life_state_juvenile
-                # Give player some initial slimes.
-                player_data.change_slimes(n=ewcfg.slimes_onrevive)
-                # Get the player out of the sewers.
-                player_data.poi = ewcfg.poi_id_endlesswar
+            # Set life state. This is what determines whether the player is actually alive.
+            player_data.life_state = ewcfg.life_state_juvenile
+            # Give player some initial slimes.
+            player_data.change_slimes(n=ewcfg.slimes_onrevive)
+            # Get the player out of the sewers.
+            player_data.poi = ewcfg.poi_id_endlesswar
 
             # Give newly spawned juvies a foul odour
             player_data.applyStatus(ewcfg.status_repelled_id)
+            
+            # Turn player's negaslimeoid into a core if they have one
+            if slimeoid.sltype == ewcfg.sltype_nega:
+                
+                # Only create a negaslimeoid core if the negaslimeoid is fully conjured
+                if slimeoid.life_state != ewcfg.slimeoid_state_forming:
+                    # Turn negaslimeoid into a negaslimeoid core
+                    item_props = {
+                        'context': ewcfg.context_negaslimeoidheart,
+                        'subcontext': slimeoid.id_slimeoid,
+                        'item_name': "Core of {}".format(slimeoid.name),
+                        'item_desc': "A smooth, inert rock. If you listen carefully you can hear otherworldly whispering."
+                    }
+                    bknd_item.item_create(
+                    id_user=ewcfg.channel_sewers,
+                    id_server=cmd.guild.id,
+                    item_type=ewcfg.it_item,
+                    item_props=item_props
+                    )
+
+                # Kill the slimeoid and set player's active_slimeoid to -1
+                slimeoid.die()
+                slimeoid.persist()
+                player_data.active_slimeoid = -1
 
             player_data.persist()
             market_data.persist()
@@ -144,7 +158,7 @@ async def revive(cmd, player_auto = None):
         #	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.display_name, ewcfg.emote_slimeskull)
         #	deathreport = "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(member, deathreport)
 
-        if slimeoid.life_state == ewcfg.slimeoid_state_active:
+        if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
             reunite = ""
             brain = sl_static.brain_map.get(slimeoid.ai)
             reunite += brain.str_revive.format(
@@ -186,7 +200,6 @@ async def haunt(cmd):
             market_data = EwMarket(id_server=cmd.guild.id)
             target_mutations = haunted_data.get_mutations()
             target_poi = poi_static.id_to_poi.get(haunted_data.poi)
-            target_is_shambler = haunted_data.life_state == ewcfg.life_state_shambler
             target_is_inhabitted = haunted_data.id_user == user_data.get_inhabitee()
 
             if user_data.life_state != ewcfg.life_state_corpse:
@@ -209,7 +222,7 @@ async def haunt(cmd):
             elif haunted_data.life_state == ewcfg.life_state_grandfoe:
                 # Grand foes can't be haunted.
                 response = "{} is invulnerable to ghosts.".format(member.display_name)
-            elif haunted_data.life_state == ewcfg.life_state_enlisted or haunted_data.life_state == ewcfg.life_state_juvenile or haunted_data.life_state == ewcfg.life_state_shambler:
+            elif haunted_data.life_state == ewcfg.life_state_enlisted or haunted_data.life_state == ewcfg.life_state_juvenile:
                 haunt_power_multiplier = 1
 
                 # power to the ancients

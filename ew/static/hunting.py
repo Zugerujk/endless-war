@@ -164,10 +164,6 @@ def atf_smallclaws(ctn = None):
         ctn.crit = True
 
 
-def atf_gvs_basic(ctn = None):
-    pass
-
-
 # All enemy attacking types in the game.
 enemy_attack_type_list = [
     EwAttackType(  # 1
@@ -341,7 +337,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
         fn_effect=atf_body
     ),
-    EwAttackType(  # 14
+    EwAttackType(  # 15
         id_type="raygun",
         str_crit="**PEWPEWPEW!!!** The {name_enemy} fires several shots right in the kisser! {name_target} is stunned and blinded!",
         str_miss="**PEW -SSSSSSS!** You barely dodge a laser blast! You hair's singed...",
@@ -350,7 +346,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} nails {name_target} with their laser pistol!",
         fn_effect=atf_gunkshot
     ),
-    EwAttackType(  # 14
+    EwAttackType(  # 16
         id_type="feed",
         str_crit="**CRUNCH!!!** The {name_enemy} clutches {name_target}'s shouders and takes a bite from their neck! GET IT OFF GET IT OFF GET IT OFF!",
         str_miss="**WHOOSH-SMACK!** You jump out of the way of {name_enemy}'s lunge and kick them away!",
@@ -359,7 +355,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} bites {name_target} deep!",
         fn_effect=atf_fangs
     ),
-    EwAttackType(  #
+    EwAttackType(  #17
         id_type="titanoslime",
         str_crit="NULL",
         str_miss="**MISS!** {name_target} barely jumps out of the way of {name_enemy}'s foot!",

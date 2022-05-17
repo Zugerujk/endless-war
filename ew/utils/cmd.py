@@ -132,22 +132,8 @@ def gen_data_text(
 
         if user_data.life_state == ewcfg.life_state_corpse:
             response = "{} is a {}level {} {}dead{}.".format(display_name, race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
-        elif user_data.life_state == ewcfg.life_state_shambler:
-            response = "{} is a {}level {} {}shambler.".format(display_name, race_prefix, user_data.slimelevel, race_suffix)
         else:
             response = "{} is a {}level {} {}slime{}.".format(display_name, race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
-            """if user_data.degradation < 20:
-                pass
-            elif user_data.degradation < 40:
-                response += " Their bodily integrity is starting to slip."
-            elif user_data.degradation < 60:
-                response += " Their face seems to be melting and they periodically have to put it back in place."
-            elif user_data.degradation < 80:
-                response += " They are walking a bit funny, because their legs are getting mushy."
-            elif user_data.degradation < 100:
-                response += " Their limbs keep falling off. It's really annoying."
-            else:
-                response += " They almost look like a shambler already."""
 
         coinbounty = int(user_data.bounty / ewcfg.slimecoin_exchangerate)
 
@@ -236,8 +222,13 @@ def gen_data_text(
                 if status_flavor is not None:
                     response_block += status_flavor.str_describe.format_map(format_status) + " "
 
-        if (slimeoid.life_state == ewcfg.slimeoid_state_active) and (user_data.life_state != ewcfg.life_state_corpse):
-            response_block += "They are accompanied by {}, a {}-foot-tall Slimeoid. ".format(slimeoid.name, str(slimeoid.level))
+        if (slimeoid.life_state == ewcfg.slimeoid_state_active):
+            # If the user isn't a corpse
+            if user_data.life_state != ewcfg.life_state_corpse:
+                response_block += "They are accompanied by {}, a {}-foot-tall Slimeoid. ".format(slimeoid.name, str(slimeoid.level))
+            # If the user is a corpse, but has a negaslimeoid
+            elif slimeoid.sltype == ewcfg.sltype_nega:
+                response_block += "They are accompanied by {}, a {}-foot-tall Negaslimeoid. ".format(slimeoid.name, str(slimeoid.level))
 
         # if user_data.swear_jar >= 500:
         # 	response_block += "They're going to The Underworld for the things they've said."

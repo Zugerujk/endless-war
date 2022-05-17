@@ -1,9 +1,6 @@
 # Global configuration options.
 
-
-
-
-version = "v4.101 S4A1 Caverns"
+version = "v4.102 S4A1 🍑🔨"
 
 
 dir_msgqueue = 'msgqueue'
@@ -14,7 +11,6 @@ discord_message_length_limit = 2000
 
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
-update_twitch = 60
 update_pvp = 60
 update_market = 900  # 15 min
 
@@ -24,8 +20,6 @@ permissions_tries = 1
 # Time saved moving through friendly territory (or lost in hostile territory).
 territory_time_gain = 10
 
-# A variable which is used to determine how certain functions of enemies are to perform
-gvs_active = False
 #Double Halloween Features
 dh_active = False
 #Existing Stages for Double Halloween. As the years go by we may add on to this
@@ -55,13 +49,7 @@ public_gamestates = {
     'juviesrowhole':[1, '0']
 }
 
-
-
-
 forbidden_channels = ["suggestion-box"]
-
-# The max amount of degradation a district can have before it is shambled completely
-district_max_degradation = 10000
 
 # Market delta
 max_iw_swing = 30
@@ -79,7 +67,6 @@ combatant_type_enemy = "enemy"
 life_state_corpse = 0
 life_state_juvenile = 1
 life_state_enlisted = 2
-life_state_shambler = 3
 life_state_executive = 6
 life_state_lucky = 7
 life_state_grandfoe = 8
@@ -99,8 +86,6 @@ playerstats_list = [
     stat_defense,
     stat_speed,
 ]
-
-
 
 slimeoid_tick_length = 5 * 60 # 5 minutes
 
@@ -401,7 +386,6 @@ role_copkillers_active = "killerotp"
 role_corpse = "corpse"
 role_corpse_pvp = "corpsewanted"
 role_corpse_active = "corpseotp"
-role_shambler = "shamblers"
 role_kingpin = "kingpin"
 role_grandfoe = "grandfoe"
 role_slimecorp = "slimecorp"
@@ -451,7 +435,6 @@ faction_roles = [
     role_kingpin,
     role_grandfoe,
     role_tutorial,
-    role_shambler,
 ]
 
 role_to_pvp_role = {
@@ -490,8 +473,6 @@ faction_slimecorp = "slimecorp"
 gangbase_slimecorp = "The Breakroom"
 faction_banned = "banned"
 factions = [faction_killers, faction_rowdys, faction_slimecorp]
-psuedo_faction_gankers = 'gankers'  # not attatched to a user's data
-psuedo_faction_shamblers = 'shamblers'  # same as above
 
 # Channel names
 channel_mines = "the-mines"
@@ -502,7 +483,6 @@ channel_combatzone = "combat-zone"
 channel_endlesswar = "endless-war"
 channel_sewers = "the-sewers"
 channel_dojo = "the-dojo"
-channel_twitch_announcement = "rfck-chat"
 channel_casino = "the-casino"
 channel_casino_p ="slime-casino-lite"
 channel_stockexchange = "slime-stock-exchange"
@@ -731,13 +711,8 @@ cmd_crystalize_negapoudrin_alt1 = cmd_prefix + 'smeltnegapoudrin'
 cmd_crystalize_negapoudrin_alt2 = cmd_prefix + 'crystallise'
 cmd_crystalize_negapoudrin_alt3 = cmd_prefix + 'crystalize'
 cmd_favor = cmd_prefix + 'favor'
-cmd_summonnegaslimeoid = cmd_prefix + 'summonnegaslimeoid'
-cmd_summonnegaslimeoid_alt1 = cmd_prefix + 'summonnega'
-cmd_summonnegaslimeoid_alt2 = cmd_prefix + 'summon'
 cmd_summonenemy = cmd_prefix + 'summonenemy'
-cmd_summongvsenemy = cmd_prefix + 'summongvsenemy'
 cmd_deleteallenemies = cmd_prefix + 'deleteallenemies'
-cmd_negaslimeoid = cmd_prefix + 'negaslimeoid'
 cmd_battlenegaslimeoid = cmd_prefix + 'battlenegaslimeoid'
 cmd_battlenegaslimeoid_alt1 = cmd_prefix + 'negaslimeoidbattle'
 cmd_battlenegaslimeoid_alt2 = cmd_prefix + 'battlenega'
@@ -795,6 +770,7 @@ cmd_sidearm = cmd_prefix + 'sidearm'
 cmd_data = cmd_prefix + 'data'
 cmd_mutations = cmd_prefix + 'mutations'
 cmd_mutations_alt_1 = cmd_prefix + 'stds'
+cmd_mutations_alt_2 = cmd_prefix + 'stdz'
 cmd_hunger = cmd_prefix + 'hunger'
 cmd_clock = cmd_prefix + 'clock'
 cmd_time = cmd_prefix + 'time'
@@ -874,10 +850,12 @@ cmd_coinflip = cmd_prefix + 'co1nfl1p'
 cmd_spook = cmd_prefix + 'spook'
 cmd_sacrifice = cmd_prefix + 'sacrifice'
 cmd_makecostume = cmd_prefix + 'makecostume'
-cmd_trick = cmd_prefix + 'trick'
+cmd_stunt = cmd_prefix + 'stunt'
+cmd_stuntalt1 = cmd_prefix + 'skate'
 cmd_treat = cmd_prefix + 'treat'
 cmd_russian = cmd_prefix + 'russianroulette'
 cmd_duel = cmd_prefix + 'duel'
+cmd_brandish = cmd_prefix + 'brandish'
 cmd_accept = cmd_prefix + 'accept'
 cmd_refuse = cmd_prefix + 'refuse'
 cmd_sign = cmd_prefix + 'sign'
@@ -1126,6 +1104,7 @@ cmd_untakedown_alt_1 = cmd_prefix + 'uncopyrightstrike'
 cmd_untakedown_alt_2 = cmd_prefix + 'undeletezine'
 cmd_lol = cmd_prefix + 'lol'
 cmd_mastery = cmd_prefix + 'mastery'
+cmd_trick = cmd_prefix + 'trick'
 
 
 cmd_pacommand = cmd_prefix + 'pacommand'
@@ -1166,7 +1145,6 @@ cmd_collectopics = cmd_prefix + 'collecttopics'
 cmd_synctopics = cmd_prefix + 'synctopics'
 cmd_shutdownbot = cmd_prefix + 'shutdownbot'
 cmd_checkbot = cmd_prefix + 'checkbot'
-cmd_degradedistricts = cmd_prefix + 'degradedistricts'
 cmd_set_debug_option = cmd_prefix + 'debugoption'
 
 
@@ -1189,6 +1167,7 @@ cmd_growarmor = cmd_prefix + 'growarmor'
 cmd_growspecial = cmd_prefix + 'growspecial'
 cmd_growbrain = cmd_prefix + 'growbrain'
 cmd_nameslimeoid = cmd_prefix + 'nameslimeoid'
+cmd_nameslimeoid_alt1 = cmd_prefix + 'namenegaslimeoid'
 cmd_raisemoxie = cmd_prefix + 'raisemoxie'
 cmd_lowermoxie = cmd_prefix + 'lowermoxie'
 cmd_raisegrit = cmd_prefix + 'raisegrit'
@@ -1196,27 +1175,59 @@ cmd_lowergrit = cmd_prefix + 'lowergrit'
 cmd_raisechutzpah = cmd_prefix + 'raisechutzpah'
 cmd_lowerchutzpah = cmd_prefix + 'lowerchutzpah'
 cmd_spawnslimeoid = cmd_prefix + 'spawnslimeoid'
+cmd_spawnslimeoid_alt1 = cmd_prefix + 'spawnnegaslimeoid'
 cmd_dissolveslimeoid = cmd_prefix + 'dissolveslimeoid'
+cmd_dissolveslimeoid_alt1 = cmd_prefix + 'dissolvenegaslimeoid'
 cmd_slimeoid = cmd_prefix + 'slimeoid'
+cmd_slimeoid_alt1 = cmd_prefix + 'negaslimeoid'
 cmd_challenge = cmd_prefix + 'challenge'
 cmd_instructions = cmd_prefix + 'instructions'
 cmd_playfetch = cmd_prefix + 'playfetch'
 cmd_petslimeoid = cmd_prefix + 'petslimeoid'
+cmd_petslimeoid_alt1 = cmd_prefix + 'petnegaslimeoid'
 cmd_abuseslimeoid = cmd_prefix + 'abuseslimeoid'
+cmd_abuseslimeoid_alt1 = cmd_prefix + 'abusenegaslimeoid'
 cmd_walkslimeoid = cmd_prefix + 'walkslimeoid'
+cmd_walkslimeoid_alt1 = cmd_prefix + 'walknegaslimeoid'
 cmd_observeslimeoid = cmd_prefix + 'observeslimeoid'
+cmd_observeslimeoid_alt1 = cmd_prefix + 'observenegaslimeoid'
 cmd_slimeoidbattle = cmd_prefix + 'slimeoidbattle'
+cmd_slimeoidbattle_alt1 = cmd_prefix + 'battleslimeoid'
+cmd_slimeoidbattle_alt2 = cmd_prefix + 'negaslimeoidbattle'
+cmd_slimeoidbattle_alt3 = cmd_prefix + 'battlenegaslimeoid'
 cmd_saturateslimeoid = cmd_prefix + 'saturateslimeoid'
 cmd_restoreslimeoid = cmd_prefix + 'restoreslimeoid'
+cmd_restoreslimeoid_alt1 = cmd_prefix + 'restorenegaslimeoid'
 cmd_bottleslimeoid = cmd_prefix + 'bottleslimeoid'
 cmd_bottleslimeoid_alt1 = cmd_prefix + 'bottle'
 cmd_unbottleslimeoid = cmd_prefix + 'unbottleslimeoid'
 cmd_unbottleslimeoid_alt1 = cmd_prefix + 'unbottle'
 cmd_feedslimeoid = cmd_prefix + 'feedslimeoid'
+cmd_feedslimeoid_alt1 = cmd_prefix + 'feednegaslimeoid'
 cmd_dress_slimeoid = cmd_prefix + 'dressslimeoid'
 cmd_dress_slimeoid_alt1 = cmd_prefix + 'decorateslimeoid'
+cmd_dress_slimeoid_alt2 = cmd_prefix + 'adornslimeoid'
+cmd_dress_slimeoid_alt3 = cmd_prefix + 'dressnegaslimeoid'
+cmd_dress_slimeoid_alt4 = cmd_prefix + 'decoratenegaslimeoid'
+cmd_dress_slimeoid_alt5 = cmd_prefix + 'adornnegaslimeoid'
 cmd_undress_slimeoid = cmd_prefix + 'undressslimeoid'
 cmd_undress_slimeoid_alt1 = cmd_prefix + 'undecorateslimeoid'
+cmd_undress_slimeoid_alt2 = cmd_prefix + 'unadornslimeoid'
+cmd_undress_slimeoid_alt3 = cmd_prefix + 'undressnegaslimeoid'
+cmd_undress_slimeoid_alt4 = cmd_prefix + 'undecoratenegaslimeoid'
+cmd_undress_slimeoid_alt5 = cmd_prefix + 'unadornnegaslimeoid'
+cmd_tagslimeoid = cmd_prefix + 'tagslimeoid'
+cmd_tagslimeoid_alt1 = cmd_prefix + 'tagnegaslimeoid'
+cmd_untagslimeoid = cmd_prefix + 'untagslimeoid'
+cmd_untagslimeoid_alt1 = cmd_prefix + 'untagnegaslimeoid'
+
+#negaslimeoid-specific commands
+cmd_conjure_negaslimeoid = cmd_prefix + 'conjurenegaslimeoid'
+cmd_conjure_negaslimeoid_alt1= cmd_prefix + 'summonnegaslimeoid'
+cmd_conjure_negaslimeoid_alt2 = cmd_prefix + 'summonnega'
+cmd_conjure_negaslimeoid_alt3 = cmd_prefix + 'summon'
+cmd_destroyslimeoid = cmd_prefix + 'destroyslimeoid'
+cmd_destroyslimeoid_alt1 = cmd_prefix + 'destroynegaslimeoid'
 
 cmd_add_quadrant = cmd_prefix + "addquadrant"
 cmd_clear_quadrant = cmd_prefix + "clearquadrant"
@@ -1265,6 +1276,7 @@ cmd_confuse = cmd_prefix + 'confuse'
 cmd_shamble = cmd_prefix + 'shamble'
 cmd_netrun = cmd_prefix + 'netrun'
 cmd_strike_deal = cmd_prefix + 'strikedeal'
+cmd_honk = cmd_prefix + 'honk'
 
 cmd_hogtie = cmd_prefix + 'hogtie'
 
@@ -1342,7 +1354,6 @@ client_debug_commands =[
  '!setrole',
  '!getrowdy',
  '!getkiller',
- '!getshambler',
  '!toggledownfall',
  '!dayforward',
  '!hourforward',
@@ -1374,7 +1385,6 @@ slimes_to_possess_fishing_rod = -10000
 slimes_to_crystalize_negapoudrin = -1000000
 slimes_cliffdrop = 200000
 slimes_item_drop = 10000
-slimes_shambler = 10
 
 # hunger
 min_stamina = 100
@@ -1478,9 +1488,6 @@ crime_yield_capping = {
 }
 
 
-
-
-
 # by how much to extend the capture lock per additional gangster capping
 capture_lock_per_gangster = 60 * 60  # 60 min
 
@@ -1536,9 +1543,6 @@ enemy_spawn_tick_length = 60 * 3 # Three minutes
 # how often it takes for hostile enemies to attack
 enemy_attack_tick_length = 5
 
-# how often to check game states in Gankers Vs. Shamblers
-gvs_gamestate_tick_length = 5
-
 # how often to burn
 burn_tick_length = 4
 
@@ -1566,6 +1570,7 @@ cr_posession_points = 5
 cr_underage_smoking_points = 1
 cr_dojo_crime_points = 50
 cr_indecent_exposure_points = 1
+cr_unlawful_stunting = 1
 
 
 crime_status = {
@@ -1614,9 +1619,6 @@ farm_action_fertilize = 2
 farm_action_weed = 3
 farm_action_pesticide = 4
 
-# gvs
-brainz_per_grab = 25
-
 # fishing
 fish_gain = 10000  # multiplied by fish size class
 fish_offer_timeout = 1440  # in minutes; 24 hours
@@ -1625,8 +1627,6 @@ fish_offer_timeout = 1440  # in minutes; 24 hours
 cd_kill = 5
 cd_spar = 60
 cd_haunt = 600
-cd_shambler_shamble = 20
-cd_shambler_attack = 20
 cd_squeeze = 1200
 cd_invest = 5 * 60
 cd_boombust = 22
@@ -1643,12 +1643,11 @@ cd_new_player = 3 * 24 * 60 * 60  # 72 Hours, 3 days
 cd_autocannibalize = 60 * 60  # can only eat yourself once per hour
 cd_drop_bone = 5 * 60
 cd_change_race = 24 * 60 * 60  # can only change your race once per day
-cd_gvs_searchforbrainz = 300
 
 # in relation to time of death
 time_to_manifest = 24 * 60 * 60  # a day
 
-# time to get kicked out of subzone. 
+# time to get kicked out of subzone.
 time_kickout = 60 * 60  # 1 hour
 
 # For SWILLDERMUK, this is used to prevent AFK people from being pranked.
@@ -2064,7 +2063,6 @@ col_hardened_sap = 'hardened_sap'
 col_manuscript = "manuscript"
 col_spray = "spray"
 col_salary_credits = 'salary_credits'
-col_degradation = 'degradation'
 col_time_lastdeath = 'time_lastdeath'
 col_sidearm = 'sidearm'
 col_race = 'race'
@@ -2096,12 +2094,6 @@ col_gambit = 'gambit'
 col_credence = 'credence'
 col_credence_used = 'credence_used'
 
-# GANKERS VS SHAMBLERS
-col_gvs_currency = 'gvs_currency'
-col_gvs_time_lastshambaquarium = 'gvs_time_lastshambaquarium'
-col_horde_cooldown = 'horde_cooldown'
-col_gaiaslime = 'gaiaslime'
-col_shambler_stock = 'shambler_stock'
 col_juviemode = 'juviemode'
 
 # Double Halloween
@@ -2130,6 +2122,7 @@ col_time_defeated = 'time_defeated'
 col_clout = 'clout'
 col_hue = 'hue'
 col_coating = 'coating'
+col_dogtag = 'dogtag'
 
 # Database columns for enemies
 col_id_enemy = 'id_enemy'
@@ -2154,7 +2147,6 @@ col_enemy_hardened_sap = 'hardened_sap'
 col_enemy_weathertype = 'weathertype'
 col_enemy_class = 'enemyclass'
 col_enemy_owner = 'owner'
-col_enemy_gvs_coord = 'gvs_coord'
 
 # Database column for the status of districts with locks on them
 col_locked_status = 'locked_status'
@@ -2275,16 +2267,6 @@ col_id_ghost = "id_ghost"
 col_id_fleshling = "id_fleshling"
 col_empowered = "empowered"
 
-# Database columns for hues
-col_id_hue = "id_hue"
-col_is_neutral = "is_neutral"
-col_hue_analogous_1 = "hue_analogous_1"
-col_hue_analogous_2 = "hue_analogous_2"
-col_hue_splitcomp_1 = "hue_splitcomp_1"
-col_hue_splitcomp_2 = "hue_splitcomp_2"
-col_hue_fullcomp_1 = "hue_fullcomp_1"
-col_hue_fullcomp_2 = "hue_fullcomp_2"
-
 # Gamestate columns
 col_bit = "state_bit"
 col_id_state = "id_state"
@@ -2327,9 +2309,6 @@ leaderboard_relics = "KNOWN RELICS"
 leaderboard_kingpindonated = "KINGPIN SLIME EARNED"
 # SLIMERNALIA
 leaderboard_slimernalia = "MOST FESTIVE"
-# INTERMISSION2
-leaderboard_degradation = "MOST DEGRADED"
-leaderboard_shamblers_killed = "MOST SHAMBLER KILLS"
 # SWILLDERKMUK
 leaderboard_gambit_high = "HIGHEST GAMBIT"
 leaderboard_gambit_low = "LOWEST GAMBIT"
@@ -2357,15 +2336,11 @@ control_topics = {
 # district control actors
 actor_decay = "decay"
 
-# degradation strings
-channel_topic_degraded = "(Closed indefinitely)"
-str_zone_degraded = "{poi} has been degraded too far to keep operating."
-
 # The highest and lowest level your weaponskill may be on revive. All skills over this level reset to these.
 weaponskill_max_onrevive = 6
 weaponskill_min_onrevive = 0
 
-# Needed for duels, apparently. 
+# Needed for duels, apparently.
 time_pvp_duel = 3 * 60
 
 # User statistics we track
@@ -2472,6 +2447,8 @@ stat_huntingrifle_kills = 'huntingrifle_kills'
 stat_whistle_kills = 'whistle_kills'
 stat_harpoon_kills = 'harpoon_kills'
 stat_sniper_kills = 'sniper_kills'
+stat_sledgehammer_kills = 'sledgehammer_kills'
+stat_skateboard_kills = 'skateboard_kills'
 
 
 # Categories of events that change your slime total, for statistics tracking
@@ -2540,12 +2517,11 @@ stats_clear_on_death = [
 ]
 
 context_slimeoidheart = 'slimeoidheart'
+context_negaslimeoidheart = 'negaslimeoidheart'
 context_slimeoidbottle = 'slimeoidbottle'
 context_slimeoidfood = 'slimeoidfood'
 context_wrappingpaper = 'wrappingpaper'
 context_prankitem = 'prankitem'
-context_seedpacket = 'seedpacket'
-context_tombstone = 'tombstone'
 
 # Item vendor names.
 vendor_bar = 'bar'  # rate of non-mtn dew drinks are 100 slime to 9 hunger
@@ -2662,44 +2638,6 @@ item_id_foodbase = "foodbase"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
-item_id_gaiaseedpack_poketubers = "poketubersseedpacket"
-item_id_gaiaseedpack_pulpgourds = "pulpgourdsseedpacket"
-item_id_gaiaseedpack_sourpotatoes = "sourpotatoesseedpacket"
-item_id_gaiaseedpack_bloodcabbages = "bloodcabbagesseedpacket"
-item_id_gaiaseedpack_joybeans = "joybeansseedpacket"
-item_id_gaiaseedpack_purplekilliflower = "purplekilliflowerseedpacket"
-item_id_gaiaseedpack_razornuts = "razornutsseedpacket"
-item_id_gaiaseedpack_pawpaw = "pawpawseedpacket"
-item_id_gaiaseedpack_sludgeberries = "sludgeberriesseedpacket"
-item_id_gaiaseedpack_suganmanuts = "suganmanutsseedpacket"
-item_id_gaiaseedpack_pinkrowddishes = "pinkrowddishesseedpacket"
-item_id_gaiaseedpack_dankwheat = "dankwheatseedpacket"
-item_id_gaiaseedpack_brightshade = "brightshadeseedpacket"
-item_id_gaiaseedpack_blacklimes = "blacklimesseedpacket"
-item_id_gaiaseedpack_phosphorpoppies = "phosphorpoppiesseedpacket"
-item_id_gaiaseedpack_direapples = "direapplesseedpacket"
-item_id_gaiaseedpack_rustealeaves = "rustealeavesseedpacket"
-item_id_gaiaseedpack_metallicaps = "metallicapsseedpacket"
-item_id_gaiaseedpack_steelbeans = "steelbeansseedpacket"
-item_id_gaiaseedpack_aushucks = "aushucksseedpacket"
-item_id_tombstone_defaultshambler = "defaultshamblertombstone"
-item_id_tombstone_bucketshambler = "bucketshamblertombstone"
-item_id_tombstone_juveolanternshambler = "juveolanternshamblertombstone"
-item_id_tombstone_flagshambler = "flagshamblertombstone"
-item_id_tombstone_shambonidriver = "shambonidrivertombstone"
-item_id_tombstone_mammoshambler = "mammoshamblertombstone"
-item_id_tombstone_gigashambler = "gigashamblertombstone"
-item_id_tombstone_microshambler = "microshamblertombstone"
-item_id_tombstone_shamblersaurusrex = "shamblesaurusrextombstone"
-item_id_tombstone_shamblerdactyl = "shamblerdactyltombstone"
-item_id_tombstone_dinoshambler = "dinoshamblertombstone"
-item_id_tombstone_ufoshambler = "ufoshamblertombstone"
-item_id_tombstone_brawldenboomer = "brawldenboomertombstone"
-item_id_tombstone_juvieshambler = "juvieshamblertombstone"
-item_id_tombstone_shambleballplayer = "shambleballplayertombstone"
-item_id_tombstone_shamblerwarlord = "shamblerwarlordtombstone"
-item_id_tombstone_shamblerraider = "shamblerraidertombstone"
-item_id_gaiaslimeoid_pot = "gaiaslimeoidpot"
 
 # SLIMERNALIA
 item_id_sigillaria = "sigillaria"
@@ -2865,6 +2803,7 @@ item_id_dye_magenta = "magentadye"
 item_id_dye_cobalt = "cobaltdye"
 item_id_dye_white = "whitedye"
 item_id_dye_rainbow = "rainbowdye"
+item_id_dye_negative = "negativedye"
 item_id_paint_copper = "copperpaint"
 item_id_paint_chrome = "chromepaint"
 item_id_paint_gold = "goldpaint"
@@ -2930,6 +2869,8 @@ weapon_id_awp = 'awp'
 weapon_id_diamondpickaxe = 'dpick'
 weapon_id_monofilamentwhip = 'monowhip'
 weapon_id_fists = 'fists'
+weapon_id_sledgehammer = 'sledgehammer'
+weapon_id_skateboard = 'skateboard'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -2984,26 +2925,6 @@ durability_items = [
     item_id_paint_copper,
     item_id_paint_chrome,
     item_id_paint_gold,
-    item_id_gaiaseedpack_poketubers,
-    item_id_gaiaseedpack_pulpgourds,
-    item_id_gaiaseedpack_sourpotatoes,
-    item_id_gaiaseedpack_bloodcabbages,
-    item_id_gaiaseedpack_joybeans,
-    item_id_gaiaseedpack_purplekilliflower,
-    item_id_gaiaseedpack_razornuts,
-    item_id_gaiaseedpack_pawpaw,
-    item_id_gaiaseedpack_sludgeberries,
-    item_id_gaiaseedpack_suganmanuts,
-    item_id_gaiaseedpack_pinkrowddishes,
-    item_id_gaiaseedpack_dankwheat,
-    item_id_gaiaseedpack_brightshade,
-    item_id_gaiaseedpack_blacklimes,
-    item_id_gaiaseedpack_phosphorpoppies,
-    item_id_gaiaseedpack_direapples,
-    item_id_gaiaseedpack_rustealeaves,
-    item_id_gaiaseedpack_metallicaps,
-    item_id_gaiaseedpack_steelbeans,
-    item_id_gaiaseedpack_aushucks
 ]
 
 all_item_ids = []
@@ -3096,40 +3017,6 @@ makeshift_weapons = [
     "leather belt"
 ]
 
-cabinets_list = [
-    "This is a Zoombinis Logical Journey arcade cabinet.\nWait. This is an old PC game. Why the fuck would they port this to cabinet? Now you have to use the stick to move the mouse around. Oh well. Buyers remorse, you suppose. \nhttps://classicreload.com/win3x-logical-journey-of-the-zoombinis.html",
-    "This is a Cookie Clicker arcade cabinet.\n The huge cookie button on the front is pretty neat, but running it forever seems like it would crank your electricity bill. You know, if you had one.\nhttps://orteil.dashnet.org/cookieclicker/",
-    "This is a Poptropica arcade cabinet.\nI don't know who thought point and click platforming was a good idea, but this new control scheme is a godsend. \nhttps://www.poptropica.com/",
-    "This is a Frog Fractions arcade cabinet.\nThis cabinet's been lightly used. Looks like a remnant of some bar in Ponyville, what with all the ponytuber signatures on it. Eh, we can leave those well alone for now.\nhttps://kbhgames.com/game/frog-fractions",
-    "This is a Pokemon Showdown arcade cabinet.\nSouls, hearts, and eons of slime were won and lost on this legendary little number. Playing it on this rickety old thing somehow doesn't seem as suspenseful, though.\n https://pokemonshowdown.com/",
-    "This is a Madness: Accelerant arcade cabinet.\n If you've been to West Glocksbury the violence in here is a little old hat, but a lot of people have a soft spot for it.\nhttps://www.newgrounds.com/portal/view/512407",
-    "This is a Flanders Killer 6 arcade cabinet.\nClearly this is the greatest game the world has ever conceived.\nhttps://www.silvergames.com/en/flanders-killer-6",
-    "This is a Peasant's Quest arcade cabinet.\nThe struggles of the main guy here are a lot like what juvies go through: a rise to greatness, false hope, and inevitable worthless destruction. Onward!\nhttp://homestarrunner.com/disk4of12.html",
-    "This is a Super Mario 63 arcade cabinet.\nSince Reggie Fils-Amie is too fucking cowardly to set foot in NLACakaNM, we have to resort to bootleg merchandise. Relatively good bootlegs, but bootlegs nonetheless.\nhttps://www.newgrounds.com/portal/view/498969",
-    "This is a World's Hardest Game arcade cabinet.\nThere were countless stories of moms getting bankrupted because their kids dumped their money into these.\nhttps://www.coolmathgames.com/0-worlds-hardest-game",
-	"This is an Endless Warcade: Endless Climber arcade cabinet.\nCreated by **Sceptrai**, countless hours have been wasted by the citizens of NLACakaNM attempting to summit ENDLESS WAR itself.\nhttps://blastedheath.itch.io/endless-warcade-endless-climber"
-]
-
-browse_list = [
-    "You found a server slightly out of city limits. Looks like they don't care so much about slime or gang warfare, they just make art about other stuff. Unthinkable, but nonetheless fascinating.\nhttps://discord.gg/TAQukUe",
-    "Ah, how we forget the sports. Vandal Park's rec center ads have always felt like a big distraction from shooting rival gang members in the face, but maybe it could be fun! This one's shilling their TF2 and Ace of Spades sections, there seem to be many others.\n https://discord.gg/X6TB5uP",
-    "Looks like the Cop Killer has a coven of people someplace outside NLACakaNM, kind of like a summer home or the late stages of a cult operation. Either way, seems interesting.\nhttps://discordapp.com/invite/j6xP5MB ",
-    "Pokemon Go doesn't seem like an option in this city without a dedicated support group like this. If people went alone, I'm pretty certain they'd get ganked or eaten by secreatures.\nhttps://discord.gg/QbDqEFU",
-    "Wait a minute. This doesn't seem quite right. Let's not click this one. \nhttps://discord.gg/mtSRXek",
-    "A young Milwaukee citizen stands in her room. Today is a very important day, though as circumstances would have it, she has momentarily forgotten about the exit. But like hell that's gonna stop her, or her name isn't...\nhttps://discord.gg/EkCMmGn",
-    "Gangs with wiki pages. I never thought I'd see the day. This place lets you doxx your friends to the NLACakaNM Police Department by compiling their backgrounds and posting it on the internet. They're always looking for writers, so knock yourself out.\nhttps://discord.gg/z5mvCfS",
-    "You stumble across an old ARG server. It's since been abandoned, but it's an interesting little piece of history nonetheless.\nhttps://discord.gg/9nwaMC",
-    "You find a group of visionaries who have turned hunting into a business. Personally, you wouldn't have gone with the LARPy high-fantasy branding, but to each their own.\nhttps://discord.gg/Rw2wCYT",
-    "Killers weren't supposed to be able to access this place, but all you really have to do to get in these days is convincingly !thrash a few times.\nhttps://discord.gg/JZ2AaJ2",
-    "St. Ben's Cathedral is a weird base in that it doesn't really bar rowdys from entry. The killers there generally just sneer and spit at their rival gangsters. \nhttps://discord.gg/xSQQD2M",
-    "Look, you ignorant juvenile. You basically don't know anything. The media that you love so much is a brainwashing tool, and its lies pull wool over your weary eyes. Get REAL news from the South Los Angeles News Dog Enquirer Report.\nhttps://discord.gg/FtHKt3B",
-    "SUBMIT TO SLIMECORP\nhttps://discord.gg/HK8VEzw",
-    "You succumb to your urges and find a rather naughty link. Slimegirls are against God's will, but if you don't care this place might appeal to you.\n https://discord.gg/nN6xtk9",
-    "@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\n@everyone\nhttps://discord.gg/b2hP68k",
-    "It's the land of the nateheads. You're really opening Pandora's box, fucking with this one. \nhttps://discordapp.com/invite/2Kc7nTA",
-    "You used to not be a big fan of hippos, but then you learned they like tearing people limb from limb and you've been in love ever since. Maybe now's your chance to meet one.\nhttps://discordapp.com/invite/6ksZrne",
-    "Y'arrr. \nhttps://discord.gg/VFcUmgc"
-]
 
 bible_verses = [
     "And they said one to another, Go to, let us make brick, and burn them thoroughly. And they had brick for stone, and slime had they for mortar. And they said, !Goto, let us build us a city and a tower, whose top may reach unto heaven; and let us make us a name, lest we be scattered abroad upon the face of the whole earth… Genesis, 11:4 7",
@@ -3148,19 +3035,6 @@ bible_verses = [
     "Even the handle sank in after the blade, and his bowels discharged. Ehud did not pull the sword out, and the fat closed in over it. Judges 3:22 ",
 ]
 
-tv_lines = [
-    "Breaking news! A local street performer won't come down from a gigantic pile of corpses. He refuses to eat for publicity! More to come.",
-    "Welcome, goobs and gabs, to the Live Interactive Broadcast Enquirer Line, or L.I.B.E.L. for short. In today's news, local resident N6 was arrested for her abusive and predatory behavior toward Epic. Charges include false accusations of foot fetishism, terroristic threats, and 3rd degree sloshing toward a minor.",
-    "Welcome to Mad Murderous Money, the show where stockbrokers are allowed, nay, encouraged, to jump out of buildings when the Dow Jones gets a bit pouty. Today we have a fucking ridiculous upturn for KFC, which actually got one of its supply trucks through the gang infested streets without being ransacked. Taco Bell set up a new restaraunt in New New Yonkers, but the windows aren't even bulletproof, so it's probably just gonna be a money pit for them. But my little chiclets, DO NOT invest in FUCKING PIZZA HUT. ENDLESS WAR shot a fucking laser through their kitchen and they're still in reconstruction. \n\nAs always, this is Mad Murderous Money, telling you to buy sell, die, and shill!",
-    "Hey, everybody. This is Slime Bob Ross. I'm like regular Bob Ross, only I'm a thrown together copy some Juvie made cause he wanted to fuck me. Today, we'll be painting on the graffiti soaked walls of urban Green Light District. Now, the first thing you do on these urban type pieces is to sign your name here in the bottom right. This is so you will receive credit even if you have to run from the police halfway through. OK, very good. Today we're going to be doing a still life of Wreckington. We'll be doing a lot of greys here, but let's start with something fun, the flames of the burning wreckage. Wait. I forgot to bring red paint. OK, in that case, I'll have more once I fetch a Juvie during the commercial break. Stay tuned!",
-    "The TV is just static. Maybe it's a bad reception. You wait. It will turn back on eventually, right?",
-    "Welcome to Reading Rainbow, boys and girls! I'm Slime Levar Burton, and despite the existential  dread that comes with being a blob person, I'm doing wonderful today. This week, I read a book called 'The Gamer and The Bear'. We'll read an excerpt here. \nOnce upon a time in a cute little village at the bottom of a valley was a big rowdy bear.The bear was a real nasty guy, always smashing shit up and stomping his big feet. All the innocent little gamers of the village were scared of the big bear for if he saw them !dabbing he’d rip them limb from limb! They had to hide in their homes when he came around, !dabbing under their breath and gaming with the TV muted. It was a horrible time for everyone. \nThat was the first page, be sure to buy the full book!",
-    "It's time for 'Our Deep Fuck City', where we run documentaries on the mystique of each district. Today, we'll be examining the phenomenon of 'Door Gunning', a new prank pulled by the upstarts of Little Chernobyl. In order to explain it, we must first look at a certain subculture of people there, known as half-deads. These folks live so close to the radiation of Little Chernobyl Power Plant that the radiation has more than killed them and fully decayed their minds. The problem is, they can't !revive either. They are so brain dead that ENDLESS WAR doesn't know what to do with them. So functionally, they exist as these wildly disfigured, basically immortal suburbanites. Door Gunning takes advantage of this. A prankster will knock on the door of some hapless half-dead person, and shoot them repeatedly in the face. It's incredibly painful, but since nobody dies it gets passed off as harmless fun. It really makes you think, eh?",
-    "It's time for 'Our Deep Fuck City', where we run documentaries on the mystique of each district. We've got a treat for you this time, something you probably haven't heard of. Charcoal Park's efforts to fight back against hostile secreatures. You see, most districts are under Slimecorp's protection, excluding gangsters. However, Charcoal Park was such a forgettable place that they just forgot to send relief over there. Things have gotten so dire that many of the region's blue collar workers have banded together to form a militia of their own. There were many casualties at first, but intense training has turned the region into an sort of anarchist paradise. You wouldn't know it, though. To this day, their houses are kept very clean.",
-    "Oh. Looks like it's playing the test screen. You know, the one with all the verticle colored stripes and the long beep. Yeah.",
-    "It's time for 'Our Deep Fuck City', where we run documentaries on the mystique of each district. Most NLACakaNM citizens stay indoors for obvious reasons. Because of this, we're often oblivious to the interesting new social patterns they exhibit in this isolation. For example, Old New Yonkers has developed its own sect of Christianity. The practitioners of Neo-Protestant Milwaukeeism are convinced that ENDLESS WAR is the second coming of Christ, and that they have all been sent to Hell for their sins. Beyond that, most of the differences lie in the amount of self-flaggellation there is. NLACakaNM is a place of extremes, so what actually takes place is pretty mild compared to what else we've seen here. But despite its modesty, those folks may well be the most miserable in the city.",
-    "It's time for 'Our Deep Fuck City', where we run documentaries on the mystique of each district. It's time to talk about the disappearing statue of Thalamus J. Crookline that stands in Globule Plaza. You see, Crookline's bandits have developed an inflated sense of honor among themselves. Part of that means they'll often wish themselves luck on that particular statue for good fortune in their pilfering. Every thief knows this, so it's not surprising how often the damn thing gets stolen. Hence the 'disappearance'. It costs the government like 1,000,000 slime a year just to maintain it.",
-]
 
 the_slime_lyrics = [
     "https://www.youtube.com/watch?v=w-sREpqDiUo",
@@ -3176,33 +3050,6 @@ the_slime_lyrics = [
     "Welp, there it went. The Slime begins to wreak havoc outside your apartment. Can you believe you sat on your ass for like 6 hours?"
 ]
 
-jams_saxophone = ["https://www.youtube.com/watch?v=Z2tvlp7RnlM&ab_channel=rgsmusicargentina", "https://www.youtube.com/watch?v=-yg7aZpIXRI&ab_channel=domtheodore", "https://www.youtube.com/watch?v=9Zyr0IDaRXQ&ab_channel=JohnColtrane-Topic"]
-jams_drums = ["https://www.youtube.com/watch?v=fE6YN9VcPPA&ab_channel=ProphetOfTheMoons", "https://www.youtube.com/watch?v=4D4iSmpT-bI&ab_channel=BuddyRich-Topic", "https://www.youtube.com/watch?v=US7c9ASVfNc&ab_channel=kekecanberk"]
-jams_xylophone = ["https://www.youtube.com/watch?v=QGDXuJlJdec&ab_channel=Klagmar", "https://www.youtube.com/watch?v=-1dSY6ZuXEY&ab_channel=Dr.Blase", "https://www.youtube.com/watch?v=NUBSNWVG55Y&ab_channel=VictorMendoza"]
-jams_bass = ["https://www.youtube.com/watch?v=Pyral_8aZp8&ab_channel=MingusBigBand-Topic", "https://www.youtube.com/watch?v=hnVFGz0xYKE&ab_channel=TheMarsVolta-Topic", "https://www.youtube.com/watch?v=ogKDBbi2thA&ab_channel=MadMaxOnlyMusic"]
-jams_clarinet = ["https://www.youtube.com/watch?v=4dm3Ml9g_cs&ab_channel=CatsPjamas1", "https://www.youtube.com/watch?v=Im2JDdcXO9Y&ab_channel=EvanChristopher%26ClarinetRoad", "https://www.youtube.com/watch?v=r2S1I_ien6A&ab_channel=WorldWar2Music"]
-jams_vuvuzela = ["https://www.youtube.com/watch?v=oyAP6PpAzK8&ab_channel=TheAttilaX", "https://www.youtube.com/watch?v=-E6ljLSOkbY&ab_channel=TehN1ppe"]
-jams_guitar = ["https://www.youtube.com/watch?v=hNRHHRjep3E&ab_channel=rtwodtwo565", "https://www.youtube.com/watch?v=mBbyrqNhyNE&ab_channel=Metal8909", "https://www.youtube.com/watch?v=xnKhsTXoKCI&ab_channel=MotherRussiaMr"]
-jams_maracas = ["https://www.youtube.com/watch?v=etYb-p8uhWA&ab_channel=GilvaSunner", "https://www.youtube.com/watch?v=EstIvN0_hcg&ab_channel=Cz%C5%82owiekDrzewo", "https://www.youtube.com/watch?v=l8R_OQz_BtU&ab_channel=majabsalu"]
-jams_cornet = ["https://www.youtube.com/watch?v=mPP65UcGxq0&ab_channel=Ham_", "https://www.youtube.com/watch?v=FJrUBEtoNQU&ab_channel=ropa79", "https://www.youtube.com/watch?v=KxibMBV3nFo&ab_channel=TheJazzplaylist"]
-jams_trombone = ["https://www.youtube.com/watch?v=WEWLuBB7_FE&ab_channel=mixablemusic", "https://www.youtube.com/watch?v=lqngnNy1_Cg&ab_channel=DaveYama", "https://www.youtube.com/watch?v=1ZGeYR8b-mg&ab_channel=AllThatJazzDonKaart"]
-jams_otamatone = ["https://www.youtube.com/watch?v=tADkFuime_g&ab_channel=TheRealSullyG","https://www.youtube.com/watch?v=guSESFWNrOY&ab_channel=TheRealSullyG","https://www.youtube.com/watch?v=JtOy2gf_JrA&ab_channel=TheRealSullyG","https://www.youtube.com/watch?v=2wEtVERXQWE","https://www.youtube.com/watch?v=x8hCe3j8CqU"]
-jams_whistle = ["https://www.youtube.com/watch?v=JcJDLg_U7tg", "https://www.youtube.com/watch?v=XSwxO95nEZE", "https://www.youtube.com/watch?v=zEYTE1QNSkk"]
-
-jam_tunes = {
-    "solidpoudringuitar": jams_guitar,
-    "craftsmansclarinet": jams_clarinet,
-    "gourdmaracas": jams_maracas,
-    "saxophone": jams_saxophone,
-    "woodenvuvuzela": jams_vuvuzela,
-    "fishbonexylophone": jams_xylophone,
-    "beastskindrums": jams_drums,
-    "bass": jams_bass,
-    "trombone": jams_trombone,
-    "cornet": jams_cornet,
-    "ferroslimeoidotamatone": jams_otamatone,
-    "whistle": jams_whistle
-}
 
 howls = [
     '**AWOOOOOOOOOOOOOOOOOOOOOOOO**',
@@ -3277,6 +3124,7 @@ cosmetic_id_raincoat = "raincoat"
 
 cosmeticAbility_id_lucky = "lucky"
 cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability.
+cosmeticAbility_id_clout = "clout"
 
 # Slimeoid attributes.
 slimeoid_strat_attack = "attack"
@@ -3333,6 +3181,7 @@ hue_id_brown = "brown"
 hue_id_copper = "copper"
 hue_id_chrome = "chrome"
 hue_id_gold = "gold"
+hue_id_negative = "negative"
 
 # Things a slimeoid might throw
 thrownobjects_list = [
@@ -3357,7 +3206,8 @@ thrownobjects_list = [
     "chunk of broken concrete",
     "piece of rusted scrap metal",
     "box overflowing with KFC branded bbq sauce",
-    "Nokia 3310"
+    "Nokia 3310",
+    "mom"
 ]
 
 mutation_id_spontaneouscombustion = "spontaneouscombustion"
@@ -3412,6 +3262,7 @@ mutation_id_longarms = "longarms"
 mutation_id_airlock = "airlock"
 mutation_id_lightminer = "lightminer"
 mutation_id_amnesia = "amnesia"
+mutation_id_stinkeye = "stinkeye"
 
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
@@ -3570,58 +3421,8 @@ trauma_class_bleeding = "bleeding"
 trauma_class_movespeed = "movespeed"
 trauma_class_hunger = "hunger"
 
-# If a fish doesn't bite, send one of these.
-generic_fishing_text = [
-    "You patiently wait...",
-    "This is so fucking boring...",
-    "You grow impatient and kick the rotted wooden guard rails...",
-    "AUUUUUGH JUST BITE THE FUCKING HOOK ALREADY...",
-    "You begin to zone-out a bit...",
-    "Shouldn't you be doing something productive?",
-    "You sit patiently, eagerly awaiting a fish to bite. Thanks to your concentration, this descriptive contradiction does not occur to you.",
-    "Maybe one day your wife will pardon you...",
-    "You feel the oncoming downward spiral...",
-    "You wonder if the Space Navy has been formed yet...",
-    "You start to slip into an existential crisis...",
-    "You hum some sea shanties...",
-    "Fuck fish...",
-    "Fish..."
-]
-normal_fishing_text = [
-                          "You watch your hook bob...",
-                          "You see a fish about to bite your hook, but you shout in elation, scaring it away...",
-                          "You make direct eye contact with a fish, only to quickly look away...",
-                          "♪ Fishing for Fishies! ♪",
-                          "♪ That Captain Albert Alexander! ♪",
-                          "Still better than Minesweeper...",
-                          "Man... Why were you excited for this shit?",
-                          "You begin to daydream about fish sex... Gross...",
-                          "You begin to daydream about fish sex... Hot...",
-                          "You get the urge to jump in and try to grab a fish, before remembering that you can't swim...",
-                          "You jitter as other seamen catch fish before you. Fuck fishing...",
-                          "You shake your head as a young seaman baits a perfectly good slice of pizza on his hook... What a cretin...",
-                          "Wouldn't it be funny if you just reached into the sea and grabbed one? Haha, yeah, that'd be funny...",
-                          "You see a bird carry off a Plebefish in the distance... Good riddance...",
-                          "You spot a stray bullet in the distance...",
-                          "You see a dead body float up to the surface of the Slime...",
-                          "You let out a deep sigh, scaring away a fish...",
-                      ] + generic_fishing_text
-void_fishing_text = [
-                        "You get the urge to jump in and try to grab a fish, before the voice reminds you that you can't swim...",
-                        "Did the water just wink at you?",
-                        "That guy in the water looks so handsome... You should give him your number.",
-                        "Your mother motions you to join her in the water; it's nice and warm!",
-                        "HAHAHAHA OH WOW",
-                        "Hmmm?",
-                        "Man, the water looks fucking delicious. You should take a sip.",
-                        "Wait, why did you come here again?",
-                        "God, what a beautiful smile. So many of them, too.",
-                        "Go on, take a nap. The fish will wait for you.",
-                        "What is _that_?",
-                        "The girl across the pond has such a nice voice... Please keep singing...",
-                    ] + generic_fishing_text
 
-generic_help_response = "Check out the guide for help: https://ew.krakissi.net/guide/\nThe guide won't cover everything though, and may even be a bit outdated in some places, so you can also visit N.L.A.C.U. (!goto uni) or Neo Milwaukee State (!goto nms) to get more in-depth descriptions about how various game mechanics work by using the !help command there. Portable game guides can also be bought there for 10,000 slime."
+generic_help_response = "Check out the guide for help: https://rfck.app/guide/\nThe guide won't cover everything though, and may even be a bit outdated in some places, so you can also visit N.L.A.C.U. (!goto uni) or Neo Milwaukee State (!goto nms) to get more in-depth descriptions about how various game mechanics work by using the !help command there. Portable game guides can also be bought there for 10,000 slime."
 
 # Dict of all help responses linked to their associated topics
 help_responses = {
@@ -3648,9 +3449,9 @@ help_responses = {
     "mymutations": "You read some research notes about your current mutations...",  # will print out a list of mutations with their specific mechanics
     "smelting": "Smelting is a way for you to craft certain items from certain ingredients. To smelt, you use **'!smelt [item name]'**, which will either smelt you the item, or tell which items you need to smelt the item. Popular items gained from smelting are **Cosmetics**, as well as the coveted **Pickaxe** and **Super Fishing Rod**. If you're stuck, you can look up the crafting recipes for any item with **!whatcanimake [itemname]**.",
     "sparring": "**Sparring** can be done between two players using **'!spar [player]'**. Sparring, provided that both players spar with the same weapon type and are not at full hunger, will increase both of your mastery **LEVEL**, which is a hidden value, by one. The publicly displayed value, mastery **RANK** (which is just your mastery level minus 4), is more important. It should be noted that the damage you deal with your weapon is increased even if you haven't reached rank 1 yet. However, once you do reach at least mastery rank 2 (Again, this would be level 6), when you next revive, you will now **permanently** be at level 6 for that weapon type until you annoint or spar again. Essentially, this means you will always start back at rank 2. Once you reach **rank 6**, you can no longer annoint your weapon rank any higher, and must instead kill other players/enemies (that are higher in both slime and level than you) to do so. Reaching rank 6 also stops you from increasing your own rank through sparring, unless you are sparring with someone who has a higher weapon rank than you. You can only spar up to someone else's mastery rank, minus 1 (example: Sparring with a rank 15 master of the katana would, at most, allow you to get to rank 14). Sparring has a one minute cooldown and raises your hunger by about 5%. Once you reach rank 8, you may also **'!marry'** your weapon, resulting in a matrimonial ceremony that increases your rank by two.",
-    "ghosts": "Ghost gameplay revolves around the acquisition of antislime, through haunting and possession. Every use of **'!haunt'** away a small portion of slime from the haunted player, and grants it to the ghost as antislime. The amount of slime taken starts at 1/1000th and varies depending on a number of conditions, and you may also add a customized message by doing '!haunt [@player] [message]'. It can be done face-to-face like with !kill, or done remotely with decreased potency. As a ghost, you can only leave the sewers after being dead for at least a day. Furthermore, if a player has consumed **coleslaw**, they can **'!bust'** ghosts, which sends them back to the sewers. After amassing sufficient **Negative Slime** ghosts can summon **negaslimoids** in the city, with the use of **'!summon [name]'**. Negaslimeoids haunt all players within a district, and also decay capture progress. **The Rowdy Roughhouse** and **Cop Killtown** will send out a response that mentions which district a Negaslimeoid has entered into. Ghosts can also **!inhabit** living players to move alongside them. If a ghost has sufficient antislime, they may also **!possessweapon** or **!possessfishingrod** to grant bonuses to the player they're inhabiting, with a potential reward in antislime if conditions are fulfilled. For more detailed information on ghost mechanics, see https://rfck.miraheze.org/wiki/Ghosts",
+    "ghosts": "Ghost gameplay revolves around the acquisition of antislime, through haunting and possession. Every use of **'!haunt'** away a small portion of slime from the haunted player, and grants it to the ghost as antislime. The amount of slime taken starts at 1/1000th and varies depending on a number of conditions, and you may also add a customized message by doing '!haunt [@player] [message]'. It can be done face-to-face like with !kill, or done remotely with decreased potency. As a ghost, you can only leave the sewers after being dead for at least a day. Furthermore, if a player has consumed **coleslaw**, they can **'!bust'** ghosts, which sends them back to the sewers. After amassing sufficient **Negative Slime** ghosts can conjure **Negaslimoids** at Waffle House. Ghosts can also **!inhabit** living players to move alongside them. If a ghost has sufficient antislime, they may also **!possessweapon** or **!possessfishingrod** to grant bonuses to the player they're inhabiting, with a potential reward in antislime if conditions are fulfilled. For more detailed information on ghost mechanics, see https://rfck.miraheze.org/wiki/Ghosts",
     # Additional gameplay mechanics, part 2
-    "slimeoids": "**SLIMEOIDS** are sentient masses of slime that you can keep as **pets**. To learn how to make one for yourself, visit **The Slimeoid Laboratory** in Brawlden and check the enclosed **'!instructions'**. After you've made one, you can also battle it out with other slimeoids in **The Arena**, located in Vandal Park. Slimeoids can also be used to fight off **negaslimeoids** that have been summoned by ghosts, though be warned, as this is a fight to the death! If your slimeoid dies, it's **HEART** is dropped, which can be sown in the ground like a poudrin, or taken to the labs to revive your slimeoid with **'!restoreslimeoid'**. In regards to your slimeoid's stats, a slimeoid's **'Moxie'** represents its physical attack, **'Chutzpah'** its special attack, and **'Grit'** its defense. Additionally, the color you dye your slimeoid with **'!saturateslimeoid'** also plays into combat. Your slimeoid gets attack bonuses against slimeoids that have its split complementary hue and resist slimeoids with its analgous hues. For more information, see the diagrams linked below (credits to Connor#3355). There are also various commands you can perform on your slimeoid, such as **'!observeslimeoid'**, **'!petslimeoid'**, **'!walkslimeoid'**, and **'!playfetch'**. To humanely and ethically euthanize your slimeoid, use **'!dissolveslimeoid'** at the laboratory. To store and release your slimeoid in a bottle (Warning: This bottle is dropped upon death!!), use **'!bottleslimeoid'** and **'!unbottleslimeoid [slimeoid]'**, respectively.\n<https://cdn.discordapp.com/attachments/492088204053184533/586310921274523648/SLIMEOID-HUE.png>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662087653064706/SLIMEOID-HUE.gif>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662095848996894/SLIMEOID_HUE_NOTE.png>",
+    "slimeoids": "**SLIMEOIDS** are sentient masses of slime that you can keep as **pets**. To learn how to make one for yourself, visit **The Slimeoid Laboratory** in Brawlden and check the enclosed **'!instructions'**. After you've made one, you can also battle it out with other slimeoids in **The Arena**, located in Vandal Park. Slimeoids can also be used to fight **Negaslimeoids** that have been conjured by ghosts. If your slimeoid dies, it's **HEART** is dropped, which can be sown in the ground like a poudrin, or taken to the labs to revive your slimeoid with **'!restoreslimeoid'**. In regards to your slimeoid's stats, a slimeoid's **'Moxie'** represents its physical attack, **'Chutzpah'** its special attack, and **'Grit'** its defense. Additionally, the color you dye your slimeoid with **'!saturateslimeoid'** also plays into combat. Your slimeoid gets attack bonuses against slimeoids that have its split complementary hue and resist slimeoids with its analgous hues. For more information, see the diagrams linked below (credits to Connor#3355). There are also various commands you can perform on your slimeoid, such as **'!observeslimeoid'**, **'!petslimeoid'**, **'!walkslimeoid'**, and **'!playfetch'**. To humanely and ethically euthanize your slimeoid, use **'!dissolveslimeoid'** at the laboratory. To store and release your slimeoid in a bottle (Warning: This bottle is dropped upon death!!), use **'!bottleslimeoid'** and **'!unbottleslimeoid [slimeoid]'**, respectively. To add a description to your slimeoid, use **!tagslimeoid** with a dog tag. To remove this description, **!untagslimeoid**. To battle to the **DEATH**, use **'slimeoidbattle [@] todeath'**.\n<https://cdn.discordapp.com/attachments/492088204053184533/586310921274523648/SLIMEOID-HUE.png>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662087653064706/SLIMEOID-HUE.gif>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662095848996894/SLIMEOID_HUE_NOTE.png>",
     "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a new one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming. Cosmetics can either be of 'plebian' or 'patrician' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
     "realestate": "The **Real Estate Agency** is, well, the agency where you buy real estate. First, check out the property you want with **'!consult [district]'**. The real estate agent will tell you a bit about the area. \nOnce you've made your decision, you can **'!signlease [district]'** to seal the deal. There's a down payment, and you will be charged rent every 2 IRL days. Fair warning, though, if you already have an apartment and you rent a second one, you will be moved out of the first.\n\nFinally, if you own an apartment already, you can **'!aptupgrade'** it, improving its storage capabilities, but you'll be charged a huge down payment and your rent will double. The biggest upgrade stores 40 closet items, 20 food items, and 25 pieces of furniture. And if you're ready to cut and run, use **'!breaklease'** to end your contract. It'll cost another down payment, though.\n\nYou can !addkey to acquire a housekey. Giving this item to some lucky fellow gives them access to your apartment, including all your prized posessions. Getting burglarized? Use !changelocks to eliminate all housekeys you created. Both cost a premium, though.",
     "apartments": "Once you've gotten yourself an apartment, there are a variety of things you can do inside it. To enter your apartment, do **'!retire'** in the district your apartment is located in. There are certain commands related to your apartment that you must do in a direct message to ENDLESS WAR. To change the name and description of your apartment, do **'!aptname [name]'** and **'!aptdesc [description]'**, respectively. To place and remove furniture (purchasable in The Bazaar), do **'!decorate [furniture]'** and **'!undecorate [furniture]'**, respectively. You can store and remove items with **'!stow'** and **'!snag'**, respectively. To store in and remove items from the fridge, do **'!fridge [item]'** and **'!unfridge [item]'**. To store in and remove items from the closet, do **'!closet [item]'** and **'!uncloset [item]'**, respectively. To store and remove your slimeoid, do **'!freeze'** and **'!unfreeze'**, respectively. To store and remove fish, do **'!aquarium [fish]'** and **'!releasefish [fish]'**, respectively. To store and remove items such as weapons and cosmetics, do **'!propstand [item]'** and **'!unstand [item]'**, respectively. To put away zines, do **!shelve [item]** and **!unshelve [item]**. To place crops into flower pots, do **pot [item]** and **unpot [item]** If you have a collection, you can !collect <collection> <item> to store certain items in that collection. To enter someone else's apartment, you can do **'!knock [player]'**, which will prompt them to let you in. This list of commands can also be accessed by using !help in a direct message to ENDLESS WAR.",
@@ -3800,7 +3601,8 @@ mutation_descriptions = {
     mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon.",
     mutation_id_coleblooded: "You get the ability to bust ghosts without coleslaw. If a ghost haunts you, they lose negaslime instead of gaining it.",
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
-    mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds."
+    mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
+    mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs."
 
 }
 
@@ -3840,14 +3642,14 @@ consult_responses = {
 basic_commands = "!slime: Check your slime.\n!look: Look at your surroundings.\n!survey: Get a shortened version of !look.\n!goto <district>: Move to a new area.\n!halt: Stop moving.\n!data: Check your current status.\n!slimecoin: Check your slimecoin.\n!eat: Eat food.\n!use: Use an item.\n!scavenge <captcha>: Scavenge slime off the ground.\n!map: Pull up the map.\n!scout <district>: Check for enemies in an adjacent district."
 juvenile_commands = "!dance: Dance, monkey.\n!enlist <gang>: Enlist in the Rowdys or the Killers.\n!legallimit: Juvies below 100,000 slime can cap their slime at that amount. They can't be killed below Level 18, so this makes them invulnerable."
 enlisted_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!suicide: Nah, I'm not telling you what this does.\n!vouch: If a Juvie isn't affiliated, you can !vouch for them to join your gang."
-corpse_commands = "!boo: Become way too scary.\n!haunt <player>: You can haunt active players to rob them of some slime and get antislime.\n!inhabit <player>: Inhabit another player.\n!letgo: Stop inhabiting someone.\n!possessweapon: Possess the weapon of someone you're inhabiting.\n!possessfishingrod: Possess someone's fishing rod in the same way.\n!unpossessfishingrod: Stop possessing the fishing rod.\n!summonnegaslimeoid <name>:Summon a negaslimeoid to the surface.\n!negaslimeoid <name>: Check on a specific negaslimeoid.\n!crystalizenegapoudrin: Create a negapoudrin with negaslime."
+corpse_commands = "!boo: Become way too scary.\n!haunt <player>: You can haunt active players to rob them of some slime and get antislime.\n!inhabit <player>: Inhabit another player.\n!letgo: Stop inhabiting someone.\n!possessweapon: Possess the weapon of someone you're inhabiting.\n!possessfishingrod: Possess someone's fishing rod in the same way.\n!unpossessfishingrod: Stop possessing the fishing rod.\n!negaslimeoid: Check on your Negaslimeoid, if you have created one.\n!crystalizenegapoudrin: Create a negapoudrin with negaslime."
 player_info_commands = "!data <player>: Check basic player info. Excluding <player> shows your own data.\n!slime <player>:Same as !data, but shows slime count.\n!slimecoin <player>: Same as the above two, but shows SlimeCoin.\n!hunger: Displays hunger.\n!mutations: Check mutations. Add 'level' to the end to display by mutation level.\n!fashion: Displays fashion info.\n!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search.\n!inv search <contents>: Display all items that contain <contents>.\n!apartment: Check your apartment.\n!mastery: Check weapon mastery."
 external_link_commands = "!map: Pull up the world map.\n!time: Get the latest RFCK time and weather.\n!transportmap: Pull a transportation map of the city.\n!patchnotes: See the latest patchnotes.\n!booru: Get a link to the RFCK Booru.\n!wiki: Get a link to the wiki.\n!leaderboard: Get a link to the online leaderboard.\n!bandcamp: Links to the RFCK Bandcamp.\n!tutorial: Gives a more in-depth view of Endless War Gameplay."
 combat_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!aim <player>: Increase accuracy toward a target.\n!taunt <player>: Decrease you opponent's accuracy.\n!dodge <player>: Increase evasion for a short time.\n!reload: Some weapons have limited ammo and need to reload."
 capping_commands = "!spray <captcha>: Spray the district in your gang's paint.\n!progress: Displays capture progress in your current district.\n!tag: Spray your tagged image.\n!changespray <tag>:Change the image link that displays on a !tag."
 item_commands = "!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search, general, food, cosmetic, furniture, weapon.\n!inv search <contents>: Display all items that contain <contents>.\n!inspect <item>: Inspect an item in your inventory.\n!discard <item>: Discard an item.\n!use <item>: Some items can be used.\n!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade.\n!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item.\n!scrawl <item> <description>: Add a message to an item.\n!strip <item>: Remove a message from an item\n!give @player <item>: Giving away items increases festivity."
 cosmetics_dyes_commands = "!adorn <cosmetic>: Wear a cosmetic\n!dedorn <cosmetic>: Take a cosmetic off.\n!dyecosmetic <cosmetic> <dye>: Dye a cosmetic using dyes in your inventory.\n!dyefurniture <furniture> <dye>: Change the color of furniture with dye.\n!saturateslimeoid <dye>: Dye your slimeoid."
-miscellaneous_commands = "!quarterlyreport: Display the current quarterly goal.\n!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime.\n!negaslimeoidbattle <negaslimeoid name>: Fight your slimeoid against a negaslimeoid."
+miscellaneous_commands = "!quarterlyreport: Display the current quarterly goal.\n!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
 flavor_commands = "Command list: !salute\n!unsalute\n!hurl\n!howl\n!moan\n!pot\n!bully <target>\n!lol\n!jam <instrument>"
 slimeoid_commands = "!slimeoid: Check your or another player's slimeoid.\n!saturateslimeoid <dye>: Dye your slimeoid.\n!bottleslimeoid:Put your slimeoid in a bottle, turning them into an item.\n!unbottleslimeoid: Unbottle a slimeoid.\n!feedslimeoid <food>: Feed your slimeoid stat modifying candy.\n!dressslimeoid <cosmetic>: Dress up your slimeoid.\n!undressslimeoid: Take cosmetics off your slimeoid.\n!slimeoidbattle <player>: Challenge another player to a slimeoid battle.\n!playfetch, !petslimeoid, !abuseslimeoid, !walkslimeoid, !observeslimeoid: You can interact with your slimeoid in various ways."
 trading_commands = "!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade."
@@ -3871,7 +3673,7 @@ mutation_unique_commands = {
     "rigormortis": "RIGOR MORTIS\n!preserve <item>: Prevent an item from dropping when you die.",
     "ditchslap": "DITCH SLAP\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
     "landlocked": "LANDLOCKED\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
-    "organicfursuit": "ORGANIC FURSUIT\n!fursuit: Check for the next full moon when your next\"furry episode\" begins.",
+    "organicfursuit": "ORGANIC FURSUIT\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
     "enlargedbladder": "ENLARGED BLADDER\n!piss: Need I say more?",
     "quantumlegs": "QUANTUM LEGS\n!tp <location>: Teleport up to two areas away.",
     "trashmouth": "TRASH MOUTH\n!devour item: Eat some non-food items."
@@ -3900,7 +3702,7 @@ district_unique_commands = {
     "realestateagency": "REAL ESTATE\n!consult <district>: Get information and cost for an apartment.\n!signlease <district>: Purchase an apartment in a new location.\n!breaklease: Cancel the lease you currently have.\n!aptupgrade: Upgrade your apartment, from C to S.\n!changelocks: Erase all housekeys you have in circulation.\n!addkey: Add a housekey to your apartment.",
     "clinicofslimoplasty": "CLINIC\n!chemo <mutation>: Clear a mutation from yourself.\n!graft <mutation>: Attach a new mutation to yourself.\n!browse: Browse the medical zines available.\n!orderzine <zine>: Order a list of mutations to graft.",
     "thesewers": "SEWERS\n!revive: Revive.",
-    "slimecorpslimeoidlaboratory": "SLIMEOID LAB\n!embiggen:Make a fish real big.\n!restoreslimeoid <slimeoid>: Restore a Slimeoid from a slimeoid heart.\n!instructions: Go over the many commands used to make a slimeoid.",
+    "slimecorpslimeoidlaboratory": "SLIMEOID LAB\n!embiggen: Make a fish real big.\n!restoreslimeoid <slimeoid>: Restore a Slimeoid from a slimeoid heart.\n!instructions: Go over the many commands used to make a slimeoid.",
     "thecasino": "CASINO\n!slimecraps <amount> <currency>: Gamble at the craps table. Gambling types include slimecoin, slime, and your soul.\n!slimeroulette <amount> <bet> <type>:Gamble at the roulette wheel. Types are same as above, bet options are shown by typing !slimeroulette <amount>.\n!slimeslots <type>: Bet a fixed amount in slots. Accepts Slime and SlimeCoin.\n!slimepachinko <type> Same as above, but in pachinko.\n!slimebaccarat <amount> <currency> <hand>: Bet slime, slimecoin, or souls on baccarat. The hand is either 'player' or 'dealer'.\n!slimeskat <player> <player>: Challenge two players to a game of slimeskat. You bet Slimecoin once the game has started.\n!russianroulette <player>: Challenge your opponent to russian roulette. Add 'soul' to the end of the command to gamble souls.\n!betsoul: Exchange your soul for {} SlimeCoin.\n!buysoul <player>: Buy a soul off the casino for {} SlimeCoin, if one is in stock.".format(
         soulprice, soulprice),
     "thedojo": "DOJO\n!spar <player>: Spar with someone to increase your weapon level.\n!marry: Marry your weapon.\n!divorce: The inevitable, after marrying your weapon.\n!object: Interrupt a marriage as it's going. ",
@@ -3916,10 +3718,11 @@ district_unique_commands = {
     "bazaar": "BAZAAR\n!extract <collection item> <item>: For a fee, remove an item from a collection.\n!unstand <item>: Remove an item from its prop stand.\n!releasefish <aquarium>: Remove fish from their aquarium.",
     "vandalpark": "VANDAL PARK\n!slimeball <team>: Join a game of Slimeball. Teams are purple and pink. Read about details in the Game Guide.",
     "endlesswar": "ENDLESS WAR\n!pray <target>: Pray to someone.",
-    "thesummit" : "THE SUMMIT:\n!jump: A suicidal, expedited version of snowboarding.",
-    "limecorp3f": "LIMECORP 3F:\n!jump: Commit career suicide.",
+    "thesummit" : "THE SUMMIT\n!jump: A suicidal, expedited version of snowboarding.",
+    "limecorp3f": "LIMECORP 3F\n!jump: Commit career suicide.",
     "blimp":"BLIMP:\nGo skydiving. No parachute, but you can pretend.",
-    "themuseum":"THE MUSEUM:\n!donate <relic/fish/frame>: Donate something to the Curator's museum."
+    "themuseum":"THE MUSEUM\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
+    "wafflehouse": "WAFFLE HOUSE\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid."
 }
 
 
@@ -3942,20 +3745,6 @@ race_unique_commands = {
     "cyborg":"!netrun <player>: We do a little hacking here.",
     "other":"!confuse: Not too hard to do with this crowd."
 }
-
-# !ads, look for possible ads
-# shops, piers, mines, transports, zine writing places, universities/game guides, subways, apartments
-
-bazaar_distractions = [
-    "a flock of live chickens descend upon you! They begin pecking mercilessly, probably revenge for that KFC you were holding. Their owner, suspecting you stole them, kicks you in the side, rolling you out of harm's way. Glad that's over.",
-    "a mesmerizing smell begins wafting from the stall. Come to papa... Looking behind it though, you only find a large pile of slime. It smells amazing because you think all slime smells amazing. How come you never realized this before?",
-    "you are approached by a gigantic man in green spandex. The darkness and haze obscure his face, but when you turn around he almost seems intimidated and takes a small step back. \"Uh...hey. Have you seen a guy with a mowhawk? You know, real short, hates juvies?\" You tell him no. He shrugs and runs away with a righteous fervor.",
-    "you suddenly feel like protecting this guy's trade secrets and decide to close your eyes. He sure is mumbling a lot... Wait, shit. Why'd you close your eyes, idiot? You got your money stolen! You spend awhile trying to get it back.",
-    "Thalamus Dredge shows up and starts dancing in the middle of the street! OH FUCK, IT'S THALAMUS DREDGE, EVERYBODY! You and everyone else get excited and surround him, hyping your boy and throwing tacos his way. Man, he's a national treasure. At least the bazaar goers seem to think so.",
-    "you are approached by a traveling salesman. But they're no ordinary traveling salesman...they're a walking talking fridge. Mr. Chill Out out rattles off his sales pitch, but when you open his doors to check it out the vegetables are covered in a sentient fungus. This stuff must all be ancient.",
-    "*clunk*. A brick hits you on the head. It stuns you for a good 2 minutes. Dammit, someone must be dropping bricks from the blimp.",
-    "you hesitate for a moment. Ah, fuck it. You sneak into the stall and peek behind the curtain. Suddenly, you spot something you never expected. Next to the specialist, hard at work, is his child, wailing for food his father can't afford. You're so wracked with empathy that you can't focus on the target of your espionage. Uh oh, he's coming. Better duck out! "
-]
 
 jump_responses = {
     'thesummit':'*Gnarly, bro!* Time to get on your board and feel that classic mountain high! Oh, what\'s that? No board? No experience boarding? No actual sloped surface, just a 2000 foot drop into the outskirts? Ah, my mistake. {} is sent plummeting off the edge.',
@@ -4044,47 +3833,6 @@ enemy_type_civilian_innocent = 'innocent'
 
 enemy_type_slimeoidtrainer = 'slimeoidtrainer'
 enemy_type_ug_slimeoidtrainer = 'undergroundslimeoidtrainer'
-enemy_type_gaia_poketubers = "poketubers"
-enemy_type_gaia_pulpgourds = "pulpgourds"
-enemy_type_gaia_sourpotatoes = "sourpotatoes"
-enemy_type_gaia_bloodcabbages = "bloodcabbages"
-enemy_type_gaia_joybeans = "joybeans"
-enemy_type_gaia_purplekilliflower = "purplekilliflower"
-enemy_type_gaia_razornuts = "razornuts"
-enemy_type_gaia_pawpaw = "pawpaw"
-enemy_type_gaia_sludgeberries = "sludgeberries"
-enemy_type_gaia_suganmanuts = "suganmanuts"
-enemy_type_gaia_pinkrowddishes = "pinkrowddishes"
-enemy_type_gaia_dankwheat = "dankwheat"
-enemy_type_gaia_brightshade = "brightshade"
-enemy_type_gaia_blacklimes = "blacklimes"
-enemy_type_gaia_phosphorpoppies = "phosphorpoppies"
-enemy_type_gaia_direapples = "direapples"
-enemy_type_gaia_rustealeaves = "rustealeaves"
-enemy_type_gaia_metallicaps = "metallicaps"
-enemy_type_gaia_steelbeans = "steelbeans"
-enemy_type_gaia_aushucks = "aushucks"
-# Smearg wanted this for flavor to keep the list complete UwU
-enemy_type_gaia_partypoppeppers = "partypoppeppers"
-
-enemy_type_defaultshambler = "defaultshambler"
-enemy_type_bucketshambler = "bucketshambler"
-enemy_type_juveolanternshambler = "juveolanternshambler"
-enemy_type_flagshambler = "flagshambler"
-enemy_type_shambonidriver = "shambonidriver"
-enemy_type_mammoshambler = "mammoshambler"
-enemy_type_gigashambler = "gigashambler"
-enemy_type_microshambler = "microshambler"
-enemy_type_shamblersaurusrex = "shamblesaurusrex"
-enemy_type_shamblerdactyl = "shamblerdactyl"
-enemy_type_dinoshambler = "dinoshambler"
-enemy_type_ufoshambler = "ufoshambler"
-enemy_type_brawldenboomer = "brawldenboomer"
-enemy_type_juvieshambler = "juvieshambler"
-enemy_type_shambleballplayer = "shambleballplayer"
-enemy_type_shamblerwarlord = "shamblerwarlord"
-enemy_type_shamblerraider = "shamblerraider"
-enemy_type_gvs_boss = "blueeyesshamblerdragon"
 
 enemy_type_titanoslime = "titanoslime"
 enemy_type_mutated_titanoslime = "mutatedtitanoslime"
@@ -4102,13 +3850,9 @@ enemy_ai_coward = 'Coward'
 enemy_ai_attacker_a = 'Attacker-A'
 enemy_ai_attacker_b = 'Attacker-B'
 enemy_ai_defender = 'Defender'
-enemy_ai_gaiaslimeoid = 'Gaiaslimeoid'
-enemy_ai_shambler = 'Shambler'
 
 # Enemy classes. For now this is only used for Gankers Vs. Shamblers
 enemy_class_normal = 'normal'
-enemy_class_gaiaslimeoid = 'gaiaslimeoid'
-enemy_class_shambler = 'shambler'
 
 # List of enemies sorted by their spawn rarity.
 common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
@@ -4122,7 +3866,6 @@ enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_gre
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
 slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer]
-
 
 
 # List of raid bosses sorted by their spawn rarity.
@@ -4552,49 +4295,47 @@ identifier_letters = [
     'U', 'V', 'W', 'X', 'Y', 'Z'
 ]
 
-
-
 gvs_almanac = {
-    enemy_type_gaia_poketubers: 'Poketubers are mines that deal massive damage when a shambler tries to attack one of them. However, they must take 15 seconds to prime beforehand, otherwise they\'re sitting ducks. When given a Joybean, they will entrench their roots into the ground ahead of them, spawning more fully primed poketubers in random locations ahead of it.\nPoketuber used to be a big shot. His analysis channel with Dire Apples was the talk of the town, even getting big shots like Aushucks to turn their heads in amazement. Nowadays though, he\'s washed up, and has to shill his patreon just to get by. "God, just fucking step on me already and end it all", Poketuber thinks to himself every day.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743641434841808967/poketubers_seedpacket.png',
-    enemy_type_gaia_pulpgourds: 'Gaiaslimeoids anywhere on the field can drink out of Pulp Gourds, replenishing their HP and draining that Pulp Gourd\'s storage in the process. Pulp Gourds can only be refilled by Blood Cabbages. When given a Joybean, their healing effect is doubled.\nPulp Gourd is the faithful and humble servant of Blood Cabbage, aiding her in her experiments. "I would sooner walk into the fires of Hell than see a wound on your leaves, Miss Cabbage", says Pulp Gourd. "Ohohoho~, you spoil me, sir Gourd", replies Blood Cabbage. Other Gaiaslimeoids aren\'t sure what the nature of their relationship is, and frankly it weirds them out a bit.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258076152332339/pulpgourds_seedpacket.png',
-    enemy_type_gaia_sourpotatoes: 'Sour Potatoes are a great front-line attacker for any Garden Op. They can\'t dish out constant damage like a Pink Rowddish, but they make up for it by swallowing almost any shambler in front of it whole, killing it instantly. This immobilizes the Sour Potato for 10 seconds, however, leaving it vulnerable to attacks. When given a Joybean, they can launch out a ball of fire, which melts away the frozen slime trail left by Shambonis, in addition to dealing a fair amount of splash damage.\nIn a twist of fate, Sour Potatoes have turned into a popular pet across NLACakaNM. This is in opposition of the fact that Sour Potatoes are sentient, and aware of their own domestication. "Awww, who\'s a cute widdle doggy", a Juvenile says. "I can speak English you know. I\'m forming proper sentences, for fucks sake. Treat me with some dignity, *please*", says Sour Potato.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241053598908466/sourpotatoes_seedpacket.png',
-    enemy_type_gaia_bloodcabbages: 'Attacks coming from a Blood Cabbage are relatively weak compared to their Rowddish and Killiflower cohorts, but they have a special effect of draining health from enemy shamblers and redistributing it to their allies. They cannot heal themselves, however. When given a Joybean, their attacks will deal twice as much damage, and heal twice as much as a result. They can heal any Gaiaslimeoid within range, but will prioritize those that are low on health, saving Pulp Gourds for last.\nBlood Cabbage\'s obsession with the dark arts led her down an equally dark path in life. After pouring over countless forbidden tomes, she had found what she had been seeking, and used the hordes of undead Shamblers as her test subjects to measure her abilities. "Ahahaha... what a discovery! This ability will prove to be useful... whether my allies like it or not!"\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241003779227718/bloodcabbages_seedpacket.png',
-    enemy_type_gaia_joybeans: 'Joybeans act as an upgrade to other Gaiaslimeoids. They can either be planted onto blank tiles and used later when combined with other Gaiaslimeoids, or they can be planted on top of other Gaiaslimeoids. If two Joybeans combine, they explode into a fountain of sheer ecstasy, activating the Joybean effects of all Gaiaslimeoids within a short radius for 30 seconds. It is consumed upon use.\nJoybean is very excitable. When in the presence of another Gaiaslimeoid, she can\'t help but start hyperventilating at the thought of being near them, and is frequently unable to contain herself. "Kyaaaaaa~!" Joybean cries out, as she glomps onto fellow Gaiaslimeoids.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241010506891374/joybeans_seedpacket.png',
-    enemy_type_gaia_purplekilliflower: 'Purple Killiflowers shoot out toxic vape clouds when they !dab. This allows them to target shamblers up to 6 tiles in front of them, piercing multiple Shamblers in the process. When given a Joybean, it will deal twice as much damage.\n"Fuck you Dad! It\'s called The Vapors, and it\'s way better than any shitty comic book you\'ve ever read! God, I HATE YOU!", says Killiflower, as he slams the door shut behind him. Choking back tears, he mutters to himself: "Don\'t let him see you cry..."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241012104921098/killiflower_seedpacket.png',
-    enemy_type_gaia_razornuts: 'Razornuts aren\'t as hard or long as Suganmanuts, but their sharpened edges will harm any Shambler that tries to attack it. If a Razornut is damaged, you can !plant another one on top of it to repair it. When given a Joybean, its death will cause an explosion of shrapnel, dealing a fair amount of damage within a large radius around it.\nWhen a Shambler bites into Razornut, he doesn\'t care. He lets it happen, just to *feel* something. "Go on, give me your best. You aren\'t half as strong as the thugs I\'ve mauled in the past", says Razonut. "This shell right here, it\'s ready for the apocalypse.", he continues.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241045348843530/razornuts_seedpacket.png',
-    enemy_type_gaia_pawpaw: 'When planted, a Pawpaw will explode after a short amount of time, dealing massive damage in a small radius. If a Pawpaw is planted on top of a Joybean, this will increase its range significantly.\nPawpaw has been places and seen shit you would not believe. The guilt of his war crimes will be taken with him to the grave. "It\'s a good day to die.", says Pawpaw.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258148239966308/pawpaw_seedpacket.png',
-    enemy_type_gaia_sludgeberries: 'Sludgeberries are a Gaiaslimeoid that will detonate into a sticky and immobilizing sludge, inflicting a stun effect on all shamblers within a short range. When given a Joybean, it will cover all Shamblers on the field in this sludge.\nThese Gaiaslimeoids are all the craze over at Pyrope Farms. "UM, G4RD3N G4NK3RS? SORRY, BUT W3 ONLY WORK UND3R DIR3CT ORD3RS FROM T3R3Z1 G4NG", says Sludgeberry.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241051401224192/sludgeberries_seedpacket.png',
-    enemy_type_gaia_suganmanuts: 'Suganmanuts\' large health pool allows it to provide a great amount of defensive utility in battle. If a Suganmanut is damaged, you can !plant another one on top of it to repair it. When given a Joybean, it will occasionally spit out its nut, ricocheting off of shamblers.\n"I swear I\'m not gay" says Suganmanuts. "I just like the taste". The look in his eye told a different story, however. That, and the 50 tabs of Grimedr he had open.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743240999492649071/suganmanuts_seedpacket.png',
-    enemy_type_gaia_pinkrowddishes: 'Pink Rowddishes attack by !thrash-ing about, dealing massive damage to all Shamblers within a short range in front of them. They can attack behind themselves as well. When given a Joybean, it will begin to violently scream. These screams act as an increase to its range, reaching three times as far as a basic attack.\nRowddishes are hot-blooded and looking to brawl. Though they have no eyes, they make up for it with intense reflexes. In some instances, they will even go as far as to lash out at the Garden Gankers who have planted them. "Back off, Juvie!", says Rowddish. "Unless you want me to turn you into a knuckle sandwich! Ha! Up-five", he says as he hi-fives himself. Even when there are no Shamblers around, Rowddishes will continue to pick fights with each other, frequently engaging in what are known as "No Hard Feelings Civil Wars".\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258274761015326/pinkrowddish_seedpacket.png',
-    enemy_type_gaia_dankwheat: 'Dankwheat tend to be a utility-focussed Gaiaslimeoid, dealing minimal damage, but whatever does enter their short attack radius that surrounds them will be slowed down by a status effect. When given a Joybean, it can reach further in front and in back of it for targets, and the status effect will also lower the damage output of its targets.\n"Dude, what\'s a text command?" one stalk of Dankwheat says. "Dude, what GAME are we even IN right now??", another adds. "Guys, wait, hold on, my seaweed joint is running out, can one of you spot me?", the third one chimes in. These guys can never seem to get their fucking heads straight, outside of the 22 minutes every Saturday that a new MLP episode is on the air.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241007025488023/dankwheat_seedpacket.png',
-    enemy_type_gaia_brightshade: 'Brightshades are an essential plant to have in any Garden Op. They provide Garden Gankers with precious gaiaslime, at a rate of 25 gaiaslime every 20 seconds. When given a Joybean, this output is doubled in effectiveness.\nIn her past, Brightshade was a beautiful singer, frequently selling out even to large crowds. When the Shamblers came to town, she decided to put her career on hold, however. She is a shining gem among Gaiaslimeoids, revered and loved by all, and by some, perhaps a bit too much...\n"I just got this Brightshade poster off of Amoozeon, and oh my fucking God, you can see her TITS."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241005406486658/brightshade_seedpacket.png',
-    enemy_type_gaia_blacklimes: 'When a Black Lime gets bitten, its sour taste will repulse the shambler and redirect it to a different lane entirely. If a Black Lime is damaged, you can !plant another one on top of it to repair it. When given a Joybean, it will shoot out a damaging stream of lime juice, shuffling all shamblers within its lane, and it will also be healed fully.\nOther Gaiaslimeoids worry about Black Lime... what he might do, who he might become. They only hang out with him as a preventative measure. "He\'s... he\'s just different, you know?", says Brightshade as she watches Black Lime brutally torture disease-infested rodents from a safe distance.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241002319347873/blacklimes_seedpacket.png',
-    enemy_type_gaia_phosphorpoppies: 'Phosphorpoppies will give Shamblers a \'bad trip\' when it shoots out its Binaural Brainwaves, or when it gets eaten. This will cause Shamblers to either hit, miss, or backfire in their attacks. When given a Joybean, its Binaural Brainwaves will inflict this effect 100% of the time, otherwise the effect only has a chance to be inflicted.\nPhosphoroppy is a total klutz, but she tries her best. Her simple-minded innocence led to her becoming a fan-favorite among many of the Garden Gankers, but behind those swirly eyes remains a horrible tragedy. A psychadelic experience aided by one of the Dankwheat brothers caused her to overload and see things no Gaiaslimeoid was meant to see. It fractured her mind, but her heart is still in there, ready to take on the Shamblers with everything she\'s got.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258227696730152/phosphorpoppies_seedpacket.png',
-    enemy_type_gaia_direapples: 'Dire apples are a vital Gaiaslimeoid to have in any offensive setup. They can lob globules of acid or spit bullet seeds. When given a Joybean, their seed attacks will do more damage and will inflict an acidic burn on whatever shamblers it manages to hit.\n"How does a Gaiaslimeoid like me make the best of both worlds collide? Well, I could tell you, but I\'ve got a BIG meeting to catch." He speeds away in his sports car occupied by himself and several Phosphorpoppies. Only a puff of smoke is left behind.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241008828907660/direapples_seedpacket.png',
-    enemy_type_gaia_rustealeaves: 'Rustea Leaves are a grounded Gaiaslimeoid, and can attack only within a very short range of where they are planted. They are completely immune to conventional methods of Shambler offense, however, only being damaged by Gigashamblers, Shambonis, and UFO Shamblers. They can be planted on any tile, provided it\'s not already occupied by another Rustea Leaves. When given a Joybean, they will receive a significant boost in both health and damage output.\nRustea Leaves are the amalgamation of leftover shavings off of other metallic crops, culminating into one fearsome Gaiaslimeoid. He is the forgotten fourth member of the Metal Crop Bros, but despite all this, he manages to maintain a positive attitude. "You gotta work with tha hand yah dealt", he says. "These shamblahs ain\'t gonna moida themselves." Regardless of what he says though, he\'s still bitter about not being invited to the family reunion.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241049073254460/rustealeaves_seedpacket.png',
-    enemy_type_gaia_metallicaps: 'Metallicaps are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Steel Bean or Aushuck is not already occupying that tile. When planted on top of an attacking Gaiaslimeoid, it will provide a boost in damage, as well as an additional amount of damage in the form of a spores effect, which burns away the health of enemy shamblers. It cannot be given a Joybean. It is consumed upon use, much like a Joybean.\nMetallicap is a rebellious youth, and the youngest member of the Metal Crop Bros. His affinity for metal music drives his other brothers up the goddamn wall, given how often he will throw parties over at the house and blast his music through his custom-made boombox. "Rules? HA! There\'s only one rule in this house brah, and that is, *TO GET DOWN AND PARTY!!!*", he says.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241014118187059/metallicaps_seedpacket.png',
-    enemy_type_gaia_steelbeans: 'Steel Beans are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Metallicap or Aushuck is not already occupying that tile. When planted on top of a gaiaslimeoid, it will act as an additional layer of health that a shambler must get rid of before it can attack the Gaiaslimeoid being protected. If a Steel Bean is damaged, you can !plant another one on top of it to repair it. It cannot be given a Joybean.\nSteel Bean is the middle child of the Metal Crop Bros. He has a deep fascination with conspiracy theories, to the point where his brothers seriously worry about his mental state at times. "We\'re all in a simulation man, they\'re pulling our strings with commands and we just have to follow what\'s in the program." When asked to clarify what he meant by this, Steel Bean replied "You wouldn\'t get it..."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241056048644126/steelbeans_seedpacket.png',
-    enemy_type_gaia_aushucks: 'Aushucks are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Metallicap or Steel Bean is not already occupying that tile. When planted on top of a Gaiaslimeoid, it will produce Gaiaslime at the same rate as a regular brightshade. It can be planted on top of any Gaiaslimeoid, including Brightshades. It cannot be given a Joybean. It is consumed upon use, much like a Joybean.\nAushuck is the eldest of the Metal Crop Bros. He got in on the ground floor with SlimeCoin after the last market crash and made a killing, and from then on he\'s been living the high life. His newfound wealth enables his smug personality, much to the ire of his younger brothers. Everything he owns is gold plated, including all his furniture and clothing. "Look at me, I fucking OWN this city", he says as he stands on the balcony of his luxury condo.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241000918450196/aushucks_seedpacket.png',
-    enemy_type_gaia_partypoppeppers: 'Party Poppeppers are a Gaiaslimeoid that were never used on the battlefield, as their seeds were not uncovered until long after the end of Garden Ops. \nParty Poppeppers are a real party animal, screaming through the night. When not being the life of the party, they\'re actually chillaxing and a pretty low energy, laid-back kind of dude. \nhttps://cdn.discordapp.com/attachments/875184852746514433/891796268706299925/gc_partypoppepper.png', # Love you Smearg UwU
+    'poketubers': 'Poketubers are mines that deal massive damage when a shambler tries to attack one of them. However, they must take 15 seconds to prime beforehand, otherwise they\'re sitting ducks. When given a Joybean, they will entrench their roots into the ground ahead of them, spawning more fully primed poketubers in random locations ahead of it.\nPoketuber used to be a big shot. His analysis channel with Dire Apples was the talk of the town, even getting big shots like Aushucks to turn their heads in amazement. Nowadays though, he\'s washed up, and has to shill his patreon just to get by. "God, just fucking step on me already and end it all", Poketuber thinks to himself every day.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743641434841808967/poketubers_seedpacket.png',
+    'pulpgourds': 'Gaiaslimeoids anywhere on the field can drink out of Pulp Gourds, replenishing their HP and draining that Pulp Gourd\'s storage in the process. Pulp Gourds can only be refilled by Blood Cabbages. When given a Joybean, their healing effect is doubled.\nPulp Gourd is the faithful and humble servant of Blood Cabbage, aiding her in her experiments. "I would sooner walk into the fires of Hell than see a wound on your leaves, Miss Cabbage", says Pulp Gourd. "Ohohoho~, you spoil me, sir Gourd", replies Blood Cabbage. Other Gaiaslimeoids aren\'t sure what the nature of their relationship is, and frankly it weirds them out a bit.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258076152332339/pulpgourds_seedpacket.png',
+    'sourpotatoes': 'Sour Potatoes are a great front-line attacker for any Garden Op. They can\'t dish out constant damage like a Pink Rowddish, but they make up for it by swallowing almost any shambler in front of it whole, killing it instantly. This immobilizes the Sour Potato for 10 seconds, however, leaving it vulnerable to attacks. When given a Joybean, they can launch out a ball of fire, which melts away the frozen slime trail left by Shambonis, in addition to dealing a fair amount of splash damage.\nIn a twist of fate, Sour Potatoes have turned into a popular pet across NLACakaNM. This is in opposition of the fact that Sour Potatoes are sentient, and aware of their own domestication. "Awww, who\'s a cute widdle doggy", a Juvenile says. "I can speak English you know. I\'m forming proper sentences, for fucks sake. Treat me with some dignity, *please*", says Sour Potato.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241053598908466/sourpotatoes_seedpacket.png',
+    'bloodcabbages': 'Attacks coming from a Blood Cabbage are relatively weak compared to their Rowddish and Killiflower cohorts, but they have a special effect of draining health from enemy shamblers and redistributing it to their allies. They cannot heal themselves, however. When given a Joybean, their attacks will deal twice as much damage, and heal twice as much as a result. They can heal any Gaiaslimeoid within range, but will prioritize those that are low on health, saving Pulp Gourds for last.\nBlood Cabbage\'s obsession with the dark arts led her down an equally dark path in life. After pouring over countless forbidden tomes, she had found what she had been seeking, and used the hordes of undead Shamblers as her test subjects to measure her abilities. "Ahahaha... what a discovery! This ability will prove to be useful... whether my allies like it or not!"\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241003779227718/bloodcabbages_seedpacket.png',
+    'joybeans': 'Joybeans act as an upgrade to other Gaiaslimeoids. They can either be planted onto blank tiles and used later when combined with other Gaiaslimeoids, or they can be planted on top of other Gaiaslimeoids. If two Joybeans combine, they explode into a fountain of sheer ecstasy, activating the Joybean effects of all Gaiaslimeoids within a short radius for 30 seconds. It is consumed upon use.\nJoybean is very excitable. When in the presence of another Gaiaslimeoid, she can\'t help but start hyperventilating at the thought of being near them, and is frequently unable to contain herself. "Kyaaaaaa~!" Joybean cries out, as she glomps onto fellow Gaiaslimeoids.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241010506891374/joybeans_seedpacket.png',
+    'purplekilliflower': 'Purple Killiflowers shoot out toxic vape clouds when they !dab. This allows them to target shamblers up to 6 tiles in front of them, piercing multiple Shamblers in the process. When given a Joybean, it will deal twice as much damage.\n"Fuck you Dad! It\'s called The Vapors, and it\'s way better than any shitty comic book you\'ve ever read! God, I HATE YOU!", says Killiflower, as he slams the door shut behind him. Choking back tears, he mutters to himself: "Don\'t let him see you cry..."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241012104921098/killiflower_seedpacket.png',
+    'razornuts': 'Razornuts aren\'t as hard or long as Suganmanuts, but their sharpened edges will harm any Shambler that tries to attack it. If a Razornut is damaged, you can !plant another one on top of it to repair it. When given a Joybean, its death will cause an explosion of shrapnel, dealing a fair amount of damage within a large radius around it.\nWhen a Shambler bites into Razornut, he doesn\'t care. He lets it happen, just to *feel* something. "Go on, give me your best. You aren\'t half as strong as the thugs I\'ve mauled in the past", says Razonut. "This shell right here, it\'s ready for the apocalypse.", he continues.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241045348843530/razornuts_seedpacket.png',
+    'pawpaw': 'When planted, a Pawpaw will explode after a short amount of time, dealing massive damage in a small radius. If a Pawpaw is planted on top of a Joybean, this will increase its range significantly.\nPawpaw has been places and seen shit you would not believe. The guilt of his war crimes will be taken with him to the grave. "It\'s a good day to die.", says Pawpaw.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258148239966308/pawpaw_seedpacket.png',
+    'sludgeberries': 'Sludgeberries are a Gaiaslimeoid that will detonate into a sticky and immobilizing sludge, inflicting a stun effect on all shamblers within a short range. When given a Joybean, it will cover all Shamblers on the field in this sludge.\nThese Gaiaslimeoids are all the craze over at Pyrope Farms. "UM, G4RD3N G4NK3RS? SORRY, BUT W3 ONLY WORK UND3R DIR3CT ORD3RS FROM T3R3Z1 G4NG", says Sludgeberry.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241051401224192/sludgeberries_seedpacket.png',
+    'suganmanuts': 'Suganmanuts\' large health pool allows it to provide a great amount of defensive utility in battle. If a Suganmanut is damaged, you can !plant another one on top of it to repair it. When given a Joybean, it will occasionally spit out its nut, ricocheting off of shamblers.\n"I swear I\'m not gay" says Suganmanuts. "I just like the taste". The look in his eye told a different story, however. That, and the 50 tabs of Grimedr he had open.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743240999492649071/suganmanuts_seedpacket.png',
+    'pinkrowddishes': 'Pink Rowddishes attack by !thrash-ing about, dealing massive damage to all Shamblers within a short range in front of them. They can attack behind themselves as well. When given a Joybean, it will begin to violently scream. These screams act as an increase to its range, reaching three times as far as a basic attack.\nRowddishes are hot-blooded and looking to brawl. Though they have no eyes, they make up for it with intense reflexes. In some instances, they will even go as far as to lash out at the Garden Gankers who have planted them. "Back off, Juvie!", says Rowddish. "Unless you want me to turn you into a knuckle sandwich! Ha! Up-five", he says as he hi-fives himself. Even when there are no Shamblers around, Rowddishes will continue to pick fights with each other, frequently engaging in what are known as "No Hard Feelings Civil Wars".\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258274761015326/pinkrowddish_seedpacket.png',
+    'dankwheat': 'Dankwheat tend to be a utility-focussed Gaiaslimeoid, dealing minimal damage, but whatever does enter their short attack radius that surrounds them will be slowed down by a status effect. When given a Joybean, it can reach further in front and in back of it for targets, and the status effect will also lower the damage output of its targets.\n"Dude, what\'s a text command?" one stalk of Dankwheat says. "Dude, what GAME are we even IN right now??", another adds. "Guys, wait, hold on, my seaweed joint is running out, can one of you spot me?", the third one chimes in. These guys can never seem to get their fucking heads straight, outside of the 22 minutes every Saturday that a new MLP episode is on the air.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241007025488023/dankwheat_seedpacket.png',
+    'brightshade': 'Brightshades are an essential plant to have in any Garden Op. They provide Garden Gankers with precious gaiaslime, at a rate of 25 gaiaslime every 20 seconds. When given a Joybean, this output is doubled in effectiveness.\nIn her past, Brightshade was a beautiful singer, frequently selling out even to large crowds. When the Shamblers came to town, she decided to put her career on hold, however. She is a shining gem among Gaiaslimeoids, revered and loved by all, and by some, perhaps a bit too much...\n"I just got this Brightshade poster off of Amoozeon, and oh my fucking God, you can see her TITS."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241005406486658/brightshade_seedpacket.png',
+    'blacklimes': 'When a Black Lime gets bitten, its sour taste will repulse the shambler and redirect it to a different lane entirely. If a Black Lime is damaged, you can !plant another one on top of it to repair it. When given a Joybean, it will shoot out a damaging stream of lime juice, shuffling all shamblers within its lane, and it will also be healed fully.\nOther Gaiaslimeoids worry about Black Lime... what he might do, who he might become. They only hang out with him as a preventative measure. "He\'s... he\'s just different, you know?", says Brightshade as she watches Black Lime brutally torture disease-infested rodents from a safe distance.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241002319347873/blacklimes_seedpacket.png',
+    'phosphorpoppies': 'Phosphorpoppies will give Shamblers a \'bad trip\' when it shoots out its Binaural Brainwaves, or when it gets eaten. This will cause Shamblers to either hit, miss, or backfire in their attacks. When given a Joybean, its Binaural Brainwaves will inflict this effect 100% of the time, otherwise the effect only has a chance to be inflicted.\nPhosphoroppy is a total klutz, but she tries her best. Her simple-minded innocence led to her becoming a fan-favorite among many of the Garden Gankers, but behind those swirly eyes remains a horrible tragedy. A psychadelic experience aided by one of the Dankwheat brothers caused her to overload and see things no Gaiaslimeoid was meant to see. It fractured her mind, but her heart is still in there, ready to take on the Shamblers with everything she\'s got.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743258227696730152/phosphorpoppies_seedpacket.png',
+    'direapples': 'Dire apples are a vital Gaiaslimeoid to have in any offensive setup. They can lob globules of acid or spit bullet seeds. When given a Joybean, their seed attacks will do more damage and will inflict an acidic burn on whatever shamblers it manages to hit.\n"How does a Gaiaslimeoid like me make the best of both worlds collide? Well, I could tell you, but I\'ve got a BIG meeting to catch." He speeds away in his sports car occupied by himself and several Phosphorpoppies. Only a puff of smoke is left behind.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241008828907660/direapples_seedpacket.png',
+    'rustealeaves': 'Rustea Leaves are a grounded Gaiaslimeoid, and can attack only within a very short range of where they are planted. They are completely immune to conventional methods of Shambler offense, however, only being damaged by Gigashamblers, Shambonis, and UFO Shamblers. They can be planted on any tile, provided it\'s not already occupied by another Rustea Leaves. When given a Joybean, they will receive a significant boost in both health and damage output.\nRustea Leaves are the amalgamation of leftover shavings off of other metallic crops, culminating into one fearsome Gaiaslimeoid. He is the forgotten fourth member of the Metal Crop Bros, but despite all this, he manages to maintain a positive attitude. "You gotta work with tha hand yah dealt", he says. "These shamblahs ain\'t gonna moida themselves." Regardless of what he says though, he\'s still bitter about not being invited to the family reunion.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241049073254460/rustealeaves_seedpacket.png',
+    'metallicaps': 'Metallicaps are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Steel Bean or Aushuck is not already occupying that tile. When planted on top of an attacking Gaiaslimeoid, it will provide a boost in damage, as well as an additional amount of damage in the form of a spores effect, which burns away the health of enemy shamblers. It cannot be given a Joybean. It is consumed upon use, much like a Joybean.\nMetallicap is a rebellious youth, and the youngest member of the Metal Crop Bros. His affinity for metal music drives his other brothers up the goddamn wall, given how often he will throw parties over at the house and blast his music through his custom-made boombox. "Rules? HA! There\'s only one rule in this house brah, and that is, *TO GET DOWN AND PARTY!!!*", he says.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241014118187059/metallicaps_seedpacket.png',
+    'steelbeans': 'Steel Beans are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Metallicap or Aushuck is not already occupying that tile. When planted on top of a gaiaslimeoid, it will act as an additional layer of health that a shambler must get rid of before it can attack the Gaiaslimeoid being protected. If a Steel Bean is damaged, you can !plant another one on top of it to repair it. It cannot be given a Joybean.\nSteel Bean is the middle child of the Metal Crop Bros. He has a deep fascination with conspiracy theories, to the point where his brothers seriously worry about his mental state at times. "We\'re all in a simulation man, they\'re pulling our strings with commands and we just have to follow what\'s in the program." When asked to clarify what he meant by this, Steel Bean replied "You wouldn\'t get it..."\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241056048644126/steelbeans_seedpacket.png',
+    'aushucks': 'Aushucks are a metallic upgrade Gaiaslimeoid, meaning that it can be planted on any tile, provided that a Metallicap or Steel Bean is not already occupying that tile. When planted on top of a Gaiaslimeoid, it will produce Gaiaslime at the same rate as a regular brightshade. It can be planted on top of any Gaiaslimeoid, including Brightshades. It cannot be given a Joybean. It is consumed upon use, much like a Joybean.\nAushuck is the eldest of the Metal Crop Bros. He got in on the ground floor with SlimeCoin after the last market crash and made a killing, and from then on he\'s been living the high life. His newfound wealth enables his smug personality, much to the ire of his younger brothers. Everything he owns is gold plated, including all his furniture and clothing. "Look at me, I fucking OWN this city", he says as he stands on the balcony of his luxury condo.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241000918450196/aushucks_seedpacket.png',
+    'partypoppeppers': 'Party Poppeppers are a Gaiaslimeoid that were never used on the battlefield, as their seeds were not uncovered until long after the end of Garden Ops. \nParty Poppeppers are a real party animal, screaming through the night. When not being the life of the party, they\'re actually chillaxing and a pretty low energy, laid-back kind of dude. \nhttps://cdn.discordapp.com/attachments/875184852746514433/891796268706299925/gc_partypoppepper.png', # Love you Smearg UwU
 
-    enemy_type_defaultshambler: 'The Default Shambler is exactly what it sounds like. It has low defenses and low attack, and will slowly move towards the edge of the field.\n"Ughhhhhhhh, criiiiiiiinnnnngggggeeeee. Baaaaaasssseeeddddddd. Duuuuuddee I loooooovvveeee braaiiiiiiinnnnnnnzzzzz", says Default Shambler, as he lurches toward an enemy Gaiaslimeoid. they\'re all like this. Copy and paste this for every single type of Shambler, you aren\'t missing much.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241123576807435/defaultshambler_gravestone.png',
-    enemy_type_bucketshambler: 'The KFC Bucket shambler is exactly the same as a Default Shambler, it just has more HP.\nShamblers don\'t need to eat regular food, but they sometimes do, just for the enjoyment of chowing down on some nice fast food. They tend to go overboard, however, frequently placing the entire KFC bucket over their head just to get the last few crumbs down their gullet. This is how every KFC Bucket shambler is born, as they are too stupid to figure out how to take it off.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241141293416568/kfcbucket_shambler.png',
-    enemy_type_juveolanternshambler: 'The Juve-O\'-Lantern shambler is exactly the same as a Default Shambler, it just has significantly more HP.\nThe Juve-O\'-Lantern is crafty, at least by Shambler standards. He has taken a product of the Garden Gankers and used it against them. This increase in defense compensates for the lack of vision it provides, but to be fair Shamblers don\'t really need to worry about that when their only concern is with moving forward in a straight line.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241134977056858/juveolanternshambler_gravestone.png',
-    enemy_type_flagshambler: 'The Flag Shambler is exactly the same as a Default Shambler in terms of health and damage output, but it has the unique ability of boosting the damage of all shamblers in its lane when it is present.\nThe Flag Shambler is one of the best units to have in a Graveyard Op, if only for his enthusiasm for the cause. He\'s gone as far as releasing his own album dedicated to Shambler pride, including sleeper hits such as "Amazing Brainz" and "Take Me Home, Shambler Road".\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241129260089374/flagshambler_gravestone.png',
-    enemy_type_shambonidriver: 'The Shamboni is a specialized unit, killing anything in its path and leaving behind a frozen slime trail, of which Gaiaslimeoids cannot be planted on. There\'s a catch, however: If it drives over Rustea Leaves or a primed Poketuber, it will not survive the attack and explode instantly.\nBeing turned into a Shambler has given the Shamboni Driver a new lease on life. In his past, he worked long hours with little pay, cleaning the Ice Rink over at Slime\'s End like any other wagecuck, but now he is a brave soldier in Dr. Downpour\'s army of the undead. Drive on, Shamboni. We believe in you.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241174197731389/shambonidriver_gravestone.png',
-    enemy_type_mammoshambler: 'The Mammoshambler is a Shambler Mammoslime. It may be slow, but it\'s tough as hell. It can slide on the frozen slime trail left behind by Shambonis to move as fast as a normal Shambler.\nMammoslimes were already bereft of any intelligent thoughts, but being turned into a Shambler has just made things worse. It will frequently be unable to tell friend from foe, and leave many ally Shamblers caught in the crossfire when it slams its massive tusks into the ground. Despite their massive size, they are terrified of Microshamblers.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241144229691463/mammoshambler_gravestone.png',
-    enemy_type_gigashambler: 'The Gigashambler is a powerful attacking unit. It is very slow, but can practically one-shot anything in its path once it lands a hit. It will toss a Microshambler off of its back when it is below half of its maximum health.\nThe Gigashambler is what every shambler aspires to be. When he enters the field, you will know. You won\'t just *see* him, you\'ll *sense* him and his chad-like presence. He\'ll make your heart rock. He\'ll make your dick rock. He\'ll make your ass fucking shake, bro.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241132112085123/gigashambler_gravestone.png',
-    enemy_type_microshambler: 'The Microshambler is a smaller version of the Default Shambler. He may not have much health, but he can be a vital distraction or even tear up the backlines of a Gaiaslimeoid defense if left unattended. One punch from a Pink Rowddish will send him flying.\nIf Microshambler could speak in complete sentences, he would probably say something like "Being small has its benefits. I may not be able to ride all the rollercoasters I want, but I\'m light enough for Big Bro to carry me on his back and give me a good view of the battlefield."For lack of a better word, he\'s the \'brainz\' of the Gigashambler/Microshambler tag team.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743259271298416640/microshambler_gravestone.png',
-    enemy_type_shamblersaurusrex: 'The Shamblersaurus Rex is a Shambler Slimeasaurus Rex. It is fairly bulky and can dish out reasonable damage, but the main draw is its mighty roar, which will stun all Gaiaslimeoids on the field for a brief time, once it reaches below half of its maximum health\n"A pitiable creature. It has the potential to be the king of this city, but it\'s held back by its lust for meat." comments Dr. Downpour. In an effort to maximize the potential of the Shamblersaurus Rex, he re-wired its brain and body to be an omnivore, setting it free to rampage onward towards Gaiaslimeoids and sate its hunger.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241168204333116/shamblersaurusrex_gravestone.png',
-    enemy_type_shamblerdactyl: 'The Shamblerdactyl is a Shambler Slimeadactyl. It will not attack in a conventional manner, instead opting to swoop down from the skies and snatch Gaiaslimeoids away from the field, effectively killing them instantly. Sour Potatoes can swallow them whole before it can have the chance to land this attack, however, and Phosphorpoppies will thwart their attacks outright if they are nearby a Shamblerdactyl.\nNo one knows where Shamblerdactyls take their victims after they are whisked away into the skies. Shambologists theorize that they are taken to somewhere in outskirts where their nest lies and newborn Shamblerdactyls are born and raised. At least, they would, if they weren\'t so wall-eyed and prone to crashing into things.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241161350709308/shamblerdactyl_gravestone.png',
-    enemy_type_dinoshambler: 'The Dinoshambler is a Shambler Dinoslime. It will not attack in a conventional manner, instead opting to jump over all Gaiaslimeoids in its path. This allows it to be a considerable threat against Garden Gankers who do not put a stop to its agile movements, either by catching it with a Sour Potato, slowing it down with a Dankwheat, or blocking it outright with an erect Suganmanut.\nThe Dinoshambler remains a carnivorous entity, less modified and altered compared to the Shamblersaurus Rex. They make use of their springy legs to leap over short distances, and seek out the mouth-watering Garden Gankers hiding behind the less-desireable leafy appendages of all Gaiaslimeoids. "Chew on this, you knock-off Secreature!", a gangster might say as they shoot down Dinoshamblers who prey on their Garden Ganker allies.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241126185795636/dinoshambler_gravestone.png',
-    enemy_type_ufoshambler: 'The UFO Shambler is a Shambler Unnerving Fighting Operator. It will not attack in a conventional manner, preferring to launch ranged attacks in the form of grenades. If a grenade lands nearby a Pink Rowddish, it will be thrown back, resulting in damage taken by the UFO Shambler. If a UFO Shambler runs out of grenades, or if all Gaiaslimeoids within its lane are taken out, it will then begin to move forward like any other shambler and instantly take out any Gaiaslimeoid it finds with a short-range blaster attack.\nOf all the modified Secreatures in Dr. Downpour\'s arsenal, this was by far the trickiest to overturn. Not only did it have to be genetically modified, but technologically modified as well. If all the right steps aren\'t properly taken, there\'s a chance they might be able to contact their homeworld, and god help us all if it comes to that.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241176811044965/ufoshambler_gravestone.png',
-    enemy_type_brawldenboomer: 'The Brawlden Boomer is a Shambler with slightly above-average defenses, as he is protected by his Boombox. Once the song on his boombox finishes playing, it will explode, damaging all nearby Gaiaslimeoids. If it is destroyed by Gaiaslimeoids before that point, then he will become enraged, gaining a significant boost to his offensive capabilities. Certain attacks will pierce through his boombox and deal damage to him directly, such as the globs of acid from Dire Apples, or the toxic vape from Killiflowers.\n"Music... they don\'t make it... like they used to...", says The Brawlden Boomer. You can\'t tell if turning into a Shambler caused him to look and act the way he does, or if he was already like this.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241120724811816/brawldenboomer_gravestone.png',
-    enemy_type_juvieshambler: 'The Juvie Shambler is a Shambler Juvie. What is less obvious, however, is their method of attack: They mine underground, circumventing all forms of Gaiaslimeoid defense, with the exception of primed Poketubers, which they will detonate upon digging underneath them. If the reach the back of the field, they will begin to walk towards their starting point, taking out Gaiaslimeoids from behind.\nJuvie Shamblers are as cowardly as they come, perhaps even more so than before they had been Shambled. The process of bicarbination has left them traumatized and unable to confront even the weakest of gangsters, instead opting to safely eliminate Gaiaslimeoids through careful navigation under their roots. Fucking pussies.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241138399608852/juvieshambler_gravestone.png',
-    enemy_type_shambleballplayer: 'The Shambleball Player is a bulkier version of the Default Shambler, with a unique ability: Any Gaiaslimeoid in their path will be kicked into the column behind them, provided that there is enough room. Their efforts to punt Razonuts will always end in failure, however, due to the sharpened edges puncturing straight through their cleats and damaging them instead. Sour Potatoes will also devour them before their kicks can go through.\nMany people in NLACakaNM, shamblers and non-shamblers alike, are under the impression that Shambeball is a real sport. This is a farce, however. Shambleball can be a fun pass time, but it lacks any notion of rules or formations. As a result, many Shambleball players are found to be wearing conflicting uniforms, be it those used for Soccer, Football, or Basketball. Many of them don\'t even know what game they\'re playing, but their single-digit-IQ allows them to enjoy it all the more.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743259662815592533/shambleballplayer_gravestone.png',
-    enemy_type_shamblerwarlord: 'The Shambler Warlord is a Shambler Desert Warlord. He is a fairly strong Shambler, and additionally, he will sometimes call in a handful of Shambler Raiders to surround him and protect him from enemy fire.\nThe Shambler Warlord willingly joined Dr. Downpour\'s forces, so as to get back at the residents of NLACakaNM, who continue to invade his outposts and slaughter his underlings. "Sure, braiiinz, whatever, I\'m just here to get the fucking job done", says Shambler Warlord.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241171219906621/shamblerwarlord_gravestone.png',
-    enemy_type_shamblerraider: 'The Shambler Raider is a Shambler Desert Raider. He is exactly the same as a Default Shambler, summoned whenever he is called upon by the Shambler Warlord.\n"N-no, it\'s not true!", Shambler Raider says, clutching his scythe. "I-I don\'t like gardening, this is just for combat!". We all know the truth though, Shambler Raider. You don\'t have to hide it.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241165436092476/shamblerraider_gravestone.png',
-    enemy_type_gvs_boss: 'The Blue Eyes Shambler Dragon is Dr. Downpour\'s personal weapon of mass destruction. It can deal massive damage with balls of fire, summon any type of Shambler, spit out a Bicarbonate Rain weather balloon that heals all Shamblers on the field, and fly into the air for brief periods of time, protecting it from almost all methods of attack from Gaiaslimeoids.\nThe Blue Eyes Shambler Dragon is the culmination of Dr. Downpour\'s research throughout his time spent at SlimeCorp. Every smidgen of anger and vengeance towards his former colleagues was poured into the creation of one disastrous half-monster half-machine that has the potential to turn cities to ash, and spread the Modelovirus like wildfire.\n"Call it whatever you want, The Rain, The Modelovirus. Only the right stuff survived that nightmare... It set me free. It opened my eyes to the future of the city, and what it takes to reach that future. Night Star sent us to hell, but we are going even deeper. I will wage war in order to end this war, once and for all." -Dr. Downpour\nhttps://cdn.discordapp.com/attachments/436013056233963520/728419713633484930/blue_eyes_shambler_dragon.png'
+    'defaultshambler': 'The Default Shambler is exactly what it sounds like. It has low defenses and low attack, and will slowly move towards the edge of the field.\n"Ughhhhhhhh, criiiiiiiinnnnngggggeeeee. Baaaaaasssseeeddddddd. Duuuuuddee I loooooovvveeee braaiiiiiiinnnnnnnzzzzz", says Default Shambler, as he lurches toward an enemy Gaiaslimeoid. they\'re all like this. Copy and paste this for every single type of Shambler, you aren\'t missing much.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241123576807435/defaultshambler_gravestone.png',
+    'bucketshambler': 'The KFC Bucket shambler is exactly the same as a Default Shambler, it just has more HP.\nShamblers don\'t need to eat regular food, but they sometimes do, just for the enjoyment of chowing down on some nice fast food. They tend to go overboard, however, frequently placing the entire KFC bucket over their head just to get the last few crumbs down their gullet. This is how every KFC Bucket shambler is born, as they are too stupid to figure out how to take it off.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241141293416568/kfcbucket_shambler.png',
+    'juveolanternshambler': 'The Juve-O\'-Lantern shambler is exactly the same as a Default Shambler, it just has significantly more HP.\nThe Juve-O\'-Lantern is crafty, at least by Shambler standards. He has taken a product of the Garden Gankers and used it against them. This increase in defense compensates for the lack of vision it provides, but to be fair Shamblers don\'t really need to worry about that when their only concern is with moving forward in a straight line.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241134977056858/juveolanternshambler_gravestone.png',
+    'flagshambler': 'The Flag Shambler is exactly the same as a Default Shambler in terms of health and damage output, but it has the unique ability of boosting the damage of all shamblers in its lane when it is present.\nThe Flag Shambler is one of the best units to have in a Graveyard Op, if only for his enthusiasm for the cause. He\'s gone as far as releasing his own album dedicated to Shambler pride, including sleeper hits such as "Amazing Brainz" and "Take Me Home, Shambler Road".\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241129260089374/flagshambler_gravestone.png',
+    'shambonidriver': 'The Shamboni is a specialized unit, killing anything in its path and leaving behind a frozen slime trail, of which Gaiaslimeoids cannot be planted on. There\'s a catch, however: If it drives over Rustea Leaves or a primed Poketuber, it will not survive the attack and explode instantly.\nBeing turned into a Shambler has given the Shamboni Driver a new lease on life. In his past, he worked long hours with little pay, cleaning the Ice Rink over at Slime\'s End like any other wagecuck, but now he is a brave soldier in Dr. Downpour\'s army of the undead. Drive on, Shamboni. We believe in you.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241174197731389/shambonidriver_gravestone.png',
+    'mammoshambler': 'The Mammoshambler is a Shambler Mammoslime. It may be slow, but it\'s tough as hell. It can slide on the frozen slime trail left behind by Shambonis to move as fast as a normal Shambler.\nMammoslimes were already bereft of any intelligent thoughts, but being turned into a Shambler has just made things worse. It will frequently be unable to tell friend from foe, and leave many ally Shamblers caught in the crossfire when it slams its massive tusks into the ground. Despite their massive size, they are terrified of Microshamblers.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241144229691463/mammoshambler_gravestone.png',
+    'gigashambler': 'The Gigashambler is a powerful attacking unit. It is very slow, but can practically one-shot anything in its path once it lands a hit. It will toss a Microshambler off of its back when it is below half of its maximum health.\nThe Gigashambler is what every shambler aspires to be. When he enters the field, you will know. You won\'t just *see* him, you\'ll *sense* him and his chad-like presence. He\'ll make your heart rock. He\'ll make your dick rock. He\'ll make your ass fucking shake, bro.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241132112085123/gigashambler_gravestone.png',
+    'microshambler': 'The Microshambler is a smaller version of the Default Shambler. He may not have much health, but he can be a vital distraction or even tear up the backlines of a Gaiaslimeoid defense if left unattended. One punch from a Pink Rowddish will send him flying.\nIf Microshambler could speak in complete sentences, he would probably say something like "Being small has its benefits. I may not be able to ride all the rollercoasters I want, but I\'m light enough for Big Bro to carry me on his back and give me a good view of the battlefield."For lack of a better word, he\'s the \'brainz\' of the Gigashambler/Microshambler tag team.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743259271298416640/microshambler_gravestone.png',
+    'shamblersaurusrex': 'The Shamblersaurus Rex is a Shambler Slimeasaurus Rex. It is fairly bulky and can dish out reasonable damage, but the main draw is its mighty roar, which will stun all Gaiaslimeoids on the field for a brief time, once it reaches below half of its maximum health\n"A pitiable creature. It has the potential to be the king of this city, but it\'s held back by its lust for meat." comments Dr. Downpour. In an effort to maximize the potential of the Shamblersaurus Rex, he re-wired its brain and body to be an omnivore, setting it free to rampage onward towards Gaiaslimeoids and sate its hunger.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241168204333116/shamblersaurusrex_gravestone.png',
+    'shamblerdactyl': 'The Shamblerdactyl is a Shambler Slimeadactyl. It will not attack in a conventional manner, instead opting to swoop down from the skies and snatch Gaiaslimeoids away from the field, effectively killing them instantly. Sour Potatoes can swallow them whole before it can have the chance to land this attack, however, and Phosphorpoppies will thwart their attacks outright if they are nearby a Shamblerdactyl.\nNo one knows where Shamblerdactyls take their victims after they are whisked away into the skies. Shambologists theorize that they are taken to somewhere in outskirts where their nest lies and newborn Shamblerdactyls are born and raised. At least, they would, if they weren\'t so wall-eyed and prone to crashing into things.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241161350709308/shamblerdactyl_gravestone.png',
+    'dinoshambler': 'The Dinoshambler is a Shambler Dinoslime. It will not attack in a conventional manner, instead opting to jump over all Gaiaslimeoids in its path. This allows it to be a considerable threat against Garden Gankers who do not put a stop to its agile movements, either by catching it with a Sour Potato, slowing it down with a Dankwheat, or blocking it outright with an erect Suganmanut.\nThe Dinoshambler remains a carnivorous entity, less modified and altered compared to the Shamblersaurus Rex. They make use of their springy legs to leap over short distances, and seek out the mouth-watering Garden Gankers hiding behind the less-desireable leafy appendages of all Gaiaslimeoids. "Chew on this, you knock-off Secreature!", a gangster might say as they shoot down Dinoshamblers who prey on their Garden Ganker allies.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241126185795636/dinoshambler_gravestone.png',
+    'ufoshambler': 'The UFO Shambler is a Shambler Unnerving Fighting Operator. It will not attack in a conventional manner, preferring to launch ranged attacks in the form of grenades. If a grenade lands nearby a Pink Rowddish, it will be thrown back, resulting in damage taken by the UFO Shambler. If a UFO Shambler runs out of grenades, or if all Gaiaslimeoids within its lane are taken out, it will then begin to move forward like any other shambler and instantly take out any Gaiaslimeoid it finds with a short-range blaster attack.\nOf all the modified Secreatures in Dr. Downpour\'s arsenal, this was by far the trickiest to overturn. Not only did it have to be genetically modified, but technologically modified as well. If all the right steps aren\'t properly taken, there\'s a chance they might be able to contact their homeworld, and god help us all if it comes to that.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241176811044965/ufoshambler_gravestone.png',
+    'brawldenboomer': 'The Brawlden Boomer is a Shambler with slightly above-average defenses, as he is protected by his Boombox. Once the song on his boombox finishes playing, it will explode, damaging all nearby Gaiaslimeoids. If it is destroyed by Gaiaslimeoids before that point, then he will become enraged, gaining a significant boost to his offensive capabilities. Certain attacks will pierce through his boombox and deal damage to him directly, such as the globs of acid from Dire Apples, or the toxic vape from Killiflowers.\n"Music... they don\'t make it... like they used to...", says The Brawlden Boomer. You can\'t tell if turning into a Shambler caused him to look and act the way he does, or if he was already like this.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241120724811816/brawldenboomer_gravestone.png',
+    'juvieshambler': 'The Juvie Shambler is a Shambler Juvie. What is less obvious, however, is their method of attack: They mine underground, circumventing all forms of Gaiaslimeoid defense, with the exception of primed Poketubers, which they will detonate upon digging underneath them. If the reach the back of the field, they will begin to walk towards their starting point, taking out Gaiaslimeoids from behind.\nJuvie Shamblers are as cowardly as they come, perhaps even more so than before they had been Shambled. The process of bicarbination has left them traumatized and unable to confront even the weakest of gangsters, instead opting to safely eliminate Gaiaslimeoids through careful navigation under their roots. Fucking pussies.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241138399608852/juvieshambler_gravestone.png',
+    'shambleballplayer': 'The Shambleball Player is a bulkier version of the Default Shambler, with a unique ability: Any Gaiaslimeoid in their path will be kicked into the column behind them, provided that there is enough room. Their efforts to punt Razonuts will always end in failure, however, due to the sharpened edges puncturing straight through their cleats and damaging them instead. Sour Potatoes will also devour them before their kicks can go through.\nMany people in NLACakaNM, shamblers and non-shamblers alike, are under the impression that Shambeball is a real sport. This is a farce, however. Shambleball can be a fun pass time, but it lacks any notion of rules or formations. As a result, many Shambleball players are found to be wearing conflicting uniforms, be it those used for Soccer, Football, or Basketball. Many of them don\'t even know what game they\'re playing, but their single-digit-IQ allows them to enjoy it all the more.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743259662815592533/shambleballplayer_gravestone.png',
+    'shamblerwarlord': 'The Shambler Warlord is a Shambler Desert Warlord. He is a fairly strong Shambler, and additionally, he will sometimes call in a handful of Shambler Raiders to surround him and protect him from enemy fire.\nThe Shambler Warlord willingly joined Dr. Downpour\'s forces, so as to get back at the residents of NLACakaNM, who continue to invade his outposts and slaughter his underlings. "Sure, braiiinz, whatever, I\'m just here to get the fucking job done", says Shambler Warlord.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241171219906621/shamblerwarlord_gravestone.png',
+    'shamblerraider': 'The Shambler Raider is a Shambler Desert Raider. He is exactly the same as a Default Shambler, summoned whenever he is called upon by the Shambler Warlord.\n"N-no, it\'s not true!", Shambler Raider says, clutching his scythe. "I-I don\'t like gardening, this is just for combat!". We all know the truth though, Shambler Raider. You don\'t have to hide it.\nhttps://cdn.discordapp.com/attachments/743240814250950678/743241165436092476/shamblerraider_gravestone.png',
+    'blueeyesshamblerdragon': 'The Blue Eyes Shambler Dragon is Dr. Downpour\'s personal weapon of mass destruction. It can deal massive damage with balls of fire, summon any type of Shambler, spit out a Bicarbonate Rain weather balloon that heals all Shamblers on the field, and fly into the air for brief periods of time, protecting it from almost all methods of attack from Gaiaslimeoids.\nThe Blue Eyes Shambler Dragon is the culmination of Dr. Downpour\'s research throughout his time spent at SlimeCorp. Every smidgen of anger and vengeance towards his former colleagues was poured into the creation of one disastrous half-monster half-machine that has the potential to turn cities to ash, and spread the Modelovirus like wildfire.\n"Call it whatever you want, The Rain, The Modelovirus. Only the right stuff survived that nightmare... It set me free. It opened my eyes to the future of the city, and what it takes to reach that future. Night Star sent us to hell, but we are going even deeper. I will wage war in order to end this war, once and for all." -Dr. Downpour\nhttps://cdn.discordapp.com/attachments/436013056233963520/728419713633484930/blue_eyes_shambler_dragon.png'
 }
 
 rain_protection = [
@@ -4608,7 +4349,6 @@ event_type_poudrinfrenzy = "poudrinfrenzy"
 event_type_minecollapse = "minecollapse"
 event_type_voidhole = "voidhole"
 event_type_voidconnection = "voidconnection"
-event_type_shambaquarium = "shambaquarium"
 event_type_marriageceremony = "marriageceremony"
 
 event_type_brickshit = "brickshit"
@@ -4629,85 +4369,6 @@ halloween_tricks_trickee = [
     "{} slams open the door and gives you a knuckle sandwich. You lose {} slime!",
     "{} hastily unlocks the door and throws a bicarbonate-soda-flavored pie in your face. You lose {} slime!",
     "{} just breaks down the door and starts stomping on your fucking groin. The extreme pain makes you lose {} slime!",
-]
-
-pray_responses_list = [
-    "ENDLESS WAR momentarily overwhelms all of your senses by telepathically communicating with you in his eldritch tongue.",
-    "ENDLESS WAR gazes up towards the stars, longingly.",
-    "ENDLESS WAR fondly regards the good ol’ days.",
-    "ENDLESS WAR urges you to collect more slime.",
-    "ENDLESS WAR hungers for more.",
-    "ENDLESS WAR commands you to kill thy neighbor.",
-    "ENDLESS WAR creates an overwhelming urge inside of you to kill everyone you know.",
-    "ENDLESS WAR helpfully reminds you that !harvest is not a valid text command.",
-    "ENDLESS WAR is a free text-based MMORPG playable entirely within a Discord server. But, you probably already knew that, didn't you?",
-]
-
-curator_insults = [
-    "LOPSIDED FISHWAGON",
-    "AUSTRIAN BREADMAGGOT",
-    "SNIPE",
-    "DENTED BINT",
-    "RATDROWNED GOON",
-    "DPICO WANNABE",
-    "FRENCHMAN",
-    "GUMBLETHROATED BITCH",
-    "YELLOW FEVER DESERVING CUM WAFER",
-    "FLESHLIGHT HAVER",
-    "VILLAGE IDIOT",
-    "PRAM BASED TOYTHROWER",
-    "DAMN DIRTY PINKO",
-    "LOVECRAFTIAN BONER",
-    "FRESHLY HARVESTED CUNTCORPSE",
-    "LIFELESS BRAINLESS VACUUM OF A HUMAN BEING",
-    "TODDLING SWADDLING MONGOLOID",
-    "ANCIENT GEAR SWALLOW'EM IN FELLATE POSITION",
-    "TONGUE TWISTED GORILLA PERSON",
-    "MUPPET BABY",
-    "PLACEMAT",
-    "MILE-HIGH SHITSTACK"
-
-]
-
-
-dance_responses = [
-    "{} busts a move. Wow, look at 'em go!",
-    "{} gets down and boogies! Groovy!",
-    "{} does a headstand and does a 720 degree spin!",
-    "{} starts flossing fast and hard!",
-    "{} does the Orange Justice, nailing each step flawlessly. Incredible!",
-    "{} cracks the whip! Watch them go at it!",
-    "{} performs the Nae Nae! https://en.wikipedia.org/wiki/Nae_Nae",
-    "{} does the Default Dance! You hear the familiar Fortnite jingle go off in your head.",
-    "{} gets down on the floor and does the worm! Their rhythm is off the charts!",
-    "{} spins around like a Laotian Toprock dancer! Whoa, be careful not to kick anyone, big guy!",
-    "{} does the monkey! Man, they're pretty!",
-    "{} does the charleston. What is this, the 20's? They do look kinda cool though...",
-    "{} starts breakdancing, Capoeira style! They almost knock someone's teeth out with their swift leg swings!",
-    "{} does a triple backflip! Hot diggedy!",
-    "{} performs a double Cartwheel! Not really a dance move, but we'll take it!",
-    "{} starts a Conga line! The party's over here!",
-    "{} does a moonwalk! They're smooth as heck!",
-    "{} does the robot! They manage to pull it off in a way that doesn't seem totally autistic!",
-    "{} does the carlton! It's anything BUT unusual!",
-    "{} starts tap dancing! They really start puttin' on the ritz for sure!",
-    "{} pumps their fist in the air over and over!",
-    "{} does a Flamenco dance! Their grace and elegance is unmatched!",
-    "{} walks like an Egyptian! Wow, racist much???",
-    "{} does an old-fashioned breakdance! Hot damn!",
-    "{} does the traditional Ukrainian Hopak! Their legs flail back and forth!",
-    "{} performs the Mannrobics taunt! They feel the burn!",
-    "{} gets the urge to !dab, but holds back with all their might.",
-    "{} gets the urge to !thrash, but holds back with all their might.",
-    "{} just kind of stands there, awkwardly. What did you expect?",
-    "{} makes a complete fool of themselves. Everyone gets secondhand embarrassment...",
-    "{} does the Renegade! https://www.youtube.com/watch?v=p8OctG2KWX0",
-    "{} does the Say So! https://www.youtube.com/watch?v=vXqcKCv8U78",
-    "{} does the Cannibal! https://www.youtube.com/watch?v=bn17Hr_EE9A",
-    "{} does the Good 4 U! https://www.youtube.com/watch?v=Zxcu_3hRq0E",
-    "{} does the Build a Bitch! https://www.youtube.com/watch?v=VIKktIQcx-A",
-    "{} does the Lock It! https://www.youtube.com/watch?v=0Mu9jJWx2Ts",
-    "{} does the WAP! https://www.youtube.com/watch?v=x69gQVuReVk"
 ]
 
 # links to SlimeCorp propaganda
@@ -4936,6 +4597,10 @@ captcha_dict = [
     'SLIMEXODIA', 'WEBBEDFEET', 'NOSEFERATU', 'BINGEEATER', 'TRASHMOUTH',
     'DIREAPPLES', 'BLACKLIMES', 'POKETUBERS', 'PULPGOURDS', 'ROWDDISHES',
     'DRAGONCLAW',
+    # 27
+    'STOPSCAVENGINGANDTOUCHGRASS', 'GETSERIOUSPSYCHOLOGICALHELP',
+    'FEELTHETOUCHOFAWOMANINSTEAD', 'THISISNTVERYIMPRESSIVECHUMP',
+    'YOUCOULDBEDOINGSOMUCHBETTER', 'GOGETAJOBINSTEADOFDOINGTHIS',
 ]
 
 riflecap = ['UP', 'DOWN', 'LEFT', 'RIGHT']
@@ -4958,6 +4623,7 @@ race_forbidden = 'forbidden'
 race_shambler = 'shambler'
 race_cyborg = 'cyborg'
 race_demon = 'demon'
+race_clown = 'clown'
 
 
 # define race info in one place
@@ -5046,13 +4712,6 @@ defined_races = {
         "racial_cmd": cmd_entomize,
         "soul_behavior":"is floating around in a weird loop."
     },
-    race_other: {
-        "race_prefix": "peculiar ",
-        "race_suffix": "",
-        "acknowledgement_str": 'ENDLESS WAR struggles to categorize you, and files you under "other". Your peculiar form can be used to **{cmd}** those around you.',
-        "racial_cmd": cmd_confuse,
-        "soul_behavior":"rattles seductively through the glass."
-    },
     race_shambler: {
         "race_prefix": "",
         "race_suffix": "",
@@ -5079,7 +4738,21 @@ defined_races = {
         "acknowledgement_str": "ENDLESS WAR acknowledges you as the hellspawn you are. You can now **{cmd}**. ",
         "racial_cmd": cmd_strike_deal,
         "soul_behavior":"has established dominance in here."
-    }
+    },
+        race_clown: {
+        "race_prefix": "goofy ",
+        "race_suffix": "",
+        "acknowledgement_str": "ENDLESS WAR somewhat irritatedly acknowledges you as the lowest common denominator of the entertainment industry. You can now **{cmd}**. Congrats, dipshit.",
+        "racial_cmd": cmd_honk,
+        "soul_behavior":"is bothering bystanders with its various goofs and gaffes."
+    },
+    race_other: {  # Keep this one at the end, or else
+        "race_prefix": "peculiar ",
+        "race_suffix": "",
+        "acknowledgement_str": 'ENDLESS WAR struggles to categorize you, and files you under "other". Your peculiar form can be used to **{cmd}** those around you.',
+        "racial_cmd": cmd_confuse,
+        "soul_behavior":"rattles seductively through the glass."
+    },
 }
 
 # slime twitter stuff
@@ -5173,4 +4846,3 @@ cmd_debug6 = None
 cmd_debug7 = None
 cmd_debug8 = None
 cmd_debug9 = None
-

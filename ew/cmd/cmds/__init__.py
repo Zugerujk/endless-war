@@ -15,6 +15,7 @@ cmd_map = {
     # Show a player's mutations.
     ewcfg.cmd_mutations: cmdcmds.mutations,
     ewcfg.cmd_mutations_alt_1: cmdcmds.mutations,
+    ewcfg.cmd_mutations_alt_2: cmdcmds.mutations,
 
     # Check how hungry you are.
     ewcfg.cmd_hunger: cmdcmds.hunger,
@@ -42,6 +43,8 @@ cmd_map = {
 
     # Bass weilders can jam out
     ewcfg.cmd_jam: cmdcmds.jam,
+    ewcfg.cmd_stunt: cmdcmds.stunt,
+    ewcfg.cmd_stuntalt1: cmdcmds.stunt,
 
     # Show the total of positive slime in the world.
     ewcfg.cmd_endlesswar: cmdcmds.endlesswar,
@@ -214,9 +217,6 @@ dm_cmd_map = {
     ewcfg.cmd_commands_alt1: cmdcmds.commands,
     ewcfg.cmd_commands: cmdcmds.commands,
 
-    # For GVS
-    # ewcfg.cmd_gvs_grabbrainz: cmds.gvs_grabbrainz,
-
 }
 
 apt_dm_cmd_map = {
@@ -245,6 +245,7 @@ apt_dm_cmd_map = {
 
     # !wiki
     ewcfg.cmd_wiki: cmdcmds.wiki,
+
 
     # !unsalute
     ewcfg.cmd_unsalute: cmdcmds.unsalute,

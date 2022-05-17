@@ -59,7 +59,9 @@ def item_dropsome(id_server = None, id_user = None, item_type_filter = None, fra
         for item in drop_candidates:
             cosmetic_id = item.get('id_item')
             cosmetic_item = EwItem(id_item=cosmetic_id)
-            if cosmetic_item.item_props.get('adorned') != "true" and cosmetic_item.item_props.get('slimeoid') != "true":
+            if cosmetic_item.item_props.get('id_cosmetic') == "dogtag": # Dog Tags always drop on death
+                end_drops.append(item.get('id_item'))
+            elif cosmetic_item.item_props.get('adorned') != "true" and cosmetic_item.item_props.get('slimeoid') != "true":
                 filtered_items.append(item)
 
     if item_type_filter == ewcfg.it_weapon:
@@ -171,7 +173,7 @@ def get_cosmetic_abilities(id_user, id_server):
     return active_abilities
 
 
-def get_outfit_info(id_user, id_server, wanted_info = None):
+def get_outfit_info(id_user, id_server, wanted_info = None, slimeoid = False):
     cosmetic_items = bknd_item.inventory(
         id_user=id_user,
         id_server=id_server,
@@ -192,17 +194,30 @@ def get_outfit_info(id_user, id_server, wanted_info = None):
     for cosmetic in cosmetic_items:
         item_props = cosmetic.get('item_props')
 
-        if item_props['adorned'] == 'true':
-            adorned_styles.append(item_props.get('fashion_style'))
+        if slimeoid == False:
+            if item_props['adorned'] == 'true':
+                adorned_styles.append(item_props.get('fashion_style'))
 
-            hue = hue_static.hue_map.get(item_props.get('hue'))
-            adorned_hues.append(item_props.get('hue'))
+                hue = hue_static.hue_map.get(item_props.get('hue'))
+                adorned_hues.append(item_props.get('hue'))
 
-            if item_props['id_cosmetic'] not in adorned_ids:
-                total_freshness += int(item_props.get('freshness'))
+                if item_props['id_cosmetic'] not in adorned_ids:
+                    total_freshness += int(item_props.get('freshness'))
 
-            adorned_ids.append(item_props['id_cosmetic'])
-            adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                adorned_ids.append(item_props['id_cosmetic'])
+                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+        else:
+            if item_props.get('slimeoid') == 'true':
+                adorned_styles.append(item_props.get('fashion_style'))
+
+                hue = hue_static.hue_map.get(item_props.get('hue'))
+                adorned_hues.append(item_props.get('hue'))
+
+                if item_props['id_cosmetic'] not in adorned_ids:
+                    total_freshness += int(item_props.get('freshness'))
+
+                adorned_ids.append(item_props['id_cosmetic'])
+                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
 
     if len(adorned_cosmetics) != 0:
         # Assess if there's a cohesive style
@@ -341,16 +356,6 @@ def gen_item_props(item):
             item_props["trap_user_id"] = item.trap_user_id
             # Some prank items have nifty side effects
             item_props["side_effect"] = item.side_effect
-        if item.context == ewcfg.context_seedpacket:
-            item_props["cooldown"] = item.cooldown
-            item_props["cost"] = item.cost
-            item_props["time_nextuse"] = item.time_nextuse
-            item_props["enemytype"] = item.enemytype
-        if item.context == ewcfg.context_tombstone:
-            item_props["brainpower"] = item.brainpower
-            item_props["cost"] = item.cost
-            item_props["stock"] = item.stock
-            item_props["enemytype"] = item.enemytype
 
         try:
             item_props["durability"] = item.durability
@@ -782,7 +787,7 @@ def cull_slime_sea(
                         to_delete.append(seaitem.get('id_item'))
                     elif seaitem.get('item_type') == ewcfg.it_item:
                         item_obj = EwItem(seaitem.get('id_item'))
-                        if item_obj.item_props.get('context') in ['prankitem', ewcfg.context_seedpacket, ewcfg.context_tombstone, ewcfg.context_wrappingpaper, 'batterypack', 'player_bone', 'prankcapsule', 'dye', 'poudrin'] or item_obj.item_props.get('id_item') in ewcfg.slimesea_disposables:
+                        if item_obj.item_props.get('context') in ['prankitem', ewcfg.context_wrappingpaper, 'batterypack', 'player_bone', 'prankcapsule', 'dye', 'poudrin'] or item_obj.item_props.get('id_item') in ewcfg.slimesea_disposables:
                             to_delete.append(seaitem.get('id_item'))
                         else:
                             sea_size += 1
