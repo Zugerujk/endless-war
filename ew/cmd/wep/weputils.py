@@ -12,6 +12,7 @@ from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import slimeoid as sl_static
 from ew.static import weapons as static_weapons
+from ew.static import hunting as static_hunt
 from ew.utils import combat as cmbt_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
@@ -853,7 +854,7 @@ async def attackEnemy(cmd):
     slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
     slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-    if sandbag_mode:
+    if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects():
         slimes_drained = 0
         slimes_tobleed = 0
         # slimes_directdamage = 0
@@ -889,6 +890,9 @@ async def attackEnemy(cmd):
             slimeoid_dmg = static_weapons.slimeoid_dmg_text.get(slimeoid.weapon)
 
     if was_killed:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+            npc_obj = static_hunt.active_npcs_map.get(enemy_data.enemyclass)
+            await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
         # adjust statistics
         ewstats.increment_stat(user=user_data, metric=ewcfg.stat_pve_kills)
         ewstats.track_maximum(user=user_data, metric=ewcfg.stat_biggest_kill, value=int(slimes_dropped))
@@ -914,7 +918,7 @@ async def attackEnemy(cmd):
         slimes_todistrict = enemy_data.slimes / 2
         slimes_tokiller = enemy_data.slimes / 2
 
-        if sandbag_mode:
+        if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects():
             slimes_todistrict = 0
             slimes_tokiller = 0
 
@@ -999,6 +1003,9 @@ async def attackEnemy(cmd):
 
         user_data = EwUser(member=cmd.message.author)
     else:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+            npc_obj = static_hunt.active_npcs_map.get(enemy_data.enemyclass)
+            await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel)
         # A non-lethal blow!
         if weapon != None:
             if miss:

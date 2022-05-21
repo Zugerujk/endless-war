@@ -373,15 +373,30 @@ enemy_attack_type_list = [
 npc_list = [
     EwNpc(
         id_npc="thedrinkster",  # unique id for each npc
-        active = True,  # whether an npc spawns
+        active = False,  # whether an npc spawns
         str_name = "The Drinkster",  # Name of the NPC
-        poi_list = [ewcfg.poi_id_711],  # list of locations an NPC roams in
+        poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley],  # list of locations an NPC roams in
         dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"]},  # list of dialogue an npc can use
         func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
         image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
         rewards = ["bluedrink"]
+    ),
+EwNpc(
+        id_npc="thehostiledrinkster",  # unique id for each npc
+        active = True,  # whether an npc spawns
+        str_name = "The Hostile Drinkster",  # Name of the NPC
+        poi_list = [ewcfg.poi_id_downtown],  # list of locations an NPC roams in
+        dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"],
+                    "hit":["FUCK YOU YOU MADE ME SPILL MY DRINK!"],
+                    "dead": ["OH SHIT"]},  # list of dialogue an npc can use
+        func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
+        image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
+        defaultslime = 200,
+        defaultlevel = 1,
+        rewards = ["bluedrink"],
+        starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id]
     )
 
 ]

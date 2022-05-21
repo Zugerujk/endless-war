@@ -252,6 +252,20 @@ status_effect_list = [
         str_acquire="You spray yourself with Kinkfish pheromones.",
         str_describe="They smell horrible, but strangely... alluring?",
         str_describe_self="You smell horrible, but strangely... alluring?"
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_barren_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They don't have slime on them.",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_hostile_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Oh shit, they're hostile!",
+        str_describe_self=""
     )
 ]
 

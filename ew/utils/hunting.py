@@ -40,6 +40,8 @@ def gen_npc(enemy):
         enemy.level = chosen_npc.defaultlevel
         enemy.poi = random.choice(chosen_npc.poi_list)
         enemy.enemyclass = chosen_npc.id_npc
+        for status in chosen_npc.starting_statuses:
+            enemy.applyStatus(id_status=status)
         return enemy
     else:
         return enemy

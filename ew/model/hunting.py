@@ -121,11 +121,13 @@ class EwNpc:
 
     id_profile = "" #image link to add to dialogue embeds
 
-    defaultslime = ""
+    defaultslime = "" #how much slime they have
 
-    defaultlevel = ""
+    defaultlevel = "" #default level
 
-    rewards = []
+    rewards = [], #what you get for killing them
+
+    starting_statuses = [] #initial enemy status conditions
     
     def __init__(
         self,
@@ -138,7 +140,8 @@ class EwNpc:
         image_profile = "",
         defaultslime = "",
         defaultlevel = "",
-        rewards = []
+        rewards = [],
+        starting_statuses = []
     ):
         self.id_npc = id_npc
         self.active = active
@@ -150,3 +153,4 @@ class EwNpc:
         self.defaultslime = defaultslime
         self.defaultlevel = defaultlevel
         self.rewards = rewards
+        self.starting_statuses = starting_statuses
