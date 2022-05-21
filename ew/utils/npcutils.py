@@ -16,9 +16,8 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None):
 async def generic_talk(channel, npc_obj):
 
     response = random.choice(npc_obj.dialogue.get('talk'))
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
-
-    return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+    return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
 
 async def generic_move(enemy = None):
     if enemy.life_state == ewcfg.enemy_lifestate_alive:

@@ -316,8 +316,8 @@ async def send_message(client, channel, text = None, embed = None, delete_after 
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise
-    except:
-        ewutils.logMsg('Failed to send message to channel: {}\n{}'.format(channel, text))
+    except Exception as e:
+        ewutils.logMsg('Failed to send message to channel: {}\n{}:{}'.format(channel, text, e))
 
 
 """ Simpler to use version of send_message that formats message by default """
@@ -645,7 +645,7 @@ async def get_member(guild, member_id):
 async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None):
     bubble = discord.Embed()
     client = ewutils.get_client()
-
+    print("here?")
     if name != "" and channel is not None:
         if npc_obj == None:
             bubble.description = name

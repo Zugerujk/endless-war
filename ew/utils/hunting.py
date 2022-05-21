@@ -9,6 +9,9 @@ from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 from ..static import hunting as hunting_static
+import ew.backend.core as bknd_core
+import ew.utils.core as ewutils
+from ew.utils import frontend as fe_utils
 
 def gen_npc(enemy):
 
@@ -16,7 +19,7 @@ def gen_npc(enemy):
     chosen_npc = None
 
     while loop_count < 1000:
-        chosen_npc = random.choice(hunting_static.active_npcs_map.values())
+        chosen_npc = random.choice(list(hunting_static.active_npcs_map.values()))
         enemydata = bknd_core.execute_sql_query(
                 "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
                     id_enemy=ewcfg.col_id_enemy,
@@ -200,13 +203,16 @@ def spawn_enemy(
         enemy.enemy_props = props if pre_chosen_props is None else pre_chosen_props
 
         enemy.persist()
-        if enemy.enemytype == 'npc':
-            chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
-            ch_name = poi_static.id_to_poi.get(enemy.poi).channel
-            client = ewutils.get_client()
-            server = client.get_guild(id_server)
-            channel = fe_utils.get_channel(server=server, channel_name=ch_name)
-            await chosen_npc.func_ai(keyword='spawn', channel=channel, enemy=enemy)
+        #if enemy.enemytype == 'npc':
+            #chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
+            #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+            #client = ewutils.get_client()
+            #server = client.get_guild(id_server)
+            #channel = fe_utils.get_channel(server=server, channel_name=ch_name)
+            #try:
+            #    await chosen_npc.func_ai(keyword='spawn', channel=channel, enemy=enemy)
+            #except Exception as e:
+            #    ewutils.logMsg("Unable to find awaitable NPC function. Error:{}".format(e))
 
 
 

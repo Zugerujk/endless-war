@@ -3,7 +3,7 @@ import random
 from . import cfg as ewcfg
 from ..model.hunting import EwAttackType
 from ..model.hunting import EwNpc
-
+from ew.utils import npcutils
 
 # Attacking type effects
 def atf_fangs(ctn = None):
@@ -377,8 +377,8 @@ npc_list = [
         str_name = "The Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_711],  # list of locations an NPC roams in
         dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"]},  # list of dialogue an npc can use
-        func_ai = None,  # function the enemy's AI uses
-        image_profile = "",  # image link to add to dialogue embeds
+        func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
+        image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
         rewards = ["bluedrink"]
