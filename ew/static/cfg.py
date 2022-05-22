@@ -4256,7 +4256,7 @@ enemy_data_table = {
     },
     enemy_type_npc: {
         "slimerange": [100000, 100000],
-        "ai": enemy_ai_defender,
+        "ai": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_amateur,
         "displayname": "NPC",
         "raredisplayname": "NPC Template",

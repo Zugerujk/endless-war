@@ -1232,7 +1232,11 @@ def drop_enemy_loot(enemy_data, district_data):
     drop_range = None
 
     has_dropped_item = False
-    drop_table = ewcfg.enemy_drop_tables[enemy_data.enemytype]
+    if enemy_data.enemytype == 'npc':
+        chosen_npc = hunt_static.active_npcs_map.get(enemy_data.enemyclass)
+        drop_table = chosen_npc.rewards
+    else:
+        drop_table = ewcfg.enemy_drop_tables[enemy_data.enemytype]
 
     for drop_data_set in drop_table:
         value = None

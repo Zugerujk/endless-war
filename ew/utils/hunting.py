@@ -5,11 +5,14 @@ from . import slimeoid as slimeoid_utils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from ..backend.hunting import EwEnemyBase as EwEnemy
+#from ew.utils.combat import EwEnemy as EwEnemyWrapper
 from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 from ..static import hunting as hunting_static
+from ..static import status as se_static
 import ew.backend.core as bknd_core
+from ..backend.status import EwEnemyStatusEffect
 import ew.utils.core as ewutils
 from ew.utils import frontend as fe_utils
 
@@ -40,8 +43,7 @@ def gen_npc(enemy):
         enemy.level = chosen_npc.defaultlevel
         enemy.poi = random.choice(chosen_npc.poi_list)
         enemy.enemyclass = chosen_npc.id_npc
-        for status in chosen_npc.starting_statuses:
-            enemy.applyStatus(id_status=status)
+
         return enemy
     else:
         return enemy
@@ -205,8 +207,16 @@ def spawn_enemy(
         enemy.enemy_props = props if pre_chosen_props is None else pre_chosen_props
 
         enemy.persist()
-        #if enemy.enemytype == 'npc':
-            #chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
+        if enemy.enemytype == 'npc':
+            chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
+            for status in chosen_npc.starting_statuses:
+                status_obj = se_static.status_effects_def_map.get(status)
+                time_expire = status_obj.time_expire
+                if status_obj != None:
+                    status_effect = EwEnemyStatusEffect(id_status=status, enemy_data=enemy, time_expire=time_expire, value=0, source="", id_target=-1)
+                    status_effect.persist()
+
+
             #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
             #client = ewutils.get_client()
             #server = client.get_guild(id_server)

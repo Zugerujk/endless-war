@@ -369,6 +369,7 @@ enemy_attack_type_list = [
     ),
 ]
 
+#Values are sorted by the chance to the drop an item, and then the minimum and maximum amount of times to drop that item.
 
 npc_list = [
     EwNpc(
@@ -381,7 +382,11 @@ npc_list = [
         image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
-        rewards = ["bluedrink"]
+        rewards = [
+        {ewcfg.item_id_slimepoudrin: [75, 5, 6]},
+        {ewcfg.rarity_patrician: [20, 1, 1]},
+        {ewcfg.item_id_monsterbones: [100, 1, 3]},
+        ]
     ),
 EwNpc(
         id_npc="thehostiledrinkster",  # unique id for each npc
@@ -390,15 +395,18 @@ EwNpc(
         poi_list = [ewcfg.poi_id_downtown],  # list of locations an NPC roams in
         dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"],
                     "hit":["FUCK YOU YOU MADE ME SPILL MY DRINK!"],
-                    "dead": ["OH SHIT"]},  # list of dialogue an npc can use
+                    "die": ["OH SHIT"]},  # list of dialogue an npc can use
         func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
         image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
-        rewards = ["bluedrink"],
+        rewards = [
+        {ewcfg.item_id_slimepoudrin: [75, 5, 6]},
+        {ewcfg.rarity_patrician: [20, 1, 1]},
+        {ewcfg.item_id_monsterbones: [100, 1, 3]},
+        ],
         starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id]
     )
-
 ]
 
 active_npcs_map = {}
