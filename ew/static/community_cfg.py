@@ -278,3 +278,9 @@ dance_responses = [
     "{} revives the dancing plague! A certified hood classic!",
     "{} does the 2 step! Such a complicated process!"
 ]
+
+revolver_executions = [
+"{name_player} steadies their aim… **BANG!!** {name_target}'s head pops from a well placed bullet. {emote_skull}",
+"{name_player} blows out {name_target}'s leg with a high caliber shot. {name_target} tries to crawl away but gets stomped out. {emote_skull}",
+"{name_player} is fanning the hammer! {name_target} catches the brunt of the bullets in their vital organs. {emote_skull}",
+]
