@@ -3,7 +3,10 @@ import time
 from . import core as ewutils
 from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
-
+try:
+    from ew.utils import rutils
+except:
+    from ew.utils import rutils_dummy as rutils
 
 def get_move_speed(user_data):
     time_now = int(time.time())
@@ -25,6 +28,8 @@ def get_move_speed(user_data):
 
     if user_data.life_state == ewcfg.life_state_corpse and ewcfg.dh_active:
         move_speed *= 2
+
+    move_speed *= rutils.debug26(id_server=user_data.id_server)
 
     move_speed = max(0.1, move_speed)
     if ewutils.DEBUG == True:

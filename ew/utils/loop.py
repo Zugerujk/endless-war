@@ -45,7 +45,10 @@ from ..static.food import swilldermuk_food
 from ..static import poi as poi_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
-
+try:
+    from ..utils import rutils
+except:
+    from ..utils import rutils_dummy as rutils
 
 async def event_tick_loop(id_server):
     # initialise void connections
@@ -1334,6 +1337,8 @@ async def clock_tick_loop(id_server = None, force_active = False):
                     ewutils.logMsg("Kicking AFK players...")
                     await move_utils.kick(id_server)  
 
+                    await rutils.debug25(id_server=id_server)
+
                     sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
 
                     if market_data.clock == 6 or force_active:
@@ -1344,7 +1349,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                         
                         await market_utils.refresh_bazaar(id_server)
                         ewutils.logMsg("...finished bazaar refresh.")
-                        
+
                         await leaderboard_utils.post_leaderboards(client=client, server=server)
 
                         ewutils.logMsg("Releasing timed prisoners...")

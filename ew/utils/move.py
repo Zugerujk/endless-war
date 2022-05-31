@@ -582,6 +582,8 @@ async def send_gangbase_messages(server_id, clock):
                 response = "**DRAW!!!!**"
             await fe_utils.send_message(client, dueling_channel, response)
 
+
+
 """
     Find the cost to move through ortho-adjacent cells.
 """

@@ -2270,6 +2270,7 @@ col_empowered = "empowered"
 # Gamestate columns
 col_bit = "state_bit"
 col_id_state = "id_state"
+col_number = "number"
 
 # SWILLDERMUK
 col_id_user_pranker = 'id_user_pranker'
