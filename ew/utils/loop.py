@@ -1337,7 +1337,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                     ewutils.logMsg("Kicking AFK players...")
                     await move_utils.kick(id_server)  
 
-                    await rutils.debug25(id_server=id_server)
+                    await rutils.debug255(id_server=id_server)
 
                     sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
 
