@@ -456,8 +456,6 @@ def canAttack(cmd):
         response = "You've run out of ammo and need to {}!".format(ewcfg.cmd_reload)
     elif weapon.cooldown + (float(weapon_item.item_props.get("time_lastattack")) if weapon_item.item_props.get("time_lastattack") != None else 0) > time_now_float:
         response = "Your {weapon_name} isn't ready for another attack yet!".format(weapon_name=weapon.id_weapon)
-    elif poi.id_poi == 'hangemsquare' and market.clock != 12:
-        response = "It's not noon yet. Everything in its own time."
     elif (ewcfg.weapon_class_captcha in weapon.classes and captcha not in [None, ""] and captcha.lower() not in tokens_lower) or code_count > 1:
         if (ewcfg.weapon_class_burning in weapon.classes or ewcfg.weapon_class_exploding in weapon.classes):
             slime_backfired = int(user_data.slimes * (0.1 + random.random() / 20))
@@ -530,7 +528,8 @@ def canAttack(cmd):
         if shootee_data.life_state == ewcfg.life_state_kingpin:
             # Disallow killing generals.
             response = "He is hiding in his ivory tower and playing video games like a retard."
-
+        elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()):
+            response = "It's not noon yet. Everything in its own time."
         elif (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
             response = "Take a moment to appreciate your last slaughter."

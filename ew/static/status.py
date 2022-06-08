@@ -266,6 +266,20 @@ status_effect_list = [
         str_acquire="",
         str_describe="Oh shit, they're hostile!",
         str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_hostile_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Oh shit, they're hostile!",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_dueling,
+        time_expire=300,
+        str_acquire="",
+        str_describe="They're squared up for a duel...",
+        str_describe_self="You're squared up for a duel..."
     )
 ]
 

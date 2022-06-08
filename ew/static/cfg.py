@@ -3378,6 +3378,7 @@ status_kevlarattire_id = "kevlarattire"
 status_hogtied_id = "hogtied"
 
 status_pheromones_id = "pheromones"
+status_dueling = "dueling"
 
 time_expire_burn = 12
 time_expire_high = 30 * 60  # 30 minutes
