@@ -1440,12 +1440,17 @@ async def recycle(cmd):
                     response = "Woah, wow, hold on there! Domestic violence is one thing, but how could you just throw your faithful {} into a glorified incinerator? Look, we all have bad days, but that's no way to treat a weapon. At least get a proper divorce first, you animal.".format(weapon.str_weapon)
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
-                    user_data.weapon = -1
-                    user_data.persist()
-            elif item.item_type == ewcfg.it_weapon and user_data.sidearm >= 0 and item.id_item == user_data.sidearm:
-                user_data.sidearm = -1
-                user_data.persist()
+                    #user_data.weapon = -1
+                    #user_data.persist()
+                    response = "Your hard-bitten criminal instincts prevent you from loosening grip on your weapon. Unequip it before trying to recycle it."
+                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+            elif item.item_type == ewcfg.it_weapon and user_data.sidearm >= 0 and item.id_item == user_data.sidearm:
+                #user_data.sidearm = -1
+                #user_data.persist()
+                weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
+                response = "Your hard-bitten criminal instincts prevent you from relaxing your ass cheeks, and you can't get {} out of your back pocket. Get it out of your sidearm slot!".format(weapon.str_weapon)
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             #elif item.item_type == ewcfg.it_relic: i need to learn to let things go and adapt.
             #    relic_mapped = rstatic.relic_map.get(item.item_props.get('id_relic'))
