@@ -161,7 +161,7 @@ poi_id_clinicofslimoplasty = "clinicofslimoplasty"
 poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
-
+poi_id_greenroom = "greenroom"
 poi_id_themoon = "themoon"
 
 # transports

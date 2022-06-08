@@ -386,7 +386,9 @@ async def updateRoles(
         ewcfg.poi_id_mine_bubble,
         ewcfg.poi_id_mine_sweeper,
         ewcfg.poi_id_juviesrow_pier,
-        ewcfg.poi_id_jr_farms
+        ewcfg.poi_id_jr_farms,
+        ewcfg.poi_id_thesphere,
+        ewcfg.poi_id_greenroom
     ]
 
     pvp_role = None
