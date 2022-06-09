@@ -131,12 +131,12 @@ class EwResponseContainer:
         self.client = ewutils.get_client()
         messages = []
 
-        if self.client == None:
+        if self.client is None:
             ewutils.logMsg("Couldn't find client")
             return messages
 
         server = self.client.get_guild(int(self.id_server))
-        if server == None:
+        if server is None:
             ewutils.logMsg("Couldn't find server with id {}".format(self.id_server))
             return messages
 
@@ -155,29 +155,23 @@ class EwResponseContainer:
                     if len(self.channel_responses[ch][0]) > ewcfg.discord_message_length_limit:
                         response += "\n" + self.channel_responses[ch].pop(0)
                         length = len(response)
-                        #client, channel, text = None, embed = None, delete_after = None, filter_everyone = True
                         split_list = [(response[i:i + 2000]) for i in range(0, length, 2000)]
                         for blurb in split_list:
                             message = await send_message(client = self.client, channel=current_channel, text = blurb, delete_after=delete_after)
-                            messages.append(message)
+                            if message:
+                                messages.append(message)
                         response = ""
                     elif len(response) == 0 or len("{}\n{}".format(response, self.channel_responses[ch][0])) < ewcfg.discord_message_length_limit:
                         response += "\n" + self.channel_responses[ch].pop(0)
                     else:
                         message = await send_message(client = self.client, channel=current_channel, text =response, delete_after=delete_after)
-                        messages.append(message)
+                        if message:
+                            messages.append(message)
                         response = ""
                 message = await send_message(client = self.client, channel=current_channel, text = response, delete_after=delete_after)
                 messages.append(message)
-            except:
-                ewutils.logMsg('Failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
-
-        # for ch in self.channel_topics:
-        # 	channel = get_channel(server = server, channel_name = ch)
-        # 	try:
-        # 		await channel.edit(topic = self.channel_topics[ch])
-        # 	except:
-        # 		ewutils.logMsg('Failed to set channel topic for {} to {}'.format(ch, self.channel_topics[ch]))
+            except Exception as e:
+                ewutils.logMsg('Resp cont failed to send message to channel {}: {}\n{}'.format(ch, self.channel_responses[ch], e))
 
         return messages
 
@@ -222,26 +216,27 @@ def readMessage(fname):
     return msg
 
 
-""" format responses with the username: """
+
 
 
 def formatMessage(user_target, message):
-    # If the display name belongs to an unactivated raid boss, hide its name while it's counting down.
+    """ Format responses with the target's display name, e.g. Dev: You have 69 slime.
+        - user_target needs to be either an EwEnemy or a discord Member/EwPlayer
+    """
 
-    try:
+    if hasattr(user_target, "id_enemy"):
         if user_target.life_state == ewcfg.enemy_lifestate_alive:
-                # Send messages for normal enemies, and allow mentioning with @
-                if user_target.identifier != '':
-                    return "*{} [{}]* {}".format(user_target.display_name, user_target.identifier, message)
-                else:
-                    return "*{}:* {}".format(user_target.display_name, message)
-
-
+            # Send messages for normal enemies, and allow mentioning with @
+            if user_target.identifier != '':
+                return "*{} [{}]* {}".format(user_target.display_name, user_target.identifier, message)
+            else:
+                return "*{}:* {}".format(user_target.display_name, message)
+        # If the display name belongs to an unactivated raid boss, hide its name while it's counting down.
         elif user_target.display_name in ewcfg.raid_boss_names and user_target.life_state == ewcfg.enemy_lifestate_unactivated:
             return "{}".format(message)
 
     # If user_target isn't an enemy, catch the exception.
-    except:
+    else:
         if hasattr(user_target, "id_user") and hasattr(user_target, "id_server"):
             user_obj = EwUser(id_server=user_target.id_server, id_user=user_target.id_user)
         else:
@@ -330,28 +325,26 @@ async def post_in_hideouts(id_server, message):
     )
 
 
-"""
-	Proxy to discord.py channel.send with exception handling.
-"""
-
-
-async def send_message(client, channel, text = None, embed = None, delete_after = None, filter_everyone = True):
+async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True):
+    """
+        Proxy to discord.py channel.send with exception handling
+        - channel is a discord Channel
+    """
     # catch any future @everyone exploits
     if filter_everyone and text is not None:
         text = text.replace("@everyone", "{at}everyone")
 
     try:
-        if text is not None:
+        # Whitespace messages will always fail to send, don't clutter the log
+        if text or not text.isspace():
             return await channel.send(content=text, delete_after=delete_after)
         if embed is not None:
             return await channel.send(embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise
-    except:
-        # Whitespace messages will always fail to send, don't clutter the log
-        if not text.isspace():
-            ewutils.logMsg('frontend send_message Failed to send message to channel: {}\n{}'.format(channel, text))
+    except Exception as e:
+        ewutils.logMsg('Send message failed to send message to channel: {}\n{}: {}'.format(channel, text, e))
 
 
 """ Simpler to use version of send_message that formats message by default """
@@ -361,18 +354,18 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
     user_data = EwUser(member=cmd.message.author)
     user_mutations = user_data.get_mutations()
 
-    if cmd == None and channel == None:
+    if cmd is None and channel is None:
         raise Exception("No channel to send message to")
 
-    if channel == None:
+    if channel is None:
         channel = cmd.message.channel
 
-    if name == None and cmd != None:
+    if name is None and cmd:
         name = cmd.author_id.display_name
         if ewcfg.mutation_id_amnesia in user_mutations:
             name = '?????'
 
-    if format_name and name != None:
+    if format_name and name:
         response_text = "*{}:* {}".format(name, response_text)
 
     if ewutils.DEBUG:  # to see when the bot uses send_response vs send_message in --debug mode
@@ -389,8 +382,8 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, response_text))
         raise
-    except:
-        ewutils.logMsg('Failed to send message to channel: {}\n{}'.format(channel, response_text))
+    except Exception as e:
+        ewutils.logMsg('Send response failed to send message to channel: {}\n{}:\n{}'.format(channel, response_text, e))
 
 
 """
@@ -401,8 +394,8 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
 async def edit_message(client, message, text):
     try:
         return await message.edit(content=str(text))
-    except:
-        ewutils.logMsg('Failed to edit message. Updated text would have been:\n{}'.format(text))
+    except Exception as e:
+        ewutils.logMsg('Failed to edit message. Updated text would have been:\n{}\n{}'.format(text, e))
 
 
 async def delete_last_message(client, last_messages, tick_length):
