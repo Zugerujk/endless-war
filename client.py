@@ -889,10 +889,10 @@ async def on_message(message):
     if message.channel.type ==  0 and message.channel.name in ewcfg.forbidden_channels:
         return
 
-    if message.guild != None:
+    if message.guild is not None:
         # Note that the user posted a message.
         active_map = active_users_map.get(message.guild.id)
-        if active_map == None:
+        if active_map is None:
             active_map = {}
             active_users_map[message.guild.id] = active_map
         active_map[message.author.id] = True
@@ -906,14 +906,13 @@ async def on_message(message):
     content_tolower = message.content.lower()
     content_tolower_list = content_tolower.split(" ")
 
-
     re_awoo = re_awoo_g
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
 
     # update the player's time_last_action which is used for kicking AFK players out of subzones
-    if message.guild != None:
+    if message.guild is not None:
 
         try:
             bknd_core.execute_sql_query("UPDATE users SET {time_last_action} = %s WHERE id_user = %s AND id_server = %s".format(
@@ -923,10 +922,9 @@ async def on_message(message):
                 message.author.id,
                 message.guild.id
             ))
-        except:
-            ewutils.logMsg('server {}: failed to update time_last_action for {}'.format(message.guild.id, message.author.id))
+        except Exception as e:
+            ewutils.logMsg('server {}: failed to update time_last_action for {}: {}'.format(message.guild.id, message.author.id, e))
 
-        #user_data = EwUser(member=message.author)
         statuses = usermodel.getStatusEffects()
 
         if ewcfg.status_strangled_id in statuses:
@@ -952,7 +950,7 @@ async def on_message(message):
                 await message.delete()
                 return
 
-    if message.content.startswith(ewcfg.cmd_prefix) or message.guild == None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
             Wake up if we need to respond to messages. Could be:
                 message starts with !
@@ -980,8 +978,7 @@ async def on_message(message):
         mentions = message.mentions
         mentions_count = len(mentions)
 
-
-        if message.guild == None:
+        if message.guild is None:
             guild_used = ewcfg.server_list[playermodel.id_server]
             admin_permissions = False
         else:
@@ -1019,7 +1016,7 @@ async def on_message(message):
         """
             Handle direct messages.
         """
-        if message.guild == None:
+        if message.guild is None:
 
             poi = poi_static.id_to_poi.get(usermodel.poi)
             cmd_obj.guild = ewcfg.server_list[playermodel.id_server]
@@ -1049,11 +1046,6 @@ async def on_message(message):
             # Nothing else to do in a DM.
             return
 
-        # assign the appropriate roles to a user with less than @everyone, faction, both location roles
-        # if len(message.author.roles) < 4:
-        # await ewrolemgr.updateRoles(client = client, member = message.author)
-
-        #user_data = EwUser(member=message.author)
         if usermodel.arrested > 0:
             return
 
@@ -1091,10 +1083,7 @@ async def on_message(message):
                 #    function = ewdebug.act_pois.get(usermodel.poi).get(content_tolower)
                 #return await function(cmd=cmd_obj)
 
-        #if usermodel.poi in poi_static.tutorial_pois:
-        #    return await ewdungeons.tutorial_cmd(cmd_obj)
-
-        if cmd_fn != None:
+        if cmd_fn is not None:
             # Execute found command
             return await cmd_fn(cmd_obj)
         # AWOOOOO
@@ -1106,11 +1095,8 @@ async def on_message(message):
             return await ewcmd.cmdcmds.yoslimernalia(cmd_obj)
         elif re_measure.match(cmd):
             return await ewcmd.cmdcmds.cockdraw(cmd_obj)
-        elif debug == True and cmd in ewcfg.client_debug_commands:
+        elif debug and cmd in ewcfg.client_debug_commands:
             return await debugHandling(message=message, cmd=cmd, cmd_obj=cmd_obj)
-
-
-
 
         # didn't match any of the command words.
         else:
@@ -1123,13 +1109,7 @@ async def on_message(message):
             elif randint == 3:
                 msg_mistake = "ENDLESS WAR pays you no mind."
 
-            msg = await fe_utils.send_message(client, cmd_obj.message.channel, msg_mistake, 2)
-            await asyncio.sleep(2)
-            try:
-                await msg.delete()
-                pass
-            except:
-                pass
+            return await fe_utils.send_response(msg_mistake, cmd, 2)
 
     elif content_tolower.find(ewcfg.cmd_howl) >= 0 or content_tolower.find(ewcfg.cmd_howl_alt1) >= 0 or re_awoo.match(content_tolower):
         """ Howl if !howl is in the message at all. """
@@ -1153,7 +1133,6 @@ async def on_message(message):
             ))
         else:
             return
-
 
 
 @client.event
