@@ -45,7 +45,7 @@ async def cast(cmd):
 
     # Can only fish in the pier's channel
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=cmd.message.author.guild.id)
     statuses = user_data.getStatusEffects()
@@ -220,7 +220,7 @@ async def cast(cmd):
                 if player_cast:
                     # Send a bit of a wait message
                     response = "***HRRRRKK-!!!***"
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     await asyncio.sleep(2)
 
                     # Get target_data and make sure they can't be thrown if they have Big Bones
@@ -228,7 +228,7 @@ async def cast(cmd):
                     target_mutations = target_data.get_mutations()
                     if ewcfg.mutation_id_bigbones in target_mutations:
                         response = "You try to cast {} off towards NLACakaNM, but their ass is too fat! They simply refuse to break from the moon's gravitational pull.".format(cmd.mentions[0].display_name)
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     # Make response container
                     resp_cont = fe_utils.EwResponseContainer(id_server=user_data.id_server)
@@ -279,11 +279,11 @@ async def cast(cmd):
                         district = poi_static.id_to_poi.get(district_sought_id)
                     
                     response = "You cast your fishing pole towards NLACakaNM. You wager it'll land in... {}? Probably.".format(district.str_name)
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     
                     fisher.cast_poi = district
             else:
-                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             bite_text = gen_bite_text(fisher.current_size)
 
@@ -356,7 +356,7 @@ async def cast(cmd):
                         flavor_response = random.choice(comm_cfg.moon_fishing_text)
                     else:
                         flavor_response = random.choice(comm_cfg.normal_fishing_text)
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, flavor_response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, flavor_response))
                     # Make a bite slightly more likely, increase the counter for how many failed ticks
                     fun -= 2
                     bun += 1
@@ -372,7 +372,7 @@ async def cast(cmd):
 
             # Set bite to true, send !REEL alert, wait 8 seconds.
             fisher.bite = True
-            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, bite_text))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, bite_text))
 
             # Wait for !reel
             await asyncio.sleep(8)
@@ -381,7 +381,7 @@ async def cast(cmd):
                 response = "The fish got away..."
                 response += cancel_rod_possession(fisher, user_data)
                 fisher.stop()
-                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             else:
                 has_reeled = True
 
@@ -390,7 +390,7 @@ async def cast(cmd):
 
     # Don't send out a response if the user actually reeled in a fish, since that gets sent by the reel command instead.
     if has_reeled == False:
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Reels in the fishing line.. """
@@ -401,7 +401,7 @@ async def reel(cmd):
 
     # Must be in the correct channel
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     if cmd.message.author.id not in fishutils.fishers.keys():
         fishutils.fishers[cmd.message.author.id] = EwFisher()
@@ -477,14 +477,14 @@ async def reel(cmd):
     else:
         response = "You cast your fishing rod unto a sidewalk. That is to say, you've accomplished nothing. Go to a pier if you want to fish."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def appraise(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=user_data.id_server)
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -500,7 +500,7 @@ async def appraise(cmd):
             response = 'You ask a nearby fisherman if he could appraise this fish you just caught. He tells you to fuck off, but also helpfully informs you that there’s an old sea captain that frequents the Speakeasy that might be able to help you. What an inexplicably helpful/grouchy fisherman!'
         else:
             response = 'What random passerby is going to give two shits about your fish? You’ll have to consult a fellow fisherman… perhaps you’ll find some on a pier?'
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif item_sought:
         name = item_sought.get('name')
         fish = EwItem(id_item=item_sought.get('id_item'))
@@ -587,7 +587,7 @@ async def appraise(cmd):
         else:
             response = "Ask Captain Albert Alexander to appraise which fish? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def barter(cmd):
@@ -595,7 +595,7 @@ async def barter(cmd):
     mutations = user_data.get_mutations()
 
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=user_data.id_server)
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -610,11 +610,11 @@ async def barter(cmd):
             response = 'You ask a nearby fisherman if he wants to trade you anything for this fish you just caught. He tells you to fuck off, but also helpfully informs you that there’s an old sea captain that frequents the Speakeasy that might be able to help you. What an inexplicably helpful/grouchy fisherman!'
         else:
             response = 'What random passerby is going to give two shits about your fish? You’ll have to consult a fellow fisherman… perhaps you’ll find some on a pier?'
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = 'Captain Albert Alexander hits the table with his glass and shouts "Nay laddy, you can fool me once but not twice! I dont do deals with spirits, get out of my sight!"'
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif item_sought:
 
@@ -713,7 +713,7 @@ async def barter(cmd):
 
                     response += "\n**!accept** or **!refuse** Captain Albert Alexander's deal."
 
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 else:
                     # Random choice between 0, 1, and 2
@@ -748,7 +748,7 @@ async def barter(cmd):
 
                     response += "\n**!accept** or **!refuse** Captain Albert Alexander's deal."
 
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 # Wait for an answer
                 accepted = False
@@ -832,7 +832,7 @@ async def barter(cmd):
         else:
             response = "Offer Captain Albert Alexander which fish? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def embiggen(cmd):
@@ -933,7 +933,7 @@ async def embiggen(cmd):
         else:
             response = "Embiggen which fish? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def barter_all(cmd):
@@ -942,7 +942,7 @@ async def barter_all(cmd):
 
     # if non-zone channel, break
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     # if not in speakeasy, break
     if cmd.message.channel.name != ewcfg.channel_speakeasy:
@@ -951,12 +951,12 @@ async def barter_all(cmd):
         else:
             response = 'What random passerby is going to give two shits about your fish? You’ll have to consult a fellow fisherman… perhaps you’ll find some on a pier?'
 
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # if corpse, break
     if user_data.life_state == ewcfg.life_state_corpse:
         response = 'Captain Albert Alexander hits the table with his glass and shouts "Nay laddy, you can fool me once but not twice! I dont do deals with spirits, get out of my sight!"'
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     food_items = bknd_item.inventory(id_user=user_data.id_user, id_server=user_data.id_server, item_type_filter=ewcfg.it_food)
     offer_items = []  # list of items to create when offer goes through
@@ -1016,7 +1016,7 @@ async def barter_all(cmd):
         offer_desc = "{}{}{}".format((str(offer_slime) + " slime") if (offer_slime > 0) else "", " and " if (offer_slime > 0 and len(items_desc) > 0) else "", items_desc if (len(items_desc) > 0) else "")
         response += ' \n"Hm, alright… for your fish... I’ll trade you {}!"'.format(offer_desc)
 
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         response = ""
 
@@ -1057,7 +1057,7 @@ async def barter_all(cmd):
     else:
         response = "You need some fish to barter with Captain Albert Alexander. Get out there and do some fishing!"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def debug_create_random_fish(cmd):

@@ -22,15 +22,15 @@ async def add_quadrant(cmd):
 
     if quadrant is None:
         response = "Please select a quadrant for your romantic feelings."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count == 0:
         response = "Please select a target for your romantic feelings."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if user_data.has_soul == 0:
         response = "A soulless juvie can only desperately reach for companionship, they will never find it."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     target = cmd.mentions[0].id
     target2 = None
@@ -55,7 +55,7 @@ async def add_quadrant(cmd):
         resp_add = resp_add.format("{} and {}".format(cmd.mentions[0].display_name, cmd.mentions[1].display_name))
     response = "{} {}".format(resp_add, comment)
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def clear_quadrant(cmd):
@@ -72,7 +72,7 @@ async def clear_quadrant(cmd):
 
     if quadrant is None:
         response = "Please select a quadrant for your romantic feelings."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     quadrant_data = EwQuadrant(id_server=author.guild.id, id_user=author.id, quadrant=quadrant.id_quadrant)
 
@@ -93,7 +93,7 @@ async def clear_quadrant(cmd):
     else:
         response = "You haven't filled out that quadrant, bitch."
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_quadrants(cmd):
@@ -125,28 +125,28 @@ async def get_quadrants(cmd):
         else:
             response = response.format("You", "your")
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_sloshed(cmd):
     response = get_quadrant(cmd, ewcfg.quadrant_sloshed)
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_roseate(cmd):
     response = get_quadrant(cmd, ewcfg.quadrant_roseate)
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_violacious(cmd):
     response = get_quadrant(cmd, ewcfg.quadrant_violacious)
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_policitous(cmd):
     response = get_quadrant(cmd, ewcfg.quadrant_policitous)
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

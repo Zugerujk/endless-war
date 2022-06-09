@@ -21,7 +21,7 @@ async def writhe(cmd):
 
     if user_data.life_state != ewcfg.life_state_grandfoe:
         response = "Only the NEGASLIME {} can do that.".format(ewcfg.emote_negaslime)
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         # play animation
         he = ewcfg.emote_he
@@ -92,7 +92,7 @@ async def writhe(cmd):
                 user_data_target.id_killer = cmd.message.author.id
                 await user_data_target.die(cause=ewcfg.cause_grandfoe)
                 sewerchannel = fe_utils.get_channel(cmd.guild, ewcfg.channel_sewers)
-                await fe_utils.send_message(sewerchannel, "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(target, "You have been crushed by tendrils. {}".format(ewcfg.emote_slimeskull)))
+                await fe_utils.send_message(cmd.client, sewerchannel, "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(target, "You have been crushed by tendrils. {}".format(ewcfg.emote_slimeskull)))
 
                 victim_list.append(target)
 
@@ -103,4 +103,4 @@ async def writhe(cmd):
         else:
             response = "Your tendrils didn't kill anyone :("
 
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

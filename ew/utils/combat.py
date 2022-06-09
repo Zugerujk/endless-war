@@ -537,7 +537,7 @@ class EwEnemy(EwEnemyBase):
         #	 resp_cont.add_channel_response(ewcfg.channel_killfeed, r)
         # resp_cont.format_channel_response(ewcfg.channel_killfeed, enemy_data)
         # resp_cont.add_channel_response(ewcfg.channel_killfeed, "`-------------------------`")
-        # await ewutils.send_message(killfeed_channel, ewutils.formatMessage(enemy_data.display_name, killfeed_resp))
+        # await ewutils.send_message(client, killfeed_channel, ewutils.formatMessage(enemy_data.display_name, killfeed_resp))
 
         # Send the response to the player.
         resp_cont.format_channel_response(ch_name, enemy_data)
@@ -1850,7 +1850,6 @@ class EwUser(EwUserBase):
                         cache_item.update({'id_owner': self.poi})
                         item_cache.set_entry(data=cache_item)
 
-            # Preservation cleanup
             try:
                 item_cache = bknd_core.get_cache(obj_type = "EwItem")
                 if item_cache is not False:

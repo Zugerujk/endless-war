@@ -67,7 +67,7 @@ async def smelt(cmd):
 
                     if not bknd_item.check_inv_capacity(user_data=user_data, item_type=ewcfg.it_cosmetic):
                         response = "You can't carry anymore cosmetic items."
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     patrician_rarity = 100
                     patrician_smelted = random.randint(1, patrician_rarity)
@@ -139,7 +139,7 @@ async def smelt(cmd):
                         ewutils.logMsg("Failed to find item templates with the following identifier(s): {}".format(missing_def_ids))
                         if len(possible_results) < 1:
                             debug_resp = "Endless War understands the process, but cannot fathom what it will create. Perhaps a Brimstone Programmer could enlighten the obelisk."
-                            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, debug_resp))
+                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, debug_resp))
 
                     # If there are multiple possible products, randomly select one.
                     item = random.choice(possible_results)
@@ -154,7 +154,7 @@ async def smelt(cmd):
                         # Allow people to craft items over the type limit if it lowers the overall number of that type
                         if same_type_count <= 1:
                             response = "You can't carry any more {}s.".format(item.item_type)
-                            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     item_props = itm_utils.gen_item_props(item)
 
@@ -192,7 +192,7 @@ async def smelt(cmd):
         response = "Please specify a desired smelt result."
 
     # Send response
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # "wcim", "whatcanimake", "whatmake", "usedfor" command - finds the item the player is asking for and tells them all smelting recipes that use that item
@@ -282,4 +282,4 @@ async def find_recipes_by_item(cmd):
         response = "Please specify an item you would like to look up usage for."
 
     # send response to player
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

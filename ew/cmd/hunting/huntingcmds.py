@@ -69,4 +69,4 @@ async def summonenemy(cmd):
 
     else:
         response = "**DEBUG**: PLEASE RE-SUMMON WITH APPLICABLE TYPING / LOCATION. ADDITIONAL OPTIONS ARE SLIME / LEVEL / COORD / DISPLAYNAME"
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

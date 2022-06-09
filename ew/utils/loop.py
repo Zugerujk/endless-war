@@ -829,7 +829,7 @@ async def spawn_prank_items(id_server):
             # print('{} with id {} spawned in {}!'.format(swilldermuk_food_item.str_name, swilldermuk_food_item_id, district_id))
 
             response = "That smell... it's unmistakeable!! Someone's left a fresh {} on the ground!".format(swilldermuk_food_item.str_name)
-            await fe_utils.send_message(district_channel, response)
+            await fe_utils.send_message(client, district_channel, response)
         else:
             rarity_roll = random.randrange(10)
 
@@ -855,7 +855,7 @@ async def spawn_prank_items(id_server):
             # print('{} with id {} spawned in {}!'.format(prank_item.str_name, prank_item_id, district_id))
 
             response = "An ominous wind blows through the streets. You think you hear someone drop a {} on the ground nearby...".format(prank_item.str_name)
-            await fe_utils.send_message(district_channel, response)
+            await fe_utils.send_message(client, district_channel, response)
 
     except:
         ewutils.logMsg("An error occured in spawn prank items tick for server {}".format(id_server))
@@ -1205,7 +1205,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                     if market_data.clock == 6 or force_active:
                         response = ' The SlimeCorp Stock Exchange is now open for business.'
                         
-                        await fe_utils.send_message(sex_channel, response)
+                        await fe_utils.send_message(client, sex_channel, response)
                         ewutils.logMsg("Started bazaar refresh...")
                         
                         await market_utils.refresh_bazaar(id_server)
@@ -1231,7 +1231,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
 
                     elif market_data.clock == 20:
                         response = ' The SlimeCorp Stock Exchange has closed for the night.'
-                        await fe_utils.send_message(sex_channel, response)
+                        await fe_utils.send_message(client, sex_channel, response)
                   
                     ewutils.logMsg("Finished clock tick.")
                 await asyncio.sleep(60)

@@ -86,7 +86,7 @@ async def exec_mutations(cmd):
         response = "They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. "
     else:
         response = "Slimecorp hasn't issued them mutations in their current position."
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 def location_commands(cmd, search_poi = None):

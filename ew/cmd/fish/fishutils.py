@@ -320,7 +320,7 @@ async def award_fish(fisher, cmd, user_data):
 
                     # Send a bit of a wait message
                     response = "***HRRRRKK-!!!***"
-                    await ewfrontend.send_message(cmd.message.channel, ewfrontend.formatMessage(cmd.message.author, response))
+                    await ewfrontend.send_message(cmd.client, cmd.message.channel, ewfrontend.formatMessage(cmd.message.author, response))
                     await asyncio.sleep(3)
 
                     # Send 'em to the moon!

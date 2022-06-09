@@ -301,7 +301,7 @@ async def one_eye_dm(id_user = None, id_server = None, poi = None):
                 mutation = EwMutation(id_server=id_server, id_user=recipient[0], id_mutation=ewcfg.mutation_id_oneeyeopen)
                 mutation.data = ""
                 mutation.persist()
-                await fe_utils.send_message(member, fe_utils.formatMessage(member, "{} is stirring...".format(id_player.display_name)))
+                await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "{} is stirring...".format(id_player.display_name)))
 
         except:
             ewutils.logMsg("Failed to do OEO notificaitons for {}.".format(id_user))

@@ -20,7 +20,7 @@ from .transportutils import get_transports_at_stop
 async def embark(cmd):
     # can only use movement commands in location channels
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
@@ -29,12 +29,12 @@ async def embark(cmd):
 
     if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
         response = "You can't do that right now."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if user_data.get_inhabitee():
         # prevent ghosts currently inhabiting other players from moving on their own
         response = "You might want to **{}** of the poor soul you've been tormenting first.".format(ewcfg.cmd_letgo)
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # poi = ewmap.fetch_poi_if_coordless(cmd.message.channel.name)
 
@@ -45,7 +45,7 @@ async def embark(cmd):
         # can't embark, when there's no vehicles to embark on
         if len(transport_ids) == 0:
             response = "There are currently no transport vehicles to embark on here."
-            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         # automatically embark on the only transport at the station, if no arguments were provided
         elif len(transport_ids) == 1 and cmd.tokens_count < 2:
@@ -58,13 +58,13 @@ async def embark(cmd):
 
         # report failure, if the vehicle to be boarded couldn't be ascertained
         if target_name == None or len(target_name) == 0:
-            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Which transport line?"))
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Which transport line?"))
 
         transport_line = poi_static.id_to_transport_line.get(target_name)
 
         # report failure, if an invalid argument was given
         if transport_line == None:
-            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Never heard of it."))
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Never heard of it."))
 
         for transport_id in transport_ids:
             transport_data = EwTransport(id_server=user_data.id_server, poi=transport_id)
@@ -81,12 +81,12 @@ async def embark(cmd):
                             if ticket is None:
 
                                 response = "You need a ticket to embark on the White Line."
-                                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 last_stop_poi = poi_static.id_to_poi.get(transport_line.last_stop)
                 response = "Embarking on {}.".format(transport_line.str_name)
                 # schedule tasks for concurrent execution
-                message_task = asyncio.ensure_future(fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response)))
+                message_task = asyncio.ensure_future(fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response)))
                 wait_task = asyncio.ensure_future(asyncio.sleep(ewcfg.time_embark))
 
                 # Take control of the move for this player.
@@ -113,18 +113,18 @@ async def embark(cmd):
                             bknd_item.item_delete(ticket.get("id_item"))
                         await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
                         await user_data.move_inhabitants(id_poi=transport_data.poi)
-                        return await fe_utils.send_message(fe_utils.get_channel(cmd.guild, transport_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, transport_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
                     else:
                         response = "The {} starts moving just as you try to get on.".format(transport_data.transport_type)
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         response = "There is currently no vehicle following that line here."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
     else:
         response = "No transport vehicles stop here. Try going to a subway station or a ferry port."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Exit a transport vehicle into its current stop """
@@ -133,7 +133,7 @@ async def embark(cmd):
 async def disembark(cmd):
     # can only use movement commands in location channels
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
     user_data = EwUser(member=cmd.message.author)
     response = ""
     resp_cont = EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
@@ -141,7 +141,7 @@ async def disembark(cmd):
     # prevent ghosts currently inhabiting other players from moving on their own
     if user_data.get_inhabitee():
         response = "You might want to **{}** of the poor soul you've been tormenting first.".format(ewcfg.cmd_letgo)
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # can only disembark when you're on a transport vehicle
     elif user_data.poi in poi_static.transports:
@@ -153,10 +153,10 @@ async def disembark(cmd):
         # 	stop_poi = poi_static.id_to_poi.get(stop_poi.mother_district)
 
         if move_utils.inaccessible(user_data=user_data, poi=stop_poi):
-            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You're not allowed to go there (bitch)."))
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You're not allowed to go there (bitch)."))
 
         # schedule tasks for concurrent execution
-        message_task = asyncio.ensure_future(fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response)))
+        message_task = asyncio.ensure_future(fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response)))
         wait_task = asyncio.ensure_future(asyncio.sleep(ewcfg.time_embark))
 
         # Take control of the move for this player.
@@ -183,15 +183,17 @@ async def disembark(cmd):
             if user_data.life_state == ewcfg.life_state_kingpin:
                 response = "You try to heave yourself over the railing as you're hit by a sudden case of sea sickness. You puke into the sea and sink back on deck."
                 response = fe_utils.formatMessage(cmd.message.author, response)
-                return await fe_utils.send_message(cmd.message.channel, response)
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
             user_data.poi = ewcfg.poi_id_slimesea
             user_data.trauma = ewcfg.trauma_id_environment
             die_resp = user_data.die(cause=ewcfg.cause_drowning)
+            user_data.persist()
             resp_cont.add_response_container(die_resp)
 
             response = "{} jumps over the railing of the ferry and promptly drowns in the slime sea.".format(cmd.message.author.display_name)
             resp_cont.add_channel_response(channel=ewcfg.channel_slimesea, response=response)
             resp_cont.add_channel_response(channel=ewcfg.channel_ferry, response=response)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
         # they also can't fly
 
         elif transport_data.transport_type == ewcfg.transport_type_blimp and not stop_poi.is_transport_stop and user_data.life_state != ewcfg.life_state_corpse:
@@ -220,9 +222,11 @@ async def disembark(cmd):
             user_data.poi = stop_poi.id_poi
             user_data.trauma = ewcfg.trauma_id_environment
             die_resp = user_data.die(cause=ewcfg.cause_falling)
+            user_data.persist()
             resp_cont.add_response_container(die_resp)
             response = "SPLAT! A body collides with the asphalt with such force, that it is utterly annihilated, covering bystanders in blood and slime and guts."
             resp_cont.add_channel_response(channel=stop_poi.channel, response=response)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
         # update user location, if move successful
         else:
@@ -230,14 +234,14 @@ async def disembark(cmd):
             # 	stop_poi = poi_static.id_to_poi.get(stop_poi.mother_district)
 
             if move_utils.inaccessible(user_data=user_data, poi=stop_poi):
-                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You're not allowed to go there (bitch)."))
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You're not allowed to go there (bitch)."))
 
             user_data.poi = stop_poi.id_poi
             user_data.persist()
             await user_data.move_inhabitants(id_poi=stop_poi.id_poi)
             response = "You enter {}".format(stop_poi.str_name)
             await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
-            await fe_utils.send_message(fe_utils.get_channel(cmd.guild, stop_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, stop_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
 
             # SWILLDERMUK
             await prank_utils.activate_trap_items(stop_poi.id_poi, user_data.id_server, user_data.id_user)
@@ -246,12 +250,12 @@ async def disembark(cmd):
         return await resp_cont.post()
     else:
         response = "You are not currently riding any transport."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def check_schedule(cmd):
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
     response = ""
@@ -268,4 +272,4 @@ async def check_schedule(cmd):
     else:
         response = "There is no schedule to check here."
 
-    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

@@ -53,7 +53,7 @@ async def begin_manuscript(cmd):
 
             response = "You exchange 20,000 slime for a shoddily-bound manuscript. You scrawl the name \"{} by {}\" into the cover.".format(book.title, book.author)
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def set_pen_name(cmd):
@@ -81,7 +81,7 @@ async def set_pen_name(cmd):
         else:
             response = "If you would like to change your pen name, you must change your nickname."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def set_title(cmd):
@@ -114,7 +114,7 @@ async def set_title(cmd):
 
         response = "You scratch out the title and scrawl \"{}\" over it.".format(book.title)
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def set_genre(cmd):
@@ -151,7 +151,7 @@ async def set_genre(cmd):
 
             response = "You scribble {} onto the back cover.".format(genre)
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def edit_page(cmd):
@@ -207,7 +207,7 @@ async def edit_page(cmd):
                     accepted = False
                     response = "There is already writing on this page. Are you sure you want to overwrite it? **!accept** or **!refuse**"
 
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     try:
                         message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == cmd.message.author and
@@ -228,7 +228,7 @@ async def edit_page(cmd):
                     book.persist()
                     response = "You spend some time contemplating your ideas before scribbling them onto the page."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def view_page(cmd):
@@ -267,7 +267,7 @@ async def view_page(cmd):
             else:
                 response = '"{}"'.format(content)
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def check_manuscript(cmd):
@@ -301,7 +301,7 @@ async def check_manuscript(cmd):
 
         response = "{} by {}. It is {} pages and {:,} characters long.{}".format(title, author, pages, length, cover_text)
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def publish_manuscript(cmd):
@@ -335,7 +335,7 @@ async def publish_manuscript(cmd):
 
             response = "Are you sure you want to publish your manuscript? This cannot be undone. **!accept** or **!refuse**"
 
-            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             try:
                 message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == cmd.message.author and
@@ -385,7 +385,7 @@ async def publish_manuscript(cmd):
 
                 response = "You've published your manuscript! Anybody can now buy your creation and you'll get royalties!"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def read_book(cmd):
@@ -423,7 +423,7 @@ async def read_book(cmd):
                 accepted = False
                 response = "ENDLESS WAR sees you about to open up a porn zine and wants to make sure you're 18 years or older. Use **!accept** to open or **!refuse** to abstain."
 
-                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 try:
                     message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == cmd.message.author and
@@ -469,7 +469,7 @@ async def read_book(cmd):
         else:
             response = "You don't have that zine. Make sure you use **!read [zine title] [page]**"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def next_page(cmd):
@@ -511,7 +511,7 @@ async def next_page(cmd):
     else:
         response = "You haven't opened a zine yet!"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def previous_page(cmd):
@@ -552,7 +552,7 @@ async def previous_page(cmd):
     else:
         response = "You haven't opened a zine yet!"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def browse_zines(cmd):
@@ -571,7 +571,7 @@ async def browse_zines(cmd):
     if not poi.write_manuscript:
         response = "You can't browse for zines here! Try going to the cafe. If you're looking for educational zines, try the colleges. If you can't read, then you might want to try the comic shop."
 
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     else:
         if not sort_token.isdigit():
@@ -714,7 +714,7 @@ async def browse_zines(cmd):
             else:
                 response = "There aren't any zines in circulation at the moment."
 
-                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
             id_book = int(sort_token)
 
@@ -758,7 +758,7 @@ async def browse_zines(cmd):
             else:
                 response = "That's not a valid zine ID."
 
-            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def order_zine(cmd):
@@ -786,7 +786,7 @@ async def order_zine(cmd):
                     accepted = False
                     response = "THIS ZINE IS PORNOGRAPHY. CONFIRM THAT YOU ARE AT LEAST 18 YEARS OLD. **!accept** or **!refuse**"
 
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     try:
                         message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == cmd.message.author and
@@ -806,7 +806,7 @@ async def order_zine(cmd):
                 elif accepted:
                     if book.genre != 10 and poi.id_poi == ewcfg.poi_id_clinicofslimoplasty:
                         response = "Specify a zine to purchase. Find zine IDs with !browse."
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     user_data = EwUser(member=cmd.message.author)
 
@@ -870,7 +870,7 @@ async def order_zine(cmd):
         else:
             response = "Specify a zine to purchase. Find zine IDs with !browse."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def rate_zine(cmd):
@@ -961,7 +961,7 @@ async def rate_zine(cmd):
         else:
             response = "How many fucks do you want to give the zine? (1-5)"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def set_length(cmd):
@@ -1012,7 +1012,7 @@ async def set_length(cmd):
                     page_list = ewutils.formatNiceList(pages_with_content)
                     response = "There is writing on these pages: {}. If you change the number of pages to {}, you will cut these pages out. Will you still do it? **!accept** or **!refuse**".format(page_list, length)
 
-                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     try:
                         message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == cmd.message.author and
@@ -1045,7 +1045,7 @@ async def set_length(cmd):
 
                     book.persist()
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def take_down_zine(cmd):
@@ -1084,7 +1084,7 @@ async def take_down_zine(cmd):
         else:
             response = "Invalid Zine ID."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def untake_down_zine(cmd):
@@ -1126,7 +1126,7 @@ async def untake_down_zine(cmd):
         else:
             response = "Invalid Zine ID."
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def null_cmd(cmd):

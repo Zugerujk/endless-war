@@ -92,7 +92,7 @@ async def activate_trap_items(district, id_server, id_user):
 
     finally:
         pass
-    await fe_utils.send_message(district_channel, fe_utils.formatMessage(member, response))
+    await fe_utils.send_message(client, district_channel, fe_utils.formatMessage(member, response))
 
 
 # Use an instant use item
@@ -251,9 +251,9 @@ async def prank_item_effect_response(cmd, item):
                 except:
                     pass
 
-                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), chosen_response))
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), chosen_response))
                 # prank_feed_channel = fe_utils.get_channel(cmd.guild, 'prank-feed')
-                # await fe_utils.send_message(prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (chosen_response+"\n`-------------------------`")))
+                # await fe_utils.send_message(cmd.client, prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (chosen_response+"\n`-------------------------`")))
 
                 # The longer time goes on without the pranked person typing in the command, the more gambit they lose
                 pranker_data = EwUser(member=cmd.message.author)

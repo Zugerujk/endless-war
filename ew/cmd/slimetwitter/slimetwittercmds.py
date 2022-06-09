@@ -44,7 +44,7 @@ async def tweet(cmd):
 
         channel = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimetwitter)
 
-        await fe_utils.send_message(channel, embed=tweet)
+        await fe_utils.send_message(cmd.client, channel, embed=tweet)
 
     else:
         response = "You need to have a gellphone to !tweet."

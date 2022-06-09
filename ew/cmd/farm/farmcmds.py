@@ -93,20 +93,20 @@ async def sow(cmd):
 
                     else:
                         response = "The soil has enough toxins without you burying your trash here."
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 elif item_data.item_type == ewcfg.it_food:
                     food_id = item_data.item_props.get("id_food")
                     vegetable = static_food.food_map.get(food_id)
                     if ewcfg.vendor_farm not in vegetable.vendors:
                         response = "It sure would be nice if {}s grew on trees, but alas they do not. Idiot.".format(item_sought.get("name"))
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     elif user_data.life_state != ewcfg.life_state_juvenile:
                         response = "You lack the knowledge required to grow {}.".format(item_sought.get("name"))
-                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 else:
                     response = "The soil has enough toxins without you burying your trash here."
-                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 mutations = user_data.get_mutations()
                 growth_time = ewcfg.crops_time_to_grow
@@ -140,7 +140,7 @@ async def sow(cmd):
 
                 farm.persist()
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Reap planted crops. """
@@ -387,7 +387,7 @@ async def check_farm(cmd):
             farm_action = farm_static.id_to_farm_action.get(farm.action_required)
             response = farm_action.str_check
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def cultivate(cmd):
@@ -451,7 +451,7 @@ async def cultivate(cmd):
             farm.action_required = ewcfg.farm_action_none
             farm.persist()
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def mill(cmd):
@@ -516,4 +516,4 @@ async def mill(cmd):
         else:
             response = "Mill which item? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

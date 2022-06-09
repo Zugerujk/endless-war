@@ -17,7 +17,7 @@ async def advertise(cmd):
 
     if user_data.poi != ewcfg.poi_id_slimecorphq:
         response = "To buy ad space, you'll need to go SlimeCorp HQ."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     poi = poi_static.id_to_poi.get(user_data.poi)
 
@@ -25,7 +25,7 @@ async def advertise(cmd):
 
     if user_data.slimecoin < cost:
         response = "Your don't have enough slimecoin to advertise. ({:,}/{:,})".format(user_data.slimecoin, cost)
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     ads = bknd_ads.get_ads(cmd.guild.id)
 
@@ -51,28 +51,28 @@ async def advertise(cmd):
         time_to_expire = ewutils.formatNiceList(names=expire_list, conjunction="and")
 
         response = "Sorry, but all of our ad space is currently in use. The next vacancy will be in {}.".format(time_to_expire)
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.tokens_count < 2:
         response = "Please specify the content of your ad."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     content = cmd.message.content[len(cmd.tokens[0]):].strip()
 
     if len(content) > ewcfg.max_length_ads:
         response = "Your ad is too long, we can't fit that on a billboard. ({:,}/{:,})".format(len(content), ewcfg.max_length_ads)
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     sponsor_disclaimer = "Paid for by {}".format(cmd.message.author.display_name)
 
     response = "This is what your ad is going to look like."
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     response = "{}\n\n*{}*".format(content, sponsor_disclaimer)
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     response = "It will cost {:,} slimecoin to stay up for 4 weeks. Is this fine? {} or {}".format(cost, ewcfg.cmd_confirm, ewcfg.cmd_cancel)
-    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     accepted = False
     try:
@@ -98,10 +98,10 @@ async def advertise(cmd):
         user_data.persist()
 
         response = "Your ad will be put up immediately. Thank you for your business."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         response = "Good luck raising awareness by word of mouth."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def ads_look(cmd):
@@ -113,12 +113,12 @@ async def ads_look(cmd):
     ads = bknd_ads.get_ads(id_server=cmd.guild.id)
 
     if poi.has_ads and len(ads) > 0:
-        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         for id_ad in ads:
             ad_data = EwAd(id_ad=id_ad)
             ad_resp = format_ad_response(ad_data)
-            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, ad_resp))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, ad_resp))
 
     else:
         response += "\nBut you couldn't find any. Bummer."
-        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

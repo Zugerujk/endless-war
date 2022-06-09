@@ -464,9 +464,9 @@ async def perform_prank_item_side_effect(side_effect, cmd = None, member = None)
 
         direct_message = "You are now manually breathing.\nYou are now manually blinking.\nYour tounge is now uncomfortable inside your mouth.\nYou just lost THE GAME."
         try:
-            await fe_utils.send_message(target_member, direct_message)
+            await fe_utils.send_message(cmd.client, target_member, direct_message)
         except:
-            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(target_member, direct_message))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(target_member, direct_message))
 
     elif side_effect == "usedneedle_effect":
         target_member = cmd.mentions[0]
@@ -886,7 +886,7 @@ async def move_relics(id_server):
         user_poi = static_poi.id_to_poi.get(user.poi)
         channel = fe_utils.get_channel(server=server, channel_name=user_poi.channel)
 
-        return await fe_utils.send_message(channel, "Oh fuck! {} just got graverobbed! Relics have been scattered!".format(player.display_name))
+        return await fe_utils.send_message(client, channel, "Oh fuck! {} just got graverobbed! Relics have been scattered!".format(player.display_name))
 
 
 
