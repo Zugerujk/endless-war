@@ -591,10 +591,6 @@ async def debugHandling(message, cmd, cmd_obj):
 
         await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, "Apple created."))
 
-    elif cmd == (ewcfg.cmd_prefix + 'weathertick'):
-
-        await apt_utils.setOffAlarms(id_server=message.guild.id)
-
     elif cmd == (ewcfg.cmd_prefix + 'createhat'):
         patrician_rarity = 20
         patrician_smelted = random.randint(1, patrician_rarity)
