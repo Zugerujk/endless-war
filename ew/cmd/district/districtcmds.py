@@ -137,7 +137,7 @@ async def ufo_observe(cmd):
                 server = ewcfg.server_list[cmd.guild.id]
                 for playerid in players_in_district:
                     member_object = server.get_member(playerid)
-                    await ewrolemgr.updateRoles(client=cmd.client, member=member_object)
+                    await ewrolemgr.update_roles(client=cmd.client, member=member_object)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -229,7 +229,7 @@ async def abduct(cmd):
             user_data.persist()
             target_data.persist()
 
-            await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.mentions[0])
+            await ewrolemgr.update_roles(client=ewutils.get_client(), member=cmd.mentions[0])
             await target_data.move_inhabitants(id_poi='ufoufo')
 
 
@@ -274,7 +274,7 @@ async def beam_me_up(cmd):
         user_data.poi = 'ufoufo'
         user_data.persist()
 
-        await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.message.author)
+        await ewrolemgr.update_roles(client=ewutils.get_client(), member=cmd.message.author)
         await user_data.move_inhabitants(id_poi='ufoufo')
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
@@ -333,7 +333,7 @@ async def hailcab(cmd):
             ewutils.moves_active[cmd.message.author.id] = 0
             user_data.poi = dest
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
             return await user_data.move_inhabitants(id_poi=dest, visitor=user_data.id_user)
 
         elif user_data.life_state == ewcfg.life_state_corpse:

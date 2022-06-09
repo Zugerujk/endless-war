@@ -420,7 +420,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     ewutils.logMsg("New member \"{}\" joined. Configuring default roles / permissions now.".format(member.display_name))
-    await ewrolemgr.updateRoles(client=client, member=member)
+    await ewrolemgr.update_roles(client=client, member=member)
     bknd_player.player_update(
         member=member,
         server=member.guild
@@ -938,7 +938,7 @@ async def on_message(message):
             usermodel.trauma = ewcfg.trauma_id_environment
             die_resp = usermodel.die(cause=ewcfg.cause_praying)
             usermodel.persist()
-            await ewrolemgr.updateRoles(client=client, member=message.author)
+            await ewrolemgr.update_roles(client=client, member=message.author)
             await die_resp.post()
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")

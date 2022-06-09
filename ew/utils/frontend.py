@@ -141,7 +141,7 @@ class EwResponseContainer:
             return messages
 
         for member in self.members_to_update:
-            await ewrolemgr.updateRoles(client=self.client, member=member)
+            await ewrolemgr.update_roles(client=self.client, member=member)
 
         for ch in self.channel_responses:
             if channel is None:
@@ -530,7 +530,7 @@ async def update_slimernalia_kingpin(client, server):
         kingpin_state.value = '-1'
         try:
             old_kingpin_member = server.get_member(old_kingpin_id)
-            await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
+            await ewrolemgr.update_roles(client=client, member=old_kingpin_member)
         except:
             ewutils.logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin_id, server.id))
 
@@ -549,7 +549,7 @@ async def update_slimernalia_kingpin(client, server):
 
     try:
         new_kingpin_member = server.get_member(new_kingpin_id)
-        await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
+        await ewrolemgr.update_roles(client=client, member=new_kingpin_member)
     except:
         ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin_id, server.id))
 

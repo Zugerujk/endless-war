@@ -16,7 +16,7 @@ from ..static import poi as poi_static
 """
 
 
-def setupRoles(client = None, id_server = -1):
+def setupRoles(client=None, id_server=-1):
     roles_map = ewutils.getRoleMap(client.get_guild(id_server).roles)
     for poi in poi_static.poi_list:
         if poi.role in roles_map:
@@ -124,7 +124,6 @@ async def hideRoleNames(cmd):
     ewutils.logMsg('Finished hiding roles!')
 
 
-
 """
 	Restore poi roles to their original names
 """
@@ -183,7 +182,6 @@ async def restoreRoleNames(cmd):
 """
 	Creates all POI roles from scratch. Ideally, this is only used in test servers.
 """
-
 
 
 async def recreateRoles(cmd):
@@ -305,30 +303,24 @@ async def deleteRoles(cmd):
     print('{} roles were deleted in deleteRoles.'.format(roles_deleted))
 
 
-"""
-	Fix the Discord roles assigned to this member.
-"""
-
-
-async def updateRoles(
-        client = None,
-        member = None,
-        server_default = None,
-        refresh_perms = True,
-        remove_or_apply_flag = None,
-        new_poi = None
+async def update_roles(
+        client: discord.Client,
+        member: discord.Member,
+        server_default=None,
+        refresh_perms=True,
+        new_poi=None
 ):
+    """
+        Fix the Discord roles assigned to this member.
+    """
     time_now = int(time.time())
 
-    if server_default != None:
+    if server_default is not None:
         user_data = EwUser(id_user=member.id, id_server=server_default)
     else:
         user_data = EwUser(member=member)
 
     id_server = user_data.id_server
-
-    if member == None:
-        return ewutils.logMsg("error: member was not supplied for updateRoles")
 
     # roles_map = ewutils.getRoleMap(member.guild.roles)
     roles_map_user = ewutils.getRoleIdMap(member.roles)
@@ -392,19 +384,15 @@ async def updateRoles(
     pvp_role = None
     active_role = None
     lastwarp = ewutils.last_warps.get(user_data.id_user)
-    lastwarp = 0 if lastwarp is None else lastwarp + 19 #add 19 secs to the last time someone started a teleport to check pvp flagging
+    lastwarp = 0 if lastwarp is None else lastwarp + 19  # add 19 secs to the last time someone started a teleport to check pvp flagging
     #  If faction has an associated PVP role
     if faction_role in ewcfg.role_to_pvp_role:
 
         if (not user_poi.is_apartment and \
-                user_poi.id_poi not in non_wanted_pois) or lastwarp > time_now:  # and \
+            user_poi.id_poi not in non_wanted_pois) or lastwarp > time_now:  # and \
             # (user_data.life_state != ewcfg.life_state_juvenile or user_data.slimelevel > ewcfg.max_safe_level):
             pvp_role = ewcfg.role_to_pvp_role.get(faction_role)
             faction_roles_remove.remove(pvp_role)
-
-    # if ewutils.is_otp(user_data):
-    # 	active_role = ewcfg.role_to_active_role.get(faction_role)
-    # 	faction_roles_remove.remove(active_role)
 
     tutorial_role = None
     if user_poi.id_poi in poi_static.tutorial_pois:
@@ -412,7 +400,7 @@ async def updateRoles(
         faction_roles_remove.remove(tutorial_role)
 
     # Manage location roles.
-    if user_poi != None:
+    if user_poi is not None:
         # poi_role = user_poi.role
         poi_major_role = user_poi.major_role
         poi_minor_role = user_poi.minor_role
@@ -425,12 +413,12 @@ async def updateRoles(
 
     poi_permissions_remove = []
     for poi in poi_static.poi_list:
-        if poi.permissions != None and poi.permissions != poi_permissions:
+        if poi.permissions is not None and poi.permissions != poi_permissions:
             poi_permissions_remove.append(poi.id_poi)
 
     poi_roles_remove = []
     for poi in poi_static.poi_list:
-        #if poi.major_role != None and poi.major_role != poi_major_role:
+        # if poi.major_role != None and poi.major_role != poi_major_role:
         poi_roles_remove.append(poi.major_role)
         # if poi.minor_role != None and poi.minor_role != poi_minor_role:
         poi_roles_remove.append(poi.minor_role)
@@ -497,21 +485,6 @@ async def updateRoles(
         ewutils.logMsg('error: couldn\'t find tutorial role {}'.format(tutorial_role))
 
     # poi roles are disabled
-    # try:
-    #	major_role_data = EwRole(id_server = id_server, name = poi_major_role)
-    #	if not major_role_data.id_role in role_ids and major_role_data.id_role != '':
-    #		role_ids.append(int(major_role_data.id_role))
-    # ewutils.logMsg('found role {} with id {}'.format(role_data.name, role_data.id_role))
-    # except:
-    #	ewutils.logMsg('error: couldn\'t find major role {}'.format(poi_major_role))
-
-    # try:
-    #	minor_role_data = EwRole(id_server = id_server, name = poi_minor_role)
-    #	if not minor_role_data.id_role in role_ids and minor_role_data.id_role != '':
-    #		role_ids.append(int(minor_role_data.id_role))
-    # ewutils.logMsg('found role {} with id {}'.format(role_data.name, role_data.id_role))
-    # except:
-    #	ewutils.logMsg('error: couldn\'t find minor role {}'.format(poi_minor_role))
 
     try:
         role_data = EwRole(id_server=id_server, name=role_gellphone)
@@ -529,20 +502,6 @@ async def updateRoles(
     except:
         ewutils.logMsg('error: couldn\'t find slimernalia role {}'.format(role_slimernalia))
 
-    # if faction_role not in role_names:
-    # 	role_names.append(faction_role)
-    # if poi_role != None and poi_role not in role_names:
-    # 	role_names.append(poi_role)
-
-    # replacement_roles = []
-    # for name in role_names:
-    #	role = roles_map.get(name)
-
-    #	if role != None:
-    #		replacement_roles.append(role)
-    #	else:
-    #		ewutils.logMsg("error: role missing \"{}\"".format(name))
-
     # ewutils.logMsg('looking for {} roles to replace'.format(len(role_ids)))
     replacement_roles = []
 
@@ -559,16 +518,11 @@ async def updateRoles(
         ewutils.logMsg('error: failed to replace roles for {}:{}'.format(member.display_name, str(e)))
 
     if refresh_perms:
-        await refresh_user_perms(client=client, id_server=id_server, used_member=member, new_poi = new_poi)
+        await refresh_user_perms(client=client, id_server=id_server, used_member=member, new_poi=new_poi)
 
-
-# try:
-#	await member.edit(roles=replacement_roles)
-# except:
-#	ewutils.logMsg('error: failed to replace roles for {}'.format(member.display_name))
 
 # Removes and updates user permissions. It's got a fair amount of debuggers, sorry about the mess!
-async def refresh_user_perms(client, id_server, used_member = None, startup = False, new_poi = None):
+async def refresh_user_perms(client, id_server, used_member=None, startup=False, new_poi=None):
     server = client.get_guild(id_server)
 
     has_overrides = False
@@ -600,7 +554,8 @@ async def refresh_user_perms(client, id_server, used_member = None, startup = Fa
                             await ch.set_permissions(used_member, overwrite=None)
 
                 except:
-                    ewutils.logMsg("Failed to remove permissions for {} in channel {}.".format(used_member.display_name, channel.name))
+                    ewutils.logMsg("Failed to remove permissions for {} in channel {}.".format(used_member.display_name,
+                                                                                               channel.name))
 
             # User doesn't have permissions for his current poi's gameplay channel
             elif used_member not in channel.overwrites and user_poi_obj.id_poi == poi.id_poi:
@@ -628,7 +583,8 @@ async def refresh_user_perms(client, id_server, used_member = None, startup = Fa
                             ewutils.logMsg("Channel {} not found".format(chname))
 
                 except Exception as e:
-                    ewutils.logMsg("Failed to add permissions to {} in channel {}:{}.".format(used_member.display_name, channel.name, str(e)))
+                    ewutils.logMsg("Failed to add permissions to {} in channel {}:{}.".format(used_member.display_name,
+                                                                                              channel.name, str(e)))
 
                 has_overrides = True
 
@@ -704,11 +660,11 @@ async def remove_user_overwrites(cmd):
                     await channel.set_permissions(member, overwrite=None)
 
     response = "DEBUG: ALL USER OVERWRITES DELETED."
-    return await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(client, cmd.message.channel,
+                                       fe_utils.formatMessage(cmd.message.author, response))
 
 
-def check_clearance(member = None) -> int:
-    
+def check_clearance(member=None) -> int:
     """
     Returns an int showing the clearance of the user depending on the roles they have attached to their discord member.
     The lower the number, the greater the clearance.
@@ -722,13 +678,14 @@ def check_clearance(member = None) -> int:
 
     roles_map_user = ewutils.getRoleMap(member.roles)
 
-    if (ewcfg.role_bpadmin in roles_map_user) or (ewcfg.role_rowdyfucker in roles_map_user) or (ewcfg.role_copkiller in roles_map_user):
-        return 1 #currently in admin
+    if (ewcfg.role_bpadmin in roles_map_user) or (ewcfg.role_rowdyfucker in roles_map_user) or (
+            ewcfg.role_copkiller in roles_map_user):
+        return 1  # currently in admin
     elif ewcfg.role_brimstoneprog in roles_map_user:
-        return 2 #casual admin
+        return 2  # casual admin
     elif ewcfg.role_bdadmin in roles_map_user:
-        return 3 #mod admin
+        return 3  # mod admin
     elif ewcfg.role_brimstonedesperados in roles_map_user:
-        return 4 #casual mod admin
+        return 4  # casual mod admin
     else:
         return 10

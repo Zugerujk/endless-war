@@ -286,7 +286,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_rowdys:
         if ewcfg.faction_rowdys in bans:
@@ -318,7 +318,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_slimecorp:
         response = "Sorry, pal. That ship has sailed."
@@ -353,7 +353,7 @@ async def renounce(cmd):
         user_data.sidearm = -1
         user_data.persist()
         response = "You are no longer enlisted in the {}, but you are not free of association with them. Your former teammates immediately begin to beat the shit out of you, knocking {} slime out of you before you're able to get away.".format(faction, renounce_fee)
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1071,7 +1071,7 @@ async def hall_answer(cmd):
             else:
                 dealt_string = "gets vaporized!"
                 user_data.die(cause=ewcfg.cause_praying)
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 

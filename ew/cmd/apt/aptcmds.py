@@ -78,7 +78,7 @@ async def retire(cmd = None, isGoto = False, movecurrent = None):
             user_data = EwUser(member=cmd.message.author)
             user_data.poi = poi_dest.id_poi
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
             await user_data.move_inhabitants(id_poi=poi_dest.id_poi, visitor=user_data.id_user)
             response = "You're in your apartment."
 
@@ -123,7 +123,7 @@ async def depart(cmd = None, isGoto = False, movecurrent = None):
             ewutils.end_trade(user_data.id_user)
             await user_data.move_inhabitants(id_poi=poi_dest.id_poi)
 
-            await ewrolemgr.updateRoles(client=client, member=member_object)
+            await ewrolemgr.update_roles(client=client, member=member_object)
 
             if isGoto:
                 response = "You arrive in {}.".format(poi_dest.str_name)
@@ -419,7 +419,7 @@ async def knock(cmd = None):
                 user_data.visiting = target_data.id_user
                 ewutils.active_target_map[user_data.id_user] = ""
                 user_data.persist()
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
                 response = "You arrive in the abode of {}.".format(target.display_name)
                 await fe_utils.send_message(cmd.client, cmd.message.author, fe_utils.formatMessage(cmd.message.author, response))
                 response = "{} enters your home.".format(cmd.message.author.display_name)
@@ -582,7 +582,7 @@ async def trickortreat(cmd = None):
                     resp_cont.add_channel_response(user_poi.channel, deathreport)
 
                     await resp_cont.post()
-                    await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
+                    await ewrolemgr.update_roles(client=client, member=server.get_member(user_data.id_user))
 
                 user_data.persist()
                 response = ewcfg.halloween_tricks_trickee[trick_index].format(target.display_name, slime_loss)
@@ -677,7 +677,7 @@ async def trickortreat(cmd = None):
                     resp_cont.add_channel_response(user_poi.channel, deathreport)
 
                     await resp_cont.post()
-                    await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
+                    await ewrolemgr.update_roles(client=client, member=server.get_member(user_data.id_user))
                 user_data.persist()
                 response += ewcfg.halloween_tricks_trickee[trick_index].format("A pranksterous resident", slime_loss)
 

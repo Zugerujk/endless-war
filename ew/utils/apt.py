@@ -51,7 +51,7 @@ async def rent_time(id_server = None):
                         server = ewcfg.server_list[user_data.id_server]
                         member_object = server.get_member(owner_id_user)
 
-                        await ewrolemgr.updateRoles(client=client, member=member_object)
+                        await ewrolemgr.update_roles(client=client, member=member_object)
                         player = EwPlayer(id_user=owner_id_user)
                         response = "{} just got evicted. Point and laugh, everyone.".format(player.display_name)
                         await fe_utils.send_message(client, fe_utils.get_channel(server, poi.channel), response)
@@ -181,7 +181,7 @@ async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
                     sqt_data.poi = sqt_data.poi[3:] if sqt_data.poi[3:] in poi_static.id_to_poi.keys() else sqt_data.poi
                     sqt_data.visiting = ewcfg.location_id_empty
                     sqt_data.persist()
-                    await ewrolemgr.updateRoles(client=client, member=member_object)
+                    await ewrolemgr.update_roles(client=client, member=member_object)
         finally:
             # Clean up the database handles.
             cursor.close()

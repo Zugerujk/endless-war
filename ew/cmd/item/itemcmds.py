@@ -833,7 +833,7 @@ async def item_use(cmd):
                     item.item_props['gellphoneactive'] = 'true'
                     item.persist()
                 
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
 
             elif context == ewcfg.context_prankitem:
@@ -1019,7 +1019,7 @@ async def give(cmd):
                 user_data.sidearm = -1
                 user_data.persist()
 
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1079,7 +1079,7 @@ async def discard(cmd):
             response = "You throw away your " + item_sought.get("name")
             itm_utils.item_drop(id_item=item.id_item)
 
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
         else:
             response = "You can't throw away soulbound items."

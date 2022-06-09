@@ -617,7 +617,7 @@ async def longdrop(cmd):
 
         itm_utils.item_drop(id_item=item_sought.get('id_item'), other_poi=dest_poi.id_poi)
         response = "You stretch your arms and drop your " + item_sought.get("name") + ' into {}.'.format(dest_poi.str_name)
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -729,7 +729,7 @@ async def slap(cmd):
 
             user_data.persist()
 
-            await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.mentions[0], new_poi=target_data.poi)
+            await ewrolemgr.update_roles(client=ewutils.get_client(), member=cmd.mentions[0], new_poi=target_data.poi)
             target_data.persist()
 
             await user_data.move_inhabitants(id_poi=dest_poi_obj.id_poi)

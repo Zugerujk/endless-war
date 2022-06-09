@@ -426,7 +426,7 @@ async def bleedSlimes(id_server = None):
 
                         total_bled += real_bleed
 
-                    await ewrolemgr.updateRoles(client=client, member=member)
+                    await ewrolemgr.update_roles(client=client, member=member)
 
             await resp_cont.post()
 
@@ -616,7 +616,7 @@ async def burnSlimes(id_server = None):
                 user_data.trauma = weapon.id_weapon
 
                 user_data.persist()
-                await ewrolemgr.updateRoles(client=client, member=member)
+                await ewrolemgr.update_roles(client=client, member=member)
             else:
                 user_data.change_slimes(n=-slimes_to_burn, source=ewcfg.source_damage)
                 user_data.persist()

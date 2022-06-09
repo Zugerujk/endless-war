@@ -531,7 +531,7 @@ class EwEnemy(EwEnemyBase):
                 # Assign the corpse role to the newly dead player.
                 if was_killed:
                     member = server.get_member(target_data.id_user)
-                    await ewrolemgr.updateRoles(client=client, member=member)
+                    await ewrolemgr.update_roles(client=client, member=member)
         # announce death in kill feed channel
         # killfeed_channel = ewutils.get_channel(enemy_data.id_server, ewcfg.channel_killfeed)
         # killfeed_resp = resp_cont.channel_responses[ch_name]
@@ -2372,7 +2372,7 @@ class EwUser(EwUserBase):
                 ghost_data.persist()
 
                 ghost_member = server.get_member(ghost)
-                await ewrolemgr.updateRoles(client=client, member=ghost_member)
+                await ewrolemgr.update_roles(client=client, member=ghost_member)
 
     def remove_inhabitation(self):
         user_is_alive = self.life_state != ewcfg.life_state_corpse
