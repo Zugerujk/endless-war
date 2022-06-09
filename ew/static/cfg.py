@@ -16,7 +16,7 @@ update_pvp = 60
 update_market = 900  # 15 min
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
-suppress_missing_channel = True
+suppress_missing_channel = False
 
 # Number of times the bot should try a permissions-related API call. This is done purely for safety measures.
 permissions_tries = 1

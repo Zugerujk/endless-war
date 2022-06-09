@@ -414,7 +414,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
 
                 if user_data.poi != poi_current.id_poi:
                     if walking_into_sewers and poi_current.id_poi == ewcfg.poi_id_thesewers:
-                        user_data.die(cause=ewcfg.cause_suicide)
+                        await user_data.die(cause=ewcfg.cause_suicide)
 
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
@@ -979,7 +979,7 @@ async def teleport(cmd):
             rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi)
 
             if poi.id_poi == ewcfg.poi_id_thesewers:
-                user_data.die(cause=ewcfg.cause_suicide)
+                await user_data.die(cause=ewcfg.cause_suicide)
 
             await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author, new_poi=poi.id_poi)
             user_data.poi = poi.id_poi

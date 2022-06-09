@@ -1066,7 +1066,7 @@ async def hall_answer(cmd):
                 user_data.persist()
             else:
                 dealt_string = "gets vaporized!"
-                user_data.die(cause=ewcfg.cause_praying)
+                await user_data.die(cause=ewcfg.cause_praying)
 
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 

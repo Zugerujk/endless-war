@@ -2003,7 +2003,7 @@ async def russian_roulette(cmd):
 
                     challenger.id_killer = challenger.id_user
                     challenger.trauma = ewcfg.trauma_id_suicide
-                    challenger.die(cause=ewcfg.cause_suicide)
+                    await challenger.die(cause=ewcfg.cause_suicide)
 
                     if soulstake:
                         item_utils.surrendersoul(giver=challenger.id_user, receiver=challengee.id_user, id_server=challenger.id_server)
@@ -2020,7 +2020,7 @@ async def russian_roulette(cmd):
 
                     challengee.id_killer = challengee.id_user
                     challenger.trauma = ewcfg.trauma_id_suicide
-                    challengee.die(cause=ewcfg.cause_suicide)
+                    await challengee.die(cause=ewcfg.cause_suicide)
                     if soulstake:
                         item_utils.surrendersoul(giver=challengee.id_user, receiver=challenger.id_user, id_server=challenger.id_server)
                         challengee.has_soul = 0

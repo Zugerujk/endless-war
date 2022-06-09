@@ -620,7 +620,7 @@ async def xfer(cmd):
         user_data.visiting = ewcfg.location_id_empty
         user_data.trauma = ewcfg.trauma_id_environment
 
-        user_data.die(cause = ewcfg.cause_suicide)
+        await user_data.die(cause = ewcfg.cause_suicide)
 
         await fe_utils.send_response("Gaming the slimeconomy is punishable by death. FREE MARKET (TM) soldiers execute you immediately.", cmd)
         return
