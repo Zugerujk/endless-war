@@ -91,8 +91,6 @@ async def writhe(cmd):
 
                 user_data_target.id_killer = cmd.message.author.id
                 user_data_target.die(cause=ewcfg.cause_grandfoe)
-                user_data_target.persist()
-                await ewrolemgr.update_roles(client=cmd.client, member=target)
                 sewerchannel = fe_utils.get_channel(cmd.guild, ewcfg.channel_sewers)
                 await fe_utils.send_message(sewerchannel, "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(target, "You have been crushed by tendrils. {}".format(ewcfg.emote_slimeskull)))
 

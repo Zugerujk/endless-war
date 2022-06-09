@@ -2034,10 +2034,7 @@ async def russian_roulette(cmd):
                 challenger.persist()
                 challengee.persist()
 
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(winner, response))
-
-                await ewrolemgr.update_roles(client=cmd.client, member=author)
-                await ewrolemgr.update_roles(client=cmd.client, member=member)
+                await fe_utils.send_response(response, cmd)
 
                 break
 

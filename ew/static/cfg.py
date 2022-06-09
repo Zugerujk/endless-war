@@ -15,6 +15,9 @@ update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
 update_market = 900  # 15 min
 
+# Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
+suppress_missing_channel = True
+
 # Number of times the bot should try a permissions-related API call. This is done purely for safety measures.
 permissions_tries = 1
 
@@ -3296,6 +3299,8 @@ mutation_id_gay = "gay"
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 bingeeater_cap = 5
+
+explosion_block_list = [cause_leftserver, cause_cliff]
 
 quadrant_sloshed = "flushed"
 quadrant_roseate = "pale"

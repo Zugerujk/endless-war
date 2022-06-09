@@ -276,7 +276,7 @@ def get_channel(server=None, channel_name=""):
         if chan.name == channel_name:
             channel = chan
 
-    if channel is None and not ewutils.DEBUG:
+    if channel is None and (not ewutils.DEBUG or ewcfg.suppress_missing_channel):
         ewutils.logMsg('Error: In get_channel(), could not find channel using channel_name "{}"'.format(channel_name))
 
     return channel
@@ -405,7 +405,7 @@ async def delete_last_message(client, last_messages, tick_length):
         ewutils.logMsg("failed to delete last message")
 
 
-def create_death_report(cause = None, user_data = None):
+def create_death_report(cause=None, user_data=None):
     client = ewutils.get_client()
     server = client.get_guild(user_data.id_server)
 
@@ -418,10 +418,10 @@ def create_death_report(cause = None, user_data = None):
     deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
     report_requires_killer = [ewcfg.cause_killing, ewcfg.cause_busted, ewcfg.cause_burning, ewcfg.cause_killing_enemy]
-    if (cause in report_requires_killer):  # Only deal with enemy data if necessary
+    if cause in report_requires_killer:  # Only deal with enemy data if necessary
         killer_isUser = cause in [ewcfg.cause_killing, ewcfg.cause_busted, ewcfg.cause_burning]
         killer_isEnemy = cause in [ewcfg.cause_killing_enemy]
-        if (killer_isUser):  # Generate responses for dying to another player
+        if killer_isUser:  # Generate responses for dying to another player
             # Grab user data
             killer_data = EwUser(id_user=user_data.id_killer, id_server=user_data.id_server)
             player_data = EwPlayer(id_user=user_data.id_killer)
@@ -431,19 +431,19 @@ def create_death_report(cause = None, user_data = None):
 
             killer_nick = player_data.display_name
 
-            if (cause == ewcfg.cause_killing) and (weapon != None):  # Response for dying to another player
+            if (cause == ewcfg.cause_killing) and weapon:  # Response for dying to another player
                 deathreport = "You were {} by {}. {}".format(weapon.str_killdescriptor, killer_nick, ewcfg.emote_slimeskull)
                 deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-            if (cause == ewcfg.cause_busted):  # Response for being busted
+            if cause == ewcfg.cause_busted:  # Response for being busted
                 deathreport = "Your ghost has been busted by {}. {}".format(killer_nick, ewcfg.emote_bustin)
                 deathreport = "{} ".format(ewcfg.emote_bustin) + formatMessage(user_player, deathreport)
 
-            if (cause == ewcfg.cause_burning):  # Response for burning to death
+            if cause == ewcfg.cause_burning:  # Response for burning to death
                 deathreport = "You were {} by {}. {}".format(static_weapons.weapon_map.get(ewcfg.weapon_id_molotov).str_killdescriptor, killer_nick, ewcfg.emote_slimeskull)
                 deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-        if (killer_isEnemy):  # Generate responses for being killed by enemy
+        if killer_isEnemy:  # Generate responses for being killed by enemy
             # Grab enemy data
             killer_data = EwEnemy(id_enemy=user_data.id_killer, id_server=user_data.id_server)
 
@@ -451,7 +451,7 @@ def create_death_report(cause = None, user_data = None):
                 used_attacktype = hunt_static.attack_type_map.get(killer_data.attacktype)
             else:
                 used_attacktype = ewcfg.enemy_attacktype_unarmed
-            if (cause == ewcfg.cause_killing_enemy):  # Response for dying to enemy attack
+            if cause == ewcfg.cause_killing_enemy:  # Response for dying to enemy attack
                 # Get attack kill description
                 kill_descriptor = "beaten to death"
                 if used_attacktype != ewcfg.enemy_attacktype_unarmed:
@@ -461,47 +461,47 @@ def create_death_report(cause = None, user_data = None):
                 deathreport = "You were {} by {}. {}".format(kill_descriptor, killer_data.display_name, ewcfg.emote_slimeskull)
                 deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_donation):  # Response for overdonation
+    if cause == ewcfg.cause_donation:  # Response for overdonation
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, "You have died in a medical mishap. {}".format(ewcfg.emote_slimeskull))
 
-    if (cause == ewcfg.cause_suicide):  # Response for !suicide
+    if cause == ewcfg.cause_suicide:  # Response for !suicide
         deathreport = "You arrive among the dead by your own volition. {}".format(ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_drowning):  # Response for disembarking into the slime sea
+    if cause == ewcfg.cause_drowning:  # Response for disembarking into the slime sea
         deathreport = "You have drowned in the slime sea. {}".format(ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_falling):  # Response for disembarking blimp over the city
+    if cause == ewcfg.cause_falling:  # Response for disembarking blimp over the city
         deathreport = "You have fallen to your death. {}".format(ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_bleeding):  # Response for bleed death
+    if cause == ewcfg.cause_bleeding:  # Response for bleed death
         deathreport = "{skull} *{uname}*: You have succumbed to your wounds. {skull}".format(skull=ewcfg.emote_slimeskull, uname=user_nick)
 
-    if (cause == ewcfg.cause_weather):  # Response for death by bicarbonate rain
+    if cause == ewcfg.cause_weather:  # Response for death by bicarbonate rain
         deathreport = "{skull} *{uname}*: You have been cleansed by the bicarbonate rain. {skull}".format(skull=ewcfg.emote_slimeskull, uname=user_nick)
 
-    if (cause == ewcfg.cause_cliff):  # Response for falling or being pushed off cliff
+    if cause == ewcfg.cause_cliff:  # Response for falling or being pushed off cliff
         deathreport = "You fell off a cliff. {}".format(ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_backfire):  # Response for death by self backfire
+    if cause == ewcfg.cause_backfire:  # Response for death by self backfire
         weapon_item = EwItem(id_item=user_data.weapon)
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
         deathreport = "{} killed themselves with their own {}. Dumbass.".format(user_nick, weapon.str_name)
 
-    if (cause == ewcfg.cause_praying):  # Response for praying
+    if cause == ewcfg.cause_praying:  # Response for praying
         deathreport = formatMessage(user_member, "{} owww yer frickin bones man {}".format(ewcfg.emote_slimeskull, ewcfg.emote_slimeskull))
 
-    if (cause == ewcfg.cause_poison):  # Response for praying
+    if cause == ewcfg.cause_poison:  # Response for praying
         deathreport = formatMessage(user_member, "{} couldn't stop guzzling poison. {}".format(user_nick, ewcfg.emote_slimeskull))
     
-    if (cause == ewcfg.cause_crushing): # Response for crushing a negapoudrin/negaslimeoid core
+    if cause == ewcfg.cause_crushing: # Response for crushing a negapoudrin/negaslimeoid core
         deathreport = "You bit into **NEGASLIME**, dink. Fucking idiot. {}".format(ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
-    if (cause == ewcfg.cause_gay): # Response for being gay in July
+    if cause == ewcfg.cause_gay: # Response for being gay in July
         deathreport = "https://cdn.discordapp.com/attachments/431240644464214017/982634916854497321/unknown.png"
         deathreport = formatMessage(user_player, deathreport)
 

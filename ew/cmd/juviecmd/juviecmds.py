@@ -160,8 +160,6 @@ async def crush(cmd):
 
                 response = "You {} your hard-earned slime crystal with your bare teeth.\nAs the nerve endings in your teeth explode, you realize you bit into a negapoudrin! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
 
-                user_data.persist()
-
             # Remove 1 million slime from the player
             else:
                 levelup_response = user_data.change_slimes(n = crush_slimes, source = ewcfg.source_crush)
@@ -185,8 +183,6 @@ async def crush(cmd):
                 resp_cont.add_response_container(die_resp)
                 
                 response = "You {} the Negaslimeoid core with your bare teeth.\nAs the nerve endings in your teeth explode, you recoil in pain! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
-
-                user_data.persist()
 
             # Remove 1 million slime from the player
             else:
@@ -1071,7 +1067,6 @@ async def hall_answer(cmd):
             else:
                 dealt_string = "gets vaporized!"
                 user_data.die(cause=ewcfg.cause_praying)
-                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 

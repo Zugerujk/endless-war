@@ -156,6 +156,7 @@ re_moan_g = re.compile('.*![b]+[r]+[a]+[i]+[n]+[z]+.*')
 re_measure_g = re.compile('!measure.*')
 re_yoslimernalia_g = re.compile('.*![y]+[o]+[s]+[l]+[i]+[m]+[e]+[r]+[n]+[a]+[l]+[i]+[a]+.*')
 
+
 @client.event
 async def on_member_remove(member):
     # Kill players who leave the server.
@@ -168,11 +169,10 @@ async def on_member_remove(member):
 
         user_data.trauma = ewcfg.trauma_id_suicide
         user_data.die(cause=ewcfg.cause_leftserver)
-        user_data.persist()
 
         ewutils.logMsg('Player killed for leaving the server.')
-    except:
-        ewutils.logMsg('Failed to kill member who left the server.')
+    except Exception as e:
+        ewutils.logMsg(f'Failed to kill member who left the server: {e}')
 
 
 @client.event
@@ -184,8 +184,8 @@ async def on_member_update(before, after):
             user_data.time_lastoffline = int(time.time())
             user_data.persist()
 
-    except:
-        ewutils.logMsg('Failed to update member\'s last offline time.')
+    except Exception as e:
+        ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
 
 
 @client.event

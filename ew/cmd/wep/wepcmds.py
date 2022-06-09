@@ -714,10 +714,6 @@ async def suicide(cmd):
             user_data.visiting = ewcfg.location_id_empty
             die_resp = user_data.die(cause=ewcfg.cause_suicide)
             resp_cont.add_response_container(die_resp)
-            user_data.persist()
-
-            # Assign the corpse role to the player. He dead.
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
             if user_data.has_soul == 1:
                 response = '{} has willingly returned to the slime. {}'.format(cmd.message.author.display_name, ewcfg.emote_slimeskull)

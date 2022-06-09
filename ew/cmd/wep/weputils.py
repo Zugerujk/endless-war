@@ -271,8 +271,6 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
 
                     target_data.trauma = ewcfg.trauma_id_environment
                     target_data.die(cause=ewcfg.cause_killing)
-                    # target_data.change_slimes(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
-                    target_data.persist()
 
                     response += "{} was killed by an explosion during your fight with {}!".format(target_player.display_name, shootee_player.display_name)
                     if coinbounty > 0:
@@ -283,9 +281,6 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
                     resp_cont.add_member_to_update(server.get_member(target_data.id_user))
                 # Survived the explosion
                 else:
-                    # sap_response = ""
-                    # if sap_damage_target > 0:
-                    #	sap_response = " and {} hardened sap".format(sap_damage_target)
 
                     response += "{} was caught in an explosion during your fight with {} and lost {:,} slime!".format(target_player.display_name, shootee_player.display_name, damage)
                     resp_cont.add_channel_response(channel, response)
@@ -313,11 +308,6 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
 
                 slimes_damage_target = slimes_damage
                 target_enemy_data = EwEnemy(id_enemy=bystander, id_server=user_data.id_server)
-
-                # apply sap armor
-                # sap_armor = get_sap_armor(shootee_data = target_enemy_data, sap_ignored = sap_ignored)
-                # slimes_damage_target *= sap_armor
-                # slimes_damage_target = int(max(0, slimes_damage_target))
 
                 slimes_dropped = target_enemy_data.totaldamage + target_enemy_data.slimes
 
@@ -349,9 +339,6 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
                     sewer_data.change_slimes(n=slimes_drained)  # sewer is given 3/4 of the damage
                     sewer_data.persist()
 
-                # sap_damage_target = min(sap_damage, target_enemy_data.hardened_sap)
-                # target_enemy_data.hardened_sap -= sap_damage_target
-
                 if was_killed:
                     # adjust statistics
                     ewstats.increment_stat(user=user_data, metric=ewcfg.stat_kills)
@@ -376,9 +363,6 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
 
                 # Survived the explosion
                 else:
-                    # sap_response = ""
-                    # if sap_damage_target > 0:
-                    #	sap_response = " and {} hardened sap".format(sap_damage_target)
                     response += "{} was caught in an explosion during your fight with {} and lost {:,} slime!".format(target_enemy_data.display_name, shootee_player.display_name, damage)
                     resp_cont.add_channel_response(channel, response)
                     target_enemy_data.persist()

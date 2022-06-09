@@ -440,14 +440,6 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
                     except:
                         pass
 
-                    # msg_walk_start = await fe_utils.send_message(cmd.client,
-                    #	channel,
-                    #	fe_utils.formatMessage(
-                    #		cmd.message.author,
-                    #		"You {} {}.".format(poi_current.str_enter, poi_current.str_name)
-                    #	)
-                    # )
-
                     msg_walk_start = await send_arrival_response(cmd, poi_current, channel)
 
                     # SWILLDERMUK

@@ -304,9 +304,6 @@ async def donate(cmd):
                 market_data.persist()
                 user_data.trauma = ewcfg.trauma_id_environment
                 die_resp = user_data.die(cause = ewcfg.cause_donation)
-                user_data.persist()
-                # Assign the corpse role to the player. He dead.
-                await ewrolemgr.update_roles(client = cmd.client, member = cmd.message.author)
                 await die_resp.post()
             else:
                 # Do the transfer if the player can afford it.
@@ -624,10 +621,8 @@ async def xfer(cmd):
         user_data.trauma = ewcfg.trauma_id_environment
 
         user_data.die(cause = ewcfg.cause_suicide)
-        user_data.persist()
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Gaming the slimeconomy is punishable by death. SlimeCorp soldiers execute you immediately."))
-        await ewrolemgr.update_roles(client = cmd.client, member = cmd.message.author)
+        await fe_utils.send_response("Gaming the slimeconomy is punishable by death. FREE MARKET (TM) soldiers execute you immediately.", cmd)
         return
 
     # Parse the slime value to send.
