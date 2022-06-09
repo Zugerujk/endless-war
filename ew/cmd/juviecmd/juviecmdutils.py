@@ -128,10 +128,10 @@ async def mismine(cmd, user_data, cause):
                 user_data.change_slimes(n=-(user_data.slimes * 0.5))
                 user_data.persist()
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, accident_response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, accident_response))
     # await ewrolemgr.updateRoles(client = cmd.client, member = cmd.message.author)
     # sewerchannel = fe_utils.get_channel(cmd.guild, ewcfg.channel_sewers)
-    # await fe_utils.send_message(cmd.client, sewerchannel, "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(cmd.message.author, "You have died in a mining accident. {}".format(ewcfg.emote_slimeskull)))
+    # await fe_utils.send_message(sewerchannel, "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(cmd.message.author, "You have died in a mining accident. {}".format(ewcfg.emote_slimeskull)))
     else:
         if cause == "exhaustion":
             response = "You've exhausted yourself from mining. You'll need some refreshment before getting back to work."
@@ -143,7 +143,7 @@ async def mismine(cmd, user_data, cause):
         else:
             response = "You can't mine in this channel. Go elsewhere."
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 def init_grid(poi, id_server):
@@ -284,7 +284,7 @@ async def print_grid_minesweeper(cmd):
         grid_edit = "\n```\n{}\n```".format(grid_str)
 
         if time_now > grid_cont.time_last_posted + 10 or grid_cont.times_edited > 3 or grid_cont.message == "":
-            grid_cont.message = await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, grid_edit))
+            grid_cont.message = await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, grid_edit))
             grid_cont.time_last_posted = time_now
             grid_cont.times_edited = 0
         else:
@@ -346,7 +346,7 @@ async def print_grid_bubblebreaker(cmd):
         if use_emotes:
             grid_edit = "\n" + grid_str
         if time_now > grid_cont.time_last_posted + 10 or grid_cont.times_edited > 8 or grid_cont.message == "":
-            grid_cont.message = await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, grid_edit))
+            grid_cont.message = await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, grid_edit))
             grid_cont.time_last_posted = time_now
             grid_cont.times_edited = 0
         else:

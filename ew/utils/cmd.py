@@ -267,7 +267,7 @@ async def start(cmd = None, message = '...', channel = None, client = None):
         client = cmd.client
 
     if client != None and channel != None:
-        return await fe_utils.send_message(client, channel, message)
+        return await fe_utils.send_message(channel, message)
 
     return None
 
@@ -282,7 +282,7 @@ async def fake_failed_command(cmd):
     elif randint == 3:
         msg_mistake = "ENDLESS WAR pays you no mind."
 
-    msg = await fe_utils.send_message(client, cmd.message.channel, msg_mistake)
+    msg = await fe_utils.send_message(cmd.message.channel, msg_mistake)
     await asyncio.sleep(2)
     try:
         await msg.delete()

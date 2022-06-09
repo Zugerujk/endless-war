@@ -177,7 +177,7 @@ async def menu(cmd):
                     response += "\n\nYour mere presence in here ruins the cheery atmosphere."
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Buy items.
@@ -295,11 +295,11 @@ async def order(cmd):
 
                     if ewcfg.cd_premium_purchase > (int(time.time()) - user_data.time_lastpremiumpurchase):
                         response = "That item is in very limited stock! The vendor asks that you refrain from purchasing it for a day or two."
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     elif ewcfg.cd_new_player > (int(time.time()) - user_data.time_joined):
                         response = "You've only been in the city for a few days. The vendor doesn't trust you with that item very much..."
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 stock_data = None
                 company_data = None
@@ -351,7 +351,7 @@ async def order(cmd):
 
                     inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=item_type, return_strings=True, pronoun="You")
                     if inv_response != "" and (item_type != ewcfg.it_food or togo):
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
+                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
                     if item_type == ewcfg.it_food:
                         food_ordered = True
@@ -368,16 +368,16 @@ async def order(cmd):
                             target_data = EwUser(member=target)
                             if target_data.life_state == ewcfg.life_state_corpse and target_data.get_possession():
                                 response = "How are you planning to feed them while they're possessing you?"
-                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                             elif target_data.poi != user_data.poi:
                                 response = "You can't order anything for them because they aren't here!"
-                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     elif item_type == ewcfg.it_weapon:
 
                         if user_data.life_state == ewcfg.life_state_corpse:
                             response = "Ghosts can't hold weapons."
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     item_props = itm_utils.gen_item_props(item)
                     if item_type == ewcfg.it_food:
@@ -399,19 +399,19 @@ async def order(cmd):
                         if "custom" in item_props.get('id_furniture'):
                             if cmd.tokens_count < 4 or cmd.tokens[2] == "" or cmd.tokens[3] == "":
                                 response = "You need to specify the customization text before buying a custom item. Come on, isn't that self-evident? (!order [custom item] \"custom name\" \"custom description\")"
-                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                             else:
                                 customname = cmd.tokens[2]
 
                                 if len(customname) > 32:
                                     response = "That name is too long. ({:,}/32)".format(len(customname))
-                                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                                 customdesc = cmd.tokens[3]
 
                                 if len(customdesc) > 500:
                                     response = "That description is too long. ({:,}/500)".format(len(customdesc))
-                                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                                 name = item_props['furniture_name'] = item_props['furniture_name'].format(custom=customname)
                                 item_props['furniture_desc'] = customdesc
@@ -470,7 +470,7 @@ async def order(cmd):
             response = "Check the {} for a list of items you can {}.".format(ewcfg.cmd_menu, ewcfg.cmd_order)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Eating food
@@ -513,4 +513,4 @@ async def eat_item(cmd):
         else:
             response = "You don't have anything to eat."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

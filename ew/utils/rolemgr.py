@@ -660,7 +660,7 @@ async def remove_user_overwrites(cmd):
                     await channel.set_permissions(member, overwrite=None)
 
     response = "DEBUG: ALL USER OVERWRITES DELETED."
-    return await fe_utils.send_message(client, cmd.message.channel,
+    return await fe_utils.send_message(cmd.message.channel,
                                        fe_utils.formatMessage(cmd.message.author, response))
 
 

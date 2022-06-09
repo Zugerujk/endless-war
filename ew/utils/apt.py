@@ -54,7 +54,7 @@ async def rent_time(id_server = None):
                         await ewrolemgr.update_roles(client=client, member=member_object)
                         player = EwPlayer(id_user=owner_id_user)
                         response = "{} just got evicted. Point and laugh, everyone.".format(player.display_name)
-                        await fe_utils.send_message(client, fe_utils.get_channel(server, poi.channel), response)
+                        await fe_utils.send_message(fe_utils.get_channel(server, poi.channel), response)
 
 
                     poi = poi_static.id_to_poi.get(user_apt.poi)
@@ -101,7 +101,7 @@ async def handle_hourly_events(id_server = None):
                         channel_brick = fe_utils.get_channel(server, poi.channel)
                         if brick_member:
                             try:
-                                await fe_utils.send_message(client, channel_brick, fe_utils.formatMessage(brick_member, "UUUUUUUUUUGGGGGGGGGGGGHHHHHHHHHHH... OOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAHHHHH th-tunk. You just shit a brick. Congratulations?"))
+                                await fe_utils.send_message(channel_brick, fe_utils.formatMessage(brick_member, "UUUUUUUUUUGGGGGGGGGGGGHHHHHHHHHHH... OOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAHHHHH th-tunk. You just shit a brick. Congratulations?"))
                                 brick_obj.id_owner = poi.id_poi
                                 brick_obj.item_props['furniture_name'] = 'brick'
                                 brick_obj.persist()
@@ -121,7 +121,7 @@ async def handle_hourly_events(id_server = None):
                             clock_player = EwUser(member=clock_member)
                             if (isFurnished == False or ("apt" in clock_player.poi and clock_player.visiting == "empty")) and clock_member:
                                 try:
-                                    await fe_utils.send_message(client, clock_member, fe_utils.formatMessage(clock_member, "BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP"))
+                                    await fe_utils.send_message(clock_member, fe_utils.formatMessage(clock_member, "BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP"))
                                 except:
                                     ewutils.logMsg("failed to send alarm to user {}".format(clock_member.id))
                         
@@ -197,4 +197,4 @@ async def lobbywarning(cmd):
         response = "Try that in a DM to ENDLESS WAR or in your apartment."
     else:
         response = "You're not in an apartment."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

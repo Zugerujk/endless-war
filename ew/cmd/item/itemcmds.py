@@ -82,7 +82,7 @@ async def soulextract(cmd):
         response = "Now's not the time to be playing with your soul, dumbass! You have to focus on pointing the gun at your head!"
     else:
         response = "There's nothing left in you to extract. You already spent the soul you had."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def returnsoul(cmd):
@@ -123,7 +123,7 @@ async def returnsoul(cmd):
             response = "Nice try, but your mortal coil recognizes a fake soul when it sees it."
     else:
         response = "You don't have a soul to absorb. Hopelessness is no fun, but don't get all delusional on us now."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def squeeze(cmd):
@@ -132,11 +132,11 @@ async def squeeze(cmd):
 
     if usermodel.life_state == ewcfg.life_state_corpse:
         response = "Alas, you lack the mortal appendages required to wring the slime out of someone's soul."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count <= 0:
         response = "Specify a soul you want to squeeze the life out of."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     target = cmd.mentions[0]
     if target.id == cmd.message.author.id:
@@ -192,11 +192,11 @@ async def squeeze(cmd):
 
             if receivingreport != "":
                 loc_channel = fe_utils.get_channel(cmd.guild, poi.channel)
-                await fe_utils.send_message(cmd.client, loc_channel, fe_utils.formatMessage(target, receivingreport))
+                await fe_utils.send_message(loc_channel, fe_utils.formatMessage(target, receivingreport))
 
             response = "You tightly squeeze {}'s soul in your hand, jeering into it as you do so. This thing was worth every penny.".format(playermodel.display_name)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -231,14 +231,14 @@ async def inventory_print(cmd):
             resp_txt = "There is no community chest here."
             response = fe_utils.formatMessage(cmd.message.author, resp_txt) if not targeting_dms else resp_txt
 
-            return await fe_utils.send_message(cmd.client, target_channel, response)
+            return await fe_utils.send_message(target_channel, response)
 
         # Ensure they are checking chests in the poi channel or their dms
         if (not targeting_dms) and (target_channel.name != poi_data.channel):
                 resp_txt = "You can't see the community chest from here."
                 response = fe_utils.formatMessage(cmd.message.author, resp_txt) if not targeting_dms else resp_txt
 
-                return await fe_utils.send_message(cmd.client, target_channel, response)
+                return await fe_utils.send_message(target_channel, response)
 
         # Mark as search for chest
         is_player_inventory = False
@@ -258,19 +258,19 @@ async def inventory_print(cmd):
         resp_txt = "Let the last inventory finish, prick."
         response = fe_utils.formatMessage(cmd.message.author, resp_txt) if not targeting_dms else resp_txt
 
-        return await fe_utils.send_message(cmd.client, target_channel, response)
+        return await fe_utils.send_message(target_channel, response)
 
     # Check if the user has the bot blocked from dms, by dming them of course
     if targeting_dms:
         try:
             resp_txt = "__You are holding:__" if is_player_inventory else "__The community chest contains:__"
-            await fe_utils.send_message(cmd.client, target_channel, resp_txt)
+            await fe_utils.send_message(target_channel, resp_txt)
         except:
             # you can only tell them to unblock you if the channel they sent it through isn't their dms
             if cmd.message.channel.id != cmd.message.author.id:
                 resp_txt = "You'll have to allow Endless War to send you DMs to check your inventory!"
                 response = fe_utils.formatMessage(cmd.message.author, resp_txt)
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+                return await fe_utils.send_message(cmd.message.channel, response)
 
     # All checks passed, let other prints know this channel is busy until the response is sent
     inv_channel_ids.append(target_channel.id)
@@ -739,7 +739,7 @@ async def item_look(cmd):
             response = name + (" x{:,}".format(item.stack_size) if (item.stack_size >= 1) else "") + "\n\n" + response
             if message is not None and message != "":
                 response += "\n\nIt has a message attached: " + message
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(player, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(player, response))
         else:
             if iterate == len(item_dest) and response == "":
                 if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -747,7 +747,7 @@ async def item_look(cmd):
                 else:
                     response = "Inspect which item? (check **!inventory**)"
 
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # this is basically just the item_look command with some other stuff at the bottom
@@ -859,7 +859,7 @@ async def item_use(cmd):
                     if item_action == "delete":
                         bknd_item.item_delete(item.id_item)
                         # prank_feed_channel = fe_utils.get_channel(cmd.guild, ewcfg.channel_prankfeed)
-                        # await fe_utils.send_message(cmd.client, prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (response+"\n`-------------------------`")))
+                        # await fe_utils.send_message(prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (response+"\n`-------------------------`")))
 
                     elif item_action == "drop":
                         bknd_item.give_item(id_user=(user_data.poi + '_trap'), id_server=item.id_server, id_item=item.id_item)
@@ -886,7 +886,7 @@ async def item_use(cmd):
                 if user_data.poi == "room103" and context == 'cabinetkey':
                     response = ewdebug.debug_code
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
 
     else:
         if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -894,7 +894,7 @@ async def item_use(cmd):
         else:
             response = "Use which item? (check **!inventory**)"
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def manually_edit_item_properties(cmd):
@@ -926,7 +926,7 @@ async def manually_edit_item_properties(cmd):
     else:
         response = 'Invalid number of options entered.\nProper usage is: !editprop [item ID] [name] [value], where [value] is in quotation marks if it is longer than one word.'
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 """
@@ -943,19 +943,19 @@ async def give(cmd):
         recipient = cmd.mentions[0]
     else:
         response = "You have to specify the recipient of the item."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     user_data = EwUser(member=author)
     recipient_data = EwUser(member=recipient)
 
     if user_data.poi != recipient_data.poi:
         response = "You must be in the same location as the person you want to gift your item to, bitch."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Check if the player is giving an item to themselves
     if user_data.id_user == recipient_data.id_user:
         response = "You can't give yourself something you already have, headass. You literally **already have it.**"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_sought = bknd_item.find_item(item_search=item_search, id_user=author.id, id_server=server.id)
 
@@ -982,17 +982,17 @@ async def give(cmd):
         inv_response = bknd_item.check_inv_capacity(user_data=recipient_data, item_type=item_sought.get('item_type'), return_strings=True, pronoun="They")
         #don't let people give others food when they shouldn't be able to carry more food items
         if inv_response != "":
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
 
         if item_sought.get('item_type') == ewcfg.it_weapon:
 
             if user_data.weaponmarried and user_data.weapon == item_sought.get('id_item'):
                 response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             elif recipient_data.life_state == ewcfg.life_state_corpse:
                 response = "Ghosts can't hold weapons."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if item_sought.get('item_type') == ewcfg.it_cosmetic:
             item_data = EwItem(id_item=item_sought.get('id_item'))
@@ -1021,7 +1021,7 @@ async def give(cmd):
 
             await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     else:
         if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -1029,7 +1029,7 @@ async def give(cmd):
         else:
             response = "Give which item? (check **!inventory**)"
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -1054,7 +1054,7 @@ async def discard(cmd):
                     weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                     response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the retarded decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
                         weapon.str_weapon)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
                     user_data.weapon = -1
                     user_data.persist()
@@ -1065,7 +1065,7 @@ async def discard(cmd):
                     weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                     response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the retarded decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
                         weapon.str_weapon)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
                     user_data.sidearm = -1
                     user_data.persist()
@@ -1074,7 +1074,7 @@ async def discard(cmd):
             # 	# Prevent the item from being dropped if it is adorned
             # 	if item_sought.get("adorned") == 'true':
             # 		response = "You need to !dedorn your {} first, before you can throw it away.".format(item_sought.get("name"))
-            # 		return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            # 		return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             response = "You throw away your " + item_sought.get("name")
             itm_utils.item_drop(id_item=item.id_item)
@@ -1089,7 +1089,7 @@ async def discard(cmd):
         else:
             response = "Discard which item? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -1118,7 +1118,7 @@ async def trash(cmd):
     else:
         response = "Are you sure you have that item?"
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def zuck(cmd):
@@ -1133,7 +1133,7 @@ async def zuck(cmd):
     else:
         response = "You'll need a corpse and the zuck syringe before you can do that."
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def makecostume(cmd):
@@ -1146,11 +1146,11 @@ async def makecostume(cmd):
 
     if not costumekit:
         response = "You don't know how to make one, bitch."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if len(cmd.tokens) != 3:
         response = 'Usage: !makecostume "[name]" "[description]".\nExample: !makecostume "Ghost Costume" "A bedsheet with holes for eyes."'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     bknd_item.item_delete(id_item=costumekit.get('id_item'))
 
@@ -1185,7 +1185,7 @@ async def makecostume(cmd):
     )
 
     response = "You fashion your **{}** Double Halloween costume using the creation kit.".format(item_name)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def flowerpot(cmd):
@@ -1196,7 +1196,7 @@ async def flowerpot(cmd):
 
     if not bknd_item.check_inv_capacity(user_data=usermodel, item_type=ewcfg.it_furniture):
         response = "You don't have room for any more furniture items."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if item_sought:
         item = EwItem(id_item=item_sought.get('id_item'))
@@ -1252,7 +1252,7 @@ async def flowerpot(cmd):
                 response += "**"
         else:
             response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def unpot(cmd):
@@ -1275,7 +1275,7 @@ async def unpot(cmd):
             response = "Get the pot before you unpot it."
     else:
         response = "Are you sure you have that plant?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def propstand(cmd):
@@ -1291,14 +1291,14 @@ async def propstand(cmd):
 
     if not bknd_item.check_inv_capacity(user_data=usermodel, item_type=ewcfg.it_furniture):
         response = "You don't have room for any more furniture items."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if item_sought:
         item = EwItem(id_item=item_sought.get('id_item'))
         if item.item_type == ewcfg.it_furniture:
             if item.item_props.get('id_furniture') == "propstand":
                 response = "It's already on a prop stand."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if item.soulbound:
             response = "Cool idea, but no. If you tried to mount a soulbound item above the fireplace you'd be stuck there too."
@@ -1307,7 +1307,7 @@ async def propstand(cmd):
                 if usermodel.weaponmarried:
                     weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                     response = "Your dearly beloved? Put on a propstand? At least have the decency to get a divorce at the dojo first, you cretin.".format(weapon.str_weapon)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
                     usermodel.weapon = -1
                     usermodel.persist()
@@ -1350,7 +1350,7 @@ async def propstand(cmd):
             response = "Specify the item you want to put on the stand."
         else:
             response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def releaseprop(cmd):
@@ -1359,7 +1359,7 @@ async def releaseprop(cmd):
 
     if user_data.poi != ewcfg.poi_id_bazaar:
         response = "You need to see a specialist at The Bazaar to do that."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
@@ -1381,7 +1381,7 @@ async def releaseprop(cmd):
             response = "Don't try to unstand that which is not a stand."
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def aquarium(cmd):
@@ -1397,7 +1397,7 @@ async def aquarium(cmd):
 
     if not bknd_item.check_inv_capacity(user_data=usermodel, item_type=ewcfg.it_furniture):
         response = "You don't have room for any more furniture items."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if item_sought:
         item = EwItem(id_item=item_sought.get('id_item'))
@@ -1437,7 +1437,7 @@ async def aquarium(cmd):
             response = "Specify a fish. You're not allowed to put yourself into an aquarium."
         else:
             response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def releasefish(cmd):
@@ -1446,7 +1446,7 @@ async def releasefish(cmd):
 
     if usermodel.poi != ewcfg.poi_id_bazaar:
         response = "You need to see a specialist at The Bazaar to do that."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
@@ -1467,7 +1467,7 @@ async def releasefish(cmd):
             response = "Don't try to conjure a fish out of just anything. Find an aquarium."
     else:
         response = "Are you sure you have that fish?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def store_item(cmd):
@@ -1481,7 +1481,7 @@ async def store_item(cmd):
     # response = "Try that in a DM to ENDLESS WAR."
     else:
         response = "There is no storage here, public or private."
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def remove_item(cmd):
@@ -1495,7 +1495,7 @@ async def remove_item(cmd):
     # response = "Try that in a DM to ENDLESS WAR."
     else:
         response = "There is no storage here, public or private."
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def unwrap(cmd):
@@ -1553,16 +1553,16 @@ async def unwrap(cmd):
             response = "You can't unwrap something that isn't a gift, bitch."
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def add_message(cmd):
     if cmd.tokens_count == 1:
         response = "Scrawl what? Do you even know what that means?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.tokens_count == 2:
         response = "Try !scrawl <item> <description>."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1])
     outofspace = False
@@ -1588,7 +1588,7 @@ async def add_message(cmd):
             response += "\nOh. Shit, looks like you ran out of space."
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def strip_message(cmd):
@@ -1597,7 +1597,7 @@ async def strip_message(cmd):
         user_data = EwUser(member=cmd.message.author)
         user_data.change_crime(n=1) #indecent exposure
         user_data.persist()
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None)
@@ -1614,7 +1614,7 @@ async def strip_message(cmd):
             response = "You rip out the old message. Nobody will ever know what they wrote here."
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ 
@@ -1657,7 +1657,7 @@ async def forge_master_poudrin(cmd):
 
     response = "A pillar of light envelops {}! All of their slime is condensed into one, all-powerful Master Poudrin!\nDon't !crush it all in one place, kiddo.".format(
         member.display_name)
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 # A debug function designed to generate almost any kind of item within the game. Can be used to give items to users.
@@ -1679,7 +1679,7 @@ async def create_item(cmd):
     # The proper usage is !createitem [item id] [recipient]. The opposite order is invalid.
     if '<@' in value:  # Triggers if the 2nd command token is a mention
         response = "Proper usage of !createitem: **!createitem [item id] [recipient]**."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        return await fe_utils.send_message(cmd.message.channel, response)
 
     item = static_items.item_map.get(value)
 
@@ -1753,7 +1753,7 @@ async def create_item(cmd):
     else:
         response = "Could not find item."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 async def create_multi(cmd):
@@ -1775,7 +1775,7 @@ async def create_multi(cmd):
     # The proper usage is !createitem [item id] [recipient]. The opposite order is invalid.
     if '<@' in value:  # Triggers if the 2nd command token is a mention
         response = "Proper usage of !createitem: **!createitem [item id] [recipient]**."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        return await fe_utils.send_message(cmd.message.channel, response)
 
     item = static_items.item_map.get(value)
 
@@ -1841,7 +1841,7 @@ async def create_multi(cmd):
     else:
         response = "Could not find item."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 
@@ -1863,7 +1863,7 @@ async def manual_soulbind(cmd):
         item.persist()
 
         response = "Soulbound item **{}**.".format(id_item)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        await fe_utils.send_message(cmd.message.channel, response)
     else:
         return
 
@@ -1875,7 +1875,7 @@ async def create_all(cmd):
     # The proper usage is !createitem [item id] [recipient]. The opposite order is invalid.
     if '<@' in cmd.tokens[1]:  # Triggers if the 2nd command token is a mention
         response = "Proper usage of !createall: **!createall [Number of copies] [recipient]**."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        return await fe_utils.send_message(cmd.message.channel, response)
 
     try:
         num_target = int(cmd.tokens[1])
@@ -1916,7 +1916,7 @@ async def create_all(cmd):
 
     response = "Created {} items for **{}**.".format(number_created, item_recipient)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 async def manual_transfer(cmd):
@@ -1935,7 +1935,7 @@ async def manual_transfer(cmd):
         item_sought.persist()
     else:
         response = "Can't move that. It's !moveitem <item id> <destination>"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def collect(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -1943,7 +1943,7 @@ async def collect(cmd):
 
     if cmd.tokens_count != 3:
         response = "You need to specify the item and the collection. Try !collect \"collection\" \"item\"."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     collection_seek = cmd.tokens[1]
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
@@ -1985,7 +1985,7 @@ async def collect(cmd):
 
             response = "You drop the {} into the {}.".format(item_sought_item.get('name'), item_sought_col.get('name'))
             bknd_item.give_item(id_user="{}collection".format(collection.id_item), id_server=item.id_server, id_item=item.id_item)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def remove_from_collection(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -1994,23 +1994,23 @@ async def remove_from_collection(cmd):
 
     if user_data.poi != ewcfg.poi_id_bazaar:
         response = "You don't actually know how to get stuff out of this. Better find a specialist in the Bazaar."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.tokens_count != 3:
         response = "You need to specify the item and the collection. Try !extract \"collection\" \"item\"."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1])
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
     if not item_sought_col:
         response = "That's not a real collection. Remember, it's !extract \"collection\" \"item\"."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_seek = cmd.tokens[2]
     item_sought_item = bknd_item.find_item(item_search=item_seek, id_user='{}collection'.format(item_sought_col.get('id_item')), id_server=user_data.id_server)
 
     if not item_sought_item:
         response = "Wait, that's not in this collection. That's not even a real thing."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     furnlist = static_items.furniture_map
     collection = EwItem(id_item=item_sought_col.get('id_item'))
@@ -2030,7 +2030,7 @@ async def remove_from_collection(cmd):
         user_data.persist()
         response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over 100,000 slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), random.choice(comm_cfg.bazaar_distractions))
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def bury(cmd):
@@ -2039,28 +2039,28 @@ async def bury(cmd):
         weapon_item = EwItem(id_item=user_data.weapon)
         if weapon_item.template != 'shovel':
             response = "You'll need a shovel to bury shit."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif cmd.tokens_count <= 2:
             response = "That's not going to work. Try !bury <coordinates> <item>"
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         coords = cmd.tokens[1]
         item_seek = ewutils.flattenTokenListToString(cmd.tokens[2:])
         item_sought = bknd_item.find_item(item_search=item_seek, id_user=cmd.message.author.id, id_server=cmd.guild.id)
         if item_sought:
             if item_sought.get('soulbound'):
                 response = "You can't bury that. It's bound to your essence, stupid."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             ground_recipient = "{}-{}-{}".format('bury', user_data.poi, coords.lower())
 
             bknd_item.give_item(id_item=item_sought.get('id_item'), id_server=cmd.guild.id, id_user=ground_recipient)
             response = "You bury the {} at coordinates {}.".format(item_sought.get('name'), coords.upper())
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response), delete_after=10)
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response), delete_after=10)
         else:
             response = "You don't have that."
     else:
         response = "You're not even carrying a stick, let alone a shovel."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
@@ -2079,4 +2079,4 @@ async def unearth(cmd):
             response = "You unearthed a {}!".format(item.get('name'))
             bknd_item.give_item(member=cmd.message.author, id_item=item.get('id_item'))
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

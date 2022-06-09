@@ -81,7 +81,7 @@ async def tutorial_cmd(cmd):
         elif randint == 3:
             msg_mistake = "ENDLESS WAR pays you no mind."
 
-        msg = await fe_utils.send_message(client, cmd.message.channel, msg_mistake)
+        msg = await fe_utils.send_message(cmd.message.channel, msg_mistake)
         await asyncio.sleep(2)
         try:
             await msg.delete()
@@ -90,5 +90,5 @@ async def tutorial_cmd(cmd):
             pass
 
         # response = dungeon_utils.format_tutorial_response(tutorial_scene)
-        # return await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        # return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         return

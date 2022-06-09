@@ -155,29 +155,23 @@ class EwResponseContainer:
                     if len(self.channel_responses[ch][0]) > ewcfg.discord_message_length_limit:
                         response += "\n" + self.channel_responses[ch].pop(0)
                         length = len(response)
-                        #client, channel, text = None, embed = None, delete_after = None, filter_everyone = True
                         split_list = [(response[i:i + 2000]) for i in range(0, length, 2000)]
                         for blurb in split_list:
-                            message = await send_message(client = self.client, channel=current_channel, text = blurb, delete_after=delete_after)
-                            messages.append(message)
+                            message = await send_message(channel=current_channel, text = blurb, delete_after=delete_after)
+                            if message:
+                                messages.append(message)
                         response = ""
                     elif len(response) == 0 or len("{}\n{}".format(response, self.channel_responses[ch][0])) < ewcfg.discord_message_length_limit:
                         response += "\n" + self.channel_responses[ch].pop(0)
                     else:
-                        message = await send_message(client = self.client, channel=current_channel, text =response, delete_after=delete_after)
-                        messages.append(message)
+                        message = await send_message(channel=current_channel, text =response, delete_after=delete_after)
+                        if message:
+                            messages.append(message)
                         response = ""
-                message = await send_message(client = self.client, channel=current_channel, text = response, delete_after=delete_after)
+                message = await send_message(channel=current_channel, text = response, delete_after=delete_after)
                 messages.append(message)
             except:
-                ewutils.logMsg('Failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
-
-        # for ch in self.channel_topics:
-        # 	channel = get_channel(server = server, channel_name = ch)
-        # 	try:
-        # 		await channel.edit(topic = self.channel_topics[ch])
-        # 	except:
-        # 		ewutils.logMsg('Failed to set channel topic for {} to {}'.format(ch, self.channel_topics[ch]))
+                ewutils.logMsg('Resp cont failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
 
         return messages
 
@@ -222,26 +216,21 @@ def readMessage(fname):
     return msg
 
 
-""" format responses with the username: """
-
-
 def formatMessage(user_target, message):
-    # If the display name belongs to an unactivated raid boss, hide its name while it's counting down.
+    """ Format responses with the username, e.g. Developer: You have 69 slime. """
 
-    try:
+    # If user_target is an EwEnemy
+    if hasattr(user_target, "id_enemy"):
         if user_target.life_state == ewcfg.enemy_lifestate_alive:
-                # Send messages for normal enemies, and allow mentioning with @
-                if user_target.identifier != '':
-                    return "*{} [{}]* {}".format(user_target.display_name, user_target.identifier, message)
-                else:
-                    return "*{}:* {}".format(user_target.display_name, message)
-
-
+            # Send messages for normal enemies, and allow mentioning with @
+            if user_target.identifier != '':
+                return "*{} [{}]* {}".format(user_target.display_name, user_target.identifier, message)
+            else:
+                return "*{}:* {}".format(user_target.display_name, message)
         elif user_target.display_name in ewcfg.raid_boss_names and user_target.life_state == ewcfg.enemy_lifestate_unactivated:
             return "{}".format(message)
-
-    # If user_target isn't an enemy, catch the exception.
-    except:
+    # If user_target is an EwUser or a discord Member (only works if user_target is a discord member)
+    else:
         if hasattr(user_target, "id_user") and hasattr(user_target, "id_server"):
             user_obj = EwUser(id_server=user_target.id_server, id_user=user_target.id_user)
         else:
@@ -280,7 +269,7 @@ async def post_in_channels(id_server, message, channels = None):
 """
 
 
-def get_channel(server = None, channel_name = ""):
+def get_channel(server=None, channel_name=""):
     channel = None
 
     for chan in server.channels:
@@ -330,28 +319,27 @@ async def post_in_hideouts(id_server, message):
     )
 
 
-"""
-	Proxy to discord.py channel.send with exception handling.
-"""
+async def send_message(channel, text=None, embed=None, delete_after=None, filter_everyone=True):
+    """
+        Proxy to discord.py channel.send with exception handling.
+        - channel needs to be a discord Channel
+    """
 
-
-async def send_message(client, channel, text = None, embed = None, delete_after = None, filter_everyone = True):
     # catch any future @everyone exploits
     if filter_everyone and text is not None:
         text = text.replace("@everyone", "{at}everyone")
 
     try:
-        if text is not None:
+        # Whitespace messages will always fail to send, don't send 'em
+        if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after)
-        if embed is not None:
+        if embed:
             return await channel.send(embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise
-    except:
-        # Whitespace messages will always fail to send, don't clutter the log
-        if not text.isspace():
-            ewutils.logMsg('frontend send_message Failed to send message to channel: {}\n{}'.format(channel, text))
+    except Exception as e:
+        ewutils.logMsg('Send message failed to send message to channel: {}\n{}:\n{}'.format(channel, text, e))
 
 
 """ Simpler to use version of send_message that formats message by default """
@@ -390,7 +378,7 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, response_text))
         raise
     except:
-        ewutils.logMsg('Failed to send message to channel: {}\n{}'.format(channel, response_text))
+        ewutils.logMsg('Send response failed to send message to channel: {}\n{}'.format(channel, response_text))
 
 
 """
@@ -565,7 +553,7 @@ async def update_slimernalia_kingpin(client, server):
 
         channel = get_channel(server=server, channel_name="auditorium")
 
-        await send_message(client, channel, embed=announce)
+        await send_message(channel, embed=announce)
     
 
 def check_user_has_role(server, member, checked_role_name):

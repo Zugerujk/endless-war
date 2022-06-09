@@ -32,7 +32,7 @@ async def capture_progress(cmd):
 
     if not user_data.poi in poi_static.capturable_districts:
         response += "This zone cannot be captured."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     district_data = EwDistrict(id_server=user_data.id_server, district=user_data.poi)
     percent_progress_after = int(district_data.capture_points / district_data.max_capture_points * 100)
@@ -55,7 +55,7 @@ async def capture_progress(cmd):
             response += "But the lock is starting to decay..."
 
     response += "Current progress: {progress}%".format(progress=percent_progress_after)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
@@ -74,7 +74,7 @@ async def change_spray(cmd):
         user_data.spray = newspray
         user_data.persist()
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def tag(cmd):
@@ -84,7 +84,7 @@ async def tag(cmd):
         response = user_data.spray
     else:
         response = "Save the spraying for the gangsters. You're either too gay or dead to participate in this sort of thing."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def ufo_observe(cmd):
@@ -138,7 +138,7 @@ async def ufo_observe(cmd):
                 for playerid in players_in_district:
                     member_object = server.get_member(playerid)
                     await ewrolemgr.update_roles(client=cmd.client, member=member_object)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def launch(cmd):
@@ -167,7 +167,7 @@ async def launch(cmd):
             response = "WHOOOOOOOO -CRASH! Your poor piloting crashes the ship back down. Your fellow alien crew seems excited, like you just chugged a whole bottle of their galactic lager or something. Good thing the hull is so shock resistant or you wouldn't be able to joyride again."
             launchstate.bit = 1
             launchstate.persist()
-    return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def abduct(cmd):
@@ -209,17 +209,17 @@ async def abduct(cmd):
                     ewcfg.poi_id_slimesendcliffs, ewcfg.poi_id_ferry, ewcfg.poi_id_sodafountain,
                     ewcfg.poi_id_stockexchange, ewcfg.poi_id_ab_farms, ewcfg.poi_id_og_farms, ewcfg.poi_id_jr_farms]):
                 response = "The tractor beam on this ship sucks. You can't really see indoors."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             elif target_poi.id_poi in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
                 response = "Don't do that."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             bknd_item.item_delete(id_item=item_sought.get('id_item'))
             ewutils.moves_active[target_data.id_user] = 0
             response = 'You plug in your battery pack and begin to abduct {} They\'re 20 seconds away.'.format(cmd.mentions[0].display_name)
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-            await fe_utils.send_message(cmd.client, target_channel, fe_utils.formatMessage(cmd.mentions[0], "You are being abducted by aliens. The ship is 20 seconds away."))
+            await fe_utils.send_message(target_channel, fe_utils.formatMessage(cmd.mentions[0], "You are being abducted by aliens. The ship is 20 seconds away."))
             ewutils.active_restrictions[target_data.id_user] = 2
             await asyncio.sleep(20)
 
@@ -236,7 +236,7 @@ async def abduct(cmd):
         else:
             response = "The going energy cost for abduction is pretty expensive these days. You better have a battery pack before you do something like that."
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def beam_me_up(cmd):
@@ -265,7 +265,7 @@ async def beam_me_up(cmd):
     elif shipstate.bit == 1:
         response = 'The ship\'s on the ground right now, it can\'t beam shit.'
     else:
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You are being abducted by aliens. The ship is 20 seconds away."))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You are being abducted by aliens. The ship is 20 seconds away."))
         ewutils.active_restrictions[user_data.id_user] = 2
         await asyncio.sleep(20)
 
@@ -277,7 +277,7 @@ async def beam_me_up(cmd):
         await ewrolemgr.update_roles(client=ewutils.get_client(), member=cmd.message.author)
         await user_data.move_inhabitants(id_poi='ufoufo')
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
 
 async def blockparty(cmd):
     if not cmd.message.author.guild_permissions.administrator:
@@ -306,7 +306,7 @@ async def blockparty(cmd):
                         response = "Never heard of it."
         else:
             response = "I see you haven't gotten any smarter. Try !blockparty <setting>. Settings include 'close', 'slimegen', and any POI."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def hailcab(cmd):
@@ -328,7 +328,7 @@ async def hailcab(cmd):
                 dest = ewcfg.poi_id_juviesrow
             await asyncio.sleep(5)
             response = "**TAXI!** You shout into the crowd for a ride home. The drivers don't notice you're a miscreant, and pick you up without a second thought. They got nervous when you asked to return to your gang base, and forgot to ask for any fare. Nice!"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             ewutils.moves_active[cmd.message.author.id] = 0
             user_data.poi = dest
@@ -340,5 +340,5 @@ async def hailcab(cmd):
             response = "You're already dead. The cabbies unfortunately tend to avoid black people, so you should probably just float back to the sewers."
         else:
             response = "The cabbie looks confused. Why would a person like you need a cab?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

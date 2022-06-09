@@ -659,7 +659,7 @@ async def attackEnemy(cmd):
     if ewcfg.status_repelled_id in statuses:
         user_data.clear_status(ewcfg.status_repelled_id)
         after_effects_response = user_data.applyStatus(ewcfg.status_repelaftereffects_id)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, after_effects_response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, after_effects_response))
         slimes_damage /= 1000
         slimes_damage = math.ceil(slimes_damage)
 
@@ -727,7 +727,7 @@ async def attackEnemy(cmd):
         if (slimes_spent > user_data.slimes):
             # Not enough slime to shoot.
             response = "You don't have enough slime to attack. ({:,}/{:,})".format(user_data.slimes, slimes_spent)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         weapon_item.item_props['time_lastattack'] = time_now_float
         weapon_item.persist()

@@ -524,7 +524,7 @@ async def kick(id_server):
                         await user_data.move_inhabitants(id_poi=mother_district_chosen)
                         mother_district_channel = fe_utils.get_channel(server, poi_static.id_to_poi[mother_district_chosen].channel)
                         response = "You have been kicked out for loitering! You can only stay in a sub-zone and twiddle your thumbs for 1 hour at a time."
-                        await fe_utils.send_message(client, mother_district_channel, fe_utils.formatMessage(member_object, response))
+                        await fe_utils.send_message(mother_district_channel, fe_utils.formatMessage(member_object, response))
         except:
             ewutils.logMsg('failed to move inactive player out of subzone with poi {}: {}'.format(player[0], player[1]))
 
@@ -565,12 +565,12 @@ async def send_gangbase_messages(server_id, clock):
     if response != "":
         for channel in channels:
             post_channel = fe_utils.get_channel(server, channel)
-            await fe_utils.send_message(client, post_channel, response)
+            await fe_utils.send_message(post_channel, response)
     if lucky_lucy == 1:
         pass #taking this out until we have a better method
-        #await fe_utils.send_message(client, casino_channel, casino_response)
+        #await fe_utils.send_message(casino_channel, casino_response)
         #await asyncio.sleep(300)
-        #await fe_utils.send_message(client, casino_channel, casino_end)
+        #await fe_utils.send_message(casino_channel, casino_end)
 
 
     if highnoon != 0:
@@ -580,7 +580,7 @@ async def send_gangbase_messages(server_id, clock):
                 response = "It's almost high noon..."
             else:
                 response = "**DRAW!!!!**"
-            await fe_utils.send_message(client, dueling_channel, response)
+            await fe_utils.send_message(dueling_channel, response)
 
 """
     Find the cost to move through ortho-adjacent cells.

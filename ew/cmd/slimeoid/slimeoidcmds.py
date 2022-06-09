@@ -71,7 +71,7 @@ async def dissolveslimeoid(cmd):
             else:
                 # If the user is a ghost and has fully-formed Negaslimeoid, make them !destroyslimeoid instead.
                 response = "The Ancient Ones would be very displeased if you attempted to dissolve your Negaslimeoid. Use your latent ghostly powers instead and !destroyslimeoid."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         else:
             if slimeoidtype == "Slimeoid":
@@ -107,7 +107,7 @@ async def dissolveslimeoid(cmd):
 
     # Send the response to the player.
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Show a player's slimeoid data.
@@ -202,7 +202,7 @@ async def slimeoid(cmd):
 
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # play with your slimeoid
@@ -237,7 +237,7 @@ async def playfetch(cmd):
         )
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def petslimeoid(cmd):
@@ -265,13 +265,13 @@ async def petslimeoid(cmd):
 
         if target_data.poi != user_data.poi:
             response = "You can't pet them because they aren't here."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif target_data.id_user not in list_ids:
             response = "You try to pet {}'s slimeoid, but you're not close enough for them to trust you. Better whip out those quadrants...".format(target.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif target_data.life_state == ewcfg.life_state_corpse and slimeoid.sltype != ewcfg.sltype_nega:
             response = "Slimeoids don't fuck with ghosts.".format(target.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
             slimeoid = EwSlimeoid(member=target)
 
@@ -313,7 +313,7 @@ async def petslimeoid(cmd):
         )
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def abuseslimeoid(cmd):
@@ -341,13 +341,13 @@ async def abuseslimeoid(cmd):
 
         if target_data.poi != user_data.poi:
             response = "You can't beat them up them because they aren't here."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif target_data.id_user not in list_ids:
             response = "You try to lynch {}'s slimeoid, but you're not close enough for them to trust you. Better whip out those quadrants...".format(target.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif target_data.life_state == ewcfg.life_state_corpse and slimeoid.sltype != ewcfg.sltype_nega:
             response = "Slimeoids don't fuck with ghosts.".format(target.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
             slimeoid = EwSlimeoid(member=target)
 
@@ -386,7 +386,7 @@ async def abuseslimeoid(cmd):
         slimeoid.time_defeated = time_now
         slimeoid.persist()
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def walkslimeoid(cmd):
@@ -425,7 +425,7 @@ async def walkslimeoid(cmd):
         )
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def observeslimeoid(cmd):
@@ -481,14 +481,14 @@ async def observeslimeoid(cmd):
         )
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def slimeoidbattle(cmd):
     # if cmd.message.channel.name != ewcfg.channel_arena:
     # Only at the arena
     #	response = "You can only have Slimeoid Battles at the Battle Arena."
-    #	return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    #	return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     pvp_battle = False
     fatal = False
@@ -497,7 +497,7 @@ async def slimeoidbattle(cmd):
     target_name = ""
 
     if ewutils.channel_name_is_poi(str(cmd.message.channel)) is False:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     if cmd.mentions_count > 1:
         response = "Slow down there, bucko! You can only challenge one person to a slimeoid battle at a time."
@@ -516,7 +516,7 @@ async def slimeoidbattle(cmd):
 
         if author.id == member.id:
             response = "You can't challenge yourself, dumbass."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
         # Gets the data of the player and slimeoid being challenged
         challengee = EwUser(member=member)
@@ -721,7 +721,7 @@ async def slimeoidbattle(cmd):
             response += "\n{} is no more. {}".format(dead_slimeoid.name, ewcfg.emote_slimeskull)
 
         # Sends message!
-        await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        await fe_utils.send_message(cmd.message.channel, response)
 
         # Putting this here because something broke, and... idk!!!! Geez!!!!
         ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
@@ -741,7 +741,7 @@ async def slimeoidbattle(cmd):
         if not pvp_battle and not isinstance(winner, EwEnemy):
             # Fucking delete 'em if they lose!
             response = "{name} is out of useable Slimeoids! {name} blacked out!".format(name=challengee.display_name)
-            await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+            await fe_utils.send_message(cmd.message.channel, response)
             
             bknd_hunting.delete_enemy(challengee)
 
@@ -749,7 +749,7 @@ async def slimeoidbattle(cmd):
         response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
 
         # Send the response to the player.
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
     ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
@@ -809,7 +809,7 @@ async def saturateslimeoid(cmd):
             response = "Saturate your slimeoid with what, exactly? (check **!inventory**)"
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def restoreslimeoid(cmd):
@@ -825,7 +825,7 @@ async def restoreslimeoid(cmd):
             response = "You must go to Waffle House to restore a Negaslimeoid."
         else:
             response = "You must go to the NLACU Laboratories in Brawlden to restore a Slimeoid."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     poi = poi_static.id_to_poi.get(user_data.poi)
     district_data = EwDistrict(district=poi.id_poi, id_server=user_data.id_server)
@@ -833,10 +833,10 @@ async def restoreslimeoid(cmd):
     # Corresponding lifestate checks for locations - ghosts waffle house, everyone else slimeoidlab. Player is already in one of those two locations, because of the above check
     if user_data.life_state == ewcfg.life_state_corpse and cmd.message.channel.name != ewcfg.channel_wafflehouse:
         response = "Ghosts cannot interact with the NLACU Lab apparati."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif user_data.life_state != ewcfg.life_state_corpse and cmd.message.channel.name != ewcfg.channel_slimeoidlab:
         response = "You feel as though there is some ancient power here, but the slime coursing through your veins prevents you from using it."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # What type the slimeoid is in a string, for flavor text
     if user_data.life_state == ewcfg.life_state_corpse:
@@ -847,7 +847,7 @@ async def restoreslimeoid(cmd):
     # You need a slimeoid
     if slimeoid.life_state != ewcfg.slimeoid_state_none:
         response = "You already have an active slimeoid."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # If you didn't specify an item
     if item_sought is None:
@@ -855,22 +855,22 @@ async def restoreslimeoid(cmd):
             response = "You need a {}'s heart to restore it to life.".format(slimeoidtype)
         else:
             response = "Restore which {}?".format(slimeoidtype)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_data = EwItem(id_item=item_sought.get('id_item'))
 
     # If the item isn't a slimeoid heart or negaslimeoid core
     if item_data.item_props.get('context') != ewcfg.context_slimeoidheart and item_data.item_props.get('context') != ewcfg.context_negaslimeoidheart:
         response = "You need a {} to restore it to life.".format("Slimeoid's heart" if slimeoidtype == "Slimeoid" else "Negaslimeoid's core")
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Ghosts can't revive slimeoids, and alive players can't revive negaslimeoids
     if item_data.item_props.get('context') == ewcfg.context_slimeoidheart and user_data.life_state == ewcfg.life_state_corpse:
         response = "You can't restore Slimeoids to live with the power of the Ancient Ones."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif item_data.item_props.get('context') == ewcfg.context_negaslimeoidheart and user_data.life_state != ewcfg.life_state_corpse:
         response = "You can't use the NLACU Lab apparati in order to revive Negaslimeoids."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Get the slimeoid & how much the slimeoid will cost
     slimeoid = EwSlimeoid(id_slimeoid=item_data.item_props.get('subcontext'))
@@ -880,11 +880,11 @@ async def restoreslimeoid(cmd):
     if slimeoidtype == "Slimeoid":
         if user_data.slimes < slimes_to_restore:
             response = "You need at least {} slime to restore this Slimeoid.".format(slimes_to_restore)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if -user_data.slimes < slimes_to_restore:
             response = "You need at least {} negaslime to restore this Negaslimeoid".format(slimes_to_restore)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     slimeoid.life_state = ewcfg.slimeoid_state_active
     slimeoid.id_user = str(user_data.id_user)
@@ -904,7 +904,7 @@ async def restoreslimeoid(cmd):
 
     user_data.persist()
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def bottleslimeoid(cmd):
@@ -963,7 +963,7 @@ async def bottleslimeoid(cmd):
             response = "You shove {} into a random bottle. It's a tight squeeze, but in the end you manage to make it fit.".format(slimeoid.name)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def unbottleslimeoid(cmd):
@@ -972,11 +972,11 @@ async def unbottleslimeoid(cmd):
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = "Slimeoids don't fuck with ghosts."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.tokens_count < 2:
         response = "Specify which Slimeoid you want to unbottle."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     slimeoid_search = cmd.message.content[len(cmd.tokens[0]):].lower().strip()
 
@@ -1000,7 +1000,7 @@ async def unbottleslimeoid(cmd):
 
     if slimeoid is None:
         response = "You aren't carrying a bottle containing that Slimeoid."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     active_slimeoid = EwSlimeoid(member=cmd.message.author)
 
@@ -1008,7 +1008,7 @@ async def unbottleslimeoid(cmd):
 
         if ewutils.active_slimeoidbattles.get(active_slimeoid.id_slimeoid):
             response = "You can't do that right now."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         active_slimeoid.life_state = ewcfg.slimeoid_state_stored
         active_slimeoid.id_user = ""
@@ -1044,7 +1044,7 @@ async def unbottleslimeoid(cmd):
 
     response += "You crack open a fresh bottle of Slimeoid. After a bit of shaking {} sits beside you again, fully formed.".format(slimeoid.name)
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def feedslimeoid(cmd):
@@ -1203,7 +1203,7 @@ async def feedslimeoid(cmd):
             response = "You don't have an item like that."
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def dress_slimeoid(cmd):
@@ -1260,7 +1260,7 @@ async def dress_slimeoid(cmd):
                     elif cos.item_props.get("context") == 'costume':
                         if ewutils.check_moon_phase(market_data) != ewcfg.moon_full and not ewcfg.dh_active:
                             response = "You can't dress your slimeoid with your costume right now."
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                         else:
                             item_sought = cos
                             break
@@ -1300,7 +1300,7 @@ async def dress_slimeoid(cmd):
         else:
             response = 'Adorn which cosmetic? Check your **!inventory**.'
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def undress_slimeoid(cmd):
@@ -1358,7 +1358,7 @@ async def undress_slimeoid(cmd):
         else:
             response = 'Dedorn which cosmetic? Check your **!inventory**.'
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def tagslimeoid(cmd):
@@ -1373,24 +1373,24 @@ async def tagslimeoid(cmd):
         slimeoidtype = "Negaslimeoid"
     else:
         response = "Slimeoids don't fuck with ghosts."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Gotta have a response
     if cmd.tokens_count == 1:
         response = "Hmm? Tag your {}? Uh, spraying your slimeoid with paint sounds like abuse, and that's a different command. Specify something to put on your dog tag.".format(slimeoidtype)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # If the player doesn't have a dog tag, they can't tag their slimeoid.
     dogtag = bknd_item.find_item(item_search='dogtag', id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_cosmetic)
     if dogtag is None:
         response = "You can't tag your {} without a dog tag. Idiot.".format(slimeoidtype)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))        
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))        
 
     # If the player somehow is trying to tag with a different item, they can't tag their slimeoid.
     dogtagitem = EwItem(id_item=dogtag.get('id_item'))
     if dogtagitem.item_props.get('id_cosmetic') != "dogtag":
         response = "You can't tag your {} with... whatever this is. Idiot.".format(slimeoidtype)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))        
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))        
 
     # Turn the rest of the message into the dog tag message.
     message_text = ' '.join(word for word in cmd.tokens[1:])
@@ -1410,7 +1410,7 @@ async def tagslimeoid(cmd):
     if outofspace is True:
         response += "\nYou run out of space on the dog tag. You really went ham on that little tag, huh?"
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def untagslimeoid(cmd):
@@ -1424,7 +1424,7 @@ async def untagslimeoid(cmd):
         slimeoidtype = "Negaslimeoid"
     else:
         response = "Slimeoids don't fuck with ghosts."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     
     # Slimeoid has to have a tag
     if slimeoid.dogtag == "":
@@ -1435,4 +1435,4 @@ async def untagslimeoid(cmd):
         slimeoid.persist()
         response = "You reach into your {} and rip out the dog tag within it.".format(slimeoidtype)
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

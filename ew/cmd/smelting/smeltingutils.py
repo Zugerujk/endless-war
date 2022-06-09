@@ -18,4 +18,4 @@ async def smeltsoul(cmd):
                 response = "You reach for the soul in the reanimated corpse, but your hands are full of cosmetics! Get rid of a few, freak."
         else:
             response = "That's not a reanimated corpse. It only looks like one. Get rid of the fake shit and we'll get started."
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

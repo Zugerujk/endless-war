@@ -20,33 +20,33 @@ async def vouch(cmd):
 
     if user_data.faction == "":
         response = "You have to join a faction before you can vouch for anyone."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count == 0:
         response = "Vouch for whom?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     member = cmd.mentions[0]
     vouchee_data = EwUser(member=member)
 
     if vouchee_data.poi != user_data.poi:
         response = "How do you pretend to vouch for that juvenile if you aren't with them, using a carrier pigeon? Go find them, dumbfuck!"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if vouchee_data.faction == user_data.faction:
         response = "{} has already joined your faction.".format(member.display_name)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     vouchers = vouchee_data.get_vouchers()
 
     if user_data.faction in vouchers:
         response = "A member of your faction has already vouched for {}.".format(member.display_name)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     vouchee_data.vouch(faction=user_data.faction)
 
     response = "You place your undying trust in {}.".format(member.display_name)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Not directly referenced. Cmd directs these commands to the apt or chest version
@@ -57,7 +57,7 @@ async def vouch(cmd):
 async def store(cmd):
     if len(cmd.tokens) < 2:
         response = "{} what?".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     user_data = EwUser(member=cmd.message.author)
     response = ""
@@ -65,11 +65,11 @@ async def store(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
     if poi.community_chest == None:
         response = "There is no community chest here."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if len(poi.factions) > 0 and user_data.faction not in poi.factions:
             response = "Get real, asshole. You haven't even enlisted into this gang yet, so it's not like they'd trust you with a key to their valuables."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.tokens[1] == 'all':
         cmd.tokens[1] = '100'
@@ -106,7 +106,7 @@ async def store(cmd):
                         if user_data.weaponmarried:
                             weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                             response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                         else:
                             user_data.weapon = -1
                             user_data.persist()
@@ -152,7 +152,7 @@ async def store(cmd):
         else:
             response = "{} which item? (check **!inventory**)".format(cmd.tokens[0])
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """retrieve items from a communal chest in your gang base"""
@@ -161,7 +161,7 @@ async def store(cmd):
 async def take(cmd):
     if len(cmd.tokens) < 2:
         response = "{} what?".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     user_data = EwUser(member=cmd.message.author)
     response = ""
@@ -173,11 +173,11 @@ async def take(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
     if poi.community_chest == None:
         response = "There is no community chest here."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if len(poi.factions) > 0 and user_data.faction not in poi.factions:
             response = "Get real, asshole. You haven't even enlisted into this gang yet, so it's not like they'd trust you with a key to their valubles."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     multisnag = 1
     startparse = 1
@@ -206,7 +206,7 @@ async def take(cmd):
                 inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=loop_sought.get('item_type'), return_strings=True, pronoun="You")
 
                 if inv_response != "":
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
                 list_items = bknd_item.inventory(
                         id_user=cmd.message.author.id,
@@ -236,7 +236,7 @@ async def take(cmd):
                     if user_data.life_state == ewcfg.life_state_corpse:
                         del weapons_held
                         response = "Ghosts can't hold weapons."
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     elif user_data.get_weapon_capacity() - len(weapons_held) < multisnag:
                         multisnag = user_data.get_weapon_capacity() - len(weapons_held)
                         del weapons_held
@@ -284,4 +284,4 @@ async def take(cmd):
         else:
             response = "{} which item? (check **{}**)".format(cmd.tokens[0], ewcfg.cmd_communitychest)
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

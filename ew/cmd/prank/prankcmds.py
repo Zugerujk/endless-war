@@ -17,7 +17,7 @@ async def gambit(cmd):
         response = "{} currently has {:,} gambit.".format(member.display_name, gambit)
 
     # Send the response to the player.
-    await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+    await ewutils.send_message(cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
 async def credence(cmd):
@@ -50,7 +50,7 @@ async def credence(cmd):
                 response = "They don't have any credence."
 
     # Send the response to the player.
-    await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+    await ewutils.send_message(cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
 async def get_credence(cmd):
@@ -61,7 +61,7 @@ async def get_credence(cmd):
     ewstats.change_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric = ewcfg.stat_credence, n=1000)
     ewstats.set_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_credence_used, value=0)
 
-    await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+    await ewutils.send_message(cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
 async def reset_prank_stats(cmd):
@@ -79,7 +79,7 @@ async def reset_prank_stats(cmd):
     ewstats.set_stat(id_server=cmd.guild.id, id_user=member.id, metric=ewcfg.stat_credence_used, value=0)
 
     response = "Prank stats reset for {}.".format(member.display_name)
-    await ewutils.send_message(cmd.client, cmd.message.channel, response)
+    await ewutils.send_message(cmd.message.channel, response)
 
 
 async def set_gambit(cmd):
@@ -102,7 +102,7 @@ async def set_gambit(cmd):
 
     response = "Gambit for {} set to {:,}.".format(member.display_name, gambit_set)
 
-    await ewutils.send_message(cmd.client, cmd.message.channel, response)
+    await ewutils.send_message(cmd.message.channel, response)
 
 
 async def point_and_laugh(cmd):
@@ -125,4 +125,4 @@ async def point_and_laugh(cmd):
     else:
         response = "You point and laugh at... who, exactly?"
 
-    return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+    return await ewutils.send_message(cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))

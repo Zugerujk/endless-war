@@ -580,12 +580,12 @@ async def boo(cmd):
     # await resp_cont.post()
 
 
-# await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_ghost + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_ghost + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank))
+# await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_ghost + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_ghost + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank))
 
 
 async def spook(cmd):
     # user_data = EwUser(member=cmd.message.author)
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, '\n' "***SPOOKED YA!***" + '\n' + "https://www.youtube.com/watch?v=T-dtcIXZo4s"))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, '\n' "***SPOOKED YA!***" + '\n' + "https://www.youtube.com/watch?v=T-dtcIXZo4s"))
 
 
 """
@@ -627,14 +627,14 @@ async def coinflip(cmd):
     if fe_utils.check_user_has_role(cmd.guild, cmd.message.author, ewcfg.role_donor_proper):
 
         if user_data.slimecoin <= 1:
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "YOU DON'T H4V3 4NY SL1M3CO1N TO FL1P >:["))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "YOU DON'T H4V3 4NY SL1M3CO1N TO FL1P >:["))
         else:
             user_data.change_slimecoin(n=-1, coinsource=ewcfg.coinsource_spending)
             user_data.persist()
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "YOU FL1P ON3 SL1M3CO1N R1GHT 1N TH3 41R!\nhttps://cdn.discordapp.com/attachments/431240644464214017/652341405129375794/Terezi_Hussnasty_coinflip.gif"))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "YOU FL1P ON3 SL1M3CO1N R1GHT 1N TH3 41R!\nhttps://cdn.discordapp.com/attachments/431240644464214017/652341405129375794/Terezi_Hussnasty_coinflip.gif"))
         await asyncio.sleep(2)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "..."))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "..."))
         await asyncio.sleep(3)
 
         flipnum = random.randrange(2)
@@ -644,7 +644,7 @@ async def coinflip(cmd):
         else:
             response = "T41LS!\nhttps://66.media.tumblr.com/tumblr_m6gdpg4qOg1r6ajb6.gif"
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -682,7 +682,7 @@ async def jam(cmd):
     else:
         response = "Are you sure you have that item?"
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def stunt(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -732,7 +732,7 @@ async def stunt(cmd):
         response = "You need a skateboard to do tricks. C'mon!"
 
     # Send the response
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def endlesswar(cmd):
     total = bknd_core.execute_sql_query("SELECT SUM(slimes) FROM users WHERE slimes > 0 AND id_server = '{}'".format(cmd.guild.id))
@@ -750,7 +750,7 @@ async def slimefest(cmd):
     # elif market_data.winner == ewcfg.faction_rowdys:
     #	response = "Rowdys are winning Slimefest."
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def swearjar(cmd):
@@ -793,7 +793,7 @@ async def toss_off_cliff(cmd):
 
                     if poi_static.id_to_poi.get(target.poi).is_apartment and target.visiting == ewcfg.location_id_empty:
                         try:
-                            await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], "SMAAASH! A brick flies through your window!"))
+                            await fe_utils.send_message(cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], "SMAAASH! A brick flies through your window!"))
                         except:
                             ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
                 elif target.poi == user_data.poi:
@@ -814,17 +814,17 @@ async def toss_off_cliff(cmd):
                         user_data.persist()
 
                         try:
-                            await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], random.choice(["!!!!!!", "BRICK!", "FUCK", "SHIT", "?!?!?!?!?", "BONK!", "F'TAAAAANG!", "SPLAT!", "SPLAPP!", "WHACK"])))
+                            await fe_utils.send_message(cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], random.choice(["!!!!!!", "BRICK!", "FUCK", "SHIT", "?!?!?!?!?", "BONK!", "F'TAAAAANG!", "SPLAT!", "SPLAPP!", "WHACK"])))
                         except:
                             ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
                 else:
                     response = "There's nobody here."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             else:
                 return await ewitem.itemcmds.discard(cmd=cmd)
         else:
             response = "You don't have that item."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif item_sought:
         item_obj = EwItem(id_item=item_sought.get('id_item'))
@@ -835,23 +835,23 @@ async def toss_off_cliff(cmd):
             if user_data.weaponmarried:
                 weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
                 response = "You decide not to chuck your betrothed off the cliff because you care about them very very much. See {}? I'm not going to hurt you. You don't have to call that social worker again.".format(weapon.str_weapon)
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             else:
                 response = item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'))
                 user_data.change_crime(n=ewcfg.cr_littering_points)
                 user_data.persist()
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
             response = item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'))
             user_data.change_crime(n=ewcfg.cr_littering_points)
             user_data.persist()
 
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     else:
         response = "You don't have that item."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def jump(cmd):
@@ -869,7 +869,7 @@ async def jump(cmd):
                 event_data = EwWorldEvent(id_event=id_event)
                 if int(event_data.event_props.get('id_user')) == user_data.id_user and event_data.event_props.get('poi') == user_data.poi:
                     response = "You jump in!"
-                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     await asyncio.sleep(1)
 
                     user_data.poi = ewcfg.poi_id_thevoid
@@ -881,7 +881,7 @@ async def jump(cmd):
                     void_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
                     wafflehouse_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
                     response = "You do a backflip on the way down, bounce on the trampoline a few times to reduce your momentum, and climb down a ladder from the roof, down to the ground. You find yourself standing next to {}, in {}.".format(wafflehouse_poi.str_name, void_poi.str_name)
-                    await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, void_poi.channel), fe_utils.formatMessage(cmd.message.author, response), 20)
+                    await fe_utils.send_message(fe_utils.get_channel(cmd.guild, void_poi.channel), fe_utils.formatMessage(cmd.message.author, response), 20)
 
                     return
 
@@ -1117,7 +1117,7 @@ async def purify(cmd):
     else:
         response = "Purify yourself how? With what? Your own piss?"
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def store_item(cmd):
@@ -1131,7 +1131,7 @@ async def store_item(cmd):
     # response = "Try that in a DM to ENDLESS WAR."
     else:
         response = "There is no storage here, public or private."
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def crime(cmd):
@@ -1146,7 +1146,7 @@ async def crime(cmd):
         crimestring = cmd_utils.get_crime_level(num=user_data.crime, forYou=forYou)
         response = "You have commited {} crime. {}".format(user_data.crime, crimestring)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def remove_item(cmd):
@@ -1160,12 +1160,12 @@ async def remove_item(cmd):
     # response = "Try that in a DM to ENDLESS WAR."
     else:
         response = "There is no storage here, public or private."
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def check_flag(cmd):
     response = "https://img.booru.org/rfck//images/2/5c00b9d105d2435546ff6d3d9f545b05650d6631.png"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    return await fe_utils.send_message(cmd.message.channel, response)
 
 
 """ Accept a russian roulette challenge """
@@ -1185,7 +1185,7 @@ async def accept(cmd):
                 response = "You accept the challenge! Both of you head out back behind the casino and load a bullet into the gun."
 
             if len(response) > 0:
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Refuse a russian roulette challenge """
@@ -1202,7 +1202,7 @@ async def refuse(cmd):
 
         if (ewutils.active_target_map.get(user.id_user) != user.id_user and ewutils.active_target_map.get(challenger.id_user) != user.id_user):
             response = "You refuse the challenge, but not before leaving a large puddle of urine beneath you."
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
             ewutils.active_target_map[challenger.id_user] = ""
             ewutils.active_restrictions[challenger.id_user] = 0
@@ -1222,7 +1222,7 @@ async def cancel(cmd):
 
 
 async def map(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Online world map: https://rfck.app/map/'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Online world map: https://rfck.app/map/'))
 
 
 """
@@ -1231,7 +1231,7 @@ async def map(cmd):
 
 
 async def transportmap(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author,
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author,
                                                                                         "Map of the subway: https://cdn.discordapp.com/attachments/431238867459375145/570392908780404746/t_system_final_stop_telling_me_its_wrong_magicks.png\nPlease note that there also exists a **blimp** that goes between Dreadford and Assault Flats Beach, as well as a **ferry** that goes between Wreckington and Vagrant's Corner."))
 
 
@@ -1469,7 +1469,7 @@ async def recycle(cmd):
 
     if user_data.poi != ewcfg.poi_id_recyclingplant:
         response = "You can only {} your trash at the Recycling Plant in Smogsburg.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 
@@ -1483,7 +1483,7 @@ async def recycle(cmd):
                 if user_data.weaponmarried:
                     weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                     response = "Woah, wow, hold on there! Domestic violence is one thing, but how could you just throw your faithful {} into a glorified incinerator? Look, we all have bad days, but that's no way to treat a weapon. At least get a proper divorce first, you animal.".format(weapon.str_weapon)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
                     user_data.weapon = -1
                     user_data.persist()
@@ -1497,7 +1497,7 @@ async def recycle(cmd):
             #    if relic_mapped.has_effect or item.item_props.get('donated') is None or item.item_props.get('donated') == 0:
             #        response = "You reach into your pocket to dispose of this sacrosanct piece of history, but you can't find it! Damn, you've been pickpocketed!"
             #        bknd_item.give_item(id_server=cmd.guild.id, id_user='slimesea', id_item=item.id_item)
-            #        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            #        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             bknd_item.item_delete(id_item=item.id_item)
 
@@ -1541,7 +1541,7 @@ async def recycle(cmd):
         else:
             response = "{} which item? (check **!inventory**)".format(cmd.tokens[0])
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -1723,7 +1723,7 @@ async def help(cmd):
     await resp_cont.post()
 
 
-# await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+# await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def commands(cmd):
@@ -1738,7 +1738,7 @@ async def commands(cmd):
         response += holiday_commands()
         if response != "":
             response += "\n\nLook up basic commands with !commands basic, \nor a full list with !commands categories."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if "categories" in category:
         response += "Categories are: \nbasic: basic info.\nmyitems: Commands for items you have.\nmylocation: Commands based in this area.\nmymutations: Commands for the mutations you currently have.\nmyfaction: Commands for the faction you're in.\nmyrace: The command for your current race.\ncombat: Combat-based commands.\ncapping: Capping-based commands.\nplayerinfo: Commands that tell you some of your statistics.\noutsidelinks: These display links to outside the server.\nitems: Show item-related commands.\ncosmeticsanddyes: Display information on cosmetics and dyes.\nsmelting: Smelting related commands.\ntrading: Trading related commands.\nquadrants: Quadrant related commands.\nslimeoids: Slimeoid-related commands.\njuvies: Commands for juvies.\nenlisted: Commands for enlisted players.\ncorpses:Commands for corpses.\nmisc: Miscellaneous commands.\nflavor: Other shitposty type commands.\nallitem: All item-specific commands.\nallmutation: All mutation specific commands.\nholiday: If an event is going on, display the commands for it.\nYou can also check the commands of a specific location using !commands location <district>."
@@ -1757,7 +1757,7 @@ async def commands(cmd):
                 response = "No commands for that region."
         else:
             response = "Not a real place."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if "myitems" in category:
         response += "\n\n" + item_commands(cmd)
@@ -1828,10 +1828,10 @@ async def commands(cmd):
     messageArray = ewutils.messagesplit(stringIn=response)
 
     for message in messageArray:
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, message))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, message))
 
 
-# return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+# return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 """ pure flavor command, howls """
 
@@ -1911,7 +1911,7 @@ async def hurl(cmd):
 
 
 async def patchnotes(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Look for the latest patchnotes on the news page: https://rfck.app/news/'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Look for the latest patchnotes on the news page: https://rfck.app/news/'))
 
 
 """
@@ -1920,7 +1920,7 @@ async def patchnotes(cmd):
 
 
 async def wiki(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Wiki: https://rfck.miraheze.org/wiki/Main_Page'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Wiki: https://rfck.miraheze.org/wiki/Main_Page'))
 
 
 """
@@ -1929,7 +1929,7 @@ async def wiki(cmd):
 
 
 async def booru(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Booru: http://rfck.booru.org/'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Booru: http://rfck.booru.org/'))
 
 
 """
@@ -1938,7 +1938,7 @@ async def booru(cmd):
 
 
 async def bandcamp(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Bandcamp: https://rowdyfuckerscopkillers.bandcamp.com/releases'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Rowdy Fuckers Cop Killers Bandcamp: https://rowdyfuckerscopkillers.bandcamp.com/releases'))
 
 
 """
@@ -1947,7 +1947,7 @@ async def bandcamp(cmd):
 
 
 async def tutorial(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'In-depth tutorial of all the gameplay mechanics in the Endless War: https://rfck.miraheze.org/wiki/Category:Gameplay'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'In-depth tutorial of all the gameplay mechanics in the Endless War: https://rfck.miraheze.org/wiki/Category:Gameplay'))
 
 
 """
@@ -1956,7 +1956,7 @@ async def tutorial(cmd):
 
 
 async def leaderboard(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Live leaderboards: https://rfck.app/stats/'))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Live leaderboards: https://rfck.app/stats/'))
 
 
 async def lol(cmd):
@@ -1964,14 +1964,12 @@ async def lol(cmd):
     await fe_utils.send_response(response, cmd)
 
 
-
-
 async def pray(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if cmd.message.channel.name != ewcfg.channel_endlesswar:
         response = "You must be in the presence of your lord if you wish to pray to him."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if len(cmd.mention_ids) == 0:
         target_type = "ew"
@@ -1986,7 +1984,7 @@ async def pray(cmd):
         # don't kill kingpins
         if user_data.life_state != ewcfg.life_state_kingpin and diceroll < probabilityofdeath:
             response = "ENDLESS WAR doesn’t respond. You squint, looking directly into his eye, and think you begin to see particle effects begin to accumulate..."
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.send_response(response, cmd)
             await asyncio.sleep(3)
 
             user_data = EwUser(member=cmd.message.author)
@@ -2106,7 +2104,7 @@ async def pray(cmd):
 
             elif diceroll < (probabilityofpoudrin + probabilityofdeath):  # Player gets a face full of bone-hurting beam.
                 response = "ENDLESS WAR doesn’t respond. You squint, looking directly into his eye, and think you begin to see particle effects begin to accumulate..."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 await asyncio.sleep(3)
 
                 user_data = EwUser(member=cmd.message.author)
@@ -2159,7 +2157,7 @@ async def check_mastery(cmd):
                 message += master_weapon_response.format(rank=wepskills[skill], title="rookie")
         response = message
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -2179,21 +2177,21 @@ async def festivity(cmd):
         response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def wrap(cmd):
     if cmd.tokens_count != 4:
         response = 'To !wrap a gift, you need to specify a recipient, message, and item, like so:\n```!wrap @munchy#6443 "Sample text." chickenbucket```'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        return await fe_utils.send_message(cmd.message.channel, response)
 
     if cmd.mentions_count == 0:
         response = "Who exactly are you giving your gift to?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count > 1:
         response = "Back it up man, the rules are one gift for one person!"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     recipient = cmd.mentions[0]
     recipient_data = EwUser(member=recipient)
@@ -2203,7 +2201,7 @@ async def wrap(cmd):
 
     if recipient_data.id_user == user_data.id_user:
         response = "C'mon man, you got friends, don't you? Try and give a gift to someone other than yourself."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     paper_sought = bknd_item.find_item(item_search="wrappingpaper", id_user=cmd.message.author.id, id_server=cmd.guild.id, item_type_filter=ewcfg.it_item)
 
@@ -2214,7 +2212,7 @@ async def wrap(cmd):
         paper_name = paper_sought.get('name')
     else:
         response = "How are you going to wrap a gift without any wrapping paper?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     gift_message = cmd.tokens[2]
 
@@ -2226,7 +2224,7 @@ async def wrap(cmd):
         if item.item_type == ewcfg.it_item:
             if item.item_props.get('id_item') == "gift":
                 response = "It's already wrapped."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         if item.soulbound:
             response = "It's a nice gesture, but trying to gift someone a Soulbound item is going a bit too far, don't you think?"
         # Check if the item has been gifted before
@@ -2338,11 +2336,11 @@ async def wrap(cmd):
             response = "Specify the item you want to wrap."
         else:
             response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def yoslimernalia(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
+    await fe_utils.send_message(cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
 
 """ show player's slimecoin balance """
@@ -2364,7 +2362,7 @@ async def slimecoin(cmd):
 
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ show player's shares in a stock """
@@ -2391,7 +2389,7 @@ async def shares(cmd):
         response = "That's not a valid stock name, please use a proper one, you cunt: {}".format(ewutils.formatNiceList(ewcfg.stocks))
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -2405,7 +2403,7 @@ async def prank(cmd):
 
     if (ewutils.channel_name_is_poi(cmd.message.channel.name) == False):  # or (user_data.poi not in poi_static.capturable_districts):
         response = "The powers of the mask don't really resonate with you here."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     mentions_user = False
     use_mention_displayname = False
@@ -2483,14 +2481,14 @@ async def prank(cmd):
                 if item_action == "delete":
                     bknd_item.item_delete(item.id_item)
                 # prank_feed_channel = fe_utils.get_channel(cmd.guild, ewcfg.channel_prankfeed)
-                # await fe_utils.send_message(cmd.client, prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (response + "\n`-------------------------`")))
+                # await fe_utils.send_message(prank_feed_channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), (response + "\n`-------------------------`")))
 
                 elif item_action == "drop":
                     bknd_item.give_item(id_user=(user_data.poi + '_trap'), id_server=item.id_server, id_item=item.id_item)
 
                 break
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
 
 
 async def almanac(cmd):
@@ -2529,7 +2527,7 @@ async def almanac(cmd):
         else:
             response = 'ENDLESS WAR questions your belief in the existence of such a shambler or gaiaslimeoid. Try referring to the ones in the list again by using just !almanac.'
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -2547,7 +2545,7 @@ async def set_slime(cmd):
 
     if cmd.mentions_count != 1:
         response = "Invalid use of command. Example: !setslime @player 100"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
 
@@ -2557,7 +2555,7 @@ async def set_slime(cmd):
         new_slime = ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
         if new_slime == None:
             response = "Invalid number entered."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         new_slime -= target_user_data.slimes
     else:
@@ -2578,7 +2576,7 @@ async def set_slime(cmd):
     else:
         return
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Debug
@@ -2590,7 +2588,7 @@ async def check_stats(cmd):
 
     if cmd.mentions_count != 1:
         response = "Invalid use of command. Example: !checkstats @player "
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
 
@@ -2598,7 +2596,7 @@ async def check_stats(cmd):
 
     if target_user_data != None:
         response = "They have {} attack, {}  defense, and {} speed.".format(target_user_data.attack, target_user_data.defense, target_user_data.speed)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Give Brimstone Programmer role to a member
@@ -2609,12 +2607,12 @@ async def make_bp(cmd):
 
     if  cmd.mentions_count > 0 and cmd.mentions[0].id != 169282450621595648:
         response = 'We were only going to give admin to Frog this time around.'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.mentions_count > 0:
         recipient = cmd.mentions[0]
     else:
         response = 'who?'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     bp_role = None
     for role in cmd.guild.roles:
@@ -2648,7 +2646,7 @@ async def ping_me(cmd):
 
     if pinged_poi != None:
         response = user_data.get_mention()
-        return await fe_utils.send_message(cmd.client, channel, response)
+        return await fe_utils.send_message(channel, response)
 
 
 async def shut_down_bot(cmd):
@@ -2722,7 +2720,7 @@ async def arrest(cmd):
         member = cmd.mentions[0]
         if 0 < ewrolemgr.check_clearance(member=member) < 4:
             response = "I'm sorry, {}. I can't let you do that.".format(cmd.message.author)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if cmd.tokens_count == 3 and cmd.tokens[2].isnumeric():
             length = int(cmd.tokens[2])
@@ -2740,9 +2738,9 @@ async def arrest(cmd):
 
         response = "{} is thrown into one of the Juvenile Detention Center's high security solitary confinement spheres{}.".format(member.display_name, time_done)
         await ewrolemgr.update_roles(client=cmd.client, member=member)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
+        await fe_utils.send_message(leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
 
 
 
@@ -2766,9 +2764,9 @@ async def release(cmd):
 
         response = "{} is released. But beware, the cops will be keeping an eye on you.".format(member.display_name)
         await ewrolemgr.update_roles(client=cmd.client, member=member)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
+        await fe_utils.send_message(leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
 
 
 
@@ -2787,7 +2785,7 @@ async def dual_key_ban(cmd):
         member = cmd.mentions[0]
         if 0 < ewrolemgr.check_clearance(member=member) < 4:
             response = "I'm sorry, {}. I can't let you do that.".format(cmd.message.author.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if player is not None:
         target_data = EwUser(id_user=player.id_user, id_server=player.id_server)
@@ -2808,28 +2806,28 @@ async def dual_key_ban(cmd):
                     except:
                         response = "Ban failed. Were they out of the server? Either way, your key's in."
                         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+                        await fe_utils.send_message(leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
 
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                    await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}. They are now banned.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
+                    await fe_utils.send_message(leak_channel, "{} has turned their key to ban {}. They are now banned.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
 
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         if bannedalready:
             response = "You already banned them, but nobody else has."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         target_data.ban(faction="dualkey{}".format(cmd.message.author.id))
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+        await fe_utils.send_message(leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
 
         response = "You turn your key. {} is just one step away from banishment...".format(player.display_name)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         response = "Either your syntax is wrong or they're out of the server. It's !dualkeyban @player."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def dual_key_release(cmd):
     if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
@@ -2870,12 +2868,12 @@ async def dual_key_release(cmd):
 
         if "You never banned them to begin with." not in response:
             leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-            await fe_utils.send_message(cmd.client, leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, player.display_name, final_unban_text))
+            await fe_utils.send_message(leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, player.display_name, final_unban_text))
 
-        return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
     else:
         response = "They haven't been in the server before or your syntax is wrong. It's !dualkeyrelease <@player>."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
@@ -2888,7 +2886,7 @@ async def post_leaderboard(cmd):
     server = client.get_guild(user_data.id_server)
     # Check for permissions
     await bknd_leaderboard.post_leaderboards(client=client, server=server)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, "Yee-haw! Just refreshed that their leaderboard for ya sonny!")
+    return await fe_utils.send_message(cmd.message.channel, "Yee-haw! Just refreshed that their leaderboard for ya sonny!")
 
 
 """
@@ -2922,7 +2920,7 @@ async def unban_manual(cmd):
         response = "Success"
     else:
         response = "Failure {}".format(len(cmd.mentions))
-    await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+    await fe_utils.send_message(cmd.message.channel, response)
 
 
 async def assign_status_effect(cmd = None, status_name = None, user_id = None, server_id = None):
@@ -2936,7 +2934,7 @@ async def assign_status_effect(cmd = None, status_name = None, user_id = None, s
         status_name = ewutils.flattenTokenListToString(cmd.tokens[2:])
         user_data = EwUser(member=target)
         response = user_data.applyStatus(id_status=status_name, source=user_data.id_user, id_target=user_data.id_user)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def print_cache(cmd):
@@ -3024,7 +3022,7 @@ async def toggle_cache(cmd):
             response = "Command failed to convert str to int."
             response += " Structure of command is !togglecache (1 for on or 0 for off) (name of object type)."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def verify_cache(cmd):
@@ -3060,7 +3058,7 @@ async def user_search(cmd):
 
     # Ensure correct terms are sent
     if len(cmd.mentions) != 1 and len(cmd.tokens) != 2:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        return await fe_utils.send_message(cmd.message.channel, response)
 
     # Parse search terms
     if len(cmd.mentions) == 1:
@@ -3070,7 +3068,7 @@ async def user_search(cmd):
         try:
             target_id = int(cmd.tokens[1])
         except ValueError:
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+            return await fe_utils.send_message(cmd.message.channel, response)
 
     # Actually commit the search
     found = await fe_utils.get_member(cmd.guild, target_id)
@@ -3081,7 +3079,7 @@ async def user_search(cmd):
     else:
         response = "Found user **{}** from id **{}**.".format(found.display_name, target_id)
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def cockdraw(cmd):
@@ -3103,7 +3101,7 @@ async def cockdraw(cmd):
     elif cmd.tokens_count > 1:
         object = message_text = ' '.join(word for word in cmd.tokens[1:])
     else:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Measure what?"))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Measure what?"))
 
     if cmd.tokens[0] in ['!cockdraw', '!measurecock']:
         user_data.change_crime(n=1)
@@ -3114,7 +3112,7 @@ async def cockdraw(cmd):
         if protected:
 
             response = "You reach for your pants, only to be blocked by your chastity belt. The Lord has once again thwarted your degeneracy."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         size = float(user_data.rand_seed % 110)/10
 
         if size >= 10:
@@ -3128,18 +3126,18 @@ async def cockdraw(cmd):
 
     if cmd.tokens[0] == '!cockdraw':
         response = "You slowly stick your hand in your pants..."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         await asyncio.sleep(1)
         response = "**3!**"
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         await asyncio.sleep(1)
         response = "**2!**"
-        await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
         await asyncio.sleep(1)
         response = "**1!**"
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         await asyncio.sleep(1)
 
     response = "You {} {}! It's {} inches long!".format(action, object, size)
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

@@ -30,19 +30,19 @@ async def usekey(cmd, owner_user):
                 key = item_key_check
 
     if cmd.message.guild is None or not ewutils.channel_name_is_poi(cmd.message.channel.name):
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must enter an apartment in a zone's channel.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must enter an apartment in a zone's channel.".format(cmd.tokens[0])))
     elif key == None:
         response = "You don't have a key for their apartment."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif owner_apartment.apt_class == ewcfg.property_class_c or (owner_apartment.apt_class in [ewcfg.property_class_a, ewcfg.property_class_b] and key.id_item == owner_apartment.key_2):
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Your key's not working at this new flat. Your roomates must've forgotten to upgrade apartments. Congratulations on the homelessness by the way.".format(cmd.tokens[0])))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Your key's not working at this new flat. Your roomates must've forgotten to upgrade apartments. Congratulations on the homelessness by the way.".format(cmd.tokens[0])))
     elif owner_apartment.poi != poi.id_poi:
         response = "Your key doesn't match an apartment here."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         move_utils.move_counter += 1
         move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You start walking toward the apartment."))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You start walking toward the apartment."))
 
         await asyncio.sleep(20)
 
@@ -55,9 +55,9 @@ async def usekey(cmd, owner_user):
             response = "You're in the apartment."
 
             try:
-                await fe_utils.send_message(cmd.client, cmd.message.author, response)
+                await fe_utils.send_message(cmd.message.author, response)
             except:
-                await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, poi_dest.channel), fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(fe_utils.get_channel(cmd.guild, poi_dest.channel), fe_utils.formatMessage(cmd.message.author, response))
 
 
 # returns a price based on the stock with the biggest change

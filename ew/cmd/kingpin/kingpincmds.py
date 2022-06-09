@@ -38,7 +38,7 @@ async def pa_command(cmd):
                 patext = re.sub("<.+>", "", cmd.message.content[(len(cmd.tokens[0]) + len(cmd.tokens[1]) + 1):]).strip()
                 if len(patext) > 500:
                     patext = patext[:-500]
-                return await fe_utils.send_message(cmd.client, loc_channel, patext)
+                return await fe_utils.send_message(loc_channel, patext)
 
 
 """ Destroy a megaslime of your own for lore reasons. """
@@ -62,7 +62,7 @@ async def deadmega(cmd):
             response = "Alas, poor megaslime. You have {:,} slime remaining.".format(user_data.slimes)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """
@@ -108,7 +108,7 @@ async def pardon(cmd):
             member_data.persist()
             await ewrolemgr.update_roles(client=cmd.client, member=member)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def defect(cmd):
@@ -119,7 +119,7 @@ async def defect(cmd):
     modauth = 0
 
     response = "You feel...traitor-ish today. Hey mods, any takers? Let them free, !yes or !no?"
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     try:
         message = await cmd.client.wait_for('message', timeout=30, check=lambda message: 0 < ewrolemgr.check_clearance(member=message.author) <= 4 and
@@ -138,7 +138,7 @@ async def defect(cmd):
 
     if not accepted:
         response = "Well if it isn't the boy who cried backstab. Guess you won't be going anywhere."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
     else:
@@ -167,10 +167,10 @@ async def defect(cmd):
         await ewrolemgr.update_roles(client=cmd.client, member=member)
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel,  "{}: Let {} defect.".format(modauth.display_name, member.display_name))
+        await fe_utils.send_message(leak_channel,  "{}: Let {} defect.".format(modauth.display_name, member.display_name))
 
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def banish(cmd):
@@ -207,7 +207,7 @@ async def banish(cmd):
             response = "{} has been banned from enlisting in the {}".format(member.display_name, user_data.faction)
             await ewrolemgr.update_roles(client=cmd.client, member=member)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def create(cmd):
@@ -284,13 +284,13 @@ async def exalt(cmd):
 
     if not author.guild_permissions.administrator and user_data.life_state != ewcfg.life_state_kingpin:
         response = "You do not have the power within you worthy of !exalting another player."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count > 0:
         recipient = cmd.mentions[0]
     else:
         response = 'You need to specify a recipient. Usage: !exalt @[recipient].'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     recipient_data = EwUser(member=recipient)
 
@@ -373,7 +373,7 @@ async def exalt(cmd):
     else:
         response = "Exalting? Nah, not enough holiday cheer."
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 # Command to give selected player a reward for art / artistic contributions, only usable by mods, kingpins, and admins.
@@ -390,7 +390,7 @@ async def awardart(cmd):
 
     if cmd.mentions_count != 1:
         response = "Invalid use of command. Example: !awardart @player [\"fish\", \"relic\", \"art\", \"none\"]"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
 
@@ -408,7 +408,7 @@ async def awardart(cmd):
         award_pin = False
     else:
         response = "Invalid use of command. You must specify \"fish\", \"relic\", \"art\", or \"none\"."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     user_data = EwUser(member=target)
 
@@ -450,7 +450,7 @@ async def awardart(cmd):
     response = "Gave {} a small bounty{} for their corpulent work. Thank you for your service 🙏".format(target.display_name, extra_response_text)
 
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def hogtie(cmd):
@@ -465,18 +465,18 @@ async def hogtie(cmd):
                 target_data.hogtied = 0
                 target_data.persist()
                 response = "Whew-whee! She's buckin' so we gotta let 'er go."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}:Released {} from eternal bondage.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(leak_channel, "{}:Released {} from eternal bondage.".format(cmd.message.author.display_name, member.display_name))
             else:
                 target_data.hogtied = 1
                 target_data.persist()
                 response = "Boy howdy! Looks like we lasso'd up a real heifer there! A dang ol' big'un."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}: Hogtied {}.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(leak_channel, "{}: Hogtied {}.".format(cmd.message.author.display_name, member.display_name))
 
 
 async def clowncar(cmd):#shoves everyone not there into JR or the sewers

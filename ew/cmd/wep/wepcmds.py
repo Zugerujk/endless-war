@@ -108,7 +108,7 @@ async def attack(cmd):
         # Ensure the attacker can cover the cost in slime before wasting any more time here
         if ctn.slimes_spent > attacker.slimes:
             resp = "You don't have enough slime to attack. ({:,}/{:,})".format(attacker.slimes, ctn.slimes_spent)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(attacker_member, resp))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(attacker_member, resp))
 
         # Lord forgive me for branching again, but if you missed, none of this is necessary
         if not ctn.miss:
@@ -119,7 +119,7 @@ async def attack(cmd):
             if attacker_weapon_item.template == ewcfg.weapon_id_garrote:
                 # Send the waiting message
                 resp = "You wrap your wire around {}'s neck...".format(target_member.display_name)
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(attacker_member, resp))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(attacker_member, resp))
 
                 # Wait for a response, return if received. wait_for will throw an exception if it times out
                 try:
@@ -558,12 +558,12 @@ async def reload(cmd):
             if weapon.id_weapon == ewcfg.weapon_id_harpoon:
                 # Because this takes so long, we check a couple times if the player has died
                 response = "You start frantically reloading the harpoon gun..."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 await asyncio.sleep(2)
                 if user_data.life_state == ewcfg.life_state_corpse:
                     return
                 response = "...oh god oh fuck oh fuck oh god oh fuck oh shit..."
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 await asyncio.sleep(3)
                 if user_data.life_state == ewcfg.life_state_corpse:
                     return
@@ -590,7 +590,7 @@ async def reload(cmd):
     elif reload_mismatch:
         response = "What do you think you're going to be reloading with that?"
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Set active weapon """
@@ -625,7 +625,7 @@ async def equip(cmd):
     else:
         response = "You don't have one."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Set sidearm slot """
@@ -657,7 +657,7 @@ async def sidearm(cmd):
     else:
         response = "You don't have one."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Player kills themselves """
@@ -694,7 +694,7 @@ async def suicide(cmd):
         elif user_iskillers or user_isrowdys or user_isexecutive or user_islucky or user_isjuvenile or user_isslimecorp:
             if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
                 response = "You can't do that right now."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             slimes_total = user_data.slimes
             slimes_drained = int(slimes_total * 0.1)
@@ -746,7 +746,7 @@ async def brandish(cmd):
         response = weapon_obj.str_brandish.format(weapon=weapon_name, name = cmd.message.author.display_name, tag = user_data.spray)
     else:
         response = "{} flips the bird!".format(cmd.message.author.display_name)
-    return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Player spars with a friendly player to gain slime. """
@@ -901,7 +901,7 @@ async def spar(cmd):
         response = 'Your fighting spirit is appreciated, but ENDLESS WAR didn\'t understand that name.'
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ name a weapon using a slime poudrin """
@@ -931,7 +931,7 @@ async def annoint(cmd):
         for weapon in all_weapons:
             if weapon.get("name") == annoint_name and weapon.get("id_item") != user_data.weapon:
                 response = "**ORIGINAL WEAPON NAME DO NOT STEAL.**"
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         if poudrin is None:
             response = "You need a slime poudrin."
@@ -960,7 +960,7 @@ async def annoint(cmd):
             response = "You place your weapon atop the poudrin and annoint it with slime. {}The poudrin was destroyed in the process.".format(naming_text)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Bind player to active weapon, slightly increase mastery """
@@ -988,26 +988,26 @@ async def marry(cmd):
     # Checks to make sure you're in the dojo.
     if user_data.poi != ewcfg.poi_id_dojo:
         response = "Do you really expect to just get married on the side of the street in this war torn concrete jungle? No way, you need to see a specialist for this type of thing, someone who can empathize with a man’s love for his arsenal. Maybe someone in the Dojo can help, *hint hint*."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif already_getting_married:
         response = "You're already getting married, hold your metaphorical horses. Just sit back and enjoy the ceremony."
         await fe_utils.send_response(response, cmd)
     # Informs you that you cannot marry other juvies.
     elif cmd.mentions_count > 0:
         response = "Ewww, gross! You can’t marry another juvenile! That’s just degeneracy, pure and simple. What happened to the old days, where you could put a bullet in someone’s brain for receiving a hug? You people have gone soft on me, I tells ya."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     # Makes sure you have a weapon to marry.
     elif weapon is None:
         response = "How do you plan to get married to your weapon if you aren’t holding any weapon? Goddamn, think these things through, I have to spell out everything for you."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     # Makes sure you have a displayed rank 4 or higher weapon.
     elif user_data.weaponskill < 8:
         response = "Slow down, Casanova. You do not nearly have a close enough bond with your {} to engage in holy matrimony with it. You’ll need to reach rank 4 mastery or higher to get married.".format(weapon_name)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     # Makes sure you aren't trying to farm the extra weapon mastery ranks by marrying over and over again.
     elif user_data.weaponmarried == True:
         response = "Ah, to recapture the magic of the first nights together… Sadly, those days are far behind you now. You’ve already had your special day, now it’s time to have the same boring days forever. Aren’t you glad you got married??"
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
 
         marriage_line = 0
@@ -1114,7 +1114,7 @@ async def divorce(cmd):
         weapon_name = weapon_item.item_props.get("weapon_name") if len(weapon_item.item_props.get("weapon_name")) > 0 else weapon.str_weapon
 
         response = "Are you sure you want to divorce {}? The Dojo Master will take back weapon after the proceedings and it will be gone. **Forever**. Oh yeah, and the divorce courts around here are pretty harsh so expect to kiss at least half of your slimecoin goodbye.\n**!accept to continue, or !refuse to back out**".format(weapon.str_weapon)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         try:
             accepted = False
             message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
@@ -1148,7 +1148,7 @@ async def divorce(cmd):
             # delete weapon item
             bknd_item.item_delete(id_item=weapon_item.id_item)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def taunt(cmd):
@@ -1158,11 +1158,11 @@ async def taunt(cmd):
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = "A bit late for that, don't you think?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count > 1:
         response = "You can only focus on taunting one person at a time."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count == 1:
         target = cmd.mentions[0]
@@ -1173,11 +1173,11 @@ async def taunt(cmd):
 
     if target_data == None:
         response = "ENDLESS WAR didn't understand that name."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if target_data.poi != user_data.poi:
         response = "You can't {} someone, who's not even here.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     id_status = ewcfg.status_taunted_id
 
@@ -1185,7 +1185,7 @@ async def taunt(cmd):
 
     if id_status in target_statuses:
         response = "{} has already been taunted.".format(target.display_name)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     target_data.applyStatus(id_status=id_status, source=cmd.message.author.id, id_target=cmd.message.author.id)
 
@@ -1193,7 +1193,7 @@ async def taunt(cmd):
 
     response = "You taunt {} into attacking you.".format(target.display_name)
     await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def aim(cmd):
@@ -1203,11 +1203,11 @@ async def aim(cmd):
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = "A bit late for that, don't you think?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count > 1:
         response = "You can only focus on aiming at one person at a time."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count == 1:
         target = cmd.mentions[0]
@@ -1218,11 +1218,11 @@ async def aim(cmd):
 
     if target_data == None:
         response = "ENDLESS WAR didn't understand that name."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if target_data.poi != user_data.poi:
         response = "You can't {} at someone, who's not even here.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     id_status = ewcfg.status_aiming_id
 
@@ -1234,7 +1234,7 @@ async def aim(cmd):
 
     response = "You aim at {}'s weak spot.".format(target.display_name)
     await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def dodge(cmd):
@@ -1244,11 +1244,11 @@ async def dodge(cmd):
 
     if user_data.life_state == ewcfg.life_state_corpse:
         response = "A bit late for that, don't you think?"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count > 1:
         response = "You can only focus on dodging one person at a time."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.mentions_count == 1:
         target = cmd.mentions[0]
@@ -1259,11 +1259,11 @@ async def dodge(cmd):
 
     if target_data == None:
         response = "ENDLESS WAR didn't understand that name."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if target_data.poi != user_data.poi:
         response = "You can't {} someone, who's not even here.".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     id_status = ewcfg.status_evasive_id
 
@@ -1275,7 +1275,7 @@ async def dodge(cmd):
 
     response = "You focus on dodging {}'s attacks.".format(target.display_name)
     await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Attack the control of a district, or buff your team's control """
@@ -1317,7 +1317,7 @@ async def spray(cmd):
                     weapon_item.item_props['roomba'] = ""
                     weapon_item.persist()
                     response = "You pick the roomba back up and have it stop spraying down the floor."
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
                     weapon_item.item_props['roomba'] = user_data.poi
                     weapon_item.persist()
@@ -1400,7 +1400,7 @@ async def spray(cmd):
                 if (slimes_spent > user_data.slimes):
                     # Not enough slime to shoot.
                     response = "You don't have enough slime to cap. ({:,}/{:,})".format(user_data.slimes, slimes_spent)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 weapon_item.item_props['time_lastattack'] = time_now_float
                 weapon_item.persist()
@@ -1526,19 +1526,19 @@ async def spray(cmd):
             if weapon_item is not None:
                 weapon_item.item_props['roomba'] = ""
                 weapon_item.persist()
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         user_data = EwUser(member=cmd.message.author)
         if user_data.weapon >= 0:
             weapon_item = EwItem(id_item=user_data.weapon)
             if weapon_item.item_props.get('roomba') == user_data.poi:
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 await asyncio.sleep(7)
                 roomba_loop = 1
             else:
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ Switch to set sidearm """
@@ -1549,7 +1549,7 @@ async def switch_weapon(cmd):
 
     if user_data.weaponmarried:
         response = "You don't have the heart to cheat on your wife with your side ho. Not right in front of her. Not like this."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     weapon_holder = user_data.weapon
     user_data.weapon = user_data.sidearm
@@ -1569,7 +1569,7 @@ async def switch_weapon(cmd):
             response += " New captcha is {}.".format(newcaptcha)
     else:
         response = ""
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def null_cmd(cmd):
@@ -1582,14 +1582,14 @@ async def duel(cmd):
     if cmd.mentions_count != 1:
         # Must mention only one player
         response = "Mention the player you want to challenge."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     author = cmd.message.author
     member = cmd.mentions[0]
 
     if author.id == member.id:
         response = "You might be looking for !suicide."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     challenger = EwUser(member=author)
     challengee = EwUser(member=member)
@@ -1598,39 +1598,39 @@ async def duel(cmd):
     challengee_poi = poi_static.id_to_poi.get(challengee.poi)
     if not challenger_poi.is_district or not challengee_poi.is_district:
         response = "Both participants need to be in a district zone."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Players have been challenged
     if ewutils.active_target_map.get(challenger.id_user) != None and ewutils.active_target_map.get(challenger.id_user) != "":
         response = "You are already in the middle of a challenge."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     if ewutils.active_target_map.get(challengee.id_user) != None and ewutils.active_target_map.get(challengee.id_user) != "":
         response = "{} is already in the middle of a challenge.".format(member.display_name).replace("@", "\{at\}")
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     if challenger.poi != challengee.poi:
         response = "Both duelers must be in the same location."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     # Players have to be enlisted
     playable_life_states = [ewcfg.life_state_enlisted, ewcfg.life_state_lucky, ewcfg.life_state_executive]
     if challenger.life_state not in playable_life_states or challengee.life_state not in playable_life_states:
         if challenger.life_state == ewcfg.life_state_corpse:
             response = "Ghosts can't duel people. Alas, they can only watch from afar and !haunt."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
         elif challengee.life_state == ewcfg.life_state_corpse:
             response = "Ghosts can't duel people. Alas, they can only watch from afar and !haunt."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
         elif challenger.life_state == ewcfg.life_state_kingpin:
             response = "Throwing all of your gang's hard earned slime on the line strikes you as a bad idea..."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
         elif challengee.life_state == ewcfg.life_state_kingpin:
             response = "They think about accepting for a moment, but then back away, remembering all the hard work their gangsters have put forth. Bummer..."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
     # else:
     # 	response = "Juveniles are too cowardly to throw their lives away in a duel."
-    # 	return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+    # 	return await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     # Assign a challenger so players can't be challenged
     ewutils.active_target_map[challenger.id_user] = challengee.id_user
@@ -1641,7 +1641,7 @@ async def duel(cmd):
     ewutils.active_restrictions[challengee.id_user] = 2
 
     response = "You have been challenged by {} to a duel. Do you !accept or !refuse?".format(author.display_name).replace("@", "\{at\}")
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(member, response))
+    await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(member, response))
 
     # Wait for an answer
     accepted = False
@@ -1676,7 +1676,7 @@ async def duel(cmd):
                 ewutils.active_restrictions[challengee.id_user] = 0
 
                 response = "The duel is over before it even began."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+                return await fe_utils.send_message(cmd.message.channel, response)
 
             if countdown > 8:
                 text_mod = ""
@@ -1693,7 +1693,7 @@ async def duel(cmd):
                 countdown_resp = "{}{}{}".format(text_mod, countdown, text_mod)
 
             countdown -= 1
-            await fe_utils.send_message(cmd.client, cmd.message.channel, countdown_resp)
+            await fe_utils.send_message(cmd.message.channel, countdown_resp)
             await asyncio.sleep(1)
             challenger = EwUser(member=author)
             challengee = EwUser(member=member)
@@ -1702,7 +1702,7 @@ async def duel(cmd):
         ewutils.active_restrictions[challengee.id_user] = 2
 
         response = "{}***DRAW!***{}".format(ewcfg.emote_slimegun, ewcfg.emote_slimegun)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+        await fe_utils.send_message(cmd.message.channel, response)
 
         await ewrolemgr.update_roles(client=cmd.client, member=author)
         await ewrolemgr.update_roles(client=cmd.client, member=member)
@@ -1728,19 +1728,19 @@ async def duel(cmd):
         if challenger.slimes <= 0:
             # challenger lost
             response = "**{} has won the duel!!**".format(member.display_name).replace("@", "\{at\}")
-            await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+            await fe_utils.send_message(cmd.message.channel, response)
             challengee = EwUser(member=member)
 
         elif challengee.slimes <= 0:
             # challengee lost
             response = "**{} has won the duel!!**".format(author.display_name).replace("@", "\{at\}")
-            await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+            await fe_utils.send_message(cmd.message.channel, response)
             challenger = EwUser(member=author)
 
         else:
             # timer stall
             response = "**Neither dueler was bloodthirsty enough to finish the job in time! The duel is over!**"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, response)
+            await fe_utils.send_message(cmd.message.channel, response)
 
         await ewrolemgr.update_roles(client=cmd.client, member=author)
         await ewrolemgr.update_roles(client=cmd.client, member=member)
@@ -1749,7 +1749,7 @@ async def duel(cmd):
     # Or cancel the challenge
     else:
         response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        await fe_utils.send_message(cmd.message.channel, fe_utils.formatMessage(author, response))
 
     challenger = EwUser(member=author)
     challengee = EwUser(member=member)

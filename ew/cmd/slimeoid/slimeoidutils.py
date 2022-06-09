@@ -550,17 +550,17 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
     # flavor text for arena battles
     if battle_type == ewcfg.battle_type_arena:
         response = "**{} sends {} out into the Battle Arena!**".format(challenger_name, s2_combat_data.name)
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(1)
         response = "**{} sends {} out into the Battle Arena!**".format(challengee_name, s1_combat_data.name)
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(1)
         response = "\nThe crowd erupts into cheers! The battle between {} and {} has begun! :crossed_swords:".format(s1_combat_data.name, s2_combat_data.name)
         #		response += "\n{} {} {} {} {} {}".format(str(s1moxie),str(s1grit),str(s1chutzpah),str(challengee_slimeoid.weapon),str(challengee_slimeoid.armor),str(challengee_slimeoid.special))
         #		response += "\n{} {} {} {} {} {}".format(str(s2moxie),str(s2grit),str(s2chutzpah),str(challenger_slimeoid.weapon),str(challenger_slimeoid.armor),str(challenger_slimeoid.special))
         #		response += "\n{}, {}".format(str(challengee_resistance),str(challengee_weakness))
         #		response += "\n{}, {}".format(str(challenger_resistance),str(challenger_weakness))
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(3)
 
     turncounter = 100
@@ -601,7 +601,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
                 response = active_data.brain.str_battlecry.format(
                     slimeoid_name=active_data.name
                 )
-            await fe_utils.send_message(client, channel, response)
+            await fe_utils.send_message(channel, response)
             await asyncio.sleep(1)
 
         elif active_strat == ewcfg.slimeoid_strat_evade and battlecry == 1:
@@ -613,7 +613,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
                 response = active_data.brain.str_movecry.format(
                     slimeoid_name=active_data.name
                 )
-            await fe_utils.send_message(client, channel, response)
+            await fe_utils.send_message(channel, response)
             await asyncio.sleep(1)
 
         # announce active slimeoid's chosen action
@@ -635,7 +635,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
 
         response += " (**{} sap**)".format(active_sap_spend)
 
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(1)
 
         # announce passive slimeoid's chosen action
@@ -657,7 +657,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
 
         response += " (**{} sap**)".format(passive_sap_spend)
 
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(1)
 
         # if the chosen actions are in direct competition, the roll is opposed. only one of them can succeed
@@ -697,25 +697,25 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
                     damage = int(active_dos * 20)
 
                 response = active_data.execute_attack(passive_data, damage, in_range)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
                 response = passive_data.take_damage(active_data, damage, active_dos, in_range)
                 if len(response) > 0:
-                    await fe_utils.send_message(client, channel, response)
+                    await fe_utils.send_message(channel, response)
                     await asyncio.sleep(1)
 
             elif not roll_opposed:
                 response = "{} whiffs its attack!".format(active_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
             elif passive_strat == ewcfg.slimeoid_strat_evade:
                 response = "{} dodges {}'s attack!".format(passive_data.name, active_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
             elif passive_strat == ewcfg.slimeoid_strat_block:
                 response = "{} blocks {}'s attack!".format(passive_data.name, active_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # if the active slimeoid's attack killed the passive slimeoid
@@ -743,25 +743,25 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
                     damage = int(passive_dos * 20)
 
                 response = passive_data.execute_attack(active_data, damage, in_range)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
                 response = active_data.take_damage(passive_data, damage, passive_dos, in_range)
                 if len(response) > 0:
-                    await fe_utils.send_message(client, channel, response)
+                    await fe_utils.send_message(channel, response)
                     await asyncio.sleep(1)
 
             elif not roll_opposed:
                 response = "{} whiffs its attack!".format(passive_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
             elif active_strat == ewcfg.slimeoid_strat_evade:
                 response = "{} dodges {}'s attack!".format(active_data.name, passive_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
             elif active_strat == ewcfg.slimeoid_strat_block:
                 response = "{} blocks {}'s attack!".format(active_data.name, passive_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # resolve active slimeoid's movement
@@ -769,19 +769,19 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
             if active_dos > 0:
                 response = active_data.change_distance(passive_data, in_range)
                 in_range = not in_range
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
             elif active_dos == 0 and passive_strat == ewcfg.slimeoid_strat_evade:
                 in_range = not in_range
                 response = "{} and {} circle each other, looking for an opening...".format(active_data.name, passive_data.name)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # resolve active slimeoid's defense
         if active_strat == ewcfg.slimeoid_strat_block:
             if active_dos > 0:
                 response = active_data.harden_sap(active_dos)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # resolve passive slimeoid's movement
@@ -789,14 +789,14 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
             if passive_dos > 0:
                 response = passive_data.change_distance(active_data, in_range)
                 in_range = not in_range
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # resolve passive slimeoid's defense
         if passive_strat == ewcfg.slimeoid_strat_block:
             if passive_dos > 0:
                 response = passive_data.harden_sap(passive_dos)
-                await fe_utils.send_message(client, channel, response)
+                await fe_utils.send_message(channel, response)
                 await asyncio.sleep(1)
 
         # re-fetch slimeoid data
@@ -838,7 +838,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
             challenger_slimeoid.clout = calculate_clout_gain(challenger_slimeoid.clout)
             challenger_slimeoid.persist()
 
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(2)
     # the challenger has lost
     else:
@@ -864,7 +864,7 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
             challengee_slimeoid.clout = calculate_clout_gain(challengee_slimeoid.clout)
             challengee_slimeoid.persist()
 
-        await fe_utils.send_message(client, channel, response)
+        await fe_utils.send_message(channel, response)
         await asyncio.sleep(2)
     return result
 
