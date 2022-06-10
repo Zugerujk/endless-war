@@ -2306,6 +2306,15 @@ col_bit = "state_bit"
 col_id_state = "id_state"
 col_number = "number"
 
+#Blurb columns
+col_id_blurb = "blurb"
+col_id_active = "active"
+col_id_id_blurb = "id_blurb"
+col_id_context = "context"
+col_id_subcontext = "subcontext"
+col_id_subsubcontext = "subsubcontext"
+col_id_dateadded = "dateadded"
+
 # SWILLDERMUK
 col_id_user_pranker = 'id_user_pranker'
 col_id_user_pranked = 'id_user_pranked'
@@ -4563,6 +4572,8 @@ region_lock_states = {
     "slimecorptunnel": ["lobbylock1", "lobbylock2"],
     "slimecorphotel": ["hotelfound"]
 }
+
+
 
 curse_words = {  # words that the player should be punished for saying via swear jar deduction. the higher number, the more the player gets punished.
     "fag": 20,

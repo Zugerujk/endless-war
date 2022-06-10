@@ -302,3 +302,11 @@ dance_responses = [
     "{} revives the dancing plague! A certified hood classic!",
     "{} does the 2 step! Such a complicated process!"
 ]
+
+
+context_guide = ""
+
+blurb_context_map = {
+    "danceresponses":dance_responses
+
+}
