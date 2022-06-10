@@ -1105,7 +1105,7 @@ async def on_message(message):
             elif randint == 3:
                 msg_mistake = "ENDLESS WAR pays you no mind."
 
-            return await fe_utils.send_response(msg_mistake, cmd, 2)
+            return await fe_utils.send_response(msg_mistake, cmd_obj, 2)
 
     elif content_tolower.find(ewcfg.cmd_howl) >= 0 or content_tolower.find(ewcfg.cmd_howl_alt1) >= 0 or re_awoo.match(content_tolower):
         """ Howl if !howl is in the message at all. """
