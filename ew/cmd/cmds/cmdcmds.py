@@ -794,8 +794,8 @@ async def toss_off_cliff(cmd):
                     if poi_static.id_to_poi.get(target.poi).is_apartment and target.visiting == ewcfg.location_id_empty:
                         try:
                             await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], "SMAAASH! A brick flies through your window!"))
-                        except:
-                            ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
+                        except Exception as e:
+                            ewutils.logMsg("failed to send brick message to user {}:{}".format(target.id_user, e))
                 elif target.poi == user_data.poi:
                     if target.life_state == ewcfg.life_state_corpse:
                         response = "You reel back and chuck the brick at a ghost. As much as we both would like to teach the dirty staydead a lesson, the brick passes right through."
@@ -815,8 +815,8 @@ async def toss_off_cliff(cmd):
 
                         try:
                             await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], random.choice(["!!!!!!", "BRICK!", "FUCK", "SHIT", "?!?!?!?!?", "BONK!", "F'TAAAAANG!", "SPLAT!", "SPLAPP!", "WHACK"])))
-                        except:
-                            ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
+                        except Exception as e:
+                            ewutils.logMsg("failed to send brick message to user {}:{}".format(target.id_user, e))
                 else:
                     response = "There's nobody here."
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

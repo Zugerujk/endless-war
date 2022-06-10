@@ -3510,7 +3510,7 @@ for poi in poi_list:
 	for alias in poi.alias:
 		for poi_2 in poi_list:
 			if alias in poi_2.alias and poi.id_poi != poi_2.id_poi:
-				print('alias {} is already being used by {}'.format(alias, poi_2.id_poi))
+				print('POI alias {} is already being used by {}'.format(alias, poi_2.id_poi))
 
 		id_to_poi[alias] = poi
 

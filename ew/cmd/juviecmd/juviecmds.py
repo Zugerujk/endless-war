@@ -469,11 +469,11 @@ async def mine(cmd):
                     has_pickaxe = True
                 elif (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
-                    print(poi.mother_districts[0] + 'hole')
+                    # print(poi.mother_districts[0] + 'hole')
                     minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
                     added = random.randint(5, 15)
                     checked_dict = digup_relics.get(poi.mother_districts[0])
-                    print(checked_dict)
+                    # print(checked_dict)
                     dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
 
 

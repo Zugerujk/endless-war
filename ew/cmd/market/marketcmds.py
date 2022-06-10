@@ -622,8 +622,7 @@ async def xfer(cmd):
 
         await user_data.die(cause = ewcfg.cause_suicide)
 
-        await fe_utils.send_response("Gaming the slimeconomy is punishable by death. FREE MARKET (TM) soldiers execute you immediately.", cmd)
-        return
+        return await fe_utils.send_response("Gaming the slimeconomy is punishable by death. FREE MARKET (TM) soldiers execute you immediately.", cmd)
 
     # Parse the slime value to send.
     value = None
@@ -1401,5 +1400,5 @@ async def cancel_trade(cmd):
 async def bazaar_refresh(cmd):
     if not cmd.message.author.guild_permissions.administrator:
         return
-    print('GOO')
+    ewutils.logMsg(f"{cmd.message.author.display_name} force refreshed the bazaar.")
     await market_utils.refresh_bazaar(id_server=cmd.guild.id)

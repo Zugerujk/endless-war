@@ -105,7 +105,6 @@ async def event_tick(id_server):
 
                     elif event_data.event_type == ewcfg.event_type_alarmclock:
                         clock_item = EwItem(event_data.event_props.get("clock_id"))
-                        print(clock_item.item_props)
                         clock_item.item_props["furniture_look_desc"] = "There's an alarm clock that's stopped working."
                         clock_item.item_props["furniture_desc"] = "The annoying sound this thing makes perfectly explains why the bazaar sells so many broken clocks. Or at least that's what it used to do before the shitty little batteries gave out. Could try setting it again?"
                         clock_item.persist()

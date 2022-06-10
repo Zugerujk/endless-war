@@ -219,7 +219,7 @@ async def signlease(cmd):
                 accepted = False
 
     except Exception as e:
-        print(e)
+        ewutils.logMsg("Error handling apt signlease confirmation {}".format(e))
         accepted = False
 
     if not accepted:
@@ -654,12 +654,9 @@ async def trickortreat(cmd = None):
 
                 user_data.change_slimes(n=-slime_loss, source=ewcfg.source_damage)
                 if user_data.slimes <= 0:
-                    client = ewutils.get_client()
-                    server = client.get_guild(user_data.id_server)
                     user_poi = poi_static.id_to_poi.get(user_data.poi)
 
                     resp_cont = EwResponseContainer(id_server=user_data.id_server)
-                    player_data = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
 
                     user_data.trauma = ewcfg.trauma_id_environment
                     await user_data.die(cause=ewcfg.cause_killing)

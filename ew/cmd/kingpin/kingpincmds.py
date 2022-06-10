@@ -133,7 +133,7 @@ async def defect(cmd):
                 accepted = False
 
     except Exception as e:
-        print(e)
+        ewutils.logMsg(f"Failed to process defection for {cmd.message.author.display_name}: {e}")
         accepted = False
 
     if not accepted:
@@ -492,12 +492,11 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
         phone_data.item_props['gellphoneactive'] = 'false'
         phone_data.persist()
         if phone_data.id_owner.isnumeric() and int(phone_data.id_owner)>0:
-            print(phone_data.id_owner)
             member_object = server.get_member(int(phone_data.id_owner))
             if member_object is None:
                 continue
             user_data = EwUser(member=member_object)
-            print('{}{}'.format('clowning:', user_data.id_user))
+            ewutils.logMsg("Clown car'd {}".format('clowning:', user_data.id_user))
             user_data.poi = 'juviesrow'
             user_data.persist()
             await ewrolemgr.update_roles(client=cmd.client, member=member_object)

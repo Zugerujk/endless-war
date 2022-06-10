@@ -69,7 +69,7 @@ async def chemo(cmd):
                         accepted = False
 
             except Exception as e:
-                print(e)
+                ewutils.logMsg(f"Failed to process chemo check for {cmd.message.author.display_name}:{e}")
                 accepted = False
 
             if not accepted:
