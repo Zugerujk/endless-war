@@ -932,9 +932,7 @@ async def on_message(message):
 
         if ewutils.active_restrictions.get(usermodel.id_user) == 3:
             usermodel.trauma = ewcfg.trauma_id_environment
-            die_resp = usermodel.die(cause=ewcfg.cause_praying)
-            usermodel.persist()
-            await ewrolemgr.update_roles(client=client, member=message.author)
+            die_resp = await usermodel.die(cause=ewcfg.cause_praying)
             await die_resp.post()
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")

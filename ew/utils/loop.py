@@ -233,7 +233,7 @@ async def decaySlimes(id_server = None):
 """
 
 
-def kill_quitters(id_server):
+async def kill_quitters(id_server):
     client = ewutils.get_client()
     server = client.get_guild(id_server)
 
@@ -250,7 +250,7 @@ def kill_quitters(id_server):
                 user_data = EwUser(id_user=user[0], id_server=id_server)
 
                 user_data.trauma = ewcfg.trauma_id_suicide
-                user_data.die(cause=ewcfg.cause_leftserver)
+                await user_data.die(cause=ewcfg.cause_leftserver)
 
                 ewutils.logMsg('Player with id {} killed for leaving the server.'.format(user[0]))
             except Exception as e:
@@ -319,7 +319,7 @@ async def bleedSlimes(id_server):
 
                 if user_data.slimes < 0:
                     user_data.trauma = ewcfg.trauma_id_environment
-                    die_resp = user_data.die(cause=ewcfg.cause_bleeding)
+                    die_resp = await user_data.die(cause=ewcfg.cause_bleeding)
                     resp_cont.add_response_container(die_resp)
                 user_data.persist()
 
@@ -422,7 +422,6 @@ async def burnSlimes(id_server):
     resp_cont = EwResponseContainer(id_server=id_server)
     for result in data:
         user_data = EwUser(id_user=result[0], id_server=id_server)
-        member = server.get_member(user_data.id_user)
 
         slimes_dropped = user_data.totaldamage + user_data.slimes
         used_status_id = result[3]
@@ -475,7 +474,7 @@ async def burnSlimes(id_server):
                 user_data.id_killer = killer_data.id_enemy
 
             user_data.trauma = ewcfg.trauma_id_environment
-            die_resp = user_data.die(cause=ewcfg.cause_burning)
+            die_resp = await user_data.die(cause=ewcfg.cause_burning)
 
             resp_cont.add_response_container(die_resp)
 

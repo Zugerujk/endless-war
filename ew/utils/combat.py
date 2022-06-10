@@ -454,7 +454,7 @@ class EwEnemy(EwEnemyBase):
 
                         enemy_data.persist()
                         district_data.persist()
-                        die_resp = target_data.die(cause=ewcfg.cause_killing_enemy)  # moved after trauma definition so it can gurantee .die knows killer
+                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy)  # moved after trauma definition so it can gurantee .die knows killer
                         district_data = EwDistrict(district=district_data.name, id_server=district_data.id_server)
 
                         target_data.persist()
@@ -745,7 +745,7 @@ class EwEnemy(EwEnemyBase):
         else:
             target_data, group_attack = get_target_by_ai(enemy_data)
 
-        if target_data != None:
+        if target_data:
             target = EwPlayer(id_user=target_data.id_user, id_server=enemy_data.id_server)
             ch_name = poi_static.id_to_poi.get(enemy_data.poi).channel
 
@@ -753,8 +753,7 @@ class EwEnemy(EwEnemyBase):
 
             enemy_data.clear_status(id_status=id_status)
 
-            enemy_data.applyStatus(id_status=id_status, source=enemy_data.id_enemy, id_target=(
-                target_data.id_user if target_data.combatant_type == "player" else target_data.id_enemy))
+            enemy_data.applyStatus(id_status=id_status, source=enemy_data.id_enemy, id_target=(target_data.id_user))
 
             response = "{} focuses on dodging {}'s attacks.".format(enemy_data.display_name, target.display_name)
             resp_cont.add_channel_response(ch_name, response)
@@ -813,7 +812,7 @@ class EwEnemy(EwEnemyBase):
         else:
             target_data, group_attack = get_target_by_ai(enemy_data)
 
-        if target_data != None:
+        if target_data:
             target = EwPlayer(id_user=target_data.id_user, id_server=enemy_data.id_server)
             ch_name = poi_static.id_to_poi.get(enemy_data.poi).channel
 
@@ -821,8 +820,7 @@ class EwEnemy(EwEnemyBase):
 
             enemy_data.clear_status(id_status=id_status)
 
-            enemy_data.applyStatus(id_status=id_status, source=enemy_data.id_enemy, id_target=(
-                target_data.id_user if target_data.combatant_type == "player" else target_data.id_enemy))
+            enemy_data.applyStatus(id_status=id_status, source=enemy_data.id_enemy, id_target=(target_data.id_user))
 
             enemy_data.persist()
 
@@ -852,7 +850,7 @@ def check_defender_targets(user_data, enemy_data):
 """ Damage all players in a district """
 
 
-def explode(damage = 0, district_data = None, market_data = None):
+async def explode(damage = 0, district_data = None, market_data = None):
     id_server = district_data.id_server
     poi = district_data.name
 
@@ -914,7 +912,7 @@ def explode(damage = 0, district_data = None, market_data = None):
             slimes_dropped = user_data.totaldamage + user_data.slimes
 
             user_data.trauma = ewcfg.trauma_id_environment
-            user_data.die(cause=ewcfg.cause_killing, update_roles=False)
+            await user_data.die(cause=ewcfg.cause_killing, update_roles=False)
 
             response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(
                 player_data.display_name)
@@ -1842,7 +1840,7 @@ class EwUser(EwUserBase):
                             ))
 
                     except Exception as e:
-                        ewutils.logMsg('Failed to drop items on death, {}.'.format(e))
+                        ewutils.logMsg('User_data.die() failed to drop items on death, {}.'.format(e))
 
                     item_cache = bknd_core.get_cache(obj_type="EwItem")
                     for id in ids_to_drop:
@@ -1877,7 +1875,7 @@ class EwUser(EwUserBase):
                 explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(server.get_member(self.id_user).display_name)
                 resp_cont.add_channel_response(explode_poi_channel, explode_resp)
 
-                explosion = explode(damage=explode_damage, district_data=explode_district)
+                explosion = await explode(damage=explode_damage, district_data=explode_district)
                 resp_cont.add_response_container(explosion)
 
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
@@ -1944,7 +1942,7 @@ class EwUser(EwUserBase):
                 weaponskill=new_weaponskill
             )
 
-    def eat(self, food_item = None):
+    async def eat(self, food_item = None):
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
@@ -1990,7 +1988,6 @@ class EwUser(EwUserBase):
             if ewcfg.slimernalia_active:
                 food_type = static_food.food_map.get(item_props.get("id_food"))
                 if food_type and food_type.acquisition == ewcfg.acquisition_smelting:
-                    print("added bonus festivity")
                     ewstats.change_stat(id_server=self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity, n=100)
 
             if int(item_props['inebriation']) > 0:
@@ -2003,12 +2000,12 @@ class EwUser(EwUserBase):
                     self.applyStatus(id_status=ewcfg.status_ghostbust_id)
                     # Bust player if they're a ghost
                     if self.life_state == ewcfg.life_state_corpse:
-                        self.die(cause=ewcfg.cause_busted)
+                        await self.die(cause=ewcfg.cause_busted)
                 if item_props['id_food'] in [ewcfg.item_id_seaweedjoint, 'weedurchin']:
                     self.applyStatus(id_status=ewcfg.status_high_id)
                     self.change_crime(n=ewcfg.cr_posession_points)
                 if item_props.get('poisoned') == 'yes' and self.life_state != ewcfg.life_state_corpse:
-                    self.die(cause=ewcfg.cause_poison)
+                    await self.die(cause=ewcfg.cause_poison)
                     response = "Oh, that food was poisoned. Nice one, idiot. Now you're dead."
 
             except:

@@ -442,7 +442,7 @@ async def mutations(cmd):
             the_month = datetime.datetime.now().month
             if the_month != 6: # If it's not pride month, sorry bucko.
                 resp_cont = EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
-                die_resp = user_data.die(cause=ewcfg.cause_gay)
+                die_resp = await user_data.die(cause=ewcfg.cause_gay)
                 resp_cont.add_response_container(die_resp)
                 return await resp_cont.post()
 
@@ -907,7 +907,7 @@ async def jump(cmd):
         # Kill the player if they don't have laaf
         if ewcfg.mutation_id_lightasafeather not in user_data.get_mutations():
             user_data.trauma = ewcfg.trauma_id_environment
-            die_resp = user_data.die(cause=ewcfg.cause_falling)
+            die_resp = await user_data.die(cause=ewcfg.cause_falling)
             died = True
             resp_cont.add_response_container(die_resp)
             response_dest = "SPLAT! A body collides with the asphalt with such force, that it is utterly annihilated, covering bystanders in blood and slime and guts."
@@ -962,7 +962,7 @@ async def jump(cmd):
 
         # Kill the player
         user_data.trauma = ewcfg.trauma_id_environment
-        die_resp = user_data.die(cause=ewcfg.cause_cliff)
+        die_resp = await user_data.die(cause=ewcfg.cause_cliff)
         if die_resp != EwResponseContainer(id_server=cmd.guild.id):
             await die_resp.post()
     return await fe_utils.send_response(response, cmd)
@@ -1070,7 +1070,7 @@ async def push(cmd):
                 item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
 
         targetmodel.trauma = ewcfg.trauma_id_environment
-        die_resp = targetmodel.die(cause=ewcfg.cause_cliff)
+        die_resp = await targetmodel.die(cause=ewcfg.cause_cliff)
 
         await die_resp.post()
 
@@ -1978,7 +1978,7 @@ async def pray(cmd):
 
             user_data = EwUser(member=cmd.message.author)
             user_data.trauma = ewcfg.trauma_id_environment
-            die_resp = user_data.die(cause=ewcfg.cause_praying)
+            die_resp = await user_data.die(cause=ewcfg.cause_praying)
             await die_resp.post()
 
             response = "ENDLESS WAR completely and utterly obliterates you with a bone-hurting beam."
@@ -2031,7 +2031,7 @@ async def pray(cmd):
 
                 user_data = EwUser(member=cmd.message.author)
                 user_data.trauma = ewcfg.trauma_id_environment
-                die_resp = user_data.die(cause=ewcfg.cause_praying)
+                die_resp = await user_data.die(cause=ewcfg.cause_praying)
                 await die_resp.post()
 
                 response = "ENDLESS WAR completely and utterly obliterates you with a bone-hurting beam."

@@ -303,8 +303,6 @@ def weaponskills_get(id_server=None, id_user=None, member=None) -> dict:
     ))
 
     if data:
-        # todo remove
-        print(data)
         for row in data:
             weaponskills[row[0]] = row[1]
 

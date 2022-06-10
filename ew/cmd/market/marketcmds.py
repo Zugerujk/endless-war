@@ -303,7 +303,7 @@ async def donate(cmd):
                 market_data.donated_slimes += user_data.slimes
                 market_data.persist()
                 user_data.trauma = ewcfg.trauma_id_environment
-                die_resp = user_data.die(cause = ewcfg.cause_donation)
+                die_resp = await user_data.die(cause = ewcfg.cause_donation)
                 await die_resp.post()
             else:
                 # Do the transfer if the player can afford it.
