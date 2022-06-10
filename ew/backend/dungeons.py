@@ -18,6 +18,7 @@ class EwGamestate():
     value = ""
 
     #numerical value
+
     number = 0
 
     def __init__(
@@ -37,6 +38,7 @@ class EwGamestate():
                     col_bit=ewcfg.col_bit,
                     col_value=ewcfg.col_value,
                     col_number=ewcfg.col_number
+
                 ), (
                     self.id_server,
                     self.id_state

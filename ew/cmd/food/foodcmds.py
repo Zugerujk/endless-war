@@ -148,7 +148,7 @@ async def menu(cmd):
 
             if vendor == ewcfg.vendor_bodega:
                 if user_data.freshness < ewcfg.freshnesslevel_1:
-                    response += "\nThe hipster behind the counter is utterly repulsed by the fashion disaster in front of him. Looks like you just aren’t fresh enough for him."
+                    response += "\nThe hipster behind the counter is utterly repulsed by the fashion disaster in front of him. Looks like you just aren’t fresh enough for him.\n"
             if user_data.has_soul == 0:
                 if vendor == ewcfg.vendor_dojo:
                     response += "\n\nThe Dojo master looks at your soulless form with pity."
@@ -164,7 +164,7 @@ async def menu(cmd):
                     response += "\n\nEverything looks so fancy here, but it doesn't really appeal to you since you don't have a soul."
                 elif vendor == ewcfg.vendor_bodega:
                     if user_data.freshness < ewcfg.freshnesslevel_1:
-                        response += ".. and you probably never will be."
+                        response += ".. and you probably never will be.\n"
                 elif vendor == ewcfg.vendor_glocksburycomics:
                     response += "\n\nThe cashier here tries to start up a conversation about life being worth living. You're having none of it."
                 elif vendor == ewcfg.vendor_basedhardware:
@@ -280,7 +280,6 @@ async def order(cmd):
                         pass
                     else:
                         current_vendor = None
-
 
             if current_vendor is None or len(current_vendor) < 1:
                 response = "Check the {} for a list of items you can {}.".format(ewcfg.cmd_menu, ewcfg.cmd_order)
@@ -445,7 +444,7 @@ async def order(cmd):
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and give it to {}.".format(name, current_vendor, target_player_data.display_name)
                             else:
-                                response = "You slam {:,} slime down on the counter at {} for {} and give it to {}.".format(value, current_vendor, name, target_player_data.display_name)
+                                response = "You slam {:,} {} down on the counter at {} for {} and give it to {}.".format(value, currency_used, current_vendor, name, target_player_data.display_name)
 
                             response += "\n\n*{}*: ".format(target_player_data.display_name) + target_data.eat(item_data)
                             target_data.persist()
@@ -455,7 +454,7 @@ async def order(cmd):
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and eat it right on the spot.".format(name, current_vendor)
                             else:
-                                response = "You slam {:,} slime down on the counter at {} for {} and eat it right on the spot.".format(value, current_vendor, name)
+                                response = "You slam {:,} {} down on the counter at {} for {} and eat it right on the spot.".format(value, currency_used, current_vendor, name)
 
                             user_player_data = EwPlayer(id_user=user_data.id_user)
 

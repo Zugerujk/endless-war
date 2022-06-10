@@ -8,6 +8,7 @@ cmd_map = {
     ewcfg.cmd_score_alt1: cmdcmds.score,
     ewcfg.cmd_score_alt2: cmdcmds.score,
     ewcfg.cmd_score_alt3: cmdcmds.score,
+    ewcfg.cmd_score_alt4: cmdcmds.score,
 
     # Show a player's combat data.
     ewcfg.cmd_data: cmdcmds.data,
@@ -45,6 +46,7 @@ cmd_map = {
     ewcfg.cmd_jam: cmdcmds.jam,
     ewcfg.cmd_stunt: cmdcmds.stunt,
     ewcfg.cmd_stuntalt1: cmdcmds.stunt,
+    ewcfg.cmd_stuntalt2: cmdcmds.stunt,
 
     # Show the total of positive slime in the world.
     ewcfg.cmd_endlesswar: cmdcmds.endlesswar,
@@ -155,12 +157,12 @@ cmd_map = {
     ewcfg.cmd_pray: cmdcmds.pray,
 
 
-
-
+    # PRANK people
     ewcfg.cmd_prank: cmdcmds.prank,
 
-
+    # Check GvS almanac - obsolete, but contains a large amount of flavor text and lore for plants, Garden Gankers, and Shamblers, as well as art.
     ewcfg.cmd_gvs_almanac: cmdcmds.almanac,
+
 
     # Check your weapon masteries
     ewcfg.cmd_mastery: cmdcmds.check_mastery,
@@ -239,6 +241,7 @@ apt_dm_cmd_map = {
     ewcfg.cmd_score_alt1: cmdcmds.score,
     ewcfg.cmd_score_alt2: cmdcmds.score,
     ewcfg.cmd_score_alt3: cmdcmds.score,
+    ewcfg.cmd_score_alt4: cmdcmds.score,
 
     # !booru
     ewcfg.cmd_booru: cmdcmds.booru,

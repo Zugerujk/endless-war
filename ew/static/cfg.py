@@ -1,6 +1,7 @@
 # Global configuration options.
 
-version = "v4.102 S4A1 🍑🔨"
+
+version = "v4.15 S4A1 Community Aneurysm Update"
 
 
 dir_msgqueue = 'msgqueue'
@@ -46,7 +47,8 @@ public_gamestates = {
     'slimernaliakingpin':[1, '-1'], #The existing slimernalia kingpin
     'cratersvillehole':[1, '0'],
     'toxingtonhole':[1, '0'],
-    'juviesrowhole':[1, '0']
+    'juviesrowhole':[1, '0'],
+    'hall_counter':[1, '1']
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -162,6 +164,8 @@ poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
 poi_id_greenroom = "greenroom"
+poi_id_ghostcafe = "ghostmaidcafe"
+
 poi_id_themoon = "themoon"
 
 # transports
@@ -667,6 +671,7 @@ cmd_score = cmd_prefix + 'slimes'
 cmd_score_alt1 = cmd_prefix + 'slime'
 cmd_score_alt2 = cmd_prefix + 'skune'
 cmd_score_alt3 = cmd_prefix + 'sloim'
+cmd_score_alt4 = cmd_prefix + '<:slimeepic:973836637777825864>'
 cmd_giveslime = cmd_prefix + 'giveslime'
 cmd_giveslime_alt1 = cmd_prefix + 'giveslimes'
 cmd_help = cmd_prefix + 'help'
@@ -852,6 +857,7 @@ cmd_sacrifice = cmd_prefix + 'sacrifice'
 cmd_makecostume = cmd_prefix + 'makecostume'
 cmd_stunt = cmd_prefix + 'stunt'
 cmd_stuntalt1 = cmd_prefix + 'skate'
+cmd_stuntalt2 = cmd_prefix + 'sk8'
 cmd_treat = cmd_prefix + 'treat'
 cmd_russian = cmd_prefix + 'russianroulette'
 cmd_duel = cmd_prefix + 'duel'
@@ -895,10 +901,12 @@ cmd_createall = cmd_prefix + 'createall'
 cmd_manualsoulbind = cmd_prefix + 'soulbind'
 cmd_editprops = cmd_prefix + 'editprops'
 cmd_setslime = cmd_prefix + 'setslime'
+cmd_seteventpoints = cmd_prefix + 'setresidue'
 cmd_setfestivity = cmd_prefix + 'setfestivity'
 cmd_checkstats = cmd_prefix + 'checkstats'
 cmd_makebp = cmd_prefix + 'makebp'
 cmd_exalt = cmd_prefix + 'exalt'
+cmd_awardart = cmd_prefix + 'awardart'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -913,6 +921,8 @@ cmd_scavenge = cmd_prefix + 'scavenge'
 cmd_scavenge_alt1 = cmd_prefix + 'lookbetweenthecushions'
 cmd_scavenge_alt2 = cmd_prefix + 'dumpsterdive'
 cmd_scrub = cmd_prefix + 'scrub'
+cmd_question = cmd_prefix + 'question'
+cmd_answer = cmd_prefix + 'answer'
 cmd_arm = cmd_prefix + 'arm'
 cmd_arsenalize = cmd_prefix + 'arsenalize'
 cmd_spray = cmd_prefix + 'annex'
@@ -963,6 +973,9 @@ cmd_rejuvenate = cmd_prefix + 'rejuvenate'
 cmd_win = cmd_prefix + 'win'
 cmd_slimefest = cmd_prefix + 'slimefest'
 cmd_identify = cmd_prefix + 'identify'
+cmd_startshift = cmd_prefix + 'startshift'
+cmd_serve = cmd_prefix + 'serve'
+cmd_sow_cloth = cmd_prefix + 'sowcloth'
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -996,7 +1009,6 @@ cmd_set_gambit = cmd_prefix + 'setgambit'
 cmd_pointandlaugh = cmd_prefix + 'pointandlaugh'
 cmd_prank = cmd_prefix + 'prank'
 cmd_gvs_almanac = cmd_prefix + 'almanac'
-
 
 cmd_retire = cmd_prefix + 'retire'
 cmd_paspeaker = cmd_prefix + 'paspeaker'
@@ -1035,6 +1047,8 @@ cmd_unpot = cmd_prefix + 'unpot'
 cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
 cmd_smoke = cmd_prefix + 'smoke'
+cmd_vape = cmd_prefix + 'vape'
+cmd_vapealt1 = cmd_prefix + 'oop'
 cmd_frame = cmd_prefix + 'frame'
 cmd_addart = cmd_prefix + 'addart'
 cmd_extractsoul = cmd_prefix + 'extractsoul'
@@ -1247,6 +1261,10 @@ cmd_remove_offer = cmd_prefix + 'removeoffer'
 cmd_completetrade = cmd_prefix + 'completetrade'
 cmd_canceltrade = cmd_prefix + 'canceltrade'
 
+# Auction
+cmd_bid = cmd_prefix + 'bid'
+cmd_auction = cmd_prefix + 'auction'
+
 cmd_bazaar_refresh = cmd_prefix + 'refreshbazaar'
 
 cmd_cockdraw = cmd_prefix + 'cockdraw'
@@ -1385,6 +1403,7 @@ slimes_to_possess_fishing_rod = -10000
 slimes_to_crystalize_negapoudrin = -1000000
 slimes_cliffdrop = 200000
 slimes_item_drop = 10000
+slimes_addart = 250000
 
 # hunger
 min_stamina = 100
@@ -1595,6 +1614,15 @@ default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86
 # how often to apply weather effects
 weather_tick_length = 10
 
+# moon phase string names
+moon_new = "new" #                      
+moon_waxing_start = "waxinghorns" #       :
+moon_waxing_end = "waxingmaw" #          (:
+moon_full = "crescent" #                ((:
+moon_waning_start = "waningmandibles" # ((
+moon_waning_end = "waningsliver" #      (
+moon_special = "green" #               glows
+
 # how often to delete expired world events
 event_tick_length = 5
 
@@ -1801,6 +1829,11 @@ emote_phantomhorn = "<:phantomhorn:431282111534858244>"
 emote_strawberrymilk = "<:strawberrymilk:431282128421126144>"
 emote_dab = "<a:dab:805341290220093450>"
 emote_thrash = "<a:thrash:805341344331202620>"
+
+# Miscellaneous
+emote_tfwslime = "<:tfwslime:713609663832391680>"
+emote_ewspin = "<a:ewspin:694097283293118525>"
+emote_slimeepic = "<:slimeepic:973836637777825864>"
 
 # mining types
 mining_type_minesweeper = "minesweeper"
@@ -2071,6 +2104,7 @@ col_time_lastpremiumpurchase = 'time_lastpremiumpurchase'
 col_verified = 'verified'
 col_gender = 'gender'
 col_hogtied = 'hogtied'
+col_event_points = 'event_points'
 
 col_attack = 'attack'
 col_speed = 'speed'
@@ -2292,7 +2326,8 @@ it_relic = 'relic'
 # Cosmetic item rarities
 rarity_plebeian = "Plebeian"
 rarity_patrician = "Patrician"
-rarity_promotional = "Promotional"  # Cosmetics that should not be awarded through smelting/hunting
+rarity_profollean = "Profollean"
+rarity_promotional = "Promotional"  # Cosmetics awarded at events / achieved through limited ways
 rarity_princeps = "princeps"
 
 # Leaderboard score categories
@@ -2506,6 +2541,8 @@ cause_cliff = 13
 cause_backfire = 14
 cause_praying = 15
 cause_poison = 16
+cause_crushing = 17
+cause_gay = 18
 
 # List of user statistics that reset to 0 on death
 stats_clear_on_death = [
@@ -2526,23 +2563,25 @@ context_prankitem = 'prankitem'
 
 # Item vendor names.
 vendor_bar = 'bar'  # rate of non-mtn dew drinks are 100 slime to 9 hunger
-vendor_pizzahut = 'Pizza Hut'  # rate of fc vendors are 100 slime to 10 hunger
-vendor_tacobell = 'Taco Bell'
-vendor_kfc = 'KFC'
-vendor_mtndew = 'Mtn Dew Fountain'
-vendor_vendingmachine = 'vending machine'
+vendor_pizzahut = 'Pizza Hut'  # rate of fc vendors are 100 slime to 10 hunger, Sub-menu in Food Court
+vendor_tacobell = 'Taco Bell' # Sub-menu in Food Court
+vendor_kfc = 'KFC' # Sub-menu in Food Court
+vendor_mtndew = 'Mtn Dew Fountain' # Sub-menu in Food Court
+vendor_vendingmachine = 'vending machine' # Pourdin Alley's 7/11.
 vendor_seafood = 'Red Mobster Seafood'  # rate of seafood is 100 slime to 9 hunger
 vendor_diner = "Smoker's Cough"  # rate of drinks are 100 slime to 15 hunger
-vendor_beachresort = "Beach Resort"  # Just features clones from the Speakeasy and Red Mobster
-vendor_countryclub = "Country Club"  # Just features clones from the Speakeasy and Red Mobster
+vendor_beachresort = "Beach Resort"  # Assault Flats Beach bar and the sunburnt greasy man to sell you summer-season amenities.
+vendor_countryclub = "Country Club"  # Dreadford's snobbish vendor. Crookline's Splatify is the southwest bar in the game now.
 vendor_farm = "Farm"  # contains all the vegetables you can !reap
-vendor_bazaar = "bazaar"
-vendor_giftshop = "giftshop"
+vendor_bazaar = "bazaar" # General store, and pulls in the item pool from every other vendor in the game.
+vendor_giftshop = "giftshop" 
 vendor_college = "College"  # You can buy game guides from either of the colleges
 vendor_glocksburycomics = "Glocksbury Comics"  # Repels and trading cards are sold here
 vendor_slimypersuits = "Slimy Persuits"  # You can buy candy from here
 vendor_greencakecafe = "Green Cake Cafe"  # Brunch foods
-vendor_bodega = "Bodega"  # Clothing store in Krak Bay
+vendor_bodega = "Bodega"  # Default clothing store in Krak Bay
+vendor_snottopic = "Snot Topic" # Sub-store within Bodega, featuring crappy clothing that no other store would sell.
+vendor_caravan = "Caravan" #Sub-store within Bodega, filters a lot of shoes into one store.
 vendor_secretbodega = "Secret Bodega"  # The secret clothing store in Krak Bay
 vendor_wafflehouse = "Waffle House"  # waffle house in the void, sells non-perishable foods, 50 slime to 1 hunger
 vendor_basedhardware = "Based Hardware"  # Hardware store in West Glocksbury
@@ -2568,6 +2607,8 @@ pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You 
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
+item_id_ghostlycloth = 'ghostlycloth'
+item_id_ghosttoken = 'ghosttoken'
 item_id_monstersoup = 'monstersoup'
 item_id_doublestuffedcrust = 'doublestuffedcrust'
 item_id_quadruplestuffedcrust = 'quadruplestuffedcrust'
@@ -2610,6 +2651,7 @@ item_id_tough_material = "toughnails"
 item_id_smart_material = "smartcookies"
 item_id_beautiful_material = "beautyspots"
 item_id_cute_material = "cutebuttons"
+item_id_evil_material = "evilstuds"
 item_id_dragonsoul = "dragonsoul"
 item_id_monsterbones = "monsterbones"
 item_id_faggot = "faggot"
@@ -2619,6 +2661,7 @@ item_id_string = "string"
 item_id_tincan = "tincan"
 item_id_oldboot = "oldboot"
 item_id_leather = "leather"
+item_id_ectoplasm = "ectoplasm"
 item_id_feather = "feather"
 item_id_partypoppepperseeds = "partypoppepperseeds"
 item_id_partypopper = "partypopper"
@@ -2636,6 +2679,13 @@ item_id_rainwing = "rainwing"
 item_id_dyesolution = "dyesolution"
 item_id_textiles = "textiles"
 item_id_foodbase = "foodbase"
+item_id_mastectomy_mango_pod = "mastectomymangopod"
+item_id_menthol_mint_pod = "mentholmintpod"
+item_id_striking_strawberry_pod = "strikingstrawberrypod"
+item_id_ten_story_tobacco_pod = "tenstorytobaccopod"
+item_id_cop_killer_cotton_candy_pod = "copkillercottoncandypod"
+item_id_mustard_gas_pod = "mustardgaspod"
+item_id_spent_pod = "spentpod"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
@@ -2694,6 +2744,7 @@ item_id_alligatortoy = "alligatortoy"
 item_id_undefinedprankscrap = "undefinedprankscrap"
 item_id_janusmask = "janusmask"
 item_id_swordofseething = "swordofseething"
+item_id_usedneedle = "usedneedle"
 
 prank_type_instantuse = 'instantuse'
 prank_type_response = 'response'
@@ -2889,6 +2940,8 @@ weapon_id_slimeringcan = 'slimeringcan'
 weapon_id_fingernails = 'fingernails'
 weapon_id_roomba = 'roomba'
 
+
+
 theforbiddenoneoneone_desc = "This card that you hold in your hands contains an indescribably powerful being known simply " \
                              "as The Forbidden {emote_111}. It is an unimaginable horror, a beast of such supreme might that wields " \
                              "destructive capabilities that is beyond any human’s true understanding. And for its power, " \
@@ -2974,10 +3027,13 @@ fish_rarity_promo = "promo"
 
 fish_catchtime_night = "night"
 fish_catchtime_day = "day"
+fish_catchtime_moon_phase_special = "moonphasespecial"
 
 fish_slime_freshwater = "freshwater"
 fish_slime_saltwater = "saltwater"
 fish_slime_void = "void"
+fish_slime_event = "event"
+fish_slime_moon = "moon"
 
 fish_size_miniscule = "miniscule"
 fish_size_small = "small"
@@ -3107,8 +3163,9 @@ style_tough = "tough"
 style_smart = "smart"
 style_beautiful = "beautiful"
 style_cute = "cute"
+style_evil = "evil"
 
-fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute]
+fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil]
 
 freshnesslevel_1 = 500
 freshnesslevel_2 = 1000
@@ -3123,9 +3180,11 @@ soul_durability = 100000000  # 100 mega
 
 cosmetic_id_raincoat = "raincoat"
 
-cosmeticAbility_id_lucky = "lucky"
+cosmeticAbility_id_lucky = "lucky" 
 cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability.
-cosmeticAbility_id_clout = "clout"
+cosmeticAbility_id_clout = "clout" 
+cosmeticAbility_id_nmsmascot = "nmsmascot" # Used to track whether you're wearing any mascot pieces.
+cosmeticAbility_id_furry = "furry"
 
 # Slimeoid attributes.
 slimeoid_strat_attack = "attack"
@@ -3264,6 +3323,7 @@ mutation_id_airlock = "airlock"
 mutation_id_lightminer = "lightminer"
 mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
+mutation_id_gay = "gay"
 
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
@@ -3605,7 +3665,8 @@ mutation_descriptions = {
     mutation_id_coleblooded: "You get the ability to bust ghosts without coleslaw. If a ghost haunts you, they lose negaslime instead of gaining it.",
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
-    mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs."
+    mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
+    mutation_id_gay: "You're gay.",
 
 }
 
@@ -3690,6 +3751,8 @@ item_unique_commands = {
     "laptopcomputer": "LAPTOP\n!browse: Browse the web on your laptop for RFCK Discord servers if it is in your apartment.",
     "cigarette": "CIGARETTE\n!smoke <cigarette>: Smoke cigarettes.",
     "cigar": "CIGAR\n!smoke <cigar>: Smoke cigars.",
+    "vape": "VAPE\n!vape <vape pod>: Smoke vape pods in your inventory.",
+    "usedneedle": "USED NEEDLE\n!use <@player>: Totally PRANK someone.\n!turnin: Turn in used needles at Neo Milwaukee State for Exotic Residue.",
     "pictureframe": "PICTURE FRAME\n!frame <image link>: Put an image in a picture frame.\n!titleframe <title>: Add a title to a picture frame.",
     "television": "TV\n!watch: Watch TV if it's in your apartment. Stop watching by taking the TV out of your apartment."
 }
@@ -3725,7 +3788,8 @@ district_unique_commands = {
     "limecorp3f": "LIMECORP 3F\n!jump: Commit career suicide.",
     "blimp":"BLIMP:\nGo skydiving. No parachute, but you can pretend.",
     "themuseum":"THE MUSEUM\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
-    "wafflehouse": "WAFFLE HOUSE\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid."
+    "wafflehouse": "WAFFLE HOUSE\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
+    "doorsofthesludgenant":"DOOR OF THE SLUDGENANT\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
 }
 
 
@@ -4351,6 +4415,8 @@ event_type_slimefrenzy = "slimefrenzy"
 event_type_poudrinfrenzy = "poudrinfrenzy"
 event_type_minecollapse = "minecollapse"
 event_type_voidhole = "voidhole"
+event_type_spookyghost = "spookyghost"
+event_type_spookyskeleton = "spookyskeleton"
 event_type_voidconnection = "voidconnection"
 event_type_marriageceremony = "marriageceremony"
 
@@ -4554,7 +4620,7 @@ captcha_dict = [
     'KFC', 'GAY', 'LOL', 'GUN', 'MUK',
     'POW', 'WOW', 'POP', 'OWO', 'HIP',
     'END', 'HAT', 'CUP', '911', '711',
-    'SIX', 'SMG', 'BOW',
+    'SIX', 'SMG', 'BOW', 'UWU',
     # 4
     'GOON', 'DOOR', 'CORP', 'SPAM', 'BLAM',
     'FISH', 'MINE', 'LOCK', 'OURS', 'ROCK',
@@ -4562,48 +4628,51 @@ captcha_dict = [
     'HEHE', 'WEED', 'LMAO', 'EPIC', 'NICE',
     'SOUL', 'KILL', 'FREE', 'GOOP', 'CAVE',
     'ZOOM', 'FIVE', 'NINE', 'BASS', 'FIRE',
-    'TEXT', 'AWOO', 'GOKU',
+    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE', 
     # 5
     'GUNKY', 'BOORU', 'ROWDY', 'GHOST', 'ORDER',
     'SCARE', 'BULLY', 'FERRY', 'SAINT', 'SLASH',
-    'SLOSH', 'PARTY', 'BASED', 'TULPA',
+    'SLOSH', 'PARTY', 'BASED', 'TULPA', 'RELIC',
     'SLURP', 'MONTH', 'SEVEN', 'BRASS', 'MINES',
     'CHEMO', 'LIGHT', 'FURRY', 'PIZZA', 'ARENA',
-    'LUCKY', 'RIFLE', '56709',
+    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME', 
     # 6
     'SLUDGE', 'KILLER', 'MUNCHY', 'BLAAAP', 'BARTER',
     'ARTIST', 'FUCKER', 'MINING', 'SURVEY', 'THRASH',
     'BEWARE', 'STOCKS', 'COWARD', 'CRINGE', 'INVEST',
     'BUSTAH', 'KILLAH', 'KATANA', 'GHOSTS', 'BASSED',
-    'REVIVE', 'BATTLE', 'PAWPAW',
+    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER', 
     # 7
     'KINGPIN', 'ENDLESS', 'ATTACKS', 'FUCKERS', 'FISHING',
     'VIOLENT', 'SQUEEZE', 'LOBSTER', 'WESTERN', 'EASTERN',
     'REGIONS', 'DISCORD', 'KNUCKLE', 'MOLOTOV', 'SHAMBLE',
     'WARFARE', 'BIGIRON', 'POUDRIN', 'PATRIOT', 'MINIGUN',
     'MONSTER', 'DIVORCE', 'GARROTE', 'ASSAULT', 'PICKAXE',
+    'HARPOON', 'HUNTING', 
     # 8
     'GAMEPLAY', 'CONFLICT', 'EXCHANGE', 'FEEDBACK', 'GRENADES',
     'VIOLENCE', 'TACOBELL', 'PIZZAHUT', 'OUTSKIRT', 'WHATEVER',
     'WITHDRAW', 'SOUTHERN', 'NORTHERN', 'ASTATINE', 'SLIMEOID',
     'SHAMBLIN', 'STAYDEAD', 'DOWNTOWN', 'DISTRICT', 'BASEBALL',
-    'BIGBONES', 'LONEWOLF', 'KEENSMELL', 'RAZORNUTS', 'REVOLVER',
+    'BIGBONES', 'LONEWOLF', 'REVOLVER', 'COMMANDO', 'STINKEYE',
     # 9
     'APARTMENT', 'SURVIVORS', 'NEGASLIME', 'COMMUNITY', 'GIGASLIME',
     'DETENTION', 'CATHEDRAL', 'TOXINGTON', 'SLIMEGIRL', 'INVESTING',
-    'SLIMECOIN', 'RATELIMIT', 'NARRATIVE', 'COMMANDO', 'SHAMBLERS',
-    'NUNCHUCKS', 'SLIMECORP', 'ARSONBROOK', 'SMOGSBURG', 'SLIMEFEST',
+    'SLIMECOIN', 'RATELIMIT', 'NARRATIVE', 'SHAMBLERS', 'KEENSMELL',
+    'NUNCHUCKS', 'SLIMECORP', 'SMOGSBURG', 'SLIMEFEST', 'RAZORNUTS',
     'COMMANDER', 'FATCHANCE', 'DANKWHEAT',
     # 10
     'SLUDGECORE', 'LOREMASTER', 'ROUGHHOUSE', 'GLOCKSBURY', 'CALCULATED',
     'PLAYGROUND', 'NEWYONKERS', 'OLDYONKERS', 'VANDALPARK', 'SLIMERMAID',
     'SLIMEXODIA', 'WEBBEDFEET', 'NOSEFERATU', 'BINGEEATER', 'TRASHMOUTH',
     'DIREAPPLES', 'BLACKLIMES', 'POKETUBERS', 'PULPGOURDS', 'ROWDDISHES',
-    'DRAGONCLAW',
+    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS', 
     # 27
     'STOPSCAVENGINGANDTOUCHGRASS', 'GETSERIOUSPSYCHOLOGICALHELP',
     'FEELTHETOUCHOFAWOMANINSTEAD', 'THISISNTVERYIMPRESSIVECHUMP',
     'YOUCOULDBEDOINGSOMUCHBETTER', 'GOGETAJOBINSTEADOFDOINGTHIS',
+    'CONTESTARENEVERJUDGEDONTIME',
+    # To the people who don't know how to count to 10 letters, I feel pity for your parents.
 ]
 
 riflecap = ['UP', 'DOWN', 'LEFT', 'RIGHT']

@@ -621,7 +621,7 @@ poi_list = [
 		minor_role = "thevoid_minor",
 		permissions = {'the-void': ['read', 'send', 'connect']},
 		is_district = True,
-		neighbors = {'wafflehouse': 20, 'blackpond': 20, 'thesewers': 60},
+		neighbors = {'wafflehouse': 20, 'blackpond': 20, 'thesewers': 60, 'ghostmaidcafe': 20},
 		topic = "A peaceful place, despite the sense of liminality. Remember to **!look** around, if you're feeling lost.",
 		wikipage = "https://rfck.miraheze.org/wiki/The_Void",
 	),
@@ -1448,7 +1448,7 @@ poi_list = [
 		id_poi = "thebeachresort",
 		alias = ['resort', 'r'],
 		str_name = "The Resort",
-		str_desc = "The interior is lavishly decorated with all manner of tropically-inspired furnishings, all beautifully maintained with nary a speck of grime staining its pristine off-white walls. Exotic potted plants and natural lighting fill the hallways, which all smell like the inside of a woman's body wash bottle. Palm trees seemingly occupy half of the outside land on the complex, averaging about 2 feet apart from one another at most to your calculations. Imported red sand of the beach stretches toward the horizon, lapped by gentle waves of slime. Couples enjoy slima coladas and tanning by the slime pool. This place fucking disgusts you. Is… is that a stegosaurus in the distance?\n\nExits into Assault Flats Beach.",
+		str_desc = "The interior is lavishly decorated with all manner of tropically-inspired furnishings, all beautifully maintained with nary a speck of grime staining its pristine off-white walls. Exotic potted plants and natural lighting fill the hallways, which all smell like the inside of a woman's body wash bottle. Palm trees seemingly occupy half of the outside land on the complex, averaging about 2 feet apart from one another at most to your calculations. Imported red sand of the beach stretches toward the horizon, lapped by gentle waves of slime. Couples enjoy slima coladas and tanning by the slime pool. This place fucking disgusts you... Especially with that greasy, sunburnt man trying to peddle cheaply manufactured products to unassuming civilians. Is… is that a stegosaurus in the distance?\n\nExits into Assault Flats Beach.",
 		channel = "the-resort",
 		role = "Beach Resort",
 		major_role = "assaultflatsbeach_major",
@@ -2746,7 +2746,7 @@ poi_list = [
 		minor_role = "nullminorrole",
 		permissions = {'bodega': ['read', 'send', 'connect']},
 		pvp = False,
-		vendors = ['Bodega', 'Secret Bodega'],
+		vendors = ['Bodega', 'Snot Topic', 'Caravan', 'Secret Bodega'],
 		is_subzone = True,
 		mother_districts = ['krakbay'],
 		neighbors = {'krakbay': 20},
@@ -3120,16 +3120,30 @@ poi_list = [
 	),
 	EwPoi(
 		id_poi = "themoon",
-		alias = ['moon', 'luna', 'n1'],
+		alias = ['moon', 'luna', 'loona', 'n1'],
 		str_name = "The Moon",
-		str_desc = "Hey wait, you're on the moon. How are you able to breathe? Well never mind that. You're doing it and that's what counts. There's a pretty sizable chunk taken out of it ever since N1 went and exploded. If only you could fish here, then you'd be able to fulfill your lifelong dream of imitating the guy from the Dreamworks logo. Whatever the case, there isn't anywhere else to go. !loop back or die, it's your decision.",
+		str_desc = "Hey wait, you're on the moon. How are you able to breathe? Well never mind that. You're doing it and that's what counts. There's a pretty sizable chunk taken out of it ever since N1 went and exploded. If only you could fish here, then you'd be able to fulfill your lifelong dream of imitating the guy from the Dreamworks logo. Whatever the case, there isn't anywhere else to go. !loop back or die, it's your decision.\n\nThis area continues to the Crest of the Crescent Moon.",
 		channel = "the-moon",
-		major_role = "downtown_major",
-		minor_role = "nullminorrole",
+		major_role = "themoon_major",
+		minor_role = "themoon_minor",
 		permissions = {'the-moon': ['read', 'send', 'connect']},
-		property_class = "A",
+		property_class = "C", # Moon capping eventually I prommy
+		is_district = True,
+		neighbors = {'crestofthecrescentmoon': 20},
+		topic = "The moon. Pretty self-explanatory. It's permanently shaped like a crescent due to a quirky mishap.",
+	),
+	EwPoi(
+		id_poi = "crestofthecrescentmoon",
+		alias = ['crestofthemoon', 'crest', 'moonfishing', 'tipofthemoon', 'mooncrest', 'crescent'],
+		str_name = "Crest of the Crescent Moon",
+		str_desc = "The tip of the crescent moon. From all the way out here, you can feel the lunar winds streaming into the ether. You can see a jetstream traveling towards earth, specifically the garish glowing-green spec NLACakaNM makes. Maybe you should try... fishing from here? Like the Dreamworks guy? Holy shit?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?! IT'S FINALLY REAL, AFTER ALL THIS TIME. YOU CAN FUCKING MOON FISH. THE HIGHLY REQUESTED, MUCH-AWAITED FEATURE TO FUCKING FISH FROM THE MOON IS **HERE**, FOLKS. This is auditorium-worthy news. I wonder if... there's possibly a post there? I wonder.\n\nRIP to LUNAR WAR, though. Gone but not forgotten. 😔🙏\n\nExits back onto the Moon.",
+		channel = "crest-of-the-crescent-moon",
+		permissions = {'crest-of-the-crescent-moon': ['read', 'send', 'connect']},
 		is_subzone = True,
-		neighbors = {},
+		mother_districts = ['themoon'],
+		is_pier = True,
+		pier_type = "moon",
+		neighbors = {'themoon': 20},
 	),
 	EwPoi(
 		id_poi = "themuseum",
@@ -3369,6 +3383,22 @@ EwPoi(
 		neighbors={},
 		wikipage=""
 	),
+	  EwPoi(
+		id_poi = "ghostmaidcafe",
+		alias = ['ghost maid cafe', 'gmc', 'maidcafe', 'maid cafe', 'mcafe', 'ghost cafe', 'gcafe', 'goth ihop', 'brazils bakery', 'cheesecakefactory'],
+		str_name = "The Ghost Maid Cafe",
+		str_desc = "This small rundown cafe is filled with all kinds of degenerates. They sit at their tables, eagerly waiting for the ghosts dressed in maid outfits and cat ears to serve them. The food coming from the back looks horrible, too, but that's not why people are here. \n\nExits into Charcoal Park",
+		channel = "ghost-maid-cafe",
+		major_role = "thevoid_major",
+		minor_role = "nullminorrole",
+		permissions = {'ghost-maid-cafe': ['read', 'send', 'connect']},
+		pvp = False,
+		vendors = [],
+		is_subzone = True,
+		mother_districts = ['thevoid'],
+		neighbors = {'thevoid': 20},
+		wikipage = "https://rfck.miraheze.org/wiki/JuviesRow#GhostMaidCafe"
+	  ),
 ]
 
 
@@ -3974,6 +4004,16 @@ world_events = [
 		event_type=ewcfg.event_type_voidhole,
 		str_event_start="You hit a sudden gap in the stone, with a scary looking drop. You see what looks like a trampoline on a building's roof at the bottom. Do you **{}** in?".format(ewcfg.cmd_jump),
 		str_event_end="The wall collapses.",
+	),
+	EwEventDef(
+		event_type=ewcfg.event_type_spookyghost,
+		str_event_start="A fucking **GHOST** flies out of the rock you just hit! And not a slime one, like an actual white-blanket **SCARY GHOST**. Beat the shit out of it!",
+		str_event_end="The ghost flies past you, hopefully getting the beating of its life.",
+	),
+	EwEventDef(
+		event_type=ewcfg.event_type_spookyskeleton,
+		str_event_start="A fucking **SKELETON** emerges from the rock you just hit! You should beat the shit out of it ):< !",
+		str_event_end="The skeleton crumbles to dust, hopefully getting the beating of its life.",
 	)
 ]
 
