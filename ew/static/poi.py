@@ -621,7 +621,7 @@ poi_list = [
 		minor_role = "thevoid_minor",
 		permissions = {'the-void': ['read', 'send', 'connect']},
 		is_district = True,
-		neighbors = {'wafflehouse': 20, 'blackpond': 20, 'thesewers': 60},
+		neighbors = {'wafflehouse': 20, 'blackpond': 20, 'thesewers': 60, 'ghostmaidcafe': 20},
 		topic = "A peaceful place, despite the sense of liminality. Remember to **!look** around, if you're feeling lost.",
 		wikipage = "https://rfck.miraheze.org/wiki/The_Void",
 	),
@@ -1448,7 +1448,7 @@ poi_list = [
 		id_poi = "thebeachresort",
 		alias = ['resort', 'r'],
 		str_name = "The Resort",
-		str_desc = "The interior is lavishly decorated with all manner of tropically-inspired furnishings, all beautifully maintained with nary a speck of grime staining its pristine off-white walls. Exotic potted plants and natural lighting fill the hallways, which all smell like the inside of a woman's body wash bottle. Palm trees seemingly occupy half of the outside land on the complex, averaging about 2 feet apart from one another at most to your calculations. Imported red sand of the beach stretches toward the horizon, lapped by gentle waves of slime. Couples enjoy slima coladas and tanning by the slime pool. This place fucking disgusts you. Is… is that a stegosaurus in the distance?\n\nExits into Assault Flats Beach.",
+		str_desc = "The interior is lavishly decorated with all manner of tropically-inspired furnishings, all beautifully maintained with nary a speck of grime staining its pristine off-white walls. Exotic potted plants and natural lighting fill the hallways, which all smell like the inside of a woman's body wash bottle. Palm trees seemingly occupy half of the outside land on the complex, averaging about 2 feet apart from one another at most to your calculations. Imported red sand of the beach stretches toward the horizon, lapped by gentle waves of slime. Couples enjoy slima coladas and tanning by the slime pool. This place fucking disgusts you... Especially with that greasy, sunburnt man trying to peddle cheaply manufactured products to unassuming civilians. Is… is that a stegosaurus in the distance?\n\nExits into Assault Flats Beach.",
 		channel = "the-resort",
 		role = "Beach Resort",
 		major_role = "assaultflatsbeach_major",
@@ -2746,7 +2746,7 @@ poi_list = [
 		minor_role = "nullminorrole",
 		permissions = {'bodega': ['read', 'send', 'connect']},
 		pvp = False,
-		vendors = ['Bodega', 'Secret Bodega'],
+		vendors = ['Bodega', 'Snot Topic', 'Caravan', 'Secret Bodega'],
 		is_subzone = True,
 		mother_districts = ['krakbay'],
 		neighbors = {'krakbay': 20},
@@ -3383,6 +3383,22 @@ EwPoi(
 		neighbors={},
 		wikipage=""
 	),
+	  EwPoi(
+		id_poi = "ghostmaidcafe",
+		alias = ['ghost maid cafe', 'gmc', 'maidcafe', 'maid cafe', 'mcafe', 'ghost cafe', 'gcafe', 'goth ihop', 'brazils bakery', 'cheesecakefactory'],
+		str_name = "The Ghost Maid Cafe",
+		str_desc = "This small rundown cafe is filled with all kinds of degenerates. They sit at their tables, eagerly waiting for the ghosts dressed in maid outfits and cat ears to serve them. The food coming from the back looks horrible, too, but that's not why people are here. \n\nExits into Charcoal Park",
+		channel = "ghost-maid-cafe",
+		major_role = "thevoid_major",
+		minor_role = "nullminorrole",
+		permissions = {'ghost-maid-cafe': ['read', 'send', 'connect']},
+		pvp = False,
+		vendors = [],
+		is_subzone = True,
+		mother_districts = ['thevoid'],
+		neighbors = {'thevoid': 20},
+		wikipage = "https://rfck.miraheze.org/wiki/JuviesRow#GhostMaidCafe"
+	  ),
 ]
 
 
