@@ -330,6 +330,17 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         Proxy to discord.py channel.send with exception handling
         - channel is a discord Channel
     """
+    # Handle oversized messages recursively - yes, this is modified from resp_cont
+    if text and len(text) > ewcfg.discord_message_length_limit:
+        length = len(text)
+        split_list = [(text[i:i + 2000]) for i in range(0, length, 2000)]
+        if len(split_list) >= 3:
+            ewutils.logMsg(f"Tried to send oversize message with {len(split_list)} parts - John Discord (rate limit) doesn't like this.")
+        for blurb in split_list:
+            await send_message(client=client, channel=channel, text=blurb, delete_after=delete_after, embed=embed)
+            embed = None
+        return
+
     # catch any future @everyone exploits
     if filter_everyone and text is not None:
         text = text.replace("@everyone", "{at}everyone")
