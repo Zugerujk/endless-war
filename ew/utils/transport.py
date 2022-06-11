@@ -65,8 +65,8 @@ class EwTransport(EwTransportBase):
                     try:
                         await message.delete()
                         pass
-                    except:
-                        ewutils.logMsg("Failed to delete message while moving transport {}.".format(transport_line.str_name))
+                    except Exception as e:
+                        ewutils.logMsg("Failed to delete message while moving transport {}: {}".format(transport_line.str_name, e))
                 # Switch to the next stop
                 self.current_stop = schedule[1]
                 self.persist()
