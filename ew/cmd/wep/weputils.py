@@ -1125,6 +1125,7 @@ def canCap(cmd, capture_type, roomba_loop = 0):
 
 
 def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, target_weapon, district_data):
+    """ Handles status mods & mutations for a user attacking another user. """
     attacker_status_mods = cmbt_utils.get_shooter_status_mods(ctn.user_data, ctn.shootee_data, hitzone)
     target_status_mods = cmbt_utils.get_shootee_status_mods(ctn.shootee_data, ctn.user_data, hitzone)
     misc_atk_mod = cmbt_utils.damage_mod_attack(
@@ -1171,6 +1172,7 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
 
     # Note in the container whether or not to apply burn for NapalmSnot
     if (ewcfg.mutation_id_napalmsnot in attacker_mutations and ewcfg.mutation_id_napalmsnot not in target_mutations) and not (ewcfg.mutation_id_airlock in target_mutations and ctn.market_data.weather == ewcfg.weather_rainy):
+        # this is jank and I had to fix it
         ctn.apply_status.update({ewcfg.status_burning_id: ewcfg.mutation_id_napalmsnot})
 
     # Tell the rest of the function to vaccinate if it needs to, this was status effects dont need to be grabbed elsewhere
