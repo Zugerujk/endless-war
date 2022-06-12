@@ -1160,14 +1160,14 @@ food_list = [
     ),   
     EwFood(
         id_food = "pizzaball",
-        alias = ['pizzaball, zzaball, pb,'],
-        recover_hunger = 20202020 ,
+        alias = ['pizzaball', 'zzaball', 'pb'],
+        recover_hunger = 20202020,
         price = 200,
         str_name = "PizzaBall",
         str_eat = "Your brain goes on the fritz as you try to think of a tactic to even BEGIN at tackling this ominous orb of grease infused pizza. After hours of racking your empty brain you your idea finally lands on just fucking RIPING INTO IT. Your teeth bite down into the almost gelatinous grease bowling ball, causing it to ooze out  cheese and sauce. You quickly grab a nearby bucket to gather the oozing cheese and sauce. determined to eat all of this damned pizza ball. Whole slices of zza  slide down your throat, almost chocking you from the amount of cheese and bread your guzzling. Your biting grows more rapid, you feel your mind shutting down likely from a pizza ball induced food coma. You rip into it like a wild animal, your hands moving the pizza ball to get access at more of outer armor of the pizza ball. The pizza ball begins to spin faster and faster, your eyes glazing over from the speed at which your turning the ball before you become almost like a blur. You move the pizza ball so fast you feel it lift from your hands. It begins to rotate in the sky just above you, the speed and density of this ball so fast its pulling you back up to it. Grease gets flung everywhere on your immediate area filling up open trashcans and covering many other nameless gang members and juvies.  Soon your teeth re-latch onto the now what can only be described as a pizza blackhole. Your hands grip onto the sides to support you as you continue to rip into it like your life depends on it. Soon enough you find yourself staring at the pure golden yellow center of the pizza ball. Your eyes grow wide as you marvel at this cheese cocoons perfectly backed color. Your mouth trembles as your lips slowly begin  to encroach onto this marvel of pizza. Inch by inch you get closer and closer until you cant take the anticipation anymore and swallow the cocoon whole. You struggle to get down your through but with indomitable spirit you feel the rest of the pizza ball hit your stomach with a thud. Looking down you see your belly is bulging from how much pizza you just consumed. You pat it and let out a long satisfied sigh.  ",
         str_desc = "You gaze upon the horrifically greasy creation with equal parts awe and horror. The twisting veins of deep red tomato sauce and grease run through this amalgamation of pizza upon pizza upon pizza like something out of a monster movie. The outside shell holding this abomination of food stuffs  almost looks armored and hardened with a golden brown sheen to it. You can only imagine in your deepest dreams at what the inside of this nightmarish cocoon of  dough and sauce and cheese looks like.",
         time_expir = 43200,
-        
+        acquisition = "smelting",
     ),
     EwFood(
         id_food = "bloodcabbagecoleslaw",
