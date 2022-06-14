@@ -1484,10 +1484,10 @@ max_capture_points_a = 6553  # 2 hours
 max_capture_points_b = 3277  # 1 hour
 max_capture_points_c = 1638  # 30 minutes
 
-crime_yield_s = 500
-crime_yield_a = 200
-crime_yield_b = 100
-crime_yield_c = 50
+crime_yield_s = 1000
+crime_yield_a = 500
+crime_yield_b = 200
+crime_yield_c = 100
 
 min_garotte = 2000
 
