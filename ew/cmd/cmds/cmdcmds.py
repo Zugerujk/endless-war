@@ -2747,7 +2747,7 @@ async def arrest(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
+        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Arrested {}{}.".format(cmd.message.author.id, member.display_name, time_done), filter_everyone=False)
 
 
 
@@ -2773,7 +2773,7 @@ async def release(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
+        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Released {}.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
 
 
 
@@ -2813,12 +2813,12 @@ async def dual_key_ban(cmd):
                     except:
                         response = "Ban failed. Were they out of the server? Either way, your key's in."
                         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+                        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}> has turned their key to ban {}, but they left the server already.".format(cmd.message.author.id, player.display_name, final_ban_text), filter_everyone=False)
 
                         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                    await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}. They are now banned.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
+                    await fe_utils.send_message(cmd.client, leak_channel, "<@!{}> has turned their key to ban {}. They are now banned.".format(cmd.message.author.id, member.display_name, final_ban_text), filter_everyone=False)
 
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         if bannedalready:
@@ -2828,7 +2828,7 @@ async def dual_key_ban(cmd):
         target_data.ban(faction="dualkey{}".format(cmd.message.author.id))
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}> has turned their key to ban {}.".format(cmd.message.author.id, player.display_name, final_ban_text), filter_everyone=False)
 
         response = "You turn your key. {} is just one step away from banishment...".format(player.display_name)
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -2875,7 +2875,7 @@ async def dual_key_release(cmd):
 
         if "You never banned them to begin with." not in response:
             leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-            await fe_utils.send_message(cmd.client, leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, player.display_name, final_unban_text))
+            await fe_utils.send_message(cmd.client, leak_channel, "<@!{}> has undone their key to ban {}.{}".format(cmd.message.author.id, player.display_name, final_unban_text), filter_everyone=False)
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
     else:
