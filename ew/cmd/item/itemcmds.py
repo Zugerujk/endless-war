@@ -2046,6 +2046,9 @@ async def bury(cmd):
             response = "That's not going to work. Try !bury <coordinates> <item>"
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         coords = cmd.tokens[1]
+        if '-' in coords:
+            response = "The coordinates have a hyphen in them. It'll go into the ground all lopsided."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         item_seek = ewutils.flattenTokenListToString(cmd.tokens[2:])
         item_sought = bknd_item.find_item(item_search=item_seek, id_user=cmd.message.author.id, id_server=cmd.guild.id)
         if item_sought:
@@ -2069,6 +2072,9 @@ async def bury(cmd):
 async def unearth(cmd):
     user_data = EwUser(member = cmd.message.author)
     coords = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+    if '-' in coords:
+        response = "No hyphens, buddy. Don't be so negative."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     lookup = 'bury-{}-{}'.format(user_data.poi, coords)
     burial_finding = bknd_item.inventory(id_user=lookup, id_server=cmd.guild.id)
     if len(burial_finding) == 0:
