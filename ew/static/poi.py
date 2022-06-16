@@ -2134,6 +2134,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Red_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwayred02",
@@ -2150,6 +2151,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Red_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwayyellow01",
@@ -2166,6 +2168,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Yellow_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwayyellow02",
@@ -2182,6 +2185,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Yellow_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwaygreen01",
@@ -2198,6 +2202,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Green_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwaygreen02",
@@ -2214,6 +2219,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Green_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwayblue01",
@@ -2230,6 +2236,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Blue_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwayblue02",
@@ -2246,6 +2253,7 @@ poi_list = [
 		default_stop = "downtownsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_Blue_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwaywhite01",
@@ -2263,6 +2271,7 @@ poi_list = [
 		default_stop = "underworldsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_White_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "subwaywhite02",
@@ -2280,6 +2289,7 @@ poi_list = [
 		default_stop = "juviesrowsubwaystation",
 		neighbors = {},
 		wikipage = "https://rfck.miraheze.org/wiki/Public_Transportation#The_White_Line",
+		has_ads=True
 	),
 	EwPoi(
 		id_poi = "blimp",
