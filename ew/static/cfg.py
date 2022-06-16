@@ -1125,6 +1125,12 @@ cmd_pacommand = cmd_prefix + 'pacommand'
 
 cmd_surveil = cmd_prefix + 'surveil'
 
+
+cmd_addblurb = cmd_prefix + 'addblurb'
+cmd_displayblurbs = cmd_prefix + 'displayblurbs'
+cmd_deleteblurb = cmd_prefix + 'deleteblurb'
+cmd_blurbcontext = cmd_prefix + 'blurbcontext'
+
 apartment_b_multiplier = 1500
 apartment_a_multiplier = 2000000
 apartment_dt_multiplier = 3000000000

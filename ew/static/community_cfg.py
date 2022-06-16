@@ -1,3 +1,5 @@
+
+
 cabinets_list = [
     "This is a Zoombinis Logical Journey arcade cabinet.\nWait. This is an old PC game. Why the fuck would they port this to cabinet? Now you have to use the stick to move the mouse around. Oh well. Buyers remorse, you suppose. \nhttps://classicreload.com/win3x-logical-journey-of-the-zoombinis.html",
     "This is a Cookie Clicker arcade cabinet.\n The huge cookie button on the front is pretty neat, but running it forever seems like it would crank your electricity bill. You know, if you had one.\nhttps://orteil.dashnet.org/cookieclicker/",
@@ -33,6 +35,7 @@ browse_list = [
     "Y'arrr. \nhttps://discord.gg/VFcUmgc",
     "A bunch of people with horrible ideas are trying to bloat the item pool by adding in new items for people to spend their useless slime and items on. The horror! \nhttps://discord.gg/Xn44yMDRjz",
 ]
+
 
 
 tv_lines = [
@@ -307,6 +310,6 @@ dance_responses = [
 context_guide = ""
 
 blurb_context_map = {
-    "danceresponses":dance_responses
-
+    "danceresponses":dance_responses,
+    "browse":browse_list
 }

@@ -6,6 +6,8 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.cmd.dungeons import dungeonutils
 
+
+
 def format_tutorial_response(scene):
     response = scene.text
     if scene.dungeon_state:
