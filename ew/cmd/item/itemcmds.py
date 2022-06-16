@@ -2046,6 +2046,7 @@ async def bury(cmd):
             response = "That's not going to work. Try !bury <coordinates> <item>"
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         coords = cmd.tokens[1]
+        coords = coords.replace(':', '')
         if '-' in coords:
             response = "The coordinates have a hyphen in them. It'll go into the ground all lopsided."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -2072,6 +2073,7 @@ async def bury(cmd):
 async def unearth(cmd):
     user_data = EwUser(member = cmd.message.author)
     coords = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+    coords = coords.replace(':', '')
     if '-' in coords:
         response = "No hyphens, buddy. Don't be so negative."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
