@@ -5,6 +5,7 @@ from ew.static import poi as poi_static
 from ew.utils import dungeons as dungeon_utils
 from ew.utils import frontend as fe_utils
 from ew.utils import rolemgr as ewrolemgr
+from ew.utils import core as ewutils
 from ew.utils.combat import EwUser
 from . import dungeonutils
 import ew.static.community_cfg as comm_cfg
@@ -140,24 +141,26 @@ async def displayblurbs(cmd):
     if len(cmd.tokens) > 3:
         subsubcontext = cmd.tokens[3]
 
+
+    query = "SELECT {col_id_id_blurb}, {col_id_blurb} from blurbs".format(col_id_blurb=ewcfg.col_id_blurb, col_id_id_blurb=ewcfg.col_id_id_blurb)
+    print(query)
+
     if context is not None:
-        query = "SELECT {col_id_id_blurb}, {col_id_blurb} from blurbs".format(col_id_blurb=ewcfg.col_id_blurb, col_id_id_blurb=ewcfg.col_id_id_blurb)
+        query += " WHERE {} = {}".format(ewcfg.col_id_context, context)
+    if subcontext is not None:
+        query += " AND {} = {}".format(ewcfg.col_id_subcontext, subcontext)
+    if subsubcontext is not None:
+        query += " AND {} = {}".format(ewcfg.col_id_subsubcontext, subsubcontext)
 
-        if context is not None:
-            query += " WHERE {} = {}".format(ewcfg.col_id_context, context)
-        if subcontext is not None:
-            query += " AND {} = {}".format(ewcfg.col_id_subcontext, subcontext)
-        if subsubcontext is not None:
-            query += " AND {} = {}".format(ewcfg.col_id_subsubcontext, subsubcontext)
-
-        data_chunk = bknd_core.execute_sql_query(query, (context,))
+    data_chunk = bknd_core.execute_sql_query(query)
 
 
-        response = ""
-        for data in data_chunk:
-            response += "Blurb {}: starting in {}\n".format(data[0], data[1][0:15])
+    response = "\n"
+    for data in data_chunk:
+        response += "Blurb {}: starting in {}\n".format(data[0], data[1][0:15])
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 
 async def display_blurb_context(cmd):
@@ -166,10 +169,10 @@ async def display_blurb_context(cmd):
 
 
 async def delete_blurb(cmd):
-    to_delete = cmd.tokens[1]
-    checked = EwBlurb(id_server=cmd.guild.id)
+    to_delete = ewutils.getIntToken(tokens = cmd.tokens, allow_all = True)
+    checked = EwBlurb(id_server=cmd.guild.id, id_blurb=to_delete)
     if checked.context != "" and checked.context != None:
-        query = "DELETE from blurbs WHERE {col_id_blurb} = %s".format(col_id_blurb=ewcfg.col_id_blurb)
+        query = "DELETE from blurbs WHERE {col_id_id_blurb} = %s".format(col_id_id_blurb=ewcfg.col_id_id_blurb)
         bknd_core.execute_sql_query(query, (to_delete,))
         response = "Done."
     else:

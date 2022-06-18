@@ -2,6 +2,7 @@ from . import core as bknd_core
 
 from ..static import cfg as ewcfg
 from ..utils import core as ewutils
+import time
 
 
 class EwGamestate():
@@ -87,7 +88,7 @@ class EwBlurb():
 
     active = 1 #whether a blurb gets pulled or not
 
-    dateadded = None #when the blurb is added
+    dateadded = int(time.time()) #when the blurb is added
 
     def __init__(
             self,
