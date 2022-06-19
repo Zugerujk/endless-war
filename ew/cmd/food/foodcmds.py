@@ -125,7 +125,7 @@ async def menu(cmd):
                     value *= (stock_data.exchange_rate / ewcfg.default_stock_exchange_rate) ** 0.2
 
                 if mother_district_data != None:
-                    if controlling_faction != "" and vendor != ewcfg.vendor_NMSdealer: # FISHINGEVENT
+                    if controlling_faction != "":
                         # prices are halved for the controlling gang
                         if controlling_faction == user_data.faction:
                             value /= 2
@@ -148,7 +148,7 @@ async def menu(cmd):
 
             if vendor == ewcfg.vendor_bodega:
                 if user_data.freshness < ewcfg.freshnesslevel_1:
-                    response += "\nThe hipster behind the counter is utterly repulsed by the fashion disaster in front of him. Looks like you just aren’t fresh enough for him."
+                    response += "\nThe hipster behind the counter is utterly repulsed by the fashion disaster in front of him. Looks like you just aren’t fresh enough for him.\n"
             if user_data.has_soul == 0:
                 if vendor == ewcfg.vendor_dojo:
                     response += "\n\nThe Dojo master looks at your soulless form with pity."
@@ -164,7 +164,7 @@ async def menu(cmd):
                     response += "\n\nEverything looks so fancy here, but it doesn't really appeal to you since you don't have a soul."
                 elif vendor == ewcfg.vendor_bodega:
                     if user_data.freshness < ewcfg.freshnesslevel_1:
-                        response += ".. and you probably never will be."
+                        response += ".. and you probably never will be.\n"
                 elif vendor == ewcfg.vendor_glocksburycomics:
                     response += "\n\nThe cashier here tries to start up a conversation about life being worth living. You're having none of it."
                 elif vendor == ewcfg.vendor_basedhardware:
@@ -281,11 +281,6 @@ async def order(cmd):
                     else:
                         current_vendor = None
 
-            # FISHINGEVENT - 
-            if current_vendor == ewcfg.vendor_NMSdealer:
-                currency_used = 'Exotic Residue'
-                current_currency_amount = user_data.event_points
-
             if current_vendor is None or len(current_vendor) < 1:
                 response = "Check the {} for a list of items you can {}.".format(ewcfg.cmd_menu, ewcfg.cmd_order)
 
@@ -320,7 +315,7 @@ async def order(cmd):
 
                 controlling_faction = poi_utils.get_subzone_controlling_faction(user_data.poi, user_data.id_server)
 
-                if controlling_faction != "" and vendor != ewcfg.vendor_NMSdealer: # FISHINGEVENT
+                if controlling_faction != "":
                     # prices are halved for the controlling gang
                     if controlling_faction == user_data.faction:
                         value /= 2
@@ -393,9 +388,6 @@ async def order(cmd):
 
                     if currency_used == 'slime':
                         user_data.change_slimes(n=-value, source=ewcfg.source_spending)
-
-                    elif currency_used == 'Exotic Residue': # FISHINGEVENT
-                        user_data.event_points -= value
 
                     if company_data is not None:
                         company_data.recent_profits += value

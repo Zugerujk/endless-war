@@ -286,7 +286,11 @@ def get_style_freshness_rating(user_data, dominant_style = None):
                 response += " Awwwhhh, look at you! You’re sooo cute~, oh my gosh. I could just eat you up, and then vomit you back up after I read back the previous line I’ve just written."
             else:
                 response += " It is almost kowai how kawaii you are right now. Your legions of fans slobber all over each new post on Instragrime and leave very strange comments. You’re stopped for autographs in public now, and there hasn’t been a selfie taken with you that hasn’t featured a hover hand."
-
+        elif dominant_style == ewcfg.style_evil:
+            if user_data.freshness < ewcfg.freshnesslevel_4:
+                response += " You're starting to make your relatives and friends worry about what you'll do next. Somewhere along the lines you've started to be led astray from society accepting your fashion norms. Is it a phase? That's an astounding HELL NO, hypothetical dad! You're evil and that's final!"
+            else:
+                response += " You've been barred from entry to most public schools, libraries, city hall, anywhere the city that the local NLACakaNM government can as a preventive measure to make sure you don't destroy it all, and all of your instagrime followers are edgy teenagers and actual goths who watch your every post for inspiration. Everyone else can't help but shudder and flinch while you walk past them on the streets. Your clothes is a mirror of your mental state, and you can't wait to make everyone shocked at your devious plans."
     return response
 
 
@@ -477,7 +481,7 @@ async def perform_prank_item_side_effect(side_effect, cmd = None, member = None)
         try:
             await fe_utils.send_message(cmd.client, target_member, direct_message)
         except:
-            await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, cmd.message.channel), fe_utils.formatMessage(target_member, direct_message))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(target_member, direct_message))
 
     elif side_effect == "usedneedle_effect":
         target_member = cmd.mentions[0]
@@ -488,7 +492,7 @@ async def perform_prank_item_side_effect(side_effect, cmd = None, member = None)
         if random.randrange(2) == 0:
             target_data.rand_seed = random.randrange(500000)        
             target_data.persist()
-            response += "\n\n*{}*: What's this? You feel a shift in your pants. You whip them open and see your cock changing in size! Unbelievable! You must've contracted {} from the used needle!".format(target_member.display_name, comm_cfg.actual_stds)
+            response += "\n\n*{}*: What's this? You feel a shift in your pants. You whip them open and see your cock changing in size! Unbelievable! You must've contracted {} from the used needle!".format(target_member.display_name, random.choice(comm_cfg.actual_stds))
 
     return response
 

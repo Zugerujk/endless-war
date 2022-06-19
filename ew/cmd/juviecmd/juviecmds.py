@@ -222,7 +222,7 @@ async def crush(cmd):
             response = "{} which item? (check **!inventory**)".format(command)
 
     # Send the response to the player.
-    resp_cont.add_channel_response(cmd.message.channel.name, fe_utils.formatMessage(cmd.message.author, response))
+    resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     await resp_cont.post()
 
 
@@ -601,7 +601,7 @@ async def mine(cmd):
                         )
 
                     if unearthed_item_type != "":
-                        response += "You {} one {} out of the {}!".format(random.choice("beat", "smack", "strike", "!mine", "brutalize"), item.str_name, unearthed_item_type)
+                        response += "You {} one {} out of the {}!".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), item.str_name, unearthed_item_type)
                     elif unearthed_item_amount == 1:
                         response += "You unearthed a {}! ".format(item.str_name)
                     else:

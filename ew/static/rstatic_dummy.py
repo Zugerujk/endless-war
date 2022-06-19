@@ -23,6 +23,7 @@ debug2 = 'clownfart'
 debugsmoke = 'debugsmoke'
 
 relic_map = {}
+question_map = {}
 relic_names = []
 alt_relics = []
 dontfilter_relics = []
@@ -51,8 +52,6 @@ for relic in relic_list:
     if relic.acquisition == 'jrdigup':
         jr_relics[int(relic.str_use)] = relic.id_relic
 
+datatext_relic = {}
 
-
-datatext_relic = {
-
-}
+question_map = {}

@@ -2,6 +2,7 @@ import random
 
 from ew.backend import item as bknd_item
 from ew.backend.item import EwItem
+from ew.model.item import EwCosmeticItem
 from ew.static import cfg as ewcfg
 from ew.static import cosmetics
 from ew.static import cosmetics as static_cosmetics
@@ -63,7 +64,7 @@ async def smelt(cmd):
 
             else:
                 # If you try to smelt a random cosmetic, use old smelting code to calculate what your result will be.
-                if found_recipe.id_recipe == "coolcosmetic" or found_recipe.id_recipe == "toughcosmetic" or found_recipe.id_recipe == "smartcosmetic" or found_recipe.id_recipe == "beautifulcosmetic" or found_recipe.id_recipe == "cutecosmetic":
+                if found_recipe.id_recipe == "coolcosmetic" or found_recipe.id_recipe == "toughcosmetic" or found_recipe.id_recipe == "smartcosmetic" or found_recipe.id_recipe == "beautifulcosmetic" or found_recipe.id_recipe == "cutecosmetic" or found_recipe.id_recipe == "evilcosmetic" and EwCosmeticItem.rarity != "Profollean":
 
                     if not bknd_item.check_inv_capacity(user_data=user_data, item_type=ewcfg.it_cosmetic):
                         response = "You can't carry anymore cosmetic items."
@@ -86,11 +87,14 @@ async def smelt(cmd):
                         style = ewcfg.style_beautiful
                     elif found_recipe.id_recipe == "cutecosmetic":
                         style = ewcfg.style_cute
+                    elif found_recipe.id_recipe == "evilcosmetic":
+                        style = ewcfg.style_evil
                     else:
-                        style = ewcfg.style_cool
+                        style = ewcfg.style_cool #The style here is what cosmetics will default to, according to Stotle. 
 
                     for result in static_cosmetics.cosmetic_items_list:
                         if result.style == style and result.acquisition == ewcfg.acquisition_smelting and result.id_cosmetic not in static_cosmetics.unique_smeltables:
+
                             cosmetics_list.append(result)
                         else:
                             pass
@@ -120,31 +124,27 @@ async def smelt(cmd):
 
                     # Matches the recipe's listed products to actual items.
                     for result in vendors.smelt_results:
-                        if hasattr(result, 'id_item'):
-                            if result.id_item not in found_recipe.products:
-                                pass
-                            else:
-                                possible_results.append(result)
-                        if hasattr(result, 'id_food'):
-                            if result.id_food not in found_recipe.products:
-                                pass
-                            else:
-                                possible_results.append(result)
-                        if hasattr(result, 'id_cosmetic'):
-                            if result.id_cosmetic not in found_recipe.products:
-                                pass
-                            else:
-                                possible_results.append(result)
-                        if hasattr(result, 'id_weapon'):
-                            if result.id_weapon not in found_recipe.products:
-                                pass
-                            else:
-                                possible_results.append(result)
-                        if hasattr(result, 'id_furniture'):
-                            if result.id_furniture not in found_recipe.products:
-                                pass
-                            else:
-                                possible_results.append(result)
+                        # Find all attributes starting with id_ (to match id_item or id_food or...)
+                        possible_id_attrs = [attr for attr in dir(result) if attr.startswith("id_")]
+                        probable_id_str = possible_id_attrs[0] if len(possible_id_attrs) == 1 else None
+
+                        # If there was only one match, and the value of that attribute (the id) is a product of the recipe, add to results
+                        if probable_id_str is not None and getattr(result, probable_id_str) in found_recipe.products:
+                            possible_results.append(result)
+                        # Log if an item's definition didn't have a parsable id
+                        elif probable_id_str is None:
+                            ewutils.logMsg("Error in Item Definition: Item Definition identifying string could not be parsed.\n__dict__: {}".format(result.__dict__))
+
+                    # In case someone improperly defines the product, and it can't be found
+                    if not len(possible_results) == len(found_recipe.products):
+                        ewutils.logMsg("Error in Item Definition: Smelting recipe %s could not find all products" % found_recipe.id_recipe)
+                        possible_result_ids = [getattr(_res, [attr for attr in dir(_res) if attr.startswith("id_")][0]) for _res in possible_results]
+                        missing_def_ids = [_prod for _prod in found_recipe.products if _prod not in possible_result_ids]
+                        ewutils.logMsg("Failed to find item templates with the following identifier(s): {}".format(missing_def_ids))
+                        if len(possible_results) < 1:
+                            debug_resp = "Endless War understands the process, but cannot fathom what it will create. Perhaps a Brimstone Programmer could enlighten the obelisk."
+                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, debug_resp))
+
                     # If there are multiple possible products, randomly select one.
                     item = random.choice(possible_results)
 
@@ -260,7 +260,8 @@ async def find_recipes_by_item(cmd):
                             or item.id_recipe == "beautifulcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_beautiful
                             or item.id_recipe == "cutecosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_cute
                             or item.id_recipe == "coolcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_cool
-                            or (item.id_recipe in ["toughcosmetic", "smartcosmetic", "beautifulcosmetic", "cutecosmetic", "coolcosmetic"] and cosmetics.cosmetic_map[used_recipe].id_cosmetic in cosmetics.unique_smeltables)):
+                            or item.id_recipe == "evilcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_evil
+                            or (item.id_recipe in ["toughcosmetic", "smartcosmetic", "beautifulcosmetic", "cutecosmetic", "coolcosmetic", "evilcosmetic"] and cosmetics.cosmetic_map[used_recipe].id_cosmetic in cosmetics.unique_smeltables)):
                         list_length -= 1
                         continue
                     else:
