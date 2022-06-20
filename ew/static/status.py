@@ -261,10 +261,10 @@ status_effect_list = [
         str_describe_self=""
     ),
     EwStatusEffectDef(
-        id_status=ewcfg.status_enemy_hostile_id,
+        id_status=ewcfg.status_enemy_juviemode_id,
         time_expire=86400,
         str_acquire="",
-        str_describe="Oh shit, they're hostile!",
+        str_describe="They're under the legal limit for slime. Guess they sucked the government's dick or something.",
         str_describe_self=""
     ),
     EwStatusEffectDef(

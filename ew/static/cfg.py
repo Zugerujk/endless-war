@@ -3430,7 +3430,7 @@ status_foodcoma_id = "foodcoma"
 
 status_enemy_hostile_id = "hostile"
 status_enemy_barren_id = "barren"
-# status_juviemode_id = "juviemode"
+status_enemy_juviemode_id = "juviemode"
 
 status_n1 = "n1"
 status_n2 = "n2"
