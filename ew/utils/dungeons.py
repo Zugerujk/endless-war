@@ -5,8 +5,8 @@ from ew.utils import frontend as fe_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.cmd.dungeons import dungeonutils
-
-
+from ..backend import core as bknd_core
+from ew.static import hunting as hunt_static
 
 def format_tutorial_response(scene):
     response = scene.text
@@ -40,3 +40,21 @@ async def begin_tutorial(member):
     poi_def = poi_static.id_to_poi.get(user_data.poi)
     channels = [poi_def.channel]
     return await fe_utils.post_in_channels(member.guild.id, fe_utils.formatMessage(member, response), channels)
+
+
+
+def load_npc_blurbs(id_server):
+    npcblurbs = bknd_core.execute_sql_query("SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext}, {col_subsubcontext} from blurbs where context = %s and id_server = %s".format(
+        col_id_blurb=ewcfg.col_id_blurb,
+        col_id_id_blurb=ewcfg.col_id_id_blurb,
+        col_subcontext=ewcfg.col_id_subcontext,
+        col_subsubcontext=ewcfg.col_id_subsubcontext), ('npc', id_server))
+
+    npc_map = hunt_static.active_npcs_map
+
+    for blurb in npcblurbs:
+        npc = npc_map.get(blurb[2])
+        if npc is not None:
+            current_dialogue_tree = npc.dialogue.get(blurb[3])
+            if current_dialogue_tree is None:
+                npc.dialogue[blurb[3]] = blurb[1]

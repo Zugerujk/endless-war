@@ -283,7 +283,7 @@ async def on_ready():
                     ewutils.logMsg("• found channel for deviantSPLAART: {}".format(channel.name))
 
         ewdebug.initialize_gamestate(id_server=server.id)
-
+        dungeon_utils.load_npc_blurbs(id_server=server.id)
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
