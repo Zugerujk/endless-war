@@ -3307,6 +3307,11 @@ mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
 mutation_id_gay = "gay"
 
+mutation_id_monplanto = "monplanto"
+mutation_id_fogdaletingle = "fogdaletingle"
+mutation_id_slurpsup = "slurpsup"
+mutation_id_deathfromabove = "deathfromabove"
+
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 bingeeater_cap = 5
