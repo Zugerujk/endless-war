@@ -4,6 +4,7 @@ import time
 from . import core as bknd_core
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+from ..static import weather as weather_static
 from ..utils import core as ewutils
 
 
@@ -234,3 +235,41 @@ def get_void_connection_pois(id_server):
         ewcfg.event_type_voidconnection,
         id_server,
     )), ())
+
+
+def create_poi_phenomenon(id_server): # Phenomenons are natural disasters, pop-up events, etc.
+    event_props = {}
+    # Get a random EVENT TYPE
+    phenomenon_type = random.choice(ewcfg.poi_phenomenons)
+
+    time_now = int(time.time())    
+
+    # Events that give more "active" effects should have a delayed activation, events that give more "passive" effects should probably activate instantly.
+    # All in IRL time
+
+    phenomenon_data = weather_static.poi_phenomenon_map.get(phenomenon_type)
+    print(phenomenon_type)
+    print(phenomenon_data.pois)
+    print("fart")
+    if phenomenon_data.pois != []:
+        print('shart')
+        event_props['poi'] = random.choice(phenomenon_data.pois)
+    else:
+        print('sadt')
+        event_props['poi'] = random.choice(poi_static.capturable_districts)
+    print(event_props['poi'])
+
+    print(phenomenon_data.buffer)
+    print(phenomenon_data.length)
+
+    activation_time = time_now + (phenomenon_data.buffer * 60 * 15) # buffer x 15 minutes
+    expiration_time = activation_time + (phenomenon_data.length * 60 * 15) # buffer x 15 minutes
+
+    create_world_event(
+        id_server=id_server,
+        event_type=phenomenon_type,
+        time_activate=activation_time,
+        time_expir=expiration_time,
+        event_props=event_props
+    )
+    

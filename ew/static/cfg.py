@@ -4392,6 +4392,41 @@ event_type_marriageceremony = "marriageceremony"
 event_type_brickshit = "brickshit"
 event_type_alarmclock = "alarmclock"
 
+# POI Event that occur rarely for a longer period of time
+# Events possible in all districts
+# event_type_bicarbonate_rain = "bicarbonaterain"
+event_type_tornado = "tornado"
+event_type_traffic = "traffic"
+# event_type_weeping_and_gnashing_of_teeth = "weepingandgnashingofteeth"
+# Events possible in specific districts
+event_type_moon_shower = "moonshower" # Only on The Summit
+event_type_smog_warning = "smogwarning" # Only in Smogsburg
+event_type_poudrin_hail = "poudrinhail" # Only in Poudrin Alley
+event_type_radiation_storm = "radiationstorm" # Only in Little Chernobyl
+event_type_jape_storm = "japestorm" # Only in Glocksbury
+event_type_firestorm = "firestorm" # Only in Charcoal Park and Arsonbrook
+event_type_raider_incursion = "raiderincursion" # Only in West Glocksbury, Jaywalker Plain, and Dreadford
+event_type_slimeunist_protest = "slimeunistprotest" # Only in Gatlingsdale and North Sleezeborough (college districts)
+event_type_tsunami = "tsunami" # Coastal districts
+event_type_dimensional_rift = "dimensionalrift" # Happens in district that can be used with Landlocked, makes a portal to the other side.
+# event_type_time_distortion = "timedistortion" # Only in Void
+
+
+poi_events = [
+    event_type_tornado,
+    event_type_traffic,
+    # event_type_moon_shower, 
+    # event_type_smog_warning,
+    # event_type_poudrin_hail, 
+    event_type_radiation_storm,
+    # event_type_jape_storm,
+    event_type_firestorm,
+    # event_type_raider_incursion, 
+    # event_type_slimeunist_protest,
+    # event_type_tsunami,
+    # event_type_dimensional_rift,
+]
+
 # Events that need to be checked up on every time the market updates
 # All hourly_events MUST include a "time" event_prop!
 hourly_events = [event_type_brickshit, event_type_alarmclock]

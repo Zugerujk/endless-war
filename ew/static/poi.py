@@ -4007,14 +4007,64 @@ world_events = [
 	),
 	EwEventDef(
 		event_type=ewcfg.event_type_spookyghost,
-		str_event_start="A fucking **GHOST** flies out of the rock you just hit! And not a slime one, like an actual white-blanket **SCARY GHOST**. Beat the shit out of it!",
+		str_event_start="A fucking **GHOST** flies out of the rock you just hit! And not a slime one, like an actual white-blanket **SCARY GHOST**. You should !mine the shit out of it!",
 		str_event_end="The ghost flies past you, hopefully getting the beating of its life.",
 	),
 	EwEventDef(
 		event_type=ewcfg.event_type_spookyskeleton,
-		str_event_start="A fucking **SKELETON** emerges from the rock you just hit! You should beat the shit out of it ):< !",
+		str_event_start="A fucking **SKELETON** emerges from the rock you just hit! You should !mine the shit out of it!",
 		str_event_end="The skeleton crumbles to dust, hopefully getting the beating of its life.",
-	)
+	),
+    EwEventDef(
+        event_type=ewcfg.event_type_firestorm,
+        str_name="a firestorm",
+        pois=[ewcfg.poi_id_charcoalpark, ewcfg.poi_id_arsonbrook],
+        length=72, # 18h
+        buffer=8, # 2h
+        str_event_start="Fire and brimstone begins raining from the unholy air above. A firestorm has begun!",
+        str_evenr_ongoing="There's a firestorm burning god's grace. All players will get set alight!",
+        str_event_end="The firestorm fizzles out, returning to the usual humdrum of the searing sky.",
+        str_check_text="There's a firestorm raging in ",
+    ),
+    # EwPoiPhenomenon(
+    #     name=ewcfg.event_type_tornado,
+    #     str_name="a tornado",
+    #     pois=[], # All districts
+    #     length=48, # # 12h - In in-game hours (15 IRL minutes)
+    #     buffer=6, # 1h30m - In in-game hours (15 IRL minutes)
+    #     forewarning=True,
+    #     str_start="Watch for the heavens! A tornado has formed!",
+    #     str_ongoing="There's a tornado ripping hell across the landscape. All players without Big Bones will be flung across NLACakaNM!",
+    #     str_end="The tornado dissipates into the air, bringing peace back to",
+    #     str_check_text="There's a tornado raging on in ",
+    #     str_extra_text=""
+    # ),
+    # EwPoiPhenomenon(
+    #     name=ewcfg.event_type_traffic,
+    #     str_name="traffic",
+    #     pois=[],
+    #     length=24, # 6h
+    #     buffer=1, # 15m
+    #     forewarning=True,
+    #     str_start="A car has exploded in traffic! It seems everything has come to a standstill!",
+    #     str_ongoing="There's a traffic jam! Movement speed is halved!",
+    #     str_end="The traffic jam unshits itself, returning to the normal heavy flow.",
+    #     str_check_text="There's heavy traffic in ",
+    #     str_extra_text=""
+    # ),
+    # EwPoiPhenomenon(
+    #     name=ewcfg.event_type_radiation_storm,
+    #     str_name="a radiation storm",
+    #     pois=[ewcfg.poi_id_littlechernobyl],
+    #     length=72, # 18h
+    #     buffer=0,   
+    #     forewarning=False,
+    #     str_start="A massive cloud of radiation has enveloped the area. A radiation storm has begun!",
+    #     str_ongoing="There's a radiation storm swirling the sundered streets. Slime accrues for those in the district, but beasts are also attracted!",
+    #     str_end="The radiation cloud subsides, spreading across the city. Back to the skin-searing normal levels!",
+    #     str_check_text="There's a radiation storm in ",
+    #     str_extra_text=""
+    # ),
 ]
 
 event_type_to_def = {}

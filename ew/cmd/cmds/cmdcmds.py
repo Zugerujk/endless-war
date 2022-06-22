@@ -13,7 +13,7 @@ from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
 from ew.backend.status import EwEnemyStatusEffect
 from ew.backend.status import EwStatusEffect
-from ew.backend.worldevent import EwWorldEvent
+from ew.backend.worldevent import EwWorldEvent, create_poi_phenomenon
 from ew.backend.mutation import EwMutation
 from ew.backend.dungeons import EwGamestate
 
@@ -2349,22 +2349,26 @@ async def yoslimernalia(cmd):
 
 
 async def slimecoin(cmd):
-    if cmd.mentions_count == 0:
-        user_data = EwUser(member=cmd.message.author)
-        coins = user_data.slimecoin
-        response = "You have {:,} SlimeCoin.".format(coins)
+    user_data = EwUser(member=cmd.message.author)
+
+    create_poi_phenomenon(id_server=user_data.id_server)
+
+    # if cmd.mentions_count == 0:
+    #     user_data = EwUser(member=cmd.message.author)
+    #     coins = user_data.slimecoin
+    #     response = "You have {:,} SlimeCoin.".format(coins)
 
 
 
-    else:
-        member = cmd.mentions[0]
-        user_data = EwUser(member=member)
-        coins = user_data.slimecoin
-        response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
+    # else:
+    #     member = cmd.mentions[0]
+    #     user_data = EwUser(member=member)
+    #     coins = user_data.slimecoin
+    #     response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
 
 
-    # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    # # Send the response to the player.
+    # await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ show player's shares in a stock """
