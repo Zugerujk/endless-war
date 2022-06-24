@@ -117,7 +117,7 @@ def apply_status_bystanders(user_data = None, value = 0, life_states = None, fac
             bystander_mutation = bystander_user_data.get_mutations()
 
             if market_data.weather == ewcfg.weather_rainy and status == ewcfg.status_burning_id:
-                if ewcfg.mutation_id_napalmsnot in bystander_mutation or (ewcfg.mutation_id_airlock in bystander_mutation): 
+                if ewcfg.mutation_id_napalmsnot in bystander_mutation or (ewcfg.mutation_id_airlock in bystander_mutation) or ewcfg.mutation_id_slurpsup in bystander_mutation: 
                     continue
                 else:
                     value = value // 2
@@ -1218,7 +1218,7 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
 
     # apply crit chance modifiers
     ctn.crit_mod += round(attacker_status_mods['crit'] + target_status_mods['crit'], 2) + \
-        0.1 if (ewcfg.mutation_id_airlock in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0
+        0.1 if (ewcfg.mutation_id_airlock in attacker_mutations or ewcfg.mutation_id_fogdaletingle in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0
 
     if ewcfg.mutation_id_threesashroud in attacker_mutations:
         allies_in_district = district_data.get_players_in_district(

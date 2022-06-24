@@ -285,7 +285,11 @@ async def cast(cmd):
             else:
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-            bite_text = gen_bite_text(fisher.current_size)
+            # If user has I Chum Fast, @ them on a reel.
+            notify = False
+            if ewcfg.mutation_id_ichumfast in mutations:
+                notify = True
+            bite_text = gen_bite_text(fisher.current_size, user_data, notify=notify)
 
             # User has a 1/10 chance to get a bite
             fun = 100

@@ -59,9 +59,9 @@ mutations = [
         alias=['nose', 'nf', 'vampire', 'noseferatu'],
         str_describe_self="Your freakishly huge, hooked schnoz and pointed ears give you a ghoulish appearance due to **Noseferatu**.",
         str_describe_other="Their freakishly huge, hooked schnoz and pointed ears give them a ghoulish appearance due to **Noseferatu**.",
-        str_acquire="The bridge of your nose nearly triples in size. You recoil as the heat of nearby lights sear your skin, forcing you to seek cover under the shadows of dark, secluded alleyways. Your freakish appearance make you a social outcast, filling you with a deep resentment which evolves into unbridled rage. You will have your revenge. You have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount.",
+        str_acquire="The bridge of your nose nearly triples in size. You recoil as the heat of nearby lights sear your skin, forcing you to seek cover under the shadows of dark, secluded alleyways. Your freakish appearance make you a social outcast, filling you with a deep resentment which evolves into unbridled rage. You will have your revenge. You have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount. Cumulative with Slurp's Up.",
         tier=5,
-        str_transplant="You ask for the super jumbo size nose job. The doctor blindfolds you and takes you to her van. A quick drive later, you arrive at N.L.A.C.U. Labs, where you descend to the embiggening ward. A small amount of bright green fluid gets injected into the tip of your nose, and it grows to sizes beyond your wildest dreams.\n\nYou have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount.",
+        str_transplant="You ask for the super jumbo size nose job. The doctor blindfolds you and takes you to her van. A quick drive later, you arrive at N.L.A.C.U. Labs, where you descend to the embiggening ward. A small amount of bright green fluid gets injected into the tip of your nose, and it grows to sizes beyond your wildest dreams.\n\nYou have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount. Cumulative with Slurp's Up.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_organicfursuit,
@@ -82,7 +82,7 @@ mutations = [
         str_acquire="Your body fat begins to dissolve right before your eyes, turning into a foul-smelling liquid that drenches the floor beneath you. You quickly pass conventionally attractive weights and turn into a hideous near-skeleton. The only thing resting between your bones and your skin is a thin layer of muscles that resemble lunch meat slices. You have developed the mutation **Light As A Feather**. Double movement speed while weather is windy.",
         tier=3,
         incompatible = {
-            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation, its even got a little extra tacked on."'
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
         str_transplant="You decide to get the liposuction deluxe package. Once in the OR, you are prodded on all sides with a surgical vacuum, sucking out whatever looks unneccesary. She takes a couple kidneys and your gallbladder though, so maybe the word necessary is a bit subjective. All is forgiven though; your new flabby frame gives flying squirrels a run for their money.\n\nYou have developed the mutation **Light As A Feather**. Double movement speed while weather is windy.",
     ),
@@ -95,7 +95,7 @@ mutations = [
         str_acquire="Every pore on your skin suddenly feels like it’s being punctured by a rusty needle. Your skin’s pigment rapidly desaturates to the point of pure #ffffff whiteness. You suddenly love country music, too. Wow, that was a really stupid joke. You have developed the mutation **White Nationalist**. Scavenge bonus and cannot be scouted while weather is snowy.",
         tier=1,
         incompatible = {
-            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation, its even got a little extra tacked on."'
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
         str_transplant="You are led to the clinic's basement, where you find an empty laptop sitting on the dark cement floor. The keyboard and mouse are broken, and it's got Richard Spencer tirades on autoplay. All of a sudden, the door locks. You spend an indefinite amount of time slowly falling in love with his dreamy soft-serve flip haircut, and as you waste away you eventually grow deathly pale, too.\n\nYou have developed the mutation **White Nationalist**. Scavenge bonus and cannot be scouted while weather is snowy.",
     ),
@@ -429,11 +429,15 @@ mutations = [
         alias=['al', 'air'],
         str_describe_self="The weather is your bitch due to **Airlock**.",
         str_describe_other="The weather is their bitch due to **Airlock**.",
-        str_acquire="Without thinking you take a deep breath. The air is so clean! You feel like this is your first taste of oxygen in years. A droplet falls on you from above, but it just runs off you, rolling down your face with a refreshing coolness. For once, the quantum wind has shown mercy. You have developed the mutation **Air Lock**. Gain the effects of White Nationalist and Light as a Feather. These effects do not stack with those mutations.",
-        tier=4,
+        str_acquire="Without thinking you take a deep breath. The air is so clean! You feel like this is your first taste of oxygen in years. A droplet falls on you from above, but it just runs off you, rolling down your face with a refreshing coolness. For once, the quantum wind has shown mercy. You have developed the mutation **Air Lock**. Gain the weather-based effects of all weather mutations. These effects do not stack with those mutations.",
+        tier=7,
         incompatible = {
-            ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or half of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or half of it anyway. They don\'t multiply, you know."'
+            ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_monplanto: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_fogdaletingle: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_slurpsup: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_deathfromabove: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
         },
         str_transplant="Dr. Dusttrap straps a small, high-grade air purifier around your neck, and runs a cord through your nose and into your stomach. The cords take somme getting used to, but this procedure was shockingly painless.\n\nYou have developed the mutation **Air Lock**. Gain the effects of White Nationalist and Light as a Feather. These effects do not stack with those mutations.",
     ),
@@ -545,6 +549,9 @@ mutations = [
         str_describe_other="They've harnessed the power of the sun due to **Monplanto**.",
         str_acquire="*FLAVOR*  You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
         tier=1,
+        incompatible = {
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
+        },
         str_transplant="*FLAVOR*  You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     ),
     EwMutationFlavor(
@@ -554,7 +561,10 @@ mutations = [
         str_describe_self="You can cut through fog due to **Fogdale Tingle**.",
         str_describe_other="They can cut through fog due to **Fogdale Tingle**.",
         str_acquire="*FLAVOR*  You have developed the mutation **Fogdale Tingle**. During foggy weather, gain an increased critical hit chance.",
-        tier=2,
+        tier=1,
+        incompatible = {
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
+        },
         str_transplant="*FLAVOR*  You have developed the mutation **Fogdale Tingle**. During foggy weather, gain an increased critical hit chance.",
     ),
     EwMutationFlavor(
@@ -563,9 +573,12 @@ mutations = [
         alias=['slurps', 'slurp', 'su'],
         str_describe_self="You can lick up a storm due to **Slurp's Up**.",
         str_describe_other="They can lick up a storm due to **Slurp's Up**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather, you will immediately recieve an opponent's remaining slime upon a fatal blow.",
-        tier=3,
-        str_transplant="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather, you will immediately recieve an opponent's remaining slime upon a fatal blow.",
+        str_acquire="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
+        tier=2,
+        incompatible = {
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
+        },
+        str_transplant="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_deathfromabove,
@@ -573,10 +586,23 @@ mutations = [
         alias=['death', 'dfa'],
         str_describe_self="Lightning crashes around you due to **Death From Above**.",
         str_describe_other="Lightning crashes around them due to **Death From Above**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, do a small amount of splash damage when attacking with any weapon.",
+        str_acquire="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
         tier=1,
-        str_transplant="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, do a small amount of splash damage when attacking with any weapon.",
-    ),    
+        incompatible = {
+            ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
+        },
+        str_transplant="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+    ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_ichumfast,
+        str_name="I Chum Fast",
+        alias=['chum', 'icf', 'chumfast'],
+        str_describe_self="You've got fish to catch due to **I Chum Fast**.",
+        str_describe_other="They've got fish to catch due to **I Chum Fast**.",
+        str_acquire="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+        tier=7,
+        str_transplant="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+    ),
 ]
 
 # PRESENT DAY

@@ -261,7 +261,7 @@ def length_to_size(size_number):
 
 
 # Determines bite text
-def gen_bite_text(size):
+def gen_bite_text(size, user_data, notify):
     if size == "item":
         text = "You feel a distinctly inanimate tug at your fishing pole!"
 
@@ -280,7 +280,11 @@ def gen_bite_text(size):
     else:
         text = "You feel a tug at your fishing pole!" # Just in case flavor text fix
 
-    text += " **!REEL NOW!!!!!**"
+    if notify:
+        text += "<@{}> **!REEL NOW!!!!!**".format(user_data.id_user)
+    else:
+        text += " **!REEL NOW!!!!!**"
+
     return text
 
 

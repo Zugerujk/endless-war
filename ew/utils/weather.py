@@ -59,7 +59,7 @@ async def weather_tick(id_server = None):
                             continue
                         else:
                             mutations = user_data.get_mutations()
-                            if ewcfg.mutation_id_airlock in mutations:
+                            if ewcfg.mutation_id_airlock in mutations or ewcfg.mutation_id_monplanto in mutations:
                                 user_data.hunger -= min(user_data.hunger, 5)
                     except:
                         ewutils.logMsg("Error occurred in weather tick for server {}".format(id_server))

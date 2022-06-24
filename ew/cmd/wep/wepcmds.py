@@ -153,6 +153,11 @@ async def attack(cmd):
                     factions=["", target.faction], district_data=district_data
                 )
 
+            # Set up explosion from Death From Above if grenades aren't being used
+            if (ewcfg.mutation_id_deathfromabove in attacker_mutations or ewcfg.mutation_id_airlock in attacker_mutations) and market_data.weather == ewcfg.weather_lightning and not ctn.explode:
+                ctn.explode == True
+                ctn.bystander_damage == ctn.slimes_damage / 10
+
             """ Slime & Coin Distribution """
 
             # Setup variables for slime distribution
@@ -196,6 +201,11 @@ async def attack(cmd):
                 to_attacker += to_district * 0.6
                 to_district *= 0.4
 
+            # Slurps Up or Airlock give attacker 50% of remaining splatter in rain 
+            if to_district > 0 and (ewcfg.mutation_id_slurpsup in attacker_mutations or ewcfg.mutation_id_airlock in attacker_mutations) and market_data.weather == ewcfg.weather_rainy:
+                to_attacker += to_district * 0.5
+                to_district *= 0.5
+                
             # Handyman gives kingpin twice as much slime when attacking with a tool
             if to_kingpin > 0 and ewcfg.mutation_id_handyman in attacker_mutations and attacker_weapon.is_tool:
                 to_kingpin *= 2
