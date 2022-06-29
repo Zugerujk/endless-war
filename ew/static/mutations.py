@@ -251,6 +251,9 @@ mutations = [
         str_describe_other="They have an uncanny ability to track and identify scents due to **Keen Smell**.",
         str_acquire="You can feel your facial muscles being ripped as your skull elongates your mouth and nose, molding them into an uncanny snout. Your nostrils painfully stretch and elongate to allow for a broad range of olfactory sensations you could only have dreamed of experiencing before. Your nose twitches and you begin to growl as you pick up the scent of a nearby enemy gangster. You have developed the mutation **Keen Smell**. You can now use the !sniff command, allowing you to meticulously list every single player in the targeted district.",
         tier=5,
+        incompatible = {
+            ewcfg.mutation_id_onereallybigeyeball: '"Nope, you\'ve already got too fucked up of a face to fit that. Get rid of your big eye first."'
+        },
         str_transplant="You ask for a nose job that will enhance your senses. Ask, and you shall receive. Dr. Dusttrap walks you into the OR, and gives you a catalog of possible noses. You tell her to fuck off and jump into the chair. When you wake up, you are the proud new owner of a snout, one that can sniff the gunpowder off a rifle at 1000 yards.\n\nYou have developed the mutation **Keen Smell**. You can now use the !sniff command, allowing you to meticulously list every single player in the targeted district.",
 
     ),
@@ -432,12 +435,12 @@ mutations = [
         str_acquire="Without thinking you take a deep breath. The air is so clean! You feel like this is your first taste of oxygen in years. A droplet falls on you from above, but it just runs off you, rolling down your face with a refreshing coolness. For once, the quantum wind has shown mercy. You have developed the mutation **Air Lock**. Gain the weather-based effects of all weather mutations. These effects do not stack with those mutations.",
         tier=7,
         incompatible = {
-            ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_monplanto: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_fogdaletingle: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_slurpsup: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_deathfromabove: '"Nope, you already have that mutation, or part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_monplanto: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_fogdaletingle: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_slurpsup: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_deathfromabove: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
         },
         str_transplant="Dr. Dusttrap straps a small, high-grade air purifier around your neck, and runs a cord through your nose and into your stomach. The cords take somme getting used to, but this procedure was shockingly painless.\n\nYou have developed the mutation **Air Lock**. Gain the effects of White Nationalist and Light as a Feather. These effects do not stack with those mutations.",
     ),
@@ -602,6 +605,29 @@ mutations = [
         str_acquire="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
         tier=7,
         str_transplant="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+    ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_onereallybigeyeball,
+        str_name="One Really Big Eyeball",
+        alias=['eyeball', 'orbe', 'abigeye'],
+        str_describe_self="You can see near and far due to **One Really Big Eyeball**.",
+        str_describe_other="They can see near and far due to **One Really Big Eyeball**.",
+        str_acquire="*FLAVOR*  You have developed the mutation **One Really Big Eyeball**. You can now !scout up to two districts away.",
+        tier=5,
+        incompatible = {
+            ewcfg.mutation_id_keensmell: '"Nope, you\'ve already got too fucked up of a face to fit that. Get rid of your schnoz first."'
+        },
+        str_transplant="*FLAVOR*  You have developed the mutation **One Really Big Eyeball**. You can now !scout up to two districts away.",
+    ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_magicbullettheory,
+        str_name="Magic Bullet Theory",
+        alias=['mbt', 'magicbullet', 'magic', 'bullettheory'],
+        str_describe_self="You really knoll what you're doing due to **Magic Bullet Theory**.",
+        str_describe_other="They really knoll what they're doing due to **Magic Bullet Theory**.",
+        str_acquire="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+        tier=2,
+        str_transplant="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
     ),
 ]
 

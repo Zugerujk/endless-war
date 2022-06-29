@@ -556,10 +556,17 @@ async def attack(cmd):
 
 async def reload(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    mutations = user_data.get_mutations()
+    
     response = ""
     reload_mismatch = True
+    bonus = 0
 
+    # Give magic bullet theory bonus bullet
+    if ewcfg.mutation_id_magicbullettheory in mutations:
+        bonus += 1
+
+    # If the user has a weapon equipped and it's an ammo-type weapon.
     if user_data.weapon > 0:
         weapon_item = EwItem(id_item=user_data.weapon)
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
@@ -578,17 +585,18 @@ async def reload(cmd):
                 if user_data.life_state == ewcfg.life_state_corpse:
                     return
 
-            weapon_item.item_props["ammo"] = weapon.clip_size
+            weapon_item.item_props["ammo"] = weapon.clip_size + bonus
             weapon_item.persist()
             response = weapon.str_reload
             reload_mismatch = False
 
+    # If the user has a weapon sidearmed and it's an ammo-type weapon.
     if user_data.sidearm > 0:
         sidearm_item = EwItem(id_item=user_data.sidearm)
         sidearm = static_weapons.weapon_map.get(sidearm_item.item_props.get("weapon_type"))
-
+        # Harpoon excluded
         if ewcfg.weapon_class_ammo in sidearm.classes and sidearm.id_weapon != ewcfg.weapon_id_harpoon:
-            sidearm_item.item_props["ammo"] = sidearm.clip_size
+            sidearm_item.item_props["ammo"] = sidearm.clip_size + bonus
             sidearm_item.persist()
             if response != "":
                 response += "\n"
