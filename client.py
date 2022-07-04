@@ -1006,11 +1006,12 @@ async def on_message(message):
             Punish the user for swearing.
             The swear_jar attribute has been repurposed for SlimeCorp security officers
         """
-        if ewdebug.debug_content_1 in content_tolower:
-            usermodel.persist()
-            await ewdebug.contentCheck(cmd=cmd_obj, line=content_tolower)
 
-            usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
+        usermodel.persist()
+        if await ewdebug.contentCheck(cmd=cmd_obj, line=content_tolower) == True:
+            return
+
+        usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
 
         # if the message wasn't a command, we can stop here
         if not message.content.startswith(ewcfg.cmd_prefix):

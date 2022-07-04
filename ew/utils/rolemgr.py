@@ -366,7 +366,7 @@ async def updateRoles(
         ewcfg.role_kingpin,
         ewcfg.role_grandfoe,
         ewcfg.role_executive,
-        ewcfg.role_tutorial,
+        ewcfg.role_tutorial
     ]
 
     # Manage faction roles.
@@ -404,6 +404,7 @@ async def updateRoles(
             pvp_role = ewcfg.role_to_pvp_role.get(faction_role)
             faction_roles_remove.remove(pvp_role)
 
+
     # if ewutils.is_otp(user_data):
     # 	active_role = ewcfg.role_to_active_role.get(faction_role)
     # 	faction_roles_remove.remove(active_role)
@@ -439,7 +440,8 @@ async def updateRoles(
 
     misc_roles_remove = [
         ewcfg.role_gellphone,
-        ewcfg.role_slimernalia
+        ewcfg.role_slimernalia,
+         ewcfg.role_blasting
     ]
 
     # Remove user's gellphone role if they don't have a phone
@@ -454,6 +456,11 @@ async def updateRoles(
     if currentkingpin == str(user_data.id_user):
         role_slimernalia = ewcfg.role_slimernalia
         misc_roles_remove.remove(ewcfg.role_slimernalia)
+
+    role_blasting = None
+    if ewutils.active_restrictions.get(user_data.id_user) == 4:
+        role_blasting = ewcfg.role_blasting
+        misc_roles_remove.remove(ewcfg.role_blasting)
 
     role_ids = []
     for role_id in roles_map_user:
@@ -530,6 +537,14 @@ async def updateRoles(
     # ewutils.logMsg('found role {} with id {}'.format(role_data.name, role_data.id_role))
     except:
         ewutils.logMsg('error: couldn\'t find slimernalia role {}'.format(role_slimernalia))
+
+    try:
+        role_data = EwRole(id_server=id_server, name=role_blasting)
+        if not role_data.id_role in role_ids and role_data.id_role != '':
+            role_ids.append(int(role_data.id_role))
+    # ewutils.logMsg('found role {} with id {}'.format(role_data.name, role_data.id_role))
+    except:
+        ewutils.logMsg('error: couldn\'t find blasting role {}'.format(role_slimernalia))
 
     # if faction_role not in role_names:
     # 	role_names.append(faction_role)
