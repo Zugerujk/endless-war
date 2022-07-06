@@ -756,8 +756,6 @@ async def scout(cmd):
             if extended_range:
                 valid_pois.update(poi_static.poi_neighbors.get(neigh))
 
-        print(valid_pois)
-
         if poi.id_poi not in valid_pois:
             response = "You can't {} that far.".format(cmd.tokens[0])
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

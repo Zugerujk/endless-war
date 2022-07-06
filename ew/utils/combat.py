@@ -1696,14 +1696,21 @@ class EwUser(EwUserBase):
             if self.life_state != ewcfg.life_state_corpse:
                 response += "You have been empowered by slime and are now a level {} slime{}.".format(new_level, self.gender)
             for level in range(self.slimelevel + 1, new_level + 1):
-                current_mutations = self.get_mutations()
-                if (level >= self.get_mutation_level() + self.get_mutation_next_level()) and (self.life_state not in [ewcfg.life_state_corpse]) and (self.get_mutation_level() < 50):
+                # Get next mutation
+                new_mutation = self.get_mutation_next()
+                new_mutation_obj = static_mutations.mutations_map.get(new_mutation)
+                # If you're over level 50 or there's an error, stop.
+                if new_mutation_obj == None:
+                    continue
+                mutation_level = self.get_mutation_level()
 
-                    new_mutation = self.get_mutation_next()
+                # Check if player can fit the mutation
+                if (level >= mutation_level + new_mutation_obj.tier) and (self.life_state not in [ewcfg.life_state_corpse]) and (mutation_level < 50):
 
                     add_success = self.add_mutation(new_mutation)
+                    
                     if add_success:
-                        response += "\n\nWhat’s this? You are mutating!! {}".format(static_mutations.mutations_map[new_mutation].str_acquire)
+                        response += "\n\nWhat’s this? You are mutating!! {}".format(new_mutation_obj.str_acquire)
 
             self.slimelevel = new_level
             if self.life_state == ewcfg.life_state_corpse:
@@ -2106,6 +2113,7 @@ class EwUser(EwUserBase):
         result = ""
         current_mutations = self.get_mutations()
 
+        # Level 51 gtfo
         if self.get_mutation_level() >= 50:
             return 0
 
@@ -2126,19 +2134,33 @@ class EwUser(EwUserBase):
                 counter = ids[0]
             if counter == None:
                 counter = 0
+            # The next possible mutations will be the same each level-up until a new mutation is given
             random.seed(counter + seed)
 
             for x in range(1000):
                 result = random.choice(list(static_mutations.mutation_ids))
                 result_mutation = static_mutations.mutations_map[result]
+                incompatible = False
 
-                for mutation in current_mutations:
-                    mutation = static_mutations.mutations_map[mutation]
+                # Retry if player already has the mutation
+                if result in current_mutations:
+                    continue
+
+                # Retry if the mutation is incompatible with an already-had mutation
+                for mutations in current_mutations:
+                    mutation = static_mutations.mutations_map[mutations]
                     if result in mutation.incompatible:
-                        continue
+                        incompatible = True
+                        break
+                if incompatible:
+                    continue
 
-                if result not in current_mutations and result_mutation.tier + self.get_mutation_level() <= 50:
-                    return result
+                # Retry if the mutation would go over the level cap.
+                if result_mutation.tier + self.get_mutation_level() > 50:
+                    continue
+
+                # If it fits all availability criteria, return the mutation
+                return result
 
             result = ""
 
