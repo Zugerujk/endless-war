@@ -23,9 +23,25 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None):
     elif keyword == 'die':
         return await generic_die(channel=channel, npc_obj=npc_obj)
 
-async def generic_talk(channel, npc_obj): #emits talk dialogue
 
-    response = random.choice(npc_obj.dialogue.get('talk'))
+async def chatty_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
+    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == 'move':
+        return await generic_move(enemy=enemy)
+    elif keyword == 'act':
+        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop')
+    elif keyword == 'talk':
+        return await generic_talk(channel=channel, npc_obj=npc_obj)
+    elif keyword == 'hit':
+        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
+    elif keyword == 'die':
+        return await generic_die(channel=channel, npc_obj=npc_obj)
+
+
+async def generic_talk(channel, npc_obj, keyword_override = 'talk'): #emits talk dialogue
+
+    response = random.choice(npc_obj.dialogue.get(keyword_override))
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
@@ -77,3 +93,4 @@ async def generic_die(channel, npc_obj): #territorial enemy that attacks when yo
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+

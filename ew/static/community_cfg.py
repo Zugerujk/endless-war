@@ -306,6 +306,8 @@ dance_responses = [
     "{} does the 2 step! Such a complicated process!"
 ]
 
+mixtapes = ['', '']
+
 
 context_guide = ""
 

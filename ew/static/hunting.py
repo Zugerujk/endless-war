@@ -390,7 +390,7 @@ npc_list = [
     ),
 EwNpc(
         id_npc="thehostiledrinkster",  # unique id for each npc
-        active = True,  # whether an npc spawns
+        active = False,  # whether an npc spawns
         str_name = "The Hostile Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_downtown],  # list of locations an NPC roams in
         dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"],
@@ -406,6 +406,23 @@ EwNpc(
         {ewcfg.item_id_monsterbones: [100, 1, 3]},
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id]
+    ),
+EwNpc(
+        id_npc="bobocuatro",  # unique id for each npc
+        active = True,  # whether an npc spawns
+        str_name = "Bobo Cuatro",  # Name of the NPC
+        poi_list = [ewcfg.poi_id_crookline],  # list of locations an NPC roams in
+        dialogue = {"talk":["Go away", "Don't judge me, it hurts to wear clothes", "They won't let me inside", "Quiet, I'm listening to the tracks"],
+                    "loop":["Not good", "Behemoth edits are played out 👎👎👎👎","Dances With White Girls 😂","This sounds like you just learned how to make riddims sounds yesterday","Too bad its not over 2min. Or else id put you in my highly banger populated playlist “dubstep 2022” maybe next time kid","Half decent","My ears are bleeding profusely","snorts fentanyl line* This actually better than your last failure of a EP. You will never be as good as aweminus. And if NSD was still active you wouldnt be good enough to be on it. Not even hating guy. You just lack originality.","your EP was a total bust. Not one song got over 1k likes. And you most likely paid that idiot kill feed to repost this garbag. You need yur money back,This is so bad. Like what are you doing?????","Sheeesh the beginning of ghis mix was ass. But these 2 last songs making up for it","This is half decent, but your lack of creativity didnt allow you to strech this track beyond 3 minutes. Nice try kid."],
+                    "die":["EVERY TIME"]},  # list of dialogue an npc can use
+        func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
+        image_profile = "https://cdn.discordapp.com/attachments/886372560135143424/994106498038890526/unknown-18.png",  # image link to add to dialogue embeds
+        defaultslime = 200,
+        defaultlevel = 1,
+        rewards = [
+        {ewcfg.item_id_oldcd: [100, 1, 1]},
+        ],
+        starting_statuses=[ewcfg.status_enemy_barren_id]
     )
 ]
 
@@ -425,3 +442,6 @@ attack_type_map = {}
 # Populate attack type map.
 for attack_type in enemy_attack_type_list:
     attack_type_map[attack_type.id_type] = attack_type
+
+
+

@@ -1,7 +1,8 @@
 import json
 import os
-
+import random
 from . import cfg as ewcfg
+from . import community_cfg
 from ..model.item import EwFurniture
 from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
@@ -486,6 +487,14 @@ item_list = [
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
         context=10,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_oldcd,
+        str_name="Old CD",
+        str_desc="OH GOD IT'S A FUCKING CD!",
+        acquisition=ewcfg.acquisition_bartering,
+        ingredients="generic",
+        context=random.choice(community_cfg.mixtapes),
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_leather,
