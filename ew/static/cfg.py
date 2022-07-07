@@ -1619,6 +1619,9 @@ moon_waning_start = "waningmandibles" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
+# strength of the burn applied every weather tick by firestorms
+firestorm_slime_burn = 100000
+
 # how often to delete expired world events
 event_tick_length = 5
 
@@ -2539,6 +2542,7 @@ cause_praying = 15
 cause_poison = 16
 cause_crushing = 17
 cause_gay = 18
+cause_debris = 19
 
 # List of user statistics that reset to 0 on death
 stats_clear_on_death = [
@@ -4399,7 +4403,7 @@ event_type_tornado = "tornado"
 event_type_traffic = "traffic"
 # event_type_weeping_and_gnashing_of_teeth = "weepingandgnashingofteeth"
 # Events possible in specific districts
-event_type_moon_shower = "moonshower" # Only on The Summit
+event_type_meteor_shower = "meteorshower" # Only on The Summit
 event_type_smog_warning = "smogwarning" # Only in Smogsburg
 event_type_poudrin_hail = "poudrinhail" # Only in Poudrin Alley
 event_type_radiation_storm = "radiationstorm" # Only in Little Chernobyl
@@ -4414,10 +4418,10 @@ event_type_dimensional_rift = "dimensionalrift" # Happens in district that can b
 
 poi_events = [
     event_type_tornado,
-    event_type_traffic,
-    # event_type_moon_shower, 
+    # event_type_traffic,
+    event_type_meteor_shower, 
     # event_type_smog_warning,
-    # event_type_poudrin_hail, 
+    event_type_poudrin_hail, 
     event_type_radiation_storm,
     # event_type_jape_storm,
     event_type_firestorm,

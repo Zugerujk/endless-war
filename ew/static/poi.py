@@ -4022,23 +4022,55 @@ world_events = [
         length=72, # 18h
         buffer=8, # 2h
         str_event_start="Fire and brimstone begins raining from the unholy air above. A firestorm has begun!",
-        str_evenr_ongoing="There's a firestorm burning god's grace. All players will get set alight!",
+        str_event_ongoing="There's a firestorm burning god's grace.",
         str_event_end="The firestorm fizzles out, returning to the usual humdrum of the searing sky.",
-        str_check_text="There's a firestorm raging in ",
+        str_check_text="There's a firestorm burning in ",
     ),
-    # EwPoiPhenomenon(
-    #     name=ewcfg.event_type_tornado,
-    #     str_name="a tornado",
-    #     pois=[], # All districts
-    #     length=48, # # 12h - In in-game hours (15 IRL minutes)
-    #     buffer=6, # 1h30m - In in-game hours (15 IRL minutes)
-    #     forewarning=True,
-    #     str_start="Watch for the heavens! A tornado has formed!",
-    #     str_ongoing="There's a tornado ripping hell across the landscape. All players without Big Bones will be flung across NLACakaNM!",
-    #     str_end="The tornado dissipates into the air, bringing peace back to",
-    #     str_check_text="There's a tornado raging on in ",
-    #     str_extra_text=""
-    # ),
+    EwEventDef(
+        event_type=ewcfg.event_type_tornado,
+        str_name="a tornado",
+        pois=[], # All non-DT/GLD districts
+        length=48, # 12h
+        buffer=4, # 1h
+        str_event_start="Watch for the heavens! A tornado has formed!",
+        str_event_ongoing="There's a tornado ripping hell across the landscape.",
+        str_event_end="The tornado dissipates into the air, bringing peace back to the city streets.",
+        str_check_text="There's a tornado raging in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_radiation_storm,
+        str_name="a radiation storm",
+        pois=[ewcfg.poi_id_littlechernobyl],
+        length=72, # 18h
+        buffer=0,   
+        str_event_start="A massive cloud of radiation has enveloped the area. A radiation storm has formed!",
+        str_event_ongoing="There's a radiation storm swirling the sundered streets.",
+        str_event_end="The radiation cloud subsides, spreading across the city. Back to the normal skin-searing levels!",
+        str_check_text="There's a radiation storm enveloping ",
+    ),
+	EwEventDef(
+		event_type=ewcfg.event_type_poudrin_hail,
+		str_name="poudrin hail",
+		pois=[ewcfg.poi_id_poudrinalley],
+		length=48, # 12h
+		buffer=8, # 2h
+		str_event_start="Poudrins begin falling from the heavens onto the city streets. Poudrin hail has begun!",
+		str_event_ongoing="There's small chunks of crystallized slime falling across the pavement.",
+		str_event_end="The rain of poudrins abruptly stops.",
+		str_check_text="There's poudrin hail buffeting ",
+	),
+	EwEventDef(
+		event_type=ewcfg.event_type_meteor_shower,
+		str_name="a meteor shower",
+		pois=[ewcfg.poi_id_thesummit],
+		length=9, # 2h15m
+		buffer=14, # 3h30m
+		str_event_start="Streaks of light begin illuminating the night sky. A meteor shower has begun!",
+		str_event_ongoing="There's a meteor shower occurring overhead.",
+		str_event_end="The meteors finish their full-on-assault of the stars, leaving the morning to awake.",
+		str_check_text="There's a meteor shower gracing ",
+	),
+
     # EwPoiPhenomenon(
     #     name=ewcfg.event_type_traffic,
     #     str_name="traffic",
@@ -4050,19 +4082,6 @@ world_events = [
     #     str_ongoing="There's a traffic jam! Movement speed is halved!",
     #     str_end="The traffic jam unshits itself, returning to the normal heavy flow.",
     #     str_check_text="There's heavy traffic in ",
-    #     str_extra_text=""
-    # ),
-    # EwPoiPhenomenon(
-    #     name=ewcfg.event_type_radiation_storm,
-    #     str_name="a radiation storm",
-    #     pois=[ewcfg.poi_id_littlechernobyl],
-    #     length=72, # 18h
-    #     buffer=0,   
-    #     forewarning=False,
-    #     str_start="A massive cloud of radiation has enveloped the area. A radiation storm has begun!",
-    #     str_ongoing="There's a radiation storm swirling the sundered streets. Slime accrues for those in the district, but beasts are also attracted!",
-    #     str_end="The radiation cloud subsides, spreading across the city. Back to the skin-searing normal levels!",
-    #     str_check_text="There's a radiation storm in ",
     #     str_extra_text=""
     # ),
 ]

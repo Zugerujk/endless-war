@@ -1,5 +1,6 @@
 import asyncio
 import math
+from multiprocessing.dummy import active_children
 import random
 import time
 import traceback
@@ -67,6 +68,7 @@ async def event_tick(id_server):
     time_now = int(time.time())
     resp_cont = EwResponseContainer(id_server=id_server)
     try:
+        # Get all events with an expiry right now or in the past
         data = bknd_core.execute_sql_query(
             "SELECT {id_event} FROM world_events WHERE {time_expir} <= %s AND {time_expir} > 0 AND id_server = %s".format(
                 id_event=ewcfg.col_id_event,
@@ -75,7 +77,8 @@ async def event_tick(id_server):
                 time_now,
                 id_server,
             ))
-
+        
+        # Do end-of-event actions and delete the world event
         for row in data:
                 try:
                     event_data = EwWorldEvent(id_event=row[0])
@@ -134,6 +137,42 @@ async def event_tick(id_server):
                 except Exception as e:
                     ewutils.logMsg("Error in event tick for server {}:{}".format(id_server, e))
 
+        # Get all events that activate right now
+        activate_data = bknd_core.execute_sql_query(
+            "SELECT {id_event} FROM world_events WHERE {time_activate} >= {time_now} AND {time_activate} < {time_now} + {interval} AND id_server = %s".format(
+                id_event=ewcfg.col_id_event,
+                time_activate=ewcfg.col_time_activate,
+                time_now=time_now,
+                interval=ewcfg.event_tick_length,
+            ), (
+                id_server,
+            ))
+
+        # Do activation alerts for specific world events
+        for row in activate_data:
+            try:
+                event_data = EwWorldEvent(id_event=row[0])
+                event_def = poi_static.event_type_to_def.get(event_data.event_type)
+
+                # If the event is a POI event
+                if event_data.event_type in ewcfg.poi_events:
+                    poi = poi_static.id_to_poi.get(event_data.event_props.get('poi'))
+
+                    # Create alert in poi channel 
+                    resp_cont.add_channel_response(poi.channel, event_def.str_event_start)
+
+                    gangbase_alert = "A peculiar event has manifested somewhere in NLACakaNM..."
+                    # If gangbase alert should be specific
+                    if event_data.event_props.get('alert') == "gangbase":
+                        gangbase_alert = "It seems {} has manifested in {}.".format(event_def.str_name, poi.str_name)
+
+                    for channel in ewcfg.hideout_channels:
+                        resp_cont.add_channel_response(channel, gangbase_alert)
+
+
+            except Exception as e:
+                ewutils.logMsg("Error in event tick for server {}:{}".format(id_server, e))
+                
         await resp_cont.post()
 
     except Exception as e:
@@ -163,10 +202,22 @@ async def decaySlimes(id_server = None):
             users = cursor.fetchall()
             total_decayed = 0
 
+            # Create a list of districts where you gain slime passively rather than decay
+            slimeboost_pois = []
+            # Radiation storms boost slime
+            world_events = bknd_event.get_world_events(id_server=id_server)
+            for id_event in world_events:
+                if world_events.get(id_event) == ewcfg.event_type_radiation_storm:
+                    event_data = EwWorldEvent(id_event=id_event)
+                    slimeboost_pois.append(event_data.event_props.get('poi'))
+            # Block parties have a setting to boost slime
             block_party = EwGamestate(id_state='blockparty', id_server=id_server)
             block_poi = ''.join([i for i in block_party.value if not i.isdigit()])
-            if block_poi == 'outsidethe':
-                block_poi = ewcfg.poi_id_711
+            slimeboost_pois.append(block_poi)
+            # Damn you, 7/11!
+            if 'outsidethe' in slimeboost_pois:
+                slimeboost_pois.append(ewcfg.poi_id_711)
+
             for user in users:
                 user_data = EwUser(id_user=user[0], id_server=id_server)
                 slimes_to_decay = user_data.slimes - (user_data.slimes * (.5 ** (ewcfg.update_market / ewutils.calc_half_life(user_data.slimes))))
@@ -177,7 +228,8 @@ async def decaySlimes(id_server = None):
                     slimes_to_decay += 1
                 slimes_to_decay = int(slimes_to_decay)
 
-                if user_data.poi == block_poi:
+                # User will gain slime while in a blockparty/rad storm
+                if user_data.poi in slimeboost_pois:
                     slimes_to_decay -= ewcfg.blockparty_slimebonus_per_tick
 
                 if slimes_to_decay >= 1:
@@ -205,6 +257,10 @@ async def decaySlimes(id_server = None):
                 if random.random() < remainder:
                     slimes_to_decay += 1
                 slimes_to_decay = int(slimes_to_decay)
+
+                # District will gain slime during a block party slowly
+                if district_data.name in slimeboost_pois:
+                    slimes_to_decay -= ewcfg.blockparty_slimebonus_per_tick / 10
 
                 if slimes_to_decay >= 1:
                     district_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_decay)
@@ -552,6 +608,7 @@ async def burnSlimes(id_server = None):
 
             # Deal 10% of total slime to burn every second
             slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
+            
 
             # Check if a status effect originated from an enemy or a user.
             killer_data = EwUser(id_server=id_server, id_user=result[2])
@@ -560,8 +617,7 @@ async def burnSlimes(id_server = None):
                 if killer_data != None:
                     status_origin = 'enemy'
                 else:
-                    # For now, skip over any status that did not originate from a user or an enemy. This might be changed in the future.
-                    continue
+                    status_origin = 'other'
 
             if status_origin == 'user':
                 # Damage stats
@@ -596,6 +652,8 @@ async def burnSlimes(id_server = None):
                     user_data.id_killer = killer_data.id_user
                 elif status_origin == 'enemy':
                     user_data.id_killer = killer_data.id_enemy
+                elif status_origin == 'other':
+                    user_data.id_killer = 0
 
                 user_data.trauma = ewcfg.trauma_id_environment
                 die_resp = user_data.die(cause=ewcfg.cause_burning)
@@ -1350,6 +1408,10 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             ewutils.logMsg("Started rent calc...")
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
+
+                        if random.random() >= 0.857: # 1/7 chance to start a random event
+                            ewutils.logMsg("Creating POI event...")
+                            await weather_utils.create_poi_event(id_server)
 
                     elif market_data.clock == 13 and market_data.day % 28 == 0: #regulate slimesea items every week
                         ewutils.logMsg('Regulating Slime Sea items...')

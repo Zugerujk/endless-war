@@ -13,7 +13,7 @@ from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
 from ew.backend.status import EwEnemyStatusEffect
 from ew.backend.status import EwStatusEffect
-from ew.backend.worldevent import EwWorldEvent, create_poi_phenomenon
+from ew.backend.worldevent import EwWorldEvent
 from ew.backend.mutation import EwMutation
 from ew.backend.dungeons import EwGamestate
 
@@ -41,6 +41,7 @@ from ew.utils import leaderboard as bknd_leaderboard
 from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils import stats as ewstats
+from ew.utils import weather as weather_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -2351,7 +2352,7 @@ async def yoslimernalia(cmd):
 async def slimecoin(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    create_poi_phenomenon(id_server=user_data.id_server)
+    await weather_utils.create_poi_event(id_server=user_data.id_server)
 
     # if cmd.mentions_count == 0:
     #     user_data = EwUser(member=cmd.message.author)
