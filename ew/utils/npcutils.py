@@ -17,11 +17,11 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None):
     elif keyword == 'act':
         return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
     elif keyword == 'hit':
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
-        return await generic_die(channel=channel, npc_obj=npc_obj)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
 
 async def chatty_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
@@ -30,18 +30,29 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None): #simila
     if keyword == 'move':
         return await generic_move(enemy=enemy)
     elif keyword == 'act':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop')
+        if random.randint(1, 5) == 2:
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy)
     elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
     elif keyword == 'hit':
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
-        return await generic_die(channel=channel, npc_obj=npc_obj)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
 
-async def generic_talk(channel, npc_obj, keyword_override = 'talk'): #emits talk dialogue
+async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants
+    rare_keyword = "rare{}".format(keyword_override)
+    location_keyword = '{}{}'.format(enemy.poi, keyword_override)
 
-    response = random.choice(npc_obj.dialogue.get(keyword_override))
+    if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
+        keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
+
+    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+
+    if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
+        potential_dialogue += npc_obj.dialogue.get(location_keyword)
+
+    response = random.choice(potential_dialogue)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
@@ -78,19 +89,14 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
 
 
 
-async def generic_hit(channel, npc_obj, enemy): #territorial enemy that attacks when you do. if a line is prepared for it, talkbubble that line
-    if ewcfg.status_enemy_hostile_id not in enemy.getStatusEffects():
+async def generic_hit(channel, npc_obj, enemy, territorial = True, probability = 1): #territorial enemy that attacks when you do. if a line is prepared for it, talkbubble that line
+    if ewcfg.status_enemy_hostile_id not in enemy.getStatusEffects() and territorial:
         enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
-        response = random.choice(npc_obj.dialogue.get('hit') if npc_obj.dialogue.get('hit') is not None else [None])
-        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
-        if response is not None:
-            return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+        await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
+    else:
+        if random.randint(1, probability) == 1:
+            await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
 
 
-async def generic_die(channel, npc_obj): #territorial enemy that attacks when you do. if a line is prepared for it, talkbubble that line
 
-    response = random.choice(npc_obj.dialogue.get('die') if npc_obj.dialogue.get('die') is not None else [None])
-    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
-    if response is not None:
-        return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
 

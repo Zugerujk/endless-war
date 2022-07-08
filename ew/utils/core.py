@@ -51,6 +51,8 @@ active_televisions = {}
 
 tv_counter  = 0
 
+conversations = {}
+
 class EwVector2D:
     vector = [0, 0]
 

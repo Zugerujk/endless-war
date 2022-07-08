@@ -412,10 +412,10 @@ EwNpc(
         active = True,  # whether an npc spawns
         str_name = "Bobo Cuatro",  # Name of the NPC
         poi_list = [ewcfg.poi_id_crookline],  # list of locations an NPC roams in
-        dialogue = {"talk":["Go away", "Don't judge me, it hurts to wear clothes", "They won't let me inside", "Quiet, I'm listening to the tracks"],
+        dialogue = {"talk":["Go away", "They won't let me inside Splatify", "Quiet, I'm listening to the tracks"],
                     "loop":["Not good", "Behemoth edits are played out 👎👎👎👎","Dances With White Girls 😂","This sounds like you just learned how to make riddims sounds yesterday","Too bad its not over 2min. Or else id put you in my highly banger populated playlist “dubstep 2022” maybe next time kid","Half decent","My ears are bleeding profusely","snorts fentanyl line* This actually better than your last failure of a EP. You will never be as good as aweminus. And if NSD was still active you wouldnt be good enough to be on it. Not even hating guy. You just lack originality.","your EP was a total bust. Not one song got over 1k likes. And you most likely paid that idiot kill feed to repost this garbag. You need yur money back,This is so bad. Like what are you doing?????","Sheeesh the beginning of ghis mix was ass. But these 2 last songs making up for it","This is half decent, but your lack of creativity didnt allow you to strech this track beyond 3 minutes. Nice try kid."],
                     "die":["EVERY TIME"]},  # list of dialogue an npc can use
-        func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
+        func_ai = npcutils.chatty_npc_action,  # function the enemy's AI uses
         image_profile = "https://cdn.discordapp.com/attachments/886372560135143424/994106498038890526/unknown-18.png",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
@@ -423,7 +423,32 @@ EwNpc(
         {ewcfg.item_id_oldcd: [100, 1, 1]},
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id]
-    )
+    ),
+EwNpc(
+    id_npc = "juviemiku",
+    active = True,
+    str_name = "Juvie Miku",
+    poi_list = [ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_juviesrow, ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_slimesend, ewcfg.poi_id_slimesendcliffs],
+    dialogue = {"talk":["...", "..?", "..!", "👋"],
+                "loop":[":notes:Hmm hmm hmmmm!!:notes:", ":notes:La dee da!:notes:", ":notes:Do do dooo!!:notes:", ":notes:Dum de bum!:notes:"],
+                "rareloop":["*Miku is beginning to sing!* \nhttps://www.youtube.com/watch?v=NocXEwsJGOQ"],
+                "hit":["!?!"],
+                "die":["Aieeeeee!!"],
+                "downtownloop":["*Miku ponders the Limecorp sign.*"],
+                "greenlightdistrictloop":["*Miku is gleefully shopping.*"],
+                "slimesendcliffsloop":["*Noticing the ocean waves, Miku frantically scrambles for land.*"]},
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/431238867459375145/832804357731778620/Miku_02.png", # "I'll illustrate one soon" - not final
+    defaultslime = 160000,
+    defaultlevel = 20,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [75, 1, 3]},
+    {'earbuds': [60, 1, 1]},
+    {'rollerblades': [5, 1, 1]},
+    {ewcfg.weapon_id_bass: [5, 1, 1]}
+    ],
+    starting_statuses=[ewcfg.status_enemy_barren_id] #Killable, probably shouldn't drop slime?
+)
 ]
 
 active_npcs_map = {}

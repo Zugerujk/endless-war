@@ -687,7 +687,6 @@ async def get_member(guild, member_id):
 async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None):
     bubble = discord.Embed()
     client = ewutils.get_client()
-    print("here?")
     if name != "" and channel is not None:
         if npc_obj == None:
             bubble.description = name
