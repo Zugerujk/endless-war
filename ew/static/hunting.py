@@ -4,6 +4,7 @@ from . import cfg as ewcfg
 from ..model.hunting import EwAttackType
 from ..model.hunting import EwNpc
 from ew.utils import npcutils
+from ew.static import poi_static
 
 # Attacking type effects
 def atf_fangs(ctn = None):
@@ -367,6 +368,17 @@ enemy_attack_type_list = [
         str_groupattack="{name_enemy} tailsweeps a horde of gaiaslimeoids!",
         fn_effect=atf_tusks
     ),
+EwAttackType(  #17
+        id_type="police",
+        str_crit="**POLICE BRUTALITY!** {name_enemy} knees {name_target} to the ground and fires 3 shots right to the head! ",
+        str_miss="**WHOOSH** {name_target} ducks out of the way of {name_enemy}'s nightstick!",
+        # str_trauma_self = "NULL",
+        # str_trauma = "NULL,
+        str_kill="**HE'S GOT A WEAPON!** {name_enemy} empties a whole clip into {name_target}'s soft juvenile head, absolutely shocked that they managed to not die this time. Guess we know what'll be on the news in a few days...",
+        str_killdescriptor="vored",
+        str_damage="{name_target} fires a warning shot into {name_enemy}'s {hitzone}!",
+        fn_effect=atf_fangs #a pistol reskin of fangs which are a reskin of a pistol
+    ),
 ]
 
 #Values are sorted by the chance to the drop an item, and then the minimum and maximum amount of times to drop that item.
@@ -437,7 +449,7 @@ EwNpc(
                 "downtownloop":["*Miku ponders the Limecorp sign.*"],
                 "greenlightdistrictloop":["*Miku is gleefully shopping.*"],
                 "slimesendcliffsloop":["*Noticing the ocean waves, Miku frantically scrambles for land.*"]},
-    func_ai = npcutils.generic_npc_action,
+    func_ai = npcutils.chatty_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/431238867459375145/832804357731778620/Miku_02.png", # "I'll illustrate one soon" - not final
     defaultslime = 160000,
     defaultlevel = 20,
@@ -448,7 +460,74 @@ EwNpc(
     {ewcfg.weapon_id_bass: [5, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id] #Killable, probably shouldn't drop slime?
-)
+),
+EwNpc(
+    id_npc = "shortsguy",
+    active = True,
+    str_name = "Shorts Guy",
+    poi_list = [ewcfg.poi_id_maimridge, ewcfg.poi_id_toxington, ewcfg.poi_id_astatineheights, ewcfg.poi_id_arsonbrook, ewcfg.poi_id_brawlden, ewcfg.poi_id_littlechernobyl],  # list of locations an NPC roams in
+    dialogue = {"talk":["Shorts are so comfortable and easy to wear. Why don't you try wearing some?", "I've bought about 10 pairs of shorts today. Want one?", "It's the perfect kind of day to go for a walk in some nice shorts.", "Shorts, shorts, shorts, can't get enough of them!", "Trying my best to make shorts into a fashion craze.", "Mama always said life is like a fresh pair of shorts."],
+                "hit":["You're just jealous of my shorts!"],
+                "die":["Not the shorts!"]},
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/994771357940334684/unknown.png", # Mischief said "I'll come up with one later" so I took creative liberty
+    defaultslime = 28561,
+    defaultlevel = 13,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [75, 1, 2]},
+    {'shorts': [50, 1, 1]},
+    {'shortshorts': [50, 1, 1]},
+    {'shortshortshorts': [50, 1, 1]},
+    {'autographedshorts': [10, 1, 1]}
+    ],
+    starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
+),
+EwNpc(
+    id_npc = "carrottop",
+    active = True,
+    str_name = "Carrot Top",
+    poi_list = [],
+    dialogue = {"talk":["Hey dude. Or, uh, dudette. I actually can't see that well.", "Ignore me, loser. Just on official Ganker business.", "HECK!!!!!"],
+                "loop":["ARGH!!!", "EUGHHH!!!", "Rgh...", "hmmmmmRRRR..."],
+                "rareloop":["ARGH!!! UGHH!!!!!!! I'm getting bullied on slime twitter!!!"],
+                "hit":["WHAT THE HELL!!!", "AUUUGHGHHH!!!", "EHHHHGHHH!!!!"],
+                "die":["OWWUGUGHH..."],
+                },
+    func_ai = npcutils.chatty_npc_action,
+    image_profile = "https://images-ext-2.discordapp.net/external/MkXZ4qyh3Ean3vEtPIE59Owa-I1Hhehdvkp2JO7g8mA/%3Fformat%3Dpng%26name%3Dsmall/https/pbs.twimg.com/media/FAqiED_WEAER7p4",
+    defaultslime = 100000,
+    defaultlevel = 17,
+    rewards = [
+    {'carrottopsmohawk': [100, 1, 1]},
+    {ewcfg.item_id_slimepoudrin: [50, 1, 4]},
+    {'quesarito': [30, 1, 3]},
+    {"crop": [80, 2, 5]},
+    ],
+    starting_statuses=[] # DOES drop slime. You SHOULD kill Carrot Top.
+),
+EwNpc(
+    id_npc = "pork",
+    active = True,
+    str_name = "Pork, NLACPD",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["Howdy, there.", "Don't you just love that sound when you asphyxiate some perp? Good times...", "Golly, I'm so hungry could eat a whole person.", "You seen any of these gang types around?"],
+                "loop":["hrm...", "I'm hungry.", "Whew-wee.", "I could go for some blood. Good drinkin'..."],
+                "hit":["NLACPD! Hold it!", "Kill 'em dead!", "Shucks! He's got a weapon!"],
+                "die":["Ergh. Call in a squad, chief, I'm spent. Bring some donuts to the office, too."],
+                },
+    func_ai = npcutils.police_npc_action,
+    image_profile = "",
+    defaultslime = 6911000,
+    defaultlevel = 50,
+    rewards = [
+    {"jellyfilleddoughnut": [100, 1, 1],
+     "officercopbadge":[100, 1, 1]}
+    ],
+    starting_statuses=[],
+    attacktype = 'police',
+    condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    #if the cop is trigger happy or if you're above a certain crime level
+),
 ]
 
 active_npcs_map = {}

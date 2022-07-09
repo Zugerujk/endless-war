@@ -301,7 +301,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
 
             return
 
-        rutils.movement_checker(user_data, poi_current, poi)
+        await rutils.movement_checker(user_data, poi_current, poi, cmd)
 
         await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi

@@ -2000,6 +2000,7 @@ furniture_list = [
         furniture_place_desc = "You place the chair in the middle of the room, trying not to think about police.",
         furniture_look_desc = "There's an interrogation chair here for some reason.",
     ),
+
     EwFurniture(
         id_furniture = "brokenclock",
         str_name = "broken clock",
@@ -3535,6 +3536,15 @@ furniture_list = [
         vendors = ['Country Club'],
         furniture_place_desc = "You hire a bunch of contract workers from the yellow pages, getting the fireplace installed. Of course, you act like a curmudgeon all the while and don't even pay them afterwards, citing that you wanted it a few centimeters to the left.",
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
+    ),
+    EwFurniture(
+        id_furniture = "autographedshorts",
+        str_name = "autographed shorts",
+        str_desc = "A simple pair of shorts. The only thing that distinguishes then from any old pair is an autograph by the shorts *master* Youngster Ben. This means they are now a collectible, rather than a simple wardrobe piece!",
+        rarity = "Plebeian",
+        price = 100,
+        furniture_place_desc = "You delicately hang the shorts on your window, the streaming light illuminating the permanent-marker autograph.",
+        furniture_look_desc = "There's a pair of shorts hanging from the window.",
     ),
 ]
 

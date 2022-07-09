@@ -3433,6 +3433,7 @@ status_foodcoma_id = "foodcoma"
 status_enemy_hostile_id = "hostile"
 status_enemy_barren_id = "barren"
 status_enemy_juviemode_id = "juviemode"
+status_enemy_trainer_id = 'slimeoidtrainer'
 
 status_n1 = "n1"
 status_n2 = "n2"
@@ -3876,6 +3877,7 @@ enemy_attacktype_graspers = 'graspers'
 enemy_attacktype_raygun = 'raygun'
 enemy_attacktype_feed = 'feed'
 enemy_attacktype_amateur = 'amateur'
+enemy_attacktype_cop = 'police'
 
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
@@ -3905,8 +3907,10 @@ enemy_type_npc = 'npc'
 enemy_type_mammoslimebull = 'mammoslimebull'
 enemy_type_slimeofgreed = 'slimeofgreed'
 enemy_type_microgullswarm = 'microgullswarm'
+enemy_type_policeofficer = 'policeofficer'
 # Raid bosses
 enemy_type_megaslime = 'megaslime'
+
 enemy_type_slimeasaurusrex = 'slimeasaurusrex'
 enemy_type_greeneyesslimedragon = 'greeneyesslimedragon'
 enemy_type_unnervingfightingoperator = 'unnervingfightingoperator'
@@ -3949,7 +3953,7 @@ enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_gre
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer]
+slimeoid_trainers = [enemy_type_npc]
 
 
 # List of raid bosses sorted by their spawn rarity.
@@ -4103,6 +4107,9 @@ enemy_drop_tables = {
     ],
     enemy_type_microgullswarm: [
         {item_id_feather: [5, 1, 1]}
+    ],
+    enemy_type_policeofficer: [
+        {"copbadge":[100, 1, 1]}
     ]
 }
 
@@ -4344,6 +4351,14 @@ enemy_data_table = {
         "displayname": "NPC",
         "raredisplayname": "NPC Template",
         "aliases": []
+    },
+    enemy_type_policeofficer: {
+        "slimerange": [100000, 500000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_cop,
+        "displayname": "Police Officer",
+        "raredisplayname": "Crazed Police Officer",
+        "aliases": ["cop", "police", "policeofficer", "officer", "pig"]
     },
 }
 

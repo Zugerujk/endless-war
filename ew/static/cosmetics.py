@@ -2198,6 +2198,14 @@ cosmetic_items_list = [
         acquisition = "smelting",
         price = 5000000,
     ),
+    EwCosmeticItem(
+        id_cosmetic = "officercopbadge",
+        str_name = "NLACPD Officer's Badge",
+        str_desc = "You stole this off a cop after ganking the shit out of em. It's slashed across the surface so nobody confuses you for an actual officer.",
+        durability = 2500000,
+        style = "tough",
+        freshness = 2
+    ),
 ]
 
 

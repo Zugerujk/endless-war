@@ -275,6 +275,13 @@ status_effect_list = [
         str_describe_self=""
     ),
     EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_trainer_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They've got a slimeoid. Looks ready for a battle...",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
         id_status=ewcfg.status_dueling,
         time_expire=300,
         str_acquire="",

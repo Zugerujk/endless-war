@@ -43,6 +43,7 @@ def gen_npc(enemy):
         enemy.level = chosen_npc.defaultlevel
         enemy.poi = random.choice(chosen_npc.poi_list)
         enemy.enemyclass = chosen_npc.id_npc
+        enemy.attacktype = chosen_npc.attacktype
 
         return enemy
     else:
@@ -211,10 +212,23 @@ def spawn_enemy(
             chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
             for status in chosen_npc.starting_statuses:
                 status_obj = se_static.status_effects_def_map.get(status)
-                time_expire = status_obj.time_expire
                 if status_obj != None:
+                    time_expire = status_obj.time_expire
                     status_effect = EwEnemyStatusEffect(id_status=status, enemy_data=enemy, time_expire=time_expire, value=0, source="", id_target=-1)
                     status_effect.persist()
+
+            if ewcfg.status_enemy_trainer_id in chosen_npc.starting_statuses:
+                sl_level = 1
+                if not enemy.rare_status:
+                    sl_level = random.randint(1, 6)
+                else:
+                    sl_level = random.randint(7, 10)
+
+                for status in chosen_npc.starting_statuses:
+                    if 'leveltrainer' in status:
+                        sl_level = int(status[0])
+
+                slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True)
 
 
             #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
@@ -248,14 +262,6 @@ def spawn_enemy(
 
                     resp_cont.add_response_container(sub_resp_cont)
 
-        if enemytype in ewcfg.slimeoid_trainers:
-            sl_level = 1
-            spawn_hue = False
-            if enemy.rare_status:
-                sl_level = random.randint(7, 10)
-            else:
-                sl_level = random.randint(1, 6)
-            new_sl = slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True)
 
         if enemytype not in ewcfg.raid_bosses:
 
@@ -274,9 +280,9 @@ def spawn_enemy(
                     response = "A new {} just got sent in. It's level {}, and has {} slime.\n*'Don't hold back!'*, the Dojo Master cries out from afar.".format(
                         enemy.display_name, enemy.level, enemy.slimes)
             
-            elif enemytype in ewcfg.slimeoid_trainers:
-                response = "A {} is looking for a challenge! They are accompanied by {}, a {}-foot tall {}Slimeoid.".format(
-                    enemy.display_name, new_sl.name, new_sl.level, "" if new_sl.hue == "" else new_sl.hue + " ")
+            #elif enemytype in ewcfg.slimeoid_trainers:
+                #response = "A {} is looking for a challenge! They are accompanied by {}, a {}-foot tall {}Slimeoid.".format(
+                    #enemy.display_name, new_sl.name, new_sl.level, "" if new_sl.hue == "" else new_sl.hue + " ")
             else:
 
                 response = "**An enemy draws near!!** It's a level {} {}, and has {} slime.".format(enemy.level,

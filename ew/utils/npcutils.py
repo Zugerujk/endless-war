@@ -1,7 +1,10 @@
+import asyncio
 from ew.static import hunting as static_hunt
 from ew.utils import frontend as fe_utils
 import random
+from ew.utils import hunting as hunt_utils
 from ew.static import cfg as ewcfg
+
 
 #move: enemy move action
 #talk: action on a !talk
@@ -38,6 +41,20 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None): #simila
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
         return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+
+async def police_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
+    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == 'move':
+        return await generic_move(enemy=enemy)
+    elif keyword == 'act':
+        return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'talk':
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
+    elif keyword == 'hit':
+        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
+    elif keyword == 'die':
+        return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
 
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants
@@ -98,5 +115,46 @@ async def generic_hit(channel, npc_obj, enemy, territorial = True, probability =
             await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
 
 
+
+
+async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
+    enemy_statuses = enemy.getStatusEffects()
+
+    if random.randrange(25) == 0: #one in 25 chance to talk in addition to attacking. attacks are based on a condition
+        response = random.choice(npc_obj.dialogue.get('loop'))
+        if response is None:
+            response = random.choice(npc_obj.dialogue.get('talk'))
+
+        name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
+        if response is not None:
+            return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+
+
+    if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
+        resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
+    else:
+        resp_cont = await enemy.kill(condition = npc_obj.condition)
+    if resp_cont is not None:
+        await resp_cont.post()
+
+async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
+    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+
+    response = random.choice(potential_dialogue)
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+    if response is not None:
+        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+
+
+    timewait = random.randint(15, 45)
+    await asyncio.sleep(timewait)
+
+    numcops = random.randint(2, 7)
+
+    for x in range(numcops):
+        hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
+
+    response = "Oh shit, cop car! There's {} of those bitches in there!".format(numcops)
+    return await fe_utils.send_message(None, channel, response)
 
 

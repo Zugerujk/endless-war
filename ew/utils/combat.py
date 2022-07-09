@@ -41,7 +41,7 @@ from ..static import weapons as static_weapons
 
 class EwEnemy(EwEnemyBase):
     # Function that enemies use to attack or otherwise interact with players.
-    async def kill(self):
+    async def kill(self, condition = None):
 
         client = ewutils.get_client()
 
@@ -87,6 +87,8 @@ class EwEnemy(EwEnemyBase):
                     
         if enemy_data.ai == ewcfg.enemy_ai_sandbag:
             target_data = None
+        elif enemy_data.enemytype == 'npc' and condition is not None:
+            target_data, group_attack = get_target_by_ai(enemy_data=enemy_data, condition = condition)
         else:
             target_data, group_attack = get_target_by_ai(enemy_data)
 
@@ -1562,7 +1564,7 @@ def check_raidboss_movecooldown(enemy_data):
 
 
 # Selects which non-ghost user to attack based on certain parameters.
-def get_target_by_ai(enemy_data, cannibalize = False):
+def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
     target_data = None
     group_attack = False
 
@@ -1597,8 +1599,15 @@ def get_target_by_ai(enemy_data, cannibalize = False):
                     enemy_data.poi,
                     enemy_data.id_server
                 ))
-            if len(users) > 0:
+            if condition is not None:
+                for user in users:
+                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server, data_level=1)
+                    if condition(user_data, enemy_data):
+                        target_data = user_data
+                        break
+            elif len(users) > 0:
                 target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+
 
         elif enemy_data.ai == ewcfg.enemy_ai_attacker_b:
             users = bknd_core.execute_sql_query(

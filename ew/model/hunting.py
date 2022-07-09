@@ -128,6 +128,10 @@ class EwNpc:
     rewards = [], #what you get for killing them
 
     starting_statuses = [] #initial enemy status conditions
+
+    condition = lambda user_data: True #lambda function to find a target for some attackers
+
+    attacktype = 'amateur' # the weapon the enemy uses
     
     def __init__(
         self,
@@ -141,7 +145,9 @@ class EwNpc:
         defaultslime = "",
         defaultlevel = "",
         rewards = [],
-        starting_statuses = []
+        starting_statuses = [],
+        attacktype = 'amateur',
+        condition =  lambda user_data: True
     ):
         self.id_npc = id_npc
         self.active = active
@@ -154,3 +160,5 @@ class EwNpc:
         self.defaultlevel = defaultlevel
         self.rewards = rewards
         self.starting_statuses = starting_statuses
+        self.condition = condition,
+        self.attacktype=attacktype
