@@ -16,32 +16,36 @@ from ..backend.status import EwEnemyStatusEffect
 import ew.utils.core as ewutils
 from ew.utils import frontend as fe_utils
 
-def gen_npc(enemy):
+def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
 
     loop_count = 0
     chosen_npc = None
 
-    while loop_count < 1000:
-        chosen_npc = random.choice(list(hunting_static.active_npcs_map.values()))
-        enemydata = bknd_core.execute_sql_query(
-                "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
-                    id_enemy=ewcfg.col_id_enemy,
-                    display_name=ewcfg.col_display_name,
-                    life_state=ewcfg.col_enemy_life_state
-                ), (
-                    chosen_npc.str_name,
-                ))
-        if len(enemydata) > 0:
-            break
-        else:
-            loop_count += 1
+    if pre_selected_npc is not None:
+        chosen_npc = hunting_static.active_npcs_map.get(pre_selected_npc)
+
+    if pre_selected_npc is None or chosen_npc is None:
+        while loop_count < 1000:
+            chosen_npc = random.choice(list(hunting_static.active_npcs_map.values()))
+            enemydata = bknd_core.execute_sql_query(
+                    "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
+                        id_enemy=ewcfg.col_id_enemy,
+                        display_name=ewcfg.col_display_name,
+                        life_state=ewcfg.col_enemy_life_state
+                    ), (
+                        chosen_npc.str_name,
+                    ))
+            if len(enemydata) > 0:
+                break
+            else:
+                loop_count += 1
 
     if chosen_npc != None:
 
         enemy.display_name = chosen_npc.str_name
         enemy.slimes = chosen_npc.defaultslime
         enemy.level = chosen_npc.defaultlevel
-        enemy.poi = random.choice(chosen_npc.poi_list)
+        enemy.poi = pre_selected_poi if pre_selected_poi in chosen_npc.poi_list else random.choice(chosen_npc.poi_list)
         enemy.enemyclass = chosen_npc.id_npc
         enemy.attacktype = chosen_npc.attacktype
 
@@ -66,6 +70,7 @@ def spawn_enemy(
         pre_chosen_owner = None,
         pre_chosen_rarity = None,
         pre_chosen_props = None,
+        pre_chosen_npc = None,
         manual_spawn = False,
 ):
     time_now = int(time.time())
@@ -186,7 +191,7 @@ def spawn_enemy(
         enemy.rare_status = enemy.rare_status if pre_chosen_rarity is None else pre_chosen_rarity
 
         if enemy.enemytype == ewcfg.enemy_type_npc:
-            enemy = gen_npc(enemy=enemy)
+            enemy = gen_npc(enemy=enemy, pre_selected_npc=pre_chosen_npc, pre_selected_poi=pre_chosen_poi)
 
 
         if pre_chosen_weather != ewcfg.enemy_weathertype_normal:

@@ -480,7 +480,7 @@ EwNpc(
     {'shortshortshorts': [50, 1, 1]},
     {'autographedshorts': [10, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
+    starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_trainer_id, '2leveltrainer'] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
 ),
 EwNpc(
     id_npc = "carrottop",
@@ -516,16 +516,88 @@ EwNpc(
                 "die":["Ergh. Call in a squad, chief, I'm spent. Bring some donuts to the office, too."],
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/pork.png",
     defaultslime = 6911000,
     defaultlevel = 50,
     rewards = [
-    {"jellyfilleddoughnut": [100, 1, 1],
+    {"jellyfilleddoughnut": [100, 2, 3],
+     "officercopbadge":[100, 1, 1]}
+    ],
+    starting_statuses=[],
+    attacktype = 'police',
+    condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    #if the cop is trigger happy or if you're above a certain crime level
+),
+EwNpc(
+    id_npc = "riot",
+    active = True,
+    str_name = "Riot, NLACPD",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["WHO ARE YOU?", "IM GONNA RIP THESE CRIMINALS' FINGERS OFF. JUST NEED TO FIND ONE.", "I CAN SMELL THAT JUSTICE IN THE AIR. SMELLS LIKE GUNPOWDER.", "CAN YOU LEAVE FOR A SEC? I WANT TO KICK SOMETHING REAL QUICK."],
+                "loop":["IT'S HOT IN THIS SUIT...", "DO I GET TO KILL YOU? NO, MAYBE LATER.", "HEY DISPATCH, THIS IS RIOT. DID I LEAVE MY TASER BACK THERE? ACTUALLY, FORGET IT. I DON'T NEED THAT."],
+                "hit":["RED ALERT!", "ZUCK THIS FUCKING HOOD RAT!!", "GRAAAHH!!"],
+                "die":["CALLING FOR BACKUP! DISPATCH BETTER FUCKIN' HURRY!"],
+                },
+    func_ai = npcutils.police_npc_action,
+    image_profile = "https://rfck.app/img/npc/riot.png",
+    defaultslime = 4911000,
+    defaultlevel = 50,
+    rewards = [
+    {"jellyfilleddoughnut": [50, 1, 1],
+    "gasmask":[50, 1, 1],
+     "heavymetalarmor":[20, 1, 1],
+     "officercopbadge":[100, 1, 1]}
+    ],
+    starting_statuses=[],
+    attacktype = 'police',
+    condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    #if the cop is trigger happy or if you're above a certain crime level
+),
+EwNpc(
+    id_npc = "sleuth",
+    active = True,
+    str_name = "Sleuth, NLACPD",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["I'm a PI, bud. No need to get all panicky.", "I see your hands reaching into your pockets. A rookie like you shouldn't try anythin funny.", "At this point, getting killed's about as inconvenient as missing the train. You still shouldn't try it, squirt.", ""],
+                "loop":["This might be easier if they gave me some god damn forensic supplies.", "Dispatch, there's someone over here. They're looking at me funny.", "Can't believe they put me on homicide desk. It's not relevant no more."],
+                "hit":["Now you've done it, punk!", "Bilge rat!", "Get back here!"],
+                "die":["Son of a bitch. To dispatch, come to my location. Somebody got me..."],
+                },
+    func_ai = npcutils.police_npc_action,
+    image_profile = "https://rfck.app/img/npc/sleuth.png",
+    defaultslime = 5911000,
+    defaultlevel = 50,
+    rewards = [
+    {"jellyfilleddoughnut": [20, 1, 1],
+    "revolver":[50, 1, 1],
+     "trenchcoat":[50, 1, 1],
      "officercopbadge":[100, 1, 1]}
     ],
     starting_statuses=[],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    #if the cop is trigger happy or if you're above a certain crime level
+),
+EwNpc(
+    id_npc = "mrc",
+    active = True,
+    str_name = "Mr. C, NLACPD Chief of Police",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["..."],
+                "hit":["You'll regret this."],
+                "die":["Dispatch, send all available high level officers. We need to make an example of someone."],
+                },
+    func_ai = npcutils.police_chief_npc_action,
+    image_profile = "https://rfck.app/img/npc/mrc.png",
+    defaultslime = 3000000,
+    defaultlevel = 100,
+    rewards = [
+    {
+     "officercopbadge":[100, 1, 1]}
+    ],
+    starting_statuses=[],
+    attacktype = 'police',
+    condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 ]

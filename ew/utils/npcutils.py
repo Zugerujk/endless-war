@@ -56,6 +56,17 @@ async def police_npc_action(keyword = '', enemy = None, channel = None): #simila
     elif keyword == 'die':
         return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
+async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
+    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    #run the police set of actions, except for on death
+    if keyword == 'die':
+        return await chief_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+    else:
+        return await police_npc_action(keyword = keyword, enemy = enemy, channel = channel)
+
+#top level functions here
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+#specific reaction functions here
 
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants
     rare_keyword = "rare{}".format(keyword_override)
@@ -73,6 +84,9 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+
+
+
 
 async def generic_move(enemy = None): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
@@ -158,3 +172,24 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     return await fe_utils.send_message(None, channel, response)
 
 
+async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
+    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+
+    response = random.choice(potential_dialogue)
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+    if response is not None:
+        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+
+
+    await asyncio.sleep(10)
+
+    numcops = random.randint(2, 7)
+
+    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='riot')
+    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='sleuth')
+    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='pork')
+    for x in range(numcops):
+        hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
+
+    response = "Oh shit, cop car! There's {} of those bitches in there!\n\n".format(numcops + 3)
+    return await fe_utils.send_message(None, channel, response)
