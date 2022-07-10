@@ -2275,7 +2275,18 @@ EwFood(
         str_eat = "Everything you thought  you knew about the game is dead because of this sandwhich. This is a mere simulcarum of what it felt like for ben saint to eat the ch'king.",
         str_desc = "a ch\'king. smells like natural gas.",
         time_expir = 1000000000,
-    )
+    ),
+    EwFood(
+        id_food = "bitchenergy",
+        alias = ['bitch'],
+        recover_hunger = 1000,
+        price = 12000,
+        str_name = "BITCH ENERGY Drink",
+        str_eat = "You crack open a cold, refreshing can of BITCH ENERGY. You chug it and feel your BITCH LEVELS RISING. You feel your fists getting fistier, your eyes going bloodshot, your heart pumping harder than it's ever pumped before. This shit makes you FEEL like a bitch. A stone-cold baby kicker. Damn, that's smooth.",
+        inebriation = 1000,
+        str_desc = "A cold, refreshing can of BITCH ENERGY. Not sold anywhere in town, this can of BITCH had to have imported by a knockoff-savvy tourist. You look at the blurb on the back:\n\n*Make no mistake - BITCH ENERGY is not your dad's run-of-the-mill SHIT SEX CUM PISS DRINK. This is BITCH ENERGY, made for all the moms out there who are TIRED of everyone's shit. One drop will steer your life off a cliff, into the JAWS of VAGINAL SEX. Not gay? Sorry, BITCH ENERGY'll do that for you. Gay? Sorry, BITCH ENERGY will have you so straight you'll be praying to BITCH JESUS. Get ready, loser. For BITCH stands for only one thing - pure, unadulterated, blood-curdling ENERGY.*\n\nKinda lame compared to FUCK ENERGY. Thank god Yum! Brands has a chokehold on NLACakaNM.",
+        time_expir = 43200,
+    ),
 ]
 # A map of id_food to EwFood objects.
 food_map = {}

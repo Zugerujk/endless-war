@@ -595,11 +595,34 @@ EwNpc(
     {
      "officercopbadge":[100, 1, 1]}
     ],
-    starting_statuses=[],
+    starting_statuses=[ewcfg.status_enemy_barren_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False
     #if the cop is trigger happy or if you're above a certain crime level
 ),
+EwNpc(
+    id_npc = "slimesmackenzie",
+    active = True,
+    str_name = "Slimes MacKenzie", # Knockoff of beloved Slurms MacKenzie, which is a knockoff of Spuds MacKenzie
+    poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_speakeasy, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_beachresort],
+    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!"],
+                "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
+                "hit":["HUK---", "HYEHK-"],
+                "die":["Party on, contest winners. Party on."],
+                "thekingswifessonspeakeasy":["Did you know this speakeasy used to be a boat? Yeah, me neither."]
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/995441965548195841/slimes_mackenzie.png", # Another with no PFP given so here's a placeholder
+    defaultslime = 1500000,
+    defaultlevel = 40,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
+    {'pairofsunglasses': [50, 1, 1]},
+    {'bitchenergy': [100, 1, 2]},
+    {'slimynipple': [50, 1, 1]}
+    ],
+    starting_statuses = [ewcfg.status_enemy_barren_id]
+)
 ]
 
 active_npcs_map = {}

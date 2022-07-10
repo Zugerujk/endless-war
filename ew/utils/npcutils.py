@@ -4,8 +4,8 @@ from ew.utils import frontend as fe_utils
 import random
 from ew.utils import hunting as hunt_utils
 from ew.static import cfg as ewcfg
-
-
+import ew.backend.core as bknd_core
+from ew.utils.combat import EwEnemy
 #move: enemy move action
 #talk: action on a !talk
 #act: action every 3 seconds
@@ -191,5 +191,11 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     for x in range(numcops):
         hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
 
-    response = "Oh shit, cop car! There's {} of those bitches in there!\n\n".format(numcops + 3)
-    return await fe_utils.send_message(None, channel, response)
+    results = bknd_core.execute_sql_query("select id_enemy from enemies where life_state = 1 and enemyclass in('riot', 'pork', 'sleuth')")
+
+    for result in results:
+        backup_obj = EwEnemy(id_enemy=result, id_server=enemy.id_server)
+        backup_obj.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+
+    response = "Oh shit, cop car! There's {} of those bitches in there!\n\nWait...Oh no...".format(numcops + 3)
+    await fe_utils.send_message(None, channel, response)
