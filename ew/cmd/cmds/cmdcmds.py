@@ -517,6 +517,21 @@ async def weather(cmd):
     time_current = market_data.clock
     if 3 <= time_current <= 10:
         response += "\n\nThe police are probably all asleep, the lazy fucks. It's a good time for painting the town!"
+
+    world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=True)
+    for id_event in world_events:
+        # If there's a world event in NLACakaNM with corresponding alert
+        if world_events.get(id_event) in ewcfg.poi_events:
+            event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
+
+            if event_data.event_props.get('alert') == "gangbase":
+                event_def = poi_static.event_type_to_def.get(event_data.event_type)
+                event_poi = poi_static.id_to_poi.get(event_data.event_props.get('poi'))
+
+                response += "\n\n{}{}.".format(event_def.str_check_text, event_poi.str_name)
+            else:
+                response += "\n\nThere's a phenomenon occurring somewhere in NLACakaNM."
+
     # Send the response to the player.
     await fe_utils.send_response(response, cmd)
 
@@ -2352,24 +2367,22 @@ async def yoslimernalia(cmd):
 async def slimecoin(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    await weather_utils.create_poi_event(id_server=user_data.id_server)
-
-    # if cmd.mentions_count == 0:
-    #     user_data = EwUser(member=cmd.message.author)
-    #     coins = user_data.slimecoin
-    #     response = "You have {:,} SlimeCoin.".format(coins)
+    if cmd.mentions_count == 0:
+        user_data = EwUser(member=cmd.message.author)
+        coins = user_data.slimecoin
+        response = "You have {:,} SlimeCoin.".format(coins)
 
 
 
-    # else:
-    #     member = cmd.mentions[0]
-    #     user_data = EwUser(member=member)
-    #     coins = user_data.slimecoin
-    #     response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
+    else:
+        member = cmd.mentions[0]
+        user_data = EwUser(member=member)
+        coins = user_data.slimecoin
+        response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
 
 
-    # # Send the response to the player.
-    # await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    # Send the response to the player.
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """ show player's shares in a stock """
@@ -3050,6 +3063,75 @@ async def verify_cache(cmd):
             ewutils.logMsg("Item {}'s name failed flattening. Data: \n{}".format(item_data.get("id_item"), item_data))
 
     return
+
+
+"""
+    Admin-only commands to create or control world events
+"""
+async def manual_poi_event_create(cmd):
+    # Only allow admins to use this
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    pre_chosen_event = None
+    pre_chosen_poi = None
+    no_buffer = False
+
+    if len(cmd.tokens) > 1:
+        pre_chosen_event = cmd.tokens[1]
+        if pre_chosen_event == "random":
+            pre_chosen_event = None
+    else:
+        response = "Invalid use of command. An example is \"!createpoievent firestorm arsonbrook true\"\n\n\"firestorm\" is the desired POI event. Can be specified as \"random\".\n\"arsonbrook\" is the specified POI. Is optional.\n\"true\" is to start the worldevent immediately rather than to have the default buffer. Is optional."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    if len(cmd.tokens) > 2:
+        pre_chosen_poi = cmd.tokens[2]
+    if len(cmd.tokens) > 3:
+        if cmd.tokens[3] == "true":
+            no_buffer = True
+
+    await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=pre_chosen_event, pre_chosen_poi=pre_chosen_poi, no_buffer=no_buffer)
+
+    response = "POI event created."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def list_worldevents(cmd):
+    # Only allow admins to use this
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    response = "The current world events are:\n"
+    world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=True)
+    for id_event in world_events:
+        event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
+        poi = ""
+
+        if 'poi' in event_data.event_props:
+            poi = ", POI is {}".format(event_data.event_props.get('poi'))
+
+
+        response += "\n{}: Event type is {}{}.".format(id_event, event_data.event_type, poi)
+    
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def end_worldevent(cmd):
+    # Admins only creep (weirdo)
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    event_end_id = cmd.tokens[1]
+    event_data = bknd_worldevent.EwWorldEvent(id_event=event_end_id)
+
+    event_data.time_expir = 10
+
+    event_data.persist()
+    # I keep the wolf from the door but he calls me up, calls me on the phone, tells me all the ways that he's gonna mess me up
+    # Steal all my children if I don't pay the ransom
+    response = "Worldevent {} has been ended.".format(event_end_id)
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 """

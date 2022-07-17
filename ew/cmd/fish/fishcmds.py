@@ -3,6 +3,7 @@ import random
 import time
 
 from ew.backend import item as bknd_item
+from ew.backend import worldevent as bknd_worldevent
 from ew.backend.fish import EwOffer
 from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
@@ -98,10 +99,18 @@ async def cast(cmd):
             fisher.current_fish = gen_fish(market_data, fisher, has_fishingrod, mutations)
 
             high_value_bait_used = False
-
+            fishing_frenzy = False
             # global fishing_counter
             fishutils.fishing_counter += 1
             current_fishing_id = fisher.fishing_id = fishutils.fishing_counter
+            
+            # Check world events for fishing frenzy
+            world_events = bknd_worldevent.get_world_events(id_server=user_data.id_server, active_only=True)
+            for id_event in world_events:
+                if world_events.get(id_event) == ewcfg.event_type_fishing_frenzy:
+                    event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
+                    if event_data.event_props.get('poi') == user_data.poi:
+                        fishing_frenzy = True
 
             item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
             author = cmd.message.author
@@ -320,6 +329,8 @@ async def cast(cmd):
                 # Wait this many seconds until trying for a bite - 30 if high on weed, 5 if debug bait, 60 if regular.
                 if high_value_bait_used:
                     await asyncio.sleep(5)
+                elif fishing_frenzy:
+                    await asyncio.sleep(30)
                 elif fisher.pier.pier_type == ewcfg.fish_slime_moon:
                     if fisher.high:
                         await asyncio.sleep(35)

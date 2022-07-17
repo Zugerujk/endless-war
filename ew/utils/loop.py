@@ -117,7 +117,12 @@ async def event_tick(id_server):
                         void_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
                         void_poi.neighbors.pop(event_data.event_props.get('poi'), "")
                         bknd_event.create_void_connection(id_server)
-
+                    elif event_data.event_type == ewcfg.event_type_dimensional_rift:
+                        rift_poi = poi_static.id_to_poi.get(event_data.event_props.get('poi'))
+                        print(event_data.event_props.get('sisterlocation'))
+                        print(rift_poi.neighbors)
+                        rift_poi.neighbors.pop(event_data.event_props.get('sisterlocation'), "")
+                        print(rift_poi.neighbors)
                     if len(response) > 0:
                         poi = event_data.event_props.get('poi')
                         channel = event_data.event_props.get('channel')
@@ -839,6 +844,7 @@ async def decrease_food_multiplier():
 
 async def spawn_enemies(id_server = None, debug = False):
     market_data = EwMarket(id_server=id_server)
+    world_events = bknd_event.get_world_events(id_server=id_server, active_only=True)
     resp_list = []
     chosen_type = None
     chosen_POI = None
@@ -865,7 +871,29 @@ async def spawn_enemies(id_server = None, debug = False):
                 resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
             else:
                 resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
-    
+
+    # Chance to spawn enemies that correspond to POI Events.
+    if random.randrange(4) == 0:
+        for id_event in world_events:
+            # Only if the event corresponds to a type of event that spawns enemies
+            if world_events.get(id_event) in [ewcfg.event_type_raider_incursion, ewcfg.event_type_slimeunist_protest, ewcfg.event_type_radiation_storm]:
+                event_data = bknd_event.EwWorldEvent(id_event=id_event)
+
+                # If the event is a raider incursion
+                if event_data.event_type == ewcfg.event_type_raider_incursion:
+                        chosen_type = random.choice(ewcfg.raider_incursion_enemies)
+                        resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=chosen_type, pre_chosen_poi=event_data.event_props.get('poi')))
+                # If the event is a slimeunist protest
+                elif event_data.event_type == ewcfg.event_type_slimeunist_protest:
+                    chosen_type = random.choice(ewcfg.slimeunist_protest_enemies)
+                    resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=chosen_type, pre_chosen_poi=event_data.event_props.get('poi')))
+                # If the event is a radiation storm
+                elif event_data.event_type == ewcfg.event_type_radiation_storm:
+                    if random.randrange(12) == 0:
+                        chosen_type = random.choice(ewcfg.radiation_storm_enemies)
+                        resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=chosen_type, pre_chosen_poi=event_data.event_props.get('poi')))
+
+
     for cont in resp_list:
         await cont.post()
 
@@ -1409,7 +1437,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
 
-                        if random.random() >= 0.857: # 1/7 chance to start a random event
+                        if random.randint(1, 16) == 1: # 1/16 chance to start a random poi event
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
 

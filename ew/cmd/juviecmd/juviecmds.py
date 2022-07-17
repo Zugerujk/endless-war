@@ -548,6 +548,12 @@ async def mine(cmd):
                         # Set the item pool to ghost
                         unearthed_item_type = "ghost"
 
+                # Halve hunger cost
+                if world_events.get(id_event) == ewcfg.event_type_gas_leak:
+                    event_data = EwWorldEvent(id_event=id_event)
+                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
+                        hunger_cost_mod = int(hunger_cost_mod) / 2
+
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd)
                 event_data = EwWorldEvent(id_event=id_event)
