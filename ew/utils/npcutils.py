@@ -64,6 +64,23 @@ async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
     else:
         return await police_npc_action(keyword = keyword, enemy = enemy, channel = channel)
 
+
+async def condition_hostile_action (keyword = '', enemy = None, channel = None):
+    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == 'move':
+        return await generic_move(enemy=enemy)
+    elif keyword == 'act':
+        return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'talk':
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
+    elif keyword == 'hit':
+        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
+    elif keyword == 'die':
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='die')
+
+
+
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
@@ -199,3 +216,20 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
 
     response = "Oh shit, cop car! There's {} of those bitches in there!\n\nWait...Oh no...".format(numcops + 3)
     await fe_utils.send_message(None, channel, response)
+
+
+async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants. for characters who don't talk and are narrated instead.
+    rare_keyword = "rare{}".format(keyword_override)
+    location_keyword = '{}{}'.format(enemy.poi, keyword_override)
+
+    if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
+        keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
+
+    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+
+    if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
+        potential_dialogue += npc_obj.dialogue.get(location_keyword)
+
+    response = random.choice(potential_dialogue)
+    if response is not None:
+        await fe_utils.send_message(None, channel, response)

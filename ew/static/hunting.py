@@ -609,7 +609,7 @@ EwNpc(
                 "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
                 "hit":["HUK---", "HYEHK-"],
                 "die":["Party on, contest winners. Party on."],
-                "thekingswifessonspeakeasy":["Did you know this speakeasy used to be a boat? Yeah, me neither."]
+                "thekingswifessonspeakeasytalk":["Did you know this speakeasy used to be a boat? Yeah, me neither."]
                 },
     func_ai = npcutils.generic_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/995441965548195841/slimes_mackenzie.png", # Another with no PFP given so here's a placeholder
@@ -622,6 +622,28 @@ EwNpc(
     {'slimynipple': [50, 1, 1]}
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id]
+),
+EwNpc(
+    id_npc = "recalcitrantfawn",
+    active = True,
+    str_name = "RF",
+    poi_list = [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_cratersville, ewcfg.poi_id_wreckington, ewcfg.poi_id_poudrinalley],
+    dialogue = {"talk":["!!!", "👋",  "🤙", "*RF gives you a high five.*"],
+                "loop":["*RF just checked a trash can. Can't jump in there, too full.*", "*RF is anxious and jumping around! You must've caught them by suprise.*", "*RF seems distracted by that brick over there*", "*RF does a little happy dance.*"],
+                "rowdyroughhouseloop": ["RF looks at the top of the Rowdy Roughhouse with a sense of pride."],
+                "outsidethe711loop": ["RF repeatedly presses the button to the fuck energy machine."],
+                "hit":["RF gears up for battle."],
+                "die":["*It looks like RF really wasn't cut out to be a Rowdy.* {}".format(ewcfg.emote_slimeskull)]
+                },
+    func_ai = npcutils.condition_hostile_action,
+    image_profile = "https://rfck.app/img/npc/rf1.png",
+    defaultslime = 6479,
+    defaultlevel = 47,
+    rewards = [
+    {'rfconsortmarble': [100, 1, 1]}
+    ],
+    starting_statuses = [],
+    condition= lambda user_data, enemy_data: True if (user_data.faction == 'killers' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False #attacks killers, or anyone when hostile
 )
 ]
 

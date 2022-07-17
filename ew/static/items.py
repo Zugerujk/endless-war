@@ -1923,6 +1923,11 @@ item_list = [
         id_item=ewcfg.item_id_ghosttoken,
         str_name="Ghost Token",
         str_desc="A token received for good behavior at the ghost maid cafe!"
+    ),
+    EwGeneralItem(
+        id_item='rfconsortmarble',
+        str_name="RF's Consort Marble",
+        str_desc="It's a consort marble from Recalcitrant Fawn. They're supposed to give these away when you complete their big quest or whatever, but you just took it off his corpse."
     )
 ]
 # item_list += ewdebug.debugitem_set

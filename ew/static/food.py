@@ -2294,6 +2294,7 @@ food_map = {}
 # A list of food names
 food_names = []
 swilldermuk_food = []
+drinks = []
 
 # Populate food map, including all aliases.
 for food in food_list:
@@ -2317,6 +2318,8 @@ vegetable_list = []
 # map of vegetables to their associated cosmetic material
 vegetable_to_cosmetic_material = {}
 
+
+
 # seperate the crops from the normal foods
 for v in food_list:
 
@@ -2333,6 +2336,7 @@ for v in food_list:
             vegetable_to_cosmetic_material[v.id_food] = ewcfg.item_id_smart_material
         elif v.id_food in [ewcfg.item_id_sourpotatoes, ewcfg.item_id_bloodcabbages, ewcfg.item_id_pulpgourds, ewcfg.item_id_metallicaps]:
             vegetable_to_cosmetic_material[v.id_food] = ewcfg.item_id_tough_material
+
 
         vegetable_list.append(v)
 
@@ -2355,3 +2359,9 @@ plebe_bait = []
 for bait in food_list:
     if bait.price == None or bait.price <= 1000:
         plebe_bait.append(bait.id_food)
+
+drink_keywords = ['tea', 'drink', 'water', 'milk', 'juice', 'chromaccino', 'champagne']
+
+for v in food_list:
+    if v.id_food[-6:] == 'energy' or 'bar' in v.vendors or 'Mtn Dew Fountain' in v.vendors or any(x in v.id_food for x in drink_keywords):
+        drinks.append(v.id_food)
