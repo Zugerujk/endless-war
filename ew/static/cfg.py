@@ -4912,7 +4912,7 @@ defined_races = {
         "soul_behavior":"is floating around in a weird loop."
     },
     race_shambler: {
-        "race_prefix": "",
+        "race_prefix": "rotting ",
         "race_suffix": "",
         "acknowledgement_str": 'ENDLESS WAR acknowledges you as one of the dead, is disturbed by your presence. You may now **{cmd}** in the hordes of those like you',
         "racial_cmd": cmd_shamble,
