@@ -234,5 +234,3 @@ def get_void_connection_pois(id_server):
         ewcfg.event_type_voidconnection,
         id_server,
     )), ())
-
-

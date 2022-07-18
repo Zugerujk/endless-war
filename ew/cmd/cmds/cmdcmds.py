@@ -2365,8 +2365,6 @@ async def yoslimernalia(cmd):
 
 
 async def slimecoin(cmd):
-    user_data = EwUser(member=cmd.message.author)
-
     if cmd.mentions_count == 0:
         user_data = EwUser(member=cmd.message.author)
         coins = user_data.slimecoin

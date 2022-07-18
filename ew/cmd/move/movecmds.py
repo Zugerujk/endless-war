@@ -38,11 +38,12 @@ from ew.backend.apt import EwApartment
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.move import EwPath
 from ew.utils.transport import EwTransport
-from .moveutils import get_enemies_look_resp, get_world_events_look_resp
+from .moveutils import get_enemies_look_resp
 from .moveutils import get_players_look_resp
 from .moveutils import get_slimes_resp
 from .moveutils import get_items_resp
 from .moveutils import get_void_connections_resp
+from .moveutils import get_world_events_look_resp
 from .moveutils import one_eye_dm
 from .moveutils import send_arrival_response
 

@@ -109,7 +109,7 @@ async def weather_tick(id_server = None):
                                 district_object = poi_static.id_to_poi.get(district)
                                 player_data = EwPlayer(id_user=user_data.id_user, id_server=id_server)
 
-                                # Figure out the player's name and account for amnesia ;_;
+                                # Figure out the player's name and account for amnesia
                                 player_name = player_data.display_name
                                 if ewcfg.mutation_id_amnesia in mutations:
                                     player_name = "?????"
@@ -238,7 +238,7 @@ async def weather_tick(id_server = None):
 
                                 mutations = user_data.get_mutations()
 
-                                # Figure out the player's name and account for amnesia ;_;
+                                # Figure out the player's name and account for amnesia
                                 player_name = player_data.display_name
                                 if ewcfg.mutation_id_amnesia in mutations:
                                     player_name = "?????"
