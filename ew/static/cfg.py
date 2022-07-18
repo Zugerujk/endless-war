@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15.2 S4A1 Junior Coders Make Mistakes Edition"
+version = "v4.15.6 S4A1 JCMME + Disasters 🌪️⛈️☢️🔥"
 
 
 dir_msgqueue = 'msgqueue'
