@@ -3128,8 +3128,7 @@ async def end_worldevent(cmd):
     event_data.time_expir = 10
 
     event_data.persist()
-    # I keep the wolf from the door but he calls me up, calls me on the phone, tells me all the ways that he's gonna mess me up
-    # Steal all my children if I don't pay the ransom
+
     response = "Worldevent {} has been ended.".format(event_end_id)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
