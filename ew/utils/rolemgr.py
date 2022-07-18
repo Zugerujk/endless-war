@@ -13,18 +13,15 @@ from ..static import poi as poi_static
 	Find relevant roles and save them to the database.
 """
 
+roles_map = {}
+id_to_roles_map = {}
+
 
 def setupRoles(client=None, id_server=-1):
     global roles_map
     global id_to_roles_map
-    roles_map = ewutils.getRoleMap(client.get_guild(id_server).roles)
-    id_to_roles_map = ewutils.getRoleIdMap(client.get_guild(id_server).roles)
-
-
-async def clean_poi_roles(client, id_server):
-    """ Deletes all the old _major and _minor poi roles """
-    for role in roles_map:
-        print(role)
+    roles_map[id_server] = ewutils.getRoleMap(client.get_guild(id_server).roles)
+    id_to_roles_map[id_server] = ewutils.getRoleIdMap(client.get_guild(id_server).roles)
 
 
 async def updateRoles(client, member, server_default=None, refresh_perms=True, new_poi=None):
@@ -95,13 +92,13 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
 
     # Refunds non-critical roles
     for role_id in roles_map_user:
-        role_data = roles_map.get(role_id)
+        role_data = roles_map[id_server].get(role_id)
         if role_data and role_id not in roles_remove and role_id not in roles_add:
             replacement_roles.add(role_data)
 
     # Adds critical roles
     for role in roles_add:
-        role_data = roles_map.get(role)
+        role_data = roles_map[id_server].get(role)
         if role_data:
             replacement_roles.add(role_data)
         else:
