@@ -29,6 +29,7 @@ async def clean_poi_roles(client, id_server):
 
 async def updateRoles(client, member, server_default=None, refresh_perms=True, new_poi=None):
     """	Fix the Discord roles assigned to this member. """
+    print(roles_map)
     time_now = int(time.time())
 
     roles_add = set()
@@ -105,7 +106,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
         if role_data:
             replacement_roles.add(role_data)
         else:
-            ewutils.logMsg(f"Failed to find role for {role}.")
+            ewutils.logMsg("Failed to find role for {role}.".format(role = role))
 
     try:
         await member.edit(roles=replacement_roles)
