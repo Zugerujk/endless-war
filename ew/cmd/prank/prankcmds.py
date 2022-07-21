@@ -4,7 +4,8 @@ from ew.static import cfg as ewcfg
 from ew.utils.combat import EwUser
 import ew.utils.frontend as ewutils
 from ew.utils import stats as ewstats
-
+import ew.backend.item as bknd_item
+import asyncio
 
 async def gambit(cmd):
     if cmd.mentions_count == 0:
@@ -126,3 +127,38 @@ async def point_and_laugh(cmd):
         response = "You point and laugh at... who, exactly?"
 
     return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+
+
+async def fun(cmd):
+    user_data = EwUser(member = cmd.message.author)
+
+    item_sought = bknd_item.find_item(item_search = 'funpizza', item_type_filter=ewcfg.it_food, id_server=cmd.guild.id, id_user=cmd.message.author.id)
+
+    if not item_sought:
+        response = "What? Fuck you. You don't even have any fun pizza."
+        user_data.die()
+        
+    else:
+        ewcfg.cmd_prefix = 'FUN'
+        response = "OH SHIT CHECK IT OUT!"
+        await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+        await asyncio.sleep(1)
+        response = "WE'RE HAVING FUN HOLY SHIT!"
+        await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+        await asyncio.sleep(1)
+        response = "THE PIZZA IS FUN THE PREFIX IS FUN YEAH YEAH YEAH!"
+        await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+        await asyncio.sleep(18)
+
+        ewcfg.cmd_prefix = '!'
+
+        response = 'You stop having fun.'
+    return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+
+
+
+
+
+
+
+

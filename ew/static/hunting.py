@@ -558,7 +558,7 @@ EwNpc(
     active = True,
     str_name = "Sleuth, NLACPD",
     poi_list = poi_static.capturable_districts,
-    dialogue = {"talk":["I'm a PI, bud. No need to get all panicky.", "I see your hands reaching into your pockets. A rookie like you shouldn't try anythin funny.", "At this point, getting killed's about as inconvenient as missing the train. You still shouldn't try it, squirt.", ""],
+    dialogue = {"talk":["I'm a PI, bud. No need to get all panicky.", "I see your hands reaching into your pockets. A rookie like you shouldn't try anythin funny.", "At this point, getting killed's about as inconvenient as missing the train. You still shouldn't try it, squirt.", "This city..."],
                 "loop":["This might be easier if they gave me some god damn forensic supplies.", "Dispatch, there's someone over here. They're looking at me funny.", "Can't believe they put me on homicide desk. It's not relevant no more."],
                 "hit":["Now you've done it, punk!", "Bilge rat!", "Get back here!"],
                 "die":["Son of a bitch. To dispatch, come to my location. Somebody got me..."],
