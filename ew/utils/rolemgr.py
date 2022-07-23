@@ -26,7 +26,6 @@ def setupRoles(client=None, id_server=-1):
 
 async def updateRoles(client, member, server_default=None, refresh_perms=True, new_poi=None):
     """	Fix the Discord roles assigned to this member. """
-    print(roles_map)
     time_now = int(time.time())
 
     roles_add = set()
