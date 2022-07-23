@@ -1,11 +1,12 @@
 import asyncio
-from ew.static import hunting as static_hunt
+from ew.static import npc as static_npc
 from ew.utils import frontend as fe_utils
 import random
-from ew.utils import hunting as hunt_utils
+
 from ew.static import cfg as ewcfg
 import ew.backend.core as bknd_core
-from ew.utils.combat import EwEnemy
+import ew.utils.combat as ewcombat
+import ew.utils.hunting as ewhunting
 #move: enemy move action
 #talk: action on a !talk
 #act: action every 3 seconds
@@ -13,7 +14,7 @@ from ew.utils.combat import EwEnemy
 #hit: action when the enemy gets hit
 
 async def generic_npc_action(keyword = '', enemy = None, channel = None):
-    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
         return await generic_move(enemy=enemy)
@@ -28,7 +29,7 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None):
 
 
 async def chatty_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
-    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
         return await generic_move(enemy=enemy)
@@ -43,7 +44,7 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None): #simila
         return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
 async def police_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
-    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
         return await generic_move(enemy=enemy)
@@ -57,7 +58,7 @@ async def police_npc_action(keyword = '', enemy = None, channel = None): #simila
         return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
 
 async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
-    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     #run the police set of actions, except for on death
     if keyword == 'die':
         return await chief_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
@@ -66,7 +67,7 @@ async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
 
 
 async def condition_hostile_action (keyword = '', enemy = None, channel = None):
-    npc_obj = static_hunt.active_npcs_map.get(enemy.enemyclass)
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
         return await generic_move(enemy=enemy)
@@ -183,7 +184,7 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     numcops = random.randint(2, 7)
 
     for x in range(numcops):
-        hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
+        ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
 
     response = "Oh shit, cop car! There's {} of those bitches in there!".format(numcops)
     return await fe_utils.send_message(None, channel, response)
@@ -202,16 +203,16 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
 
     numcops = random.randint(2, 7)
 
-    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='riot')
-    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='sleuth')
-    hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='pork')
+    ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='riot')
+    ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='sleuth')
+    ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=enemy.poi, pre_chosen_npc='pork')
     for x in range(numcops):
-        hunt_utils.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
+        ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='policeofficer', pre_chosen_poi=enemy.poi)
 
     results = bknd_core.execute_sql_query("select id_enemy from enemies where life_state = 1 and enemyclass in('riot', 'pork', 'sleuth')")
 
     for result in results:
-        backup_obj = EwEnemy(id_enemy=result, id_server=enemy.id_server)
+        backup_obj = ewcombat.EwEnemy(id_enemy=result, id_server=enemy.id_server)
         backup_obj.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
 
     response = "Oh shit, cop car! There's {} of those bitches in there!\n\nWait...Oh no...".format(numcops + 3)

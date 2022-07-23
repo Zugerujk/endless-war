@@ -6,7 +6,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.cmd.dungeons import dungeonutils
 from ..backend import core as bknd_core
-from ew.static import hunting as hunt_static
+from ew.static import npc as npc_static
 
 def format_tutorial_response(scene):
     response = scene.text
@@ -50,7 +50,7 @@ def load_npc_blurbs(id_server):
         col_subcontext=ewcfg.col_id_subcontext,
         col_subsubcontext=ewcfg.col_id_subsubcontext), ('npc', id_server))
 
-    npc_map = hunt_static.active_npcs_map
+    npc_map = npc_static.active_npcs_map
 
     for blurb in npcblurbs:
         npc = npc_map.get(blurb[2])

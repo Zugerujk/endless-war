@@ -17,6 +17,7 @@ from ew.static import poi as poi_static
 from ew.static import vendors
 from ew.static import weapons as static_weapons
 from ew.static import hunting as static_hunt
+from ew.static import npc as static_npc
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils import combat as cmbt_utils
@@ -698,7 +699,7 @@ async def talk(cmd):
             response = "What is this, Endless Kiss and Make Up? Stop talking to battle fodder and stab that fucker!" #get some generic enemy dialogue at some point
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         else:
-            npc_obj = static_hunt.active_npcs_map.get(checked_npc.enemyclass)
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
             await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel)
 
 """ mine for slime (or endless rocks) """

@@ -29,6 +29,7 @@ from ..static import cfg as ewcfg
 from ..static import cosmetics as static_cosmetics
 from ..static import food as static_food
 from ..static import hunting as hunt_static
+from ..static import npc as npc_static
 from ..static import items as static_items
 from ..static import mutations as static_mutations
 from ..static import poi as poi_static
@@ -569,7 +570,7 @@ class EwEnemy(EwEnemyBase):
                     destinations.remove(destination)
 
                 if self.enemytype == ewcfg.enemy_type_npc:
-                    npc_obj = hunt_static.active_npcs_map.get(self.enemyclass)
+                    npc_obj = npc_static.active_npcs_map.get(self.enemyclass)
                     if destination not in npc_obj.poi_list and npc_obj.poi_list != []:
                         destinations.remove(destination)
                 if self.poi in poi_static.outskirts_depths:
@@ -1235,7 +1236,7 @@ def drop_enemy_loot(enemy_data, district_data):
 
     has_dropped_item = False
     if enemy_data.enemytype == 'npc':
-        chosen_npc = hunt_static.active_npcs_map.get(enemy_data.enemyclass)
+        chosen_npc = npc_static.active_npcs_map.get(enemy_data.enemyclass)
         drop_table = chosen_npc.rewards
     else:
         drop_table = ewcfg.enemy_drop_tables[enemy_data.enemytype]
@@ -1409,7 +1410,7 @@ async def enemy_perform_action(id_server):
             channel_obj = fe_utils.get_channel(server=client.get_guild(id_server), channel_name=ch_name)
             if enemy.enemytype == ewcfg.enemy_type_npc:
 
-                npc_obj = hunt_static.active_npcs_map.get(enemy.enemyclass)
+                npc_obj = npc_static.active_npcs_map.get(enemy.enemyclass)
                 await npc_obj.func_ai(keyword = 'move', enemy = enemy, channel = channel_obj) #get npc movement action
 
 

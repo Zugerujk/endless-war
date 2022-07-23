@@ -10,6 +10,7 @@ from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 from ..static import hunting as hunting_static
+from ..static.npc import active_npcs_map
 from ..static import status as se_static
 import ew.backend.core as bknd_core
 from ..backend.status import EwEnemyStatusEffect
@@ -22,11 +23,11 @@ def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
     chosen_npc = None
 
     if pre_selected_npc is not None:
-        chosen_npc = hunting_static.active_npcs_map.get(pre_selected_npc)
+        chosen_npc = active_npcs_map.get(pre_selected_npc)
 
     if pre_selected_npc is None or chosen_npc is None:
         while loop_count < 1000:
-            chosen_npc = random.choice(list(hunting_static.active_npcs_map.values()))
+            chosen_npc = random.choice(list(active_npcs_map.values()))
             enemydata = bknd_core.execute_sql_query(
                     "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
                         id_enemy=ewcfg.col_id_enemy,
@@ -214,7 +215,7 @@ def spawn_enemy(
 
         enemy.persist()
         if enemy.enemytype == 'npc':
-            chosen_npc = hunting_static.active_npcs_map.get(enemy.enemyclass)
+            chosen_npc = active_npcs_map.get(enemy.enemyclass)
             for status in chosen_npc.starting_statuses:
                 status_obj = se_static.status_effects_def_map.get(status)
                 if status_obj != None:
