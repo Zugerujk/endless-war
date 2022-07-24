@@ -737,7 +737,8 @@ async def debugHandling(message, cmd, cmd_obj):
         if cmd_obj.mentions_count == 0:
             response = 'Set who\'s role?'
         else:
-            roles_map = ewutils.getRoleMap(message.guild.roles)
+            id_server = cmd_obj.guild.id
+            roles_map = ewrolemgr.roles_map[id_server]
             role_target = cmd_obj.tokens[1]
             role = roles_map.get(role_target)
 

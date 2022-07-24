@@ -610,21 +610,6 @@ def return_server_role(server, role_name):
     return discord.utils.get(server.roles, name=role_name)
 
 
-""" add the PvP flag role to a member """
-
-
-async def add_pvp_role(cmd = None):
-    member = cmd.message.author
-    roles_map_user = ewutils.getRoleMap(member.roles)
-
-    if ewcfg.role_copkillers in roles_map_user and ewcfg.role_copkillers_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_copkillers_pvp])
-    elif ewcfg.role_rowdyfuckers in roles_map_user and ewcfg.role_rowdyfuckers_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_rowdyfuckers_pvp])
-    elif ewcfg.role_juvenile in roles_map_user and ewcfg.role_juvenile_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_juvenile_pvp])
-
-
 async def collect_topics(cmd):
     if not cmd.message.author.guild_permissions.administrator:
         return
