@@ -36,7 +36,7 @@ mutations = [
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_2ndamendment,
         str_name="2nd Amendment",
-        alias=['2a', 'second', 'secondamendment'],
+        alias=['2a', 'second', 'secondamendment', '2nd'],
         str_describe_self="A spare pair of arms extend from your monstrously large shoulders due to **2nd Amendment**.",
         str_describe_other="A spare pair of arms extend from their monstrously large shoulders due to **2nd Amendment**.",
         str_acquire="You feel an intense, sharp pain in the back of your shoulders. Skin tears and muscles rip as you grow a brand new set of arms, ready, willing, prepared to fight. You have developed the mutation **2nd Amendment**. Extra equippable gun slot, and a damage bonus when sidearming another weapon.",
@@ -540,19 +540,19 @@ mutations = [
 ]
 
 # PRESENT DAY
-# PRESENT TIME
-the_month = datetime.datetime.now().month
-if the_month == 6: # June - pride month
-    mutations.append(EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_gay,
-        str_name="Gay",
-        alias=['lgbt'],
-        str_describe_self="You're **Gay**.",
-        str_describe_other="They're **Gay**.",
-        str_acquire="You're gay now.",
-        tier=1,
-        str_transplant="Dr. Dusttrap sits down and has a frank conversation with you. After a few quizzes on Google, a thorough analysis of your dating history, and a pamphlet, you find yourself screaming \"I'm a homosexual!\" You have developed the mutation **Gay**. You're gay.",
-    ))
+# PRESENT TIME TODO: Fix this by 2023
+# the_month = datetime.datetime.now().month
+# if the_month == 6: # June - pride month
+#     mutations.append(EwMutationFlavor(
+#         id_mutation=ewcfg.mutation_id_gay,
+#         str_name="Gay",
+#         alias=['lgbt'],
+#         str_describe_self="You're **Gay**.",
+#         str_describe_other="They're **Gay**.",
+#         str_acquire="You're gay now.",
+#         tier=1,
+#         str_transplant="Dr. Dusttrap sits down and has a frank conversation with you. After a few quizzes on Google, a thorough analysis of your dating history, and a pamphlet, you find yourself screaming \"I'm a homosexual!\" You have developed the mutation **Gay**. You're gay.",
+#     ))
 
 mutations_map = {}
 

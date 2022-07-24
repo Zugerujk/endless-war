@@ -1,8 +1,8 @@
 # Global configuration options.
 
 
+version = "v4.15.2 S4A1 Junior Coders Make Mistakes Edition"
 
-version = "v4.1031 Event Cleanup 🚛"
 
 dir_msgqueue = 'msgqueue'
 
@@ -163,6 +163,8 @@ poi_id_clinicofslimoplasty = "clinicofslimoplasty"
 poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
+poi_id_ghostcafe = "ghostmaidcafe"
+
 
 poi_id_themoon = "themoon"
 
@@ -447,14 +449,6 @@ role_to_pvp_role = {
     role_slimecorp: role_slimecorp_pvp
 }
 
-role_to_active_role = {
-    role_juvenile: role_juvenile_active,
-    role_rowdyfuckers: role_rowdyfuckers_active,
-    role_copkillers: role_copkillers_active,
-    role_corpse: role_corpse_active,
-    role_slimecorp: role_slimecorp_active
-}
-
 misc_roles = {
     role_slimernalia,
     role_gellphone
@@ -477,9 +471,6 @@ faction_banned = "banned"
 factions = [faction_killers, faction_rowdys, faction_slimecorp]
 
 # Channel names
-channel_mines = "the-mines"
-channel_mines_sweeper = "the-mines-minesweeper"
-channel_mines_bubble = "the-mines-bubble-breaker"
 channel_downtown = "downtown"
 channel_combatzone = "combat-zone"
 channel_endlesswar = "endless-war"
@@ -499,40 +490,23 @@ channel_cinema = "nlacakanm-cinemas"
 channel_bazaar = "bazaar"
 channel_recyclingplant = "recycling-plant"
 channel_slimecorphq = "slimecorp-hq"
-channel_slimecorpcomms = "slimecorp-comms"
-channel_leaderboard = "leaderboard"
-channel_cv_mines = "cratersville-mines"
-channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
-channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
-channel_tt_mines = "toxington-mines"
-channel_tt_mines_sweeper = "toxington-mines-minesweeper"
-channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_diner = "smokers-cough"
 channel_seafood = "red-mobster"
-channel_jr_farms = "juvies-row-farms"
-channel_og_farms = "ooze-gardens-farms"
-channel_ab_farms = "arsonbrook-farms"
+
 channel_neomilwaukeestate = "neo-milwaukee-state"
 channel_beachresort = "the-resort"
 channel_countryclub = "the-country-club"
 channel_rowdyroughhouse = "rowdy-roughhouse"
 channel_copkilltown = "cop-killtown"
 channel_slimesea = "slime-sea"
-channel_tt_pier = "toxington-pier"
-channel_jp_pier = "jaywalker-plain-pier"
-channel_cl_pier = "crookline-pier"
-channel_afb_pier = "assault-flats-beach-pier"
-channel_vc_pier = "vagrants-corner-pier"
-channel_se_pier = "slimes-end-pier"
-channel_jr_pier = "juvies-row-pier"
 channel_juviesrow = "juvies-row"
 channel_realestateagency = "real-estate-agency"
-channel_apt = "apartment"
 channel_sodafountain = "the-bicarbonate-soda-fountain"
 channel_greencakecafe = "green-cake-cafe"
 channel_glocksburycomics = "glocksbury-comics"
 channel_breakroom = "the-breakroom"
 
+# Transport Channels #1
 channel_wt_port = "wreckington-port"
 channel_vc_port = "vagrants-corner-port"
 channel_tt_subway_station = "toxington-subway-station"
@@ -565,6 +539,7 @@ channel_nny_subway_station = "new-new-yonkers-subway-station"
 channel_df_blimp_tower = "dreadford-blimp-tower"
 channel_afb_blimp_tower = "assault-flats-blimp-tower"
 
+# Transport Channels #2
 channel_ferry = "ferry"
 channel_subway_pink01 = "subway-train-pink-01"
 channel_subway_pink02 = "subway-train-pink-02"
@@ -578,7 +553,16 @@ channel_subway_purple01 = "subway-train-purple-01"
 channel_subway_purple02 = "subway-train-purple-02"
 channel_blimp = "blimp"
 
-channel_killfeed = "kill-feed"
+# Mining Channels
+channel_mines = "the-mines"
+channel_mines_sweeper = "the-mines-minesweeper"
+channel_mines_bubble = "the-mines-bubble-breaker"
+channel_cv_mines = "cratersville-mines"
+channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
+channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
+channel_tt_mines = "toxington-mines"
+channel_tt_mines_sweeper = "toxington-mines-minesweeper"
+channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_jrmineswall_sweeper = "the-mines-wall-minesweeper"
 channel_ttmineswall_sweeper = "toxington-mines-wall-minesweeper"
 channel_cvmineswall_sweeper = "cratersville-mines-wall-minesweeper"
@@ -586,6 +570,22 @@ channel_jrmineswall_bubble = "the-mines-wall-bubble-breaker"
 channel_ttmineswall_bubble = "toxington-mines-wall-bubble-breaker"
 channel_cvmineswall_bubble = "cratersville-mines-wall-bubble-breaker"
 
+# Fishing Channels
+channel_tt_pier = "toxington-pier"
+channel_jp_pier = "jaywalker-plain-pier"
+channel_cl_pier = "crookline-pier"
+channel_afb_pier = "assault-flats-beach-pier"
+channel_vc_pier = "vagrants-corner-pier"
+channel_se_pier = "slimes-end-pier"
+channel_jr_pier = "juvies-row-pier"
+
+# Farming Channels
+channel_jr_farms = "juvies-row-farms"
+channel_og_farms = "ooze-gardens-farms"
+channel_ab_farms = "arsonbrook-farms"
+
+# Apartment channels
+channel_apt = "apartment"
 channel_apt_downtown = "downtown-apartments"
 channel_apt_smogsburg = "smogsburg-apartments"
 channel_apt_krakbay = "krak-bay-apartments"
@@ -626,13 +626,27 @@ channel_clinicofslimoplasty = "clinic-of-slimoplasty"
 channel_atomicforest = "atomic-forest"
 channel_downpourlaboratory = "downpour-laboratory"
 
-channel_prankfeed = "prank-feed"
+# Gang Violence Channels
+channel_killercomms = "killer-comms"
+channel_rowdycomms = "rowdy-comms"
+channel_slimecorpcomms = "slimecorp-comms"
+channel_losersclub = "the-losers-club"
+channel_killfeed = "kill-feed"
+channel_leaderboard = "leaderboard"
 channel_slimefest = "slimefest"
 
-
+# Gellphone Channels
 channel_slimetwitter = "slime-twitter"
-channel_artexhibits = "art-exhibits"
+channel_slimecasinolite = "slime-casino-lite"
+channel_sexportable = "stock-exchange-portable"
+channel_squicklyleaks = "squicklyleaks"
 channel_deviantsplaart = "deviant-splaart"
+channel_splatify = "splatify"
+
+# Exhibit Channels
+channel_relicexhibits = "relic-exhibits"
+channel_aquarium = "aquarium"
+channel_artexhibits = "art-exhibits"
 
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
@@ -855,6 +869,7 @@ cmd_sacrifice = cmd_prefix + 'sacrifice'
 cmd_makecostume = cmd_prefix + 'makecostume'
 cmd_stunt = cmd_prefix + 'stunt'
 cmd_stuntalt1 = cmd_prefix + 'skate'
+cmd_stuntalt2 = cmd_prefix + 'sk8'
 cmd_treat = cmd_prefix + 'treat'
 cmd_russian = cmd_prefix + 'russianroulette'
 cmd_duel = cmd_prefix + 'duel'
@@ -917,6 +932,8 @@ cmd_object_alt1 = cmd_prefix + 'protest'
 cmd_scavenge = cmd_prefix + 'scavenge'
 cmd_scavenge_alt1 = cmd_prefix + 'lookbetweenthecushions'
 cmd_scavenge_alt2 = cmd_prefix + 'dumpsterdive'
+cmd_scavenge_alt3 = cmd_prefix + 'loot'
+cmd_scavenge_alt4 = cmd_prefix + 'scav'
 cmd_scrub = cmd_prefix + 'scrub'
 cmd_question = cmd_prefix + 'question'
 cmd_answer = cmd_prefix + 'answer'
@@ -970,6 +987,9 @@ cmd_rejuvenate = cmd_prefix + 'rejuvenate'
 cmd_win = cmd_prefix + 'win'
 cmd_slimefest = cmd_prefix + 'slimefest'
 cmd_identify = cmd_prefix + 'identify'
+cmd_startshift = cmd_prefix + 'startshift'
+cmd_serve = cmd_prefix + 'serve'
+cmd_sow_cloth = cmd_prefix + 'sowcloth'
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -1042,6 +1062,7 @@ cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
 cmd_smoke = cmd_prefix + 'smoke'
 cmd_vape = cmd_prefix + 'vape'
+cmd_vapealt1 = cmd_prefix + 'oop'
 cmd_frame = cmd_prefix + 'frame'
 cmd_addart = cmd_prefix + 'addart'
 cmd_extractsoul = cmd_prefix + 'extractsoul'
@@ -1274,6 +1295,7 @@ cmd_ree = cmd_prefix + 'ree'
 cmd_autocannibalize = cmd_prefix + 'autocannibalize'
 cmd_autocannibalize_alt1 = cmd_prefix + 'eatself'
 cmd_rattle = cmd_prefix + 'rattle'
+cmd_bonejenga = cmd_prefix + 'bonejenga'
 cmd_beep = cmd_prefix + 'beep'
 cmd_yiff = cmd_prefix + 'yiff'
 cmd_hiss = cmd_prefix + 'hiss'
@@ -2315,7 +2337,8 @@ it_relic = 'relic'
 # Cosmetic item rarities
 rarity_plebeian = "Plebeian"
 rarity_patrician = "Patrician"
-rarity_promotional = "Promotional"  # Cosmetics that should not be awarded through smelting/hunting
+rarity_profollean = "Profollean"
+rarity_promotional = "Promotional"  # Cosmetics awarded at events / achieved through limited ways
 rarity_princeps = "princeps"
 
 # Leaderboard score categories
@@ -2551,23 +2574,25 @@ context_prankitem = 'prankitem'
 
 # Item vendor names.
 vendor_bar = 'bar'  # rate of non-mtn dew drinks are 100 slime to 9 hunger
-vendor_pizzahut = 'Pizza Hut'  # rate of fc vendors are 100 slime to 10 hunger
-vendor_tacobell = 'Taco Bell'
-vendor_kfc = 'KFC'
-vendor_mtndew = 'Mtn Dew Fountain'
-vendor_vendingmachine = 'vending machine'
+vendor_pizzahut = 'Pizza Hut'  # rate of fc vendors are 100 slime to 10 hunger, Sub-menu in Food Court
+vendor_tacobell = 'Taco Bell' # Sub-menu in Food Court
+vendor_kfc = 'KFC' # Sub-menu in Food Court
+vendor_mtndew = 'Mtn Dew Fountain' # Sub-menu in Food Court
+vendor_vendingmachine = 'vending machine' # Pourdin Alley's 7/11.
 vendor_seafood = 'Red Mobster Seafood'  # rate of seafood is 100 slime to 9 hunger
 vendor_diner = "Smoker's Cough"  # rate of drinks are 100 slime to 15 hunger
-vendor_beachresort = "Beach Resort"  # Just features clones from the Speakeasy and Red Mobster
-vendor_countryclub = "Country Club"  # Just features clones from the Speakeasy and Red Mobster
+vendor_beachresort = "Beach Resort"  # Assault Flats Beach bar and the sunburnt greasy man to sell you summer-season amenities.
+vendor_countryclub = "Country Club"  # Dreadford's snobbish vendor. Crookline's Splatify is the southwest bar in the game now.
 vendor_farm = "Farm"  # contains all the vegetables you can !reap
-vendor_bazaar = "bazaar"
-vendor_giftshop = "giftshop"
+vendor_bazaar = "bazaar" # General store, and pulls in the item pool from every other vendor in the game.
+vendor_giftshop = "giftshop" 
 vendor_college = "College"  # You can buy game guides from either of the colleges
 vendor_glocksburycomics = "Glocksbury Comics"  # Repels and trading cards are sold here
 vendor_slimypersuits = "Slimy Persuits"  # You can buy candy from here
 vendor_greencakecafe = "Green Cake Cafe"  # Brunch foods
-vendor_bodega = "Bodega"  # Clothing store in Krak Bay
+vendor_bodega = "Bodega"  # Default clothing store in Krak Bay
+vendor_snottopic = "Snot Topic" # Sub-store within Bodega, featuring crappy clothing that no other store would sell.
+vendor_caravan = "Caravan" #Sub-store within Bodega, filters a lot of shoes into one store.
 vendor_secretbodega = "Secret Bodega"  # The secret clothing store in Krak Bay
 vendor_wafflehouse = "Waffle House"  # waffle house in the void, sells non-perishable foods, 50 slime to 1 hunger
 vendor_basedhardware = "Based Hardware"  # Hardware store in West Glocksbury
@@ -2579,6 +2604,8 @@ vendor_rpcity = "RP City"  # Double halloween costume store
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
+item_id_ghostlycloth = 'ghostlycloth'
+item_id_ghosttoken = 'ghosttoken'
 item_id_monstersoup = 'monstersoup'
 item_id_doublestuffedcrust = 'doublestuffedcrust'
 item_id_quadruplestuffedcrust = 'quadruplestuffedcrust'
@@ -2621,6 +2648,7 @@ item_id_tough_material = "toughnails"
 item_id_smart_material = "smartcookies"
 item_id_beautiful_material = "beautyspots"
 item_id_cute_material = "cutebuttons"
+item_id_evil_material = "evilstuds"
 item_id_dragonsoul = "dragonsoul"
 item_id_monsterbones = "monsterbones"
 item_id_faggot = "faggot"
@@ -2655,6 +2683,7 @@ item_id_ten_story_tobacco_pod = "tenstorytobaccopod"
 item_id_cop_killer_cotton_candy_pod = "copkillercottoncandypod"
 item_id_mustard_gas_pod = "mustardgaspod"
 item_id_spent_pod = "spentpod"
+item_id_giftribbon = "giftribbon"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
@@ -3132,8 +3161,9 @@ style_tough = "tough"
 style_smart = "smart"
 style_beautiful = "beautiful"
 style_cute = "cute"
+style_evil = "evil"
 
-fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute]
+fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil]
 
 freshnesslevel_1 = 500
 freshnesslevel_2 = 1000
@@ -3291,7 +3321,7 @@ mutation_id_airlock = "airlock"
 mutation_id_lightminer = "lightminer"
 mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
-mutation_id_gay = "gay"
+# mutation_id_gay = "gay"
 
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
@@ -3630,7 +3660,7 @@ mutation_descriptions = {
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
     mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
-    mutation_id_gay: "You're gay.",
+    # mutation_id_gay: "You're gay.",
 
 }
 
@@ -4575,7 +4605,7 @@ captcha_dict = [
     'KFC', 'GAY', 'LOL', 'GUN', 'MUK',
     'POW', 'WOW', 'POP', 'OWO', 'HIP',
     'END', 'HAT', 'CUP', '911', '711',
-    'SIX', 'SMG', 'BOW',
+    'SIX', 'SMG', 'BOW', 'UWU',
     # 4
     'GOON', 'DOOR', 'CORP', 'SPAM', 'BLAM',
     'FISH', 'MINE', 'LOCK', 'OURS', 'ROCK',
@@ -4583,48 +4613,51 @@ captcha_dict = [
     'HEHE', 'WEED', 'LMAO', 'EPIC', 'NICE',
     'SOUL', 'KILL', 'FREE', 'GOOP', 'CAVE',
     'ZOOM', 'FIVE', 'NINE', 'BASS', 'FIRE',
-    'TEXT', 'AWOO', 'GOKU',
+    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE', 
     # 5
     'GUNKY', 'BOORU', 'ROWDY', 'GHOST', 'ORDER',
     'SCARE', 'BULLY', 'FERRY', 'SAINT', 'SLASH',
-    'SLOSH', 'PARTY', 'BASED', 'TULPA',
+    'SLOSH', 'PARTY', 'BASED', 'TULPA', 'RELIC',
     'SLURP', 'MONTH', 'SEVEN', 'BRASS', 'MINES',
     'CHEMO', 'LIGHT', 'FURRY', 'PIZZA', 'ARENA',
-    'LUCKY', 'RIFLE', '56709',
+    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME', 
     # 6
     'SLUDGE', 'KILLER', 'MUNCHY', 'BLAAAP', 'BARTER',
     'ARTIST', 'FUCKER', 'MINING', 'SURVEY', 'THRASH',
     'BEWARE', 'STOCKS', 'COWARD', 'CRINGE', 'INVEST',
     'BUSTAH', 'KILLAH', 'KATANA', 'GHOSTS', 'BASSED',
-    'REVIVE', 'BATTLE', 'PAWPAW',
+    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER', 
     # 7
     'KINGPIN', 'ENDLESS', 'ATTACKS', 'FUCKERS', 'FISHING',
     'VIOLENT', 'SQUEEZE', 'LOBSTER', 'WESTERN', 'EASTERN',
     'REGIONS', 'DISCORD', 'KNUCKLE', 'MOLOTOV', 'SHAMBLE',
     'WARFARE', 'BIGIRON', 'POUDRIN', 'PATRIOT', 'MINIGUN',
     'MONSTER', 'DIVORCE', 'GARROTE', 'ASSAULT', 'PICKAXE',
+    'HARPOON', 'HUNTING', 
     # 8
     'GAMEPLAY', 'CONFLICT', 'EXCHANGE', 'FEEDBACK', 'GRENADES',
     'VIOLENCE', 'TACOBELL', 'PIZZAHUT', 'OUTSKIRT', 'WHATEVER',
     'WITHDRAW', 'SOUTHERN', 'NORTHERN', 'ASTATINE', 'SLIMEOID',
     'SHAMBLIN', 'STAYDEAD', 'DOWNTOWN', 'DISTRICT', 'BASEBALL',
-    'BIGBONES', 'LONEWOLF', 'KEENSMELL', 'RAZORNUTS', 'REVOLVER',
+    'BIGBONES', 'LONEWOLF', 'REVOLVER', 'COMMANDO', 'STINKEYE',
     # 9
     'APARTMENT', 'SURVIVORS', 'NEGASLIME', 'COMMUNITY', 'GIGASLIME',
     'DETENTION', 'CATHEDRAL', 'TOXINGTON', 'SLIMEGIRL', 'INVESTING',
-    'SLIMECOIN', 'RATELIMIT', 'NARRATIVE', 'COMMANDO', 'SHAMBLERS',
-    'NUNCHUCKS', 'SLIMECORP', 'ARSONBROOK', 'SMOGSBURG', 'SLIMEFEST',
+    'SLIMECOIN', 'RATELIMIT', 'NARRATIVE', 'SHAMBLERS', 'KEENSMELL',
+    'NUNCHUCKS', 'SLIMECORP', 'SMOGSBURG', 'SLIMEFEST', 'RAZORNUTS',
     'COMMANDER', 'FATCHANCE', 'DANKWHEAT',
     # 10
     'SLUDGECORE', 'LOREMASTER', 'ROUGHHOUSE', 'GLOCKSBURY', 'CALCULATED',
     'PLAYGROUND', 'NEWYONKERS', 'OLDYONKERS', 'VANDALPARK', 'SLIMERMAID',
     'SLIMEXODIA', 'WEBBEDFEET', 'NOSEFERATU', 'BINGEEATER', 'TRASHMOUTH',
     'DIREAPPLES', 'BLACKLIMES', 'POKETUBERS', 'PULPGOURDS', 'ROWDDISHES',
-    'DRAGONCLAW',
+    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS', 
     # 27
     'STOPSCAVENGINGANDTOUCHGRASS', 'GETSERIOUSPSYCHOLOGICALHELP',
     'FEELTHETOUCHOFAWOMANINSTEAD', 'THISISNTVERYIMPRESSIVECHUMP',
     'YOUCOULDBEDOINGSOMUCHBETTER', 'GOGETAJOBINSTEADOFDOINGTHIS',
+    'CONTESTARENEVERJUDGEDONTIME',
+    # To the people who don't know how to count to 10 letters, I feel pity for your parents.
 ]
 
 riflecap = ['UP', 'DOWN', 'LEFT', 'RIGHT']
