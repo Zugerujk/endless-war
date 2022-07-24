@@ -234,3 +234,5 @@ async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     response = random.choice(potential_dialogue)
     if response is not None:
         await fe_utils.send_message(None, channel, response)
+
+

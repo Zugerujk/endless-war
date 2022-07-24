@@ -131,7 +131,9 @@ class EwNpc:
 
     condition = lambda user_data: True #lambda function to find a target for some attackers
 
-    attacktype = 'amateur' # the weapon the enemy uses
+    attacktype = 'amateur', # the weapon the enemy uses
+
+    description = '' #a description of the npc fpr !data
     
     def __init__(
         self,
@@ -147,7 +149,8 @@ class EwNpc:
         rewards = [],
         starting_statuses = [],
         attacktype = 'amateur',
-        condition =  lambda user_data: True
+        condition =  lambda user_data: True,
+        description = ""
     ):
         self.id_npc = id_npc
         self.active = active
@@ -162,3 +165,4 @@ class EwNpc:
         self.starting_statuses = starting_statuses
         self.condition = condition,
         self.attacktype=attacktype
+        self.description = description

@@ -28,7 +28,7 @@ from ew.static import poi as poi_static
 from ew.static import status as se_static
 from ew.static import vendors
 from ew.static import cosmetics as static_cosmetics
-
+from ew.static import npc as npcutils
 from ew.backend.player import EwPlayer
 
 from ew.static import weapons as static_weapons
@@ -151,11 +151,14 @@ async def data(cmd):
     # enemy data check
     if len(cmd.tokens) > 1 and cmd.mentions_count == 0 and len(cmd.mention_ids) == 0:
         user_data = EwUser(member=cmd.message.author)
-
         soughtenemy = " ".join(cmd.tokens[1:]).lower()
         enemy = cmbt_utils.find_enemy(soughtenemy, user_data)
         if enemy != None:
-            if enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
+
+            if enemy.enemytype == 'npc':
+                npc_obj = npcutils.active_npcs_map.get(enemy.enemyclass)
+                response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.id_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
+            elif enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
                 response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. ".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype)
             else:
                 response = "{} is a level {} enemy. They have {:,} slime".format(enemy.display_name, enemy.level, enemy.slimes)  # , enemy.hardened_sap)

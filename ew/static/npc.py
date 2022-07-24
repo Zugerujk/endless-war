@@ -47,6 +47,7 @@ EwNpc(
         id_npc="bobocuatro",  # unique id for each npc
         active = True,  # whether an npc spawns
         str_name = "Bobo Cuatro",  # Name of the NPC
+        description = "What an insufferable prick. Nobody asked for his opinion.",
         poi_list = [ewcfg.poi_id_crookline],  # list of locations an NPC roams in
         dialogue = {"talk":["Go away", "They won't let me inside Splatify", "Quiet, I'm listening to the tracks"],
                     "loop":["Not good", "Behemoth edits are played out 👎👎👎👎","Dances With White Girls 😂","This sounds like you just learned how to make riddims sounds yesterday","Too bad its not over 2min. Or else id put you in my highly banger populated playlist “dubstep 2022” maybe next time kid","Half decent","My ears are bleeding profusely","snorts fentanyl line* This actually better than your last failure of a EP. You will never be as good as aweminus. And if NSD was still active you wouldnt be good enough to be on it. Not even hating guy. You just lack originality.","your EP was a total bust. Not one song got over 1k likes. And you most likely paid that idiot kill feed to repost this garbag. You need yur money back,This is so bad. Like what are you doing?????","Sheeesh the beginning of ghis mix was ass. But these 2 last songs making up for it","This is half decent, but your lack of creativity didnt allow you to strech this track beyond 3 minutes. Nice try kid."],
@@ -64,6 +65,7 @@ EwNpc(
     id_npc = "juviemiku",
     active = True,
     str_name = "Juvie Miku",
+    description = "She's...well, she's definitely Juvie. A little *too* juvie.",
     poi_list = [ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_juviesrow, ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_slimesend, ewcfg.poi_id_slimesendcliffs],
     dialogue = {"talk":["...", "..?", "..!", "👋"],
                 "loop":[":notes:Hmm hmm hmmmm!!:notes:", ":notes:La dee da!:notes:", ":notes:Do do dooo!!:notes:", ":notes:Dum de bum!:notes:"],
@@ -89,6 +91,7 @@ EwNpc(
     id_npc = "shortsguy",
     active = True,
     str_name = "Shorts Guy",
+    description = "Some people get into gang violence. Others are drawn to the stock market or maybe fishing. This goddamn idiot found shorts in the bodega one day and it's been love ever since.",
     poi_list = [ewcfg.poi_id_maimridge, ewcfg.poi_id_toxington, ewcfg.poi_id_astatineheights, ewcfg.poi_id_arsonbrook, ewcfg.poi_id_brawlden, ewcfg.poi_id_littlechernobyl],  # list of locations an NPC roams in
     dialogue = {"talk":["Shorts are so comfortable and easy to wear. Why don't you try wearing some?", "I've bought about 10 pairs of shorts today. Want one?", "It's the perfect kind of day to go for a walk in some nice shorts.", "Shorts, shorts, shorts, can't get enough of them!", "Trying my best to make shorts into a fashion craze.", "Mama always said life is like a fresh pair of shorts."],
                 "hit":["You're just jealous of my shorts!"],
@@ -110,6 +113,7 @@ EwNpc(
     id_npc = "carrottop",
     active = True,
     str_name = "Carrot Top",
+    description = "The weakest of the Garden Gankers. They grunt a big game but they're basically free slime.",
     poi_list = [],
     dialogue = {"talk":["Hey dude. Or, uh, dudette. I actually can't see that well.", "Ignore me, loser. Just on official Ganker business.", "HECK!!!!!"],
                 "loop":["ARGH!!!", "EUGHHH!!!", "Rgh...", "hmmmmmRRRR..."],
@@ -133,6 +137,7 @@ EwNpc(
     id_npc = "pork",
     active = True,
     str_name = "Pork, NLACPD",
+    description = "Good thing you spotted in time. This isn't any old officer. This guy's got a sadist streak a million miles wide.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["Howdy, there.", "Don't you just love that sound when you asphyxiate some perp? Good times...", "Golly, I'm so hungry could eat a whole person.", "You seen any of these gang types around?"],
                 "loop":["hrm...", "I'm hungry.", "Whew-wee.", "I could go for some blood. Good drinkin'..."],
@@ -156,6 +161,7 @@ EwNpc(
     id_npc = "riot",
     active = True,
     str_name = "Riot, NLACPD",
+    description = "A fresh-faced officer with a penchant for destruction. Do you recognize the voice under there? Nah, can't be.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["WHO ARE YOU?", "IM GONNA RIP THESE CRIMINALS' FINGERS OFF. JUST NEED TO FIND ONE.", "I CAN SMELL THAT JUSTICE IN THE AIR. SMELLS LIKE GUNPOWDER.", "CAN YOU LEAVE FOR A SEC? I WANT TO KICK SOMETHING REAL QUICK."],
                 "loop":["IT'S HOT IN THIS SUIT...", "DO I GET TO KILL YOU? NO, MAYBE LATER.", "HEY DISPATCH, THIS IS RIOT. DID I LEAVE MY TASER BACK THERE? ACTUALLY, FORGET IT. I DON'T NEED THAT."],
@@ -181,6 +187,7 @@ EwNpc(
     id_npc = "sleuth",
     active = True,
     str_name = "Sleuth, NLACPD",
+    description = "A well known police detective that goes way back with the department. It's NLACakaNM, so he has plenty to keep himself occupied.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["I'm a PI, bud. No need to get all panicky.", "I see your hands reaching into your pockets. A rookie like you shouldn't try anythin funny.", "At this point, getting killed's about as inconvenient as missing the train. You still shouldn't try it, squirt.", "This city..."],
                 "loop":["This might be easier if they gave me some god damn forensic supplies.", "Dispatch, there's someone over here. They're looking at me funny.", "Can't believe they put me on homicide desk. It's not relevant no more."],
@@ -206,6 +213,7 @@ EwNpc(
     id_npc = "mrc",
     active = True,
     str_name = "Mr. C, NLACPD Chief of Police",
+    description = 'The city\'s Chief of Police. Not much is known about them, but you hear they\'re pretty intimidating. You might not get this chance again, you should gank this sonavabitch!',
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["..."],
                 "hit":["You'll regret this."],
@@ -228,6 +236,7 @@ EwNpc(
     id_npc = "slimesmackenzie",
     active = True,
     str_name = "Slimes MacKenzie", # Knockoff of beloved Slurms MacKenzie, which is a knockoff of Spuds MacKenzie
+    description = 'MacKenzie\'s here, guys. It\'s a real party now.',
     poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_speakeasy, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_beachresort],
     dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!"],
                 "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
@@ -251,6 +260,7 @@ EwNpc(
     id_npc = "recalcitrantfawn",
     active = True,
     str_name = "RF",
+    description = 'This little guy made a big splash in the Rowdys when they first joined up. They ended up getting Consort in record time thanks to the inexplicable appearance of a bunch of  consort-themed fetch quests. If you kill him? Oh boy, he\'ll really lose his marbles.',
     poi_list = [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_cratersville, ewcfg.poi_id_wreckington, ewcfg.poi_id_poudrinalley],
     dialogue = {"talk":["!!!", "👋",  "🤙", "*RF gives you a high five.*"],
                 "loop":["*RF just checked a trash can. Can't jump in there, too full.*", "*RF is anxious and jumping around! You must've caught them by suprise.*", "*RF seems distracted by that brick over there*", "*RF does a little happy dance.*"],
