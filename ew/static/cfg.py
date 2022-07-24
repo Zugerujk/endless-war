@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15 S4A1 Community Aneurysm Update"
+version = "v4.15.2 S4A1 Junior Coders Make Mistakes Edition"
 
 
 dir_msgqueue = 'msgqueue'
@@ -449,14 +449,6 @@ role_to_pvp_role = {
     role_slimecorp: role_slimecorp_pvp
 }
 
-role_to_active_role = {
-    role_juvenile: role_juvenile_active,
-    role_rowdyfuckers: role_rowdyfuckers_active,
-    role_copkillers: role_copkillers_active,
-    role_corpse: role_corpse_active,
-    role_slimecorp: role_slimecorp_active
-}
-
 misc_roles = {
     role_slimernalia,
     role_gellphone
@@ -479,9 +471,6 @@ faction_banned = "banned"
 factions = [faction_killers, faction_rowdys, faction_slimecorp]
 
 # Channel names
-channel_mines = "the-mines"
-channel_mines_sweeper = "the-mines-minesweeper"
-channel_mines_bubble = "the-mines-bubble-breaker"
 channel_downtown = "downtown"
 channel_combatzone = "combat-zone"
 channel_endlesswar = "endless-war"
@@ -501,40 +490,23 @@ channel_cinema = "nlacakanm-cinemas"
 channel_bazaar = "bazaar"
 channel_recyclingplant = "recycling-plant"
 channel_slimecorphq = "slimecorp-hq"
-channel_slimecorpcomms = "slimecorp-comms"
-channel_leaderboard = "leaderboard"
-channel_cv_mines = "cratersville-mines"
-channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
-channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
-channel_tt_mines = "toxington-mines"
-channel_tt_mines_sweeper = "toxington-mines-minesweeper"
-channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_diner = "smokers-cough"
 channel_seafood = "red-mobster"
-channel_jr_farms = "juvies-row-farms"
-channel_og_farms = "ooze-gardens-farms"
-channel_ab_farms = "arsonbrook-farms"
+
 channel_neomilwaukeestate = "neo-milwaukee-state"
 channel_beachresort = "the-resort"
 channel_countryclub = "the-country-club"
 channel_rowdyroughhouse = "rowdy-roughhouse"
 channel_copkilltown = "cop-killtown"
 channel_slimesea = "slime-sea"
-channel_tt_pier = "toxington-pier"
-channel_jp_pier = "jaywalker-plain-pier"
-channel_cl_pier = "crookline-pier"
-channel_afb_pier = "assault-flats-beach-pier"
-channel_vc_pier = "vagrants-corner-pier"
-channel_se_pier = "slimes-end-pier"
-channel_jr_pier = "juvies-row-pier"
 channel_juviesrow = "juvies-row"
 channel_realestateagency = "real-estate-agency"
-channel_apt = "apartment"
 channel_sodafountain = "the-bicarbonate-soda-fountain"
 channel_greencakecafe = "green-cake-cafe"
 channel_glocksburycomics = "glocksbury-comics"
 channel_breakroom = "the-breakroom"
 
+# Transport Channels #1
 channel_wt_port = "wreckington-port"
 channel_vc_port = "vagrants-corner-port"
 channel_tt_subway_station = "toxington-subway-station"
@@ -567,6 +539,7 @@ channel_nny_subway_station = "new-new-yonkers-subway-station"
 channel_df_blimp_tower = "dreadford-blimp-tower"
 channel_afb_blimp_tower = "assault-flats-blimp-tower"
 
+# Transport Channels #2
 channel_ferry = "ferry"
 channel_subway_pink01 = "subway-train-pink-01"
 channel_subway_pink02 = "subway-train-pink-02"
@@ -580,7 +553,16 @@ channel_subway_purple01 = "subway-train-purple-01"
 channel_subway_purple02 = "subway-train-purple-02"
 channel_blimp = "blimp"
 
-channel_killfeed = "kill-feed"
+# Mining Channels
+channel_mines = "the-mines"
+channel_mines_sweeper = "the-mines-minesweeper"
+channel_mines_bubble = "the-mines-bubble-breaker"
+channel_cv_mines = "cratersville-mines"
+channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
+channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
+channel_tt_mines = "toxington-mines"
+channel_tt_mines_sweeper = "toxington-mines-minesweeper"
+channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_jrmineswall_sweeper = "the-mines-wall-minesweeper"
 channel_ttmineswall_sweeper = "toxington-mines-wall-minesweeper"
 channel_cvmineswall_sweeper = "cratersville-mines-wall-minesweeper"
@@ -588,6 +570,22 @@ channel_jrmineswall_bubble = "the-mines-wall-bubble-breaker"
 channel_ttmineswall_bubble = "toxington-mines-wall-bubble-breaker"
 channel_cvmineswall_bubble = "cratersville-mines-wall-bubble-breaker"
 
+# Fishing Channels
+channel_tt_pier = "toxington-pier"
+channel_jp_pier = "jaywalker-plain-pier"
+channel_cl_pier = "crookline-pier"
+channel_afb_pier = "assault-flats-beach-pier"
+channel_vc_pier = "vagrants-corner-pier"
+channel_se_pier = "slimes-end-pier"
+channel_jr_pier = "juvies-row-pier"
+
+# Farming Channels
+channel_jr_farms = "juvies-row-farms"
+channel_og_farms = "ooze-gardens-farms"
+channel_ab_farms = "arsonbrook-farms"
+
+# Apartment channels
+channel_apt = "apartment"
 channel_apt_downtown = "downtown-apartments"
 channel_apt_smogsburg = "smogsburg-apartments"
 channel_apt_krakbay = "krak-bay-apartments"
@@ -628,13 +626,27 @@ channel_clinicofslimoplasty = "clinic-of-slimoplasty"
 channel_atomicforest = "atomic-forest"
 channel_downpourlaboratory = "downpour-laboratory"
 
-channel_prankfeed = "prank-feed"
+# Gang Violence Channels
+channel_killercomms = "killer-comms"
+channel_rowdycomms = "rowdy-comms"
+channel_slimecorpcomms = "slimecorp-comms"
+channel_losersclub = "the-losers-club"
+channel_killfeed = "kill-feed"
+channel_leaderboard = "leaderboard"
 channel_slimefest = "slimefest"
 
-
+# Gellphone Channels
 channel_slimetwitter = "slime-twitter"
-channel_artexhibits = "art-exhibits"
+channel_slimecasinolite = "slime-casino-lite"
+channel_sexportable = "stock-exchange-portable"
+channel_squicklyleaks = "squicklyleaks"
 channel_deviantsplaart = "deviant-splaart"
+channel_splatify = "splatify"
+
+# Exhibit Channels
+channel_relicexhibits = "relic-exhibits"
+channel_aquarium = "aquarium"
+channel_artexhibits = "art-exhibits"
 
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
@@ -920,6 +932,8 @@ cmd_object_alt1 = cmd_prefix + 'protest'
 cmd_scavenge = cmd_prefix + 'scavenge'
 cmd_scavenge_alt1 = cmd_prefix + 'lookbetweenthecushions'
 cmd_scavenge_alt2 = cmd_prefix + 'dumpsterdive'
+cmd_scavenge_alt3 = cmd_prefix + 'loot'
+cmd_scavenge_alt4 = cmd_prefix + 'scav'
 cmd_scrub = cmd_prefix + 'scrub'
 cmd_question = cmd_prefix + 'question'
 cmd_answer = cmd_prefix + 'answer'
@@ -1281,6 +1295,7 @@ cmd_ree = cmd_prefix + 'ree'
 cmd_autocannibalize = cmd_prefix + 'autocannibalize'
 cmd_autocannibalize_alt1 = cmd_prefix + 'eatself'
 cmd_rattle = cmd_prefix + 'rattle'
+cmd_bonejenga = cmd_prefix + 'bonejenga'
 cmd_beep = cmd_prefix + 'beep'
 cmd_yiff = cmd_prefix + 'yiff'
 cmd_hiss = cmd_prefix + 'hiss'
@@ -2668,6 +2683,7 @@ item_id_ten_story_tobacco_pod = "tenstorytobaccopod"
 item_id_cop_killer_cotton_candy_pod = "copkillercottoncandypod"
 item_id_mustard_gas_pod = "mustardgaspod"
 item_id_spent_pod = "spentpod"
+item_id_giftribbon = "giftribbon"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
