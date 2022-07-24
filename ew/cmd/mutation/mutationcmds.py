@@ -193,6 +193,9 @@ async def graft(cmd):
 async def preserve(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
+    if ewcfg.mutation_id_rigormortis not in mutations:
+        response = "You can't just preserve something by saying you're going to. Everything ends eventually."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None)
@@ -200,18 +203,17 @@ async def preserve(cmd):
     if item_sought:
         item_obj = EwItem(id_item=item_sought.get('id_item'))
 
-        if item_obj.item_props.get('preserved') == None:
-            preserve_id = 0
-        else:
-            preserve_id = int(item_obj.item_props.get('preserved'))
-
-        if ewcfg.mutation_id_rigormortis not in mutations:
-            response = "You can't just preserve something by saying you're going to. Everything ends eventually."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        elif item_obj.soulbound == True:
+        if item_obj.soulbound == True:
             response = "This thing's bound to your soul. There's no need to preserve it twice."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        elif preserve_id == int(user_data.id_user):
+
+        preserve_id = item_obj.item_props.get('preserved')
+        if preserve_id == None:
+            preserve_id = 0
+        else:
+            preserve_id = int(preserve_id)
+
+        if preserve_id == int(user_data.id_user):
             response = "Didn't you already preserve this? You're so paranoid."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif item_obj.item_props.get('preserved') == "nopreserve":

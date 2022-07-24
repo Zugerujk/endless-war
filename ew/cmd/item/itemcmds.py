@@ -283,6 +283,8 @@ async def inventory_print(cmd):
     stacking = True
     search = False
     item_type = None
+    prop_hunt = {}
+    display_hue = False
 
     # Set new parameters if given
     if cmd.tokens_count > 1:
@@ -330,7 +332,22 @@ async def inventory_print(cmd):
         #Filter to relic items
         if 'relic' in lower_token_list or 'relics' in lower_token_list:
             item_type = ewcfg.it_relic
+        
+        #Filter to preserved items (rigor mortis)
+        if "preserved" in lower_token_list:
+            prop_hunt["preserved"] = str(cmd.message.author.id)
 
+        #Filter by colour
+        for hue in hue_static.hue_names:
+            if hue in lower_token_list:
+                prop_hunt["hue"] = hue_static.hue_map.get(hue).id_hue
+        #Clean it up for cases where props dont need to be searched
+        if(not prop_hunt):
+            prop_hunt = None
+
+        #Display the colour infront of the name, or not
+        if 'color' or 'colour' or 'hue' in lower_token_list:
+            display_hue = True
         # Search for a particular item. Ignore formatting parameters
         if 'search' in lower_token_list:
             stacking = False
@@ -345,14 +362,16 @@ async def inventory_print(cmd):
             id_user=target_inventory,
             id_server=user_data.id_server,
             item_sorting_method='id',
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
     elif sort_by_type:
         items = bknd_item.inventory(
             id_user=target_inventory,
             id_server=user_data.id_server,
             item_sorting_method='type',
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
     elif search == True:
         items = itm_utils.find_item_all(
@@ -366,7 +385,8 @@ async def inventory_print(cmd):
         items = bknd_item.inventory(
             id_user=target_inventory,
             id_server=user_data.id_server,
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
 
     # Strip unnecessary data
@@ -375,9 +395,10 @@ async def inventory_print(cmd):
         "quantity": dat.get("quantity"),
         "name": dat.get("name"),
         "soulbound": dat.get("soulbound"),
-        "item_type": dat.get("item_type")
+        "item_type": dat.get("item_type"),
+        "hue": dat.get("item_props").get("hue")
     }, items))
-
+    
     # sort by name if requested
     if sort_by_name:
         items = sorted(items, key=lambda item: item.get('name').lower())
@@ -407,9 +428,10 @@ async def inventory_print(cmd):
 
             if not stacking:
                 # Generate the item's line in the response based on the specified formatting
-                response_part = "\n{id_item}: {soulbound_style}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{soulbound_style}{quantity}".format(
                     id_item=item.get('id_item'),
                     name=item.get('name'),
+                    hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
                 )
