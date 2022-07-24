@@ -1928,7 +1928,17 @@ item_list = [
         id_item='rfconsortmarble',
         str_name="RF's Consort Marble",
         str_desc="It's a consort marble from Recalcitrant Fawn. They're supposed to give these away when you complete their big quest or whatever, but you just took it off his corpse."
-    )
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_454casullround,
+        str_name=".454 Casull round",
+        str_desc="A singular unspent .454 Casull cartridge. Seems like a waste to just toss, but you can't exactly use it for anything."
+    ),
+    EwGeneralItem(
+        id_item='packofluckyslimes',
+        str_name="Pack of Lucky Slimes",
+        str_desc="A pack of Lucky Slimes. Pilfered from Tips, these don't seem to be much use to you."
+    ),
 ]
 # item_list += ewdebug.debugitem_set
 

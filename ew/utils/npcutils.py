@@ -99,6 +99,11 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
     response = random.choice(potential_dialogue)
+
+    if response[:2] == '()': #for exposition that doesn't use a talk bubble
+        response = response[2:]
+        return await fe_utils.send_message(None, channel, response)
+
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)

@@ -278,6 +278,139 @@ EwNpc(
     ],
     starting_statuses = [],
     condition= lambda user_data, enemy_data: True if (user_data.faction == 'killers' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False #attacks killers, or anyone when hostile
+),
+EwNpc(
+    id_npc = "pinkerton",
+    active = True,
+    str_name = "Pinkerton",
+    description = "A disheveled homeless man wearing a tarp cloak over ruined body armor. Pinkerton was once a member of the NLACakaNMPD's Vandal Squad, thuggish brutes who disguised as homeless people to get the drop on poor, innocent graffiti artists. Decades of slime-fueled gang violence have made him a shell of his former self.",
+    poi_list = poi_static.capturable_districts, # Change to whatever ew\static\poi is imported as
+    dialogue = {"talk":["()*Pinkerton barks some incomprehensible nonsense that may have once been police radio shorthand. You slowly back away so as not to anger him further.*", "()*You think Pinkerton lost the ability to speak long ago.*"],
+                "loop":["()*Pinkerton peers out from a back alley, suspiciously eyeing passersby.*", "()*Pinkerton is busying himself with a broken radio, trying to call backup that has long since disappeared.*", "()*Pinkerton's eye twitches, his hand tentatively reaching for his piece.*"],
+                "hit":["HYARGH-!!", "RRGH-", "()*Pinkerton snaps to attention, readying his revolver*"],
+                "rarehit":["()*Pinkerton lets out a bestial roar, lunging to grab and throw you in a perfect-arch German suplex!*"],
+                "die":["()*The last of the Vandal Squad falls.*"]
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/996283670631546931/rivers_cuomo_pinkerton.png", # No PFP given again
+    defaultslime = 1900000,
+    defaultlevel = 37,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
+    {'pairofsunglasses': [100, 1, 1]},
+    {'reinforcedkfcbucket': [5, 1, 1]},
+    {ewcfg.item_id_454casullround: [80, 1, 1]},
+    {'crop': [100, 1, 3]}
+    ],
+    starting_statuses = [],
+    ),
+EwNpc(
+    id_npc = "johnny",
+    active = True,
+    str_name = "Johnny",
+    description = "The biggest poser in all of NLACakaNM. He claims to be the kingpin of his own gang and is always trying to rope people into doing him favors as a means of entry.",
+    poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_slimesend],
+    dialogue = {"first":["Hey there slick. Runnin' a little low on the sweet sweet skune ain'tcha? Don't you worry slick, big bro Johnny's gotcha covered. I'm just gonna need to you to get me a poudrin. Get me that and I might just slide you a cool 100 slime. Quite the charitable offer if you ask me. It's a real dime-a-dozen deal slick, you can trust me on that."], #note that the 'first' command is not actually functional
+                "talk":["H-Hey, quit staring at me like that! I don't want any trouble, slick. Just leave me alone!", "I-I’m sorry I got in your way! H-Here, look, a poudrin! It's yours - you can have it! Just please don't hurt me!", "Munchy and Ben? Yeah, I know those guys. We go WAY back - I was totally a mentor figure to them. Just uh... don't ask anyone about that. And don't mention my name either!", "HEY! Watch it! Do have any idea how much effort it takes to keep my hairdo from falling to pieces? Fuck up the 'do and you're on thin ice!", "One of these days slick, I'm totally gonna rule this city. It'll be me sitting on a diamond-studded golden throne with, like, 12 slime girls at my feet. And you, uh... you can be the guy that shines my Yeezys!", "You're not gonna believe it, but some asshole was talking shit about my sick-ass 'do earlier! Yeah, I totally punched all of their teeth out. Yup! Every single one!"],
+                "hit":["H-Hey, I'm sorry if I did something that upset you slick. Honest! Just please don't do that again, alright?"],
+                "die":["What the fuck, slick..."]
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/996335418293362688/placeholderjohnny.png", # PFP in progress, placeholder
+    defaultslime = 10000,
+    defaultlevel = 1,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [100, 1, 2]},
+    {'jeans': [70, 1, 1]},
+    {'dogtag': [70, 1, 1]},
+    {ewcfg.weapon_id_katana: [15, 1, 1]}
+    ],
+    starting_statuses = []
+    ),
+EwNpc(
+    id_npc = "chad",
+    active = True,
+    str_name = "Chad", # Full name "Alpha Chad"
+    poi_list = [ewcfg.poi_id_krakbay, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_cratersville],
+    dialogue = {"talk":["Look alive there, pal!", "We're all gonna make it, or so I've been told."],
+                "hit":["Well, looks like things are going that way.", "Let's do this."],
+                "die":["Back to the sauce I go..."],
+                },
+    func_ai = npcutils.condition_hostile_action,
+    image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766477312020/kimblychadnpc.png",
+    defaultslime = 2560000,
+    defaultlevel = 40,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
+    {'cookingapron': [70, 1, 1]},
+    {'crop': [100, 1, 3]}
+    ],
+    starting_statuses = [],
+    condition=lambda user_data, enemy_data: True if (user_data.faction == 'killers' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    # attacks killers, or anyone when hostile
+),
+EwNpc(
+    id_npc = "tips",
+    active = True,
+    str_name = "Tips", # Full name "Tips Fedora"
+    poi_list = [ewcfg.poi_id_toxington, ewcfg.poi_id_gatlingsdale, ewcfg.poi_id_maimridge],
+    dialogue = {"talk":["Nothing like a nice, long smoke on a big tall building, or walking around town, or sitting at home staring at your ceiling, or... Wait, what was I talking about again?"],
+                "hit":["Heh, you're gonna regret this. I'm a master of the blade."],
+                "die":["T-There was spaghetti in my controller..."],
+                },
+    func_ai = npcutils.condition_hostile_action,
+    image_profile = "https://media.discordapp.net/attachments/976385581498138624/998073766682824704/kimblytipsnpc.png",
+    defaultslime = 2560000,
+    defaultlevel = 40,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
+    {'packofluckyslimes': [70, 1, 1]},
+    {'crop': [100, 1, 3]}
+    ],
+    starting_statuses = [],
+    condition=lambda user_data, enemy_data: True if (user_data.faction == 'rowdys' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+),
+EwNpc(
+    id_npc = "kimbly",
+    active = True,
+    str_name = "Kimbly", # Full name "Kimbly Loksed"
+    poi_list = [ewcfg.poi_id_smogsburg],
+    dialogue = {"first":["Wha- Oh hey there!"],
+                "talk":["Is there always supposed to be this much slime on the streets? "],
+                "hit":["Oh jeez! Looks like I'll have to deal you a hand!"],
+                "die":["Someone... Please check on my plushies..."],
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766909313144/kimblynpc.png",
+    defaultslime = 1550000,
+    defaultlevel = 35,
+    rewards = [
+    {ewcfg.item_id_gameguide: [100, 1, 1]},
+    {'crop': [100, 2, 5]}
+    ],
+    starting_statuses = [ewcfg.status_enemy_barren_id],
+),
+EwNpc(
+    id_npc = "juvieman",
+    active = True,
+    str_name = "Juvieman",
+    description = "A Juvie blessed with a unique mutation - Slimernalia powers all year round! They use these powers to protect Juvies in need.  Praise Phoebus, truly.",
+    poi_list = [ewcfg.poi_id_endlesswar, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_juviesrow],
+    dialogue = {"talk":["Hail fair citizen! Fine day for a jaunt around town, is it not?", "Keep an eye out for that nefarious Staydeadman!", "Keeping these streets safe, one scumbag at a time...", "It's tough work, but someone's gotta do it...", "Green's my favorite color!", "Need something?"],
+                "raretalk":["Remember to stock up on bodyspray, young Juve.", "Don't be afraid to use the Juvie signal if you're ever in trouble!", "I trust that you're not planning anything nefarious, citizen?"],
+                "hit":["So you've chosen violence, then? Very well!", "I'll make you pay for that!", "**WHO THE HECK DO YOU THINK I AM!?**"],
+                "rarehit":["Are you working with that nefarious Staydeadman!?"],
+                "die":["Nnngh... You haven't... seen the last of me..."]
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png",
+    defaultslime = 3000000,
+    defaultlevel = 60,
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
+    {ewcfg.weapon_id_juvierang: [50, 1, 1]},
+    ],
+    starting_statuses = [],
 )
 ]
 

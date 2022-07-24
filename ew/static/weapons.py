@@ -1766,6 +1766,29 @@ weapon_list = [
         stat=ewcfg.stat_skateboard_kills,
         str_brandish="Try !stunt."
     ),
+EwWeapon(  # 48
+        id_weapon=ewcfg.weapon_id_juvierang,
+        alias=[
+            "boomerang",
+            "juverang"
+        ],
+        str_crit="**Critical hit!!** {name_player}'s juvierang collides with its target!",
+        str_miss="**MISS!!** {name_player}'s juvierang flies away!",
+        str_equip="You equip the juvierang.",
+        str_name="juvierang",
+        str_weapon="a juvierang",
+        str_weaponmaster_self="You are a rank {rank} {title} 'rang-er.",
+        str_weaponmaster="They are a rank {rank} {title} 'rang-er.",
+        str_kill="**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}",
+        str_killdescriptor="'rang'd",
+        str_damage="{name_target} is knocked by a 'rang in the {hitzone}!!",
+        str_duel="**WHIP! WHAP!!** {name_player} and {name_target} throw juvierangs at eachother like they're playing tower defense.",
+        str_description="It's a run-of-the-mill 'rang.",
+        str_scalp=" It's got an L-shaped impression on it. Loser!",
+        fn_effect=get_normal_attack(weapon_type='small_game'),
+        stat=ewcfg.stat_juvierang_kills,
+        str_brandish="{name} does an overdramatic spin and tosses {weapon} into the air. It returns to them, just like you'd expect."
+    ),
 ]
 
 

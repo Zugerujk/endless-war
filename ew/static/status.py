@@ -707,6 +707,12 @@ trauma_list = [
         str_trauma="The sight of skate tricks makes them cower in fear.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
+    EwTrauma(  # 19
+        id_trauma=ewcfg.weapon_id_juvierang,
+        str_trauma_self="Your head is cleaved in with an L-shaped imprint. Loser!",
+        str_trauma="Their head is cleaved in with an L-shaped imprint. Loser!",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
 ]
 
 trauma_map = {}

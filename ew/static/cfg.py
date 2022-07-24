@@ -2501,6 +2501,7 @@ stat_harpoon_kills = 'harpoon_kills'
 stat_sniper_kills = 'sniper_kills'
 stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
+stat_juvierang_kills = 'juvierang_kills'
 
 
 # Categories of events that change your slime total, for statistics tracking
@@ -2799,7 +2800,7 @@ item_id_strauberryshortcakes = "strauberryshortcakes"
 item_id_chutzpahcherries = "chutzpahcherries"
 item_id_n3crunch = "n3crunch"
 item_id_slimesours = "slimesours"
-
+item_id_454casullround = ".454casullround"
 # slimeoid food
 item_id_fragilecandy = "fragilecandy"  # +chutzpah -grit
 item_id_rigidcandy = "rigidcandy"  # +grit -chutzpah
@@ -2940,6 +2941,7 @@ weapon_id_monofilamentwhip = 'monowhip'
 weapon_id_fists = 'fists'
 weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
+weapon_id_juvierang = 'juvierang'
 
 
 weapon_id_spraycan = 'spraycan'
