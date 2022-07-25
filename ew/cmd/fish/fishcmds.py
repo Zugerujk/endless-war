@@ -286,8 +286,11 @@ async def cast(cmd):
                     if valid_poi is False:
                         district_sought_id = random.choice(poi_static.capturable_districts)
                         district = poi_static.id_to_poi.get(district_sought_id)
-                    
-                    response = "You cast your fishing pole towards NLACakaNM. You wager it'll land in... {}? Probably.".format(district.str_name)
+
+                    if fisher.bait == False:
+                        response = "You cast your fishing line towards NLACakaNM. You wager it'll land in... {}? Probably.".format(district.str_name)
+                    else:
+                        response = "You attach your {} to the hook as bait and then cast your fishing line towards NLACakaNM. You wager it'll land in... {}? Probably.".format(str_name, district.str_name)
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     
                     fisher.cast_poi = district

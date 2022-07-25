@@ -300,11 +300,11 @@ async def inventory_print(cmd):
             sort_by_id = True
 
         # Stack items of same name
-        if 'nostack' in lower_token_list:
+        if 'nostack' in lower_token_list or 'unstack' in lower_token_list:
             stacking = False
 
         # Filter to general items
-        if 'general' in lower_token_list:
+        if 'general' in lower_token_list or 'misc' in lower_token_list:
             item_type = ewcfg.it_item
 
         # Filter to Weapon items
