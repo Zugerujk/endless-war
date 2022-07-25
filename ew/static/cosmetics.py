@@ -3,7 +3,7 @@ import os
 
 from ..model.item import EwCosmeticItem
 
-unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks',]
+unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'maidoutfit', 'drapeddress', 'widebrimmedhat', 'cigaretteholder']
 
 # Because all profollean cosmetics are complicated, they are in the same boat as unique_smeltables. DO NOT add profollean cosmetics to unique_smeltables! 
 # Profollean cosmetics and unique_smeltables are not smeltable in the slimepoudrin + stylecosmeticitem recipe. (Example: 4 slimepoudrin + 1 coolbeans will NOT give you a programmer socks or a cool profollean cosmetic! ) 
@@ -2201,6 +2201,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "drapeddress",
         str_name = "Draped Evening Dress",
+        str_desc = "A long gown, with ample room for large bosoms and tall stature. It is fitted for someone of height 289.56 cm. If you are shorter than that, it's gonna be pooling around your feet.",
         str_onadorn = "You slide into the beautiful dress... you are now absolutely breathtaking. Men (and women) bow before you, almost trying to throw themselves under your feet. It is rather annoying.",
         str_unadorn = "Your huge body rips out of the dress, tearing it to shreds! It was no match for your impressive figure! (Don't worry though it still is in your inventory.)",
         durability = 2500000,
@@ -2227,6 +2228,18 @@ cosmetic_items_list = [
             style = "beautiful",
             freshness = 5,
         ),
+    EwCosmeticItem(
+        id_cosmetic = "wrappingpapersexywear", # Reasons to never listen to the community, especially M@.
+        str_name = "Wrapping Paper Sexywear", # Nobody fucking say anything and let this be a surprise.
+        str_desc = "This awful collection of wrapping paper is what you're going to wrap parts of yourself to present yourself as a present. You think this is funny? Even if you wear this during slimernalia, nobody will like you.",
+        str_onadorn = "You wrap yourself up in wrapping paper to do the century old reinterpretation of \"I am your present!\"... you do realize that this is gross and wrong, right?", 
+        str_unadorn = "You rip off the awful, awful clothing. Of course, this will be your lowest point in your whole life." ,
+        durability = 4,
+        style = "evil",
+        freshness = -1,
+        acquisition = "smelting",
+        price = 100,
+    ),
 ]
 
 
