@@ -18,6 +18,16 @@ from ..static import weapons as static_weapons
 from ew.backend.dungeons import EwGamestate
 from ew.utils import stats as ewstats
 
+channel_map = {}
+"""
+    channel_map = {
+        server_id : {
+            channel_str: channel_obj
+            }
+        }
+"""
+
+
 class Message:
     # Send the message to this exact channel by name.
     channel = None
@@ -270,27 +280,47 @@ async def post_in_channels(id_server, message, channels = None):
     return
 
 
-"""
-	Find a chat channel by name in a server.
-"""
+def get_channel(server: discord.Guild, channel_name: str):
+    """ Find a chat channel by name in a server. """
+    server_channel_map = channel_map.get(server.id)
+    found_ch = server_channel_map.get(channel_name)
 
+    if not found_ch:
+        # Look up the channel in discord and assign it to the map
+        for chan in server.channels:
+            if chan.name == channel_name:
+                channel_map[server.id][channel_name] = chan
+                found_ch = chan
 
-def get_channel(server = None, channel_name = ""):
-    channel = None
+        if not found_ch and not ewutils.DEBUG:
+            ewutils.logMsg(f'Error: In get_channel(), could not find channel using channel_name "{channel_name}"')
+            return None
 
-    for chan in server.channels:
-        if chan.name == channel_name:
-            channel = chan
+    return found_ch
+
 
     if channel is None and (not ewutils.DEBUG or ewcfg.suppress_missing_channel):
         ewutils.logMsg('Error: In get_channel(), could not find channel using channel_name "{}"'.format(channel_name))
 
-    return channel
 
+def map_channels(server):
+    """ Map every channel str to the proper channel object """
+    ch_found = 0
+    total_ch = len(poi_static.poi_list)
 
-"""
-	Returns an EwUser object of the selected kingpin
-"""
+    server_channel_map = {}
+
+    # Map POI Channels
+    for poi in poi_static.poi_list:
+        ch_search = poi.channel
+        for chan in server.channels:
+            if chan.name == ch_search:
+                server_channel_map[ch_search] = chan
+                ch_found += 1
+
+    channel_map[server.id] = server_channel_map
+
+    ewutils.logMsg(f"{server.name}: Found {ch_found} POI channels. {total_ch - ch_found} POI channels missing.")
 
 
 def find_kingpin(id_server, kingpin_role):
@@ -582,21 +612,6 @@ def check_user_has_role(server, member, checked_role_name):
 
 def return_server_role(server, role_name):
     return discord.utils.get(server.roles, name=role_name)
-
-
-""" add the PvP flag role to a member """
-
-
-async def add_pvp_role(cmd = None):
-    member = cmd.message.author
-    roles_map_user = ewutils.getRoleMap(member.roles)
-
-    if ewcfg.role_copkillers in roles_map_user and ewcfg.role_copkillers_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_copkillers_pvp])
-    elif ewcfg.role_rowdyfuckers in roles_map_user and ewcfg.role_rowdyfuckers_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_rowdyfuckers_pvp])
-    elif ewcfg.role_juvenile in roles_map_user and ewcfg.role_juvenile_pvp not in roles_map_user:
-        await member.add_roles(cmd.roles_map[ewcfg.role_juvenile_pvp])
 
 
 async def collect_topics(cmd):
