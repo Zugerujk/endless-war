@@ -133,7 +133,9 @@ class EwNpc:
 
     attacktype = 'amateur', # the weapon the enemy uses
 
-    description = '' #a description of the npc fpr !data
+    description = '', #a description of the npc fpr !data
+
+    rarity = 5 #relative spawn frequency
     
     def __init__(
         self,
@@ -150,7 +152,8 @@ class EwNpc:
         starting_statuses = [],
         attacktype = 'amateur',
         condition =  lambda user_data: True,
-        description = ""
+        description = "",
+        rarity = 5
     ):
         self.id_npc = id_npc
         self.active = active
@@ -165,4 +168,5 @@ class EwNpc:
         self.starting_statuses = starting_statuses
         self.condition = condition,
         self.attacktype=attacktype
-        self.description = description
+        self.description = description,
+        self.rarity = rarity

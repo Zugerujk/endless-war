@@ -59,7 +59,8 @@ EwNpc(
         rewards = [
         {ewcfg.item_id_oldcd: [100, 1, 1]},
         ],
-        starting_statuses=[ewcfg.status_enemy_barren_id]
+        starting_statuses=[ewcfg.status_enemy_barren_id],
+        rarity=10
     ),
 EwNpc(
     id_npc = "juviemiku",
@@ -154,7 +155,8 @@ EwNpc(
     ],
     starting_statuses=[],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+    rarity=7
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -180,7 +182,8 @@ EwNpc(
     ],
     starting_statuses=[],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+    rarity=7
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -206,7 +209,8 @@ EwNpc(
     ],
     starting_statuses=[],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+    condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+    rarity=7
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -229,7 +233,8 @@ EwNpc(
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False
+    condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False,
+    rarity=3
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -411,11 +416,16 @@ EwNpc(
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
     ],
     starting_statuses = [],
+    rarity=6
 )
 ]
 
 active_npcs_map = {}
+spawn_probability_list = []
+
 
 for npc in npc_list:
     if npc.active:
         active_npcs_map[npc.id_npc] = npc
+        for x in range(min(npc.rarity, 10)): #the rarity determines frequency in the list, and thus spawn frequency, capped at 10
+            spawn_probability_list.append(npc.id_npc)
