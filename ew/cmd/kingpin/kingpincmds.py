@@ -106,7 +106,7 @@ async def pardon(cmd):
             if move_utils.inaccessible(user_data=member_data, poi=member_poi):
                 member_data.poi = ewcfg.poi_id_downtown
             member_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=member)
+            await ewrolemgr.update_roles(client=cmd.client, member=member)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -133,7 +133,7 @@ async def defect(cmd):
                 accepted = False
 
     except Exception as e:
-        print(e)
+        ewutils.logMsg(f"Failed to process defection for {cmd.message.author.display_name}: {e}")
         accepted = False
 
     if not accepted:
@@ -164,7 +164,7 @@ async def defect(cmd):
         if move_utils.inaccessible(user_data=member_data, poi=member_poi):
             member_data.poi = ewcfg.poi_id_downtown
         member_data.persist()
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel,  "{}: Let {} defect.".format(modauth.display_name, member.display_name))
@@ -205,7 +205,7 @@ async def banish(cmd):
                 member_data.poi = ewcfg.poi_id_downtown
             member_data.persist()
             response = "{} has been banned from enlisting in the {}".format(member.display_name, user_data.faction)
-            await ewrolemgr.updateRoles(client=cmd.client, member=member)
+            await ewrolemgr.update_roles(client=cmd.client, member=member)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -492,15 +492,14 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
         phone_data.item_props['gellphoneactive'] = 'false'
         phone_data.persist()
         if phone_data.id_owner.isnumeric() and int(phone_data.id_owner)>0:
-            print(phone_data.id_owner)
             member_object = server.get_member(int(phone_data.id_owner))
             if member_object is None:
                 continue
             user_data = EwUser(member=member_object)
-            print('{}{}'.format('clowning:', user_data.id_user))
+            ewutils.logMsg("Clown car'd {}".format('clowning:', user_data.id_user))
             user_data.poi = 'juviesrow'
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=member_object)
+            await ewrolemgr.update_roles(client=cmd.client, member=member_object)
 
 
     if id_server != None:
@@ -528,7 +527,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                 if iterator % 20 == 0:
                     await asyncio.sleep(5)
                 member_object = server.get_member(member[0])
-                await ewrolemgr.updateRoles(client = cmd.client, member=member_object )
+                await ewrolemgr.update_roles(client = cmd.client, member=member_object)
 
 
         except:

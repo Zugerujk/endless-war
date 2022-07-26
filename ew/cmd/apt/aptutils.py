@@ -51,7 +51,7 @@ async def usekey(cmd, owner_user):
             user_data.poi = poi_dest.id_poi
             user_data.visiting = owner_user.id_user
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
             response = "You're in the apartment."
 
             try:

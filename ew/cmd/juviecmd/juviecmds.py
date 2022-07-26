@@ -155,12 +155,10 @@ async def crush(cmd):
 
             # Kill player if they have less than 1 million slime
             if user_data.slimes < 1000000:
-                die_resp = user_data.die(cause=ewcfg.cause_crushing)
+                die_resp = await user_data.die(cause=ewcfg.cause_crushing)
                 resp_cont.add_response_container(die_resp)
 
                 response = "You {} your hard-earned slime crystal with your bare teeth.\nAs the nerve endings in your teeth explode, you realize you bit into a negapoudrin! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
-
-                user_data.persist()
 
             # Remove 1 million slime from the player
             else:
@@ -181,12 +179,10 @@ async def crush(cmd):
 
             # Kill player if they have less than 1 million slime
             if user_data.slimes < 1000000:
-                die_resp = user_data.die(cause=ewcfg.cause_crushing)
+                die_resp = await user_data.die(cause=ewcfg.cause_crushing)
                 resp_cont.add_response_container(die_resp)
                 
                 response = "You {} the Negaslimeoid core with your bare teeth.\nAs the nerve endings in your teeth explode, you recoil in pain! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
-
-                user_data.persist()
 
             # Remove 1 million slime from the player
             else:
@@ -286,7 +282,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_rowdys:
         if ewcfg.faction_rowdys in bans:
@@ -318,7 +314,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_slimecorp:
         response = "Sorry, pal. That ship has sailed."
@@ -353,7 +349,7 @@ async def renounce(cmd):
         user_data.sidearm = -1
         user_data.persist()
         response = "You are no longer enlisted in the {}, but you are not free of association with them. Your former teammates immediately begin to beat the shit out of you, knocking {} slime out of you before you're able to get away.".format(faction, renounce_fee)
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -473,11 +469,11 @@ async def mine(cmd):
                     has_pickaxe = True
                 elif (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
-                    print(poi.mother_districts[0] + 'hole')
+                    # print(poi.mother_districts[0] + 'hole')
                     minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
                     added = random.randint(5, 15)
                     checked_dict = digup_relics.get(poi.mother_districts[0])
-                    print(checked_dict)
+                    # print(checked_dict)
                     dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
 
 
@@ -1070,8 +1066,7 @@ async def hall_answer(cmd):
                 user_data.persist()
             else:
                 dealt_string = "gets vaporized!"
-                user_data.die(cause=ewcfg.cause_praying)
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                await user_data.die(cause=ewcfg.cause_praying)
 
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 

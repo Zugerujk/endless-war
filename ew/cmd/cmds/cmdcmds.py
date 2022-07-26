@@ -126,7 +126,7 @@ async def score(cmd: cmd_utils.EwCmd):
 
     time_now_role_start = int(time.time())
     if member != None:  # update roles on other user slime check
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
     time_now_role_end = int(time.time())
 
     time_now_cmd_end = int(time.time())
@@ -414,9 +414,9 @@ async def data(cmd):
     # Send the response to the player.
     await fe_utils.send_response(response, cmd)
 
-    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
     if member != None:
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
 
 
 """ Finally, separates mutations from !data """
@@ -436,6 +436,7 @@ async def mutations(cmd):
         if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
             return await exec_mutations(cmd)
 
+
         # if ewcfg.mutation_id_gay in mutations:
         #     # PRESENT DAY
         #     # PRESENT TIME
@@ -445,6 +446,7 @@ async def mutations(cmd):
         #         die_resp = user_data.die(cause=ewcfg.cause_gay)
         #         resp_cont.add_response_container(die_resp)
         #         return await resp_cont.post()
+
 
         for mutation in mutations:
             mutation_flavor = static_mutations.mutations_map[mutation]
@@ -794,8 +796,8 @@ async def toss_off_cliff(cmd):
                     if poi_static.id_to_poi.get(target.poi).is_apartment and target.visiting == ewcfg.location_id_empty:
                         try:
                             await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], "SMAAASH! A brick flies through your window!"))
-                        except:
-                            ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
+                        except Exception as e:
+                            ewutils.logMsg("failed to send brick message to user {}:{}".format(target.id_user, e))
                 elif target.poi == user_data.poi:
                     if target.life_state == ewcfg.life_state_corpse:
                         response = "You reel back and chuck the brick at a ghost. As much as we both would like to teach the dirty staydead a lesson, the brick passes right through."
@@ -815,8 +817,8 @@ async def toss_off_cliff(cmd):
 
                         try:
                             await fe_utils.send_message(cmd.client, cmd.mentions[0], fe_utils.formatMessage(cmd.mentions[0], random.choice(["!!!!!!", "BRICK!", "FUCK", "SHIT", "?!?!?!?!?", "BONK!", "F'TAAAAANG!", "SPLAT!", "SPLAPP!", "WHACK"])))
-                        except:
-                            ewutils.logMsg("failed to send brick message to user {}".format(target.id_user))
+                        except Exception as e:
+                            ewutils.logMsg("failed to send brick message to user {}:{}".format(target.id_user, e))
                 else:
                     response = "There's nobody here."
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -857,6 +859,7 @@ async def toss_off_cliff(cmd):
 async def jump(cmd):
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
+    died = False
 
     # If the player is in any of the mines
     if user_data.poi in juviecmdutils.mines_map:
@@ -876,7 +879,7 @@ async def jump(cmd):
                     user_data.time_lastenter = int(time.time())
                     user_data.persist()
                     await user_data.move_inhabitants(id_poi=ewcfg.poi_id_thevoid)
-                    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
                     void_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
                     wafflehouse_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
@@ -906,7 +909,8 @@ async def jump(cmd):
         # Kill the player if they don't have laaf
         if ewcfg.mutation_id_lightasafeather not in user_data.get_mutations():
             user_data.trauma = ewcfg.trauma_id_environment
-            die_resp = user_data.die(cause=ewcfg.cause_falling)
+            die_resp = await user_data.die(cause=ewcfg.cause_falling)
+            died = True
             resp_cont.add_response_container(die_resp)
             response_dest = "SPLAT! A body collides with the asphalt with such force, that it is utterly annihilated, covering bystanders in blood and slime and guts."
         else:
@@ -917,7 +921,8 @@ async def jump(cmd):
         # Secnd messages to channels
         resp_cont.add_channel_response(channel=poi.channel, response=response)
         resp_cont.add_channel_response(channel=poi_dest.channel, response=response_dest)
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        if not died:
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
         return await resp_cont.post()
             
     # If you're NOT at the cliffs.
@@ -938,7 +943,7 @@ async def jump(cmd):
         for item in cliff_inventory:
             item_object = EwItem(id_item=item.get('id_item'))
             # Don't put soulbound items in the sea.
-            if item.get('soulbound') == True:
+            if item.get('soulbound'):
                 pass
 
             # If a weapon is equipped or sidearmed, put it directly in the sea's inventory.
@@ -959,32 +964,27 @@ async def jump(cmd):
 
         # Kill the player
         user_data.trauma = ewcfg.trauma_id_environment
-        die_resp = user_data.die(cause=ewcfg.cause_cliff)
-        user_data.persist()
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        die_resp = await user_data.die(cause=ewcfg.cause_cliff)
         if die_resp != EwResponseContainer(id_server=cmd.guild.id):
             await die_resp.post()
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_response(response, cmd)
 
 
 async def push(cmd):
-    time_now = int(time.time())
     user_data = EwUser(member=cmd.message.author)
     districtmodel = EwDistrict(id_server=cmd.guild.id, district=ewcfg.poi_id_slimesendcliffs)
 
     if cmd.mentions_count == 0:
         response = "You try to push a nearby building. Nope, still not strong enough to move it."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_response(response, cmd)
     elif cmd.mentions_count >= 2:
         response = "You can't push more than one person at a time."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_response(response, cmd)
 
     target = cmd.mentions[0]
     targetmodel = EwUser(member=target)
     target_mutations = targetmodel.get_mutations()
     user_mutations = user_data.get_mutations()
-
-    server = cmd.guild
 
     if targetmodel.poi != user_data.poi:
         response = "You can't {} them because they aren't here.".format(cmd.tokens[0])
@@ -1009,7 +1009,7 @@ async def push(cmd):
                 selected_cos = cosmetic
                 break
 
-        if selected_cos == None:
+        if selected_cos is None:
             selected_cos = "PANTS"
         else:
             selected_cos = id_item = selected_cos.get('name')
@@ -1033,10 +1033,6 @@ async def push(cmd):
     elif targetmodel.life_state == ewcfg.life_state_corpse:
         response = "You try to give ol' {} a shove, but they're a bit too dead to be taking up physical space.".format(target.display_name)
 
-    # elif time_now > targetmodel.time_expirpvp:
-    # Target is not flagged for PvP.
-    #	response = "{} is not mired in the ENDLESS WAR right now.".format(target.display_name)
-
     elif (ewcfg.mutation_id_bigbones in target_mutations or ewcfg.mutation_id_fatchance in target_mutations) and (ewcfg.mutation_id_lightasafeather not in target_mutations and ewcfg.mutation_id_airlock not in target_mutations):
         response = "You try to push {}, but they're way too heavy. It's always fat people, constantly trying to prevent your murderous schemes.".format(target.display_name)
 
@@ -1059,7 +1055,7 @@ async def push(cmd):
         cliff_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=targetmodel.id_user)
         for item in cliff_inventory:
             item_object = EwItem(id_item=item.get('id_item'))
-            if item.get('soulbound') == True:
+            if item.get('soulbound'):
                 pass
 
             elif item_object.item_type == ewcfg.it_weapon:
@@ -1069,25 +1065,18 @@ async def push(cmd):
                 else:
                     item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
 
-
-            elif item_object.item_props.get('adorned') == 'true':
+            elif item_object.item_props.get('adorned'):
                 bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
             else:
                 item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
 
         targetmodel.trauma = ewcfg.trauma_id_environment
-        die_resp = targetmodel.die(cause=ewcfg.cause_cliff)
-        targetmodel.persist()
-
-        user_data.persist()
-
-        await ewrolemgr.updateRoles(client=cmd.client, member=target)
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        die_resp = await targetmodel.die(cause=ewcfg.cause_cliff)
 
         await die_resp.post()
 
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_response(response, cmd)
 
 
 async def purify(cmd):
@@ -1991,81 +1980,14 @@ async def pray(cmd):
 
             user_data = EwUser(member=cmd.message.author)
             user_data.trauma = ewcfg.trauma_id_environment
-            die_resp = user_data.die(cause=ewcfg.cause_praying)
-            user_data.persist()
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            die_resp = await user_data.die(cause=ewcfg.cause_praying)
             await die_resp.post()
 
             response = "ENDLESS WAR completely and utterly obliterates you with a bone-hurting beam."
         else:
             response = "ENDLESS WAR disapproves of this idolatry."
-
-
     else:
         if user_data.life_state == ewcfg.life_state_kingpin:
-            # slimernalia 2019 revieal (this was left in for a long time lmao)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"https://i.imgur.com/WgnoDSA.gif"
-            #	))
-            #	await asyncio.sleep(9)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"https://i.imgur.com/M5GWGGc.gif"
-            #	))
-            #	await asyncio.sleep(3)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"https://i.imgur.com/fkLZ3XX.gif"
-            #	))
-            #	await asyncio.sleep(3)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"https://i.imgur.com/lUajXCs.gif"
-            #	))
-            #	await asyncio.sleep(9)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"https://i.imgur.com/FIuGl0C.png"
-            #	))
-            #	await asyncio.sleep(6)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"BUT SERIOUSLY, FOLKS... https://i.imgur.com/sAa0uwB.png"
-            #	))
-            #	await asyncio.sleep(3)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"IT'S SLIMERNALIA! https://i.imgur.com/lbLNJNC.gif"
-            #	))
-            #	await asyncio.sleep(6)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"***WHRRRRRRRRRRRR*** https://i.imgur.com/pvCfBQ2.gif"
-            #	))
-            #	await asyncio.sleep(6)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"***WHRRRRRRRRRRRR*** https://i.imgur.com/e2PY1VJ.gif"
-            #	))
-            #	await asyncio.sleep(3)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"DELICIOUS KINGPIN SLIME... https://i.imgur.com/2Cp1u43.png"
-            #	))
-            #	await asyncio.sleep(3)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
-            #		cmd.message.author,
-            #		"JUST ENOUGH FOR A WEEK OR TWO OF CLEAR SKIES... https://i.imgur.com/L7T3V5b.gif"
-            #	))
-            #	await asyncio.sleep(9)
-            #	await fe_utils.send_message(cmd.client, cmd.message.channel,
-            #		"@everyone Yo, Slimernalia! https://imgur.com/16mzAJT"
-            #	)
-            #	response = "NOW GO FORTH AND SPLATTER SLIME."
-            #	market_data = EwMarket(id_server = cmd.guild.id)
-            #	market_data.weather = ewcfg.weather_sunny
-            #	market_data.persist()
 
             # kingpins don't die or get poudrins
             responses_list = comm_cfg.pray_responses_list
@@ -2111,9 +2033,7 @@ async def pray(cmd):
 
                 user_data = EwUser(member=cmd.message.author)
                 user_data.trauma = ewcfg.trauma_id_environment
-                die_resp = user_data.die(cause=ewcfg.cause_praying)
-                user_data.persist()
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                die_resp = await user_data.die(cause=ewcfg.cause_praying)
                 await die_resp.post()
 
                 response = "ENDLESS WAR completely and utterly obliterates you with a bone-hurting beam."
@@ -2128,7 +2048,7 @@ async def pray(cmd):
 
                 response = random.choice(responses_list)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_response(response, cmd)
 
 
 async def check_mastery(cmd):
@@ -2739,7 +2659,7 @@ async def arrest(cmd):
         user_data.persist()
 
         response = "{} is thrown into one of the Juvenile Detention Center's high security solitary confinement spheres{}.".format(member.display_name, time_done)
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
@@ -2765,7 +2685,7 @@ async def release(cmd):
         user_data.persist()
 
         response = "{} is released. But beware, the cops will be keeping an eye on you.".format(member.display_name)
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
@@ -2909,7 +2829,7 @@ async def promote(cmd):
         user_data.faction = ewcfg.faction_slimecorp
         user_data.persist()
 
-        await ewrolemgr.updateRoles(client=cmd.client, member=member)
+        await ewrolemgr.update_roles(client=cmd.client, member=member)
 
 
 async def unban_manual(cmd):

@@ -154,7 +154,7 @@ async def revive(cmd, player_auto = None):
                     district = random.choice(poi_static.capturable_districts)
                 bknd_item.give_item(id_item=item.get("id_item"), id_user=district, id_server=sewer_data.id_server)
 
-            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
             response = '{slime4} Geysers of fresh slime erupt from every manhole in the city, showering their surrounding districts. {slime4} {name} has been reborn in slime. {slime4}'.format(
                 slime4=ewcfg.emote_slime4, name=cmd.message.author.display_name)
@@ -600,7 +600,6 @@ async def sacrifice(cmd):
                 item.id_owner = '{}sacrificed'.format(user_data.id_user)
                 item.persist()
                 property_type = ewcfg.id_item_convert.get(item.item_type)
-                print('')
                 if item.item_props.get('context') == 'slimeoidheart':
                     property_type = 'slimeoidheart'
                 elif property_type is None:

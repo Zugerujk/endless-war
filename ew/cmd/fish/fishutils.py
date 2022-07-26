@@ -19,7 +19,7 @@ from ew.utils import core as ewutils
 from ew.cmd.move.moveutils import one_eye_dm
 from ew.utils import frontend as ewfrontend
 from ew.utils.district import EwDistrict
-from ew.utils.rolemgr import updateRoles
+from ew.utils.rolemgr import update_roles
 from ew.utils.combat import EwUser
 
 try:    
@@ -324,7 +324,7 @@ async def award_fish(fisher, cmd, user_data):
                     await asyncio.sleep(3)
 
                     # Send 'em to the moon!
-                    await updateRoles(client=cmd.client, member=target, new_poi='crestofthecrescentmoon')
+                    await update_roles(client=cmd.client, member=target, new_poi='crestofthecrescentmoon')
                     target_data.poi = 'crestofthecrescentmoon'
                     target_data.time_lastenter = int(time.time())
                     target_data.persist()

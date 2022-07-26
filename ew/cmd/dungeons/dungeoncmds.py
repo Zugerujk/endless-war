@@ -40,7 +40,7 @@ async def tutorial_cmd(cmd):
 
         user_data.persist()
 
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
         response = dungeon_utils.format_tutorial_response(scene)
 
@@ -62,7 +62,7 @@ async def tutorial_cmd(cmd):
 
         user_data.persist()
 
-        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
 
         response = dungeon_utils.format_tutorial_response(scene)
 
