@@ -137,7 +137,7 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
     # Part 1: Remove overrides the user shouldn't have
     for poi in poi_static.poi_list:
         channel = fe_utils.get_channel(server, poi.channel)
-        if not channel:
+        if channel is None:
             continue
 
         if used_member in channel.overwrites and user_poi_obj.id_poi != poi.id_poi:

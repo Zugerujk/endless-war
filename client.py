@@ -1113,7 +1113,6 @@ async def on_raw_reaction_add(payload):
 
     slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
     deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
-    art_exhibits = fe_utils.get_channel(server, ewcfg.channel_artexhibits)
 
     # Slime Twitter Emote Handling
     if slime_twitter is not None and payload.channel_id == slime_twitter.id:
@@ -1137,6 +1136,7 @@ async def on_raw_reaction_add(payload):
                     current_record.legality = 0
                     current_record.persist()
 
+                    art_exhibits = fe_utils.get_channel(server, ewcfg.channel_artexhibits)
                     await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 

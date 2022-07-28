@@ -3112,17 +3112,6 @@ for poi in poi_list:
     if poi.permissions == None:
         poi.permissions = {('{}'.format(poi.channel)): ewcfg.permissions_general}
 
-    # Assign all the correct major and minor roles.
-
-    # Districts and streets need their minor roles to see (read-only) all of their subzones.
-    if poi.is_district or poi.is_street or poi.id_poi in ["themines", "cratersvillemines", "toxingtonmines"]:
-        poi.minor_role = '{}_minor'.format(poi.id_poi)
-
-    # Districts need their major roles for their specific LAN (voice/text) channels.
-    if poi.is_district:
-        poi.major_role = '{}_major'.format(poi.id_poi)
-        streets_resp = ''
-
     placeholder_channel_names_used = False
 
     # Subzones and streets need the same major roles as their mother/father districts.
@@ -3130,7 +3119,6 @@ for poi in poi_list:
         if poi.father_district != "" and poi.father_district != None:
             for father_poi in poi_list:
                 if father_poi.id_poi == poi.father_district:
-                    poi.major_role = father_poi.major_role
                     poi.property_class = father_poi.property_class
 
                     if placeholder_channel_names_used:
