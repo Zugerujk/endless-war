@@ -93,14 +93,6 @@ last_helped_times = {}
 # Map of server ID to a map of active users on that server.
 active_users_map = {}
 
-# Map of server ID to slime twitter channels
-channels_slimetwitter = {}
-
-#Map of comm serv channels
-channels_deviantsplaart = {}
-
-channels_artexhibits = {}
-
 # Map of all command words in the game to their implementing function.
 
 #cmd_map = cmds.cmd_map
@@ -313,6 +305,7 @@ async def on_ready():
         asyncio.ensure_future(loop_utils.clock_tick_loop(id_server=server.id))
 
         print('\nNUMBER OF CHANNELS IN SERVER: {}\n'.format(len(server.channels)))
+
 
     try:
         ewutils.logMsg('Creating message queue directory.')
@@ -1110,25 +1103,31 @@ async def on_raw_reaction_add(payload):
         emoji_req = 2
     else:
         emoji_req = 10
-    # We only respond to reactions in the slime twitter channel
-    if (payload.guild_id is not None  # not a dm
-            and channels_slimetwitter[payload.guild_id] is not None  # server has a slime twitter channel
-            and payload.channel_id == channels_slimetwitter[payload.guild_id].id):  # reaction was in that channel
-        message = await channels_slimetwitter[payload.guild_id].fetch_message(payload.message_id)
 
+    # Currently only respond to reactions in the main server
+    if payload.guild_id is None:
+        # Was a DM
+        return
+
+    server = client.get_guild(payload.guild_id)
+
+    slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
+    deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
+    art_exhibits = fe_utils.get_channel(server, ewcfg.channel_artexhibits)
+
+    # Slime Twitter Emote Handling
+    if slime_twitter is not None and payload.channel_id == slime_twitter.id:
+        message = await slime_twitter.fetch_message(payload.message_id)
         if len(message.embeds) > 0:
-
             embed = message.embeds[0]
             userid = "<@!{}>".format(payload.user_id)
-
             if embed.description.startswith(userid):
-
-                if (str(payload.emoji) == ewcfg.emote_delete_tweet):
+                if str(payload.emoji) == ewcfg.emote_delete_tweet:
                     await message.delete()
-    elif (payload.guild_id is not None # not a dm
-        and channels_deviantsplaart.get(payload.guild_id) is not None
-        and payload.channel_id == channels_deviantsplaart[payload.guild_id].id):
-        message = await channels_deviantsplaart[payload.guild_id].fetch_message(payload.message_id)
+
+    # Deviant Splaart Emote Handling
+    elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:
+        message = await deviant_splaart.fetch_message(payload.message_id)
         if str(payload.emoji) == ewcfg.emote_111 or str(payload.emoji) == ewcfg.emote_111_debug:
             for react in message.reactions:
                 if react.count >= emoji_req and react.emoji.id in [720412882143150241, 431547758181220377]:
@@ -1138,8 +1137,7 @@ async def on_raw_reaction_add(payload):
                     current_record.legality = 0
                     current_record.persist()
 
-                    art_channel = channels_artexhibits[payload.guild_id]
-                    await fe_utils.send_message(client, art_channel, msgtext)
+                    await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 
 
