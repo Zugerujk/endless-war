@@ -529,7 +529,7 @@ class EwEnemy(EwEnemyBase):
                 # Assign the corpse role to the newly dead player.
                 if was_killed:
                     member = server.get_member(target_data.id_user)
-                    await ewrolemgr.update_roles(client=client, member=member)
+                    await ewrolemgr.updateRoles(client=client, member=member)
         # announce death in kill feed channel
         # killfeed_channel = ewutils.get_channel(enemy_data.id_server, ewcfg.channel_killfeed)
         # killfeed_resp = resp_cont.channel_responses[ch_name]
@@ -912,7 +912,7 @@ async def explode(damage = 0, district_data = None, market_data = None):
             slimes_dropped = user_data.totaldamage + user_data.slimes
 
             user_data.trauma = ewcfg.trauma_id_environment
-            await user_data.die(cause=ewcfg.cause_killing, update_roles=False)
+            await user_data.die(cause=ewcfg.cause_killing, updateRoles=False)
 
             response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(
                 player_data.display_name)
@@ -1710,7 +1710,7 @@ class EwUser(EwUserBase):
 
         return bknd_status.applyStatus(self, id_status, value, source, multiplier, id_target)
 
-    async def die(self, cause=None, update_roles=True):
+    async def die(self, cause=None, updateRoles=True):
 
         time_now = int(time.time())
 
@@ -1880,8 +1880,8 @@ class EwUser(EwUserBase):
 
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
-        if update_roles:
-            await ewrolemgr.update_roles(client, member)
+        if updateRoles:
+            await ewrolemgr.updateRoles(client, member)
 
         return resp_cont
 
@@ -2360,7 +2360,7 @@ class EwUser(EwUserBase):
                 ghost_data.persist()
 
                 ghost_member = server.get_member(ghost)
-                await ewrolemgr.update_roles(client=client, member=ghost_member)
+                await ewrolemgr.updateRoles(client=client, member=ghost_member)
 
     def remove_inhabitation(self):
         user_is_alive = self.life_state != ewcfg.life_state_corpse

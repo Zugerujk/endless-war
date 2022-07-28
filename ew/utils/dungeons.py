@@ -32,7 +32,7 @@ async def begin_tutorial(member):
 
     user_data.persist()
 
-    await ewrolemgr.update_roles(client=ewutils.get_client(), member=member)
+    await ewrolemgr.updateRoles(client=ewutils.get_client(), member=member)
 
     response = format_tutorial_response(scene)
     poi_def = poi_static.id_to_poi.get(user_data.poi)

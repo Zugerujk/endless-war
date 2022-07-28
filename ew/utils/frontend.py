@@ -151,7 +151,7 @@ class EwResponseContainer:
             return messages
 
         for member in self.members_to_update:
-            await ewrolemgr.update_roles(client=self.client, member=member)
+            await ewrolemgr.updateRoles(client=self.client, member=member)
 
         for ch in self.channel_responses:
             if channel is None:
@@ -299,10 +299,6 @@ def get_channel(server: discord.Guild, channel_name: str):
     return found_ch
 
 
-    if channel is None and (not ewutils.DEBUG or ewcfg.suppress_missing_channel):
-        ewutils.logMsg('Error: In get_channel(), could not find channel using channel_name "{}"'.format(channel_name))
-
-
 def map_channels(server):
     """ Map every channel str to the proper channel object """
     ch_found = 0
@@ -377,7 +373,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
 
     try:
         # Whitespace messages will always fail to send, don't clutter the log
-        if text or not text.isspace():
+        if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after)
         if embed is not None:
             return await channel.send(embed=embed)
@@ -564,7 +560,7 @@ async def update_slimernalia_kingpin(client, server):
         kingpin_state.value = '-1'
         try:
             old_kingpin_member = server.get_member(old_kingpin_id)
-            await ewrolemgr.update_roles(client=client, member=old_kingpin_member)
+            await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
         except:
             ewutils.logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin_id, server.id))
 
@@ -583,7 +579,7 @@ async def update_slimernalia_kingpin(client, server):
 
     try:
         new_kingpin_member = server.get_member(new_kingpin_id)
-        await ewrolemgr.update_roles(client=client, member=new_kingpin_member)
+        await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
     except:
         ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin_id, server.id))
 

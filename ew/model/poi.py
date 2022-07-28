@@ -146,8 +146,6 @@ class EwPoi:
             coord_alias = [],
             channel = "",
             role = None,
-            major_role = None,
-            minor_role = None,
             permissions = None,
             pvp = True,
             factions = [],

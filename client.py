@@ -93,14 +93,6 @@ last_helped_times = {}
 # Map of server ID to a map of active users on that server.
 active_users_map = {}
 
-# Map of server ID to slime twitter channels
-channels_slimetwitter = {}
-
-#Map of comm serv channels
-channels_deviantsplaart = {}
-
-channels_artexhibits = {}
-
 # Map of all command words in the game to their implementing function.
 
 #cmd_map = cmds.cmd_map
@@ -314,6 +306,7 @@ async def on_ready():
 
         print('\nNUMBER OF CHANNELS IN SERVER: {}\n'.format(len(server.channels)))
 
+
     try:
         ewutils.logMsg('Creating message queue directory.')
         os.mkdir(ewcfg.dir_msgqueue)
@@ -391,7 +384,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     ewutils.logMsg("New member \"{}\" joined. Configuring default roles / permissions now.".format(member.display_name))
-    await ewrolemgr.update_roles(client=client, member=member)
+    await ewrolemgr.updateRoles(client=client, member=member)
     bknd_player.player_update(
         member=member,
         server=member.guild
@@ -846,9 +839,6 @@ async def on_message(message):
     time_now = int(time.time())
     ewcfg.set_client(client)
 
-    playermodel = EwPlayer(id_user=message.author.id)
-    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
-
     """ do not interact with our own messages """
     if message.author.id == client.user.id or message.author.bot == True:
         return
@@ -878,6 +868,9 @@ async def on_message(message):
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
+
+    playermodel = EwPlayer(id_user=message.author.id)
+    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
 
     # update the player's time_last_action which is used for kicking AFK players out of subzones
     if message.guild is not None:
@@ -1110,25 +1103,30 @@ async def on_raw_reaction_add(payload):
         emoji_req = 2
     else:
         emoji_req = 10
-    # We only respond to reactions in the slime twitter channel
-    if (payload.guild_id is not None  # not a dm
-            and channels_slimetwitter[payload.guild_id] is not None  # server has a slime twitter channel
-            and payload.channel_id == channels_slimetwitter[payload.guild_id].id):  # reaction was in that channel
-        message = await channels_slimetwitter[payload.guild_id].fetch_message(payload.message_id)
 
+    # Currently only respond to reactions in the main server
+    if payload.guild_id is None:
+        # Was a DM
+        return
+
+    server = client.get_guild(payload.guild_id)
+
+    slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
+    deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
+
+    # Slime Twitter Emote Handling
+    if slime_twitter is not None and payload.channel_id == slime_twitter.id:
+        message = await slime_twitter.fetch_message(payload.message_id)
         if len(message.embeds) > 0:
-
             embed = message.embeds[0]
             userid = "<@!{}>".format(payload.user_id)
-
             if embed.description.startswith(userid):
-
-                if (str(payload.emoji) == ewcfg.emote_delete_tweet):
+                if str(payload.emoji) == ewcfg.emote_delete_tweet:
                     await message.delete()
-    elif (payload.guild_id is not None # not a dm
-        and channels_deviantsplaart.get(payload.guild_id) is not None
-        and payload.channel_id == channels_deviantsplaart[payload.guild_id].id):
-        message = await channels_deviantsplaart[payload.guild_id].fetch_message(payload.message_id)
+
+    # Deviant Splaart Emote Handling
+    elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:
+        message = await deviant_splaart.fetch_message(payload.message_id)
         if str(payload.emoji) == ewcfg.emote_111 or str(payload.emoji) == ewcfg.emote_111_debug:
             for react in message.reactions:
                 if react.count >= emoji_req and react.emoji.id in [720412882143150241, 431547758181220377]:
@@ -1138,8 +1136,8 @@ async def on_raw_reaction_add(payload):
                     current_record.legality = 0
                     current_record.persist()
 
-                    art_channel = channels_artexhibits[payload.guild_id]
-                    await fe_utils.send_message(client, art_channel, msgtext)
+                    art_exhibits = fe_utils.get_channel(server, ewcfg.channel_artexhibits)
+                    await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 
 

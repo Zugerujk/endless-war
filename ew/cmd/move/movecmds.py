@@ -303,7 +303,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
 
         rutils.movement_checker(user_data, poi_current, poi)
 
-        await ewrolemgr.update_roles(client=client, member=member_object, new_poi=poi.id_poi)
+        await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi
         user_data.time_lastenter = int(time.time())
 
@@ -429,7 +429,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
 
                     ewutils.end_trade(user_data.id_user)
 
-                    await ewrolemgr.update_roles(client=client, member=member_object)
+                    await ewrolemgr.updateRoles(client=client, member=member_object)
                     await one_eye_dm(id_server=user_data.id_server, id_user=user_data.id_user, poi=poi_current.id_poi)
 
                     # also move any ghosts inhabiting the player
@@ -504,7 +504,7 @@ async def descend(cmd):
 
         user_data = EwUser(member=cmd.message.author)
         if move_current == ewutils.moves_active[cmd.message.author.id] and user_data.life_state == life_state and faction == user_data.faction:
-            await ewrolemgr.update_roles(client=ewutils.get_client(), member=cmd.message.author, new_poi=ewcfg.poi_id_thevoid)
+            await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.message.author, new_poi=ewcfg.poi_id_thevoid)
             user_data.poi = ewcfg.poi_id_thevoid
             user_data.time_lastenter = int(time.time())
 
@@ -935,7 +935,7 @@ async def teleport(cmd):
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You get a running start to charge up your Quantum Legs..."))
 
         ewutils.last_warps[user_data.id_user] = time_now
-        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
         try:
             msg = await cmd.client.wait_for('message', timeout=15, check=lambda message: message.author == cmd.message.author and
@@ -983,7 +983,7 @@ async def teleport(cmd):
                 die_resp = await user_data.die(cause=ewcfg.cause_suicide)
                 return await die_resp.post()
 
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author, new_poi=poi.id_poi)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author, new_poi=poi.id_poi)
             user_data.poi = poi.id_poi
             user_data.time_lastenter = int(time.time())
 
@@ -1057,7 +1057,7 @@ async def teleport_player(cmd):
 
         response = "{} has been teleported to {}".format(target_player.display_name, new_poi.id_poi)
 
-        await ewrolemgr.update_roles(client=cmd.client, member=target)
+        await ewrolemgr.updateRoles(client=cmd.client, member=target)
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1260,7 +1260,7 @@ async def flush_streets(cmd):
                 user_data.poi = ewcfg.poi_id_juviesrow
                 user_data.persist()
                 member = cmd.guild.get_member(player)
-                await ewrolemgr.update_roles(client=cmd.client, member=member)
+                await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
             item_cache = bknd_core.get_cache(obj_type = "EwItem")
             if item_cache is not False:
@@ -1341,7 +1341,7 @@ async def loop(cmd):
             user_data.time_lastenter = int(time.time())
             ewutils.active_target_map[user_data.id_user] = ""
             ewutils.end_trade(user_data.id_user)
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author, new_poi=dest_poi)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author, new_poi=dest_poi)
             user_data.poi = dest_poi
             user_data.persist()
             await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "**VOIIII-**".format(dest_poi_obj.str_name)))

@@ -111,7 +111,7 @@ async def embark(cmd):
                         response = "You enter the {}.".format(transport_data.transport_type)
                         if ticket is not None:
                             bknd_item.item_delete(ticket.get("id_item"))
-                        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+                        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                         await user_data.move_inhabitants(id_poi=transport_data.poi)
                         return await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, transport_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
                     else:
@@ -201,7 +201,7 @@ async def disembark(cmd):
                 resp_cont.add_channel_response(channel=stop_poi.channel, response=response)
                 user_data.poi = stop_poi.id_poi
                 user_data.persist()
-                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                 return await resp_cont.post()
 
             elif ewcfg.mutation_id_lightasafeather in user_mutations or ewcfg.mutation_id_airlock in user_mutations:
@@ -211,7 +211,7 @@ async def disembark(cmd):
                 user_data.poi = stop_poi.id_poi
                 user_data.persist()
                 await user_data.move_inhabitants(id_poi=stop_poi.id_poi)
-                await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                 return await resp_cont.post()
             district_data = EwDistrict(id_server=user_data.id_server, district=stop_poi.id_poi)
             district_data.change_slimes(n=user_data.slimes)
@@ -235,7 +235,7 @@ async def disembark(cmd):
             user_data.persist()
             await user_data.move_inhabitants(id_poi=stop_poi.id_poi)
             response = "You enter {}".format(stop_poi.str_name)
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
             await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, stop_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
 
             # SWILLDERMUK
