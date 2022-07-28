@@ -299,10 +299,6 @@ def get_channel(server: discord.Guild, channel_name: str):
     return found_ch
 
 
-    if channel is None and (not ewutils.DEBUG or ewcfg.suppress_missing_channel):
-        ewutils.logMsg('Error: In get_channel(), could not find channel using channel_name "{}"'.format(channel_name))
-
-
 def map_channels(server):
     """ Map every channel str to the proper channel object """
     ch_found = 0
@@ -377,7 +373,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
 
     try:
         # Whitespace messages will always fail to send, don't clutter the log
-        if text or not text.isspace():
+        if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after)
         if embed is not None:
             return await channel.send(embed=embed)
