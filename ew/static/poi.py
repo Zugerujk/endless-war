@@ -3643,7 +3643,8 @@ transport_lines = [
 			"yellownorth",
 			"yellowtoarsonbrook",
 			"yellowtoarson",
-			"yellowtoab"
+			"yellowtoab",
+			"yab"
 		],
 		first_stop=ewcfg.poi_id_ssb_subway_station,
 		last_stop=ewcfg.poi_id_ab_subway_station,
@@ -3665,7 +3666,10 @@ transport_lines = [
 			"yellowsouth",
 			"yellowtosouthsleezeborough",
 			"yellowtosouthsleeze",
-			"yellowtossb"
+			"yellowtossb",
+			"yss",
+			"yssb",
+			"yass" # blame zug
 		],
 		first_stop=ewcfg.poi_id_ab_subway_station,
 		last_stop=ewcfg.poi_id_ssb_subway_station,
@@ -3687,7 +3691,8 @@ transport_lines = [
 			"rednorth",
 			"redtotoxington",
 			"redtotox",
-			"redtott"
+			"redtott",
+			"rtt"
 		],
 		first_stop=ewcfg.poi_id_cv_subway_station,
 		last_stop=ewcfg.poi_id_tt_subway_station,
@@ -3712,7 +3717,8 @@ transport_lines = [
 			"redsouth",
 			"redtocratersville",
 			"redtocraters",
-			"redtocv"
+			"redtocv",
+			"rcv"
 		],
 		first_stop=ewcfg.poi_id_tt_subway_station,
 		last_stop=ewcfg.poi_id_cv_subway_station,
@@ -3737,7 +3743,8 @@ transport_lines = [
 			"eastgreen",
 			"greentosmogsburg",
 			"greentosmogs",
-			"greentosb"
+			"greentosb",
+			"gsb"
 		],
 		first_stop=ewcfg.poi_id_wgb_subway_station,
 		last_stop=ewcfg.poi_id_sb_subway_station,
@@ -3760,7 +3767,8 @@ transport_lines = [
 			"westgreen",
 			"greentowestglocksbury",
 			"greentowestglocks",
-			"greentowgb"
+			"greentowgb",
+			"gwgb"
 		],
 		first_stop=ewcfg.poi_id_sb_subway_station,
 		last_stop=ewcfg.poi_id_wgb_subway_station,
@@ -3783,7 +3791,8 @@ transport_lines = [
 			"bluetoassaultflatsbeach",
 			"bluetoassaultflats",
 			"bluetobeach",
-			"bluetoafb"
+			"bluetoafb",
+			"bafb"
 		],
 		first_stop=ewcfg.poi_id_dt_subway_station,
 		last_stop=ewcfg.poi_id_afb_subway_station,
@@ -3804,7 +3813,8 @@ transport_lines = [
 			"bluewest",
 			"westblue",
 			"bluetodowntown",
-			"bluetodt"
+			"bluetodt",
+			"bdt"
 		],
 		first_stop=ewcfg.poi_id_afb_subway_station,
 		last_stop=ewcfg.poi_id_dt_subway_station,
@@ -3881,7 +3891,8 @@ if ewcfg.dh_active:
 				 "eastwhite",
 				 "whitetojuviesrow",
 				 "whitetojuvies",
-				 "whitetojr"
+				 "whitetojr",
+				 "wjr"
 			 ],
 			 first_stop = ewcfg.poi_id_underworld_subway_station,
 			 last_stop = ewcfg.poi_id_jr_subway_station,
@@ -3900,7 +3911,10 @@ if ewcfg.dh_active:
 			 "whitewest",
 			 "westwhite",
 			 "whitetounderworld",
-			 "whitetouw"
+			 "whitetouw",
+			 "ww",
+			 "wunder",
+			 "wunderworld"
 		 ],
 		 first_stop = ewcfg.poi_id_jr_subway_station,
 		 last_stop = ewcfg.poi_id_underworld_subway_station,
