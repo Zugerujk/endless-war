@@ -520,7 +520,7 @@ async def kick(id_server):
                         user_data.change_crime(n=50) # loitering:punishable by death
 
                         user_data.persist()
-                        await ewrolemgr.update_roles(client=client, member=member_object)
+                        await ewrolemgr.updateRoles(client=client, member=member_object)
                         await user_data.move_inhabitants(id_poi=mother_district_chosen)
                         mother_district_channel = fe_utils.get_channel(server, poi_static.id_to_poi[mother_district_chosen].channel)
                         response = "You have been kicked out for loitering! You can only stay in a sub-zone and twiddle your thumbs for 1 hour at a time."

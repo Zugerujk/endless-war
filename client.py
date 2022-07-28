@@ -391,7 +391,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     ewutils.logMsg("New member \"{}\" joined. Configuring default roles / permissions now.".format(member.display_name))
-    await ewrolemgr.update_roles(client=client, member=member)
+    await ewrolemgr.updateRoles(client=client, member=member)
     bknd_player.player_update(
         member=member,
         server=member.guild

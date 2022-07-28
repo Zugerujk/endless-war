@@ -3038,10 +3038,10 @@ poi_list = [
         channel="saloon",
         permissions={'saloon': ['read', 'send', 'connect'], 'hang-em-square': ['read']},
         property_class="",
-        vendors = ['saloon'],
+        vendors=['saloon'],
         is_subzone=True,
         pvp=False,
-        neighbors={"hangemsquare": 20,  "dreadford":20}
+        neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
     EwPoi(
         id_poi="hangemsquare",
@@ -3108,161 +3108,145 @@ zine_mother_districts = []
 
 for poi in poi_list:
 
+    # Assign permissions for all locations in the poi list.
+    if poi.permissions == None:
+        poi.permissions = {('{}'.format(poi.channel)): ewcfg.permissions_general}
 
-	# Assign permissions for all locations in the poi list.
-	if poi.permissions == None:
-		poi.permissions = {('{}'.format(poi.channel)): ewcfg.permissions_general}
+    # Assign all the correct major and minor roles.
 
-	# Assign all the correct major and minor roles.
+    # Districts and streets need their minor roles to see (read-only) all of their subzones.
+    if poi.is_district or poi.is_street or poi.id_poi in ["themines", "cratersvillemines", "toxingtonmines"]:
+        poi.minor_role = '{}_minor'.format(poi.id_poi)
 
-	# Districts and streets need their minor roles to see (read-only) all of their subzones.
-	if poi.is_district or poi.is_street or poi.id_poi in ["themines", "cratersvillemines", "toxingtonmines"]:
-		poi.minor_role = '{}_minor'.format(poi.id_poi)
+    # Districts need their major roles for their specific LAN (voice/text) channels.
+    if poi.is_district:
+        poi.major_role = '{}_major'.format(poi.id_poi)
+        streets_resp = ''
 
-	# Districts need their major roles for their specific LAN (voice/text) channels.
-	if poi.is_district:
-		poi.major_role = '{}_major'.format(poi.id_poi)
-		streets_resp = ''
+    placeholder_channel_names_used = False
 
-	placeholder_channel_names_used = False
+    # Subzones and streets need the same major roles as their mother/father districts.
+    if poi.is_street:
+        if poi.father_district != "" and poi.father_district != None:
+            for father_poi in poi_list:
+                if father_poi.id_poi == poi.father_district:
+                    poi.major_role = father_poi.major_role
+                    poi.property_class = father_poi.property_class
 
-	# Subzones and streets need the same major roles as their mother/father districts.
-	if poi.is_street:
-		if poi.father_district != "" and poi.father_district != None:
-			for father_poi in poi_list:
-				if father_poi.id_poi == poi.father_district:
-					poi.major_role = father_poi.major_role
-					poi.property_class = father_poi.property_class
+                    if placeholder_channel_names_used:
+                        if 'streeta' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-a'
+                        elif 'streetb' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-b'
+                        elif 'streetc' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-c'
+                        elif 'streetd' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-d'
+                        elif 'streete' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-e'
+                        elif 'streetf' in poi.id_poi:
+                            poi.channel = father_poi.channel + '-street-f'
 
-					if placeholder_channel_names_used:
-						if 'streeta' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-a'
-						elif 'streetb' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-b'
-						elif 'streetc' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-c'
-						elif 'streetd' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-d'
-						elif 'streete' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-e'
-						elif 'streetf' in poi.id_poi:
-							poi.channel = father_poi.channel + '-street-f'
+                    break
 
-					break
+            father_district = ''
+            connected_streets_and_districts = []
+            connected_subzones = []
+            for neighbor_poi in poi_list:
+                if neighbor_poi.id_poi in poi.neighbors:
+                    if neighbor_poi.id_poi == poi.father_district:
+                        father_district = neighbor_poi.str_name
+                    elif neighbor_poi.is_street or (
+                            neighbor_poi.is_district and neighbor_poi.id_poi != poi.father_district):
+                        connected_streets_and_districts.append(neighbor_poi.str_name)
+                    elif neighbor_poi.is_subzone:
+                        connected_subzones.append(neighbor_poi.str_name)
 
-			father_district = ''
-			connected_streets_and_districts = []
-			connected_subzones = []
-			for neighbor_poi in poi_list:
-				if neighbor_poi.id_poi in poi.neighbors:
-					if neighbor_poi.id_poi == poi.father_district:
-						father_district = neighbor_poi.str_name
-					elif neighbor_poi.is_street or (neighbor_poi.is_district and neighbor_poi.id_poi != poi.father_district):
-						connected_streets_and_districts.append(neighbor_poi.str_name)
-					elif neighbor_poi.is_subzone:
-						connected_subzones.append(neighbor_poi.str_name)
+            if father_district != '':
+                poi.str_desc += " This street connects back into {}.".format(father_district)
 
-			if father_district != '':
-				poi.str_desc += " This street connects back into {}.".format(father_district)
+                if len(connected_streets_and_districts) >= 1:
+                    poi.str_desc += " This street is connected to "
+                    if len(connected_streets_and_districts) == 1:
+                        poi.str_desc += connected_streets_and_districts[0]
+                    else:
+                        for i in range(len(connected_streets_and_districts)):
 
-				if len(connected_streets_and_districts) >= 1:
-					poi.str_desc += " This street is connected to "
-					if len(connected_streets_and_districts) == 1:
-						poi.str_desc += connected_streets_and_districts[0]
-					else:
-						for i in range(len(connected_streets_and_districts)):
+                            if i == (len(connected_streets_and_districts) - 1):
+                                poi.str_desc += 'and {}.'.format(connected_streets_and_districts[i])
+                            else:
+                                poi.str_desc += '{}, '.format(connected_streets_and_districts[i])
 
-							if i == (len(connected_streets_and_districts) - 1):
-								poi.str_desc += 'and {}.'.format(connected_streets_and_districts[i])
-							else:
-								poi.str_desc += '{}, '.format(connected_streets_and_districts[i])
+                if len(connected_subzones) >= 1:
+                    poi.str_desc += " This street also exits into "
+                    if len(connected_subzones) == 1:
+                        poi.str_desc += connected_subzones[0]
+                    else:
+                        for i in range(len(connected_subzones)):
 
-				if len(connected_subzones) >= 1:
-					poi.str_desc += " This street also exits into "
-					if len(connected_subzones) == 1:
-						poi.str_desc += connected_subzones[0]
-					else:
-						for i in range(len(connected_subzones)):
+                            if i == (len(connected_subzones) - 1):
+                                poi.str_desc += 'and {}.'.format(connected_subzones[i])
+                            else:
+                                poi.str_desc += '{}, '.format(connected_subzones[i])
+        else:
+            print('Error: No father POI found for {}'.format(poi.id_poi))
 
-							if i == (len(connected_subzones) - 1):
-								poi.str_desc += 'and {}.'.format(connected_subzones[i])
-							else:
-								poi.str_desc += '{}, '.format(connected_subzones[i])
-		else:
-			print('Error: No father POI found for {}'.format(poi.id_poi))
+    mother_roles_dict = {}
 
-	mother_roles_dict = {}
-	if poi.is_subzone:
+    # Populate the map of point of interest names/aliases to the POI.
+    id_to_poi[poi.id_poi] = poi
+    for alias in poi.alias:
+        for poi_2 in poi_list:
+            if alias in poi_2.alias and poi.id_poi != poi_2.id_poi:
+                print('POI alias {} is already being used by {}'.format(alias, poi_2.id_poi))
 
-		for mother_poi in poi_list:
-			if mother_poi.id_poi in poi.mother_districts:
-				if mother_poi.major_role != None:
-					poi.major_role = mother_poi.major_role
-					break
+        id_to_poi[alias] = poi
 
-	if poi.major_role == None:
-		# print('Null Major Role give to {}'.format(poi.id_poi))
-		poi.major_role = ewcfg.role_null_major_role
-	if poi.minor_role == None:
-		# print('Null Minor Role give to {}'.format(poi.str_name))
-		poi.minor_role = ewcfg.role_null_minor_role
+    # if it's a district and not RR, CK, or JR, add it to a list of capturable districts
+    if poi.is_capturable:
+        capturable_districts.append(poi.id_poi)
 
+    if poi.is_transport:
+        transports.append(poi.id_poi)
 
-	# Populate the map of point of interest names/aliases to the POI.
-	id_to_poi[poi.id_poi] = poi
-	for alias in poi.alias:
-		for poi_2 in poi_list:
-			if alias in poi_2.alias and poi.id_poi != poi_2.id_poi:
-				print('POI alias {} is already being used by {}'.format(alias, poi_2.id_poi))
+    if poi.is_transport_stop:
+        transport_stops.append(poi.id_poi)
+        transport_stops_ch.append(poi.channel)
 
-		id_to_poi[alias] = poi
+    if poi.is_pier:
+        piers.append(poi.id_poi)
 
-	# if it's a district and not RR, CK, or JR, add it to a list of capturable districts
-	if poi.is_capturable:
-		capturable_districts.append(poi.id_poi)
+    if poi.is_outskirts:
+        outskirts.append(poi.id_poi)
+        # For spawning purposes. Rarer enemies will spawn more often in the father layers of the 18 outskirts.
 
-	if poi.is_transport:
-		transports.append(poi.id_poi)
+        # It's a bit of a simplistic solution, but this way we don't have to add an attribute to EwPoi
+        if 'edge' in poi.str_name.lower():
+            outskirts_edges.append(poi.id_poi)
+        # print(poi.channel)
+        elif 'depths' in poi.str_name.lower():
+            outskirts_depths.append(poi.id_poi)
+        # print(poi.channel)
+        else:
+            outskirts_middle.append(poi.id_poi)
 
-	if poi.is_transport_stop:
-		transport_stops.append(poi.id_poi)
-		transport_stops_ch.append(poi.channel)
+        if len(poi.neighbors) > 0:
+            poi.str_desc += " This outskirt is connected to "
 
-	if poi.is_pier:
-		piers.append(poi.id_poi)
+            neighbor_index = 0
+            for neighbor_id in poi.neighbors.keys():
 
-	if poi.is_outskirts:
-		outskirts.append(poi.id_poi)
-		# For spawning purposes. Rarer enemies will spawn more often in the father layers of the 18 outskirts.
+                current_neighbor = None
 
-		# It's a bit of a simplistic solution, but this way we don't have to add an attribute to EwPoi
-		if 'edge' in poi.str_name.lower():
-			outskirts_edges.append(poi.id_poi)
-		# print(poi.channel)
-		elif 'depths' in poi.str_name.lower():
-			outskirts_depths.append(poi.id_poi)
-		# print(poi.channel)
-		else:
-			outskirts_middle.append(poi.id_poi)
+                for outskirt_neighbor in poi_list:
+                    if neighbor_id == outskirt_neighbor.id_poi:
+                        current_neighbor = outskirt_neighbor
 
-		if len(poi.neighbors) > 0:
-			poi.str_desc += " This outskirt is connected to "
-
-			neighbor_index = 0
-			for neighbor_id in poi.neighbors.keys():
-
-				current_neighbor = None
-
-				for outskirt_neighbor in poi_list:
-					if neighbor_id == outskirt_neighbor.id_poi:
-						current_neighbor = outskirt_neighbor
-
-				if current_neighbor != None:
-					if neighbor_index == (len(poi.neighbors.keys()) - 1):
-						poi.str_desc += 'and {}.'.format(current_neighbor.str_name)
-					else:
-						poi.str_desc += '{}, '.format(current_neighbor.str_name)
-
+                if current_neighbor != None:
+                    if neighbor_index == (len(poi.neighbors.keys()) - 1):
+                        poi.str_desc += 'and {}.'.format(current_neighbor.str_name)
+                    else:
+                        poi.str_desc += '{}, '.format(current_neighbor.str_name)
 
     if poi.write_manuscript:
         for mother_poi in poi.mother_districts:

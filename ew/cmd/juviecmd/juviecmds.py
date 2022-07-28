@@ -282,7 +282,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_rowdys:
         if ewcfg.faction_rowdys in bans:
@@ -314,7 +314,7 @@ async def enlist(cmd):
             for faction in vouchers:
                 user_data.unvouch(faction)
             user_data.persist()
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
     elif desired_faction == ewcfg.faction_slimecorp:
         response = "Sorry, pal. That ship has sailed."
@@ -349,7 +349,7 @@ async def renounce(cmd):
         user_data.sidearm = -1
         user_data.persist()
         response = "You are no longer enlisted in the {}, but you are not free of association with them. Your former teammates immediately begin to beat the shit out of you, knocking {} slime out of you before you're able to get away.".format(faction, renounce_fee)
-        await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

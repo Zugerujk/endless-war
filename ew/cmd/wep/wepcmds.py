@@ -1186,7 +1186,7 @@ async def taunt(cmd):
     user_data.persist()
 
     response = "You taunt {} into attacking you.".format(target.display_name)
-    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -1227,7 +1227,7 @@ async def aim(cmd):
     user_data.persist()
 
     response = "You aim at {}'s weak spot.".format(target.display_name)
-    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -1268,7 +1268,7 @@ async def dodge(cmd):
     user_data.persist()
 
     response = "You focus on dodging {}'s attacks.".format(target.display_name)
-    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -1698,8 +1698,8 @@ async def duel(cmd):
         response = "{}***DRAW!***{}".format(ewcfg.emote_slimegun, ewcfg.emote_slimegun)
         await fe_utils.send_message(cmd.client, cmd.message.channel, response)
 
-        await ewrolemgr.update_roles(client=cmd.client, member=author)
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=author)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
         challenger = EwUser(member=author)
         challengee = EwUser(member=member)
 
@@ -1736,8 +1736,8 @@ async def duel(cmd):
             response = "**Neither dueler was bloodthirsty enough to finish the job in time! The duel is over!**"
             await fe_utils.send_message(cmd.client, cmd.message.channel, response)
 
-        await ewrolemgr.update_roles(client=cmd.client, member=author)
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=author)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
 
     # Or cancel the challenge

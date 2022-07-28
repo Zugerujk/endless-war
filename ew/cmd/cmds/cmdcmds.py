@@ -126,7 +126,7 @@ async def score(cmd: cmd_utils.EwCmd):
 
     time_now_role_start = int(time.time())
     if member != None:  # update roles on other user slime check
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
     time_now_role_end = int(time.time())
 
     time_now_cmd_end = int(time.time())
@@ -414,9 +414,9 @@ async def data(cmd):
     # Send the response to the player.
     await fe_utils.send_response(response, cmd)
 
-    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
     if member != None:
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
 
 """ Finally, separates mutations from !data """
@@ -879,7 +879,7 @@ async def jump(cmd):
                     user_data.time_lastenter = int(time.time())
                     user_data.persist()
                     await user_data.move_inhabitants(id_poi=ewcfg.poi_id_thevoid)
-                    await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+                    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 
                     void_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
                     wafflehouse_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
@@ -922,7 +922,7 @@ async def jump(cmd):
         resp_cont.add_channel_response(channel=poi.channel, response=response)
         resp_cont.add_channel_response(channel=poi_dest.channel, response=response_dest)
         if not died:
-            await ewrolemgr.update_roles(client=cmd.client, member=cmd.message.author)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
         return await resp_cont.post()
             
     # If you're NOT at the cliffs.
@@ -2659,7 +2659,7 @@ async def arrest(cmd):
         user_data.persist()
 
         response = "{} is thrown into one of the Juvenile Detention Center's high security solitary confinement spheres{}.".format(member.display_name, time_done)
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
@@ -2685,7 +2685,7 @@ async def release(cmd):
         user_data.persist()
 
         response = "{} is released. But beware, the cops will be keeping an eye on you.".format(member.display_name)
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
@@ -2829,7 +2829,7 @@ async def promote(cmd):
         user_data.faction = ewcfg.faction_slimecorp
         user_data.persist()
 
-        await ewrolemgr.update_roles(client=cmd.client, member=member)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
 
 async def unban_manual(cmd):

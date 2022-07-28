@@ -270,7 +270,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     target_data.id_killer = user_data.id_user
 
                     target_data.trauma = ewcfg.trauma_id_environment
-                    await target_data.die(cause=ewcfg.cause_killing, update_roles=False)
+                    await target_data.die(cause=ewcfg.cause_killing, updateRoles=False)
 
                     response += "{} was killed by an explosion during your fight with {}!".format(target_player.display_name, shootee_player.display_name)
                     if coinbounty > 0:
