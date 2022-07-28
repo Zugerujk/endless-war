@@ -839,9 +839,6 @@ async def on_message(message):
     time_now = int(time.time())
     ewcfg.set_client(client)
 
-    playermodel = EwPlayer(id_user=message.author.id)
-    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
-
     """ do not interact with our own messages """
     if message.author.id == client.user.id or message.author.bot == True:
         return
@@ -871,6 +868,9 @@ async def on_message(message):
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
+
+    playermodel = EwPlayer(id_user=message.author.id)
+    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
 
     # update the player's time_last_action which is used for kicking AFK players out of subzones
     if message.guild is not None:
