@@ -1778,18 +1778,6 @@ class EwUser(EwUserBase):
             self.hunger = 0
             self.inebriation = 0
             self.bounty = 0
-            self.time_lastdeath = time_now
-            self.life_state = ewcfg.life_state_corpse
-            self.poi_death = self.poi
-            self.poi = ewcfg.poi_id_thesewers
-            self.weapon = -1
-            self.sidearm = -1
-            self.time_expirpvp = 0
-            self.attack = 0
-            self.defense = 0
-            self.speed = 0
-
-            self.persist()
 
             ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
@@ -1848,6 +1836,13 @@ class EwUser(EwUserBase):
                         cache_item.update({'id_owner': self.poi})
                         item_cache.set_entry(data=cache_item)
 
+            self.life_state = ewcfg.life_state_corpse
+            self.poi_death = self.poi
+            self.poi = ewcfg.poi_id_thesewers
+            self.weapon = -1
+            self.sidearm = -1
+            self.time_expirpvp = 0
+
             try:
                 item_cache = bknd_core.get_cache(obj_type = "EwItem")
                 if item_cache is not False:
@@ -1868,6 +1863,12 @@ class EwUser(EwUserBase):
 
             except Exception as e:
                 ewutils.logMsg(f'Failed to remove preserved tags from items: {e}')
+
+            self.attack = 0
+            self.defense = 0
+            self.speed = 0
+        
+        self.persist()
 
         # Run explosion after location/stat reset, to prevent looping onto self
         if cause not in ewcfg.explosion_block_list:
