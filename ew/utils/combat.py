@@ -1836,6 +1836,7 @@ class EwUser(EwUserBase):
                         cache_item.update({'id_owner': self.poi})
                         item_cache.set_entry(data=cache_item)
 
+            self.time_lastdeath = time_now
             self.life_state = ewcfg.life_state_corpse
             self.poi_death = self.poi
             self.poi = ewcfg.poi_id_thesewers
