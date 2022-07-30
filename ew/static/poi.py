@@ -3038,10 +3038,10 @@ poi_list = [
         channel="saloon",
         permissions={'saloon': ['read', 'send', 'connect'], 'hang-em-square': ['read']},
         property_class="",
-        vendors = ['saloon'],
+        vendors=['saloon'],
         is_subzone=True,
         pvp=False,
-        neighbors={"hangemsquare": 20,  "dreadford":20}
+        neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
     EwPoi(
         id_poi="hangemsquare",
@@ -3119,7 +3119,6 @@ for poi in poi_list:
         if poi.father_district != "" and poi.father_district != None:
             for father_poi in poi_list:
                 if father_poi.id_poi == poi.father_district:
-
                     poi.property_class = father_poi.property_class
 
                     if placeholder_channel_names_used:
@@ -3187,7 +3186,7 @@ for poi in poi_list:
     for alias in poi.alias:
         for poi_2 in poi_list:
             if alias in poi_2.alias and poi.id_poi != poi_2.id_poi:
-                print('alias {} is already being used by {}'.format(alias, poi_2.id_poi))
+                print('POI alias {} is already being used by {}'.format(alias, poi_2.id_poi))
 
         id_to_poi[alias] = poi
 
@@ -3236,15 +3235,6 @@ for poi in poi_list:
                         poi.str_desc += 'and {}.'.format(current_neighbor.str_name)
                     else:
                         poi.str_desc += '{}, '.format(current_neighbor.str_name)
-
-                neighbor_index += 1
-
-    if poi.is_street:
-        streets.append(poi.id_poi)
-
-
-    if poi.is_tutorial:
-        tutorial_pois.append(poi.id_poi)
 
     if poi.write_manuscript:
         for mother_poi in poi.mother_districts:

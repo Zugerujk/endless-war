@@ -775,7 +775,7 @@ async def item_use(cmd):
             return
 
         if item.item_type == ewcfg.it_food:
-            response = user_data.eat(item)
+            response = await user_data.eat(item)
             user_data.persist()
 
         if item.item_type == ewcfg.it_weapon:
