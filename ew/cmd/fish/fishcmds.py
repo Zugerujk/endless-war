@@ -253,7 +253,7 @@ async def cast(cmd):
                     targeted_district = poi_static.id_to_poi.get(targeted_district_id)
                     
                     ewutils.moves_active[target_data.id_user] = 0
-                    rutils.movement_checker(target_data, poi_static.id_to_poi.get(target_data.poi), targeted_district)
+                    await rutils.movement_checker(target_data, poi_static.id_to_poi.get(target_data.poi), targeted_district, cmd=cmd)
 
                     # Move the target into that district
                     await ewrolemgr.updateRoles(client=cmd.client, member=cmd.mentions[0], new_poi=targeted_district_id)

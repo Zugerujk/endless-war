@@ -302,7 +302,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
 
             return
 
-        rutils.movement_checker(user_data, poi_current, poi)
+        await rutils.movement_checker(user_data, poi_current, poi, cmd=cmd)
 
         await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi
@@ -421,7 +421,7 @@ async def move(cmd = None, isApt = False, isSplit = 0, continuousMove = -1):
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
 
-                    rutils.movement_checker(user_data, poi_previous, poi_current)
+                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
 
                     user_data.poi = poi_current.id_poi
                     user_data.time_lastenter = int(time.time())
@@ -1006,7 +1006,7 @@ async def teleport(cmd):
 
             ewutils.moves_active[cmd.message.author.id] = 0
 
-            rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi)
+            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi, cmd)
 
             if poi.id_poi == ewcfg.poi_id_thesewers:
                 die_resp = await user_data.die(cause=ewcfg.cause_suicide)
