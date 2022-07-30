@@ -203,7 +203,8 @@ cmd_map = {
     ewcfg.cmd_createpoievent: cmdcmds.manual_poi_event_create,
     ewcfg.cmd_listworldevents: cmdcmds.list_worldevents,
     ewcfg.cmd_listworldevents_alt1: cmdcmds.list_worldevents,
-    ewcfg.cmd_endworldevent: cmdcmds.end_worldevent
+    ewcfg.cmd_endworldevent: cmdcmds.end_worldevent,
+    ewcfg.cmd_fun: cmdcmds.fun
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_spook] = cmdcmds.spook

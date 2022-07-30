@@ -3147,3 +3147,18 @@ async def cockdraw(cmd):
     response = "You {} {}! It's {} inches long!".format(action, object, size)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def fun(cmd):
+    response = "OH SHIT CHECK IT OUT!"
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await asyncio.sleep(1)
+    response = "WE'RE HAVING FUN HOLY SHIT!"
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await asyncio.sleep(1)
+    response = "THE PARTY IS FUN THE PARTY IS FUN YEAH YEAH YEAH!"
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    await asyncio.sleep(18)
+    response = 'You stop having fun.'
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
