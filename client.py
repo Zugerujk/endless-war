@@ -296,7 +296,8 @@ async def on_ready():
 
         if not debug:
             await transport_utils.init_transports(id_server=server.id)
-            asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
+            
+        asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
 
         asyncio.ensure_future(bknd_farm.farm_tick_loop(id_server=server.id))
         

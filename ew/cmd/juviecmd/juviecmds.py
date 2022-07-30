@@ -535,7 +535,7 @@ async def mine(cmd):
                         unearthed_item_type = "skeleton"
 
                 # Triple slimegain and ectoplasm every !mine
-                if world_events.get(id_event) == ewcfg.event_type_spookyskeleton:
+                if world_events.get(id_event) == ewcfg.event_type_spookyghost:
                     event_data = EwWorldEvent(id_event=id_event)
                     if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
                         mining_yield *= 3
@@ -543,6 +543,12 @@ async def mine(cmd):
                         unearthed_item_amount = 1
                         # Set the item pool to ghost
                         unearthed_item_type = "ghost"
+
+                # Halve hunger cost
+                if world_events.get(id_event) == ewcfg.event_type_gas_leak:
+                    event_data = EwWorldEvent(id_event=id_event)
+                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
+                        hunger_cost_mod = int(hunger_cost_mod) / 2
 
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd)
