@@ -485,26 +485,19 @@ async def burnSlimes(id_server):
         slimes_dropped = user_data.totaldamage + user_data.slimes
         used_status_id = result[3]
 
-            # Deal 10% of total slime to burn every second
-            slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
+        # Deal 10% of total slime to burn every second
+        slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
             
 
-            # Check if a status effect originated from an enemy or a user.
-            killer_data = EwUser(id_server=id_server, id_user=result[2])
-            if killer_data is None:
-                killer_data = EwEnemy(id_server=id_server, id_enemy=result[2])
-                if killer_data is not None:
-                    status_origin = 'enemy'
-                else:
-                    status_origin = 'other'
+        # Check if a status effect originated from an enemy or a user.
+        killer_data = EwUser(id_server=id_server, id_user=result[2])
+        if killer_data is None:
+            killer_data = EwEnemy(id_server=id_server, id_enemy=result[2])
+            if killer_data is not None:
+                status_origin = 'enemy'
+            else:
+                status_origin = 'other'
 
-            if status_origin == 'user':
-                # Damage stats
-                ewstats.change_stat(user=killer_data, metric=ewcfg.stat_lifetime_damagedealt, n=slimes_to_burn)
-
-            # Player died
-            if user_data.slimes - slimes_to_burn < 0:
-                weapon = static_weapons.weapon_map.get(ewcfg.weapon_id_molotov)
 
 
         if status_origin == 'user':
