@@ -398,6 +398,10 @@ def get_faction(user_data=None, life_state=0, faction="") -> str:
 
     elif life_state == ewcfg.life_state_kingpin:
         faction_role = ewcfg.role_kingpin
+        if faction == ewcfg.faction_killers:
+            faction_role = ewcfg.role_copkiller
+        elif faction == ewcfg.faction_rowdys:
+            faction_role = ewcfg.role_rowdyfucker
 
     elif life_state == ewcfg.life_state_grandfoe:
         faction_role = ewcfg.role_grandfoe
