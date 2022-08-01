@@ -61,6 +61,14 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
         user_data.life_state = ewcfg.life_state_grandfoe
         user_data.persist()
 
+    elif user_data.life_state == ewcfg.life_state_kingpin and ewcfg.role_kingpin not in roles_map_user:
+        # Fix the life_state for low-life gangstars
+        if user_data.faction:
+            user_data.life_state = ewcfg.life_state_enlisted
+        else:
+            user_data.life_state = ewcfg.life_state_juvenile
+        user_data.persist()
+
     # Manage faction roles.
     faction_role = ewutils.get_faction(user_data=user_data)
 
