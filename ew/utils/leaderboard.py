@@ -706,7 +706,7 @@ def board_entry(entry, entry_type, divide_by):
 
     if entry_type == ewcfg.entry_type_player:
         faction = ewutils.get_faction(life_state=entry[1], faction=entry[2])
-        faction_symbol = ewutils.get_faction_symbol(faction, entry[2])
+        faction_symbol = ewutils.get_faction_symbol(faction_role=faction, lifestate=[1])
         number = int(entry[3] / divide_by)
 
         if number > 999999999:
@@ -723,7 +723,7 @@ def board_entry(entry, entry_type, divide_by):
     elif entry_type == ewcfg.entry_type_districts:
         faction = entry[0]
         districts = entry[1]
-        faction_symbol = ewutils.get_faction_symbol(faction.lower())
+        faction_symbol = ewutils.get_faction_symbol(faction_role=faction.lower())
 
         result = "\n{} `{:_>15} | {}`".format(
             faction_symbol,

@@ -415,26 +415,27 @@ def get_faction(user_data=None, life_state=0, faction="") -> str:
     return faction_role
 
 
-def get_faction_symbol(faction="", faction_raw="") -> str:
-    """ Returns faction-specific emote based on user_data faction strings or role strings """
+def get_faction_symbol(faction_role="", lifestate="") -> str:
+    """ Returns faction-specific emote based on faction role strings or user_data lifestates """
     result = None
 
-    if faction == ewcfg.role_kingpin:
-        if faction_raw == ewcfg.faction_rowdys:
+    # Special lifestate symbols
+    if lifestate == ewcfg.life_state_kingpin:
+        if lifestate == ewcfg.faction_rowdys:
             result = ewcfg.emote_rowdyfucker
-        elif faction_raw == ewcfg.faction_killers:
+        elif lifestate == ewcfg.faction_killers:
             result = ewcfg.emote_copkiller
+    elif lifestate == ewcfg.life_state_corpse:
+        result = ewcfg.emote_ghost
+    elif lifestate == ewcfg.life_state_juvenile:
+        result = ewcfg.emote_slime3
 
     if result is None:
-        if faction == ewcfg.role_corpse:
-            result = ewcfg.emote_ghost
-        elif faction == ewcfg.role_juvenile:
-            result = ewcfg.emote_slime3
-        elif faction == ewcfg.role_copkillers:
+        if faction_role == ewcfg.role_copkillers:
             result = ewcfg.emote_ck
-        elif faction == ewcfg.role_rowdyfuckers:
+        elif faction_role == ewcfg.role_rowdyfuckers:
             result = ewcfg.emote_rf
-        elif faction == ewcfg.role_slimecorp:
+        elif faction_role == ewcfg.role_slimecorp:
             result = ewcfg.emote_slimecorp
         else:
             result = ewcfg.emote_blank
