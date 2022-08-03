@@ -439,7 +439,6 @@ faction_roles = [
     role_corpse,
     role_corpse_pvp,
     role_corpse_active,
-    role_kingpin,
     role_grandfoe,
     role_tutorial,
 ]
