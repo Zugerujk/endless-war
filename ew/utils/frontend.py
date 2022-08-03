@@ -447,7 +447,7 @@ async def delete_last_message(client, last_messages, tick_length):
         ewutils.logMsg("failed to delete last message")
 
 
-def create_death_report(cause=None, user_data=None):
+def create_death_report(cause=None, user_data=None, deathmessage = ""):
     client = ewutils.get_client()
     server = client.get_guild(user_data.id_server)
 
@@ -549,6 +549,10 @@ def create_death_report(cause=None, user_data=None):
 
     if (cause == ewcfg.cause_debris):  # Response for being hit by poudrin hail
         deathreport = "Your head was smushed in by falling debris. {}".format(ewcfg.emote_slimeskull)
+        deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
+
+    if deathmessage != "":
+        deathreport = "{} {}".format(deathmessage, ewcfg.emote_slimeskull)
         deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
     return (deathreport)

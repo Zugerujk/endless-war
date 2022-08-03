@@ -1035,7 +1035,7 @@ async def on_message(message):
 
         # Check the main command map for the requested command.
         #global cmd_map
-        cmd_fn = cmd_map.get(cmd)
+        cmd_fn = cmd_map.get(cmd.replace(ewcfg.cmd_prefix, '!', 1))
 
         if usermodel.poi in ewdebug.act_pois.keys():
             keycontent = ewutils.flattenTokenListToString(content_tolower)

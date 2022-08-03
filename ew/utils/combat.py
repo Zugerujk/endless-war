@@ -1717,7 +1717,7 @@ class EwUser(EwUserBase):
 
         return bknd_status.applyStatus(self, id_status, value, source, multiplier, id_target)
 
-    async def die(self, cause=None, updateRoles=True):
+    async def die(self, cause=None, updateRoles=True, deathmessage = ""):
 
         time_now = int(time.time())
 
@@ -1738,7 +1738,7 @@ class EwUser(EwUserBase):
         member: discord.Member = server.get_member(self.id_user)
 
         # Make The death report
-        deathreport = fe_utils.create_death_report(cause=cause, user_data=self)
+        deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
         resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 
         poi = poi_static.id_to_poi.get(self.poi)

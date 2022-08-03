@@ -3150,15 +3150,34 @@ async def cockdraw(cmd):
 
 
 async def fun(cmd):
-    response = "OH SHIT CHECK IT OUT!"
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    await asyncio.sleep(1)
-    response = "WE'RE HAVING FUN HOLY SHIT!"
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    await asyncio.sleep(1)
-    response = "THE PARTY IS FUN THE PARTY IS FUN YEAH YEAH YEAH!"
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    user_data = EwUser(member=cmd.message.author)
 
-    await asyncio.sleep(18)
-    response = 'You stop having fun.'
+    item_sought = bknd_item.find_item(item_search='funpizza', item_type_filter=ewcfg.it_food, id_server=cmd.guild.id,
+                                      id_user=cmd.message.author.id)
+
+    if not item_sought:
+        response = "What? Fuck you. You don't even have any fun pizza."
+        await user_data.die(cause=ewcfg.cause_suicide)
+        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+
+    else:
+        ewcfg.cmd_prefix = 'fun'
+        response = "OH SHIT CHECK IT OUT!"
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await asyncio.sleep(1)
+        response = "WE'RE HAVING FUN HOLY SHIT!"
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        await asyncio.sleep(1)
+        response = "THE PIZZA IS FUN THE PREFIX IS FUN YEAH YEAH YEAH!"
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+        for x in range(6):
+            await asyncio.sleep(3)
+            if ewcfg.cmd_prefix == '!':
+                ewcfg.cmd_prefix = 'fun'
+
+        ewcfg.cmd_prefix = '!'
+
+        response = 'You stop having fun.'
+
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
