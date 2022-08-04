@@ -491,7 +491,7 @@ poi_list = [
 		id_poi = "charcoalpark",
 		alias = ['charcoal', 'park2', 'cpark', 'awkwardinitials', 'cp', 'ch'],
 		str_name = "Charcoal Park",
-		str_desc = "A completely unremarkable, quiet retirement community. The citizens are fed up with slime, honestly. Pathetic little gardens rest in front of the uneven parking lots of corporate complexes housing dentists, fortune-tellers, real estate agencies, and other equally dull and pointless ventures.\nCharcoal Park is where boring people go to die. No one is happy to be here.\n\nTo the East is Toxington. To the South is Polonium Hill. To the Northwest is Northwest Outskirts Edge.",
+		str_desc = "A completely unremarkable, quiet retirement community. The citizens are fed up with slime, honestly. Pathetic little gardens rest in front of the uneven parking lots of corporate complexes housing dentists, fortune-tellers, real estate agencies, and other equally dull and pointless ventures.\nCharcoal Park is where boring people go to die. No one is happy to be here.\n\nThis area contains the Coalition Surplus. To the East is Toxington. To the South is Polonium Hill. To the Northwest is Northwest Outskirts Edge.",
 		coord = [11, 7],
 		channel = "charcoal-park",
 		role = "Charcoal Park",
@@ -501,7 +501,7 @@ poi_list = [
 		property_class = "c",
 		is_district = True,
 		is_capturable = True,
-		neighbors = {'toxington': 60, 'poloniumhill': 60, 'northwestoutskirtsedge': 120},
+		neighbors = {'toxington': 60, 'poloniumhill': 60, 'coalitionsurplus': 20, 'northwestoutskirtsedge': 120 },
 		topic = "Quiet surburban retirement community. Residents like to have a good laugh at the expense of the unfortunate residents of Toxington.",
 		wikipage = "https://rfck.miraheze.org/wiki/Charcoal_Park",
 	),
@@ -3379,6 +3379,22 @@ poi_list = [
 		mother_districts = ['thevoid'],
 		neighbors = {'thevoid': 20},
 		wikipage = "https://rfck.miraheze.org/wiki/JuviesRow#GhostMaidCafe"
+	  ),
+	  EwPoi(
+		id_poi = "coalitionsurplus",
+		alias = ['coalition surplus', 'csu', 'surplus', 'coal', 'coalition',],
+		str_name = "Coalition Surplus",
+		str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom. This text is just temporary, and so is your balls.\n\nExits back into Charcoal Park.",
+		channel = "coalition-surplus",
+		major_role = "charcoalpark_major",
+		minor_role = "nullminorrole",
+		permissions = {'coalition-surplus': ['read', 'send', 'connect']},
+		pvp = False,
+		vendors = ['Coalition Surplus'], # Add coalition surplus vendor stupid fuck.
+		is_subzone = True,
+		mother_districts = ['charcoalpark'],
+		neighbors = {'charcoalpark': 20},
+		wikipage = ""
 	  ),
 ]
 

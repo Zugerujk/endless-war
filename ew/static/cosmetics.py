@@ -2200,18 +2200,18 @@ cosmetic_items_list = [
         acquisition = "smelting",
         price = 100,
     ),
-    EwCosmeticItem(
-        id_cosmetic = "customfanhoodie",
-        str_name = "{custom} Fan Hoodie",
-        str_desc = "It's a hoodie custom made at the decal printer to fit {custom} onto it. Some people probably cherish this, but knowing how things get trashed around here you probably picked this up unintentionally.",
-        str_onadorn = "You wrestle the {custom} Hoodie on.",
-        str_dedorn = "You throw off the {custom} Hoodie.",
-        rarity = "Plebian",
-        style = "{random}", # Get Zug's help to code the other half of this thing.
-        freshness = 7,
-        price = 1000000,
-        vendors = ['Bodega'],
-    ),
+   # EwCosmeticItem(
+   #     id_cosmetic = "customfanhoodie",
+   #     str_name = "{custom} Fan Hoodie",
+   #     str_desc = "It's a hoodie custom made at the decal printer to fit {custom} onto it. Some people probably cherish this, but knowing how things get trashed around here you probably picked this up unintentionally.",
+   #     str_onadorn = "You wrestle the {custom} Hoodie on.",
+   #     str_unadorn = "You throw off the {custom} Hoodie.",
+   #     rarity = "Plebian",
+   #     style = "{random}", # Get Zug's help to code the other half of this thing.
+   #     freshness = 7,
+   #     price = 1000000,
+   #     vendors = ['Bodega'],
+   # ),
 
 ]
 

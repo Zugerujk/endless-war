@@ -164,6 +164,7 @@ poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
 poi_id_ghostcafe = "ghostmaidcafe"
+poi_id_coalitionsurplus = "coalitionsurplus"
 
 
 poi_id_themoon = "themoon"
@@ -2588,6 +2589,7 @@ vendor_atomicforest = "Atomic Forest Stockpile"  # Storage of atomic forest
 vendor_downpourlaboratory = "Downpour Armament Vending Machines"  # Store for shamblers to get stuff
 vendor_breakroom = "The Breakroom"  # Security officers can order items here for free.
 vendor_rpcity = "RP City"  # Double halloween costume store
+vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
