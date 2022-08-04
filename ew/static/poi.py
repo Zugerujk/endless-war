@@ -3085,7 +3085,7 @@ poi_list = [
         mother_districts=['thevoid'],
         neighbors={'thevoid': 20},
         wikipage="https://rfck.miraheze.org/wiki/JuviesRow#GhostMaidCafe"
-    )
+    ),
 	EwPoi(
 		id_poi = "coalitionsurplus",
 		alias = ['coalition surplus', 'csu', 'surplus', 'coal', 'coalition',],
@@ -3101,7 +3101,7 @@ poi_list = [
 		mother_districts = ['charcoalpark'],
 		neighbors = {'charcoalpark': 20},
 		wikipage = ""
-	  ),
+	),
 ]
 
 # if you're looking for poi_map, here it is
