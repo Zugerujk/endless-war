@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15.2 S4A1 Junior Coders Make Mistakes Edition"
+version = "v4.15.6 S4A1 JCMME + Disasters 🌪️⛈️☢️🔥"
 
 
 dir_msgqueue = 'msgqueue'
@@ -14,6 +14,9 @@ discord_message_length_limit = 2000
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
 update_market = 900  # 15 min
+
+# Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
+suppress_missing_channel = False
 
 # Number of times the bot should try a permissions-related API call. This is done purely for safety measures.
 permissions_tries = 1
@@ -437,7 +440,6 @@ faction_roles = [
     role_corpse,
     role_corpse_pvp,
     role_corpse_active,
-    role_kingpin,
     role_grandfoe,
     role_tutorial,
 ]
@@ -448,14 +450,6 @@ role_to_pvp_role = {
     role_copkillers: role_copkillers_pvp,
     role_corpse: role_corpse_pvp,
     role_slimecorp: role_slimecorp_pvp
-}
-
-role_to_active_role = {
-    role_juvenile: role_juvenile_active,
-    role_rowdyfuckers: role_rowdyfuckers_active,
-    role_copkillers: role_copkillers_active,
-    role_corpse: role_corpse_active,
-    role_slimecorp: role_slimecorp_active
 }
 
 misc_roles = {
@@ -480,9 +474,6 @@ faction_banned = "banned"
 factions = [faction_killers, faction_rowdys, faction_slimecorp]
 
 # Channel names
-channel_mines = "the-mines"
-channel_mines_sweeper = "the-mines-minesweeper"
-channel_mines_bubble = "the-mines-bubble-breaker"
 channel_downtown = "downtown"
 channel_combatzone = "combat-zone"
 channel_endlesswar = "endless-war"
@@ -502,40 +493,23 @@ channel_cinema = "nlacakanm-cinemas"
 channel_bazaar = "bazaar"
 channel_recyclingplant = "recycling-plant"
 channel_slimecorphq = "slimecorp-hq"
-channel_slimecorpcomms = "slimecorp-comms"
-channel_leaderboard = "leaderboard"
-channel_cv_mines = "cratersville-mines"
-channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
-channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
-channel_tt_mines = "toxington-mines"
-channel_tt_mines_sweeper = "toxington-mines-minesweeper"
-channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_diner = "smokers-cough"
 channel_seafood = "red-mobster"
-channel_jr_farms = "juvies-row-farms"
-channel_og_farms = "ooze-gardens-farms"
-channel_ab_farms = "arsonbrook-farms"
+
 channel_neomilwaukeestate = "neo-milwaukee-state"
 channel_beachresort = "the-resort"
 channel_countryclub = "the-country-club"
 channel_rowdyroughhouse = "rowdy-roughhouse"
 channel_copkilltown = "cop-killtown"
 channel_slimesea = "slime-sea"
-channel_tt_pier = "toxington-pier"
-channel_jp_pier = "jaywalker-plain-pier"
-channel_cl_pier = "crookline-pier"
-channel_afb_pier = "assault-flats-beach-pier"
-channel_vc_pier = "vagrants-corner-pier"
-channel_se_pier = "slimes-end-pier"
-channel_jr_pier = "juvies-row-pier"
 channel_juviesrow = "juvies-row"
 channel_realestateagency = "real-estate-agency"
-channel_apt = "apartment"
 channel_sodafountain = "the-bicarbonate-soda-fountain"
 channel_greencakecafe = "green-cake-cafe"
 channel_glocksburycomics = "glocksbury-comics"
 channel_breakroom = "the-breakroom"
 
+# Transport Channels #1
 channel_wt_port = "wreckington-port"
 channel_vc_port = "vagrants-corner-port"
 channel_tt_subway_station = "toxington-subway-station"
@@ -568,6 +542,7 @@ channel_nny_subway_station = "new-new-yonkers-subway-station"
 channel_df_blimp_tower = "dreadford-blimp-tower"
 channel_afb_blimp_tower = "assault-flats-blimp-tower"
 
+# Transport Channels #2
 channel_ferry = "ferry"
 channel_subway_pink01 = "subway-train-pink-01"
 channel_subway_pink02 = "subway-train-pink-02"
@@ -581,7 +556,16 @@ channel_subway_purple01 = "subway-train-purple-01"
 channel_subway_purple02 = "subway-train-purple-02"
 channel_blimp = "blimp"
 
-channel_killfeed = "kill-feed"
+# Mining Channels
+channel_mines = "the-mines"
+channel_mines_sweeper = "the-mines-minesweeper"
+channel_mines_bubble = "the-mines-bubble-breaker"
+channel_cv_mines = "cratersville-mines"
+channel_cv_mines_sweeper = "cratersville-mines-minesweeper"
+channel_cv_mines_bubble = "cratersville-mines-bubble-breaker"
+channel_tt_mines = "toxington-mines"
+channel_tt_mines_sweeper = "toxington-mines-minesweeper"
+channel_tt_mines_bubble = "toxington-mines-bubble-breaker"
 channel_jrmineswall_sweeper = "the-mines-wall-minesweeper"
 channel_ttmineswall_sweeper = "toxington-mines-wall-minesweeper"
 channel_cvmineswall_sweeper = "cratersville-mines-wall-minesweeper"
@@ -589,6 +573,22 @@ channel_jrmineswall_bubble = "the-mines-wall-bubble-breaker"
 channel_ttmineswall_bubble = "toxington-mines-wall-bubble-breaker"
 channel_cvmineswall_bubble = "cratersville-mines-wall-bubble-breaker"
 
+# Fishing Channels
+channel_tt_pier = "toxington-pier"
+channel_jp_pier = "jaywalker-plain-pier"
+channel_cl_pier = "crookline-pier"
+channel_afb_pier = "assault-flats-beach-pier"
+channel_vc_pier = "vagrants-corner-pier"
+channel_se_pier = "slimes-end-pier"
+channel_jr_pier = "juvies-row-pier"
+
+# Farming Channels
+channel_jr_farms = "juvies-row-farms"
+channel_og_farms = "ooze-gardens-farms"
+channel_ab_farms = "arsonbrook-farms"
+
+# Apartment channels
+channel_apt = "apartment"
 channel_apt_downtown = "downtown-apartments"
 channel_apt_smogsburg = "smogsburg-apartments"
 channel_apt_krakbay = "krak-bay-apartments"
@@ -629,13 +629,27 @@ channel_clinicofslimoplasty = "clinic-of-slimoplasty"
 channel_atomicforest = "atomic-forest"
 channel_downpourlaboratory = "downpour-laboratory"
 
-channel_prankfeed = "prank-feed"
+# Gang Violence Channels
+channel_killercomms = "killer-comms"
+channel_rowdycomms = "rowdy-comms"
+channel_slimecorpcomms = "slimecorp-comms"
+channel_losersclub = "the-losers-club"
+channel_killfeed = "kill-feed"
+channel_leaderboard = "leaderboard"
 channel_slimefest = "slimefest"
 
-
+# Gellphone Channels
 channel_slimetwitter = "slime-twitter"
-channel_artexhibits = "art-exhibits"
+channel_slimecasinolite = "slime-casino-lite"
+channel_sexportable = "stock-exchange-portable"
+channel_squicklyleaks = "squicklyleaks"
 channel_deviantsplaart = "deviant-splaart"
+channel_splatify = "splatify"
+
+# Exhibit Channels
+channel_relicexhibits = "relic-exhibits"
+channel_aquarium = "aquarium"
+channel_artexhibits = "art-exhibits"
 
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
@@ -908,6 +922,10 @@ cmd_checkstats = cmd_prefix + 'checkstats'
 cmd_makebp = cmd_prefix + 'makebp'
 cmd_exalt = cmd_prefix + 'exalt'
 cmd_awardart = cmd_prefix + 'awardart'
+cmd_createpoievent = cmd_prefix + 'createpoievent'
+cmd_listworldevents = cmd_prefix + 'listworldevents'
+cmd_listworldevents_alt1 = cmd_prefix + 'listworldevent'
+cmd_endworldevent = cmd_prefix + 'endworldevent'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -952,6 +970,7 @@ cmd_quarterlyreport = cmd_prefix + 'quarterlyreport'
 cmd_piss = cmd_prefix + 'piss'
 cmd_fursuit = cmd_prefix + 'fursuit'
 cmd_recycle = cmd_prefix + 'recycle'
+cmd_fun = cmd_prefix + 'fun'
 cmd_recycle_alt1 = cmd_prefix + 'incinerate'
 cmd_harden_sap = cmd_prefix + 'harden'
 cmd_harden_sap_alt1 = cmd_prefix + 'solidify'
@@ -1284,6 +1303,7 @@ cmd_ree = cmd_prefix + 'ree'
 cmd_autocannibalize = cmd_prefix + 'autocannibalize'
 cmd_autocannibalize_alt1 = cmd_prefix + 'eatself'
 cmd_rattle = cmd_prefix + 'rattle'
+cmd_bonejenga = cmd_prefix + 'bonejenga'
 cmd_beep = cmd_prefix + 'beep'
 cmd_yiff = cmd_prefix + 'yiff'
 cmd_hiss = cmd_prefix + 'hiss'
@@ -1558,7 +1578,7 @@ bleed_tick_length = 10
 
 # how often to decide whether or not to spawn an enemy
 enemy_spawn_tick_length = 60 * 3 # Three minutes
-# enemy_spawn_tick_length = 1
+# enemy_spawn_tick_length = 5
 # enemy_spawn_tick_length = 30
 # how often it takes for hostile enemies to attack
 enemy_attack_tick_length = 5
@@ -1621,6 +1641,9 @@ moon_full = "crescent" #                ((:
 moon_waning_start = "waningmandibles" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
+
+# strength of the burn applied every weather tick by firestorms
+firestorm_slime_burn = 100000
 
 # how often to delete expired world events
 event_tick_length = 5
@@ -2542,6 +2565,7 @@ cause_praying = 15
 cause_poison = 16
 cause_crushing = 17
 cause_gay = 18
+cause_debris = 19
 
 # List of user statistics that reset to 0 on death
 stats_clear_on_death = [
@@ -2671,6 +2695,7 @@ item_id_striking_strawberry_pod = "strikingstrawberrypod"
 item_id_ten_story_tobacco_pod = "tenstorytobaccopod"
 item_id_cop_killer_cotton_candy_pod = "copkillercottoncandypod"
 item_id_mustard_gas_pod = "mustardgaspod"
+item_id_moon_dust_pod = "moondustpod"
 item_id_spent_pod = "spentpod"
 item_id_giftribbon = "giftribbon"
 item_id_civilianscalp = "civilianscalp"
@@ -3310,11 +3335,13 @@ mutation_id_airlock = "airlock"
 mutation_id_lightminer = "lightminer"
 mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
-mutation_id_gay = "gay"
+# mutation_id_gay = "gay"
 
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 bingeeater_cap = 5
+
+explosion_block_list = [cause_leftserver, cause_cliff]
 
 quadrant_sloshed = "flushed"
 quadrant_roseate = "pale"
@@ -3649,7 +3676,7 @@ mutation_descriptions = {
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
     mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
-    mutation_id_gay: "You're gay.",
+    # mutation_id_gay: "You're gay.",
 
 }
 
@@ -3841,6 +3868,7 @@ enemy_attacktype_phoenix = 'phoenix'
 enemy_attacktype_graspers = 'graspers'
 enemy_attacktype_raygun = 'raygun'
 enemy_attacktype_feed = 'feed'
+enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
 
 
@@ -3886,6 +3914,14 @@ enemy_type_ug_slimeoidtrainer = 'undergroundslimeoidtrainer'
 enemy_type_titanoslime = "titanoslime"
 enemy_type_mutated_titanoslime = "mutatedtitanoslime"
 
+# POI event enemies
+enemy_type_bandito = 'bandito'
+enemy_type_raiderunderboss = 'raiderunderboss'
+enemy_type_protester = 'protester'
+enemy_type_antiprotestprotester = 'antiprotestprotester'
+enemy_type_deathclaw = 'deathclaw'
+enemy_type_mutatedbarrel = 'mutatedbarrel'
+
 # Sandbag (Only spawns in the dojo, doesn't attack)
 enemy_type_sandbag = 'sandbag'
 
@@ -3916,6 +3952,10 @@ pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
 slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer]
 
+# Enemies that spawn during specific poi events
+raider_incursion_enemies = [enemy_type_desertraider, enemy_type_bandito, enemy_type_raiderunderboss]
+slimeunist_protest_enemies = [enemy_type_protester, enemy_type_antiprotestprotester]
+radiation_storm_enemies = [enemy_type_deathclaw, enemy_type_mutatedbarrel]
 
 # List of raid bosses sorted by their spawn rarity.
 raid_boss_tiers = {
@@ -4033,6 +4073,49 @@ enemy_drop_tables = {
         {item_id_dinoslimemeat: [100, 1, 1]},
         {item_id_civilianscalp: [50, 1, 1]},
         {"alienscalp": [100, 1, 1]},
+    ],
+    enemy_type_bandito: [
+        {item_id_slimepoudrin: [100, 1, 3]},
+        {rarity_plebeian: [25, 1, 1]},
+        {"crop": [40, 2, 6]},
+        {"poncho": [10, 1, 1]}
+    ],
+    enemy_type_raiderunderboss: [
+        {item_id_slimepoudrin: [100, 3, 8]},
+        {rarity_plebeian: [40, 1, 2]},
+        {"crop": [60, 2, 6]},
+        {"poncho": [25, 1, 1]},
+        {"trenchcoat": [25, 1, 1]},
+    ],
+    enemy_type_protester: [
+        {item_id_slimepoudrin: [100, 1, 1]},
+        {rarity_plebeian: [25, 1, 1]},
+        {"crop": [20, 1, 3]},
+        {item_id_civilianscalp: [100, 1, 1]},
+        {weapon_id_bat: [10, 1, 1]},
+        {weapon_id_molotov: [10, 1, 1]},
+        {"gasmask": [10, 1, 1]} 
+    ],
+    enemy_type_antiprotestprotester: [
+        {item_id_slimepoudrin: [100, 1, 2]},
+        {rarity_plebeian: [30, 1, 2]},
+        {"crop": [30, 1, 4]},
+        {item_id_civilianscalp: [100, 1, 1]},
+        {weapon_id_rifle: [10, 1, 1]},
+        {"slimecityflag": [10, 1, 1]},
+        {"flagcape": [10, 1, 1]},
+        {"slimecityconfederateflag": [10, 1, 1]}
+    ],
+    enemy_type_deathclaw: [
+        {item_id_slimepoudrin: [100, 3, 7]},
+        {rarity_patrician: [15, 1, 2]},
+        {"crop": [60, 2, 4]},
+        {item_id_leather: [100, 1, 2]},
+        {item_id_dragonsoul: [12, 1, 1]},
+        {item_id_monsterbones: [100, 2, 8]} 
+    ],
+    enemy_type_mutatedbarrel: [
+        {item_id_slimepoudrin: [100, 3, 30]},
     ],
     enemy_type_civilian: [
         {item_id_slimepoudrin: [20, 1, 1]},
@@ -4302,6 +4385,54 @@ enemy_data_table = {
         "raredisplayname": "Villainous Slimeoid Champion",
         "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"]
     },
+    enemy_type_bandito: {
+        "slimerange": [300000, 600000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_wesson,
+        "displayname": "Bandito",
+        "raredisplayname": "Bandito Supreme",
+        "aliases": ["bandit", "banditosupreme"]
+    },
+    enemy_type_raiderunderboss: {
+        "slimerange": [1000000, 2000000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_wesson,
+        "displayname": "Raider Underboss",
+        "raredisplayname": "Raider Overboss",
+        "aliases": ["raiderboss", "underboss", "overboss"]
+    },
+    enemy_type_protester: {
+        "slimerange": [10000, 20000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "Slimeunist Protester",
+        "raredisplayname": "False Flag Protester",
+        "aliases": ["falseflagprotester", "slimeunist", "protestor"]
+    },
+    enemy_type_antiprotestprotester: {
+        "slimerange": [15000, 30000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "Anti-Protest Protester",
+        "raredisplayname": "False Flag Anti-Protest Protester",
+        "aliases": ["antiprotest", "antiprotester", "antiprotestor", "anti", "falseflagantiprotestprotester"]
+    },
+    enemy_type_deathclaw: {
+        "slimerange": [5000000, 7000000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_gnash,
+        "displayname": "Deathclaw",
+        "raredisplayname": "Legendary Deathclaw",
+        "aliases": ["legendarydeathclaw"]
+    },
+    enemy_type_mutatedbarrel: {
+        "slimerange": [1000, 5000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_gunkshot,
+        "displayname": "Bipedal Mutated Barrel",
+        "raredisplayname": "Quadrupedal Mutated Barrel",
+        "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"]
+    },
 }
 
 # Raid boss names used to avoid raid boss reveals in ewutils.formatMessage
@@ -4396,6 +4527,36 @@ event_type_marriageceremony = "marriageceremony"
 
 event_type_brickshit = "brickshit"
 event_type_alarmclock = "alarmclock"
+
+# POI Events
+event_type_tornado = "tornado"
+event_type_meteor_shower = "meteorshower"
+event_type_smog_warning = "smogwarning"
+event_type_poudrin_hail = "poudrinhail"
+event_type_radiation_storm = "radiationstorm"
+event_type_jape_storm = "japestorm"
+event_type_firestorm = "firestorm"
+event_type_raider_incursion = "raiderincursion"
+event_type_slimeunist_protest = "slimeunistprotest"
+event_type_dimensional_rift = "dimensionalrift"
+event_type_fishing_frenzy = "fishingfrenzy"
+event_type_gas_leak = "gasleak"
+
+# In list format
+poi_events = [
+    event_type_tornado,
+    event_type_meteor_shower, 
+    event_type_smog_warning,
+    event_type_poudrin_hail, 
+    event_type_radiation_storm,
+    event_type_jape_storm,
+    event_type_firestorm,
+    event_type_raider_incursion, 
+    event_type_slimeunist_protest,
+    event_type_dimensional_rift,
+    event_type_fishing_frenzy,
+    event_type_gas_leak,
+]
 
 # Events that need to be checked up on every time the market updates
 # All hourly_events MUST include a "time" event_prop!
@@ -4759,7 +4920,7 @@ defined_races = {
         "soul_behavior":"is floating around in a weird loop."
     },
     race_shambler: {
-        "race_prefix": "",
+        "race_prefix": "rotting ",
         "race_suffix": "",
         "acknowledgement_str": 'ENDLESS WAR acknowledges you as one of the dead, is disturbed by your presence. You may now **{cmd}** in the hordes of those like you',
         "racial_cmd": cmd_shamble,

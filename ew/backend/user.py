@@ -36,8 +36,6 @@ class EwUserBase:
     arrested = 0
     active_slimeoid = -1
     splattered_slimes = 0
-    # sap = 0
-    # hardened_sap = 0
     race = ""
 
     # SLIMERNALIA
@@ -82,7 +80,6 @@ class EwUserBase:
 
     # twitter
     verified = False
-
 
     hogtied = 0
 
@@ -423,14 +420,6 @@ class EwUserBase:
             return result
 
     def has_gellphone(self):
-        """
-        gellphones = ewitem.find_item_all(item_search = ewcfg.item_id_gellphone, id_user = self.id_user, id_server = self.id_server, item_type_filter = ewcfg.it_item)
-
-        for phone in gellphones:
-            phone_data = EwItem(id_item = phone.get('id_item'))
-            if phone_data.item_props.get('active') == 'true':
-                return True
-        """
         # Use cache if it exists
         item_cache = bknd_core.get_cache(obj_type = "EwItem")
         if item_cache is not False:
