@@ -2,7 +2,7 @@ import asyncio
 from ew.static import npc as static_npc
 from ew.utils import frontend as fe_utils
 import random
-
+from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
 import ew.backend.core as bknd_core
 import ew.utils.combat as ewcombat
@@ -13,8 +13,9 @@ import ew.utils.hunting as ewhunting
 #die: action when the enemy dies
 #hit: action when the enemy gets hit
 
-async def generic_npc_action(keyword = '', enemy = None, channel = None):
-    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None):
+    if npc_object is None:
+        npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
         return await generic_move(enemy=enemy)
@@ -31,31 +32,23 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None):
 async def chatty_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
-    if keyword == 'move':
-        return await generic_move(enemy=enemy)
-    elif keyword == 'act':
+    if keyword == 'act':
         if random.randint(1, 5) == 2:
             return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy)
     elif keyword == 'talk':
         return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
-    elif keyword == 'hit':
-        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
-    elif keyword == 'die':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj)
 
 async def police_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
-    if keyword == 'move':
-        return await generic_move(enemy=enemy)
-    elif keyword == 'act':
+    if keyword == 'act':
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
-    elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
-    elif keyword == 'hit':
-        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
         return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj)
 
 async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -69,17 +62,20 @@ async def police_chief_npc_action(keyword = '', enemy = None, channel = None):
 async def condition_hostile_action (keyword = '', enemy = None, channel = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
-    if keyword == 'move':
-        return await generic_move(enemy=enemy)
-    elif keyword == 'act':
+    if keyword == 'act':
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
-    elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
-    elif keyword == 'hit':
-        return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
-    elif keyword == 'die':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='die')
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj)
 
+
+async def juvieman_action(keyword = '', enemy = None, channel = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == 'act':
+        return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'die':
+        return await juvieman_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj)
 
 
 #top level functions here
@@ -158,19 +154,21 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
     enemy_statuses = enemy.getStatusEffects()
 
     if random.randrange(25) == 0: #one in 25 chance to talk in addition to attacking. attacks are based on a condition
-        response = random.choice(npc_obj.dialogue.get('loop'))
-        if response is None:
+        if npc_obj.dialogue.get('loop') is not None:
+            response = random.choice(npc_obj.dialogue.get('loop'))
+        elif npc_obj.dialogue.get('talk') is not None:
             response = random.choice(npc_obj.dialogue.get('talk'))
+        else:
+            response = "..."
 
         name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
         if response is not None:
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
-    if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
-        resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
-    else:
-        resp_cont = await enemy.kill(condition = npc_obj.condition)
+
+    resp_cont = await enemy.kill(condition = npc_obj.condition)
+
     if resp_cont is not None:
         await resp_cont.post()
 
@@ -241,3 +239,9 @@ async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
         await fe_utils.send_message(None, channel, response)
 
 
+
+async def juvieman_die(channel, npc_obj, enemy = None):
+
+    new_poi = random.choice(poi_static.capturable_districts)
+    ewhunting.spawn_enemy(id_server=enemy.id_server, pre_chosen_type='npc', pre_chosen_poi=new_poi, pre_chosen_npc='juvieman')
+    return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy=enemy)

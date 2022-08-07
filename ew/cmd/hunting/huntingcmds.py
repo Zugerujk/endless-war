@@ -2,6 +2,7 @@ import time
 
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
+from ew.static import npc as npc_static
 from ew.utils import frontend as fe_utils
 from ew.utils import hunting as hunt_utils
 from ew.utils.combat import EwUser
@@ -26,13 +27,17 @@ async def summonenemy(cmd):
     enemy_slimes = None
     enemy_displayname = None
     enemy_level = None
-
+    enemy_npc_title = None
     resp_cont = None
 
     if len(cmd.tokens) >= 3:
 
         enemytype = cmd.tokens[1]
         enemy_location = cmd.tokens[2]
+
+        if enemytype in npc_static.spawn_probability_list:
+            enemy_npc_title = enemytype
+            enemytype = 'npc'
 
         if len(cmd.tokens) >= 6:
             enemy_slimes = cmd.tokens[3]
@@ -50,7 +55,7 @@ async def summonenemy(cmd):
             data_level = 2
 
         if data_level == 1:
-            resp_cont = hunt_utils.spawn_enemy(id_server=cmd.message.guild.id, pre_chosen_type=enemytype, pre_chosen_poi=poi.id_poi, manual_spawn=True)
+            resp_cont = hunt_utils.spawn_enemy(id_server=cmd.message.guild.id, pre_chosen_type=enemytype, pre_chosen_poi=poi.id_poi, manual_spawn=True, pre_chosen_npc=enemy_npc_title)
         elif data_level == 2:
 
             resp_cont = hunt_utils.spawn_enemy(

@@ -1465,7 +1465,7 @@ async def enemy_perform_action(id_server):
 
 
 # Finds an enemy based on its regular/shorthand name, or its ID.
-def find_enemy(enemy_search = None, user_data = None):
+def find_enemy(enemy_search = None, user_data = None, npc_search = None):
     enemy_found = None
     enemy_search_alias = None
 
@@ -1503,16 +1503,17 @@ def find_enemy(enemy_search = None, user_data = None):
 
             searched_identifier = identifiers_found.pop()
 
+
             enemydata = bknd_core.execute_sql_query(
-                "SELECT {id_enemy} FROM enemies WHERE {poi} = %s AND {identifier} = %s AND {life_state} = 1".format(
-                    id_enemy=ewcfg.col_id_enemy,
-                    poi=ewcfg.col_enemy_poi,
-                    identifier=ewcfg.col_enemy_identifier,
-                    life_state=ewcfg.col_enemy_life_state
-                ), (
-                    user_data.poi,
-                    searched_identifier,
-                ))
+            "SELECT {id_enemy} FROM enemies WHERE {poi} = %s AND {identifier} = %s AND {life_state} = 1".format(
+                id_enemy=ewcfg.col_id_enemy,
+                poi=ewcfg.col_enemy_poi,
+                identifier=ewcfg.col_enemy_identifier,
+                life_state=ewcfg.col_enemy_life_state
+            ), (
+                user_data.poi,
+                searched_identifier,
+            ))
 
             for row in enemydata:
                 enemy = EwEnemy(id_enemy=row[0], id_server=user_data.id_server)
@@ -1544,6 +1545,26 @@ def find_enemy(enemy_search = None, user_data = None):
                     break
 
     return enemy_found
+
+
+def find_npc(npcsearch = '', id_server = -1):
+    enemyfound = None
+    if npcsearch is not None:
+        enemydata = bknd_core.execute_sql_query(
+            "SELECT {id_enemy} FROM enemies WHERE {enemyclass} = %s AND {life_state} = 1".format(
+                id_enemy=ewcfg.col_id_enemy,
+                enemyclass=ewcfg.col_enemy_class,
+                life_state=ewcfg.col_enemy_life_state
+            ), (
+                npcsearch,
+            ))
+        for row in enemydata:
+            enemy = EwEnemy(id_enemy=row[0], id_server=id_server)
+            if enemy is not None:
+                enemyfound = enemy
+                break
+    return enemyfound
+
 
 
 def check_raidboss_movecooldown(enemy_data):
@@ -1597,7 +1618,7 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
             if condition is not None:
                 for user in users:
                     user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server, data_level=1)
-                    if condition(user_data, enemy_data):
+                    if condition[0](user_data, enemy_data):
                         target_data = user_data
                         break
             elif len(users) > 0:

@@ -47,7 +47,7 @@ def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
         enemy.display_name = chosen_npc.str_name
         enemy.slimes = chosen_npc.defaultslime
         enemy.level = chosen_npc.defaultlevel
-        enemy.poi = pre_selected_poi if pre_selected_poi in chosen_npc.poi_list else random.choice(chosen_npc.poi_list)
+        enemy.poi = pre_selected_poi if pre_selected_poi is not None else random.choice(chosen_npc.poi_list)
         enemy.enemyclass = chosen_npc.id_npc
         enemy.attacktype = chosen_npc.attacktype
 
@@ -367,7 +367,6 @@ def get_enemy_data(enemy_type, arctic = 0):
 def set_identifier(poi, id_server):
     district = EwDistrict(district=poi, id_server=id_server)
     enemies_list = district.get_enemies_in_district()
-
     # A list of identifiers from enemies in a district
     enemy_identifiers = []
 

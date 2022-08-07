@@ -2,6 +2,7 @@ import asyncio
 import random
 
 from ew.static import poi as poi_static
+from ew.static import npc as npc_static
 from ew.utils import dungeons as dungeon_utils
 from ew.utils import frontend as fe_utils
 from ew.utils import rolemgr as ewrolemgr
@@ -116,8 +117,18 @@ async def add_blurb(cmd):
         if len(cmd.tokens) > 4:
             blurb_obj.subsubcontext = cmd.tokens[4]
         blurb_obj.persist()
+
+        if blurb_obj.context == 'npc':
+            npc = npc_static.active_npcs_map.get(blurb_obj.subcontext)
+            if npc.dialogue.get(blurb_obj.subsubcontext) is not None:
+                npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
+            else:
+                npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
+
         list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
-        list_to_update.append(blurb_obj.blurb)
+        if list_to_update is not None:
+            list_to_update.append(blurb_obj.blurb)
+
         response = "Added a blurb."
 
     await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))

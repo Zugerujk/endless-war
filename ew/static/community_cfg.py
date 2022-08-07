@@ -320,6 +320,7 @@ dance_responses = [
     "{} does the 2 step! Such a complicated process!"
 ]
 
+
 mixtapes = ['', '']
 
 
@@ -327,5 +328,28 @@ context_guide = ""
 
 blurb_context_map = {
     "danceresponses":dance_responses,
-    "browse":browse_list
+    "browse":browse_list,
+    "skatetricks":skatetricks,
+    "tvlines":tv_lines,
+    "prayresponses":pray_responses_list,
+    "cabinetslist":cabinets_list,
+    "meteorshowerresponses":meteor_shower_responses,
+    "saxophonejams":jams_saxophone,
+    "trombonejams":jams_trombone,
+    "vuvuzelajams":jams_vuvuzela,
+    "whistlejams":jams_whistle,
+    "xylophonejams":jams_xylophone,
+    "otamatonejams":jams_otamatone,
+    "maracasjams":jams_maracas,
+    "cornetjams":jams_cornet,
+    "drumjams":jams_drums,
+    "clarinetjams":jams_clarinet,
+    "bassjams":jams_bass,
+    "genericfishingtext":generic_fishing_text,
+    "normalfishingtext":normal_fishing_text,
+    "moonfishingtext":moon_fishing_text,
+    "voidfishingtext":void_fishing_text,
+    "curatorinsults":curator_insults,
+    "actualstds":actual_stds,
+    "bazaardistractions":bazaar_distractions
 }

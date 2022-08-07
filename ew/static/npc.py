@@ -403,19 +403,19 @@ EwNpc(
     poi_list = [ewcfg.poi_id_endlesswar, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_juviesrow],
     dialogue = {"talk":["Hail fair citizen! Fine day for a jaunt around town, is it not?", "Keep an eye out for that nefarious Staydeadman!", "Keeping these streets safe, one scumbag at a time...", "It's tough work, but someone's gotta do it...", "Green's my favorite color!", "Need something?"],
                 "raretalk":["Remember to stock up on bodyspray, young Juve.", "Don't be afraid to use the Juvie signal if you're ever in trouble!", "I trust that you're not planning anything nefarious, citizen?"],
-                "hit":["So you've chosen violence, then? Very well!", "I'll make you pay for that!", "**WHO THE HECK DO YOU THINK I AM!?**"],
+                "hit":["So you've chosen violence, then? Very well!", "I'll shield that with my body!", "**WHO THE HECK DO YOU THINK I AM!?**"],
                 "rarehit":["Are you working with that nefarious Staydeadman!?"],
-                "die":["Nnngh... You haven't... seen the last of me..."]
+                "die":["**UP, UP, RUN AWAYYYYYYYYY!**"]
                 },
     func_ai = npcutils.generic_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png",
-    defaultslime = 3000000,
-    defaultlevel = 60,
+    defaultslime = 30000000,
+    defaultlevel = 99,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
     ],
-    starting_statuses = [],
+    starting_statuses = [ewcfg.status_enemy_barren_id],
     rarity=6
 )
 ]

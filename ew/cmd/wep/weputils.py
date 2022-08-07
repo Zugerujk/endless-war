@@ -12,7 +12,7 @@ from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import slimeoid as sl_static
 from ew.static import weapons as static_weapons
-from ew.static import hunting as static_hunt
+from ew.static import npc as static_npc
 from ew.utils import combat as cmbt_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
@@ -848,9 +848,7 @@ async def attackEnemy(cmd):
             slimeoid_dmg = static_weapons.slimeoid_dmg_text.get(slimeoid.weapon)
 
     if was_killed:
-        if enemy_data.enemytype == ewcfg.enemy_type_npc:
-            npc_obj = static_hunt.active_npcs_map.get(enemy_data.enemyclass)
-            await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
+
         # adjust statistics
         ewstats.increment_stat(user=user_data, metric=ewcfg.stat_pve_kills)
         ewstats.track_maximum(user=user_data, metric=ewcfg.stat_biggest_kill, value=int(slimes_dropped))
@@ -955,9 +953,12 @@ async def attackEnemy(cmd):
             resp_cont.add_channel_response(cmd.message.channel, defeat_response)
 
         user_data = EwUser(member=cmd.message.author)
+
+
+
     else:
         if enemy_data.enemytype == ewcfg.enemy_type_npc:
-            npc_obj = static_hunt.active_npcs_map.get(enemy_data.enemyclass)
+            npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
             await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel)
         # A non-lethal blow!
         if weapon != None:
@@ -1055,6 +1056,9 @@ async def attackEnemy(cmd):
             await asyncio.sleep(60)
 
         await killfeed_resp_cont.post()
+    elif was_killed and enemy_data.enemytype == ewcfg.enemy_type_npc:
+        npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+        await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
 
     # Send the response to the player.
 

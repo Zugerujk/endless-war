@@ -1568,6 +1568,25 @@ async def help(cmd):
     user_data = EwUser(member=cmd.message.author)
     resp_cont = EwResponseContainer(id_server=cmd.guild.id)
 
+    if cmd.tokens[1] == 'juvieman':
+        poi = poi_static.id_to_poi(user_data.poi)
+        if user_data.life_state != ewcfg.life_state_juvenile:
+            response = "No answer. Guess he only responds to juvies."
+        elif poi.pvp == False:
+            response = "You're not in danger, dumbass."
+        else:
+            enemy = cmbt_utils.find_npc(npcsearch='juvieman', id_server=user_data.id_server)
+            if not enemy:
+                response = "But nobody came. Guess Juvieman's busy."
+            else:
+                enemy.poi = user_data.poi
+                enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+                enemy.persist()
+                response = "DID SOMEBODY SAY... JUVIEMAN!?"
+                name = "{}{}{}".format('**__', "JUVIEMAN", '__**')
+                return await fe_utils.talk_bubble(response=response, name=name, image="https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png", channel=cmd.message.channel)
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
     # help only checks for districts while in game channels
 
     # checks if user is in a college or if they have a game guide

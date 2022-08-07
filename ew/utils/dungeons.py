@@ -7,6 +7,7 @@ from ew.utils.combat import EwUser
 from ew.cmd.dungeons import dungeonutils
 from ..backend import core as bknd_core
 from ew.static import npc as npc_static
+from ew.static import community_cfg as commcfg
 
 def format_tutorial_response(scene):
     response = scene.text
@@ -50,6 +51,8 @@ def load_npc_blurbs(id_server):
         col_subcontext=ewcfg.col_id_subcontext,
         col_subsubcontext=ewcfg.col_id_subsubcontext), ('npc', id_server))
 
+
+
     npc_map = npc_static.active_npcs_map
 
     for blurb in npcblurbs:
@@ -57,4 +60,28 @@ def load_npc_blurbs(id_server):
         if npc is not None:
             current_dialogue_tree = npc.dialogue.get(blurb[3])
             if current_dialogue_tree is None:
-                npc.dialogue[blurb[3]] = blurb[1]
+                npc.dialogue[blurb[3]] = [blurb[1]]
+            else:
+                npc.dialogue[blurb[3]].append(blurb[1])
+
+
+
+def import_blurb_list(id_server, keyword = '', default_list = None):
+    if default_list is None:
+        default_list = []
+    blurb_import = bknd_core.execute_sql_query("select {col_id_blurb} from blurbs where context = %s and id_server = %s".format(
+        col_id_blurb = ewcfg.col_id_blurb
+        ), (keyword, id_server))
+
+    for blurb in blurb_import:
+        default_list.append(blurb[0])
+
+    return default_list
+
+
+def load_other_blurbs(id_server):
+    for context in commcfg.blurb_context_map.keys():
+        commcfg.blurb_context_map[context] = import_blurb_list(keyword=context, default_list=commcfg.blurb_context_map.get(context), id_server=id_server)
+
+
+
