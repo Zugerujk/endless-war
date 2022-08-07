@@ -85,3 +85,16 @@ def load_other_blurbs(id_server):
 
 
 
+    districtblurbs = bknd_core.execute_sql_query(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s and id_server = %s".format(
+            col_id_blurb=ewcfg.col_id_blurb,
+            col_id_id_blurb=ewcfg.col_id_id_blurb,
+            col_subcontext=ewcfg.col_id_subcontext), ('district', id_server))
+
+    for poi in poi_static.poi_list:
+        commcfg.district_blurbs[poi] = ["Your eyes glaze over from sniffing too much paint thinner. You can't see a thing."]
+
+    for blurb in districtblurbs:
+        commcfg.district_blurbs[blurb[2]].append(blurb[1])
+
+

@@ -124,6 +124,8 @@ async def add_blurb(cmd):
                 npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
             else:
                 npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
+        elif blurb_obj.context == 'district':
+            comm_cfg.district_blurbs[blurb_obj.subcontext] = blurb_obj.blurb
 
         list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
         if list_to_update is not None:

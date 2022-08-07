@@ -416,7 +416,9 @@ EwNpc(
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id],
-    rarity=6
+    rarity=6,
+    condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
+
 )
 ]
 

@@ -326,6 +326,10 @@ mixtapes = ['', '']
 
 context_guide = ""
 
+district_blurbs = {}
+
+
+
 blurb_context_map = {
     "danceresponses":dance_responses,
     "browse":browse_list,

@@ -86,6 +86,12 @@ status_effect_list = [
         str_describe_self="You are as high as a kite."
     ),
     EwStatusEffectDef(
+        id_status=ewcfg.status_thinned_id,
+        time_expire=ewcfg.time_expire_high,
+        str_describe="They are gassed up on paint thinner.",
+        str_describe_self="You are gassed up on paint thinner."
+    ),
+    EwStatusEffectDef(
         id_status=ewcfg.status_evasive_id,
         time_expire=10,
         str_describe="They have assumed an evasive stance.",

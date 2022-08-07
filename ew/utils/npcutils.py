@@ -74,6 +74,8 @@ async def juvieman_action(keyword = '', enemy = None, channel = None):
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'die':
         return await juvieman_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'hit':
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='hit')
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj)
 
