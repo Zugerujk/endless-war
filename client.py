@@ -220,6 +220,7 @@ async def on_ready():
 
     for id_poi in poi_static.landmark_pois:
         ewutils.logMsg("beginning landmark precomputation for " + id_poi)
+        # Set each landmark's value to a dictionary of all pois, and their total cost from that landmark
         move_utils.landmarks[id_poi] = move_utils.score_map_from(
             poi_start=id_poi,
             user_data=fake_observer,
