@@ -684,7 +684,7 @@ async def talk(cmd):
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-    elif user_data.poi in ewcfg.vendor_dialogue.keys():
+    elif user_data.poi in ewcfg.vendor_dialogue.keys() and cmd.tokens_count == 1:
         response = random.choice(ewcfg.vendor_dialogue.get(user_data.poi))
         thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)
         name = "{}{}{}".format("*__", ewcfg.vendor_npc_names.get(user_data.poi), "__*")

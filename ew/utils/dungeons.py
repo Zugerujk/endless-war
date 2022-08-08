@@ -97,4 +97,11 @@ def load_other_blurbs(id_server):
     for blurb in districtblurbs:
         commcfg.district_blurbs[blurb[2]].append(blurb[1])
 
+    vendorblurbs = bknd_core.execute_sql_query(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s and id_server = %s".format(
+            col_id_blurb=ewcfg.col_id_blurb,
+            col_id_id_blurb=ewcfg.col_id_id_blurb,
+            col_subcontext=ewcfg.col_id_subcontext), ('vendor', id_server))
 
+    for blurb in vendorblurbs:
+        ewcfg.vendor_dialogue[blurb[2]].append(blurb[1])
