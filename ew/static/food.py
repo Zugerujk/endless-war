@@ -2284,7 +2284,7 @@ food_list = [
         str_desc = "A ball of foodstuff skewered with a fancy silver fork. You watch it age like fine wine right before your eyes.",
         time_expir = 1, 
     ),
-EwFood(
+    EwFood(
         id_food="ectocooler",
         alias=['hi-c', 'hic', 'hicectocooler', 'citruscooler', 'shoutinorangetangergreen', 'crazycitruscooler'],
         recover_hunger=-1500,
@@ -2316,8 +2316,19 @@ EwFood(
         str_name = "Chi\'King",
         str_eat = "Everything you thought you knew about the game is dead because of this sandwhich. This is a mere simulcarum of what it felt like for Ben Saint to eat the ch'king.",
         str_desc = "a ch\'king. smells like natural gas.",
-        time_expir = 1000000000,
-    )
+        perishable = False,
+    ),
+    EwFood(
+        id_food = "freeapple",
+        alias = ["apple", "free", "poison"],
+        recover_hunger = 1,
+        price = 0,
+        str_name = "Free Apple", #cyanide pill but PG-13
+        vendors=['Slimy Persuits'],
+        str_eat = "Hey this apple tastes great! Next time you'll think you'll give it to a friend! ...Or an enemy, as soon as you get out of the sewers. :slimeskull:\n\n ...Unless you somehow survive this. Then, congradulations!\nSidenote to if you actually ordered this on the spot at the CANDY STORE. You absolute baboon; you saw all this cool candy that made your mouth water and you took an APPLE.\nYou deserve death if you aren't dead already.",
+        str_desc = "It's a delicious red apple, why question where it came from if it's a free apple? Eat that shit.",
+        perishable = False,
+    ),
 ]
 # A map of id_food to EwFood objects.
 food_map = {}

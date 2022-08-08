@@ -2087,7 +2087,34 @@ EwSmeltingRecipe(
             ewcfg.item_id_ghosttoken : 1
         },
         products = ['drapeddress']
-    )
+    ),
+    EwSmeltingRecipe(
+        id_recipe="moonshoes",
+        str_name="Moon Shoes",
+        alias=[
+            'moonshoe',
+        ],
+        ingredients={
+            ewcfg.item_id_moonrock: 25,
+            ewcfg.item_id_oldboot: 2,
+        },
+        products=['moonshoes']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="rabbitsuit",
+        str_name="Rabbit Suit",
+        alias=[
+            'rabbit',
+        ],
+        ingredients={
+            ewcfg.item_id_beautiful_material: 5,
+            ewcfg.item_id_monofilamentfragment: 10,
+            ewcfg.item_id_leather: 1,
+            ewcfg.item_id_pheromones: 1,
+            ewcfg.item_id_lasso: 1,
+        },
+        products=['rabbitsuit']
+    ),
 ]
 
 

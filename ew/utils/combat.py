@@ -2004,7 +2004,7 @@ class EwUser(EwUserBase):
 
             response = item_props['str_eat'] + ("\n\nYou're stuffed!" if self.hunger <= 0 else "")
             try:
-                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw"]:
+                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw", "chilledaushucklog"]:
                     self.clear_status(id_status=ewcfg.status_ghostbust_id)
                     self.applyStatus(id_status=ewcfg.status_ghostbust_id)
                     # Bust player if they're a ghost

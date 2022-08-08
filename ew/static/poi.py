@@ -44,7 +44,7 @@ poi_list = [
     ),
     EwPoi(
         id_poi="copkilltown",
-        alias=['cop', 'cops', 'killers', 'killer', 'killtown', 'copkt', 'ck', 'cct', 'ckt', 'cathedral'],
+        alias=['cop', 'cops', 'killers', 'killer', 'killtown', 'copkt', 'ck', 'cct', 'ckt', 'cathedral', 'catheter'], #pranked
         str_name="Cop Killtown",
         str_desc="Edifices of various sinister architectural styles rise above the pavement. Gothic cathedrals, Victorian buildings, and New England brownstone apartments all dyed cool, dark colors. This district even hosts a miniature Japantown, featuring stores and restaurants that clutter your vision with densely packed fluorescent signage and other visual noise. Often cloaked in shadow from the height of these imposing buildings, the narrow, cobblestone streets of this district are perfect to brood and foster your angst in.\nCop Killtown is the gang base of the hardboiled, and calculating Killers. St. Ben's Cathedral looms menacing on the horizon.\nhttps://discord.gg/xSQQD2M\n\nThis area contains the Cop Killtown Subway Station. To the North is Astatine Heights. To the East is Smogsburg. To the Southeast is Downtown NLACakaNM. To the Northwest is Gatlingsdale.",
         coord=[22, 18],
@@ -66,7 +66,7 @@ poi_list = [
         id_poi="krakbay",
         alias=['krak', 'kb'],
         str_name="Krak Bay",
-        str_desc="Long street blocks are are densely packed with stores and restaurants, mixed in with townhouses and accompanied by modern skyscrapers and sprawling in-door shopping malls. These amenities, and a scenic view of the River of Slime on its coast, make this district a favorite of juveniles out on the town.\nKrak Bay is a bustling commercial district, featuring stores from across the retail spectrum. From economic, practical convenience stores to high-class, swanky restaurants, Krak Bay has it all. It is also home to some of the most recognizable fixtures of the city's skyline, most notably the Poudrintial Tower and the shopping mall at its base (which contains the city's prized food court).\n\nThis area contains the Food Court, Bicarbonate Soda Fountain, and the Krak Bay Subway Station. To the East is Downtown NLACakaNM. To the Southeast is Poudrin Alley. To the South is Ooze Gardens. To the Southwest is South Sleezeborough. To the West is North Sleezeborough. To the Northwest is Glocksbury.",
+        str_desc="Long street blocks are are densely packed with stores and restaurants, mixed in with townhouses and accompanied by modern skyscrapers and sprawling in-door shopping malls. These amenities, and a scenic view of the River of Slime on its coast, make this district a favorite of juveniles out on the town.\nKrak Bay is a bustling commercial district, featuring stores from across the retail spectrum. From economic, practical convenience stores to high-class, swanky restaurants, Krak Bay has it all. It is also home to some of the most recognizable fixtures of the city's skyline, most notably the Poudrintial Tower and the shopping mall at its base (which contains the city's prized food court).\n\nThis area contains the Food Court, Bodega, the Bicarbonate Soda Fountain, and the Krak Bay Subway Station. To the East is Downtown NLACakaNM. To the Southeast is Poudrin Alley. To the South is Ooze Gardens. To the Southwest is South Sleezeborough. To the West is North Sleezeborough. To the Northwest is Glocksbury.",
         coord=[21, 24],
         channel="krak-bay",
         role="Krak Bay",
@@ -463,7 +463,7 @@ poi_list = [
         id_poi="charcoalpark",
         alias=['charcoal', 'park2', 'cpark', 'awkwardinitials', 'cp', 'ch'],
         str_name="Charcoal Park",
-        str_desc="A completely unremarkable, quiet retirement community. The citizens are fed up with slime, honestly. Pathetic little gardens rest in front of the uneven parking lots of corporate complexes housing dentists, fortune-tellers, real estate agencies, and other equally dull and pointless ventures.\nCharcoal Park is where boring people go to die. No one is happy to be here.\n\nTo the East is Toxington. To the South is Polonium Hill. To the Northwest is Northwest Outskirts Edge.",
+        str_desc="A completely unremarkable, quiet retirement community. The citizens are fed up with slime, honestly. Pathetic little gardens rest in front of the uneven parking lots of corporate complexes housing dentists, fortune-tellers, real estate agencies, and other equally dull and pointless ventures.\nCharcoal Park is where boring people go to die. No one is happy to be here.\n\nThe Coalition Surplus is here. To the East is Toxington. To the South is Polonium Hill. To the Northwest is Northwest Outskirts Edge.",
         coord=[11, 7],
         channel="charcoal-park",
         role="Charcoal Park",
@@ -579,7 +579,7 @@ poi_list = [
         id_poi="thevoid",
         alias=['void', 'the-void', 'abyss', 'tv', 'v'],
         str_name="the Void",
-        str_desc="A large open space, pitch black aside from the many old-style street lights illuminating several paths, whose intersection is marked by street sign, standing tall next to a metal bench. At the end of each path is a well lit staircase leading underground. One shorter path from the sign leads to the Waffle House, on the back of which is a ladder leading to its roof. The total silence of this place makes you very aware of the sounds your own body makes as you walk around, and the overbright lamps strain your vision even as total darkness envelops you.\n\nThis area contains the Waffle House and the Black Pond.",
+        str_desc="A large open space, pitch black aside from the many old-style street lights illuminating several paths, whose intersection is marked by street sign, standing tall next to a metal bench. At the end of each path is a well lit staircase leading underground. One shorter path from the sign leads to the Waffle House, on the back of which is a ladder leading to its roof. The total silence of this place makes you very aware of the sounds your own body makes as you walk around, and the overbright lamps strain your vision even as total darkness envelops you.\n\nThis area contains the Waffle House, Black Pond, and the Ghost Maid Cafe.",
         channel="the-void",
         permissions={'the-void': ['read', 'send', 'connect']},
         is_district=True,
@@ -2675,7 +2675,7 @@ poi_list = [
         channel="nuclear-beach-edge",
         permissions={'nuclear-beach-edge': ['read', 'send', 'connect']},
         is_outskirts=True,
-        neighbors={'northoutskirtsedge': 20, 'nuclearbeach': 20, 'assaultflatsbeach': 60},
+        neighbors={'northoutskirtsedge': 60, 'nuclearbeach': 60, 'assaultflatsbeach': 60},
         wikipage="https://rfck.miraheze.org/wiki/Outskirts#Edge",
     ),
     EwPoi(
@@ -3029,20 +3029,6 @@ poi_list = [
         pvp=False,
         neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
-
-    EwPoi(
-        id_poi="saloon",
-        alias=['hangemsaloon'],
-        str_name="Hang 'em Saloon",
-        str_desc="How is this saloon not collapsed by now? It was built by the gangs of the city out of bricks and slime, from a blueprint none of them should be able to read. Well, it's here now. And pretty soon you imagine the gangs will make it their own. And by that I mean raze it to the ground. Hey, at least you have a good view of the dueling grounds from here. This area leads to Hang-em Square and Dreadford.",
-        channel="saloon",
-        permissions={'saloon': ['read', 'send', 'connect'], 'hang-em-square': ['read']},
-        property_class="",
-        vendors=['saloon'],
-        is_subzone=True,
-        pvp=False,
-        neighbors={"hangemsquare": 20, "dreadford": 20}
-    ),
     EwPoi(
         id_poi="hangemsquare",
         alias=['townsquare', 'hes', 'hangem', 'hang', 'duel', 'dueling'],
@@ -3092,7 +3078,6 @@ poi_list = [
 		str_name = "Coalition Surplus",
 		str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom. This text is just temporary, and so is your balls.\n\nExits back into Charcoal Park.",
 		channel = "coalition-surplus",
-		role = "Coalition Surplus",
 		permissions = {'coalition-surplus': ['read', 'send', 'connect']},
 		pvp = False,
 		vendors = ['Coalition Surplus'], # Add coalition surplus vendor stupid fuck.
@@ -3328,7 +3313,8 @@ transport_lines = [
             "yellownorth",
             "yellowtoarsonbrook",
             "yellowtoarson",
-            "yellowtoab"
+            "yellowtoab",
+            "yab",
         ],
         first_stop=ewcfg.poi_id_ssb_subway_station,
         last_stop=ewcfg.poi_id_ab_subway_station,
@@ -3350,7 +3336,10 @@ transport_lines = [
             "yellowsouth",
             "yellowtosouthsleezeborough",
             "yellowtosouthsleeze",
-            "yellowtossb"
+            "yellowtossb",
+            "yssb",
+            "yss",
+            "yass", #Blame Zug.
         ],
         first_stop=ewcfg.poi_id_ab_subway_station,
         last_stop=ewcfg.poi_id_ssb_subway_station,
@@ -3372,7 +3361,8 @@ transport_lines = [
             "rednorth",
             "redtotoxington",
             "redtotox",
-            "redtott"
+            "redtott",
+            "rtt",
         ],
         first_stop=ewcfg.poi_id_cv_subway_station,
         last_stop=ewcfg.poi_id_tt_subway_station,
@@ -3397,7 +3387,8 @@ transport_lines = [
             "redsouth",
             "redtocratersville",
             "redtocraters",
-            "redtocv"
+            "redtocv",
+            "rcv",
         ],
         first_stop=ewcfg.poi_id_tt_subway_station,
         last_stop=ewcfg.poi_id_cv_subway_station,
@@ -3422,7 +3413,8 @@ transport_lines = [
             "eastgreen",
             "greentosmogsburg",
             "greentosmogs",
-            "greentosb"
+            "greentosb",
+            "gsb",
         ],
         first_stop=ewcfg.poi_id_wgb_subway_station,
         last_stop=ewcfg.poi_id_sb_subway_station,
@@ -3445,7 +3437,8 @@ transport_lines = [
             "westgreen",
             "greentowestglocksbury",
             "greentowestglocks",
-            "greentowgb"
+            "greentowgb",
+            "gwgb",
         ],
         first_stop=ewcfg.poi_id_sb_subway_station,
         last_stop=ewcfg.poi_id_wgb_subway_station,
@@ -3468,7 +3461,8 @@ transport_lines = [
             "bluetoassaultflatsbeach",
             "bluetoassaultflats",
             "bluetobeach",
-            "bluetoafb"
+            "bluetoafb",
+            "bafb",
         ],
         first_stop=ewcfg.poi_id_dt_subway_station,
         last_stop=ewcfg.poi_id_afb_subway_station,
@@ -3489,7 +3483,8 @@ transport_lines = [
             "bluewest",
             "westblue",
             "bluetodowntown",
-            "bluetodt"
+            "bluetodt",
+            "bdt",
         ],
         first_stop=ewcfg.poi_id_afb_subway_station,
         last_stop=ewcfg.poi_id_dt_subway_station,
@@ -3566,7 +3561,8 @@ if ewcfg.dh_active:
             "eastwhite",
             "whitetojuviesrow",
             "whitetojuvies",
-            "whitetojr"
+            "whitetojr",
+            "wjr",
         ],
         first_stop=ewcfg.poi_id_underworld_subway_station,
         last_stop=ewcfg.poi_id_jr_subway_station,
@@ -3585,7 +3581,9 @@ if ewcfg.dh_active:
             "whitewest",
             "westwhite",
             "whitetounderworld",
-            "whitetouw"
+            "whitetouw",
+            "wuw",
+            "wunder",
         ],
         first_stop=ewcfg.poi_id_jr_subway_station,
         last_stop=ewcfg.poi_id_underworld_subway_station,

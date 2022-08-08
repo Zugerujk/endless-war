@@ -2222,6 +2222,46 @@ cosmetic_items_list = [
         freshness = 6,
         price = 50000,
     ),
+    EwCosmeticItem(
+        id_cosmetic = "moonshoes",
+        str_name = "Moon Shoes",
+        str_desc = "The fabled ankle-breakers. It's a pair of shoes that you strap onto your socks in order to trampoline lightly everywhere. The things were infamously recalled due to the slaw of lawsuits pressuring a recall before it got any worse. You can't wait to !jump with these!",
+        rarity = "Patrician",
+        durability = 250000,
+        style = "cute",
+        freshness = 9,
+        acquisition = "smelting",
+
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "rosetintedglasses",
+        str_name = "Rosetinted Glasses",
+        str_desc = "Legend says that these glasses removes the green purple and pink filter of NLACakaNM! Of course, unless you're a hardcore artist who values every color, why would you ever want this?",
+        rarity = "Plebeian",
+        durability = 250000,
+        style = "cute",
+        freshness = 7,
+        price = 95000000, # Get it from mobs, chumps.
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "bunnysuit",
+        str_name = "Bunny Suit",
+        str_desc = "Whoever made this revealing suit knew exactly what they were doing, and more importantly what sultry magazine they were infringing the copyright from. Keep those fishnet socks high! Because your inner body temperature won't be when the snow hits.",
+        rarity = "Patrician",
+        durability = 250000,
+        style = "cute",
+        freshness = 10,
+        acquisition = "smelting",
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "###",
+        str_name = "###",
+        str_desc = "###",
+        rarity = "Plebeian",
+        durability = 250000,
+        style = "###",
+        freshness = 0,
+    ),
 
 ]
 
