@@ -1701,11 +1701,6 @@ class EwUser(EwUserBase):
                 if (level >= mutation_level + new_mutation_obj.tier) and (self.life_state not in [ewcfg.life_state_corpse]) and (mutation_level < 50):
 
                     add_success = self.add_mutation(new_mutation)
-<<<<<<< HEAD
-                    
-=======
-
->>>>>>> b9c47cd675955fe4645c06bc41e6261379ccc52a
                     if add_success:
                         response += "\n\nWhat’s this? You are mutating!! {}".format(new_mutation_obj.str_acquire)
 
@@ -2139,27 +2134,15 @@ class EwUser(EwUserBase):
                 # Retry if player already has the mutation
                 if result in current_mutations:
                     continue
-<<<<<<< HEAD
-
-=======
-                
->>>>>>> b9c47cd675955fe4645c06bc41e6261379ccc52a
                 # Retry if the mutation is incompatible with an already-had mutation
                 for mutations in current_mutations:
                     mutation = static_mutations.mutations_map[mutations]
                     if result in mutation.incompatible:
                         incompatible = True
                         break
-<<<<<<< HEAD
                 if incompatible:
                     continue
 
-=======
-
-                if incompatible:
-                    continue
-
->>>>>>> b9c47cd675955fe4645c06bc41e6261379ccc52a
                 # Retry if the mutation would go over the level cap.
                 if result_mutation.tier + self.get_mutation_level() > 50:
                     continue

@@ -142,6 +142,37 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
         user_poi_obj = poi_static.id_to_poi.get(ewcfg.poi_id_downtown)
 
 
+    if user_data.life_state != ewcfg.life_state_enlisted:
+        # Let juvies with nerves of steel access gang comms
+        if ewcfg.mutation_id_nervesofsteel in user_data.get_mutations():
+            channels = []
+            overwrite = discord.PermissionOverwrite()
+            overwrite.read_messages = True
+            overwrite.send_messages = True
+            overwrite.connect = True
+
+            # Figure out if the user is killer-aligned or rowdy-aligned
+            if user_data.faction == ewcfg.faction_killers:
+                channels.append(fe_utils.get_channel(server, "killer-comms"))
+                channels.append(fe_utils.get_channel(server, "killer-walkie-talkie"))
+            elif user_data.faction == ewcfg.faction_rowdys:
+                channels.append(fe_utils.get_channel(server, "rowdy-comms"))
+                channels.append(fe_utils.get_channel(server, "rowdy-walkie-talkie"))
+            # Set perms                
+            for channel in channels:
+                if used_member not in channel.overwrites:
+                    await channel.set_permissions(used_member, overwrite = overwrite)
+        # Remove comms perms from juvies without nerves of steel
+        else:
+            channels = []
+            channels.append(fe_utils.get_channel(server, "killer-comms"))
+            channels.append(fe_utils.get_channel(server, "killer-walkie-talkie"))
+            channels.append(fe_utils.get_channel(server, "rowdy-comms"))
+            channels.append(fe_utils.get_channel(server, "rowdy-walkie-talkie"))
+            for channel in channels:
+                if used_member in channel.overwrites:
+                    await channel.set_permissions(used_member, overwrite = None)
+
     # Part 1: Remove overrides the user shouldn't have
     for poi in poi_static.poi_list:
         channel = fe_utils.get_channel(server, poi.channel)

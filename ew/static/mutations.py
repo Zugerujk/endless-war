@@ -512,6 +512,9 @@ mutations = [
         str_describe_other="Their reach extends to the skies above due to **Long Arms**.",
         str_acquire="The insides of your arms start to feel cramped. You feel the hair on a second skin brush up against the interior of your arm, bunching up. You try to relax your muscles, but a little stretch just causes you to rocket your right arm into the air. Hm. This could be useful, as long as you can get used to having to gather up the limp extended limb afterwards. You have developed the mutation **Long Arms**. Use !longdrop <location> <item> to drop an item to an adjacent area.",
         tier=2,
+        incompatible = {
+            ewcfg.mutation_id_stiltwalker: '"Well waddya need that for? Your legs already make you hit the ceiling! It ain\'t pretty when they clash, kid."',
+        },
         str_transplant="Dusttrap makes several incisions into your arms and placed a cyndrilical plate that acts as a filter between your veins. \"OK, all done. If you want to extend your arm, flip this switch. This'll convert your blood to 100% stem cells and expand nice n' fast. Whenever you're done, cut your long arm off and press the GROW HAND button over here, y'see? Simple as pie on a windowsill.\"\n\nYou have developed the mutation **Long Arms**. Use !longdrop <location> <item> to drop an item to an adjacent area.",
     ),
     EwMutationFlavor(
@@ -573,7 +576,7 @@ mutations = [
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_slurpsup,
         str_name="Slurp's Up",
-        alias=['slurps', 'slurp', 'su'],
+        alias=['slurps', 'slurp', 'su', 'slurpsup'],
         str_describe_self="You can lick up a storm due to **Slurp's Up**.",
         str_describe_other="They can lick up a storm due to **Slurp's Up**.",
         str_acquire="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
@@ -599,7 +602,7 @@ mutations = [
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_ichumfast,
         str_name="I Chum Fast",
-        alias=['chum', 'icf', 'chumfast'],
+        alias=['chum', 'icf', 'chumfast', 'ichum'],
         str_describe_self="You've got fish to catch due to **I Chum Fast**.",
         str_describe_other="They've got fish to catch due to **I Chum Fast**.",
         str_acquire="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
@@ -609,7 +612,7 @@ mutations = [
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_onereallybigeyeball,
         str_name="One Really Big Eyeball",
-        alias=['eyeball', 'orbe', 'abigeye'],
+        alias=['eyeball', 'orbe', 'abigeye', 'onereally'],
         str_describe_self="You can see near and far due to **One Really Big Eyeball**.",
         str_describe_other="They can see near and far due to **One Really Big Eyeball**.",
         str_acquire="*FLAVOR*  You have developed the mutation **One Really Big Eyeball**. You can now !scout up to two districts away.",
@@ -628,6 +631,19 @@ mutations = [
         str_acquire="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
         tier=2,
         str_transplant="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+    ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_stiltwalker,
+        str_name="Stiltwalker",
+        alias=['sw', 'stilt', 'stilts'],
+        str_describe_self="Your legs are *soooo loooong* due to **Stiltwalker**.",
+        str_describe_other="Their legs are *soooo loooong* due to **Stiltwalker**.",
+        str_acquire="Your leg muscles start to tense up. You feel your tendons squeezing with a force you've never known. With one pull, your legs DOUBLE in size. Oh my. You have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
+        tier=2,
+        incompatible = {
+            ewcfg.mutation_id_longarms: '"Well waddya need that for? Your arms already touch the floor! It ain\'t pretty when they clash, kid."',
+        },
+        str_transplant="Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. You have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
     ),
 ]
 

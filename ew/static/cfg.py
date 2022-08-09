@@ -3342,6 +3342,7 @@ mutation_id_deathfromabove = "deathfromabove"
 mutation_id_ichumfast = "ichumfast"
 mutation_id_onereallybigeyeball = "onereallybigeyeball"
 mutation_id_magicbullettheory = "magicbullettheory"
+mutation_id_stiltwalker = "stiltwalker"
 
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
@@ -3689,8 +3690,8 @@ mutation_descriptions = {
     mutation_id_deathfromabove: "During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
     mutation_id_ichumfast: "While fishing, you will be @'d upon any !reel notification.",
     mutation_id_onereallybigeyeball: "You can !scout up to two districts away.",
-    mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip."
-
+    mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+    mutation_id_stiltwalker: "You can !jump to the blimp from the ground, as well as mines from Waffle House.",
 }
 
 consult_responses = {
