@@ -353,7 +353,7 @@ smelting_recipe_list = [
             "tanning"
         ],
         ingredients={
-            ewcfg.item_id_ironingot: 1
+            ewcfg.item_id_ironingot: 1,
         },
         products=[ewcfg.item_id_tanningknife]
     ),
@@ -365,7 +365,6 @@ smelting_recipe_list = [
         ],
         ingredients={
             ewcfg.item_id_oldboot: 10,
-            ewcfg.item_id_tanningknife: 1
         },
         products=[ewcfg.item_id_leather]
     ),

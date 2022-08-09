@@ -3562,6 +3562,15 @@ furniture_list = [
         furniture_place_desc = "You hire a bunch of contract workers from the yellow pages, getting the fireplace installed. Of course, you act like a curmudgeon all the while and don't even pay them afterwards, citing that you wanted it a few centimeters to the left.",
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
     ),
+    EwFurniture(
+        id_furniture = "feralhog",
+        str_name = "Feral Hog",
+        str_desc = "The fuck? It's a feral hog. Good thing you're a mutant with superhuman abilities, or otherwise this could really endanger your juvenile-ass.",
+        rarity = "Patrician",
+        price = 8008135,
+        furniture_place_desc = "You let the feral hog loose in your apartment where it stands, docile. Good thing these things are calm, beautiful creatures. Unless they start swarming that is. 30-50 of them would really start a frenzy!",
+        furniture_look_desc = "A feral hog stands, plaintively assessing the situation."
+    ),
 ]
 
 furniture_map = {}
