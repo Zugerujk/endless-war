@@ -1260,7 +1260,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "dionaeashawl",
         str_name = "Dionaea Shawl",
-        str_desc = "A fabric shawl, made from the dried corpse of Dionaea. Despite being fashioned from a corpse, it feels SO unbelievebly comfortable!",
+        str_desc = "A fabric shawl, made from the dried corpse of Dionaea. Despite being fashioned from a corpse, it feels SO unbelievably comfortable!",
         str_onadorn = "You wrap the Dionaea Shawl around your torso and start blushing. OMGz, it's, like so ganker-core!!! There's even a little head that sits on your shoulder!",
         str_unadorn = "You take off the Dionaea Shawl. Your vibe is thoroughly less Ganker-core than it was minutes ago.",
         str_onbreak = "Without warning, the Dionaea Shawl falls from your shoulders.",
@@ -2190,6 +2190,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "drapeddress",
         str_name = "Draped Evening Dress",
+        str_desc = "A long gown, with ample room for large bosoms and tall stature. It is fitted for someone of height 289.56 cm. If you are shorter than that, it's gonna be pooling around your feet.",
         str_onadorn = "You slide into the beautiful dress... you are now absolutely breathtaking. Men (and women) bow before you, almost trying to throw themselves under your feet. It is rather annoying.",
         str_unadorn = "Your huge body rips out of the dress, tearing it to shreds! It was no match for your impressive figure! (Don't worry though it still is in your inventory.)",
         durability = 2500000,
@@ -2197,6 +2198,28 @@ cosmetic_items_list = [
         freshness = 10,
         acquisition = "smelting",
         price = 5000000,
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "wrappingpapersexywear", # Reasons to never listen to the community, especially M@.
+        str_name = "Wrapping Paper Sexywear", # Nobody fucking say anything and let this be a surprise.
+        str_desc = "This awful collection of wrapping paper is what you're going to wrap parts of yourself to present yourself as a present. You think this is funny? Even if you wear this during slimernalia, nobody will like you.",
+        str_onadorn = "You wrap yourself up in wrapping paper to do the century old reinterpretation of \"I am your present!\"... you do realize that this is gross and wrong, right?", 
+        str_unadorn = "You rip off the awful, awful clothing. Of course, this will be your lowest point in your whole life." ,
+        durability = 4,
+        style = "evil",
+        freshness = -1,
+        acquisition = "smelting",
+        price = 100,
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "poncho",
+        str_name = "Poncho",
+        str_desc = "A hooded fabric poncho, finely woven and beautifully patterned. Wearing this makes you want to go far out west.",
+        rarity = "Plebeian",
+        durability = 250000,
+        style = "tough",
+        freshness = 6,
+        price = 50000,
     ),
 ]
 
