@@ -1769,7 +1769,12 @@ class EwUser(EwUserBase):
                 rigor = True
             else:
                 rigor = False
-
+            # Ambidextrous
+            if ewcfg.mutation_id_ambidextrous in mutations:
+                ambidextrous = True
+            else:
+                ambidextrous = False
+                
             # Clear and reset user attributes
             if cause != ewcfg.cause_suicide or self.slimelevel > 10:
                 self.rand_seed = random.randrange(500000)
@@ -1784,8 +1789,6 @@ class EwUser(EwUserBase):
             self.hunger = 0
             self.inebriation = 0
             self.bounty = 0
-
-            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
             # Stat processing
             ewstats.increment_stat(user=self, metric=ewcfg.stat_lifetime_deaths)
@@ -1811,13 +1814,13 @@ class EwUser(EwUserBase):
 
                 ids_to_drop = []
                 # Drop some of your items
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your foods
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your weapons
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your cosmetics
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop all of your relics
                 ids_to_drop.extend(itm_utils.die_dropall(user_data=self, item_type=ewcfg.it_relic, kill_method=cause))
 
@@ -1849,6 +1852,8 @@ class EwUser(EwUserBase):
             self.weapon = -1
             self.sidearm = -1
             self.time_expirpvp = 0
+
+            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
             try:
                 item_cache = bknd_core.get_cache(obj_type = "EwItem")
