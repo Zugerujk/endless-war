@@ -322,9 +322,15 @@ async def weather_tick(id_server = None):
 
 async def weather_cycle(id_server = None):
     market_data = EwMarket(id_server)
-    
+    valid_weather = False
+
+    # In case the weather is somehow set to something un-weatherable
+    for weather in weather_static.weather_list:
+        if weather.name == market_data.weather:
+            valid_weather = True
+
     # Potentially change the weather
-    if random.randrange(3) == 0:
+    if random.randrange(3) == 0 or valid_weather == False:
             pattern_count = len(weather_static.weather_list)
 
             if pattern_count > 1:
