@@ -230,6 +230,8 @@ async def on_ready():
 
     # Channels in the connected discord servers to send stock market updates to. Map of server ID to channel.
     channels_stockmarket = {}
+    dungeon_utils.load_npc_blurbs()
+    dungeon_utils.load_other_blurbs()
 
     for server in client.guilds:
         # Force discord to send all users, even offline ones
@@ -251,7 +253,7 @@ async def on_ready():
         fe_utils.map_channels(server)
 
         ewdebug.initialize_gamestate(id_server=server.id)
-        dungeon_utils.load_npc_blurbs(id_server=server.id)
+
 
 
         # get or make the weapon items for fists and fingernails

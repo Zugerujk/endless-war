@@ -44,12 +44,12 @@ async def begin_tutorial(member):
 
 
 
-def load_npc_blurbs(id_server):
-    npcblurbs = bknd_core.execute_sql_query("SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext}, {col_subsubcontext} from blurbs where context = %s and id_server = %s".format(
+def load_npc_blurbs():
+    npcblurbs = bknd_core.execute_sql_query("SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext}, {col_subsubcontext} from blurbs where context = %s".format(
         col_id_blurb=ewcfg.col_id_blurb,
         col_id_id_blurb=ewcfg.col_id_id_blurb,
         col_subcontext=ewcfg.col_id_subcontext,
-        col_subsubcontext=ewcfg.col_id_subsubcontext), ('npc', id_server))
+        col_subsubcontext=ewcfg.col_id_subsubcontext), ('npc',))
 
 
 
@@ -66,12 +66,12 @@ def load_npc_blurbs(id_server):
 
 
 
-def import_blurb_list(id_server, keyword = '', default_list = None):
+def import_blurb_list(keyword = '', default_list = None):
     if default_list is None:
         default_list = []
-    blurb_import = bknd_core.execute_sql_query("select {col_id_blurb} from blurbs where context = %s and id_server = %s".format(
+    blurb_import = bknd_core.execute_sql_query("select {col_id_blurb} from blurbs where context = %s".format(
         col_id_blurb = ewcfg.col_id_blurb
-        ), (keyword, id_server))
+        ), (keyword,))
 
     for blurb in blurb_import:
         default_list.append(blurb[0])
@@ -79,29 +79,30 @@ def import_blurb_list(id_server, keyword = '', default_list = None):
     return default_list
 
 
-def load_other_blurbs(id_server):
+def load_other_blurbs():
     for context in commcfg.blurb_context_map.keys():
-        commcfg.blurb_context_map[context] = import_blurb_list(keyword=context, default_list=commcfg.blurb_context_map.get(context), id_server=id_server)
+        commcfg.blurb_context_map[context] = import_blurb_list(keyword=context, default_list=commcfg.blurb_context_map.get(context))
 
 
 
     districtblurbs = bknd_core.execute_sql_query(
-        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s and id_server = %s".format(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
             col_id_blurb=ewcfg.col_id_blurb,
             col_id_id_blurb=ewcfg.col_id_id_blurb,
-            col_subcontext=ewcfg.col_id_subcontext), ('district', id_server))
+            col_subcontext=ewcfg.col_id_subcontext), ('district',))
 
     for poi in poi_static.poi_list:
-        commcfg.district_blurbs[poi] = ["Your eyes glaze over from sniffing too much paint thinner. You can't see a thing."]
-
+        commcfg.district_blurbs[poi.id_poi] = ['Your eyes glaze over from sniffing too much paint thinner. You can\'t see a thing.']
     for blurb in districtblurbs:
+        print(blurb[2])
         commcfg.district_blurbs[blurb[2]].append(blurb[1])
+        print(commcfg.district_blurbs[blurb[2]])
 
     vendorblurbs = bknd_core.execute_sql_query(
-        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s and id_server = %s".format(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
             col_id_blurb=ewcfg.col_id_blurb,
             col_id_id_blurb=ewcfg.col_id_id_blurb,
-            col_subcontext=ewcfg.col_id_subcontext), ('vendor', id_server))
+            col_subcontext=ewcfg.col_id_subcontext), ('vendor',))
 
     for blurb in vendorblurbs:
         ewcfg.vendor_dialogue[blurb[2]].append(blurb[1])
