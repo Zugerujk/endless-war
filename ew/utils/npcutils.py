@@ -5,16 +5,18 @@ import random
 from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
 import ew.backend.core as bknd_core
+from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
 import ew.utils.hunting as ewhunting
+import ew.backend.item as bknd_item
 #move: enemy move action
 #talk: action on a !talk
 #act: action every 3 seconds
 #die: action when the enemy dies
 #hit: action when the enemy gets hit
 
-async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None):
-    if npc_object is None:
+async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None):
+    if npc_obj is None:
         npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
@@ -27,7 +29,8 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
         return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
-
+    elif keyword == 'give':
+        return await generic_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
 
 async def chatty_npc_action(keyword = '', enemy = None, channel = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -149,6 +152,20 @@ async def generic_hit(channel, npc_obj, enemy, territorial = True, probability =
         if random.randint(1, probability) == 1:
             await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
 
+async def generic_give(channel, npc_obj, enemy, item):
+
+    if item.get('item_type') == ewcfg.it_cosmetic:
+        item_data = EwItem(id_item=item.get('id_item'))
+        item_data.item_props["adorned"] = 'false'
+        item_data.persist()
+    bknd_item.give_item(id_item=item.get('id_item'), id_user="npcinv{}", id_server=enemy.id_server)
+
+    response = "?"
+    if npc_obj.dialogue.get('give') is not None:
+        response = random.choice(npc_obj.dialogue.get('give'))
+
+    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
 

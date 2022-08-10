@@ -965,7 +965,7 @@ async def give(cmd):
                 response = "Quit trying to barter with the free EXP and just gank em. For all of our sakes."
             else:
                 npc_obj = static_npc.active_npcs_map.get(found_enemy.enemyclass)
-                return await npc_obj.func_ai(keyword='give', enemy=found_enemy, channel=cmd.message.channel)
+                return await npc_obj.func_ai(keyword='give', enemy=found_enemy, channel=cmd.message.channel, item = item_sought)
         elif found_enemy:
             response = "You don't have that item."
         elif isVendor:
