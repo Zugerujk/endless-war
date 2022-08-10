@@ -1316,7 +1316,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
 
-                        if random.randint(1, 16) == 1: # 1/16 chance to start a random poi event
+                        if random.randint(1, 13) == 1: # 1/13 chance to start a random poi event
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
 
