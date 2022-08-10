@@ -25,6 +25,7 @@ from ew.static import items as static_items
 from ew.static import poi as poi_static
 from ew.static import weapons as static_weapons
 from ew.static import community_cfg as comm_cfg
+from ew.static import npc as static_npc
 try:
     import ew.static.rstatic as static_relic
 except:
@@ -41,6 +42,7 @@ from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
+from ew.utils import combat as cmbt_utils
 try:
     from ew.cmd import debugr as debugr
 except:
@@ -943,6 +945,35 @@ async def give(cmd):
 
     if cmd.mentions:  # if they're not empty
         recipient = cmd.mentions[0]
+    elif cmd.tokens_count > 2:
+        if cmd.tokens[2] == 'vendor':
+            isVendor = True
+        else:
+            isVendor = False
+        user_data = EwUser(member=author)
+        newenemysearch = ewutils.flattenTokenListToString(cmd.tokens[1])
+        newitemsearch = ewutils.flattenTokenListToString(cmd.tokens[2:])
+        found_enemy = cmbt_utils.find_enemy(enemy_search=newenemysearch, user_data=user_data)
+        item_sought = bknd_item.find_item(item_search=newitemsearch, id_user=author.id, id_server=server.id)
+
+        if found_enemy and item_sought:
+            if user_data.weaponmarried and user_data.weapon == item_sought.get('id_item'):
+                response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
+            elif item_sought.get('soulbound') and EwItem(id_item=item_sought.get('id_item')).item_props.get("context") != "housekey":
+                response = "You can't just give away soulbound items."
+            elif found_enemy.enemytype != 'npc':
+                response = "Quit trying to barter with the free EXP and just gank em. For all of our sakes."
+            else:
+                npc_obj = static_npc.active_npcs_map.get(found_enemy.enemyclass)
+                return await npc_obj.func_ai(keyword='give', enemy=found_enemy, channel=cmd.message.channel)
+        elif found_enemy:
+            response = "You don't have that item."
+        elif isVendor:
+            pass #add command for vendors receiving items
+            response = ""
+        else:
+            response = "Wait, who? I don't see anybody."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel,  fe_utils.formatMessage(cmd.message.author, response))
     else:
         response = "You have to specify the recipient of the item."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
