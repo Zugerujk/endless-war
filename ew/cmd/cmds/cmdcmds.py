@@ -3150,7 +3150,9 @@ async def cockdraw(cmd):
 
 
 async def fun(cmd):
-    user_data = EwUser(member=cmd.message.author)
+    response = "Nah, you can't do that. They removed fun from the game, remember?"
+
+    """user_data = EwUser(member=cmd.message.author)
 
     item_sought = bknd_item.find_item(item_search='funpizza', item_type_filter=ewcfg.it_food, id_server=cmd.guild.id,
                                       id_user=cmd.message.author.id)
@@ -3178,6 +3180,6 @@ async def fun(cmd):
 
         ewcfg.cmd_prefix = '!'
 
-        response = 'You stop having fun.'
+        response = 'You stop having fun.'"""
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
