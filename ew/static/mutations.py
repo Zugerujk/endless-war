@@ -252,7 +252,7 @@ mutations = [
         str_acquire="You can feel your facial muscles being ripped as your skull elongates your mouth and nose, molding them into an uncanny snout. Your nostrils painfully stretch and elongate to allow for a broad range of olfactory sensations you could only have dreamed of experiencing before. Your nose twitches and you begin to growl as you pick up the scent of a nearby enemy gangster. You have developed the mutation **Keen Smell**. You can now use the !sniff command, allowing you to meticulously list every single player in the targeted district.",
         tier=5,
         incompatible = {
-            ewcfg.mutation_id_onereallybigeyeball: '"Nope, you\'ve already got too fucked up of a face to fit that. Get rid of your big eye first."'
+            ewcfg.mutation_id_scopicretinas: '"Nope, you\'ve already got too much going on with your senses. Get rid of your zoomin\' eyes first."'
         },
         str_transplant="You ask for a nose job that will enhance your senses. Ask, and you shall receive. Dr. Dusttrap walks you into the OR, and gives you a catalog of possible noses. You tell her to fuck off and jump into the chair. When you wake up, you are the proud new owner of a snout, one that can sniff the gunpowder off a rifle at 1000 yards.\n\nYou have developed the mutation **Keen Smell**. You can now use the !sniff command, allowing you to meticulously list every single player in the targeted district.",
 
@@ -438,7 +438,7 @@ mutations = [
             ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_monplanto: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
-            ewcfg.mutation_id_fogdaletingle: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
+            ewcfg.mutation_id_foghorn: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_slurpsup: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_deathfromabove: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
         },
@@ -553,25 +553,25 @@ mutations = [
         alias=['mp', 'mon', 'plant'],
         str_describe_self="You've harnessed the power of the sun due to **Monplanto**.",
         str_describe_other="They've harnessed the power of the sun due to **Monplanto**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
+        str_acquire="Wow, it sure is sunny out today, huh? You feel solar radiation frying your skin at such a deep level it begins to affect your DNA. For now you are a being of the sun, and can truly bask in its intense rays. You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
         tier=1,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="*FLAVOR*  You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
+        str_transplant="Dr. Dusttrap guides you towards a tanning bed, putting it at super-duper-mega-ultra intensity. Your skin sloughs off from the UV rays, but the raw flesh below is infused with the blue tanning light. You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     ),
     EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_fogdaletingle,
-        str_name="Fogdale Tingle",
-        alias=['fog', 'fogdale', 'tingle', 'ft'],
-        str_describe_self="You can cut through fog due to **Fogdale Tingle**.",
-        str_describe_other="They can cut through fog due to **Fogdale Tingle**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Fogdale Tingle**. During foggy weather, gain an increased critical hit chance.",
-        tier=1,
+        id_mutation=ewcfg.mutation_id_foghorntingle,
+        str_name="Fog Horn",
+        alias=['fog', 'foghorn', 'horn', 'fh'],
+        str_describe_self="You can cut through fog due to **Fog Horn**.",
+        str_describe_other="They can cut through fog due to **Fog Horn**.",
+        str_acquire="You gain a splitting headache. A headdache *so splitting* that your head begins splitting in half. A massive horn burgeons out of your cranium. It's not that bad though; you're probably ten times as aerodynamic now. You have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
+        tier=2,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="*FLAVOR*  You have developed the mutation **Fogdale Tingle**. During foggy weather, gain an increased critical hit chance.",
+        str_transplant="Dr. Dusttrap tapes a cute little poudrin to your forehead. Tee-hee! You have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_slurpsup,
@@ -579,12 +579,12 @@ mutations = [
         alias=['slurps', 'slurp', 'su', 'slurpsup'],
         str_describe_self="You can lick up a storm due to **Slurp's Up**.",
         str_describe_other="They can lick up a storm due to **Slurp's Up**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
-        tier=2,
+        str_acquire="Gosh, you're parched aren't you? You swipe a slurpee from a pedestrian and down it in one fell gulp. It really hits the spo- oh geez, it's spicy. What the fuck! The slurpee is so beyond spicy that you can't feel your tongue. You whip it out and drag it through puddles to try and relieve the pain. You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
+        tier=1,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="*FLAVOR*  You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
+        str_transplant="Dr. Dusttrap pulls out a dick-extending concoction and injects it into your tongue. It turns out it's a lot harder to extend tongues compared to phalluses, but muscle extender is technically multipurpose. A little while later your tongue is significantly longer, if veiny. You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_deathfromabove,
@@ -592,12 +592,12 @@ mutations = [
         alias=['death', 'dfa'],
         str_describe_self="Lightning crashes around you due to **Death From Above**.",
         str_describe_other="Lightning crashes around them due to **Death From Above**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+        str_acquire="Someone next to you gets struck by lightning! Phoebus Christ! You feel a faint amount of electricity spread towards you, invading your personal space. You've gotta expel it immediately. You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
         tier=1,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="*FLAVOR*  You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+        str_transplant="Dr. Dusttrap gives you a metal fork and points towards an outlet. You go to it but, like, there's a goddamn protector on this thing! You dig into the plastic covering with your nails and, somehow, chip a nail. You succeed in tearing the protector off though. In the fork goes. You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_ichumfast,
@@ -605,22 +605,22 @@ mutations = [
         alias=['chum', 'icf', 'chumfast', 'ichum'],
         str_describe_self="You've got fish to catch due to **I Chum Fast**.",
         str_describe_other="They've got fish to catch due to **I Chum Fast**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+        str_acquire="Aw jeez, you just can't hold it in any longer. It's too fuckin' much mannnn!!! You explode all over, unable to contain your love for fish. You've got fish to catch. You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
         tier=7,
-        str_transplant="*FLAVOR*  You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+        str_transplant="Dr. Dusstrap hands you a bottle of fish oil. \"Chug.\" You comply, and god, this stuff tastes terrible. Nevertheless, you really feel yourself more connected to fish than ever before. You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
     ),
     EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_onereallybigeyeball,
-        str_name="One Really Big Eyeball",
-        alias=['eyeball', 'orbe', 'abigeye', 'onereally'],
-        str_describe_self="You can see near and far due to **One Really Big Eyeball**.",
-        str_describe_other="They can see near and far due to **One Really Big Eyeball**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **One Really Big Eyeball**. You can now !scout up to two districts away.",
+        id_mutation=ewcfg.mutation_id_scopicretinas,
+        str_name="'Scopic Retinas",
+        alias=['sr', 'telescopicretinas', 'scopic', 'orbe'],
+        str_describe_self="You can see near and far due to **'Scopic Retinas**.",
+        str_describe_other="They can see near and far due to **'Scopic Retinas**.",
+        str_acquire="Zamn, there's a fine specimen hanging out across the street! You go to hit on them, but as you walk you don't seem to gain any distance. You look down and-JEEZ, you're looking at the individual holes in the pavement. You have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
         tier=5,
         incompatible = {
-            ewcfg.mutation_id_keensmell: '"Nope, you\'ve already got too fucked up of a face to fit that. Get rid of your schnoz first."'
+            ewcfg.mutation_id_keensmell: '"Nope, you\'ve already got too much going on with your senses. Get rid of your schnoz first."'
         },
-        str_transplant="*FLAVOR*  You have developed the mutation **One Really Big Eyeball**. You can now !scout up to two districts away.",
+        str_transplant="With that simple request, Dr. Dusttrap pulls out an array of robotic eyes. You pick the greenest looking one, and are put to sleep on an operating table. When you wake up, you've got brand new eyes! Now you can look at brick by boring brick. You have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_magicbullettheory,
@@ -628,9 +628,9 @@ mutations = [
         alias=['mbt', 'magicbullet', 'magic', 'bullettheory'],
         str_describe_self="You really knoll what you're doing due to **Magic Bullet Theory**.",
         str_describe_other="They really knoll what they're doing due to **Magic Bullet Theory**.",
-        str_acquire="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+        str_acquire="Taking a break, something feels... off? You've got more ammo than you thought, you're missing tapes, and you can't stop spouting Soviet propaganda to passersby. There's gotta be someone - or, rather, some*thing* behind this. You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
         tier=2,
-        str_transplant="*FLAVOR*  You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+        str_transplant="*Dr. Dusttrap shuffles around in her VHS cabinet for a bit before returning to you. \"I can't find the second tape, so you'll just have to watch the first one twice.\" She plays the funeral procession of President John F. Kennedy twice before letting you go. You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.\n\nhttps://www.youtube.com/watch?v=3KJQkn6zUvM",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_stiltwalker,
@@ -643,7 +643,7 @@ mutations = [
         incompatible = {
             ewcfg.mutation_id_longarms: '"Well waddya need that for? Your arms already touch the floor! It ain\'t pretty when they clash, kid."',
         },
-        str_transplant="Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. You have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
+        str_transplant="Dr. Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. You have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
     ),
 ]
 

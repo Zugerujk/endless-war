@@ -735,7 +735,7 @@ async def scout(cmd):
     else:
         # Check if the user has ORBE
         extended_range = False
-        if ewcfg.mutation_id_onereallybigeyeball in mutations:
+        if ewcfg.mutation_id_scopicretinas in mutations:
             extended_range = True
 
         # Create a list of all valid pois

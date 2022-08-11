@@ -3336,11 +3336,11 @@ mutation_id_stinkeye = "stinkeye"
 # mutation_id_gay = "gay"
 
 mutation_id_monplanto = "monplanto"
-mutation_id_fogdaletingle = "fogdaletingle"
+mutation_id_foghorn = "foghorn"
 mutation_id_slurpsup = "slurpsup"
 mutation_id_deathfromabove = "deathfromabove"
 mutation_id_ichumfast = "ichumfast"
-mutation_id_onereallybigeyeball = "onereallybigeyeball"
+mutation_id_scopicretinas = "scopicretinas"
 mutation_id_magicbullettheory = "magicbullettheory"
 mutation_id_stiltwalker = "stiltwalker"
 
@@ -3666,7 +3666,7 @@ mutation_descriptions = {
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",
-    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide.",
+    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide. If you're aligned with a gang, you gain access to that gang's comms channels.",
     mutation_id_napalmsnot: "You do some burn damage when attacking with any weapon, in addition to its normal damage. You also gain immunity to burn damage.",
     mutation_id_ditchslap: "Use !slap @user <location> on an ally to instantly launch them to an adjacent district. If you are in a safe zone, the target must use !clench before they can be hit. Any given ally can't be slapped again for a 5 minute cooldown.",
     mutation_id_greenfingers: "Farming wait time is decreased by 33%, and yields are increased by 20%.",
@@ -3678,18 +3678,18 @@ mutation_descriptions = {
     mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you'ree currently tracking, use !thirdeye.",
     mutation_id_bottomlessappetite: "Your maximum hunger is doubled.",
     mutation_id_airlock: "Combined weather effects of all weather-based mutations. This mutation is mutually exclusive with those.",
-    mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon.",
+    mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon. Any weapon that you have mastery 7 or higher with will not be dropped on death.",
     mutation_id_coleblooded: "You get the ability to bust ghosts without coleslaw. If a ghost haunts you, they lose negaslime instead of gaining it.",
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
     mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
     # mutation_id_gay: "You're gay.",
     mutation_id_monplanto: "Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
-    mutation_id_fogdaletingle: "During foggy weather, gain an increased critical hit chance.",
+    mutation_id_foghorn: "During foggy weather, gain an increased critical hit chance.",
     mutation_id_slurpsup: "During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
     mutation_id_deathfromabove: "During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
     mutation_id_ichumfast: "While fishing, you will be @'d upon any !reel notification.",
-    mutation_id_onereallybigeyeball: "You can !scout up to two districts away.",
+    mutation_id_scopicretinas: "You can !scout up to two districts away.",
     mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
     mutation_id_stiltwalker: "You can !jump to the blimp from the ground, as well as mines from Waffle House.",
 }
