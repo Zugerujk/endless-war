@@ -561,7 +561,7 @@ mutations = [
         str_transplant="Dr. Dusttrap guides you towards a tanning bed, putting it at super-duper-mega-ultra intensity. Your skin sloughs off from the UV rays, but the raw flesh below is infused with the blue tanning light. You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     ),
     EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_foghorntingle,
+        id_mutation=ewcfg.mutation_id_foghorn,
         str_name="Fog Horn",
         alias=['fog', 'foghorn', 'horn', 'fh'],
         str_describe_self="You can cut through fog due to **Fog Horn**.",

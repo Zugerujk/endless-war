@@ -2537,8 +2537,24 @@ async def set_slime(cmd):
     target = None
 
     if cmd.mentions_count != 1:
-        response = "Invalid use of command. Example: !setslime @player 100"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        # If no user is @'d, try for a POI.
+        poi = poi_static.id_to_poi.get(cmd.tokens[1])
+        # Can't match to a POI
+        if poi == None:
+            response = "Invalid use of command. Example: !setslime @player 100"
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        else:
+            # Get district data & number entered
+            district_data = EwDistrict(id_server=cmd.guild.id, district=poi.id_poi)
+            new_slime = ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
+            if new_slime == None:
+                response = "Invalid number entered."
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))            
+            district_data.slimes = new_slime
+            district_data.persist()
+            # Send message
+            response = "Set {}'s slime to {}.".format(poi.str_name, new_slime)
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
 
