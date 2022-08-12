@@ -104,7 +104,7 @@ active_users_map = {}
 #apt_dm_cmd_map = cmds.apt_dm_cmd_map
 
 
-debug = False
+debug = True
 db_prefix = '--db='
 while sys.argv:
     arg_lower = sys.argv[0].lower()

@@ -1,5 +1,6 @@
 import random
 import time
+import asyncio
 
 from ew.backend import core as bknd_core
 from ew.backend import item as bknd_item
@@ -492,6 +493,7 @@ async def slimeoidbattle(cmd):
 
     pvp_battle = False
     fatal = False
+    size_limit = False
     response = ""
     user_name = "" # get it, like a username!
     target_name = ""
@@ -534,6 +536,15 @@ async def slimeoidbattle(cmd):
         # Make the slimeoid battle fatal if "todeath" is anywhere in the command
         if "death" in ewutils.flattenTokenListToString(cmd.tokens):
             fatal = True
+        if "balanced" in ewutils.flattenTokenListToString(cmd.tokens):
+            if challenger.poi == ewcfg.poi_id_arena:
+                size_limit = True
+            else:
+                response = "Theres nobody to officiate the match, don't bother making it fair. Go to the arena for that."
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        if fatal and size_limit:
+            response = "You're dumber than you look if you think a slimeoid will hold back in a deathmatch."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
 
     else:
         
@@ -564,7 +575,7 @@ async def slimeoidbattle(cmd):
     if pvp_battle:
         ewutils.active_target_map[challengee.id_user] = challenger.id_user
         response = "You have been challenged by {} to a Slimeoid Battle{}. Do you !accept or !refuse?".format(user_name, " **TO THE DEATH**" if fatal else "").replace("@", "\{at\}")
-        await fe_utils.send_response(response, cmd)
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(member, response))
 
         # Wait for an answer
         accepted = 0
@@ -576,34 +587,79 @@ async def slimeoidbattle(cmd):
                     accepted = 1
         except:
             accepted = 0
+        responded = 1
+        if(accepted == 1 and size_limit and challenger.poi == ewcfg.poi_id_arena):
+            responded = 0
+            response = "Propose the size limit for this match. All slimeoids will hunchback, saw down horns, crush spinal plates and self-decapitate down to meet it. Alternatively, give the crowd a real match and say NONE."
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            
+            try:
+                msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == author and (message.content.isdigit() or message.content.lower() == "none"))
+                print(msg)
+                if msg != None:
+                    if(msg.content.lower() == "none"):
+                        size_limit = False
+                    elif(msg.content.isdigit()):
+                        size_limit = int(msg.content)
+                    responded = 1
+            except:
+                responded = 0
 
-        # Load information again in case it changed while we were awaiting the challenge
-        challengee = EwUser(member=member)
-        challengee_slimeoid = EwSlimeoid(member=member)
-        challenger = EwUser(member=author)
-        challengee_slimeoid = EwSlimeoid(member=member)
+            response = "{} has proposed a size limit of {}. Do you !accept or !refuse?".format(user_name, "none" if (size_limit == False) else size_limit).replace("@", "\{at\}")
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(member, response))
 
-        ewutils.active_target_map[challengee.id_user] = ""
-        ewutils.active_target_map[challenger.id_user] = ""
+            # Wait for an answer
+            accepted = 0
+            try:
+                msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == member and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
 
-        # Double check to make sure nothing has happened in the mean time
+                if msg != None:
+                    if msg.content == ewcfg.cmd_accept:
+                        accepted = 1
+            except:
+                accepted = 0
+        if(accepted == 1):
+            response = "The terms have been set, the battle will begin in **THREE**"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            await asyncio.sleep(1)
+            response = "**TWO**"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            await asyncio.sleep(1)
+            response = "**ONE**"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            await asyncio.sleep(1)
 
-        if challenger_slimeoid.life_state != ewcfg.slimeoid_state_active:
-            ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
-            ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
-            response = "You do not have a Slimeoid ready to battle with!"
-            return await fe_utils.send_response(response, cmd)
+            # Load information again in case it changed while we were awaiting the challenge
+            challengee = EwUser(member=member)
+            challengee_slimeoid = EwSlimeoid(member=member)
+            challenger = EwUser(member=author)
+            challengee_slimeoid = EwSlimeoid(member=member)
 
-        if challengee_slimeoid.life_state != ewcfg.slimeoid_state_active:
-            ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
-            ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
-            response = "{} does not have a Slimeoid ready to battle with!".format(target_name)
-            return await fe_utils.send_response(response, cmd)
+            ewutils.active_target_map[challengee.id_user] = ""
+            ewutils.active_target_map[challenger.id_user] = ""
+
+            # Double check to make sure nothing has happened in the mean time
+
+            if challenger_slimeoid.life_state != ewcfg.slimeoid_state_active:
+                ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
+                ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
+                response = "You do not have a Slimeoid ready to battle with!"
+                return await fe_utils.send_response(response, cmd)
+
+            if challengee_slimeoid.life_state != ewcfg.slimeoid_state_active:
+                ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
+                ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
+                response = "{} does not have a Slimeoid ready to battle with!".format(target_name)
+                return await fe_utils.send_response(response, cmd)
+
+            response = "***GO!***"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
     else:
         accepted = 1
+        responded = 1
 
     # Start game
-    if accepted == 1:
+    if accepted == 1 and responded == 1:
         # Don't change slimes unless we realllllyyyyyy have to
         # Winnings needs to be established in order for this to work.
         winnings = 0
@@ -627,7 +683,8 @@ async def slimeoidbattle(cmd):
             battle_type=ewcfg.battle_type_arena,
             challengee_name=target_name,
             challenger_name=user_name,
-            pvp_battle=pvp_battle
+            pvp_battle=pvp_battle,
+            size_limit=size_limit
         )
 
         # Challenger won
@@ -746,7 +803,10 @@ async def slimeoidbattle(cmd):
             bknd_hunting.delete_enemy(challengee)
 
     else:
-        response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
+        if(not accepted):
+            response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
+        elif(responded):
+            response = "Come back when you're actually ready."
 
         # Send the response to the player.
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))

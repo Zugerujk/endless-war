@@ -203,12 +203,17 @@ class EwSlimeoidCombatData:
             self.chutzpah += 2
 
     # Nerfs slimeoids 11-foot and up to have 10-foot stats, as well as autobalancing slimeoids with negative stats 
-    def apply_size_nerf(self, enemy_combat_data = None):
+    def apply_size_nerf(self, enemy_combat_data = None, size_limit = False):
         size = self.moxie + self.grit + self.chutzpah
 
-        # If the slimeoid is bigger than 10 feet. Comes before other matchups, so stats together should equal size. Stats are 1 at minimum in CombatData
-        if size > 13:
-            oversize = size - 13
+        # If the slimeoid is bigger than size_limit feet. Comes before other matchups, so stats together should equal size. Stats are 1 at minimum in CombatData
+        if(not size_limit):
+            size_limit = 42069
+        else:
+            size_limit += 3
+        print(size_limit)
+        if size > size_limit:
+            oversize = size - size_limit
 
             # Take 1/3 of oversize and subtract it from grit. Tries to shave off 1/3 of oversize from each stat.
             to_subtract = oversize // 3
@@ -465,7 +470,7 @@ def calculate_clout_gain(clout):
 
 
 # Run the battle for a pair of slimeoids
-async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, channel, battle_type, pvp_battle):
+async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, channel, battle_type, pvp_battle, size_limit):
     # fetch slimeoid data
     challengee_slimeoid = EwSlimeoid(id_slimeoid=id_s1)
     challenger_slimeoid = EwSlimeoid(id_slimeoid=id_s2)
@@ -473,8 +478,13 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
     client = ewutils.get_client()
 
     # Nerf level to 10 if it's above 11.
-    challengee_level = min(challengee_slimeoid.level, 10)
-    challenger_level = min(challenger_slimeoid.level, 10)
+    print(size_limit)
+    if(size_limit):
+        challengee_level = min(challengee_slimeoid.level, size_limit)
+        challenger_level = min(challenger_slimeoid.level, size_limit)
+    else:
+        challengee_level = challengee_slimeoid.level
+        challenger_level = challenger_slimeoid.level
 
     # calculate starting hp
     s1hpmax = 50 + (challengee_level * 20)
@@ -526,8 +536,8 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
         owner=challenger_name,
     )
 
-    s1_combat_data.apply_size_nerf(s2_combat_data)
-    s2_combat_data.apply_size_nerf(s1_combat_data)
+    s1_combat_data.apply_size_nerf(s2_combat_data, size_limit)
+    s2_combat_data.apply_size_nerf(s1_combat_data, size_limit)
 
     s1_combat_data.apply_weapon_matchup(s2_combat_data)
     s2_combat_data.apply_weapon_matchup(s1_combat_data)
