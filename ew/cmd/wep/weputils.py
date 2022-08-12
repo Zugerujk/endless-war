@@ -97,6 +97,7 @@ class EwEffectContainer:
         # Find a way at some point to pass these in on initialization if you NEEEEEED to
         self.apply_status = {}
         self.mass_apply_status = None
+        self.backfire_damage = 0
         self.vax = vax
 
 
