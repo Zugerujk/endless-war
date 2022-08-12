@@ -102,14 +102,14 @@ def get_weapon_type_stats(weapon_type):
             "cost_multiplier": 1,
             "crit_chance": 0,
             "crit_multiplier": 1,
-            "hit_chance": 0.9
-        }
+            "hit_chance": 0.9,
+        },
     }
 
     return types[weapon_type]
 
 
-def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, apply_status = None, mass_apply_status = None):
+def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, backfire_chance = None, backfire_multiplier = None, backfire_crit_mult = None, backfire_miss_mult = None, apply_status = None, mass_apply_status = None):
     weapon_stats = get_weapon_type_stats(weapon_type)
     if cost_multiplier:
         weapon_stats["cost_multiplier"] = cost_multiplier
@@ -121,6 +121,14 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
         weapon_stats["crit_multiplier"] = crit_multiplier
     if hit_chance:
         weapon_stats["hit_chance"] = hit_chance
+    if backfire_chance:
+        weapon_stats["backfire_chance"] = backfire_chance
+    if backfire_multiplier:
+        weapon_stats["backfire_multiplier"] = backfire_multiplier
+    if backfire_crit_mult:
+        weapon_stats["backfire_crit_mult"] = backfire_crit_mult
+    if backfire_miss_mult:
+        weapon_stats["backfire_miss_mult"] = backfire_miss_mult
     if apply_status:
         weapon_stats["apply_status"] = apply_status
     if mass_apply_status:
@@ -128,13 +136,19 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
 
     def get_hit_damage(ctn):
         hit_damage = 0
+        hit_backfire = 0
         base_damage = ctn.slimes_damage
 
         player_has_sharptoother = (ewcfg.mutation_id_sharptoother in ctn.user_data.get_mutations())
         hit_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
+        backfire_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
         guarantee_crit = (weapon_type == "precision" and ctn.user_data.sidearm == -1)
 
         ignore_hitchance = weapon_stats["hit_chance"] == -1
+
+        # Roll for backfire early so misses and crits can modify it
+        if backfire_roll < weapon_stats.get("backfire_chance", 0):
+            hit_backfire += base_damage * weapon_stats.get("backfire_multiplier", 0.5)
 
         # Adds the base chance to hit and the chance from modifiers. Hits if the roll is lower
         if (hit_roll < (weapon_stats["hit_chance"] + ctn.hit_chance_mod)) or ignore_hitchance:
@@ -147,6 +161,7 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
             hit_damage = base_damage * effective_multiplier
             if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
                 hit_damage *= weapon_stats["crit_multiplier"]
+                hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
                     ctn.crit = True
 
@@ -154,27 +169,34 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
                 ctn.apply_status.update(weapon_stats.get("apply_status"))
             ctn.mass_apply_status = weapon_stats.get("mass_apply_status")
             ctn.explode = True if weapon_type == "explosive" else False
+        # If you miss. I didn't need to add this, but it just seemed right.
+        else:
+            # default to zero backfire on a miss unless the weapon specifies otherwise
+            hit_backfire *= weapon_stats.get("backfire_miss_mult", 0)
 
-        return hit_damage
+        return hit_damage, hit_backfire
 
     def attack(ctn):
         ctn.slimes_spent = int(ctn.slimes_spent * weapon_stats["cost_multiplier"])
         damage = 0
+        backfire = 0
         if "shots" in weapon_stats:
             ctn.crit = True
             for _ in range(weapon_stats["shots"]):
-                hit_damage = get_hit_damage(ctn)
+                hit_damage, hit_backfire = get_hit_damage(ctn)
                 damage += hit_damage
+                backfire += hit_backfire
                 if hit_damage == 0:
                     ctn.crit = False
         else:
-            damage = get_hit_damage(ctn)
+            damage, backfire = get_hit_damage(ctn)
             # TODO: Move this to if damage so that multi-shot weapons can also deal bystander effects when needed
             if "bystander_damage" in weapon_stats:
                 ctn.bystander_damage = damage * weapon_stats["bystander_damage"]
 
         if damage:
             ctn.slimes_damage = int(damage)
+            ctn.backfire_damage = int(backfire)
             # If any weapon is given a status to apply to the target that requires a damage based value, handle it here
             for status, source in ctn.apply_status.items():
                 # This is here to make sure that the weapon modified damage gets used for NS damage
