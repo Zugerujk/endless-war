@@ -69,7 +69,7 @@ async def attack(cmd):
 
         # Setup flavortext variables
         # this is disgusting, who wrote this?
-        response, mass_status, wep_explode, napalm, hit_msg, rel_warn, new_cap, slimeoid_resp, bounty_resp, contract_resp, lvl_resp = "", None, None, "", "", "", "", "", "", "", ""
+        response, mass_status, wep_explode, napalm, hit_msg, bkf_msg, rel_warn, new_cap, slimeoid_resp, bounty_resp, contract_resp, lvl_resp = "", None, None, "", "", "", "", "", "", "", "", ""
         target_killed = False
         bounty = 0
 
@@ -488,9 +488,14 @@ async def attack(cmd):
 
         if ctn.backfire_damage > 0:
             # Flavor from backfires
-            backfire_msg = "\n\n" + attacker_weapon.str_backfire.format(
+            bkf_msg = "\n\n" + attacker_weapon.str_backfire.format(
                 name_player=attacker_member.display_name,
+                name_target=target_member.display_name
             )
+            if attacker_killed:
+                bkf_msg += "\nYou have been destroyed by your own stupidity."
+            else:
+                bkf_msg += "\nYou lose {} slime!\n".format(ctn.backfire_damage)
 
         """ Final Operations """
 
@@ -529,7 +534,7 @@ async def attack(cmd):
         if napalm != "": resp_ctn.add_channel_response(cmd.message.channel, napalm)
         if die_resp is not None: resp_ctn.add_response_container(die_resp)
         if bkf_resp is not None: resp_ctn.add_response_container(bkf_resp)
-        response = hit_msg + rel_warn + new_cap + slimeoid_resp + bounty_resp + contract_resp
+        response = hit_msg + bkf_msg + rel_warn + new_cap + slimeoid_resp + bounty_resp + contract_resp
         resp_ctn.add_channel_response(cmd.message.channel, response)
         if lvl_resp != "": resp_ctn.add_channel_response(cmd.message.channel, "\n" + lvl_resp)
 
