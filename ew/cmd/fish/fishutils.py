@@ -261,7 +261,7 @@ def length_to_size(size_number):
 
 
 # Determines bite text
-def gen_bite_text(size, user_data):
+def gen_bite_text(size):
     if size == "item":
         text = "You feel a distinctly inanimate tug at your fishing pole!"
 

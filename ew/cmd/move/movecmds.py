@@ -733,7 +733,7 @@ async def scout(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Never heard of it."))
 
     else:
-        # Check if the user has ORBE
+        # Check if the user has 'scopic retinas
         extended_range = False
         if ewcfg.mutation_id_scopicretinas in mutations:
             extended_range = True

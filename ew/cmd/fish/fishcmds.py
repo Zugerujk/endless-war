@@ -298,7 +298,7 @@ async def cast(cmd):
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             # Generate bite text
-            bite_text = gen_bite_text(fisher.current_size, user_data)
+            bite_text = gen_bite_text(fisher.current_size)
 
             # User has a 1/10 chance to get a bite
             fun = 100
