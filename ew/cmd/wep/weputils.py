@@ -7,7 +7,7 @@ from ew.backend import hunting as bknd_hunt
 #from ew.backend.dungeons import EwGamestate
 from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
-from ew.backend.player import EwPlayer
+from ew.backend.player import EwPlayer, player_update
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import slimeoid as sl_static
@@ -110,11 +110,14 @@ def apply_status_bystanders(user_data = None, value = 0, life_states = None, fac
         bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
         resp_cont = EwResponseContainer(id_server=user_data.id_server)
         channel = poi_static.id_to_poi.get(district_data.name).channel
+        guild = ewutils.get_client().get_guild(user_data.id_server)
         market_data = EwMarket(id_server=user_data.id_server)
 
         for bystander in bystander_users:
             bystander_user_data = EwUser(id_user=bystander, id_server=user_data.id_server)
             bystander_player_data = EwPlayer(id_user=bystander, id_server=user_data.id_server)
+            if bystander_player_data.display_name in ["", None]:
+                player_update(guild.get_member(bystander), guild)
             bystander_mutation = bystander_user_data.get_mutations()
 
             if market_data.weather == ewcfg.weather_rainy and status == ewcfg.status_burning_id:
@@ -174,6 +177,8 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
 
                 target_data = EwUser(id_user=bystander, id_server=user_data.id_server, data_level=1)
                 target_player = EwPlayer(id_user=bystander, id_server=user_data.id_server)
+                if target_player.display_name in ["", None]:
+                    player_update(await server.fetch_member(bystander), server)
 
                 target_isjuvenile = target_data.life_state == ewcfg.life_state_juvenile
 
