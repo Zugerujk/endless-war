@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15.6 S4A1 JCMME + Disasters 🌪️⛈️☢️🔥"
+version = "v4.16.1 Don't Look Update 🙅‍♀️🚫"
 
 
 dir_msgqueue = 'msgqueue'
