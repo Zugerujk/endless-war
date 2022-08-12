@@ -58,10 +58,9 @@ def eg_check3(t, shootee_data, user_data):
 def es_check1(district_data):
     return False
 
-def debug35(district_data):
+def debug37(district_data):
     return
 
 
 def debug36(user_data):
     return 1
-    

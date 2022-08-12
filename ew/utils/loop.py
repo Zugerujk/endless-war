@@ -271,9 +271,9 @@ async def decaySlimes(id_server = None):
 
                 if slimes_to_decay >= 1:
                     district_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_decay)
-                    
+
                     if rutils.es_check1(district_data):
-                        rutils.debug35(district_data)
+                        rutils.debug37(district_data)
 
                     district_data.persist()
                     total_decayed += slimes_to_decay
