@@ -467,12 +467,13 @@ async def burnSlimes(id_server):
     results = {}
 
     # Get users with harmful status effects
-    data = bknd_core.execute_sql_query("SELECT {id_user}, {value}, {source}, {id_status} from status_effects WHERE {id_status} IN %s and {id_server} = %s".format(
+    data = bknd_core.execute_sql_query("SELECT {id_user}, {value}, {source}, {id_status}, {time_expire} from status_effects WHERE {id_status} IN %s and {id_server} = %s".format(
         id_user=ewcfg.col_id_user,
         value=ewcfg.col_value,
         id_status=ewcfg.col_id_status,
         id_server=ewcfg.col_id_server,
-        source=ewcfg.col_source
+        source=ewcfg.col_source,
+        time_expire = ewcfg.col_time_expir,
     ), (
         tuple(ewcfg.harmful_status_effects),
         id_server
@@ -485,9 +486,13 @@ async def burnSlimes(id_server):
         slimes_dropped = user_data.totaldamage + user_data.slimes
         used_status_id = result[3]
 
-        # Deal 10% of total slime to burn every second
-        slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
-            
+        # Deal 10% of total slime to burn every second <-- fake. deal 1/3 every 4 seconds
+        remaining_ticks_inclusive = math.ceil((result[4] - time_now) / ewcfg.burn_tick_length) + 1
+        if remaining_ticks_inclusive <= 0:
+            if ewutils.DEBUG_OPTIONS.get("verbose_burn") and used_status_id == ewcfg.status_burning_id:
+                ewutils.logMsg("Burn for {} being ticked after burnout. Skipping {} remaining damage.".format(result[0], result[1]))
+            continue  # Ensures that burn only runs for the configured tick amount
+        slimes_to_burn = math.ceil(int(float(result[1])) / remaining_ticks_inclusive)
 
         # Check if a status effect originated from an enemy or a user.
         killer_data = EwUser(id_server=id_server, id_user=result[2])
@@ -497,8 +502,6 @@ async def burnSlimes(id_server):
                 status_origin = 'enemy'
             else:
                 status_origin = 'other'
-
-
 
         if status_origin == 'user':
             # Damage stats
@@ -522,7 +525,6 @@ async def burnSlimes(id_server):
                 elif killer_data.slimelevel < user_data.slimelevel:
                     ewstats.increment_stat(user=killer_data, metric=ewcfg.stat_lifetime_takedowns)
 
-
                 # Kill player
                 if status_origin == 'user':
                     user_data.id_killer = killer_data.id_user
@@ -533,7 +535,6 @@ async def burnSlimes(id_server):
 
                 # Collect bounty
                 coinbounty = int(user_data.bounty / ewcfg.slimecoin_exchangerate)  # 100 slime per coin
-
 
                 if user_data.slimes >= 0:
                     killer_data.change_slimecoin(n=coinbounty, coinsource=ewcfg.coinsource_bounty)
@@ -561,7 +562,12 @@ async def burnSlimes(id_server):
 
         else:
             user_data.change_slimes(n=-slimes_to_burn, source=ewcfg.source_damage)
+            status_data = EwStatusEffect(id_status=result[3], id_server=id_server, id_user=result[0])
+            status_data.value = int(float(status_data.value)) - slimes_to_burn
+            status_data.persist()
             user_data.persist()
+            if used_status_id == ewcfg.status_burning_id and ewutils.DEBUG_OPTIONS.get("verbose_burn"):
+                ewutils.logMsg("Burning {} slime from {}. {} burn remaining.".format(slimes_to_burn, user_data.id_user, status_data.value))
 
     await resp_cont.post()
 
@@ -668,6 +674,8 @@ def removeExpiredStatuses(id_server = None):
 
             if status_def.time_expire > 0:
                 if status_effect.time_expire < time_now:
+                    if ewutils.DEBUG_OPTIONS.get("verbose_burn") and status == ewcfg.status_burning_id:
+                        ewutils.logMsg("Removing burn status from {}.".format(id_user))
                     user_data.clear_status(id_status=status)
 
             # Status that expire under special conditions
