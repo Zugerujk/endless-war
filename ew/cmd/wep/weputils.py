@@ -231,6 +231,10 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
+                if ewcfg.mutation_id_slurpsup in user_mutations or ewcfg.mutation_id_airlock in user_mutations and market_data.weather == ewcfg.weather_rainy:
+                    user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
+                    slimes_splatter *= 0.5
+
                 boss_slimes += slimes_toboss
                 district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)
                 target_data.bleed_storage += slimes_tobleed
@@ -331,6 +335,10 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
+
+                if ewcfg.mutation_id_slurpsup in user_mutations or ewcfg.mutation_id_airlock in user_mutations and market_data.weather == ewcfg.weather_rainy:
+                    user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
+                    slimes_splatter *= 0.5
 
                 if not was_killed:
                     district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)  # district gets 1/8 damage
@@ -820,6 +828,10 @@ async def attackEnemy(cmd):
     if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
         user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
         slimes_splatter *= .4
+    
+    if ewcfg.mutation_id_slurpsup in user_mutations or ewcfg.mutation_id_airlock in user_mutations and market_data.weather == ewcfg.weather_rainy:
+        user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
+        slimes_splatter *= 0.5
 
     district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)  # district gains 1/8 damage as slime
     enemy_data.bleed_storage += slimes_tobleed  # target gains 1/8 damage as bleed
