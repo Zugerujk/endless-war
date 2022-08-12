@@ -494,6 +494,7 @@ async def slimeoidbattle(cmd):
     pvp_battle = False
     fatal = False
     size_limit = False
+    bet = None
     response = ""
     user_name = "" # get it, like a username!
     target_name = ""
@@ -525,7 +526,11 @@ async def slimeoidbattle(cmd):
         challengee_slimeoid = EwSlimeoid(member=member)
 
         # Sets the bet to 0 if no bet is specified or if not at the arena.
-        bet = ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
+        if "bet" in cmd.tokens:
+            location = cmd.tokens.index("bet")+1
+            if len(cmd.tokens) > location:
+                bet = ewutils.getIntToken(tokens=[0,cmd.tokens[location]], allow_all=True)
+        
 
         if bet == None or challenger.poi != ewcfg.poi_id_arena:
             bet = 0
@@ -536,9 +541,13 @@ async def slimeoidbattle(cmd):
         # Make the slimeoid battle fatal if "todeath" is anywhere in the command
         if "death" in ewutils.flattenTokenListToString(cmd.tokens):
             fatal = True
-        if "balanced" in ewutils.flattenTokenListToString(cmd.tokens):
+        if "size" in cmd.tokens:
             if challenger.poi == ewcfg.poi_id_arena:
-                size_limit = True
+                location = cmd.tokens.index("size")+1
+                if len(cmd.tokens) > location:
+                    size_limit = ewutils.getIntToken(tokens=[0,cmd.tokens[location]])
+                if(size_limit == None):
+                    size_limit = False
             else:
                 response = "Theres nobody to officiate the match, don't bother making it fair. Go to the arena for that."
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
@@ -587,39 +596,9 @@ async def slimeoidbattle(cmd):
                     accepted = 1
         except:
             accepted = 0
-        responded = 1
-        if(accepted == 1 and size_limit and challenger.poi == ewcfg.poi_id_arena):
-            responded = 0
-            response = "Propose the size limit for this match. All slimeoids will hunchback, saw down horns, crush spinal plates and self-decapitate down to meet it. Alternatively, give the crowd a real match and say NONE."
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
-            
-            try:
-                msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == author and (message.content.isdigit() or message.content.lower() == "none"))
-                print(msg)
-                if msg != None:
-                    if(msg.content.lower() == "none"):
-                        size_limit = False
-                    elif(msg.content.isdigit()):
-                        size_limit = int(msg.content)
-                    responded = 1
-            except:
-                responded = 0
-
-            response = "{} has proposed a size limit of {}. Do you !accept or !refuse?".format(user_name, "none" if (size_limit == False) else size_limit).replace("@", "\{at\}")
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(member, response))
-
-            # Wait for an answer
-            accepted = 0
-            try:
-                msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == member and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
-
-                if msg != None:
-                    if msg.content == ewcfg.cmd_accept:
-                        accepted = 1
-            except:
-                accepted = 0
+        
         if(accepted == 1):
-            response = "The terms have been set, the battle will begin in **THREE**"
+            response = "**THREE**"
             await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
             await asyncio.sleep(1)
             response = "**TWO**"
@@ -656,10 +635,9 @@ async def slimeoidbattle(cmd):
             await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
     else:
         accepted = 1
-        responded = 1
 
     # Start game
-    if accepted == 1 and responded == 1:
+    if accepted == 1:
         # Don't change slimes unless we realllllyyyyyy have to
         # Winnings needs to be established in order for this to work.
         winnings = 0
@@ -803,10 +781,7 @@ async def slimeoidbattle(cmd):
             bknd_hunting.delete_enemy(challengee)
 
     else:
-        if(not accepted):
-            response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
-        elif(responded):
-            response = "Come back when you're actually ready."
+        response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")
 
         # Send the response to the player.
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
