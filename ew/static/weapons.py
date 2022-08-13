@@ -117,7 +117,7 @@ def get_weapon_type_stats(weapon_type):
     return types[weapon_type]
 
 
-def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, apply_status = None, mass_apply_status = None):
+def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, backfire_chance = None, backfire_multiplier = None, backfire_crit_mult = None, backfire_miss_mult = None, apply_status = None, mass_apply_status = None):
     weapon_stats = get_weapon_type_stats(weapon_type)
     if cost_multiplier:
         weapon_stats["cost_multiplier"] = cost_multiplier
@@ -129,6 +129,16 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
         weapon_stats["crit_multiplier"] = crit_multiplier
     if hit_chance:
         weapon_stats["hit_chance"] = hit_chance
+    if backfire_chance:
+        weapon_stats["backfire_chance"] = backfire_chance
+    if backfire_multiplier:
+        weapon_stats["backfire_multiplier"] = backfire_multiplier
+    if backfire_crit_mult:
+        weapon_stats["backfire_crit_mult"] = backfire_crit_mult
+    if backfire_miss_mult:
+        weapon_stats["backfire_miss_mult"] = backfire_miss_mult
+    if bystander_damage:
+        weapon_stats["bystander_damage"] = bystander_damage
     if apply_status:
         weapon_stats["apply_status"] = apply_status
     if mass_apply_status:
@@ -136,13 +146,19 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
 
     def get_hit_damage(ctn):
         hit_damage = 0
+        hit_backfire = 0
         base_damage = ctn.slimes_damage
 
         player_has_sharptoother = (ewcfg.mutation_id_sharptoother in ctn.user_data.get_mutations())
         hit_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
+        backfire_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
         guarantee_crit = (weapon_type == "precision" and ctn.user_data.sidearm == -1)
 
         ignore_hitchance = weapon_stats["hit_chance"] == -1
+
+        # Roll for backfire early so misses and crits can modify it
+        if backfire_roll < weapon_stats.get("backfire_chance", 0):
+            hit_backfire += base_damage * weapon_stats.get("backfire_multiplier", 0.5) * weapon_stats.get("damage_multiplier", 1)
 
         # Adds the base chance to hit and the chance from modifiers. Hits if the roll is lower
         if (hit_roll < (weapon_stats["hit_chance"] + ctn.hit_chance_mod)) or ignore_hitchance:
@@ -150,11 +166,13 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
             effective_multiplier = weapon_stats["damage_multiplier"]
             if "variable_damage_multiplier" in weapon_stats:
                 effective_multiplier += random.random() * weapon_stats["variable_damage_multiplier"]
+                hit_backfire = (hit_backfire / weapon_stats.get("damage_multiplier", 1)) * effective_multiplier
 
             # Multiplies the damage by the effective multiplier
             hit_damage = base_damage * effective_multiplier
             if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
                 hit_damage *= weapon_stats["crit_multiplier"]
+                hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
                     ctn.crit = True
 
@@ -163,24 +181,27 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
             ctn.mass_apply_status = weapon_stats.get("mass_apply_status")
             ctn.explode = True if weapon_type == "explosive" or weapon_type == "missilelauncher" else False
 
-        return hit_damage
+        return hit_damage, hit_backfire
 
     def attack(ctn):
         ctn.slimes_spent = int(ctn.slimes_spent * weapon_stats["cost_multiplier"])
         damage = 0
+        backfire = 0
         if "shots" in weapon_stats:
             ctn.crit = True
             for _ in range(weapon_stats["shots"]):
-                hit_damage = get_hit_damage(ctn)
+                hit_damage, hit_backfire = get_hit_damage(ctn)
                 damage += hit_damage
+                backfire += hit_backfire
                 if hit_damage == 0:
                     ctn.crit = False
         else:
-            damage = get_hit_damage(ctn)
+            damage, backfire = get_hit_damage(ctn)
             # TODO: Move this to if damage so that multi-shot weapons can also deal bystander effects when needed
             if "bystander_damage" in weapon_stats:
-                ctn.bystander_damage = damage * weapon_stats["bystander_damage"]
+                ctn.bystander_damage = int(damage * weapon_stats["bystander_damage"])
 
+        ctn.backfire_damage = int(backfire)
         if damage:
             ctn.slimes_damage = int(damage)
             # If any weapon is given a status to apply to the target that requires a damage based value, handle it here
@@ -760,7 +781,7 @@ weapon_list = [
             "bombs",
             "moly"
         ],
-        # str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!",
+        str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!",
         str_miss="**A dud!!** the rag failed to ignite the molotov!",
         str_crit="{name_player}’s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
         str_equip="You equip the molotov cocktail.",
@@ -776,12 +797,21 @@ weapon_list = [
         str_duel="{name_player} and {name_target} compare notes on frontier chemistry, seeking the optimal combination of combustibility and fuel efficiency.",
         str_description="These are glass bottles filled with some good ol' fashioned pyrotechnics.",
         str_scalp=" It's burnt to a crisp!",
-        fn_effect=get_normal_attack(weapon_type='incendiary'),
+        fn_effect=get_normal_attack(
+            weapon_type='incendiary',
+            hit_chance=0.5,
+            damage_multiplier=2,
+            bystander_damage=1,
+            backfire_chance=0.75,
+            backfire_multiplier=2,
+            backfire_crit_mult=1.25,
+            backfire_miss_mult=0
+        ),
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_burning, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=4,
+        captcha_length=0,
         str_brandish="{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."
     ),
     EwWeapon(  # 16
@@ -1808,10 +1838,6 @@ weapon_list = [
         # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
     ),
 ]
-
-
-
-
 
 # A map of id_weapon to EwWeapon objects.
 weapon_map = {}

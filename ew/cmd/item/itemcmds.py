@@ -605,7 +605,8 @@ async def item_look(cmd):
                     if captcha not in [None, ""]:
                         response += "Security Code: **{}**".format(ewutils.text_to_regional_indicator(captcha)) + "\n"
 
-                totalkills = int(item.item_props.get("totalkills")) if item.item_props.get("totalkills") != None else 0
+                totalkills = int(item.item_props.get("totalkills", 0))
+                totalsuicides = int(item.item_props.get("totalsuicides", 0))
 
                 if totalkills < 10:
                     response += "It looks brand new" + (
@@ -616,8 +617,10 @@ async def item_look(cmd):
                 else:
                     response += "A true legend in the battlefield, it has killed {} people.\n".format(totalkills)
 
-                response += "You have killed {} people with it.".format(
-                    item.item_props.get("kills") if item.item_props.get("kills") != None else 0)
+                if totalsuicides > 0:
+                    response += "Through sheer idiocy, it has killed {} of its own users.\n".format(totalsuicides)
+
+                response += "You have killed {} people with it.".format(item.item_props.get("kills", 0))
 
             if item.item_type == ewcfg.it_cosmetic:
                 response += "\n\n"
