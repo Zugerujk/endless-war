@@ -3668,7 +3668,7 @@ mutation_descriptions = {
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",
-    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide. If you're aligned with a gang, you gain access to that gang's comms channels.",
+    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide.",
     mutation_id_napalmsnot: "You do some burn damage when attacking with any weapon, in addition to its normal damage. You also gain immunity to burn damage.",
     mutation_id_ditchslap: "Use !slap @user <location> on an ally to instantly launch them to an adjacent district. If you are in a safe zone, the target must use !clench before they can be hit. Any given ally can't be slapped again for a 5 minute cooldown.",
     mutation_id_greenfingers: "Farming wait time is decreased by 33%, and yields are increased by 20%.",

@@ -143,8 +143,8 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
 
 
     if user_data.life_state != ewcfg.life_state_enlisted:
-        # Let juvies with nerves of steel access gang comms
-        if ewcfg.mutation_id_nervesofsteel in user_data.get_mutations():
+        # Let aligned juvies access gang comms
+        if user_data.life_state == ewcfg.life_state_juvenile and user_data.faction != '':
             channels = []
             overwrite = discord.PermissionOverwrite()
             overwrite.read_messages = True
@@ -162,7 +162,7 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
             for channel in channels:
                 if used_member not in channel.overwrites:
                     await channel.set_permissions(used_member, overwrite = overwrite)
-        # Remove comms perms from juvies without nerves of steel
+        # Remove comms perms from all others.
         else:
             channels = []
             channels.append(fe_utils.get_channel(server, "killer-comms"))

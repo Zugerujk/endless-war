@@ -545,7 +545,7 @@ mutations = [
         str_describe_other="Their eyes are secreting green due to **Stink Eye**.",
         str_acquire="Drops of slime fly into your eyeballs, causing them to sting viciously. You quickly go to rub them, but that only makes the pain worse! After a prolonged writhing, you open your oozing eyes with a new view of your environment. You can truly SEE the slime around you. You can CONNECT with the slime MENTALLY. Your sight spheres become conduits for the world. You have developed the mutation **Stink Eye**. When surveying, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
         tier=4,
-        str_transplant="Dr. Dusttrap walks to the back of clinic and returns with a pickled punk. She unscrews the lid and carefully removes the preserved human fetus with tongs. \"This operation's a bit archaic, but it's not like you've got any real qualms, right?\" She instructs you to lie down, and holding your eyes open, Dr Dusttrap carefully positions the fetus above you horizontally. She lowers it inches from your head before giving it a harsh squeeze. Gallons of fetal juice pour directly into your eyes. Dusttrap puts the fetus back in the jar, then returns it to the back of the clinic. By the time she returns, your eyes have become horribly infected. You have developed the mutation **Stink Eye**. When surveying, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
+        str_transplant="Dr. Dusttrap walks to the back of clinic and returns with a pickled punk. She unscrews the lid and carefully removes the preserved human fetus with tongs. \"This operation's a bit archaic, but it's not like you've got any real qualms, right?\" She instructs you to lie down, and holding your eyes open, Dr Dusttrap carefully positions the fetus above you horizontally. She lowers it inches from your head before giving it a harsh squeeze. Gallons of fetal juice pour directly into your eyes. Dusttrap puts the fetus back in the jar, then returns it to the back of the clinic. By the time she returns, your eyes have become horribly infected. \n\nYou have developed the mutation **Stink Eye**. When surveying, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_monplanto,
@@ -558,7 +558,7 @@ mutations = [
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="Dr. Dusttrap guides you towards a tanning bed, putting it at super-duper-mega-ultra intensity. Your skin sloughs off from the UV rays, but the raw flesh below is infused with the blue tanning light. You have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
+        str_transplant="Dr. Dusttrap guides you towards a tanning bed, putting it at super-duper-mega-ultra intensity. Your skin sloughs off from the UV rays, but the raw flesh below is infused with the blue tanning light. \n\nYou have developed the mutation **Monplanto**. Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_foghorn,
@@ -566,12 +566,12 @@ mutations = [
         alias=['fog', 'foghorn', 'horn', 'fh'],
         str_describe_self="You can cut through fog due to **Fog Horn**.",
         str_describe_other="They can cut through fog due to **Fog Horn**.",
-        str_acquire="You gain a splitting headache. A headdache *so splitting* that your head begins splitting in half. A massive horn burgeons out of your cranium. It's not that bad though; you're probably ten times as aerodynamic now. You have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
+        str_acquire="You gain a splitting headache. A headache *so splitting* that your head begins to split in half. A massive horn burgeons out of your cranium. It's not that bad though; you're probably ten times as aerodynamic now. You can slice through air with ease - probably even aim with this thing! You have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
         tier=2,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="Dr. Dusttrap tapes a cute little poudrin to your forehead. Tee-hee! You have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
+        str_transplant="Dr. Dusttrap injects some slime into your forehead. Nothing really unusual for NLACakaNM standards, but shortly thereafter a poudrin rises from your forehead. It's disorienting having a massive green mass in front of your eyes. \"Make sure not to crush that. You'll hemorrhage slime everywhere and, more importantly, you won't get back the 10,000 slime you paid me.\" \n\nYou have developed the mutation **Fog Horn**. During foggy weather, gain an increased critical hit chance.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_slurpsup,
@@ -584,7 +584,7 @@ mutations = [
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="Dr. Dusttrap pulls out a dick-extending concoction and injects it into your tongue. It turns out it's a lot harder to extend tongues compared to phalluses, but muscle extender is technically multipurpose. A little while later your tongue is significantly longer, if veiny. You have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
+        str_transplant="Dr. Dusttrap pulls out a dick-extending concoction and injects it into your tongue. It turns out it's a lot harder to extend tongues compared to phalluses, but muscle extender is technically multipurpose. A little while later your tongue is significantly longer, if veiny. \n\nYou have developed the mutation **Slurp's Up**. During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_deathfromabove,
@@ -597,7 +597,7 @@ mutations = [
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="Dr. Dusttrap gives you a metal fork and points towards an outlet. You go to it but, like, there's a goddamn protector on this thing! You dig into the plastic covering with your nails and, somehow, chip a nail. You succeed in tearing the protector off though. In the fork goes. You have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+        str_transplant="Dr. Dusttrap gives you a metal fork and points towards an outlet. You go to it but, like, there's a goddamn protector on this thing! You dig into the plastic covering with your nails and, somehow, chip a nail. You succeed in tearing the protector off though. In the fork goes. \n\nYou have developed the mutation **Death From Above**. During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_ichumfast,
@@ -607,7 +607,7 @@ mutations = [
         str_describe_other="They've got fish to catch due to **I Chum Fast**.",
         str_acquire="Aw jeez, you just can't hold it in any longer. It's too fuckin' much mannnn!!! You explode all over, unable to contain your love for fish. You've got fish to catch. You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
         tier=7,
-        str_transplant="Dr. Dusstrap hands you a bottle of fish oil. \"Chug.\" You comply, and god, this stuff tastes terrible. Nevertheless, you really feel yourself more connected to fish than ever before. You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+        str_transplant="Dr. Dusstrap hands you a bottle of fish oil. \"Chug.\" You comply, and god, this stuff tastes terrible. Nevertheless, you really feel yourself more connected to fish than ever before. \n\nYou have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_scopicretinas,
@@ -615,12 +615,12 @@ mutations = [
         alias=['sr', 'telescopicretinas', 'scopic', 'orbe'],
         str_describe_self="You can see near and far due to **'Scopic Retinas**.",
         str_describe_other="They can see near and far due to **'Scopic Retinas**.",
-        str_acquire="Zamn, there's a fine specimen hanging out across the street! You go to hit on them, but as you walk you don't seem to gain any distance. You look down and-JEEZ, you're looking at the individual holes in the pavement. You have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
+        str_acquire="Gee, there's a fine specimen hanging out across the street! You go to hit on them, but as you walk you don't seem to gain any distance. You look down and- GEEZ, you're looking at the individual holes in the pavement. You have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
         tier=5,
         incompatible = {
             ewcfg.mutation_id_keensmell: '"Nope, you\'ve already got too much going on with your senses. Get rid of your schnoz first."'
         },
-        str_transplant="With that simple request, Dr. Dusttrap pulls out an array of robotic eyes. You pick the greenest looking one, and are put to sleep on an operating table. When you wake up, you've got brand new eyes! Now you can look at brick by boring brick. You have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
+        str_transplant="With that simple request, Dr. Dusttrap pulls out an array of robotic eyes. You pick the greenest looking one, and are put to sleep on an operating table. When you wake up, you've got brand new eyes! Now you can look at brick by boring brick. \n\nYou have developed the mutation **'Scopic Retinas**. You can now !scout up to two districts away.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_magicbullettheory,
@@ -630,7 +630,7 @@ mutations = [
         str_describe_other="They really knoll what they're doing due to **Magic Bullet Theory**.",
         str_acquire="Taking a break, something feels... off? You've got more ammo than you thought, you're missing tapes, and you can't stop spouting Soviet propaganda to passersby. There's gotta be someone - or, rather, some*thing* behind this. You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
         tier=2,
-        str_transplant="*Dr. Dusttrap shuffles around in her VHS cabinet for a bit before returning to you. \"I can't find the second tape, so you'll just have to watch the first one twice.\" She plays the funeral procession of President John F. Kennedy twice before letting you go. You have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.\n\nhttps://www.youtube.com/watch?v=3KJQkn6zUvM",
+        str_transplant="*Dr. Dusttrap shuffles around in her VHS cabinet for a bit before returning to you. \"I can't find the second tape, so you'll just have to watch the first one twice.\" She plays the funeral procession of President John F. Kennedy twice before letting you go. \n\nYou have developed the mutation **Magic Bullet Theory**. Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.\n\nhttps://www.youtube.com/watch?v=3KJQkn6zUvM",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_stiltwalker,
@@ -643,7 +643,7 @@ mutations = [
         incompatible = {
             ewcfg.mutation_id_longarms: '"Well waddya need that for? Your arms already touch the floor! It ain\'t pretty when they clash, kid."',
         },
-        str_transplant="Dr. Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. You have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
+        str_transplant="Dr. Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. \n\nYou have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
     ),
 ]
 
