@@ -2509,6 +2509,7 @@ stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
 stat_missilelauncher_kills = 'missilelauncher_kills'
 
+private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
 # Categories of events that change your slime total, for statistics tracking
 source_mining = 0
