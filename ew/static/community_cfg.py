@@ -189,6 +189,17 @@ pray_responses_list = [
     "ENDLESS WAR is a free text-based MMORPG playable entirely within a Discord server. But, you probably already knew that, didn't you?",
 ]
 
+stiltwalker_jump_response = [
+    "You jump but, like, super high! Holy shit!",
+    "Your noodle legs flap in the wind! Skip leg day much?",
+    "You JUMP. Your head reaches the atmosphere, and you can finally breathe some sweet pollution-free air. It's lowkey lame.",
+    "Actually, you're kinda afraid of heights. You're already uncomfortable with the extra length from your mutations.",
+    "You jump EXTRA tall now. Good job. What the fuck are Long Legs even good for?",
+    "You JUMP!",
+    "You JUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUMP!!!!!!!!!",
+    "https://yteevents.com/wp-content/uploads/Coney-Island-Stilt-Walking-Entertainer-with-Red-Stripes-199x300.jpg",
+]
+
 actual_stds = [
     "chlamydia",
     "herpes",

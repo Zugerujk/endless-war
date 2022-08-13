@@ -153,6 +153,11 @@ async def attack(cmd):
                     factions=["", target.faction], district_data=district_data
                 )
 
+            # Set up explosion from Death From Above if grenades aren't being used
+            if (ewcfg.mutation_id_deathfromabove in attacker_mutations or ewcfg.mutation_id_airlock in attacker_mutations) and market_data.weather == ewcfg.weather_lightning and not ctn.explode:
+                ctn.explode == True
+                ctn.bystander_damage == ctn.slimes_damage / 10
+
         """ Slime & Coin Distribution """  # Still calc'd on miss because backfiring :D
 
         # Setup variables for slime distribution
@@ -193,6 +198,11 @@ async def attack(cmd):
             to_attacker += to_district * 0.6
             to_district *= 0.4
 
+        # Slurps Up or Airlock give attacker 50% of remaining splatter in rain 
+        if to_district > 0 and (ewcfg.mutation_id_slurpsup in attacker_mutations or ewcfg.mutation_id_airlock in attacker_mutations) and market_data.weather == ewcfg.weather_rainy:
+            to_attacker += to_district * 0.5
+            to_district *= 0.5
+                
         # Have backfire effect considered with slime gained from the kill already theirs
         attacker_killed = ctn.backfire_damage > attacker.slimes + to_attacker - attacker.bleed_storage
         if attacker_killed:
@@ -603,10 +613,17 @@ async def attack(cmd):
 
 async def reload(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    mutations = user_data.get_mutations()
+    
     response = ""
     reload_mismatch = True
+    bonus = 0
 
+    # Give magic bullet theory bonus bullet
+    if ewcfg.mutation_id_magicbullettheory in mutations:
+        bonus += 1
+
+    # If the user has a weapon equipped and it's an ammo-type weapon.
     if user_data.weapon > 0:
         weapon_item = EwItem(id_item=user_data.weapon)
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
@@ -625,17 +642,18 @@ async def reload(cmd):
                 if user_data.life_state == ewcfg.life_state_corpse:
                     return
 
-            weapon_item.item_props["ammo"] = weapon.clip_size
+            weapon_item.item_props["ammo"] = weapon.clip_size + bonus
             weapon_item.persist()
             response = weapon.str_reload
             reload_mismatch = False
 
+    # If the user has a weapon sidearmed and it's an ammo-type weapon.
     if user_data.sidearm > 0:
         sidearm_item = EwItem(id_item=user_data.sidearm)
         sidearm = static_weapons.weapon_map.get(sidearm_item.item_props.get("weapon_type"))
-
+        # Harpoon excluded
         if ewcfg.weapon_class_ammo in sidearm.classes and sidearm.id_weapon != ewcfg.weapon_id_harpoon:
-            sidearm_item.item_props["ammo"] = sidearm.clip_size
+            sidearm_item.item_props["ammo"] = sidearm.clip_size + bonus
             sidearm_item.persist()
             if response != "":
                 response += "\n"
