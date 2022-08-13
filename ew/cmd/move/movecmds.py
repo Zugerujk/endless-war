@@ -701,26 +701,29 @@ async def scout(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Never heard of it."))
 
     else:
-        # if scouting own location, treat as a !look alias
-        # if poi.id_poi == user_poi.id_poi:
-        #	return await look(cmd)
+        # Check if the user has 'scopic retinas
+        extended_range = False
+        if ewcfg.mutation_id_scopicretinas in mutations:
+            extended_range = True
 
-        # check if district is in scouting range
-        is_neighbor = user_poi.id_poi in poi_static.poi_neighbors[poi.id_poi] and poi.id_poi in poi_static.poi_neighbors[user_poi.id_poi]
-        is_current_transport_station = False
+        # Create a list of all valid pois
+        valid_pois = set()    
+        valid_pois.add(user_data.poi)
+        neighbors = poi_static.poi_neighbors.get(user_data.poi)
+
+        # If the user is on any transport, the current stop is treated as a neighbor
         if user_poi.is_transport:
             transport_data = EwTransport(id_server=user_data.id_server, poi=user_poi.id_poi)
-            is_current_transport_station = transport_data.current_stop == poi.id_poi
-        is_transport_at_station = False
-        if poi.is_transport:
-            transport_data = EwTransport(id_server=user_data.id_server, poi=poi.id_poi)
-            is_transport_at_station = transport_data.current_stop == user_poi.id_poi
+            neighbors.add(transport_data.current_stop)
 
-        # is_subzone = poi.is_subzone and poi.mother_district == user_poi.id_poi
-        # is_mother_district = user_poi.is_subzone and user_poi.mother_district == poi.id_poi
+        # Add neighbors to list, plus their neighbors if extended range
+        for neigh in neighbors:
+            valid_pois.add(neigh)
+            if extended_range:
+                valid_pois.update(poi_static.poi_neighbors.get(neigh))
 
-        if (not is_neighbor) and (not is_current_transport_station) and (not is_transport_at_station) and (not poi.id_poi == user_poi.id_poi) and (not user_data.poi in poi.mother_districts) and (not poi.id_poi in user_poi.mother_districts):
-            response = "You can't scout that far."
+        if poi.id_poi not in valid_pois:
+            response = "You can't {} that far.".format(cmd.tokens[0])
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         world_events_resp = ""
@@ -1306,9 +1309,6 @@ async def loop(cmd):
     if ewcfg.mutation_id_landlocked not in mutations:
         response = "You don't feel very loopy at the moment. Just psychotic, mostly."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    elif user_data.poi not in poi_static.landlocked_destinations.keys():
-        response = "You need to be on the edge of the map to !loop through it. Try a district bordering an outskirt, the ferry, or Slime's End Cliffs."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         mutation_data = EwMutation(id_mutation=ewcfg.mutation_id_landlocked, id_user=cmd.message.author.id, id_server=cmd.message.guild.id)
 
@@ -1319,6 +1319,10 @@ async def loop(cmd):
 
         if time_lastuse + 60 * 60 > time_now:
             response = "You can't do that again yet. Try again in about {} minute(s)".format(math.ceil((time_lastuse + 60 * 60 - time_now) / 60))
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+        if user_data.poi not in poi_static.landlocked_destinations.keys():
+            response = "You need to be on the edge of the map to !loop through it. Try a district bordering an outskirt, the ferry, or Slime's End Cliffs."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         # global move_counter

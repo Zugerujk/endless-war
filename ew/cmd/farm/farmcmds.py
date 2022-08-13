@@ -213,7 +213,7 @@ async def reap(cmd):
             if farm.phase != ewcfg.farm_phase_reap and not forcereap:
                 response = "Patience is a virtue and you are morally bankrupt. Just wait, asshole."
             else:  # Reaping
-                if (time_grown > ewcfg.crops_time_to_grow * 16) and not forcereap:  # about 2 days
+                if (time_grown > ewcfg.crops_time_to_grow * 16) and not (forcereap == True or ewcfg.mutation_id_monplanto in mutations):  # about 2 days
                     response = "You eagerly cultivate your crop, but what’s this? It’s dead and wilted! It seems as though you’ve let it lay fallow for far too long. Pay better attention to your farm next time. You gain no slime."
                     farm.time_lastsow = 0  # 0 means no seeds are currently planted
                     farm.persist()

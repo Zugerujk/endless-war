@@ -2190,8 +2190,8 @@ cosmetic_items_list = [
         price = 5000000,
     ),
     EwCosmeticItem(
-        id_cosmetic = "wrappingpapersexywear", # Reasons to never listen to the community, especially M@.
-        str_name = "Wrapping Paper Sexywear", # Nobody fucking say anything and let this be a surprise.
+        id_cosmetic = "wrappingpapersexywear",
+        str_name = "Wrapping Paper Sexywear",
         str_desc = "This awful collection of wrapping paper is what you're going to wrap parts of yourself to present yourself as a present. You think this is funny? Even if you wear this during slimernalia, nobody will like you.",
         str_onadorn = "You wrap yourself up in wrapping paper to do the century old reinterpretation of \"I am your present!\"... you do realize that this is gross and wrong, right?", 
         str_unadorn = "You rip off the awful, awful \"clothing\". Of course, this will be your lowest point in your whole life.",

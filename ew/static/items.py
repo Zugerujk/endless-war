@@ -2071,6 +2071,17 @@ furniture_list = [
         furniture_look_desc = "The broken clock says it's 2:33.",
     ),
     EwFurniture(
+        id_furniture = "ninetndo shitcube",
+        str_name = "ninetendo shitcube",
+        str_desc = "The Nintendo Shitcube is exactly what it says on the tin. Its a Nintendo Gamecube crafted exquisitely out of exclusively Mega-wombat shit.  Its reminiscent of brown bricks in minecrap. ",
+        rarity = "Plebian",
+        acquisition = "bartering",
+        price = 100000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You throw your Nintendo Shitcube at the fucking wall.",
+        furniture_look_desc = "Your eyes glance over at the Nintendo Shitcube indented into the fucking wall.",
+    ),
+    EwFurniture(
         id_furniture = "bevanssnot",
         str_name = "Bevan's snot",
         str_desc = "This stuff is actually pretty useful. It's a way to decorate your house with slime, without actually having to give up your own.",

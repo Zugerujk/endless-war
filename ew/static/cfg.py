@@ -926,6 +926,8 @@ cmd_createpoievent = cmd_prefix + 'createpoievent'
 cmd_listworldevents = cmd_prefix + 'listworldevents'
 cmd_listworldevents_alt1 = cmd_prefix + 'listworldevent'
 cmd_endworldevent = cmd_prefix + 'endworldevent'
+cmd_forcegraft = cmd_prefix + 'forcegraft'
+cmd_forcechemo = cmd_prefix + 'forcechemo'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -3345,6 +3347,15 @@ mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
 # mutation_id_gay = "gay"
 
+mutation_id_monplanto = "monplanto"
+mutation_id_foghorn = "foghorn"
+mutation_id_slurpsup = "slurpsup"
+mutation_id_deathfromabove = "deathfromabove"
+mutation_id_ichumfast = "ichumfast"
+mutation_id_scopicretinas = "scopicretinas"
+mutation_id_magicbullettheory = "magicbullettheory"
+mutation_id_stiltwalker = "stiltwalker"
+
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 bingeeater_cap = 5
@@ -3679,18 +3690,25 @@ mutation_descriptions = {
     mutation_id_onemansjunk: "When bartering fish with Alexander, you will only receive offers for items, not slime",
     mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you'ree currently tracking, use !thirdeye.",
     mutation_id_bottomlessappetite: "Your maximum hunger is doubled.",
-    mutation_id_airlock: "Combined effects of White Nationalist and Light as a Feather. This mutation is mutually exclusive with those. You also gain passive hunger when it's sunny, fire immunity in rain, and crit bonuses in the fog.",
-    mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon.",
+    mutation_id_airlock: "Combined weather effects of all weather-based mutations. This mutation is mutually exclusive with those.",
+    mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon. Any weapon that you have mastery 7 or higher with will not be dropped on death.",
     mutation_id_coleblooded: "You get the ability to bust ghosts without coleslaw. If a ghost haunts you, they lose negaslime instead of gaining it.",
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
     mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
     # mutation_id_gay: "You're gay.",
-
+    mutation_id_monplanto: "Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
+    mutation_id_foghorn: "During foggy weather, gain an increased critical hit chance.",
+    mutation_id_slurpsup: "During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
+    mutation_id_deathfromabove: "During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+    mutation_id_ichumfast: "While fishing, you will be @'d upon any !reel notification.",
+    mutation_id_scopicretinas: "You can !scout up to two districts away.",
+    mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
+    mutation_id_stiltwalker: "You can !jump to the blimp from the ground, as well as mines from Waffle House.",
 }
 
 consult_responses = {
-    "downtown": "Our complex in Downtown is a sight to behold, one of our most in-demand properties. The whole complex is 2-story penthouses, with built-in storage facility/fallout shelter, restaraunt sized fridge, and state-of-the-art bulletproof windows. This is an offer you won't want to pass up, believe you me. Now, perhaps you're concerned about the large amount of gang violence in the area. But, uh...shut up. ",
+    "downtown": "Our complex in Downtown is a sight to behold, one of our most in-demand properties. The whole complex is 2-story penthouses, with built-in storage facility/fallout shelter, restaurant sized fridge, and state-of-the-art bulletproof windows. This is an offer you won't want to pass up, believe you me. Now, perhaps you're concerned about the large amount of gang violence in the area. But, uh...shut up. ",
     "smogsburg": "Have you ever wanted wake up to a haze outside your window every morning? Or to fall asleep to the sound of bazaar merchants bickering with one another in foreign languages? I do, too! That's why I live in Smogsburg, where the prices are low and the furniture is close! Seriously, because of how nearby it is to the bazaar, I've been sniping amazing deals on high quality furniture. Wait...why are you looking at me like that? Actually on second thought, don't buy a property here. I don't want you to steal my shit.",
     "krakbay": "Krak Bay is a real social hotspot. Teenagers come from all over to indulge in shopping sprees they can't afford and gorge themselves on fast food with dubious health standards. I say this all as a compliment, of course. Stay here, and you won't have to walk through the city for ages just to get a good taco. As for the apartment quality, you can rest assured that it is definitely an apartment.",
     "poudrinalley": "You know, people point to the labrynthine building structure and the morbid levels of graffiti and say this place is a wreck. I don't think so, though. Graffiti is art, and unlike many districts in NLACakaNM, the densely packed cityscape makes it difficult to get shot through your window. The 7-11's right around the corner, to boot. For that, I'd say we're charging a real bargain.",
