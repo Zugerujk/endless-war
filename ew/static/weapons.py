@@ -1833,7 +1833,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_coalitionsurplus],
         stat=ewcfg.stat_missilelauncher_kills,
         clip_size = 1,
-        captcha_length = 13,
+        captcha_length = 11,
         price = 1500000,
         str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
         str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
@@ -1883,7 +1883,6 @@ slimeoid_weapon_type_convert = {
     11: get_normal_attack(weapon_type='burst_fire'),
     12: get_normal_attack(weapon_type='burst_fire'),
     13: get_normal_attack(weapon_type='burst_fire'),
-
 }
 
 slimeoid_dmg_text = {

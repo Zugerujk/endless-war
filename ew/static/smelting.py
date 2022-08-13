@@ -2244,6 +2244,18 @@ EwSmeltingRecipe(
         },
         products=['monofilamentcloth']
     ),
+    EwSmeltingRecipe(
+        id_recipe="alienluxuryhandbag",
+        str_name="Monofilament Cloth",
+        alias=[
+            'alienhandbag'
+        ],
+        ingredients={
+            ewcfg.item_id_alienleather: 2,
+            ewcfg.item_id_textiles: 1
+        },
+        products=['alienluxuryhandbag']
+    ),
 ]
 
 
