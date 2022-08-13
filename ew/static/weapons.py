@@ -111,6 +111,10 @@ def get_weapon_type_stats(weapon_type):
             "crit_chance": 0.1,
             "crit_multiplier": 1.5,
             "hit_chance": 0.8,
+            "backfire_chance": 1, # Guaranteed backfire with every attack
+            "backfire_multiplier": 0.1, 
+            "backfire_crit_mult": 0.75,  # Halve backfire damage relative to attack damage on crit
+            "backfire_miss_mult": 10, # Don't fuck it up or you're a dead motherfucker
         },
     }
 
