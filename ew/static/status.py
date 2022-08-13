@@ -331,6 +331,12 @@ trauma_list = [
         trauma_class=ewcfg.trauma_class_damage,
     ),
     EwTrauma(
+        id_trauma=ewcfg.trauma_id_backfire,
+        str_trauma_self="You are suffering from a chronic case of stupidity.",
+        str_trauma="They are suffering from a chronic case of stupidity.",
+        trauma_class=ewcfg.trauma_class_damage
+    ),
+    EwTrauma(
         id_trauma=ewcfg.trauma_id_betrayal,
         str_trauma_self="You look anxious around your teammates, wary of betrayal.",
         str_trauma="They look anxious around their teammates, wary of betrayal.",

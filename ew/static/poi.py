@@ -2867,7 +2867,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20},
-        isSplit='limecorp1f',
         jump_dest='downtown'
     ),
     EwPoi(
@@ -2881,7 +2880,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp3f': 20, 'limecorp1f': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="limecorp1f",
@@ -2895,7 +2893,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20, 'downtown': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="thesummit",
@@ -2909,7 +2906,6 @@ poi_list = [
         is_outskirts=True,
         neighbors={'temple': 20, 'skilodges': 20},
         wikipage="https://rfck.miraheze.org/wiki/Maimridge#The_Summit",
-        isSplit='colloidsprings',
         jump_dest='northoutskirtsedge'
     ),
     EwPoi(
@@ -2924,7 +2920,6 @@ poi_list = [
         is_outskirts=True,
         neighbors={'thesummit': 20, 'colloidsprings': 20},
         wikipage="https://rfck.miraheze.org/wiki/Maimridge#Ski_Lodges",
-        isSplit='colloidsprings'
     ),
     EwPoi(
         id_poi="colloidsprings",
@@ -2938,7 +2933,6 @@ poi_list = [
         is_outskirts=True,
         neighbors={'maimridge': 20, 'skilodges': 20},
         wikipage="https://rfck.miraheze.org/wiki/Maimridge#Colloid_Springs",
-        isSplit=''
     ),
     EwPoi(
         id_poi="temple",
@@ -2951,7 +2945,6 @@ poi_list = [
         father_district="maimridge",
         is_outskirts=False,
         neighbors={'thesummit': 20},
-        isSplit='colloidsprings'
     ),
     EwPoi(
         id_poi="rpcity",

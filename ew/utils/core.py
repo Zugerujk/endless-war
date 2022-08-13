@@ -26,6 +26,7 @@ DEBUG = False
 
 DEBUG_OPTIONS = {
     'no_race_cooldown': False,
+    'verbose_burn': False,
 }
 
 # Map of user IDs to their course ID.
