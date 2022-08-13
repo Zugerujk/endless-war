@@ -69,7 +69,7 @@ async def attack(cmd):
 
         # Setup flavortext variables
         # this is disgusting, who wrote this?
-        response, mass_status, wep_explode, napalm, hit_msg, rel_warn, new_cap, slimeoid_resp, bounty_resp, contract_resp, lvl_resp = "", None, None, "", "", "", "", "", "", "", ""
+        response, mass_status, wep_explode, napalm, hit_msg, bkf_msg, rel_warn, new_cap, slimeoid_resp, bounty_resp, contract_resp, lvl_resp = "", None, None, "", "", "", "", "", "", "", "", ""
         target_killed = False
         bounty = 0
 
@@ -153,69 +153,98 @@ async def attack(cmd):
                     factions=["", target.faction], district_data=district_data
                 )
 
-            """ Slime & Coin Distribution """
+        """ Slime & Coin Distribution """  # Still calc'd on miss because backfiring :D
 
-            # Setup variables for slime distribution
-            target_killed = ctn.slimes_damage > target.slimes - target.bleed_storage
-            sewer_data = EwDistrict(district=ewcfg.poi_id_thesewers, id_server=cmd.guild.id)
-            to_sewer, to_attacker, to_bleed, to_district, to_kingpin = 0, ctn.slimes_spent * -1, 0, 0, 0
+        # Setup variables for slime distribution
+        target_killed = ctn.slimes_damage > target.slimes - target.bleed_storage
+        to_sewer, to_attacker, to_bleed, to_district, to_kingpin = 0, ctn.slimes_spent * -1, 0, 0, 0
 
-            # Determine how slime will be distributed
-            if target_killed:
+        # Determine how slime will be distributed
+        if target_killed:
 
-                # attacker gets half slime and half is drained on teamkill, otherwise attacker gets all
-
-                if target.life_state == ewcfg.life_state_enlisted and target.faction == attacker.faction:
-                    to_sewer = target.slimes/2
-                    to_attacker += target.slimes/2
-                else:
-                    to_attacker += target.slimes
-
-                # Transfer bounty
-                bounty = int(target.bounty / ewcfg.slimecoin_exchangerate)
-                attacker.change_slimecoin(n=bounty, coinsource=ewcfg.coinsource_bounty)
+            # attacker gets half slime and half is drained on teamkill, otherwise attacker gets all
+            if target.life_state == ewcfg.life_state_enlisted and target.faction == attacker.faction:
+                to_sewer = target.slimes/2
+                to_attacker += target.slimes/2
             else:
-                if target.life_state in [ewcfg.life_state_juvenile]:
-                    # attacking juvies sends half to bleed and half to splatter
-                    to_bleed = ctn.slimes_damage/2
-                    to_district = ctn.slimes_damage/2
-                elif target.life_state == ewcfg.life_state_enlisted and target.faction == attacker.faction:
-                    # attacking enlisted teammates sends half to sewers, 1/4 to bleed, and 1/4 to splatter
-                    to_sewer = ctn.slimes_damage/2
-                    to_bleed = ctn.slimes_damage/4
-                    to_district = ctn.slimes_damage/4
-                else:
-                    # Attacking other combatants sends half to kingpin, 1/4 to bleed, and 1/4 to splatter
-                    to_kingpin = ctn.slimes_damage/2
+                to_attacker += target.slimes
 
-                    to_bleed = ctn.slimes_damage/4
-                    to_district = ctn.slimes_damage/4
+            # Transfer bounty
+            bounty = int(target.bounty / ewcfg.slimecoin_exchangerate)
+            attacker.change_slimecoin(n=bounty, coinsource=ewcfg.coinsource_bounty)
+        else:
+            if target.life_state in [ewcfg.life_state_juvenile]:
+                # attacking juvies sends half to bleed and half to splatter
+                to_bleed = ctn.slimes_damage/2
+                to_district = ctn.slimes_damage/2
+            elif target.life_state == ewcfg.life_state_enlisted and target.faction == attacker.faction:
+                # attacking enlisted teammates sends half to sewers, 1/4 to bleed, and 1/4 to splatter
+                to_sewer = ctn.slimes_damage/2
+                to_bleed = ctn.slimes_damage/4
+                to_district = ctn.slimes_damage/4
+            else:
+                # Attacking other combatants sends half to kingpin, 1/4 to bleed, and 1/4 to splatter
+                to_kingpin = ctn.slimes_damage/2
+                to_bleed = ctn.slimes_damage/4
+                to_district = ctn.slimes_damage/4
 
-            # nosferatu gives attacker 60% of splatter
-            if to_district > 0 and ewcfg.mutation_id_nosferatu in attacker_mutations and (20 <= market_data.clock or market_data.clock < 6):
-                to_attacker += to_district * 0.6
-                to_district *= 0.4
+        # nosferatu gives attacker 60% of splatter
+        if to_district > 0 and ewcfg.mutation_id_nosferatu in attacker_mutations and (20 <= market_data.clock or market_data.clock < 6):
+            to_attacker += to_district * 0.6
+            to_district *= 0.4
 
-            # Handyman gives kingpin twice as much slime when attacking with a tool
-            if to_kingpin > 0 and ewcfg.mutation_id_handyman in attacker_mutations and attacker_weapon.is_tool:
-                to_kingpin *= 2
+        # Have backfire effect considered with slime gained from the kill already theirs
+        attacker_killed = ctn.backfire_damage > attacker.slimes + to_attacker - attacker.bleed_storage
+        if attacker_killed:
+            # Distribution for enlisted gangsters attacking enlisted rival gangsters
+            if attacker.life_state == ewcfg.life_state_enlisted and attacker.faction != target.faction:
+                to_sewer += (attacker.slimes + to_attacker) / 2
+                to_kingpin += (attacker.slimes + to_attacker) / 2
+            # Distribution for Juvies
+            else:
+                to_sewer += attacker.slimes + to_attacker
 
-            # Actually distribute slime now
-            if attacker.faction not in [ewcfg.faction_slimecorp, target.faction] and attacker.life_state not in [ewcfg.life_state_juvenile]:
-                # Kingpin only gets slime if not a teamkill or shill, or juvie, or shambler attacking
-                kingpin = fe_utils.find_kingpin(id_server=cmd.guild.id, kingpin_role=ewcfg.role_rowdyfucker if attacker.faction == ewcfg.faction_rowdys else ewcfg.role_copkiller)
-                if kingpin:
-                    kingpin = EwUser(id_server=cmd.guild.id, id_user=kingpin.id_user)
-                    kingpin.change_slimes(n=int(to_kingpin))
-                    kingpin.persist() # THIS ONLY GETS PERSISTED HERE BECAUSE THIS IS THE ONLY PLACE IT WILL EVER BE USED
-            if not target_killed:
-                # only take away slime if they survived to care
-                target.change_slimes(n=-1 * (ctn.slimes_damage - to_bleed), source=ewcfg.source_damage)
-                target.bleed_storage += to_bleed
+            to_attacker = 0  # Don't give their ghost slime
+        else:
+            # Distribution for enlisted gangsters attacking enlisted rival gangsters
+            if attacker.life_state == ewcfg.life_state_enlisted and attacker.faction != target.faction:
+                to_district += ctn.backfire_damage / 2
+                to_kingpin += ctn.backfire_damage / 2
+            # Distribution for Juvie attackers and juvie/ally targets
+            else:
+                to_sewer += ctn.backfire_damage
+
+            to_attacker -= ctn.backfire_damage  # Why add another line to the actual distribution?
+
+        # Handyman gives kingpin twice as much slime when attacking with a tool
+        if to_kingpin > 0 and ewcfg.mutation_id_handyman in attacker_mutations and attacker_weapon.is_tool:
+            to_kingpin *= 2
+
+        # Actually distribute slime now
+        if attacker.faction not in [ewcfg.faction_slimecorp, target.faction] and attacker.life_state not in [ewcfg.life_state_juvenile] and to_kingpin > 0:
+            # Kingpin only gets slime if not a teamkill or shill, or juvie, or shambler attacking
+            kingpin = fe_utils.find_kingpin(id_server=cmd.guild.id, kingpin_role=ewcfg.role_rowdyfucker if attacker.faction == ewcfg.faction_rowdys else ewcfg.role_copkiller)
+            if kingpin:
+                kingpin = EwUser(id_server=cmd.guild.id, id_user=kingpin.id_user)
+                kingpin.change_slimes(n=int(to_kingpin))
+                kingpin.persist() # THIS ONLY GETS PERSISTED HERE BECAUSE THIS IS THE ONLY PLACE IT WILL EVER BE USED
+
+        if (not target_killed) and (ctn.slimes_damage != 0):
+            # only take away slime if they survived to care
+            target.change_slimes(n=-1 * (ctn.slimes_damage - to_bleed), source=ewcfg.source_damage)
+            target.bleed_storage += to_bleed
+
+        if (not attacker_killed) and (to_attacker != 0):
+            # Distribution is calculated assuming they only get/lose any slime if they survive
+            lvl_resp = attacker.change_slimes(n=int(to_attacker), source=ewcfg.source_killing if to_attacker >= 0 else ewcfg.source_self_damage)
+
+        if to_sewer > 0:
+            sewer_data = EwDistrict(district=ewcfg.poi_id_thesewers, id_server=cmd.guild.id)
             sewer_data.change_slimes(n=int(to_sewer))
-            sewer_data.persist() # this is the ONLY exception to "persist everything at the end" (aside from kingpin) because it is SOLELY used here
+            sewer_data.persist()  # this is the ONLY exception to "persist everything at the end" (aside from kingpin) because it is SOLELY used here
+
+        if to_district > 0:
             district_data.change_slimes(n=int(to_district), source=ewcfg.source_killing)
-            lvl_resp = attacker.change_slimes(n=int(to_attacker), source=ewcfg.source_killing)
 
         """ Misc. Value Changes & Stat Changes"""
 
@@ -226,6 +255,24 @@ async def attack(cmd):
         if ewcfg.weapon_class_captcha in attacker_weapon.classes:
             attacker_weapon_item.item_props["captcha"] = ewutils.generate_captcha(length=attacker_weapon.captcha_length, user_data=attacker)
         attacker.hunger += ewcfg.hunger_pershot * ewutils.hunger_cost_mod(attacker.slimelevel)
+
+        # Values changed on backfire
+        if ctn.backfire_damage > 0:
+            # Weapon Data Changes
+            attacker_weapon_item.item_props["consecutive_hits"] = 0  # we'll do this before the increment, to be nice
+
+            # User Data Changes
+            attacker.time_lasthit = int(start_time)
+
+            # If ya did an oopsie
+            if attacker_killed:
+                # Weapon Data Changes
+                attacker_weapon_item.item_props["totalsuicides"] = 1 + int(attacker_weapon_item.item_props.get("totalsuicides", 0))
+
+                # User Data Changes
+                attacker.trauma = ewcfg.trauma_id_backfire
+                attacker.id_killer = attacker.id_user
+                attacker.divide_weaponskill(fraction=math.inf, weapon_type=attacker_weapon.id_weapon)
 
         if ctn.miss:
             # Value Changes on misses
@@ -264,7 +311,6 @@ async def attack(cmd):
 
 
                 # Stat Updates
-                start = time.perf_counter()
                 debug16(attacker_weapon_item, attacker, target)
                 ewstats.increment_stat(user=attacker, metric=ewcfg.stat_kills)
                 ewstats.track_maximum(user=attacker, metric=ewcfg.stat_biggest_kill, value=target.totaldamage + target.slimes)
@@ -273,8 +319,8 @@ async def attack(cmd):
                     ewstats.increment_stat(user=attacker, metric=ewcfg.stat_lifetime_ganks)
                 elif attacker.slimelevel < target.slimelevel:
                     ewstats.increment_stat(user=attacker, metric=ewcfg.stat_lifetime_takedowns)
-
-                end = time.perf_counter()
+                if ewcfg.slimernalia_active and attacker.life_state == ewcfg.life_state_juvenile:
+                    ewstats.change_stat(id_server=attacker.id_server, id_user=attacker.id_user, metric=ewcfg.stat_festivity, n=ewcfg.festivity_kill_bonus)
 
             else:
                 attacker.change_crime(n=ewcfg.cr_assault_points)
@@ -307,7 +353,6 @@ async def attack(cmd):
         if ewcfg.weapon_class_captcha in attacker_weapon.classes:
             new_cap += "\nNew security code: **{}**".format(ewutils.text_to_regional_indicator(attacker_weapon_item.item_props.get("captcha")))
 
-        bonus1 = ""
         bonus1 = debug17(attacker_weapon_item)
 
         if target_killed:
@@ -321,9 +366,6 @@ async def attack(cmd):
                 bonus1 = bonus1
             ))
 
-            if ewcfg.slimernalia_active and attacker.life_state == ewcfg.life_state_juvenile:
-                ewstats.change_stat(id_server=attacker.id_server, id_user=attacker.id_user, metric=ewcfg.stat_festivity, n=ewcfg.festivity_kill_bonus)
-            
             if attacker_slimeoid.life_state == ewcfg.slimeoid_state_active:
                 slimeoid_resp += "\n\n" + sl_static.brain_map.get(attacker_slimeoid.ai).str_kill.format(slimeoid_name=attacker_slimeoid.name)
 
@@ -412,7 +454,6 @@ async def attack(cmd):
                     }
                 )
 
-
         elif not ctn.miss:
             # Flavor for non fatal blows only
             hit_msg = attacker_weapon.str_damage.format(
@@ -445,6 +486,17 @@ async def attack(cmd):
                 bonus1 = bonus1
             )
 
+        if ctn.backfire_damage > 0:
+            # Flavor from backfires
+            bkf_msg = "\n\n" + attacker_weapon.str_backfire.format(
+                name_player=attacker_member.display_name,
+                name_target=target_member.display_name
+            )
+            if attacker_killed:
+                bkf_msg += "\nYou have been destroyed by your own stupidity."
+            else:
+                bkf_msg += "\nYou lose {} slime!\n".format(ctn.backfire_damage)
+
         """ Final Operations """
 
         # Fulfill possession if necessary
@@ -459,7 +511,8 @@ async def attack(cmd):
 
         # Now we're allowed to run explosions.
         die_resp = None
-        if target_killed:
+        bkf_resp = None
+        if target_killed and EwUser(member=target_member).life_state != ewcfg.life_state_corpse:
             # This MUST be run before weapon explosions, in case the weapon explosion triggers a spontaneous combustion
             # That case could kill the target, and running this afterward would kill the target twice, dropping items x2
             die_resp = await target.die(cause=ewcfg.cause_killing)
@@ -470,25 +523,31 @@ async def attack(cmd):
                                            life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive],
                                            factions=["", target.faction],
                                            slimes_damage=ctn.bystander_damage, time_now=start_time, target_enemy=False)
+        if (EwUser(member=attacker_member).life_state != ewcfg.life_state_corpse) and attacker_killed:
+            # Funny enough, this must be run AFTER the weapon explosion, as explosions can reward slime to the attacker,
+            # which we can't have happening for a ghost, and it needs the attacker's weapon. Chance of slimegain is too low for me to factor it into whether they die or not though
+            bkf_resp = await attacker.die(cause=ewcfg.cause_backfire)
 
         # build final response
         if mass_status is not None: resp_ctn.add_response_container(mass_status)
         if wep_explode is not None: resp_ctn.add_response_container(wep_explode)
         if napalm != "": resp_ctn.add_channel_response(cmd.message.channel, napalm)
         if die_resp is not None: resp_ctn.add_response_container(die_resp)
-        response = hit_msg + rel_warn + new_cap + slimeoid_resp + bounty_resp + contract_resp
+        if bkf_resp is not None: resp_ctn.add_response_container(bkf_resp)
+        response = hit_msg + bkf_msg + rel_warn + new_cap + slimeoid_resp + bounty_resp + contract_resp
         resp_ctn.add_channel_response(cmd.message.channel, response)
         if lvl_resp != "": resp_ctn.add_channel_response(cmd.message.channel, "\n" + lvl_resp)
 
         # Now copy for the killfeed if necessary
-        if target_killed:
+        if target_killed or attacker_killed:
             kf_ctn = EwResponseContainer(id_server=cmd.guild.id)
             resps = resp_ctn.channel_responses.get(cmd.message.channel, []) + resp_ctn.channel_responses.get(cmd.message.channel.name, [])
             for msg in resps:
                 kf_ctn.add_channel_response(ewcfg.channel_killfeed, msg)
             kf_ctn.format_channel_response(ewcfg.channel_killfeed, attacker_member)
             kf_ctn.add_channel_response(ewcfg.channel_killfeed, "`-------------------------`")
-            resp_ctn.add_member_to_update(target_member)
+            if target_killed: resp_ctn.add_member_to_update(target_member)
+            if attacker_killed: resp_ctn.add_member_to_update(attacker_member)
 
     elif check_resp == ewcfg.ghost_busting_string:
         """

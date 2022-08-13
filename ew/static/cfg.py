@@ -3481,6 +3481,7 @@ injury_weights = {
 }
 
 trauma_id_suicide = "suicide"
+trauma_id_backfire = "backfire"
 trauma_id_betrayal = "betrayal"
 trauma_id_environment = "environment"
 
