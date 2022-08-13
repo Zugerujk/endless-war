@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15.6 S4A1 JCMME + Disasters 🌪️⛈️☢️🔥"
+version = "v4.15.7 S4A1 Free Apple (Cosmiture W2)"
 
 
 dir_msgqueue = 'msgqueue'
@@ -1767,7 +1767,7 @@ emote_slimefull = "<:slimefull:496397819154923553>"
 emote_purple = "<:purple:496397848343216138>"
 emote_pink = "<:pink:496397871180939294>"
 emote_slimecoin = "<:slimecoin:440576133214240769>"
-emote_slimegun = "<:slimegun:436500203743477760>"
+mote_slimegun = "<:slimegun:436500203743477760>"
 emote_slimeshot = "<:slimeshot:436604890928644106>"
 emote_slimecorp = "<:slimecorp:568637591847698432>"
 emote_nlacakanm = "<:nlacakanm:499615025544298517>"
@@ -2507,6 +2507,7 @@ stat_harpoon_kills = 'harpoon_kills'
 stat_sniper_kills = 'sniper_kills'
 stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
+stat_missilelauncher_kills = 'missilelauncher_kills'
 
 
 # Categories of events that change your slime total, for statistics tracking
@@ -2698,6 +2699,11 @@ item_id_mustard_gas_pod = "mustardgaspod"
 item_id_moon_dust_pod = "moondustpod"
 item_id_spent_pod = "spentpod"
 item_id_giftribbon = "giftribbon"
+item_id_gallonofmilk = "gallonofmilk"
+item_id_packofcigarettes = "packofcigarettes"
+item_id_boxofcigars = "boxofcigars"
+item_id_alienleather = "alienleather"
+item_id_monofilamentcloth = "monofilamentcloth"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
@@ -2935,6 +2941,7 @@ weapon_id_monofilamentwhip = 'monowhip'
 weapon_id_fists = 'fists'
 weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
+weapon_id_missilelauncher = 'missilelauncher'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -3639,7 +3646,7 @@ mutation_descriptions = {
     mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger.",
     mutation_id_bingeeater: "Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds. Eating lots of food at once puts you in a raging food coma, increasing defense.",
     mutation_id_lonewolf: "50% more damage and 2x capping speed when in a district without any friendly gangsters. Stacks with the Patriot mutation.",
-    mutation_id_quantumlegs: "You can now use the !tp command, allowing you to teleport to a district up to two locations away from you after an uninterrupted 15 second running start, with a cooldown of 3 hours.",
+    mutation_id_quantumlegs: "You can now use the !tp command, allowing you to teleport to a district up to two locations away from you after an uninterrupted 15 second running start, with a cooldown of 1 hour.",
     mutation_id_chameleonskin: "While offline, you can move to and scout other districts and cannot be scouted.",
     mutation_id_patriot: "1.5x capping speed. Stacks with Lone Wolf.",
     mutation_id_socialanimal: "Your damage increases by 10% for every ally in your district.",
@@ -3981,7 +3988,7 @@ enemy_spawn_groups = {
 # Enemy drop tables. Values are sorted by the chance to the drop an item, and then the minimum and maximum amount of times to drop that item.
 enemy_drop_tables = {
     enemy_type_sandbag: [
-        {item_id_slimepoudrin: [100, 1, 1]}
+        {"sandbag": [100, 1, 1]}
     ],
     enemy_type_juvie: [
         {item_id_slimepoudrin: [50, 1, 2]},
@@ -4060,6 +4067,7 @@ enemy_drop_tables = {
         {"chickenbucket": [33, 1, 1]},
         {"pepperoni": [33, 1, 1]},
         {"alienscalp": [100, 1, 1]},
+        {"rosetintedglasses": [5, 1, 1]}
     ],
     enemy_type_tangeloid: [
         {item_id_slimepoudrin: [100, 1, 1]},

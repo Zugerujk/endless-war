@@ -817,6 +817,7 @@ async def item_use(cmd):
 
             elif context == 'rain':
                 response = "You begin the rain dance, jumping about with the feather as you perform the ancient ritual. The skys darken and grow heavy with the burden of moisture. Finally, in a final flourish to unleash the downpour, you fucking trip and fall flat on your face. Good job, dumbass!"
+           
 
             elif context == ewcfg.item_id_gellphone:
 
@@ -875,9 +876,12 @@ async def item_use(cmd):
 
             elif context == "prankcapsule":
                 response = itm_utils.popcapsule(id_user=author, id_server=server, item=item)
-
+            
             elif context == 'partypopper':
                 response = "***:tada:POP!!!:tada:*** Confetti flies all throughout the air, filling the area with a sense of celebration! :confetti_ball::confetti_ball::confetti_ball:"
+
+            elif context == 'milk':
+                response = "After struggling with the milk cap, you eventually manage to force off the cap with your hands, hold the opened gallon in front of you, pouring it all out on the ground until it is empty."
 
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"

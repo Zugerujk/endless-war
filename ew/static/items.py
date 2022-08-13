@@ -1931,6 +1931,39 @@ item_list = [
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make some festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
     ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_gallonofmilk,
+        str_name="Gallon of Milk",
+        context = 'milk',
+        str_desc="It's the fabled container of milk that is the cause of many missing fathers. As if some cruel twist of fate, you were the one to get some ever before many deadbeat fathers were able to get. It's a sense of achievement, to own a gallon of milk...\nAh, what's that? The cap to this milk is manufactured incorrectly, you can't seem to twist it off.\n...Ah, what's this? There's no expiration date on this milk either.\nWell, I suppose it's useless.",
+        price=250000,
+        vendors=[ewcfg.vendor_bazaar]
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_packofcigarettes,
+        str_name="Pack of Cigarettes",
+        str_desc="What, have you been buying your cigarettes individually all this time? God what an idiot.",
+        price=800000, # 20 cigarettes
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_boxofcigars,
+        str_name="Box of Cigarettes",
+        str_desc="What, have you been buying your cigars individually all this time? God what an idiot.",
+        price=800000, # 20 cigars
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_alienleather,
+        str_name="Alien Leather",
+        str_desc="You've skinned so many of the gray bastards to the point that you can make some fine gray leather. Hairless creeps are the best to slaughter, PETA be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_monofilamentcloth,
+        str_name="Monofilament Cloth",
+        str_desc="Its a full textile at this point, Perfect material to make the grays start understanding that you're violent, language barrier be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+
 ]
 # item_list += ewdebug.debugitem_set
 
@@ -3567,9 +3600,27 @@ furniture_list = [
         str_name = "Feral Hog",
         str_desc = "The fuck? It's a feral hog. Good thing you're a mutant with superhuman abilities, or otherwise this could really endanger your juvenile-ass.",
         rarity = "Patrician",
-        price = 8008135,
+        price = 3050,
         furniture_place_desc = "You let the feral hog loose in your apartment where it stands, docile. Good thing these things are calm, beautiful creatures. Unless they start swarming that is. 30-50 of them would really start a frenzy!",
         furniture_look_desc = "A feral hog stands, plaintively assessing the situation."
+    ),
+    EwFurniture(
+        id_furniture = "sandbag",
+        str_name = "Sandbag",
+        str_desc = "Thanks to the dojo's shitty architectual integrity, sometimes you can manage to get the support beams holding these sandbags up to snap and break. Thanks to how infrequently this happens however, the Dojo Master is probably never going to notice.",
+        rarity = "Patrician",
+        furniture_place_desc = "You grab the chains and fling it onto a load bearing support beam, nothing bad can come of this!",
+        furniture_look_desc = "One of the Dojo's prized sandbags hangs from the ceiling to wail on.",
+    ),
+    EwFurniture(
+        id_furniture = "statueofnarcissism",
+        str_name = "Statue of Narcissism",
+        str_desc = "A muscular marble statue that’s been cleanly decapitated, their once drab face now replaced with a simple hand mirror. How kind of someone to carve a statue of you! They got all the details right!",
+        rarity = "Patrician",
+        furniture_place_desc = "You spend an hour putting this into place. Of course, 55 minutes is just you staring at the statue afterwards.",
+        furniture_look_desc = "A polished statue of you is one of the center points of your apartment.",
+        price = 20000000,
+        vendors = ['bazaar'],
     ),
 ]
 
@@ -3589,6 +3640,7 @@ furniture_instrument = []
 furniture_NMS = []
 furniture_specialhue = []
 furniture_collection = []
+furniture_hatealiens = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3620,4 +3672,6 @@ for furniture in furniture_list:
     elif furniture.furn_set == "specialhue":
         furniture_specialhue.append(furniture.id_furniture)
     elif furniture.furn_set == "collection":
+        furniture_collection.append(furniture.id_furniture)
+    elif furniture.furn_set == "hatealiens":
         furniture_collection.append(furniture.id_furniture)

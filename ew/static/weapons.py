@@ -103,7 +103,15 @@ def get_weapon_type_stats(weapon_type):
             "crit_chance": 0,
             "crit_multiplier": 1,
             "hit_chance": 0.9
-        }
+        },
+        "missilelauncher": { #subject to change, largely untested. 
+            "damage_multiplier": 1,
+            "bystander_damage": 1,
+            "cost_multiplier": 1.85,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.8,
+        },
     }
 
     return types[weapon_type]
@@ -153,7 +161,7 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
             if weapon_stats.get("apply_status") is not None:
                 ctn.apply_status.update(weapon_stats.get("apply_status"))
             ctn.mass_apply_status = weapon_stats.get("mass_apply_status")
-            ctn.explode = True if weapon_type == "explosive" else False
+            ctn.explode = True if weapon_type == "explosive" or weapon_type == "missilelauncher" else False
 
         return hit_damage
 
@@ -1765,6 +1773,39 @@ weapon_list = [
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_skateboard_kills,
         str_brandish="Try !stunt."
+    ),
+    EwWeapon(  # 48 
+        id_weapon=ewcfg.weapon_id_missilelauncher,
+        alias=[
+            "missile",
+            "rocketlauncher",
+            "launcher",
+        ],
+        str_crit="**Critical hit!!** {name_player} stands on one knee and obliterates {name_target} to high hell!",
+        str_miss="**MISS!!** {name_player} literally blows themselves up due to the complex rocket science of pointing and shooting.",
+        str_equip="You heave the missile launcher over your shoulder.",
+        str_name="missile launcher",
+        str_weapon="a missile launcher",
+        str_weaponmaster_self="You are a rank {rank} {title} patriot.",
+        str_weaponmaster="They are a rank {rank} {title} patriot.",
+        str_kill="{name_player} twirls their rocket launcher after {name_target} gets their {hitzone} among other things blown up with everyone else that was nearby. After the fact, {name_player} is still reeling from the pain of shooting this thing less than 10 feet away from {target_player}. {emote_skull}",
+        str_killdescriptor="burnt and exploded",
+        str_damage="{name_target}'s {hitzone} gets blasted into the skies from {name_player}'s missile!!",
+        str_duel="{name_player} and {name_target} nearly get kicked out of the dojo from their attempt of sparring with missile launchers, something about \"attempted terrorism\" or some shit.",
+        str_description="It's an entire missile launcher.",
+        str_scalp=" The charred remains makes it hard to figure out who it belongs to.",
+        fn_effect=get_normal_attack(weapon_type='missilelauncher'),
+        classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
+        vendors=[ewcfg.vendor_coalitionsurplus],
+        stat=ewcfg.stat_missilelauncher_kills,
+        clip_size = 1,
+        captcha_length = 13,
+        price = 1500000,
+        str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
+        str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
+        str_reload_warning = "Quick, reload before someone gets here!",
+        # str_trauma = "It looks like they are still searching for a missing body part.",
+        # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
     ),
 ]
 

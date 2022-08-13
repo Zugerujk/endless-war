@@ -624,19 +624,19 @@ trauma_list = [
         str_trauma="There is a deep, precise indent in the crown of their skull. How embarrassing!",
         trauma_class=ewcfg.trauma_class_hunger,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_awp,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_huntingrifle,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-                EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_monofilamentwhip,
         str_trauma_self="Your body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
         str_trauma="Their body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
@@ -670,6 +670,12 @@ trauma_list = [
         id_trauma=ewcfg.weapon_id_skateboard,
         str_trauma_self="The sight of skate tricks makes you cower in fear.",
         str_trauma="The sight of skate tricks makes them cower in fear.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 48
+        id_trauma=ewcfg.weapon_id_missilelauncher,
+        str_trauma_self="You still haven't found the missing body part from your last encounter.",
+        str_trauma="It looks like they are still searching for a missing body part.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
 ]

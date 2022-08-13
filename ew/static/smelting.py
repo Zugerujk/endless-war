@@ -715,7 +715,7 @@ smelting_recipe_list = [
             'dinoslimesteak': 2,
             'scalp': 5,
             'string': 3,
-            'stick': 2
+            'stick': 2,
         },
         products=['beastskindrums']
     ),
@@ -732,7 +732,7 @@ smelting_recipe_list = [
             'largebonedlionfish': 2,
             'plebefish': 3,
             'sweetfish': 1,
-            'stick': 1
+            'stick': 1,
         },
         products=['fishbonexylophone']
     ),
@@ -750,7 +750,7 @@ smelting_recipe_list = [
             'sludgeberries': 1,
             'razornuts': 1,
             'joybeans': 1,
-            'phosphorpoppies': 1
+            'phosphorpoppies': 1,
         },
         products=['gourdmaracas']
     ),
@@ -777,7 +777,7 @@ smelting_recipe_list = [
         alias=[
             "trumpet",
             "horn",
-            "trump"
+            "trump",
         ],
         ingredients={
             ewcfg.weapon_id_slimeringcan: 1,
@@ -795,7 +795,7 @@ smelting_recipe_list = [
         alias=[
             "tbone",
             "bestinstrument",
-            "sackbut"
+            "sackbut",
         ],
         ingredients={
             ewcfg.weapon_id_shotgun: 2,
@@ -813,14 +813,14 @@ smelting_recipe_list = [
         alias=[
             "otamatone",
             "otamatone DX",
-            "ferroslimeoidotamatone"
+            "ferroslimeoidotamatone",
         ],
         ingredients={
             'ferroslimeoid': 1,
             ewcfg.item_id_metallicapheads: 1,
             ewcfg.item_id_ironingot: 1,
             ewcfg.item_id_cute_material: 5,
-            ewcfg.item_id_aushuckstalks: 1
+            ewcfg.item_id_aushuckstalks: 1,
         },
         products=['ferroslimeoidotamatone']
     ),
@@ -1613,10 +1613,10 @@ smelting_recipe_list = [
             'jsr'
         ],
         ingredients={
-            ewcfg.item_id_oldboot: 2,  # Shoes
-            ewcfg.item_id_slimepoudrin: 8,  # Wheels
-            ewcfg.item_id_leather: 1,  # Buckles
-            ewcfg.item_id_string: 2,  # Laces
+            ewcfg.item_id_oldboot: 2,  
+            ewcfg.item_id_slimepoudrin: 8,  
+            ewcfg.item_id_leather: 1,  
+            ewcfg.item_id_string: 2,  
         },
         products=["rollerblades"]
     ),
@@ -1628,8 +1628,8 @@ smelting_recipe_list = [
             'magnet'
         ],
         ingredients={
-            ewcfg.item_id_tincan: 1,  # metal dust
-            ewcfg.item_id_slimepoudrin: 2,  # lifeforce
+            ewcfg.item_id_tincan: 1,  
+            ewcfg.item_id_slimepoudrin: 2,  
         },
         products=["ferroslimeoid"]
     ),
@@ -1967,7 +1967,7 @@ smelting_recipe_list = [
         ],
         ingredients={
             ewcfg.item_id_tincan: 10,
-            'cannedtomatosoup ': 5, 
+            'cannedtomatosoup': 5, 
         },
         products=['tomatotinsuit']
     ),
@@ -2035,9 +2035,9 @@ EwSmeltingRecipe(
         ],
         ingredients = {
             ewcfg.item_id_ghostlycloth : 3,
-            ewcfg.item_id_negapoudrin : 3,
+            ewcfg.item_id_negapoudrin : 1,
             ewcfg.item_id_cute_material : 2,
-            ewcfg.item_id_ghosttoken : 2,
+            ewcfg.item_id_ghosttoken : 5,
         },
         products=['maidoutfit']
     ),
@@ -2052,7 +2052,7 @@ EwSmeltingRecipe(
         ingredients={
             'cigarette': 1,
             ewcfg.item_id_stick: 2,
-            ewcfg.item_id_ghosttoken : 1
+            ewcfg.item_id_ghosttoken : 2,
         },
         products=['cigaretteholder']
     ),
@@ -2065,9 +2065,9 @@ EwSmeltingRecipe(
             'moonhat'
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth: 3,
+            ewcfg.item_id_ghostlycloth: 2,
             ewcfg.item_id_blacklimeade : 2,
-            ewcfg.item_id_ghosttoken : 1
+            ewcfg.item_id_ghosttoken : 3,
         },
         products=['widebrimmedhat']
     ),
@@ -2080,10 +2080,9 @@ EwSmeltingRecipe(
             'eveningdress',
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth : 4,
-            ewcfg.item_id_negapoudrin : 1,
-            ewcfg.item_id_faggot : 1,
-            ewcfg.item_id_ghosttoken : 1
+            ewcfg.item_id_ghostlycloth : 3,
+            ewcfg.item_id_ghosttoken : 3,
+            ewcfg.item_id_textiles: 10,
         },
         products = ['drapeddress']
     ),
@@ -2111,9 +2110,143 @@ EwSmeltingRecipe(
             ewcfg.item_id_leather: 1,
             ewcfg.item_id_pheromones: 1,
             ewcfg.item_id_lasso: 1,
+            ewcfg.item_id_textiles: 1,
         },
         products=['rabbitsuit']
     ),
+    EwSmeltingRecipe(
+        id_recipe="hellys",
+        str_name="Hellys",
+        alias=[
+            'heel wheels',
+        ],
+        ingredients={
+            ewcfg.item_id_textiles: 5,
+            ewcfg.item_id_oldboot: 2,
+        },
+        products=['heelys'] 
+    ),
+    EwSmeltingRecipe(
+        id_recipe="witchoutfit",
+        str_name="Witch Outfit",
+        alias=[
+            'witchs clothes',
+        ],
+        ingredients={
+            ewcfg.item_id_textiles: 5,
+            ewcfg.weapon_id_pitchfork: 1,
+            ewcfg.item_id_dankwheat: 3,
+            ewcfg.item_id_smart_material: 1, 
+        },
+        products=['witchoutfit']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="heartstrings",
+        str_name="Heart Earrings",
+        alias=[
+            'heartear',
+        ],
+        ingredients={
+            ewcfg.item_id_tincan: 5,
+            ewcfg.item_id_cute_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['heartearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="starearrings",
+        str_name="Star Earrings",
+        alias=[
+            'starear',
+        ],
+        ingredients={
+            ewcfg.item_id_tincan: 5,
+            ewcfg.item_id_beautiful_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['starearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="moonearrings",
+        str_name="Moon Earrings",
+        alias=[
+            'moonear',
+        ],
+        ingredients={
+            ewcfg.item_id_moonrock: 2,
+            ewcfg.item_id_cool_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['moonearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="invertedpentacleearrings",
+        str_name="Inverted Pentacle Earrings",
+        alias=[
+            'evilear',
+            'pentaear',
+            'invertear',
+        ],
+        ingredients={
+            ewcfg.item_id_tincan: 5,
+            ewcfg.item_id_evil_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['invertedpentacleearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="slimecorpearrings",
+        str_name="Slimecorp Earrings",
+        alias=[
+            'shillear',
+        ],
+        ingredients={
+            'slimecorppin': 2,
+            ewcfg.item_id_smart_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['slimecorpearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="rivetearrings",
+        str_name="Rivet Earrings",
+        alias=[
+            'rivetear',
+        ],
+        ingredients={
+            ewcfg.item_id_ironingot: 1,
+            ewcfg.item_id_tough_material: 1,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['rivetearrings']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="alienleather",
+        str_name="Alien Leather",
+        alias=[
+            'grayleather',
+        ],
+        ingredients={
+            'alienscalp': 100,
+            ewcfg.item_id_tanningknife: 1,
+        },
+        products=['alienleather']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="monofilamentcloth",
+        str_name="Monofilament Cloth",
+        alias=[
+            'monocloth',
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentfragment: 50,
+            ewcfg.item_id_textiles: 1,
+        },
+        products=['monofilamentcloth']
+    ),
+
+    
+
 ]
 
 
