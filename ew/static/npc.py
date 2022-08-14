@@ -144,6 +144,7 @@ EwNpc(
                 "loop":["hrm...", "I'm hungry.", "Whew-wee.", "I could go for some blood. Good drinkin'..."],
                 "hit":["NLACPD! Hold it!", "Kill 'em dead!", "Shucks! He's got a weapon!"],
                 "die":["Ergh. Call in a squad, chief, I'm spent. Bring some donuts to the office, too."],
+                "give":["What a morsel..."]
                 },
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/img/npc/pork.png",
@@ -169,6 +170,7 @@ EwNpc(
                 "loop":["IT'S HOT IN THIS SUIT...", "DO I GET TO KILL YOU? NO, MAYBE LATER.", "HEY DISPATCH, THIS IS RIOT. DID I LEAVE MY TASER BACK THERE? ACTUALLY, FORGET IT. I DON'T NEED THAT."],
                 "hit":["RED ALERT!", "ZUCK THIS FUCKING HOOD RAT!!", "GRAAAHH!!"],
                 "die":["CALLING FOR BACKUP! DISPATCH BETTER FUCKIN' HURRY!"],
+                "give":["GIMME THAT!"]
                 },
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/img/npc/riot.png",
@@ -196,6 +198,7 @@ EwNpc(
                 "loop":["This might be easier if they gave me some god damn forensic supplies.", "Dispatch, there's someone over here. They're looking at me funny.", "Can't believe they put me on homicide desk. It's not relevant no more."],
                 "hit":["Now you've done it, punk!", "Bilge rat!", "Get back here!"],
                 "die":["Son of a bitch. To dispatch, come to my location. Somebody got me..."],
+                "give":["What, this some sorta clue?"]
                 },
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/img/npc/sleuth.png",
@@ -222,6 +225,7 @@ EwNpc(
     dialogue = {"talk":["..."],
                 "hit":["You'll regret this."],
                 "die":["Dispatch, send all available high level officers. We need to make an example of someone."],
+                "give":["We'll have our officers look over this."]
                 },
     func_ai = npcutils.police_chief_npc_action,
     image_profile = "https://rfck.app/img/npc/mrc.png",
@@ -405,7 +409,8 @@ EwNpc(
                 "raretalk":["Remember to stock up on bodyspray, young Juve.", "Don't be afraid to use the Juvie signal if you're ever in trouble!", "I trust that you're not planning anything nefarious, citizen?"],
                 "hit":["So you've chosen violence, then? Very well!", "I'll shield that with my body!", "**WHO THE HECK DO YOU THINK I AM!?**"],
                 "rarehit":["Are you working with that nefarious Staydeadman!?"],
-                "die":["**UP, UP, RUN AWAYYYYYYYYY!**"]
+                "die":["**UP, UP, RUN AWAYYYYYYYYY!**"],
+                "give":["Thank you, fair citizen!"]
                 },
     func_ai = npcutils.generic_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png",
@@ -419,7 +424,30 @@ EwNpc(
     rarity=6,
     condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
 
-)
+),
+EwNpc(
+    id_npc = "marty",
+    active = True,
+    str_name = "Marty",
+    description = "He's a two-faced fellow, but he means well, we promise. He runs a construction company over in Wreckington.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":[],
+                "loop":[],
+                "hit":[],
+                "die":[],
+                "give":[]
+                },
+    func_ai = npcutils.marty_action,
+    image_profile = "",
+    defaultslime = 3000000,
+    defaultlevel = 50,
+    rewards = [
+    {}
+    ],
+    starting_statuses=[],
+    rarity=7
+    #if the cop is trigger happy or if you're above a certain crime level
+),
 ]
 
 active_npcs_map = {}

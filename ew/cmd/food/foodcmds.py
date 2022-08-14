@@ -417,8 +417,6 @@ async def order(cmd):
                                 item_props['furniture_desc'] = customdesc
                                 item_props['furniture_look_desc'] = item_props['furniture_look_desc'].format(custom=customname)
                                 item_props['furniture_place_desc'] = item_props['furniture_place_desc'].format(custom=customname)
-
-
                     id_item = bknd_item.item_create(
                         item_type=item_type,
                         id_user=cmd.message.author.id,
