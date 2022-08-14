@@ -1698,7 +1698,7 @@ smelting_recipe_list = [
             'alienscalp': 10,
         },
         products=['skinsuit']
-        
+    ),
     EwSmeltingRecipe(
         id_recipe="pizzaball",
         str_name="a Pizzaball",

@@ -155,8 +155,8 @@ async def attack(cmd):
 
             # Set up explosion from Death From Above if grenades aren't being used
             if (ewcfg.mutation_id_deathfromabove in attacker_mutations or ewcfg.mutation_id_airlock in attacker_mutations) and market_data.weather == ewcfg.weather_lightning and not ctn.explode:
-                ctn.explode == True
-                ctn.bystander_damage == ctn.slimes_damage / 10
+                ctn.explode = True
+                ctn.bystander_damage = ctn.slimes_damage / 10
 
         """ Slime & Coin Distribution """  # Still calc'd on miss because backfiring :D
 
