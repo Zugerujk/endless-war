@@ -33,7 +33,7 @@ def debug16(one, two, three):
 def debug17(one):
     return " "
 
-async def movement_checker(user_data, poi_from, poi_to, cmd):
+def movement_checker(user_data, poi_from, poi_to, cmd):
     return
 
 def poi_is_pvp(poi_name = None):

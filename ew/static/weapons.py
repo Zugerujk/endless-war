@@ -102,7 +102,7 @@ def get_weapon_type_stats(weapon_type):
             "cost_multiplier": 1,
             "crit_chance": 0,
             "crit_multiplier": 1,
-            "hit_chance": 0.9
+            "hit_chance": 0.9,
         },
         "missilelauncher": { 
             "damage_multiplier": 1.1,
@@ -183,7 +183,11 @@ def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_mult
             if weapon_stats.get("apply_status") is not None:
                 ctn.apply_status.update(weapon_stats.get("apply_status"))
             ctn.mass_apply_status = weapon_stats.get("mass_apply_status")
-            ctn.explode = True if weapon_type == "explosive" or weapon_type == "missilelauncher" else False
+            ctn.explode = True if weapon_type in ["explosive", "missilelauncher"] else False
+        # If you miss. I didn't need to add this, but it just seemed right.
+        else:
+            # default to zero backfire on a miss unless the weapon specifies otherwise
+            hit_backfire *= weapon_stats.get("backfire_miss_mult", 0)
 
         return hit_damage, hit_backfire
 
