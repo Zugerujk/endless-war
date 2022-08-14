@@ -33,6 +33,9 @@ def debug16(one, two, three):
 def debug17(one):
     return " "
 
+def debug19(props, user_data):
+    return props
+
 def movement_checker(user_data, poi_from, poi_to, cmd):
     return
 
