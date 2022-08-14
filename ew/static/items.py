@@ -1940,18 +1940,6 @@ item_list = [
         vendors=[ewcfg.vendor_bazaar]
     ),
     EwGeneralItem(
-        id_item=ewcfg.item_id_packofcigarettes,
-        str_name="Pack of Cigarettes",
-        str_desc="What, have you been buying your cigarettes individually all this time? God what an idiot.",
-        price=800000, # 20 cigarettes
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_boxofcigars,
-        str_name="Box of Cigarettes",
-        str_desc="What, have you been buying your cigars individually all this time? God what an idiot.",
-        price=800000, # 20 cigars
-    ),
-    EwGeneralItem(
         id_item=ewcfg.item_id_alienleather,
         str_name="Alien Leather",
         str_desc="You've skinned so many of the gray bastards to the point that you can make some fine gray leather. Hairless creeps are the best to slaughter, PETA be damned.",
@@ -3607,15 +3595,6 @@ furniture_list = [
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
     ),
     EwFurniture(
-        id_furniture = "feralhog",
-        str_name = "Feral Hog",
-        str_desc = "The fuck? It's a feral hog. Good thing you're a mutant with superhuman abilities, or otherwise this could really endanger your juvenile-ass.",
-        rarity = "Patrician",
-        price = 3050,
-        furniture_place_desc = "You let the feral hog loose in your apartment where it stands, docile. Good thing these things are calm, beautiful creatures. Unless they start swarming that is. 30-50 of them would really start a frenzy!",
-        furniture_look_desc = "A feral hog stands, plaintively assessing the situation."
-    ),
-    EwFurniture(
         id_furniture = "sandbag",
         str_name = "Sandbag",
         str_desc = "Thanks to the dojo's shitty architectual integrity, sometimes you can manage to get the support beams holding these sandbags up to snap and break. Thanks to how infrequently this happens however, the Dojo Master is probably never going to notice.",
@@ -3632,6 +3611,42 @@ furniture_list = [
         furniture_look_desc = "A polished statue of you is one of the center points of your apartment.",
         price = 20000000,
         vendors = ['bazaar'],
+    ),
+    EwFurniture(
+        id_furniture = "futuredesk",
+        str_name = "Future Desk",
+        str_desc = "A sci-fi desk made up of several floating zero-g parts that makes for an awesome spot to waste away at. When not in use it packs up into an easy-to-transport small cube.",
+        rarity = "Patrician",
+        furniture_place_desc = "You place down the cubed desk and press the button on its packaging, prompting it to spring up into place like a pop-up book.",
+        furniture_look_desc = "A futuristic desk floats idly in the corner.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurelamp",
+        str_name = "Future Lamp",
+        str_desc = "A simplistically designed lamp made up of basic shapes with a big glass dome atop it. There’s a warning on the side to not look at it for too long because inside contains a miniature replica of the sun.",
+        rarity = "Patrician",
+        furniture_place_desc = "You take a bit to find a way to set the lamp down properly before activating the tiny sun inside of it. Hope you like wearing sunscreen indoors.",
+        furniture_look_desc = "A futuristic lamp emits an almost blinding light across the room.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurebed",
+        str_name = "Future Bed",
+        str_desc = "This bed is more of a large pod with the two doors on the side that close up into your own little resting space. The inside works as a display for anything of your choosing from the night sky, nature, or a live action view of the violence happening outside.",
+        rarity = "Patrician",
+        furniture_place_desc = "After managing to cram such a big pod bed through your small apartment door, you plug it into a wall outlet and watch as it eats up hundreds of thousands of slimecoin a second into your electricity bill.",
+        furniture_look_desc = "A futuristic pod bed is in the bedroom, taking up most of the space.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurecouch",
+        str_name = "Future Couch",
+        str_desc = "What the fuck is a future couch? Can someone please tell me what defines a couch as being from the future? Anyone? Seriously, anyone at all?",
+        rarity = "Patrician",
+        furniture_place_desc = "You place the future couch into the living room, still confused at why it lifts off the floor and onto the wall.",
+        furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
+        furn_set = "hatealiens",
     ),
 ]
 

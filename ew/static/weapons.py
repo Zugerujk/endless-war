@@ -104,15 +104,15 @@ def get_weapon_type_stats(weapon_type):
             "crit_multiplier": 1,
             "hit_chance": 0.9
         },
-        "missilelauncher": { #subject to change, largely untested. 
-            "damage_multiplier": 1,
+        "missilelauncher": { 
+            "damage_multiplier": 1.1,
             "bystander_damage": 1,
-            "cost_multiplier": 1.85,
+            "cost_multiplier": 2.25,
             "crit_chance": 0.1,
             "crit_multiplier": 1.5,
             "hit_chance": 0.8,
             "backfire_chance": 1, # Guaranteed backfire with every attack
-            "backfire_multiplier": 0.1, 
+            "backfire_multiplier": 0.15, 
             "backfire_crit_mult": 0.75,  # Halve backfire damage relative to attack damage on crit
             "backfire_miss_mult": 10, # Don't fuck it up or you're a dead motherfucker
         },
@@ -671,7 +671,7 @@ weapon_list = [
             "nunchucks"
         ],
         str_crit="**COMBO!** {name_player} strikes {name_target} with a flurry of 5 vicious blows!",
-        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the head with their own nun-chucks!!",
+        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the {hitzone} with their own nun-chucks!!",
         str_miss="**WOOSH** {name_player} whiffs every strike!",
         str_equip="You equip the nun-chucks.",
         str_name="nun-chucks",
@@ -1829,7 +1829,7 @@ weapon_list = [
         str_description="It's an entire missile launcher.",
         str_scalp=" The charred remains makes it hard to figure out who it belongs to.",
         fn_effect=get_normal_attack(weapon_type='missilelauncher'),
-        classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
+        classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha, ewcfg.weapon_class_ammo],
         vendors=[ewcfg.vendor_coalitionsurplus],
         stat=ewcfg.stat_missilelauncher_kills,
         clip_size = 1,

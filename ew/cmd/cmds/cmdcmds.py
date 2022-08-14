@@ -302,7 +302,7 @@ async def data(cmd):
             if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
                 response_block += "You're dressed like a fucking airplane with tits, dude. "
             elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
-                response_block += ""
+                response_block += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
             # Otherwise, generate response text for freshness and style.
             elif outfit_map is not None:
                 response_block += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style']) + " "

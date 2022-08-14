@@ -1,6 +1,6 @@
 import json
 import os
-
+import random
 from ..model.item import EwCosmeticItem
 
 unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'maidoutfit', 'drapeddress', 'widebrimmedhat', 'cigaretteholder', 'customfanhoodie',]
@@ -2212,7 +2212,7 @@ cosmetic_items_list = [
         freshness = 6,
         price = 50000,
     ),
-    #    EwCosmeticItem(
+    #    EwCosmeticItem( I'll come back to this for wave 3 or 4, or if someone codes this in for me.
 #        id_cosmetic = "newyearsglasses",
 #        str_name = "New Years Glasses From {yearint}",
 #        str_desc = "These gaudish eyewear are almost always outdated by at least a year. Because of that, the fuckheads that made these a thing should burn in hell. These glasses are from {yearint}!",
@@ -2223,18 +2223,18 @@ cosmetic_items_list = [
 #        price = 100000,
 #        vendors = ['bazaar'],
 #   ),
-    #    EwCosmeticItem( Soon.
-#     id_cosmetic = "customfanhoodie",
-#     str_name = "{custom} Fan Hoodie",
-#     str_desc = "It's a hoodie custom made at the decal printer to fit {custom} onto it. Some people probably cherish this, but knowing how things get trashed around here you probably picked this up unintentionally.",
-#     str_onadorn = "You wrestle the {custom} Hoodie on.",
-#     str_unadorn = "You throw off the {custom} Hoodie.",
-#     rarity = "Plebian",
-#     style = "{random}", # Get Zug's help to code the other half of this thing.
-#     freshness = 7,
-#     price = 1000000,
-#     vendors = ['Bodega'],
-# ),
+        EwCosmeticItem( 
+     id_cosmetic = "customfanhoodie",
+     str_name = "{customfanhoodie} Fan Hoodie",
+     str_desc = "It's a hoodie custom made at the decal printer to fit {customfanhoodie} onto it. Some people probably cherish this, but knowing how things get trashed around here you probably picked this up unintentionally.",
+     str_onadorn = "You wrestle the {customfanhoodie} Hoodie on.",
+     str_unadorn = "You throw off the {customfanhoodie} Hoodie.",
+     rarity = "Plebian",
+     style = random.choice(["cool", "tough", "cute", "evil", "beautiful", "smart"]),
+     freshness = 7,
+     price = 1000000,
+     vendors = ['Bodega'],
+ ),
     EwCosmeticItem(
         id_cosmetic = "moonshoes",
         str_name = "Moon Shoes",
@@ -2271,8 +2271,8 @@ cosmetic_items_list = [
         str_desc = "Whoa, hey it's a poudrin! Go get it!",
         rarity = "Plebeian",
         durability = 250000,
-        style = "smart",
-        freshness = 3,
+        style = "cute",
+        freshness = 8,
         is_hat = True,
     ),
     EwCosmeticItem(
@@ -2482,12 +2482,12 @@ EwCosmeticItem(
         ability = "hatealiens",
         durability = 250000,
         style = "beautiful",
-        freshness = 8,
+        freshness = 10,
     ),
     EwCosmeticItem(
         id_cosmetic = "monofilamentkaleidoscopejacquard",
         str_name = "Mono Kaleidoscope Jacquard",
-        str_desc = "###",
+        str_desc = "It's a mockery of the clothing the aliens wear as part of their uniforms. With the materials used, it more functions as a wearable effigy than a fashion statement.",
         rarity = "Profollean",
         ability = "hatealiens",
         durability = 250000,
@@ -2495,9 +2495,9 @@ EwCosmeticItem(
         freshness = 10,
     ),
     EwCosmeticItem(
-        id_cosmetic = "",
+        id_cosmetic = "monofilamentpalazzo",
         str_name = "Mono Palazzo",
-        str_desc = "###",
+        str_desc = "A popular form super wide-leg pants that are common in urban dance groups and club dancing. Thanks to the materials involed, you are advised to dance on any alien burial sites as you see fit as a funny joke from your fellow juveniles.",
         rarity = "Profollean",
         ability = "hatealiens",
         durability = 250000,
@@ -2507,44 +2507,13 @@ EwCosmeticItem(
     EwCosmeticItem(
         id_cosmetic = "alienleathermidcalfboots",
         str_name = "Alien Midcalf Boots",
-        str_desc = "###",
+        str_desc = "A set of leather and soft cloth boots that will offend any aliens that get stomped in the face by. Not because of the fact that it's made out of the skin of their brethren, but because getting stomped in the face is a universal sign of \"Go fuck yourself\".",
         rarity = "Profollean",
         ability = "hatealiens",
         durability = 250000,
         style = "beautiful",
         freshness = 10,
     ),
-    EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
-        str_desc = "###",
-        rarity = "Plebeian",
-        durability = 250000,
-        style = "###",
-        freshness = 0,
-    ),
-    EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
-        str_desc = "###",
-        rarity = "Plebeian",
-        durability = 250000,
-        style = "###",
-        freshness = 0,
-    ),
-    EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
-        str_desc = "###",
-        rarity = "Plebeian",
-        durability = 250000,
-        style = "###",
-        freshness = 0,
-    ),
-
-
-
-
 ]
 
 

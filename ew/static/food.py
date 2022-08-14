@@ -2394,7 +2394,7 @@ food_list = [
         vendors=['Slimy Persuits'],
         str_eat="You start gnawing on one of the hard candies like it was hardtack, while this may take a long time you know for sure that you have nothing better to do with your time.",
         str_desc="It's a bunch of small hard candies of various flavors that were wholesale, flattened out to resemble the scalps of your dead gangsters.",
-        time_epxir=1000000,
+        time_expir=1000000,
         perishable = False,
     ),
     EwFood(

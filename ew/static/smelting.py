@@ -2139,6 +2139,19 @@ EwSmeltingRecipe(
         products=['heelys'] 
     ),
     EwSmeltingRecipe(
+        id_recipe="poudrinonastringhat",
+        str_name="Poudrin on a String Hat",
+        alias=[
+            'moredunce'
+        ],
+        ingredients={
+            ewcfg.item_id_stick: 1,
+            ewcfg.item_id_slimepoudrin: 1,
+            'duncecap': 1
+        },
+        products=['poudrinonastringhat'] 
+    ),
+    EwSmeltingRecipe(
         id_recipe="witchoutfit",
         str_name="Witch Outfit",
         alias=[
@@ -2258,15 +2271,100 @@ EwSmeltingRecipe(
     ),
     EwSmeltingRecipe(
         id_recipe="alienluxuryhandbag",
-        str_name="Monofilament Cloth",
+        str_name="Alien Luxury Hand Bag",
         alias=[
             'alienhandbag'
         ],
         ingredients={
             ewcfg.item_id_alienleather: 2,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 3
         },
         products=['alienluxuryhandbag']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="alienleathermidcalfboots",
+        str_name="Alien Midcalf Boots",
+        alias=[
+            'alienboots'
+        ],
+        ingredients={
+            ewcfg.item_id_alienleather: 4,
+            ewcfg.item_id_textiles: 3
+        },
+        products=['alienluxuryhandbag']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="monofilamentkaleidoscopejacquard",
+        str_name="Mono Kaleidoscope Jacquard",
+        alias=[
+            'monojacket',
+            'monojacquard'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 5,
+            ewcfg.item_id_textiles: 3
+        },
+        products=['alienluxuryhandbag']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="monofilamentpalazzo",
+        str_name="Mono Palazzo",
+        alias=[
+            'monopalazzo'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 3,
+            ewcfg.item_id_textiles: 3
+        },
+        products=['monofilamentpalazzo']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="futuredesk",
+        str_name="Future Desk",
+        alias=[
+            'smartdesk'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 2,
+            ewcfg.item_id_alienleather: 2
+        },
+        products=['futuredesk']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="futurelamp",
+        str_name="Future Lamp",
+        alias=[
+            'smartlamp'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 1,
+            ewcfg.item_id_alienleather: 3
+        },
+        products=['futurelamp']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="futurebed",
+        str_name="Future Bed",
+        alias=[
+            'smartbed'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 4,
+            ewcfg.item_id_alienleather: 2
+        },
+        products=['futurebed']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="futurecouch",
+        str_name="Future Couch",
+        alias=[
+            'wallcouch'
+        ],
+        ingredients={
+            ewcfg.item_id_monofilamentcloth: 2,
+            ewcfg.item_id_alienleather: 5
+        },
+        products=['futurecouch']
     ),
 ]
 

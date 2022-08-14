@@ -3070,7 +3070,7 @@ poi_list = [
 		id_poi = "coalitionsurplus",
 		alias = ['coalition surplus', 'csu', 'surplus', 'coal', 'coalition',],
 		str_name = "Coalition Surplus",
-		str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom. This text is just temporary, and so is your balls.\n\nExits back into Charcoal Park.",
+		str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom. War memorabilia and other historical artifacts sometimes pop up in the shop, but on normal circumstances people with insider knowledge swoop in and buy it off before it ever reaches the store shelves.\n\nExits back into Charcoal Park.",
 		channel = "coalition-surplus",
 		permissions = {'coalition-surplus': ['read', 'send', 'connect']},
 		pvp = False,
@@ -3078,7 +3078,7 @@ poi_list = [
 		is_subzone = True,
 		mother_districts = ['charcoalpark'],
 		neighbors = {'charcoalpark': 20},
-		wikipage = ""
+		wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
 	),
 ]
 

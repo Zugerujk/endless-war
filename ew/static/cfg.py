@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.15.7 S4A1 Free Apple (Cosmiture W2)"
+version = "v4.17 S4A1 Free Apple (Cosmiture W2)"
 
 
 dir_msgqueue = 'msgqueue'
@@ -2703,8 +2703,6 @@ item_id_moon_dust_pod = "moondustpod"
 item_id_spent_pod = "spentpod"
 item_id_giftribbon = "giftribbon"
 item_id_gallonofmilk = "gallonofmilk"
-item_id_packofcigarettes = "packofcigarettes"
-item_id_boxofcigars = "boxofcigars"
 item_id_alienleather = "alienleather"
 item_id_monofilamentcloth = "monofilamentcloth"
 item_id_civilianscalp = "civilianscalp"
