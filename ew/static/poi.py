@@ -2867,7 +2867,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20},
-        isSplit='limecorp1f',
         jump_dest='downtown'
     ),
     EwPoi(
@@ -2881,7 +2880,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp3f': 20, 'limecorp1f': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="limecorp1f",
@@ -2895,7 +2893,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20, 'downtown': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="thesummit",
