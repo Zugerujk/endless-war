@@ -297,6 +297,7 @@ async def cast(cmd):
             else:
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+            # Generate bite text
             bite_text = gen_bite_text(fisher.current_size)
 
             # User has a 1/10 chance to get a bite
@@ -384,9 +385,14 @@ async def cast(cmd):
                 else:
                     break
 
+            # If user has I Chum Fast, @ them on alert
+            fishing_message = fe_utils.formatMessage(cmd.message.author, bite_text)
+            if ewcfg.mutation_id_ichumfast in mutations:
+                fishing_message = "{} <@{}>!!!".format(fishing_message, user_data.id_user)
+
             # Set bite to true, send !REEL alert, wait 8 seconds.
             fisher.bite = True
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, bite_text))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fishing_message)
 
             # Wait for !reel
             await asyncio.sleep(8)

@@ -2833,6 +2833,7 @@ poi_list = [
         str_desc="The tip of the crescent moon. From all the way out here, you can feel the lunar winds streaming into the ether. You can see a jetstream traveling towards earth, specifically the garish glowing-green spec NLACakaNM makes. Maybe you should try... fishing from here? Like the Dreamworks guy? Holy shit?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?! IT'S FINALLY REAL, AFTER ALL THIS TIME. YOU CAN FUCKING MOON FISH. THE HIGHLY REQUESTED, MUCH-AWAITED FEATURE TO FUCKING FISH FROM THE MOON IS **HERE**, FOLKS. This is auditorium-worthy news. I wonder if... there's possibly a post there? I wonder.\n\nRIP to LUNAR WAR, though. Gone but not forgotten. 😔🙏\n\nExits back onto the Moon.",
         channel="crest-of-the-crescent-moon",
         permissions={'crest-of-the-crescent-moon': ['read', 'send', 'connect']},
+        pvp=False,
         is_subzone=True,
         mother_districts=['themoon'],
         is_pier=True,

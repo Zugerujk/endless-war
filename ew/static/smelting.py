@@ -1698,6 +1698,18 @@ smelting_recipe_list = [
             'alienscalp': 10,
         },
         products=['skinsuit']
+        
+    EwSmeltingRecipe(
+        id_recipe="pizzaball",
+        str_name="a Pizzaball",
+        alias=[
+            "pb",
+            "pizzaball",
+        ],
+        ingredients={
+            ewcfg.item_id_quattuorsexagintuplestuffedcrust: 3 
+        },
+        products=["pizzaball"],
     ),
     EwSmeltingRecipe(
         id_recipe="batterypack",

@@ -20,6 +20,10 @@ from . import leaderboard as leaderboard_utils
 from . import weather as weather_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
+try:
+    from . import rutils as rutils
+except:
+    from . import rutils_dummy as rutils
 from .combat import EwEnemy
 from .combat import EwUser
 from .district import EwDistrict
@@ -223,7 +227,7 @@ async def decaySlimes(id_server = None):
 
             for user in users:
                 user_data = EwUser(id_user=user[0], id_server=id_server)
-                slimes_to_decay = user_data.slimes - (user_data.slimes * (.5 ** (ewcfg.update_market / ewutils.calc_half_life(user_data.slimes))))
+                slimes_to_decay = user_data.slimes - (user_data.slimes * (.5 ** (ewcfg.update_market / ewutils.calc_half_life(user_data))))
 
                 # round up or down, randomly weighted
                 remainder = slimes_to_decay - int(slimes_to_decay)
@@ -267,6 +271,10 @@ async def decaySlimes(id_server = None):
 
                 if slimes_to_decay >= 1:
                     district_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_decay)
+
+                    if rutils.es_check1(district_data):
+                        rutils.debug37(district_data)
+
                     district_data.persist()
                     total_decayed += slimes_to_decay
 
@@ -1324,7 +1332,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
 
-                        if random.randint(1, 16) == 1: # 1/16 chance to start a random poi event
+                        if random.randint(1, 12) == 1: # 1/12 chance to start a random poi event
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
 
