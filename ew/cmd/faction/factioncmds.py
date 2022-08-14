@@ -2,6 +2,7 @@ import asyncio
 from ew.backend import item as bknd_item
 from ew.backend import core as bknd_core
 from ew.backend.item import EwItem
+from ew.backend.dungeons import EwGamestate
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import weapons as static_weapons
@@ -285,3 +286,53 @@ async def take(cmd):
             response = "{} which item? (check **{}**)".format(cmd.tokens[0], ewcfg.cmd_communitychest)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def vote(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    gamestate = EwGamestate(id_state='votingtime', id_server=cmd.guild.id)
+
+
+    if user_data.poi not in [ewcfg.poi_id_juviesrow, ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_thesewers]:
+        response = "You can't vote if you're not in a polling place. Go to a gang base, Juvies' Row, or the sewers to vote."
+    elif gamestate.bit == 0:
+        response = "They haven't opened up the polling places yet."
+    elif cmd.mentions_count < 1:
+        response = "You can't vote for nobody. What, were you planning to write in Deez Nuts?"
+    else:
+        target = cmd.mentions[0]
+        results = bknd_core.execute_sql_query("SELECT 1 FROM votes WHERE id_server = %s AND id_user = %s and poi = %s".format(
+                id_role=ewcfg.col_id_role,
+                name=ewcfg.col_role_name
+            ), (
+                cmd.guild.id,
+                user_data.id_user,
+                user_data.poi
+            ))
+        if len(results) > 0:
+            response = "You already voted here. The stupid motherfuckers over there won't let you stuff the ballot."
+        else:
+            try:
+                bknd_core.execute_sql_query(
+                    "REPLACE INTO votes ({id_server}, {poi}, {id_user}, {target}) VALUES (%s, %s, %s, %s)".format(
+                        id_server=ewcfg.col_id_server,
+                        poi=ewcfg.col_poi,
+                        id_user=ewcfg.col_id_user,
+                        target = "target"
+                    ), (
+                       user_data.id_server,
+                        user_data.poi,
+                        user_data.id_user,
+                        target.id
+                    ))
+            except:
+                ewutils.logMsg("Failed to write vote {} to database.".format(target.id))
+            response = "You put in your vote for {}.".format(cmd.mentions[0].display_name)
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response), delete_after=5)
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+
+
