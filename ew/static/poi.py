@@ -2853,8 +2853,7 @@ poi_list = [
         vendors=[ewcfg.vendor_giftshop],
         mother_districts=['oozegardens'],
         neighbors={'oozegardens': 20, 'nlacakanmcinemas': 20},
-    ),
-    EwPoi(
+    ),    EwPoi(
         id_poi="limecorp3f",
         alias=['809231f', 'n11', 'humanresources', 'limecorp3f', '3f', 'lc3f', 'floor3', 'limecorpfloor3',
                'limecorpbuilding3f', 'limecorp3', 'lc3'],
@@ -2866,7 +2865,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20},
-        isSplit='limecorp1f',
         jump_dest='downtown'
     ),
     EwPoi(
@@ -2880,7 +2878,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp3f': 20, 'limecorp1f': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="limecorp1f",
@@ -2894,7 +2891,6 @@ poi_list = [
         is_subzone=True,
         father_district="downtown",
         neighbors={'limecorp2f': 20, 'downtown': 20},
-        isSplit='limecorp1f'
     ),
     EwPoi(
         id_poi="thesummit",
