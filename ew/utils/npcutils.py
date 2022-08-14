@@ -85,11 +85,24 @@ async def juvieman_action(keyword = '', enemy = None, channel = None, item = Non
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
 
 
-async def marty_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None):
+async def marty_action(keyword = '', enemy = None, channel = None, item = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+
     if keyword == 'give':
         return await marty_give(channel = channel, npc_obj = npc_obj, enemy = enemy, item = item)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+
+async def candidate_action(keyword = '', enemy = None, channel = None, item = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == 'give':
+        return await candidate_give(channel = channel, npc_obj = npc_obj, enemy = enemy, item = item)
+    elif keyword == 'die':
+        return await candidate_die(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
 
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -313,3 +326,33 @@ async def marty_give(channel, npc_obj, enemy, item):
 
     if response is not None:
         await fe_utils.talk_bubble(response=response, name="**__MARTY__**", image=npc_obj.id_profile, channel=channel)
+
+
+async def candidate_give(channel, npc_obj, enemy, item):
+    statename = npc_obj.id_npc + "morale"
+    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate.number += 10
+    gamestate.persist()
+
+
+    bknd_item.item_delete(item.get('id_item'))
+    response = "!!"
+    if npc_obj.dialogue.get('give') is not None:
+        response = random.choice(npc_obj.dialogue.get('give'))
+
+    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+
+async def candidate_die(channel, npc_obj, enemy, item):
+    statename = npc_obj.id_npc + "morale"
+    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate.number -= 100
+    gamestate.persist()
+    drop_held_items(enemy=enemy)
+    response = "!!"
+
+    if npc_obj.dialogue.get('die') is not None:
+        response = random.choice(npc_obj.dialogue.get('die'))
+
+    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
