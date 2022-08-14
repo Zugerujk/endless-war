@@ -2485,8 +2485,8 @@ EwCosmeticItem(
         freshness = 8,
     ),
     EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
+        id_cosmetic = "monofilamentkaleidoscopejacquard",
+        str_name = "Mono Kaleidoscope Jacquard",
         str_desc = "###",
         rarity = "Profollean",
         ability = "hatealiens",
@@ -2495,8 +2495,8 @@ EwCosmeticItem(
         freshness = 10,
     ),
     EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
+        id_cosmetic = "",
+        str_name = "Mono Palazzo",
         str_desc = "###",
         rarity = "Profollean",
         ability = "hatealiens",
@@ -2505,8 +2505,8 @@ EwCosmeticItem(
         freshness = 10,
     ),
     EwCosmeticItem(
-        id_cosmetic = "###",
-        str_name = "###",
+        id_cosmetic = "alienleathermidcalfboots",
+        str_name = "Alien Midcalf Boots",
         str_desc = "###",
         rarity = "Profollean",
         ability = "hatealiens",

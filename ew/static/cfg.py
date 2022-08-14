@@ -4460,7 +4460,7 @@ enemy_data_table = {
         "displayname": "Bipedal Mutated Barrel",
         "raredisplayname": "Quadrupedal Mutated Barrel",
         "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"]
-    },
+    }, #I've got a plan to add in hostile juveniles as frequent roaming bosses during slimernalia. -Dema
 }
 
 # Raid boss names used to avoid raid boss reveals in ewutils.formatMessage
