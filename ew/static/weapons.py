@@ -379,7 +379,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.8),
         price=10000,
         clip_size=6,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_revolver_kills,
         str_brandish="{name} spins {weapon} around on their finger, blowing smoke off the barrel like a Texas gunman."
@@ -411,7 +411,7 @@ weapon_list = [
         str_scalp=" It has a couple bullet holes in it.",
         fn_effect=get_normal_attack(),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_dual_pistols_kills,
         str_brandish="{name} cocks {weapon} back, aiming them at the nearest passersby. *Bang.*"
     ),
@@ -443,7 +443,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=2.5, weapon_type='heavy'),
         clip_size=8,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_shotgun_kills,
         str_brandish="**ChkCHK.** {name} takes {weapon} and pumps back a couple rounds, listening to the shells clink onto the ground."
@@ -475,7 +475,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_rifle_kills,
         str_brandish="**BAM BAM!** {name} takes {weapon} and fires some warning rounds into the air."
@@ -508,7 +508,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_smg_kills,
         str_brandish="**RATTATTATTAT!** {name} takes {weapon} and fires a line of bullets along the ground. *You're next.*"
@@ -845,7 +845,7 @@ weapon_list = [
         str_scalp=" It's covered in metallic shrapnel.",
         fn_effect=get_normal_attack(weapon_type='explosive'),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_grenade_kills,
         captcha_length=4,

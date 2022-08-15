@@ -9,11 +9,11 @@ smelting_recipe_list = [
         str_name="a cool cosmetic",
         alias=[
             "cool",
-            "coolhat"
+            "coolhat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_cool_material: 1
+            ewcfg.item_id_cool_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -22,11 +22,11 @@ smelting_recipe_list = [
         str_name="a tough cosmetic",
         alias=[
             "tough",
-            "toughhat"
+            "toughhat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_tough_material: 1
+            ewcfg.item_id_tough_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -35,11 +35,11 @@ smelting_recipe_list = [
         str_name="a smart cosmetic",
         alias=[
             "smart",
-            "smarthat"
+            "smarthat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_smart_material: 1
+            ewcfg.item_id_smart_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -48,11 +48,11 @@ smelting_recipe_list = [
         str_name="a beautiful cosmetic",
         alias=[
             "beautiful",
-            "beautifulhat"
+            "beautifulhat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_beautiful_material: 1
+            ewcfg.item_id_beautiful_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -61,11 +61,11 @@ smelting_recipe_list = [
         str_name="a cute cosmetic",
         alias=[
             "cute",
-            "cutehat"
+            "cutehat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_cute_material: 1
+            ewcfg.item_id_cute_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -74,11 +74,11 @@ smelting_recipe_list = [
         str_name="an evil cosmetic",
         alias=[
             "evil",
-            "evilhat"
+            "evilhat",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 4,
-            ewcfg.item_id_evil_material: 1
+            ewcfg.item_id_evil_material: 1,
         },
         products=cosmetics.cosmetic_names
     ),
@@ -86,10 +86,10 @@ smelting_recipe_list = [
         id_recipe="knightarmor",
         str_name="a set of Knight Armor",
         alias=[
-            "armor"
+            "armor",
         ],
         ingredients={
-            ewcfg.item_id_ironingot: 2
+            ewcfg.item_id_ironingot: 2,
         },
         products=["knightarmor"]
     ),
@@ -102,11 +102,11 @@ smelting_recipe_list = [
             "stew",
             "meatstew",
             "monstersoup",
-            "monster soup"
+            "monster soup",
         ],
         ingredients={
             ewcfg.item_id_monsterbones: 5,
-            ewcfg.item_id_dinoslimemeat: 1
+            ewcfg.item_id_dinoslimemeat: 1,
         },
         products=[ewcfg.item_id_monstersoup],
     ),
@@ -116,10 +116,10 @@ smelting_recipe_list = [
         alias=[
             "qsc",
             "quadruple",
-            "quadruplestuffed"
+            "quadruplestuffed",
         ],
         ingredients={
-            ewcfg.item_id_doublestuffedcrust: 2
+            ewcfg.item_id_doublestuffedcrust: 2,
         },
         products=[ewcfg.item_id_quadruplestuffedcrust],
     ),
@@ -129,10 +129,10 @@ smelting_recipe_list = [
         alias=[
             "osc",
             "octuple",
-            "octuplestuffed"
+            "octuplestuffed",
         ],
         ingredients={
-            ewcfg.item_id_quadruplestuffedcrust: 2
+            ewcfg.item_id_quadruplestuffedcrust: 2,
         },
         products=[ewcfg.item_id_octuplestuffedcrust],
     ),
@@ -142,10 +142,10 @@ smelting_recipe_list = [
         alias=[
             "sdsc",
             "sexdecuple",
-            "sexdecuplestuffed"
+            "sexdecuplestuffed",
         ],
         ingredients={
-            ewcfg.item_id_octuplestuffedcrust: 2
+            ewcfg.item_id_octuplestuffedcrust: 2,
         },
         products=[ewcfg.item_id_sexdecuplestuffedcrust],
     ),
@@ -155,10 +155,10 @@ smelting_recipe_list = [
         alias=[
             "dtsc",
             "duotrigintuple",
-            "duotrigintuplestuffed"
+            "duotrigintuplestuffed",
         ],
         ingredients={
-            ewcfg.item_id_sexdecuplestuffedcrust: 2
+            ewcfg.item_id_sexdecuplestuffedcrust: 2,
         },
         products=[ewcfg.item_id_duotrigintuplestuffedcrust],
     ),
@@ -168,7 +168,7 @@ smelting_recipe_list = [
         alias=[
             "qssc",
             "quattuorsexagintuple",
-            "quattuorsexagintuplestuffed"
+            "quattuorsexagintuplestuffed",
         ],
         ingredients={
             ewcfg.item_id_duotrigintuplestuffedcrust: 2
@@ -180,11 +180,11 @@ smelting_recipe_list = [
         str_name="a Forbidden Stuffed Crust",
         alias=[
             "fsc",
-            "forbiddenstuffedcrust"
+            "forbiddenstuffedcrust",
         ],
         ingredients={
             ewcfg.item_id_quattuorsexagintuplestuffedcrust: 2,
-            ewcfg.item_id_forbidden111: 1
+            ewcfg.item_id_forbidden111: 1,
         },
         products=[ewcfg.item_id_forbiddenstuffedcrust],
     ),
@@ -198,14 +198,14 @@ smelting_recipe_list = [
             "exodia",
             "oneoneone",
             "forbidden111",
-            ":111:"
+            ":111:",
         ],
         ingredients={
             'leftleg': 1,
             'rightleg': 1,
             'slimexodia': 1,
             'rightarm': 1,
-            'leftarm': 1
+            'leftarm': 1,
         },
         products=[ewcfg.item_id_forbidden111]
     ),
@@ -216,7 +216,7 @@ smelting_recipe_list = [
             "pp",  # LOL
             "poudrinpick",
             "poudrinpickaxe",
-            "pick"
+            "pick",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 3,
@@ -231,11 +231,11 @@ smelting_recipe_list = [
             "dpick",
             "diamondpickaxe",
             "diamondpick",
-            "dp"
+            "dp",
         ],
         ingredients={
             ewcfg.item_id_minecraftdiamond: 10, #100 megaslime worth
-            ewcfg.item_id_stick: 2
+            ewcfg.item_id_stick: 2,
         },
         products=[ewcfg.weapon_id_diamondpickaxe]
     ),
@@ -246,7 +246,7 @@ smelting_recipe_list = [
             "diamond",
             "mcd",
             "mcdiamond",
-            "minecraftdiamond"
+            "minecraftdiamond",
         ],
         ingredients={
             ewcfg.item_id_slimepoudrin: 1000, #10 megaslime worth
@@ -258,10 +258,10 @@ smelting_recipe_list = [
         str_name="a Faggot",
         alias=[
             "f",
-            "fag"
+            "fag",
         ],
         ingredients={
-            ewcfg.item_id_stick: 3
+            ewcfg.item_id_stick: 3,
         },
         products=[ewcfg.item_id_faggot]
     ),
@@ -273,7 +273,7 @@ smelting_recipe_list = [
             "dfag",
         ],
         ingredients={
-            ewcfg.item_id_faggot: 2
+            ewcfg.item_id_faggot: 2,
         },
         products=[ewcfg.item_id_doublefaggot]
     ),
@@ -282,11 +282,11 @@ smelting_recipe_list = [
         str_name="a cooked piece of Dinoslime meat",
         alias=[
             "cookedmeat",
-            "dss"
+            "dss",
         ],
         ingredients={
             ewcfg.item_id_faggot: 1,
-            ewcfg.item_id_dinoslimemeat: 1
+            ewcfg.item_id_dinoslimemeat: 1,
         },
         products=[ewcfg.item_id_dinoslimesteak]
     ),
@@ -297,11 +297,11 @@ smelting_recipe_list = [
             "fish",
             "fishing",
             "rod",
-            "fr"
+            "fr",
         ],
         ingredients={
             ewcfg.item_id_string: 2,
-            ewcfg.item_id_stick: 3
+            ewcfg.item_id_stick: 3,
         },
         products=[ewcfg.weapon_id_fishingrod]
     ),
@@ -309,11 +309,11 @@ smelting_recipe_list = [
         id_recipe="bass",
         str_name="a Bass Guitar",
         alias=[
-            "bassguitar"
+            "bassguitar",
         ],
         ingredients={
             'thebassedgod': 1,
-            ewcfg.item_id_string: 4
+            ewcfg.item_id_string: 4,
         },
         products=[ewcfg.weapon_id_bass]
     ),
@@ -321,11 +321,11 @@ smelting_recipe_list = [
         id_recipe="bow",
         str_name="a Minecraft Bow",
         alias=[
-            "minecraft bow"
+            "minecraft bow",
         ],
         ingredients={
             ewcfg.item_id_stick: 3,
-            ewcfg.item_id_string: 3
+            ewcfg.item_id_string: 3,
         },
         products=[ewcfg.weapon_id_bow]
     ),
@@ -336,11 +336,11 @@ smelting_recipe_list = [
             "ingot",
             "metal",
             "ironingot",
-            "iron ingot"
+            "iron ingot",
         ],
         ingredients={
             ewcfg.item_id_tincan: 10,
-            ewcfg.item_id_faggot: 1
+            ewcfg.item_id_faggot: 1,
         },
         products=[ewcfg.item_id_ironingot]
     ),
@@ -350,7 +350,7 @@ smelting_recipe_list = [
         alias=[
             "knife",
             "tanningknife",
-            "tanning"
+            "tanning",
         ],
         ingredients={
             ewcfg.item_id_ironingot: 1,
@@ -361,7 +361,7 @@ smelting_recipe_list = [
         id_recipe="leather",
         str_name="a piece of leather",
         alias=[
-            "leather"
+            "leather",
         ],
         ingredients={
             ewcfg.item_id_oldboot: 10,
@@ -373,7 +373,7 @@ smelting_recipe_list = [
         str_name="a chunk of bloodstone",
         alias=[
             "bloodstone",
-            "bstone"
+            "bstone",
         ],
         ingredients={
             ewcfg.item_id_monsterbones: 100,
@@ -388,13 +388,13 @@ smelting_recipe_list = [
         alias=[
             "dragonclaw",
             "claw",
-            "dclaw"
+            "dclaw",
         ],
         ingredients={
             ewcfg.item_id_dragonsoul: 1,
             ewcfg.item_id_slimepoudrin: 5,
             ewcfg.item_id_ironingot: 1,
-            ewcfg.item_id_leather: 1
+            ewcfg.item_id_leather: 1,
         },
         products=[ewcfg.weapon_id_dclaw]
     ),
@@ -404,7 +404,7 @@ smelting_recipe_list = [
         alias=[
             "monowhip",
             "monofilamentwhip",
-            "whip"
+            "whip",
         ],
         ingredients={
             ewcfg.item_id_monofilamentfragment: 25,
@@ -420,7 +420,7 @@ smelting_recipe_list = [
             "spookystaff",
             "reprehensiblerod",
             "wickedwand",
-            "frighteningfaggot"
+            "frighteningfaggot",
         ],
         ingredients={
             ewcfg.item_id_doublefaggot: 1,
@@ -435,11 +435,11 @@ smelting_recipe_list = [
             "whistle",
             "slimewhistle",
             "slimeflute",
-            "tooter"
+            "tooter",
         ],
         ingredients={
             ewcfg.item_id_cute_material: 3,
-            ewcfg.item_id_slimepoudrin: 1
+            ewcfg.item_id_slimepoudrin: 1,
         },
         products=[ewcfg.weapon_id_slimeoidwhistle]
     ),
@@ -447,11 +447,11 @@ smelting_recipe_list = [
         id_recipe="leathercouch",
         str_name="a leather couch",
         alias=[
-            "humancouch"
+            "humancouch",
         ],
         ingredients={
             'couch': 1,
-            'scalp': 10
+            'scalp': 10,
         },
         products=['leathercouch']
     ),
@@ -459,11 +459,11 @@ smelting_recipe_list = [
         id_recipe="leatherchair",
         str_name="a leather chair",
         alias=[
-            "humanchair"
+            "humanchair",
         ],
         ingredients={
             'chair': 1,
-            'scalp': 5
+            'scalp': 5,
         },
         products=['leatherchair']
     ),
@@ -471,11 +471,11 @@ smelting_recipe_list = [
         id_recipe="leatherlamp",
         str_name="a leather coated lamp",
         alias=[
-            "humanlamp"
+            "humanlamp",
         ],
         ingredients={
             'lamp': 1,
-            'scalp': 3
+            'scalp': 3,
         },
         products=['leatherlamp']
     ),
@@ -483,11 +483,11 @@ smelting_recipe_list = [
         id_recipe="leatherdesk",
         str_name="a leather desk",
         alias=[
-            "humandesk"
+            "humandesk",
         ],
         ingredients={
             'desk': 1,
-            'scalp': 4
+            'scalp': 4,
         },
         products=['leatherdesk']
     ),
@@ -495,11 +495,11 @@ smelting_recipe_list = [
         id_recipe="leatherbed",
         str_name="a leather bed",
         alias=[
-            "humanbed"
+            "humanbed",
         ],
         ingredients={
             'bed': 1,
-            'scalp': 12
+            'scalp': 12,
         },
         products=['leatherbed']
     ),
@@ -511,7 +511,7 @@ smelting_recipe_list = [
             "seaweed",
             "weed",
             "doobie",
-            "blunt"
+            "blunt",
         ],
         ingredients={
             ewcfg.item_id_seaweed: 3,
@@ -1069,11 +1069,11 @@ smelting_recipe_list = [
         str_name="a Jelly Filled Donut",
         alias=[
             'donut',
-            'doughnut'
+            'doughnut',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_poketubereyes: 1
+            ewcfg.item_id_poketubereyes: 1,
         },
         products=["jellyfilleddoughnut"]
     ),
@@ -1081,11 +1081,11 @@ smelting_recipe_list = [
         id_recipe="pulpgourdpie",
         str_name="a plate of Pulp Gourd Pie",
         alias=[
-            'pie'
+            'pie',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_pulpgourdpulp: 1
+            ewcfg.item_id_pulpgourdpulp: 1,
         },
         products=['pulpgourdpie']
     ),
@@ -1094,11 +1094,11 @@ smelting_recipe_list = [
         str_name="a plate of Sour Potato French Fries",
         alias=[
             'fries',
-            'frenchfries'
+            'frenchfries',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_sourpotatoskins: 1
+            ewcfg.item_id_sourpotatoskins: 1,
         },
         products=['sourpotatofrenchfries']
     ),
@@ -1108,11 +1108,11 @@ smelting_recipe_list = [
         alias=[
             'coleslaw',
             'redcoleslaw',
-            'blood'
+            'blood',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_bloodcabbageleaves: 1
+            ewcfg.item_id_bloodcabbageleaves: 1,
         },
         products=['bloodcabbagecoleslaw']
     ),
@@ -1120,11 +1120,11 @@ smelting_recipe_list = [
         id_recipe="joybeanpastemochi",
         str_name="a pile of Joybean Paste Mochi",
         alias=[
-            'mochi'
+            'mochi',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_joybeanvines: 1
+            ewcfg.item_id_joybeanvines: 1,
         },
         products=['joybeanpastemochi']
     ),
@@ -1133,11 +1133,11 @@ smelting_recipe_list = [
         str_name="a plate of Purple Killiflower Crust Pizza",
         alias=[
             'pizza',
-            'cauliflowercrustpizza'
+            'cauliflowercrustpizza',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_purplekilliflowerflorets: 1
+            ewcfg.item_id_purplekilliflowerflorets: 1,
         },
         products=['purplekilliflowercrustpizza']
     ),
@@ -1145,11 +1145,11 @@ smelting_recipe_list = [
         id_recipe="razornutbutter",
         str_name="a tub of Razornut Butter",
         alias=[
-            'butter'
+            'butter',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_razornutshells: 1
+            ewcfg.item_id_razornutshells: 1,
         },
         products=['razornutbutter']
     ),
@@ -1157,11 +1157,11 @@ smelting_recipe_list = [
         id_recipe="pawpawfood",
         str_name="a plate of Pawpaw Food",
         alias=[
-            'food'
+            'food',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_pawpawflesh: 1
+            ewcfg.item_id_pawpawflesh: 1,
         },
         products=['pawpawfood']
     ),
@@ -1169,11 +1169,11 @@ smelting_recipe_list = [
         id_recipe="sludgeberrypancakes",
         str_name="a plate of Sludgeberry Pancakes",
         alias=[
-            'pancakes'
+            'pancakes',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_sludgeberrysludge: 1
+            ewcfg.item_id_sludgeberrysludge: 1,
         },
         products=['sludgeberrypancakes']
     ),
@@ -1182,11 +1182,11 @@ smelting_recipe_list = [
         str_name="a plate of ***Your Favorite Food***",
         alias=[
             'favoritefood',
-            'favefood'
+            'favefood',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_suganmanutfruit: 1
+            ewcfg.item_id_suganmanutfruit: 1,
         },
         products=['yourfavoritefood']
     ),
@@ -1194,11 +1194,11 @@ smelting_recipe_list = [
         id_recipe="pinkrowdatouille",
         str_name="a plate of Pink Rowdatouille",
         alias=[
-            'rowdatouille'
+            'rowdatouille',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_pinkrowddishroot: 1
+            ewcfg.item_id_pinkrowddishroot: 1,
         },
         products=['pinkrowdatouille']
     ),
@@ -1206,11 +1206,11 @@ smelting_recipe_list = [
         id_recipe="dankwheattoast",
         str_name="a plate of Dankwheat Toast",
         alias=[
-            'toast'
+            'toast',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_dankwheatchaff: 1
+            ewcfg.item_id_dankwheatchaff: 1,
         },
         products=['dankwheattoast']
     ),
@@ -1218,11 +1218,11 @@ smelting_recipe_list = [
         id_recipe="brightshadeseeds",
         str_name="some Brightshade Seeds",
         alias=[
-            'seeds'
+            'seeds',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_brightshadeberries: 1
+            ewcfg.item_id_brightshadeberries: 1,
         },
         products=['brightshadeseeds']
     ),
@@ -1231,11 +1231,11 @@ smelting_recipe_list = [
         str_name="some Black Lime Sours",
         alias=[
             'sours',
-            'sour'
+            'sour',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_blacklimeade: 1
+            ewcfg.item_id_blacklimeade: 1,
         },
         products=['blacklimesour']
     ),
@@ -1244,11 +1244,11 @@ smelting_recipe_list = [
         str_name="a Phosphorpoppies Muffin",
         alias=[
             'muffin',
-            'muffins'
+            'muffins',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_phosphorpoppypetals: 1
+            ewcfg.item_id_phosphorpoppypetals: 1,
         },
         products=['phosphorpoppiesmuffin']
     ),
@@ -1258,11 +1258,11 @@ smelting_recipe_list = [
         alias=[
             'juice',
             'applejuice',
-            'appyjuice'
+            'appyjuice',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_direapplestems: 1
+            ewcfg.item_id_direapplestems: 1,
         },
         products=['direapplejuice']
     ),
@@ -1270,11 +1270,11 @@ smelting_recipe_list = [
         id_recipe="earlbrowntea",
         str_name="a cup of Earl Brown Tea",
         alias=[
-            'tea'
+            'tea',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_rustealeafblades: 1
+            ewcfg.item_id_rustealeafblades: 1,
         },
         products=['earlbrowntea']
     ),
@@ -1284,11 +1284,11 @@ smelting_recipe_list = [
         alias=[
             'shrooms',
             'mushrooms',
-            'shroomz'
+            'shroomz',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_metallicapheads: 1
+            ewcfg.item_id_metallicapheads: 1,
         },
         products=['badshroomz']
     ),
@@ -1297,11 +1297,11 @@ smelting_recipe_list = [
         str_name="a Chromaccino",
         alias=[
             'cappuccino',
-            'chroma'
+            'chroma',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_steelbeanpods: 1
+            ewcfg.item_id_steelbeanpods: 1,
         },
         products=['chromaccino']
     ),
@@ -1309,11 +1309,11 @@ smelting_recipe_list = [
         id_recipe="moltenpopcorn",
         str_name="a bag of Molten Popcorn",
         alias=[
-            'popcorn'
+            'popcorn',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_aushuckstalks: 1
+            ewcfg.item_id_aushuckstalks: 1,
         },
         products=['moltenpopcorn']
     ),
@@ -1322,11 +1322,11 @@ smelting_recipe_list = [
         str_name="a Stuffed Poppepper",
         alias=[
             'stuffedpepper',
-            'stuffedpartypoppepper'
+            'stuffedpartypoppepper',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
-            ewcfg.item_id_driedpartypoppeppers: 1
+            ewcfg.item_id_driedpartypoppeppers: 1,
         },
         products=['stuffedpoppepper']
     ),
@@ -1334,11 +1334,11 @@ smelting_recipe_list = [
         id_recipe="captainshat",
         str_name="a Captain's Hat",
         alias=[
-            'captain'
+            'captain',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_poketubereyes: 1
+            ewcfg.item_id_poketubereyes: 1,
         },
         products=['captainshat']
     ),
@@ -1347,11 +1347,11 @@ smelting_recipe_list = [
         str_name="a Juve-O' Lantern",
         alias=[
             'juve',
-            'jackolantern'
+            'jackolantern',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_pulpgourdpulp: 1
+            ewcfg.item_id_pulpgourdpulp: 1,
         },
         products=['juveolantern']
     ),
@@ -1359,11 +1359,11 @@ smelting_recipe_list = [
         id_recipe="bowlerhat",
         str_name="a Bowler Hat",
         alias=[
-            'bowler'
+            'bowler',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_sourpotatoskins: 1
+            ewcfg.item_id_sourpotatoskins: 1,
         },
         products=['bowlerhat']
     ),
@@ -1371,11 +1371,11 @@ smelting_recipe_list = [
         id_recipe="cabbagetreehat",
         str_name="a Cabbage Tree Hat",
         alias=[
-            'cabbagehat'
+            'cabbagehat',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_bloodcabbageleaves: 1
+            ewcfg.item_id_bloodcabbageleaves: 1,
         },
         products=['cabbagetreehat']
     ),
@@ -1383,11 +1383,11 @@ smelting_recipe_list = [
         id_recipe="braces",
         str_name="some Braces",
         alias=[
-            'headgear'
+            'headgear',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_joybeanvines: 1
+            ewcfg.item_id_joybeanvines: 1,
         },
         products=['braces']
     ),
@@ -1395,11 +1395,11 @@ smelting_recipe_list = [
         id_recipe="hoodie",
         str_name="a Hoodie",
         alias=[
-            'hood'
+            'hood',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_purplekilliflowerflorets: 1
+            ewcfg.item_id_purplekilliflowerflorets: 1,
         },
         products=['hoodie']
     ),
@@ -1407,11 +1407,11 @@ smelting_recipe_list = [
         id_recipe="copbadge",
         str_name="a Cop Badge",
         alias=[
-            'badge'
+            'badge',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_razornutshells: 1
+            ewcfg.item_id_razornutshells: 1,
         },
         products=['copbadge']
     ),
@@ -1419,11 +1419,11 @@ smelting_recipe_list = [
         id_recipe="strawhat",
         str_name="a Straw Hat",
         alias=[
-            'straw'
+            'straw',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_pawpawflesh: 1
+            ewcfg.item_id_pawpawflesh: 1,
         },
         products=['strawhat']
     ),
@@ -1431,11 +1431,11 @@ smelting_recipe_list = [
         id_recipe="cosplayhorns",
         str_name="a pair of Cosplay Horns",
         alias=[
-            'horns'
+            'horns',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_sludgeberrysludge: 1
+            ewcfg.item_id_sludgeberrysludge: 1,
         },
         products=['cosplayhorns']
     ),
@@ -1444,11 +1444,11 @@ smelting_recipe_list = [
         str_name="***Your Favorite Hat***",
         alias=[
             'favoritehat',
-            'favehat'
+            'favehat',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_suganmanutfruit: 1
+            ewcfg.item_id_suganmanutfruit: 1,
         },
         products=['yourfavoritehat']
     ),
@@ -1457,11 +1457,11 @@ smelting_recipe_list = [
         str_name="a Pajama Onesie",
         alias=[
             'pajamas',
-            'onesie'
+            'onesie',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_pinkrowddishroot: 1
+            ewcfg.item_id_pinkrowddishroot: 1,
         },
         products=['pajamaonesie']
     ),
@@ -1471,11 +1471,11 @@ smelting_recipe_list = [
         alias=[
             'digibroglasses',
             'circleglasses',
-            'circularglasses'
+            'circularglasses',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_dankwheatchaff: 1
+            ewcfg.item_id_dankwheatchaff: 1,
         },
         products=['pairofcircularsunglasses']
     ),
@@ -1487,7 +1487,7 @@ smelting_recipe_list = [
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_brightshadeberries: 1
+            ewcfg.item_id_brightshadeberries: 1,
         },
         products=['flowercrown']
     ),
@@ -1496,11 +1496,11 @@ smelting_recipe_list = [
         str_name="a pair of Spiked Bracelets",
         alias=[
             'spiked',
-            'bracelets'
+            'bracelets',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_blacklimeade: 1
+            ewcfg.item_id_blacklimeade: 1,
         },
         products=['spikedbracelets']
     ),
@@ -1509,11 +1509,11 @@ smelting_recipe_list = [
         str_name="a SlimeCorp Pin",
         alias=[
             'corppin',
-            'shillpin'
+            'shillpin',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_phosphorpoppypetals: 1
+            ewcfg.item_id_phosphorpoppypetals: 1,
         },
         products=['slimecorppin']
     ),
@@ -1521,11 +1521,11 @@ smelting_recipe_list = [
         id_recipe="overalls",
         str_name="a pair of Overalls",
         alias=[
-            'trousers'
+            'trousers',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_direapplestems: 1
+            ewcfg.item_id_direapplestems: 1,
         },
         products=['overalls']
     ),
@@ -1537,7 +1537,7 @@ smelting_recipe_list = [
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_rustealeafblades: 1
+            ewcfg.item_id_rustealeafblades: 1,
         },
         products=['rustynail']
     ),
@@ -1546,7 +1546,7 @@ smelting_recipe_list = [
         str_name="a Full Metal Jacket",
         alias=[
             'jacket',
-            'metaljacket'
+            'metaljacket',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
@@ -1558,11 +1558,11 @@ smelting_recipe_list = [
         id_recipe="tinfoilhat",
         str_name="a Tinfoil Hat",
         alias=[
-            'tinfoil'
+            'tinfoil',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_steelbeanpods: 1
+            ewcfg.item_id_steelbeanpods: 1,
         },
         products=['tinfoilhat']
     ),
@@ -1571,11 +1571,11 @@ smelting_recipe_list = [
         str_name="a Resplendent Coronet",
         alias=[
             'crown',
-            'goldcrown'
+            'goldcrown',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_aushuckstalks: 1
+            ewcfg.item_id_aushuckstalks: 1,
         },
         products=['resplendentcoronet']
     ),
@@ -1584,11 +1584,11 @@ smelting_recipe_list = [
         str_name="a Party Hat",
         alias=[
             'party',
-            'celebrationhat'
+            'celebrationhat',
         ],
         ingredients={
             ewcfg.item_id_textiles: 1,
-            ewcfg.item_id_driedpartypoppeppers: 1
+            ewcfg.item_id_driedpartypoppeppers: 1,
         },
         products=['partyhat']
     ),
@@ -1596,10 +1596,10 @@ smelting_recipe_list = [
         id_recipe="stick",
         str_name="a stick",
         alias=[
-            'wood'
+            'wood',
         ],
         ingredients={
-            ewcfg.item_id_direapplestems: 3
+            ewcfg.item_id_direapplestems: 3,
         },
         products=[ewcfg.item_id_stick]
     ),
@@ -1610,13 +1610,13 @@ smelting_recipe_list = [
             'rollerblades',
             'inlineskates',
             'skates',
-            'jsr'
+            'jsr',
         ],
         ingredients={
             ewcfg.item_id_oldboot: 2,
             ewcfg.item_id_slimepoudrin: 8,
             ewcfg.item_id_leather: 1,
-            ewcfg.item_id_string: 2
+            ewcfg.item_id_string: 2,
         },
         products=["rollerblades"]
     ),
@@ -1625,11 +1625,11 @@ smelting_recipe_list = [
         str_name="a ferroslimeoid",
         alias=[
             'ferroslimeoid',
-            'magnet'
+            'magnet',
         ],
         ingredients={
             ewcfg.item_id_tincan: 1,  
-            ewcfg.item_id_slimepoudrin: 2
+            ewcfg.item_id_slimepoudrin: 2,
         },
         products=["ferroslimeoid"]
     ),
@@ -1638,10 +1638,10 @@ smelting_recipe_list = [
         str_name="a bottle of pheromones",
         alias=[
             'kinkfishpheromones',
-            'antirepel'
+            'antirepel',
         ],
         ingredients={
-            'kinkfish': 1
+            'kinkfish': 1,
         },
         products=['pheromones']
     ),
@@ -1651,11 +1651,11 @@ smelting_recipe_list = [
         alias=[
             'hrifle',
             'huntersrifle',
-            'huntergun'
+            'huntergun',
         ],
         ingredients={
             ewcfg.item_id_bustedrifle: 1,
-            ewcfg.item_id_repairkit: 1
+            ewcfg.item_id_repairkit: 1,
         },
         products=[ewcfg.weapon_id_huntingrifle]
     ),
@@ -1665,10 +1665,10 @@ smelting_recipe_list = [
         alias=[
             'phoenixpillow',
             'downpillow',
-            'pheonixpillow'
+            'pheonixpillow',
         ],
         ingredients={
-            ewcfg.item_id_phoenixdown: 5
+            ewcfg.item_id_phoenixdown: 5,
         },
         products=['phoenixdownpillow']
     ),
@@ -1678,10 +1678,10 @@ smelting_recipe_list = [
         alias=[
             'ppopper',
             'partyp',
-            'party popper'
+            'party popper',
         ],
         ingredients={
-            'partypoppeppers': 1
+            'partypoppeppers': 1,
         },
         products=['partypopper']
     ),
@@ -1691,10 +1691,10 @@ smelting_recipe_list = [
         alias=[
             'alien skinsuit',
             'alien costume',
-            'aliencostume'
+            'aliencostume',
         ],
         ingredients={
-            'alienscalp': 10
+            'alienscalp': 10,
         },
         products=['skinsuit']
     ),
@@ -1706,7 +1706,7 @@ smelting_recipe_list = [
             "pizzaball",
         ],
         ingredients={
-            'quattuorsexagintuplestuffedcrust': 3
+            ewcfg.item_id_quattuorsexagintuplestuffedcrust: 3,
         },
         products=["pizzaball"],
     ),
@@ -1717,10 +1717,10 @@ smelting_recipe_list = [
             'battery pack',
             'battery string',
             'bigbattery',
-            'big battery'
+            'big battery',
         ],
         ingredients={
-            'alienbattery': 5
+            'alienbattery': 5,
         },
         products=['batterypack']
     ),
@@ -1729,7 +1729,7 @@ smelting_recipe_list = [
         str_name="alien battery",
         alias=[
             'battery',
-            'AA'
+            'AA',
         ],
         ingredients={
             'tangeloidraygun': 1,
@@ -1740,11 +1740,11 @@ smelting_recipe_list = [
         id_recipe="purpledrink",
         str_name="purple drink",
         alias=[
-            'purpledrank'
+            'purpledrank',
         ],
         ingredients={
             'reddrink': 1,
-            'bluedrink': 1
+            'bluedrink': 1,
         },
         products=['purpledrink']
     ),
@@ -1754,13 +1754,13 @@ smelting_recipe_list = [
         alias=[
             'sk8b04rd',
             'sk8r',
-            'board'
+            'board',
         ],
         ingredients={
             ewcfg.weapon_id_bat: 2,
             ewcfg.item_id_ironingot: 1,
             ewcfg.item_id_leather: 1,
-            'rollerblades': 1
+            'rollerblades': 1,
         },
         products=[ewcfg.weapon_id_skateboard]
     ),
@@ -1770,10 +1770,10 @@ smelting_recipe_list = [
         alias=[
             'mbbevor',
             'Monster Bone Bevor',
-            'Bevor'
+            'Bevor',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 150
+            ewcfg.item_id_monsterbones: 150,
         },
         products=['monsterbonebevor']
     ),
@@ -1784,10 +1784,10 @@ smelting_recipe_list = [
             'mbgaultets',
             'Monster Bone Gauntlets',
             'Gauntlets',
-            'Gauntlet'
+            'Gauntlet',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 150
+            ewcfg.item_id_monsterbones: 150,
         },
         products=['monsterbonegauntlets']
     ),
@@ -1797,10 +1797,10 @@ smelting_recipe_list = [
         alias=[
             'mbfullplate',
             'Monster Bone Fullplate',
-            'Fullplate'
+            'Fullplate',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 200
+            ewcfg.item_id_monsterbones: 200,
         },
         products=['monsterbonefullplate']
     ),
@@ -1810,10 +1810,10 @@ smelting_recipe_list = [
         alias=[
             'mbgreaves',
             'Monster Bone Greaves',
-            'Greaves'
+            'Greaves',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 150
+            ewcfg.item_id_monsterbones: 150,
         },
         products=['monsterbonegreaves']
     ),
@@ -1823,10 +1823,10 @@ smelting_recipe_list = [
         alias=[
             'mbsabatons',
             'Monster Bone Sabatons',
-            'Sabatons'
+            'Sabatons',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 150
+            ewcfg.item_id_monsterbones: 150,
         },
         products=['monsterbonesabatons']
     ),
@@ -1836,14 +1836,14 @@ smelting_recipe_list = [
         alias=[
             'monsterbonearmor',
             'Monster Bone Armor',
-            'Bonearmor'
+            'Bonearmor',
         ],
         ingredients={
             'monsterbonebevor': 1,
             'monsterbonegauntlet': 1, 
             'monsterbonefullplate': 1, 
             'monsterbonegreaves': 1, 
-            'monsterbonesabatons': 1
+            'monsterbonesabatons': 1,
         },
         products=['monsterbonearmor']
     ),
@@ -1853,10 +1853,10 @@ smelting_recipe_list = [
         alias=[
             'diamondhelmet',
             'Diamond Helmet',
-            'dhelmet'
+            'dhelmet',
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 5
+            ewcfg.item_id_minecraftdiamond: 5,
         },
         products=['diamondhelmet']
     ),
@@ -1866,10 +1866,10 @@ smelting_recipe_list = [
         alias=[
             'diamondchestplate',
             'Diamond Chestplate',
-            'dchestplate'
+            'dchestplate',
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 8
+            ewcfg.item_id_minecraftdiamond: 8,
         },
         products=['diamondchestplate']
     ),
@@ -1879,10 +1879,10 @@ smelting_recipe_list = [
         alias=[
             'diamondleggings',
             'Diamond Leggings',
-            'dleggings'
+            'dleggings',
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 7
+            ewcfg.item_id_minecraftdiamond: 7,
         },
         products=['diamondleggings']
     ),
@@ -1892,10 +1892,10 @@ smelting_recipe_list = [
         alias=[
             'diamondboots',
             'Diamond Boots',
-            'dboots'
+            'dboots',
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 4
+            ewcfg.item_id_minecraftdiamond: 4,
         },
         products=['diamondboots']
     ),
@@ -1905,12 +1905,12 @@ smelting_recipe_list = [
         alias=[
             'trenchcoat',
             'trench',
-            'tcoat'
+            'tcoat',
         ],
         ingredients={
             ewcfg.item_id_negapoudrin: 1,
             ewcfg.item_id_textiles: 1, 
-            ewcfg.item_id_leather: 1
+            ewcfg.item_id_leather: 1,
         },
         products=['trenchcoat']
     ),  
@@ -1920,10 +1920,10 @@ smelting_recipe_list = [
         alias=[
             'ripmyjeansplease',
             'ripjeans',
-            'rippedjeans'
+            'rippedjeans',
         ],
         ingredients={
-            'jeans': 1
+            'jeans': 1,
         },
         products=['rippedjeans']
     ),  
@@ -1933,11 +1933,11 @@ smelting_recipe_list = [
         alias=[
             'shortshorts',
             'shortenmyshorts',
-            'short2'
+            'short2',
         ],
         ingredients={
             ewcfg.item_id_tanningknife: 1,
-            'shorts': 1
+            'shorts': 1,
         },
         products=['shortshorts']
     ),  
@@ -1947,11 +1947,11 @@ smelting_recipe_list = [
         alias=[
             'shortmyshortsagain',
             'shortshortshorts',
-            'short3'
+            'short3',
         ],
         ingredients={
             ewcfg.item_id_tanningknife: 1,
-            'shortshorts': 1
+            'shortshorts': 1,
         },
         products=['shortshortshorts']
     ),  
@@ -1962,10 +1962,10 @@ smelting_recipe_list = [
             'mbcodpiece',
             'monstercodpiece',
             'compensatingforsomething',
-            'Monster Bone Codpiece'
+            'Monster Bone Codpiece',
         ],
         ingredients={
-            ewcfg.item_id_monsterbones: 300
+            ewcfg.item_id_monsterbones: 300,
         },
         products=['monsterbonecodpiece']
     ),  
@@ -1975,11 +1975,11 @@ smelting_recipe_list = [
         alias=[
             'tinsuit',
             'tomatosuit',
-            'tomatotinsuit'
+            'tomatotinsuit',
         ],
         ingredients={
             ewcfg.item_id_tincan: 10,
-            'cannedtomatosoup': 5
+            'cannedtomatosoup': 5,
         },
         products=['tomatotinsuit']
     ),
@@ -1989,10 +1989,10 @@ smelting_recipe_list = [
         alias=[
             'heavyarmor',
             'heavymetalarmor',
-            'hmarmor'
+            'hmarmor',
         ],
         ingredients={
-            'knightarmor': 3
+            'knightarmor': 3,
         },
         products=['heavymetalarmor']
     ),
@@ -2002,11 +2002,11 @@ EwSmeltingRecipe(
         alias=[
             'hicectocooler',
             'hic',
-            'hi-c'
+            'hi-c',
         ],
         ingredients={
             ewcfg.item_id_ectoplasm: 5,
-            'direapplefrickenergy': 1
+            'direapplefrickenergy': 1,
         },
         products=['ectocooler']
     ),
@@ -2015,7 +2015,7 @@ EwSmeltingRecipe(
         str_name="Drug Gumbo",
         alias=[
             'drugsoup',
-            'zugisacrackhead'
+            'zugisacrackhead',
         ],
         ingredients={
             ewcfg.item_id_foodbase: 1,
@@ -2033,7 +2033,7 @@ EwSmeltingRecipe(
             'cigarettebutt': 1,
             'cigar': 1,
             ewcfg.item_id_spent_pod: 1,
-            ewcfg.item_id_usedneedle: 1
+            ewcfg.item_id_usedneedle: 1,
         },
         products=['druggumbo']
     ),
@@ -2043,13 +2043,13 @@ EwSmeltingRecipe(
         alias=[
             'maid suit',
             'maid dress',
-            'maid outfit'
+            'maid outfit',
         ],
         ingredients = {
             ewcfg.item_id_ghostlycloth : 3,
             ewcfg.item_id_negapoudrin : 1,
             ewcfg.item_id_cute_material : 2,
-            ewcfg.item_id_ghosttoken : 5
+            ewcfg.item_id_ghosttoken : 5,
         },
         products=['maidoutfit']
     ),
@@ -2059,12 +2059,12 @@ EwSmeltingRecipe(
         alias =[
             'cigholder',
             'cighold',
-            'cigstickonastick'
+            'cigstickonastick',
         ],
         ingredients={
             'cigarette': 1,
             ewcfg.item_id_stick: 2,
-            ewcfg.item_id_ghosttoken : 2
+            ewcfg.item_id_ghosttoken : 2,
         },
         products=['cigaretteholder']
     ),
@@ -2074,12 +2074,12 @@ EwSmeltingRecipe(
         alias = [
             'vampirehat',
             'sunhat',
-            'moonhat'
+            'moonhat',
         ],
         ingredients = {
             ewcfg.item_id_ghostlycloth: 2,
             ewcfg.item_id_blacklimeade : 2,
-            ewcfg.item_id_ghosttoken : 3
+            ewcfg.item_id_ghosttoken : 3,
         },
         products=['widebrimmedhat']
     ),
@@ -2089,12 +2089,12 @@ EwSmeltingRecipe(
         alias = [
             'bigdress',
             'drapeddress',
-            'eveningdress'
+            'eveningdress',
         ],
         ingredients = {
             ewcfg.item_id_ghostlycloth : 3,
             ewcfg.item_id_ghosttoken : 3,
-            ewcfg.item_id_textiles: 10
+            ewcfg.item_id_textiles: 10,
         },
         products = ['drapeddress']
     ),
@@ -2102,11 +2102,11 @@ EwSmeltingRecipe(
         id_recipe="moonshoes",
         str_name="Moon Shoes",
         alias=[
-            'moonshoe'
+            'moonshoe',
         ],
         ingredients={
             ewcfg.item_id_moonrock: 25,
-            ewcfg.item_id_oldboot: 2
+            ewcfg.item_id_oldboot: 2,
         },
         products=['moonshoes']
     ),
@@ -2114,7 +2114,7 @@ EwSmeltingRecipe(
         id_recipe="rabbitsuit",
         str_name="Rabbit Suit",
         alias=[
-            'playboysuit'
+            'playboysuit',
         ],
         ingredients={
             ewcfg.item_id_beautiful_material: 5,
@@ -2122,7 +2122,7 @@ EwSmeltingRecipe(
             ewcfg.item_id_leather: 1,
             ewcfg.item_id_pheromones: 1,
             ewcfg.item_id_lasso: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['rabbitsuit']
     ),
@@ -2130,11 +2130,11 @@ EwSmeltingRecipe(
         id_recipe="hellys",
         str_name="Hellys",
         alias=[
-            'heel wheels'
+            'heel wheels',
         ],
         ingredients={
             ewcfg.item_id_textiles: 5,
-            ewcfg.item_id_oldboot: 2
+            ewcfg.item_id_oldboot: 2,
         },
         products=['heelys'] 
     ),
@@ -2142,12 +2142,12 @@ EwSmeltingRecipe(
         id_recipe="poudrinonastringhat",
         str_name="Poudrin on a String Hat",
         alias=[
-            'moredunce'
+            'moredunce',
         ],
         ingredients={
             ewcfg.item_id_stick: 1,
             ewcfg.item_id_slimepoudrin: 1,
-            'duncecap': 1
+            'duncecap': 1,
         },
         products=['poudrinonastringhat'] 
     ),
@@ -2155,7 +2155,7 @@ EwSmeltingRecipe(
         id_recipe="witchoutfit",
         str_name="Witch Outfit",
         alias=[
-            'witchs clothes'
+            'witchs clothes',
         ],
         ingredients={
             ewcfg.item_id_textiles: 5,
@@ -2169,12 +2169,12 @@ EwSmeltingRecipe(
         id_recipe="heartstrings",
         str_name="Heart Earrings",
         alias=[
-            'heartear'
+            'heartear',
         ],
         ingredients={
             ewcfg.item_id_tincan: 5,
             ewcfg.item_id_cute_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['heartearrings']
     ),
@@ -2182,12 +2182,12 @@ EwSmeltingRecipe(
         id_recipe="starearrings",
         str_name="Star Earrings",
         alias=[
-            'starear'
+            'starear',
         ],
         ingredients={
             ewcfg.item_id_tincan: 5,
             ewcfg.item_id_beautiful_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['starearrings']
     ),
@@ -2195,12 +2195,12 @@ EwSmeltingRecipe(
         id_recipe="moonearrings",
         str_name="Moon Earrings",
         alias=[
-            'moonear'
+            'moonear',
         ],
         ingredients={
             ewcfg.item_id_moonrock: 2,
             ewcfg.item_id_cool_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['moonearrings']
     ),
@@ -2210,12 +2210,12 @@ EwSmeltingRecipe(
         alias=[
             'evilear',
             'pentaear',
-            'invertear'
+            'invertear',
         ],
         ingredients={
             ewcfg.item_id_tincan: 5,
             ewcfg.item_id_evil_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['invertedpentacleearrings']
     ),
@@ -2223,12 +2223,12 @@ EwSmeltingRecipe(
         id_recipe="slimecorpearrings",
         str_name="Slimecorp Earrings",
         alias=[
-            'shillear'
+            'shillear',
         ],
         ingredients={
             'slimecorppin': 2,
             ewcfg.item_id_smart_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['slimecorpearrings']
     ),
@@ -2236,12 +2236,12 @@ EwSmeltingRecipe(
         id_recipe="rivetearrings",
         str_name="Rivet Earrings",
         alias=[
-            'rivetear'
+            'rivetear',
         ],
         ingredients={
             ewcfg.item_id_ironingot: 1,
             ewcfg.item_id_tough_material: 1,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['rivetearrings']
     ),
@@ -2249,11 +2249,11 @@ EwSmeltingRecipe(
         id_recipe="alienleather",
         str_name="Alien Leather",
         alias=[
-            'grayleather'
+            'grayleather',
         ],
         ingredients={
             'alienscalp': 100,
-            ewcfg.item_id_tanningknife: 1
+            ewcfg.item_id_tanningknife: 1,
         },
         products=['alienleather']
     ),
@@ -2261,11 +2261,11 @@ EwSmeltingRecipe(
         id_recipe="monofilamentcloth",
         str_name="Monofilament Cloth",
         alias=[
-            'monocloth'
+            'monocloth',
         ],
         ingredients={
             ewcfg.item_id_monofilamentfragment: 50,
-            ewcfg.item_id_textiles: 1
+            ewcfg.item_id_textiles: 1,
         },
         products=['monofilamentcloth']
     ),
@@ -2273,11 +2273,11 @@ EwSmeltingRecipe(
         id_recipe="alienluxuryhandbag",
         str_name="Alien Luxury Hand Bag",
         alias=[
-            'alienhandbag'
+            'alienhandbag',
         ],
         ingredients={
             ewcfg.item_id_alienleather: 2,
-            ewcfg.item_id_textiles: 3
+            ewcfg.item_id_textiles: 3,
         },
         products=['alienluxuryhandbag']
     ),
@@ -2285,11 +2285,11 @@ EwSmeltingRecipe(
         id_recipe="alienleathermidcalfboots",
         str_name="Alien Midcalf Boots",
         alias=[
-            'alienboots'
+            'alienboots',
         ],
         ingredients={
             ewcfg.item_id_alienleather: 4,
-            ewcfg.item_id_textiles: 3
+            ewcfg.item_id_textiles: 3,
         },
         products=['alienluxuryhandbag']
     ),
@@ -2298,11 +2298,11 @@ EwSmeltingRecipe(
         str_name="Mono Kaleidoscope Jacquard",
         alias=[
             'monojacket',
-            'monojacquard'
+            'monojacquard',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 5,
-            ewcfg.item_id_textiles: 3
+            ewcfg.item_id_textiles: 3,
         },
         products=['alienluxuryhandbag']
     ),
@@ -2310,11 +2310,11 @@ EwSmeltingRecipe(
         id_recipe="monofilamentpalazzo",
         str_name="Mono Palazzo",
         alias=[
-            'monopalazzo'
+            'monopalazzo',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 3,
-            ewcfg.item_id_textiles: 3
+            ewcfg.item_id_textiles: 3,
         },
         products=['monofilamentpalazzo']
     ),
@@ -2322,11 +2322,11 @@ EwSmeltingRecipe(
         id_recipe="futuredesk",
         str_name="Future Desk",
         alias=[
-            'smartdesk'
+            'smartdesk',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 2,
-            ewcfg.item_id_alienleather: 2
+            ewcfg.item_id_alienleather: 2,
         },
         products=['futuredesk']
     ),
@@ -2334,11 +2334,11 @@ EwSmeltingRecipe(
         id_recipe="futurelamp",
         str_name="Future Lamp",
         alias=[
-            'smartlamp'
+            'smartlamp',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 1,
-            ewcfg.item_id_alienleather: 3
+            ewcfg.item_id_alienleather: 3,
         },
         products=['futurelamp']
     ),
@@ -2346,11 +2346,11 @@ EwSmeltingRecipe(
         id_recipe="futurebed",
         str_name="Future Bed",
         alias=[
-            'smartbed'
+            'smartbed',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 4,
-            ewcfg.item_id_alienleather: 2
+            ewcfg.item_id_alienleather: 2,
         },
         products=['futurebed']
     ),
@@ -2358,11 +2358,11 @@ EwSmeltingRecipe(
         id_recipe="futurecouch",
         str_name="Future Couch",
         alias=[
-            'wallcouch'
+            'wallcouch',
         ],
         ingredients={
             ewcfg.item_id_monofilamentcloth: 2,
-            ewcfg.item_id_alienleather: 5
+            ewcfg.item_id_alienleather: 5,
         },
         products=['futurecouch']
     ),
