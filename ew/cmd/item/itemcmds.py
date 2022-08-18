@@ -337,11 +337,29 @@ async def inventory_print(cmd):
         if "preserved" in lower_token_list:
             prop_hunt["preserved"] = str(cmd.message.author.id)
 
-        #Filter by colour
-        for hue in hue_static.hue_names:
-            if hue in lower_token_list:
-                prop_hunt["hue"] = hue_static.hue_map.get(hue).id_hue
-        #Clean it up for cases where props dont need to be searched
+        #Less tokens exist than colours or weapons. Search each token instea dof each colour/weapon
+        if(len(lower_token_list) < 20): #anything above that is just gonna make this loop run long
+            i = 0
+            while i < len(lower_token_list):
+                token = lower_token_list[i]
+
+                #Filter by colour
+                hue_prop = hue_static.hue_map.get(token)
+                if(hue_prop):
+                    prop_hunt["hue"] = hue_prop.id_hue
+
+                    i += 1 #this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
+                    if i >= len(lower_token_list):
+                        break
+                    token = lower_token_list[i]
+
+                #Filter by weapon
+                weapon_prop = static_weapons.weapon_map.get(token)
+                if(weapon_prop):
+                    prop_hunt["weapon_type"] = weapon_prop.id_weapon
+
+                i += 1
+        
         if(not prop_hunt):
             prop_hunt = None
 
