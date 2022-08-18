@@ -65,6 +65,8 @@ cmd_map = {
     ewcfg.cmd_slimeoidbattle_alt1: slimeoidcmds.slimeoidbattle,
     ewcfg.cmd_slimeoidbattle_alt2: slimeoidcmds.slimeoidbattle,
     ewcfg.cmd_slimeoidbattle_alt3: slimeoidcmds.slimeoidbattle,
+    ewcfg.cmd_slimeoidbattle_alt4: slimeoidcmds.slimeoidbattle,
+    ewcfg.cmd_slimeoidbattle_alt5: slimeoidcmds.slimeoidbattle,
     ewcfg.cmd_saturateslimeoid: slimeoidcmds.saturateslimeoid,
     ewcfg.cmd_restoreslimeoid: slimeoidcmds.restoreslimeoid,
     ewcfg.cmd_restoreslimeoid_alt1: slimeoidcmds.restoreslimeoid,

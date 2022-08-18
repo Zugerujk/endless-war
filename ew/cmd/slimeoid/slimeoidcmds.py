@@ -498,6 +498,9 @@ async def slimeoidbattle(cmd):
     response = ""
     user_name = "" # get it, like a username!
     target_name = ""
+    duel = False
+    if cmd.tokens[0] == "!slimeoidduel":
+        duel = True
 
     if ewutils.channel_name_is_poi(str(cmd.message.channel)) is False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
@@ -562,7 +565,7 @@ async def slimeoidbattle(cmd):
         challengee = cmbt_utils.find_enemy(targetenemy, challenger)
         
         if challengee is None:
-            response = "Huh? Who do you want to challenge?"
+            response = "Huh? Who do you want to challenge? You don't use an @ on npcs, try using their letter from {}".format(ewcfg.cmd_survey)
             return await fe_utils.send_response(response, cmd)
         
         target_name = challengee.display_name
@@ -597,16 +600,17 @@ async def slimeoidbattle(cmd):
         except:
             accepted = 0
         
-        if(accepted == 1):
-            response = "**THREE**"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
-            await asyncio.sleep(1)
-            response = "**TWO**"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
-            await asyncio.sleep(1)
-            response = "**ONE**"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
-            await asyncio.sleep(1)
+        if accepted == 1:
+            if duel:
+                response = "**THREE**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
+                response = "**TWO**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
+                response = "**ONE**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
 
             # Load information again in case it changed while we were awaiting the challenge
             challengee = EwUser(member=member)
@@ -631,8 +635,9 @@ async def slimeoidbattle(cmd):
                 response = "{} does not have a Slimeoid ready to battle with!".format(target_name)
                 return await fe_utils.send_response(response, cmd)
 
-            response = "***GO!***"
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+            if duel:
+                response = "***GO!***"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
     else:
         accepted = 1
 

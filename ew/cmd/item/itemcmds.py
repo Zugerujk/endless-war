@@ -461,13 +461,22 @@ async def inventory_print(cmd):
                         response_part = "\n**=={}==**".format(current_type.upper()) + response_part
 
             else:
-                # Add item quantity to existing stack
-                if item.get('name') in stacked_item_map:
-                    stacked_item = stacked_item_map.get(item.get("name"))
-                    stacked_item['quantity'] += item.get('quantity')
-                # Create stack for new item name
+                if display_hue:
+                    item_hue = item.get('hue')
+                    item_stack_name = "{hue}{name}".format(hue = item_hue +" " if item_hue else "",name = item.get('name'))
+                    if item_stack_name in stacked_item_map:
+                        stacked_item = stacked_item_map.get(item_stack_name)
+                        stacked_item['quantity'] += item.get('quantity')
+                    else:
+                        stacked_item_map[item_stack_name] = item
                 else:
-                    stacked_item_map[item.get("name")] = item
+                    # Add item quantity to existing stack
+                    if item.get('name') in stacked_item_map:
+                        stacked_item = stacked_item_map.get(item.get("name"))
+                        stacked_item['quantity'] += item.get('quantity')
+                    # Create stack for new item name
+                    else:
+                        stacked_item_map[item.get("name")] = item
 
 
             if not stacking and len(response) + len(response_part) > 1492:
@@ -495,8 +504,9 @@ async def inventory_print(cmd):
                 item = stacked_item_map.get(item_name)
 
                 # Generate the stack's line in the response
-                response_part = "\n{id_item}: {soulbound_style}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{soulbound_style}{quantity}".format(
                     name=item.get('name'),
+                    hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else ""),
                     id_item=item.get('id_item')
