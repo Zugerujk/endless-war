@@ -285,6 +285,7 @@ async def inventory_print(cmd):
     item_type = None
     prop_hunt = {}
     display_hue = False
+    display_weapon_type = False
 
     # Set new parameters if given
     if cmd.tokens_count > 1:
@@ -366,6 +367,9 @@ async def inventory_print(cmd):
         #Display the colour infront of the name, or not
         if 'color' or 'colour' or 'hue' in lower_token_list:
             display_hue = True
+        #Display the weapon type's name after the weapon's name
+        if "weapontype" in lower_token_list:
+            display_weapon_type = True
         # Search for a particular item. Ignore formatting parameters
         if 'search' in lower_token_list:
             stacking = False
@@ -414,7 +418,8 @@ async def inventory_print(cmd):
         "name": dat.get("name"),
         "soulbound": dat.get("soulbound"),
         "item_type": dat.get("item_type"),
-        "hue": dat.get("item_props").get("hue")
+        "hue": dat.get("item_props").get("hue"),
+        "weapon_type": dat.get("item_props").get("weapon_type"),
     }, items))
     
     # sort by name if requested
@@ -446,13 +451,15 @@ async def inventory_print(cmd):
 
             if not stacking:
                 # Generate the item's line in the response based on the specified formatting
-                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
                     id_item=item.get('id_item'),
                     name=item.get('name'),
                     hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
+                    weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if (display_weapon_type and item.get("weapon_type")) else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
                 )
+                print(item.get("id_weapon"))
 
                 # Print item type labels if sorting by type and showing a new type of items
                 if sort_by_type:
@@ -504,9 +511,10 @@ async def inventory_print(cmd):
                 item = stacked_item_map.get(item_name)
 
                 # Generate the stack's line in the response
-                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
                     name=item.get('name'),
                     hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
+                    weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if display_weapon_type and item.get("weapon_type") else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else ""),
                     id_item=item.get('id_item')
