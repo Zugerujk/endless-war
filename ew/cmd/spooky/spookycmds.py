@@ -732,5 +732,5 @@ async def sow_cloth(cmd):
         )
         user_data.change_slimes(n=100000, source=ewcfg.source_spending)
         user_data.persist()
-        response = "You tear a sheet of your ghostly form free, shrieking as your essence is ripped from your very being. Using your teeth to refine it into a fine white cloth."
+        response = "You tear a sheet of your ghostly form free, shrieking as your essence is ripped from your very being. You use your teeth to refine it into a fine white cloth."
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
