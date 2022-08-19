@@ -3070,7 +3070,7 @@ poi_list = [
         alias=['ghost maid cafe', 'gmc', 'maidcafe', 'maid cafe', 'mcafe', 'ghost cafe', 'gcafe', 'goth ihop',
                'brazils bakery', 'cheesecakefactory'],
         str_name="The Ghost Maid Cafe",
-        str_desc="This small rundown cafe is filled with all kinds of degenerates. They sit at their tables, eagerly waiting for the ghosts dressed in maid outfits and cat ears to serve them. The food coming from the back looks horrible, too, but that's not why people are here. \n\nExits into Charcoal Park",
+        str_desc="This small rundown cafe is filled with all kinds of degenerates. They sit at their tables, eagerly waiting for the ghosts dressed in maid outfits and cat ears to serve them. The food coming from the back looks horrible too, but that's not why people are here. \n\nExits into The Void:tm:",
         channel="ghost-maid-cafe",
         permissions={'ghost-maid-cafe': ['read', 'send', 'connect']},
         pvp=False,
