@@ -1852,11 +1852,36 @@ emote_phantomhorn = "<:phantomhorn:431282111534858244>"
 emote_strawberrymilk = "<:strawberrymilk:431282128421126144>"
 emote_dab = "<a:dab:805341290220093450>"
 emote_thrash = "<a:thrash:805341344331202620>"
+emote_benwtf = "<:benwtf:981830620080635914>"
+
 
 # Miscellaneous
 emote_tfwslime = "<:tfwslime:713609663832391680>"
 emote_ewspin = "<a:ewspin:694097283293118525>"
 emote_slimeepic = "<:slimeepic:973836637777825864>"
+
+
+
+# Lists for randomly chosen !dab and !thrash emotes 
+dab_emotes = [
+emote_copkiller,
+emote_benkart,
+emote_taasenchamp,
+emote_hellaben,
+emote_phantomhorn,
+emote_dab,
+emote_benwtf
+]
+
+thrash_emotes = [
+emote_rowdyfucker,
+emote_munchykart,
+emote_freaker,
+emote_sweetmunch,
+emote_strawberrymilk,
+emote_thrash,
+]
+
 
 # mining types
 mining_type_minesweeper = "minesweeper"
