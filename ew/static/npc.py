@@ -60,7 +60,7 @@ EwNpc(
         {ewcfg.item_id_oldcd: [100, 1, 1],
          "bobocuatroscalp":[100, 1, 1]},
         ],
-        starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer'],
+        starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer', ewcfg.status_enemy_trainer_id],
         rarity=10
     ),
 EwNpc(
@@ -87,7 +87,7 @@ EwNpc(
     {'rollerblades': [5, 1, 1]},
     {ewcfg.weapon_id_bass: [5, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_barren_id, '1leveltrainer'] #Killable, probably shouldn't drop slime?
+    starting_statuses=[ewcfg.status_enemy_barren_id, '1leveltrainer', ewcfg.status_enemy_trainer_id] #Killable, probably shouldn't drop slime?
 ),
 EwNpc(
     id_npc = "shortsguy",
@@ -109,7 +109,7 @@ EwNpc(
     {'shortshortshorts': [50, 1, 1]},
     {'autographedshorts': [10, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_trainer_id, '2leveltrainer'] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
+    starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_trainer_id, '2leveltrainer', ewcfg.status_enemy_trainer_id] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
 ),
 EwNpc(
     id_npc = "carrottop",
@@ -133,7 +133,7 @@ EwNpc(
     {'quesarito': [30, 1, 3]},
     {"crop": [80, 2, 5]},
     ],
-    starting_statuses=['4leveltrainer'] # DOES drop slime. You SHOULD kill Carrot Top.
+    starting_statuses=['4leveltrainer', ewcfg.status_enemy_trainer_id] # DOES drop slime. You SHOULD kill Carrot Top.
 ),
 EwNpc(
     id_npc = "pork",
@@ -155,7 +155,7 @@ EwNpc(
     {"jellyfilleddoughnut": [100, 2, 3],
      "officercopbadge":[100, 1, 1]}
     ],
-    starting_statuses=['7leveltrainer'],
+    starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
     rarity=7
@@ -183,7 +183,7 @@ EwNpc(
      "heavymetalarmor":[20, 1, 1],
      "officercopbadge":[100, 1, 1]}
     ],
-    starting_statuses=['5leveltrainer'],
+    starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
     rarity=7
@@ -211,7 +211,7 @@ EwNpc(
      "trenchcoat":[50, 1, 1],
      "officercopbadge":[100, 1, 1]}
     ],
-    starting_statuses=['6leveltrainer'],
+    starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
     rarity=7
@@ -236,7 +236,7 @@ EwNpc(
     {
      "officercopbadge":[100, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer'],
+    starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False,
     rarity=3
@@ -264,7 +264,7 @@ EwNpc(
     {'bitchenergy': [100, 1, 2]},
     {'slimynipple': [50, 1, 1]}
     ],
-    starting_statuses = [ewcfg.status_enemy_barren_id, '2leveltrainer']
+    starting_statuses = [ewcfg.status_enemy_barren_id, '2leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
 EwNpc(
     id_npc = "recalcitrantfawn",
@@ -286,7 +286,7 @@ EwNpc(
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
     ],
-    starting_statuses = ['4leveltrainer'],
+    starting_statuses = ['4leveltrainer', ewcfg.status_enemy_trainer_id],
     condition= lambda user_data, enemy_data: True if (user_data.faction == 'killers' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False #attacks killers, or anyone when hostile
 ),
 EwNpc(
@@ -312,7 +312,7 @@ EwNpc(
     {ewcfg.item_id_454casullround: [80, 1, 1]},
     {'crop': [100, 1, 3]}
     ],
-    starting_statuses = ['6leveltrainer'],
+    starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
     ),
 EwNpc(
     id_npc = "johnny",
@@ -335,7 +335,7 @@ EwNpc(
     {'dogtag': [70, 1, 1]},
     {ewcfg.weapon_id_katana: [15, 1, 1]}
     ],
-    starting_statuses = ['6leveltrainer']
+    starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id]
     ),
 EwNpc(
     id_npc = "chad",
@@ -355,7 +355,7 @@ EwNpc(
     {'cookingapron': [70, 1, 1]},
     {'crop': [100, 1, 3]}
     ],
-    starting_statuses = ['5leveltrainer'],
+    starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
     condition=lambda user_data, enemy_data: True if (user_data.faction == 'killers' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
     # attacks killers, or anyone when hostile
 ),
@@ -377,7 +377,7 @@ EwNpc(
     {'packofluckyslimes': [70, 1, 1]},
     {'crop': [100, 1, 3]}
     ],
-    starting_statuses = ['5leveltrainer'],
+    starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
     condition=lambda user_data, enemy_data: True if (user_data.faction == 'rowdys' and user_data.life_state == ewcfg.life_state_enlisted) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
 ),
 EwNpc(
@@ -398,7 +398,7 @@ EwNpc(
     {ewcfg.item_id_gameguide: [100, 1, 1]},
     {'crop': [100, 2, 5]}
     ],
-    starting_statuses = [ewcfg.status_enemy_barren_id, '3leveltrainer'],
+    starting_statuses = [ewcfg.status_enemy_barren_id, '3leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
 EwNpc(
     id_npc = "juvieman",
@@ -413,7 +413,7 @@ EwNpc(
                 "die":["**UP, UP, RUN AWAYYYYYYYYY!**"],
                 "give":["Thank you, fair citizen!"]
                 },
-    func_ai = npcutils.generic_npc_action,
+    func_ai = npcutils.juvieman_action,
     image_profile = "https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png",
     defaultslime = 30000000,
     defaultlevel = 99,
@@ -421,7 +421,7 @@ EwNpc(
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
     ],
-    starting_statuses = [ewcfg.status_enemy_barren_id, '9leveltrainer'],
+    starting_statuses = [ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     rarity=7,
     condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
 
@@ -445,7 +445,7 @@ EwNpc(
     rewards = [
     {}
     ],
-    starting_statuses=['7leveltrainer'],
+    starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     rarity=7
     #if the cop is trigger happy or if you're above a certain crime level
 ),
@@ -468,7 +468,7 @@ EwNpc(
     rewards = [
     {"herbsscalp":[100, 1, 1]}
     ],
-    starting_statuses=['1leveltrainer'],
+    starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
     rarity=3
 ),
 

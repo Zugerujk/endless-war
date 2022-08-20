@@ -158,7 +158,7 @@ async def data(cmd):
 
             if enemy.enemytype == 'npc':
                 npc_obj = npcutils.active_npcs_map.get(enemy.enemyclass)
-                response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.id_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
+                response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.image_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
             elif enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
                 response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. ".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype)
             else:
@@ -1569,7 +1569,7 @@ async def help(cmd):
     resp_cont = EwResponseContainer(id_server=cmd.guild.id)
 
     if cmd.tokens[1] == 'juvieman':
-        poi = poi_static.id_to_poi(user_data.poi)
+        poi = poi_static.id_to_poi.get(user_data.poi)
         if user_data.life_state != ewcfg.life_state_juvenile:
             response = "No answer. Guess he only responds to juvies."
         elif poi.pvp == False:

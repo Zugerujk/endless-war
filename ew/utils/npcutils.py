@@ -43,7 +43,7 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = N
     elif keyword == 'talk':
         return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
     else:
-        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 async def police_npc_action(keyword = '', enemy = None, channel = None, item = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -53,7 +53,7 @@ async def police_npc_action(keyword = '', enemy = None, channel = None, item = N
     elif keyword == 'die':
         return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
     else:
-        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 async def police_chief_npc_action(keyword = '', enemy = None, channel = None, item = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -70,7 +70,7 @@ async def condition_hostile_action (keyword = '', enemy = None, channel = None, 
     if keyword == 'act':
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     else:
-        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
 async def juvieman_action(keyword = '', enemy = None, channel = None, item = None):
@@ -82,7 +82,7 @@ async def juvieman_action(keyword = '', enemy = None, channel = None, item = Non
     elif keyword == 'hit':
         return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='hit')
     else:
-        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
 async def marty_action(keyword = '', enemy = None, channel = None, item = None):
@@ -91,7 +91,7 @@ async def marty_action(keyword = '', enemy = None, channel = None, item = None):
     if keyword == 'give':
         return await marty_give(channel = channel, npc_obj = npc_obj, enemy = enemy, item = item)
     else:
-        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, npc_obj=npc_obj, item=item)
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 async def candidate_action(keyword = '', enemy = None, channel = None, item = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -128,7 +128,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
-        return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+        return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
 
@@ -179,7 +179,7 @@ async def generic_give(channel, npc_obj, enemy, item):
         item_data = EwItem(id_item=item.get('id_item'))
         item_data.item_props["adorned"] = 'false'
         item_data.persist()
-    bknd_item.give_item(id_item=item.get('id_item'), id_user="npcinv{}", id_server=enemy.id_server)
+    bknd_item.give_item(id_item=item.get('id_item'), id_user="npcinv{}".format(enemy.enemyclass), id_server=enemy.id_server)
 
     response = "?"
     if npc_obj.dialogue.get('give') is not None:
@@ -218,7 +218,7 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     response = random.choice(potential_dialogue)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
-        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
     timewait = random.randint(15, 45)
@@ -239,7 +239,7 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     response = random.choice(potential_dialogue)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
-        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.id_profile, channel=channel)
+        await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
     await asyncio.sleep(10)
@@ -325,7 +325,7 @@ async def marty_give(channel, npc_obj, enemy, item):
         response = "Thanks, but we don't need this item right now. Worthless. Disposable. *Worthless.*"
 
     if response is not None:
-        await fe_utils.talk_bubble(response=response, name="**__MARTY__**", image=npc_obj.id_profile, channel=channel)
+        await fe_utils.talk_bubble(response=response, name="**__MARTY__**", image=npc_obj.image_profile, channel=channel)
 
 
 async def candidate_give(channel, npc_obj, enemy, item):

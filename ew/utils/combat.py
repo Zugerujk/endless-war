@@ -1785,8 +1785,8 @@ class EwUser(EwUserBase):
         resp_cont = EwResponseContainer(id_server=self.id_server)
 
         client: discord.Client = ewcfg.get_client()
-        server: discord.Guild = client.get_guild(self.id_server)
-        member: discord.Member = server.get_member(self.id_user)
+        server: discord.Guild = client.get_guild(int(self.id_server))
+        member: discord.Member = server.get_member(int(self.id_user))
 
         # Make The death report
         deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)

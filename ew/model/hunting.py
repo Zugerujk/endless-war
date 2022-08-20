@@ -119,7 +119,7 @@ class EwNpc:
 
     func_ai = None # function the enemy's AI uses
 
-    id_profile = "" #image link to add to dialogue embeds
+    image_profile = "" #image link to add to dialogue embeds
 
     defaultslime = "" #how much slime they have
 
@@ -161,7 +161,7 @@ class EwNpc:
         self.poi_list = poi_list
         self.dialogue = dialogue
         self.func_ai = func_ai
-        self.id_profile = image_profile
+        self.image_profile = image_profile
         self.defaultslime = defaultslime
         self.defaultlevel = defaultlevel
         self.rewards = rewards

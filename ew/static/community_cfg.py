@@ -1,4 +1,4 @@
-
+from . import cfg as ewcfg
 
 cabinets_list = [
     "This is a Zoombinis Logical Journey arcade cabinet.\nWait. This is an old PC game. Why the fuck would they port this to cabinet? Now you have to use the stick to move the mouse around. Oh well. Buyers remorse, you suppose. \nhttps://classicreload.com/win3x-logical-journey-of-the-zoombinis.html",
@@ -355,5 +355,6 @@ blurb_context_map = {
     "voidfishingtext":void_fishing_text,
     "curatorinsults":curator_insults,
     "actualstds":actual_stds,
-    "bazaardistractions":bazaar_distractions
+    "bazaardistractions":bazaar_distractions,
+    "captcha":ewcfg.captcha_dict
 }
