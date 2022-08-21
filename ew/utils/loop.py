@@ -121,10 +121,7 @@ async def event_tick(id_server):
                         bknd_event.create_void_connection(id_server)
                     elif event_data.event_type == ewcfg.event_type_dimensional_rift:
                         rift_poi = poi_static.id_to_poi.get(event_data.event_props.get('poi'))
-                        print(event_data.event_props.get('sisterlocation'))
-                        print(rift_poi.neighbors)
                         rift_poi.neighbors.pop(event_data.event_props.get('sisterlocation'), "")
-                        print(rift_poi.neighbors)
                     if len(response) > 0:
                         poi = event_data.event_props.get('poi')
                         channel = event_data.event_props.get('channel')
