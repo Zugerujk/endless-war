@@ -1852,6 +1852,8 @@ async def commands(cmd):
         response += "\n\n" + ewcfg.item_commands
     if "cosmeticsanddyes" in category:
         response += "\n\n" + ewcfg.cosmetics_dyes_commands
+    if "slimeoids" in category:
+        response += "\n\n" + ewcfg.slimeoid_commands
     if "smelting" in category:
         response += "\n\n" + ewcfg.smelting_commands
     if "trading" in category:
@@ -1862,6 +1864,8 @@ async def commands(cmd):
         response += "\n\n" + ewcfg.miscellaneous_commands
     if "flavor" in category:
         response += "\n\n" + ewcfg.flavor_commands
+    if "farming" in category:
+        response += "\n\n" + ewcfg.farm_commands
     if "allitem" in category:
         response += "\n\n"
         for item in ewcfg.item_unique_commands.keys():

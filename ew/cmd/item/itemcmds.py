@@ -283,6 +283,9 @@ async def inventory_print(cmd):
     stacking = True
     search = False
     item_type = None
+    prop_hunt = {}
+    display_hue = False
+    display_weapon_type = False
 
     # Set new parameters if given
     if cmd.tokens_count > 1:
@@ -330,7 +333,43 @@ async def inventory_print(cmd):
         #Filter to relic items
         if 'relic' in lower_token_list or 'relics' in lower_token_list:
             item_type = ewcfg.it_relic
+        
+        #Filter to preserved items (rigor mortis)
+        if "preserved" in lower_token_list:
+            prop_hunt["preserved"] = str(cmd.message.author.id)
 
+        #Less tokens exist than colours or weapons. Search each token instea dof each colour/weapon
+        if(len(lower_token_list) < 20): #anything above that is just gonna make this loop run long
+            i = 0
+            while i < len(lower_token_list):
+                token = lower_token_list[i]
+
+                #Filter by colour
+                hue_prop = hue_static.hue_map.get(token)
+                if(hue_prop):
+                    prop_hunt["hue"] = hue_prop.id_hue
+
+                    i += 1 #this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
+                    if i >= len(lower_token_list):
+                        break
+                    token = lower_token_list[i]
+
+                #Filter by weapon
+                weapon_prop = static_weapons.weapon_map.get(token)
+                if(weapon_prop):
+                    prop_hunt["weapon_type"] = weapon_prop.id_weapon
+
+                i += 1
+        
+        if(not prop_hunt):
+            prop_hunt = None
+
+        #Display the colour infront of the name, or not
+        if 'color' or 'colour' or 'hue' in lower_token_list:
+            display_hue = True
+        #Display the weapon type's name after the weapon's name
+        if "weapontype" in lower_token_list:
+            display_weapon_type = True
         # Search for a particular item. Ignore formatting parameters
         if 'search' in lower_token_list:
             stacking = False
@@ -345,14 +384,16 @@ async def inventory_print(cmd):
             id_user=target_inventory,
             id_server=user_data.id_server,
             item_sorting_method='id',
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
     elif sort_by_type:
         items = bknd_item.inventory(
             id_user=target_inventory,
             id_server=user_data.id_server,
             item_sorting_method='type',
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
     elif search == True:
         items = itm_utils.find_item_all(
@@ -366,7 +407,8 @@ async def inventory_print(cmd):
         items = bknd_item.inventory(
             id_user=target_inventory,
             id_server=user_data.id_server,
-            item_type_filter=item_type
+            item_type_filter=item_type,
+            item_prop_method=prop_hunt
         )
 
     # Strip unnecessary data
@@ -375,9 +417,11 @@ async def inventory_print(cmd):
         "quantity": dat.get("quantity"),
         "name": dat.get("name"),
         "soulbound": dat.get("soulbound"),
-        "item_type": dat.get("item_type")
+        "item_type": dat.get("item_type"),
+        "hue": dat.get("item_props").get("hue"),
+        "weapon_type": dat.get("item_props").get("weapon_type"),
     }, items))
-
+    
     # sort by name if requested
     if sort_by_name:
         items = sorted(items, key=lambda item: item.get('name').lower())
@@ -407,12 +451,15 @@ async def inventory_print(cmd):
 
             if not stacking:
                 # Generate the item's line in the response based on the specified formatting
-                response_part = "\n{id_item}: {soulbound_style}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
                     id_item=item.get('id_item'),
                     name=item.get('name'),
+                    hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
+                    weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if (display_weapon_type and item.get("weapon_type")) else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
                 )
+                print(item.get("id_weapon"))
 
                 # Print item type labels if sorting by type and showing a new type of items
                 if sort_by_type:
@@ -421,13 +468,22 @@ async def inventory_print(cmd):
                         response_part = "\n**=={}==**".format(current_type.upper()) + response_part
 
             else:
-                # Add item quantity to existing stack
-                if item.get('name') in stacked_item_map:
-                    stacked_item = stacked_item_map.get(item.get("name"))
-                    stacked_item['quantity'] += item.get('quantity')
-                # Create stack for new item name
+                if display_hue:
+                    item_hue = item.get('hue')
+                    item_stack_name = "{hue}{name}".format(hue = item_hue +" " if item_hue else "",name = item.get('name'))
+                    if item_stack_name in stacked_item_map:
+                        stacked_item = stacked_item_map.get(item_stack_name)
+                        stacked_item['quantity'] += item.get('quantity')
+                    else:
+                        stacked_item_map[item_stack_name] = item
                 else:
-                    stacked_item_map[item.get("name")] = item
+                    # Add item quantity to existing stack
+                    if item.get('name') in stacked_item_map:
+                        stacked_item = stacked_item_map.get(item.get("name"))
+                        stacked_item['quantity'] += item.get('quantity')
+                    # Create stack for new item name
+                    else:
+                        stacked_item_map[item.get("name")] = item
 
 
             if not stacking and len(response) + len(response_part) > 1492:
@@ -455,8 +511,10 @@ async def inventory_print(cmd):
                 item = stacked_item_map.get(item_name)
 
                 # Generate the stack's line in the response
-                response_part = "\n{id_item}: {soulbound_style}{name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
                     name=item.get('name'),
+                    hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
+                    weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if display_weapon_type and item.get("weapon_type") else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else ""),
                     id_item=item.get('id_item')
