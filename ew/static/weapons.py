@@ -104,6 +104,18 @@ def get_weapon_type_stats(weapon_type):
             "crit_multiplier": 1,
             "hit_chance": 0.9,
         },
+        "missilelauncher": { 
+            "damage_multiplier": 1.1,
+            "bystander_damage": 1,
+            "cost_multiplier": 2.25,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.8,
+            "backfire_chance": 1, # Guaranteed backfire with every attack
+            "backfire_multiplier": 0.15, 
+            "backfire_crit_mult": 0.75,  # Halve backfire damage relative to attack damage on crit
+            "backfire_miss_mult": 10, # Don't fuck it up or you're a dead motherfucker
+        },
     }
 
     return types[weapon_type]
@@ -367,7 +379,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.8),
         price=10000,
         clip_size=6,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_revolver_kills,
         str_brandish="{name} spins {weapon} around on their finger, blowing smoke off the barrel like a Texas gunman."
@@ -399,7 +411,7 @@ weapon_list = [
         str_scalp=" It has a couple bullet holes in it.",
         fn_effect=get_normal_attack(),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_dual_pistols_kills,
         str_brandish="{name} cocks {weapon} back, aiming them at the nearest passersby. *Bang.*"
     ),
@@ -431,7 +443,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=2.5, weapon_type='heavy'),
         clip_size=8,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_shotgun_kills,
         str_brandish="**ChkCHK.** {name} takes {weapon} and pumps back a couple rounds, listening to the shells clink onto the ground."
@@ -463,7 +475,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_rifle_kills,
         str_brandish="**BAM BAM!** {name} takes {weapon} and fires some warning rounds into the air."
@@ -496,7 +508,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_smg_kills,
         str_brandish="**RATTATTATTAT!** {name} takes {weapon} and fires a line of bullets along the ground. *You're next.*"
@@ -663,7 +675,7 @@ weapon_list = [
             "nunchucks"
         ],
         str_crit="**COMBO!** {name_player} strikes {name_target} with a flurry of 5 vicious blows!",
-        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the head with their own nun-chucks!!",
+        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the {hitzone} with their own nun-chucks!!",
         str_miss="**WOOSH** {name_player} whiffs every strike!",
         str_equip="You equip the nun-chucks.",
         str_name="nun-chucks",
@@ -777,8 +789,8 @@ weapon_list = [
             "bombs",
             "moly"
         ],
-        str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!",
-        str_miss="**A dud!!** the rag failed to ignite the molotov!",
+        #str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!", Not needed with miss text included, double announcing basically
+        str_miss="**OH FUCK!** Your molotov combusts and shatters all over you the moment {name_player} set it alight!",
         str_crit="{name_player}’s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
         str_equip="You equip the molotov cocktail.",
         str_name="molotov cocktail",
@@ -795,19 +807,18 @@ weapon_list = [
         str_scalp=" It's burnt to a crisp!",
         fn_effect=get_normal_attack(
             weapon_type='incendiary',
-            hit_chance=0.5,
-            damage_multiplier=2,
-            bystander_damage=1,
+            hit_chance=0.6,
+            damage_multiplier=.8,
+            bystander_damage=.75,
             backfire_chance=0.75,
-            backfire_multiplier=2,
-            backfire_crit_mult=1.25,
-            backfire_miss_mult=0
+            backfire_multiplier=.65,
+            backfire_crit_mult=.65,
+            backfire_miss_mult=1,
         ),
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
-        classes=[ewcfg.weapon_class_burning, ewcfg.weapon_class_captcha],
+        classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=0,
         str_brandish="{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."
     ),
     EwWeapon(  # 16
@@ -833,7 +844,7 @@ weapon_list = [
         str_scalp=" It's covered in metallic shrapnel.",
         fn_effect=get_normal_attack(weapon_type='explosive'),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_grenade_kills,
         captcha_length=4,
@@ -1800,6 +1811,40 @@ weapon_list = [
         stat=ewcfg.stat_skateboard_kills,
         str_brandish="Try !stunt."
     ),
+    EwWeapon(  # 48 
+        id_weapon=ewcfg.weapon_id_missilelauncher,
+        alias=[
+            "missile",
+            "rocketlauncher",
+            "launcher",
+        ],
+        str_backfire = "{name_player}'s blast is too close to them, searing off bits of their {hitzone}!",
+        str_crit="**Critical hit!!** {name_player} stands on one knee and obliterates {name_target} to high hell!",
+        str_miss="**MISS!!** {name_player} literally blows themselves up due to the complex rocket science of pointing and shooting.",
+        str_equip="You heave the missile launcher over your shoulder.",
+        str_name="missile launcher",
+        str_weapon="a missile launcher",
+        str_weaponmaster_self="You are a rank {rank} {title} patriot.",
+        str_weaponmaster="They are a rank {rank} {title} patriot.",
+        str_kill="{name_player} twirls their rocket launcher after {name_target} gets their {hitzone} among other things blown up with everyone else that was nearby. After the fact, {name_player} is still reeling from the pain of shooting this thing less than 10 feet away from {target_player}. {emote_skull}",
+        str_killdescriptor="burnt and exploded",
+        str_damage="{name_target}'s {hitzone} gets blasted into the skies from {name_player}'s missile!!",
+        str_duel="{name_player} and {name_target} nearly get kicked out of the dojo from their attempt of sparring with missile launchers, something about \"attempted terrorism\" or some shit.",
+        str_description="It's an entire missile launcher.",
+        str_scalp=" The charred remains makes it hard to figure out who it belongs to.",
+        fn_effect=get_normal_attack(weapon_type='missilelauncher'),
+        classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha, ewcfg.weapon_class_ammo],
+        vendors=[ewcfg.vendor_coalitionsurplus],
+        stat=ewcfg.stat_missilelauncher_kills,
+        clip_size = 1,
+        captcha_length = 11,
+        price = 1500000,
+        str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
+        str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
+        str_reload_warning = "Quick, reload before someone gets here!",
+        # str_trauma = "It looks like they are still searching for a missing body part.",
+        # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
+    ),
 ]
 
 # A map of id_weapon to EwWeapon objects.
@@ -1842,7 +1887,6 @@ slimeoid_weapon_type_convert = {
     11: get_normal_attack(weapon_type='burst_fire'),
     12: get_normal_attack(weapon_type='burst_fire'),
     13: get_normal_attack(weapon_type='burst_fire'),
-
 }
 
 slimeoid_dmg_text = {

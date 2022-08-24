@@ -652,8 +652,8 @@ item_list = [
             "gameguide",
             "gamergate",
         ],
-        str_name="The official unofficial ENDLESS WAR Game Guide, Version III",
-        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 7/19/2020. Use the !help command to crack it open.",
+        str_name="The official nonofficial ENDLESS WAR Game Guide, Version IV",
+        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/##/2022. Use the !help command to crack it open.",
         vendors=[ewcfg.vendor_college],
         price=10000,
     ),
@@ -1931,6 +1931,27 @@ item_list = [
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make some festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
     ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_gallonofmilk,
+        str_name="Gallon of Milk",
+        context = 'milk',
+        str_desc="It's the fabled container of milk that is the cause of many missing fathers. As if some cruel twist of fate, you were the one to get some ever before many deadbeat fathers were able to get. It's a sense of achievement, to own a gallon of milk...\nAh, what's that? The cap to this milk is manufactured incorrectly, you can't seem to twist it off.\n...Ah, what's this? There's no expiration date on this milk either.\nWell, I suppose it's useless.",
+        price=250000,
+        vendors=[ewcfg.vendor_bazaar]
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_alienleather,
+        str_name="Alien Leather",
+        str_desc="You've skinned so many of the gray bastards to the point that you can make some fine gray leather. Hairless creeps are the best to slaughter, PETA be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_monofilamentcloth,
+        str_name="Monofilament Cloth",
+        str_desc="Its a full textile at this point, Perfect material to make the grays start understanding that you're violent, language barrier be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+
 ]
 # item_list += ewdebug.debugitem_set
 
@@ -3573,6 +3594,60 @@ furniture_list = [
         furniture_place_desc = "You hire a bunch of contract workers from the yellow pages, getting the fireplace installed. Of course, you act like a curmudgeon all the while and don't even pay them afterwards, citing that you wanted it a few centimeters to the left.",
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
     ),
+    EwFurniture(
+        id_furniture = "sandbag",
+        str_name = "Sandbag",
+        str_desc = "Thanks to the dojo's shitty architectual integrity, sometimes you can manage to get the support beams holding these sandbags up to snap and break. Thanks to how infrequently this happens however, the Dojo Master is probably never going to notice.",
+        rarity = "Patrician",
+        furniture_place_desc = "You grab the chains and fling it onto a load bearing support beam, nothing bad can come of this!",
+        furniture_look_desc = "One of the Dojo's prized sandbags hangs from the ceiling to wail on.",
+    ),
+    EwFurniture(
+        id_furniture = "statueofnarcissism",
+        str_name = "Statue of Narcissism",
+        str_desc = "A muscular marble statue that’s been cleanly decapitated, their once drab face now replaced with a simple hand mirror. How kind of someone to carve a statue of you! They got all the details right!",
+        rarity = "Patrician",
+        furniture_place_desc = "You spend an hour putting this into place. Of course, 55 minutes is just you staring at the statue afterwards.",
+        furniture_look_desc = "A polished statue of you is one of the center points of your apartment.",
+        price = 20000000,
+        vendors = ['bazaar'],
+    ),
+    EwFurniture(
+        id_furniture = "futuredesk",
+        str_name = "Future Desk",
+        str_desc = "A sci-fi desk made up of several floating zero-g parts that makes for an awesome spot to waste away at. When not in use it packs up into an easy-to-transport small cube.",
+        rarity = "Patrician",
+        furniture_place_desc = "You place down the cubed desk and press the button on its packaging, prompting it to spring up into place like a pop-up book.",
+        furniture_look_desc = "A futuristic desk floats idly in the corner.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurelamp",
+        str_name = "Future Lamp",
+        str_desc = "A simplistically designed lamp made up of basic shapes with a big glass dome atop it. There’s a warning on the side to not look at it for too long because inside contains a miniature replica of the sun.",
+        rarity = "Patrician",
+        furniture_place_desc = "You take a bit to find a way to set the lamp down properly before activating the tiny sun inside of it. Hope you like wearing sunscreen indoors.",
+        furniture_look_desc = "A futuristic lamp emits an almost blinding light across the room.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurebed",
+        str_name = "Future Bed",
+        str_desc = "This bed is more of a large pod with the two doors on the side that close up into your own little resting space. The inside works as a display for anything of your choosing from the night sky, nature, or a live action view of the violence happening outside.",
+        rarity = "Patrician",
+        furniture_place_desc = "After managing to cram such a big pod bed through your small apartment door, you plug it into a wall outlet and watch as it eats up hundreds of thousands of slimecoin a second into your electricity bill.",
+        furniture_look_desc = "A futuristic pod bed is in the bedroom, taking up most of the space.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurecouch",
+        str_name = "Future Couch",
+        str_desc = "What the fuck is a future couch? Can someone please tell me what defines a couch as being from the future? Anyone? Seriously, anyone at all?",
+        rarity = "Patrician",
+        furniture_place_desc = "You place the future couch into the living room, still confused at why it lifts off the floor and onto the wall.",
+        furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
+        furn_set = "hatealiens",
+    ),
 ]
 
 furniture_map = {}
@@ -3591,6 +3666,7 @@ furniture_instrument = []
 furniture_NMS = []
 furniture_specialhue = []
 furniture_collection = []
+furniture_hatealiens = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3622,4 +3698,6 @@ for furniture in furniture_list:
     elif furniture.furn_set == "specialhue":
         furniture_specialhue.append(furniture.id_furniture)
     elif furniture.furn_set == "collection":
+        furniture_collection.append(furniture.id_furniture)
+    elif furniture.furn_set == "hatealiens":
         furniture_collection.append(furniture.id_furniture)

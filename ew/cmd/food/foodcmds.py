@@ -418,6 +418,18 @@ async def order(cmd):
                                 item_props['furniture_look_desc'] = item_props['furniture_look_desc'].format(custom=customname)
                                 item_props['furniture_place_desc'] = item_props['furniture_place_desc'].format(custom=customname)
 
+                    elif item.item_type == ewcfg.it_cosmetic:
+                        if item_props.get('id_cosmetic') == "customfanhoodie" and cmd.mentions_count > 0:
+                            member = cmd.mentions[0].display_name
+                            item_props['cosmetic_desc'] = item_props['cosmetic_desc'].format(customfanhoodie = member)
+                            item_props['cosmetic_name'] = item_props['cosmetic_name'].format(customfanhoodie = member)
+                            item_props['str_onadorn'] = item_props['str_onadorn'].format(customfanhoodie = member)
+                            item_props['str_unadorn'] = item_props['str_unadorn'].format(customfanhoodie = member)
+
+
+
+                    elif item_props.get('id_food') in ["freeapple"]:
+                        item_props['poisoned'] = 'yes'
 
                     id_item = bknd_item.item_create(
                         item_type=item_type,
@@ -427,7 +439,8 @@ async def order(cmd):
                         stack_size=0,
                         item_props=item_props
                     )
-
+                    
+                
                     if value == 0:
                         response = "You swipe a {} from the counter at {}.".format(name, current_vendor)
                     else:
