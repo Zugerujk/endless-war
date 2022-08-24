@@ -237,6 +237,8 @@ def spawn_enemy(
                     if 'leveltrainer' in status:
                         sl_level = int(status[0])
 
+                name = chosen_npc.slimeoid_name is 
+
                 slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True)
 
 

@@ -338,8 +338,11 @@ def delete_enemy(enemy_data):
     
     # If the enemy is a Slimeoid Trainer, delete its slimeoid.
     if enemy_data.enemytype in ewcfg.slimeoid_trainers:
-        trainer_slimeoid = EwSlimeoid(id_user=enemy_data.id_enemy, id_server=enemy_data.id_server)
-        trainer_slimeoid.delete()
+        try:
+            trainer_slimeoid = EwSlimeoid(id_user=enemy_data.id_enemy, id_server=enemy_data.id_server)
+            trainer_slimeoid.delete()
+        except:
+            pass
     
     bknd_core.execute_sql_query("DELETE FROM enemies WHERE {id_enemy} = %s".format(
         id_enemy=ewcfg.col_id_enemy

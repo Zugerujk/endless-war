@@ -136,6 +136,8 @@ class EwNpc:
     description = '', #a description of the npc fpr !data
 
     rarity = 5 #relative spawn frequency
+
+    slimeoid_name = '' #if a slimeoid trainer has a specific named slimeoid, it is named here.
     
     def __init__(
         self,
