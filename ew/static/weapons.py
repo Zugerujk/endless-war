@@ -789,8 +789,8 @@ weapon_list = [
             "bombs",
             "moly"
         ],
-        str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!",
-        str_miss="**A dud!!** the rag failed to ignite the molotov!",
+        #str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!", Not needed with miss text included, double announcing basically
+        str_miss="**OH FUCK!** Your molotov combusts and shatters all over you the moment {name_player} set it alight!",
         str_crit="{name_player}’s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
         str_equip="You equip the molotov cocktail.",
         str_name="molotov cocktail",
@@ -807,19 +807,18 @@ weapon_list = [
         str_scalp=" It's burnt to a crisp!",
         fn_effect=get_normal_attack(
             weapon_type='incendiary',
-            hit_chance=0.5,
-            damage_multiplier=2,
-            bystander_damage=1,
+            hit_chance=0.6,
+            damage_multiplier=.8,
+            bystander_damage=.75,
             backfire_chance=0.75,
-            backfire_multiplier=2,
-            backfire_crit_mult=1.25,
-            backfire_miss_mult=0
+            backfire_multiplier=.65,
+            backfire_crit_mult=.65,
+            backfire_miss_mult=1,
         ),
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
-        classes=[ewcfg.weapon_class_burning, ewcfg.weapon_class_captcha],
+        classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=0,
         str_brandish="{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."
     ),
     EwWeapon(  # 16
@@ -1819,6 +1818,7 @@ weapon_list = [
             "rocketlauncher",
             "launcher",
         ],
+        str_backfire = "{name_player}'s blast is too close to them, searing off bits of their {hitzone}!",
         str_crit="**Critical hit!!** {name_player} stands on one knee and obliterates {name_target} to high hell!",
         str_miss="**MISS!!** {name_player} literally blows themselves up due to the complex rocket science of pointing and shooting.",
         str_equip="You heave the missile launcher over your shoulder.",
