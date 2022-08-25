@@ -2291,7 +2291,7 @@ EwSmeltingRecipe(
             ewcfg.item_id_alienleather: 4,
             ewcfg.item_id_textiles: 3,
         },
-        products=['alienluxuryhandbag']
+        products=['alienmidcalfboots']
     ),
     EwSmeltingRecipe(
         id_recipe="monofilamentkaleidoscopejacquard",
@@ -2304,7 +2304,7 @@ EwSmeltingRecipe(
             ewcfg.item_id_monofilamentcloth: 5,
             ewcfg.item_id_textiles: 3,
         },
-        products=['alienluxuryhandbag']
+        products=['monofilamentkaleidoscopejacquard']
     ),
     EwSmeltingRecipe(
         id_recipe="monofilamentpalazzo",
