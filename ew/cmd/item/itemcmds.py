@@ -942,7 +942,7 @@ async def item_use(cmd):
                 response = "***:tada:POP!!!:tada:*** Confetti flies all throughout the air, filling the area with a sense of celebration! :confetti_ball::confetti_ball::confetti_ball:"
 
             elif context == 'milk':
-                response = "After struggling with the milk cap, you eventually manage to force off the cap with your hands, hold the opened gallon in front of you, pouring it all out on the ground until it is empty."
+                response = "After struggling with the milk cap, you eventually manage to force it off with your bare hands. Now holding the open gallon jug out, you pour all of its contents onto the ground until you're left with an empty carton."
 
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"
