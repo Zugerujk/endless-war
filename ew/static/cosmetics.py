@@ -2256,8 +2256,8 @@ cosmetic_items_list = [
         vendors = [], # Get it from mobs, chumps.
     ),
     EwCosmeticItem(
-        id_cosmetic = "bunnysuit",
-        str_name = "Bunny Suit",
+        id_cosmetic = "rabbitsuit",
+        str_name = "Rabbitz Suit",
         str_desc = "Whoever made this revealing suit knew exactly what they were doing, and more importantly what sultry magazine they were infringing the copyright from. Keep those fishnet socks high! Because your inner body temperature won't be when the snow hits.",
         rarity = "Patrician",
         durability = 250000,
