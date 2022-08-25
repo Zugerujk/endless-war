@@ -1057,6 +1057,7 @@ async def apt_look(cmd):
     if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
         furn_response += "Whoa, your flat is so futuristic! You’ve got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don’t get it.\n\n"
 
+
     market_data = EwMarket(id_server=playermodel.id_server)
     clock_data = ewutils.weather_txt(market_data)
     clock_data = clock_data[16:20]
