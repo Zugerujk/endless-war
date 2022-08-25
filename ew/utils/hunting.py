@@ -237,9 +237,9 @@ def spawn_enemy(
                     if 'leveltrainer' in status:
                         sl_level = int(status[0])
 
-                name = chosen_npc.slimeoid_name is 
+                name = chosen_npc.slimeoid_name if len(chosen_npc.slimeoid_name) > 0 else None
 
-                slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True)
+                slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True, name=name)
 
 
             #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
