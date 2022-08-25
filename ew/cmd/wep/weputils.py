@@ -534,7 +534,7 @@ def canAttack(cmd):
 
         elif shootee_data.life_state == ewcfg.life_state_corpse and (ewcfg.status_busted_id in shootee_data.getStatusEffects() or (time.time() - shootee_data.time_lastdeath < ewcfg.time_to_manifest)):
             # Target is already dead and not a ghost.
-            response = "{} is already dead.".format(member.display_name)
+            response = "{} isn't ghostly enough to be busted.".format(member.display_name)
 
         elif shootee_data.poi != user_data.poi:
             response = "You can't reach them from where you are. Didn't stop you trying, though."

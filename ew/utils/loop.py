@@ -121,10 +121,7 @@ async def event_tick(id_server):
                         bknd_event.create_void_connection(id_server)
                     elif event_data.event_type == ewcfg.event_type_dimensional_rift:
                         rift_poi = poi_static.id_to_poi.get(event_data.event_props.get('poi'))
-                        print(event_data.event_props.get('sisterlocation'))
-                        print(rift_poi.neighbors)
                         rift_poi.neighbors.pop(event_data.event_props.get('sisterlocation'), "")
-                        print(rift_poi.neighbors)
                     if len(response) > 0:
                         poi = event_data.event_props.get('poi')
                         channel = event_data.event_props.get('channel')
@@ -1332,7 +1329,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
 
-                        if random.randint(1, 12) == 1: # 1/12 chance to start a random poi event
+                        if random.randint(1, 11) == 1: # 1/11 chance to start a random poi event
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
 
