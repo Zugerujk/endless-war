@@ -2291,7 +2291,7 @@ EwSmeltingRecipe(
             ewcfg.item_id_alienleather: 4,
             ewcfg.item_id_textiles: 3,
         },
-        products=['alienmidcalfboots']
+        products=['alienleathermidcalfboots']
     ),
     EwSmeltingRecipe(
         id_recipe="monofilamentkaleidoscopejacquard",
