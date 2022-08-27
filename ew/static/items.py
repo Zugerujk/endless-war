@@ -3700,4 +3700,4 @@ for furniture in furniture_list:
     elif furniture.furn_set == "collection":
         furniture_collection.append(furniture.id_furniture)
     elif furniture.furn_set == "hatealiens":
-        furniture_collection.append(furniture.id_furniture)
+        furniture_hatealiens.append(furniture.id_furniture)
