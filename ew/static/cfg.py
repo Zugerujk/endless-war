@@ -3232,6 +3232,8 @@ cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability
 cosmeticAbility_id_clout = "clout" 
 cosmeticAbility_id_nmsmascot = "nmsmascot" # Used to track whether you're wearing any mascot pieces.
 cosmeticAbility_id_furry = "furry"
+cosmeticAbility_id_demon = "demon"
+cosmeticAbiltiy_id_bug = "bug"
 
 # Slimeoid attributes.
 slimeoid_strat_attack = "attack"
