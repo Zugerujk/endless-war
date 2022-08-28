@@ -2248,7 +2248,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "rosetintedglasses",
         str_name = "Rosetinted Glasses",
-        str_desc = "Legend says that these glasses removes the green purple and pink filter of NLACakaNM! Of course, unless you're a hardcore artist who values every color, why would you ever want this?",
+        str_desc = "Legend says that these glasses remove the green, purple, and pink filter of NLACakaNM! Of course, unless you're a hardcore artist who values every color, why would you ever want this?",
         rarity = "Plebeian",
         durability = 250000,
         style = "cute",
@@ -2257,7 +2257,7 @@ cosmetic_items_list = [
     ),
     EwCosmeticItem(
         id_cosmetic = "rabbitsuit",
-        str_name = "Rabbitz Suit",
+        str_name = "Rabbit Suit",
         str_desc = "Whoever made this revealing suit knew exactly what they were doing, and more importantly what sultry magazine they were infringing the copyright from. Keep those fishnet socks high! Because your inner body temperature won't be when the snow hits.",
         rarity = "Patrician",
         durability = 250000,
@@ -2538,7 +2538,7 @@ cosmetic_map = {}
 # A list of cosmetic names.
 cosmetic_names = []
 
-# A list of grouped cosmetics
+# A list of grouped cosmetics.
 cosmetic_nmsmascot = []
 cosmetic_hatealiens = []
 
@@ -2549,3 +2549,5 @@ for cosmetic in cosmetic_items_list:
     cosmetic_names.append(cosmetic.id_cosmetic)
     if cosmetic.ability == "nmsmascot":
         cosmetic_nmsmascot.append(cosmetic.id_cosmetic)
+    elif cosmetic.ability == "hatealiens":
+        cosmetic_hatealiens.append(cosmetic.id_cosmetic)
