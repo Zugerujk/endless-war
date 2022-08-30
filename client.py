@@ -119,12 +119,20 @@ while sys.argv:
     elif arg_lower.startswith(db_prefix):
         ewcfg.database = arg_lower[len(db_prefix):]
 
+    for arg in sys.argv:
+        if arg[2:].lower() in ewutils.DEBUG_OPTIONS.keys() and arg[:2] == "--":
+            ewutils.DEBUG_OPTIONS[arg[2:]] = True
+            ewutils.logMsg('Enabled the {} debug option.'.format(arg[2:]))
+
+
     sys.argv = sys.argv[1:]
 
 # When debug is enabled, additional commands are turned on.
 if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
+
+
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 

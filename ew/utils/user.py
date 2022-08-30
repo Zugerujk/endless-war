@@ -31,9 +31,10 @@ def get_move_speed(user_data):
     move_speed *= rutils.debug256(id_server=user_data.id_server)
 
     move_speed = max(0.1, move_speed)
-    if ewutils.DEBUG == True:
+    if ewutils.DEBUG_OPTIONS.get('speed2x') == True:
         move_speed *= 2
-        #move_speed = 12
+    if ewutils.DEBUG_OPTIONS.get('lightspeed') == True:
+        move_speed = 12
 
 
     return move_speed
