@@ -276,8 +276,8 @@ EwNpc(
     str_name = "RF",
     description = 'This little guy made a big splash in the Rowdys when they first joined up. They ended up getting Consort in record time thanks to the inexplicable appearance of a bunch of  consort-themed fetch quests. If you kill him? Oh boy, he\'ll really lose his marbles.',
     poi_list = [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_cratersville, ewcfg.poi_id_wreckington, ewcfg.poi_id_poudrinalley],
-    dialogue = {"talk":["!!!", "👋",  "🤙", "*RF gives you a high five.*"],
-                "loop":["*RF just checked a trash can. Can't jump in there, too full.*", "*RF is anxious and jumping around! You must've caught them by suprise.*", "*RF seems distracted by that brick over there*", "*RF does a little happy dance.*"],
+    dialogue = {"talk":["!!!", "👋",  "🤙", "()*RF gives you a high five.*"],
+                "loop":["()*RF just checked a trash can. Can't jump in there, too full.*", "()*RF is anxious and jumping around! You must've caught them by suprise.*", "()*RF seems distracted by that brick over there*", "()*RF does a little happy dance.*"],
                 "rowdyroughhouseloop": ["RF looks at the top of the Rowdy Roughhouse with a sense of pride."],
                 "outsidethe711loop": ["RF repeatedly presses the button to the fuck energy machine."],
                 "hit":["RF gears up for battle."],
@@ -466,17 +466,87 @@ EwNpc(
                 "give":["Thanks for the donation! I assure you it won't go to waste!"]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/herb_placeholder.jpg",
     defaultslime = 20,
     defaultlevel = 1,
     rarity=3,
+    slimeoid_name='Fortunate Son',
     rewards = [
     {"herbsscalp":[100, 1, 1]}
     ],
     starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
 
 ),
-
+EwNpc(
+    id_npc = "n11",
+    active = True,
+    str_name = "Mr. Musset, Formerly N11",
+    description = "A former Slimecorp employee. Are you gonna put aside your differences here? Personally, I'd fawgeddabowdhit.",
+    poi_list = [ewcfg.poi_id_brawlden, ewcfg.poi_id_wreckington, ewcfg.poi_id_cratersville, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_toxington, ewcfg.poi_id_charcoalpark],
+    dialogue = {"talk":["Hey dere.", "I'm comin ta change things. Public woiks, that kinda thing.", "Look at dis wise guy ova ere! They just waltz outta prison, so why are we's even funding dis? Seems like a big waste.", "We was a bit too extreme, but I don't do dat anymore."],
+                "loop":["Vote for dis guy! Ruben Musset oughta brighten up da government!", "I'm ya guy, I promise. I know Slimecorp, I can regulate Slimecorp.", "Musset for mayor, ya never felt gayer! And youse all know I'm talkin about the happy meaning."],
+                "hit":["Oh no ya don't.", "Come on!"],
+                "die":["Shoulda known.", "Asassinated, my foot! Come back ere!", "Can't zuck me, not no more...", "SEE DIS, PEOPLE? YOU DON'T HAFTA DIE LIKE DIS!"],
+                "give":["Ey, buddy. Dat means a lot."]
+                },
+    func_ai = npcutils.candidate_action,
+    image_profile = "",
+    defaultslime = 4000000,
+    defaultlevel = 55,
+    rarity=3,
+    slimeoid_name = 'Lil\' Bruiser',
+    rewards = [
+    {"n11scalp":[100, 1, 1],
+     ewcfg.weapon_id_brassknuckles:[20, 1, 1]}
+    ],
+    starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
+),
+EwNpc(
+    id_npc = "mozz",
+    active = True,
+    str_name = "Mozz",
+    description = "Eww. Looks like somebody smelted a stuffed crust pizza wrong. Better let the thing just go about its business.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["()It starts to snarl at you! Oh shit!", "WRYYYYYYYYYY!"],
+                "loop":["()*slurp smack* ", "AJAJAJA!!", "*munch munch*", "...", "WRYYYYYYYYYY! *Yawn...*"],
+                "hit":["!!", "HCK!"],
+                "die":["()The creature melts into a pizza puddle on the ground...", "WEHHHHHHH!"],
+                "give":["()Mozz takes your spoiled food and runs away with it!"]
+                },
+    func_ai = npcutils.mozz_action,
+    image_profile = "",
+    defaultslime = 9999000,
+    defaultlevel = 1,
+    rarity=5,
+    rewards = [
+    {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
+     ewcfg.item_id_quadruplestuffedcrust:[100, 2, 4],
+     ewcfg.item_id_doublestuffedcrust:[100, 2, 4]}
+    ],
+    starting_statuses=[ewcfg.status_enemy_tanky_id, ewcfg.status_enemy_dodgy_id, ewcfg.status_enemy_barren_id],
+),
+EwNpc(
+    id_npc = "slox",
+    active = True,
+    str_name = "Slox",
+    description = "It's a harmless little creature that just enjoys resting with its friend under the Poudrin Alley bridge.",
+    poi_list = ewcfg.poi_id_poudrinalley,
+    dialogue = {"talk":["Prrrr...."],
+                "loop":["*yawn* ", "Prrrr...."],
+                "hit":["!!", "RRRRR!"],
+                "die":["()The slox ragdolls to the ground. Why are you so cruel?"],
+                "give":["()The slox takes your gift and brings it back to their resting place to share it with their friend."]
+                },
+    func_ai = npcutils.slox_action,
+    image_profile = "",
+    defaultslime = 300,
+    defaultlevel = 1,
+    rarity=5,
+    rewards = [
+    {}
+    ],
+    starting_statuses=["buddyslox"],
+),
 ]
 
 active_npcs_map = {}

@@ -4,12 +4,17 @@ from ew.utils import frontend as fe_utils
 import random
 from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
+from ew.static import items as static_items
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
 import ew.utils.hunting as ewhunting
 import ew.backend.item as bknd_item
 from ew.backend.dungeons import EwGamestate
+from ew.backend import hunting as bknd_hunting
+import time
+from ew.utils.combat import EwUser
+from ew.utils.combat import EwEnemy
 #move: enemy move action
 #talk: action on a !talk
 #act: action every 3 seconds
@@ -104,6 +109,28 @@ async def candidate_action(keyword = '', enemy = None, channel = None, item = No
         return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
+async def mozz_action(keyword = '', enemy = None, channel = None, item = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == 'give':
+        return await mozz_give(enemy=enemy, channel=channel, item=item, npc_obj=npc_obj)
+    elif keyword == 'move':
+        return await mozz_move(npc_obj=npc_obj, channel=channel, enemy=enemy)
+    elif keyword == 'talk':
+        return await attack_talk(npc_obj=npc_obj, channel=channel, enemy=enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+
+async def slox_action(keyword = '', enemy = None, channel = None, item = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == 'die':
+        return await warpath_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'give':
+        return await feeder_give(enemy=enemy, channel=channel, item=item, npc_obj=npc_obj)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
@@ -135,7 +162,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 async def generic_move(enemy = None, npc_obj = None): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
-        if True or random.randrange(20) == 0:
+        if random.randrange(20) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
                 channel = list(resp_cont.channel_responses.keys())[0]
@@ -178,6 +205,8 @@ async def generic_hit(channel, npc_obj, enemy, territorial = True, probability =
     else:
         if random.randint(1, probability) == 1:
             await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
+
+
 
 async def generic_give(channel, npc_obj, enemy, item):
 
@@ -341,7 +370,20 @@ async def candidate_give(channel, npc_obj, enemy, item):
     gamestate.persist()
 
 
-    bknd_item.item_delete(item.get('id_item'))
+    item_obj = EwItem(id_item=item.get('id_item'))
+    usermodel = EwUser(id_user=item_obj.id_owner, id_server=enemy.id_server)
+
+    if item_obj.soulbound or item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
+        response = "You can't do that. Isn't that important?"
+        return await fe_utils.send_message(None, channel, response)
+    if item_obj.item_type in([ewcfg.it_questitem, item_obj.item_type == ewcfg.it_medal, ewcfg.it_relic])  or item_obj.item_props.get('rarity') == ewcfg.rarity_princeps or item_obj.item_props.get('id_cosmetic') == "soul" or item_obj.item_props.get('id_furniture') == "propstand" or item_obj.item_props.get('id_furniture') in static_items.furniture_collection or item_obj.item_props.get('acquisition') == 'relic':
+        if item.get('item_type') == ewcfg.it_cosmetic:
+            item_data = EwItem(id_item=item.get('id_item'))
+            item_data.item_props["adorned"] = 'false'
+            item_data.persist()
+        bknd_item.give_item(id_item=item.get('id_item'), id_user="npcinv{}".format(enemy.enemyclass), id_server=enemy.id_server)
+    else:
+        bknd_item.item_delete(item.get('id_item'))
     response = "!!"
     if npc_obj.dialogue.get('give') is not None:
         response = random.choice(npc_obj.dialogue.get('give'))
@@ -362,3 +404,93 @@ async def candidate_die(channel, npc_obj, enemy, item):
 
     name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+
+
+async def attack_talk(channel, npc_obj, enemy, territorial = True): #territorial enemy that attacks when you do. if a line is prepared for it, talkbubble that line
+    if ewcfg.status_enemy_hostile_id not in enemy.getStatusEffects() and territorial:
+        enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+
+    await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy)
+
+
+async def mozz_give(channel, npc_obj, enemy, item):
+    item_data = EwItem(id_item=item.get('id_item'))
+    item_has_expired = float(getattr(item_data, "time_expir", 0)) < time.time()
+    if item_data.item_type == ewcfg.it_food and item_has_expired:
+        resp_cont = enemy.move()
+        await resp_cont.post()
+        if ewcfg.status_enemy_hostile_id in enemy.getStatusEffects():
+            enemy.clear_status(id_status=ewcfg.status_enemy_hostile_id)
+        bknd_item.item_delete(item.get('id_item'))
+        if random.randrange(5) == 0:
+            enemy.level += 1
+        enemy.persist()
+        await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='give', enemy=enemy)
+
+    else:
+        await attack_talk(channel, npc_obj, enemy, territorial = True)
+
+async def mozz_move(channel, npc_obj, enemy):
+    if random.randrange(20) == 0:
+        resp_cont = enemy.move()
+        if resp_cont != None:
+            channel = list(resp_cont.channel_responses.keys())[0]
+            enemy = EwEnemy(id_server=enemy.id_server, id_enemy=enemy.id_enemy)
+            items_in_poi = bknd_item.inventory(id_user=enemy.poi, id_server=enemy.id_server,  item_sorting_method='id', item_type_filter=ewcfg.it_food)
+            max_food_items = 15
+            for item_thing in items_in_poi:
+                item = EwItem(id_item = item_thing.get('id_item'))
+                item_has_expired = float(getattr(item, "time_expir", 0)) < time.time()
+                if item_has_expired:
+                    max_food_items -= 1
+                    bknd_item.item_delete(item_thing.get('id_item'))
+                    if random.randrange(5) == 0:
+                        enemy.level += 1
+                    if max_food_items <= 0:
+                        break
+            enemy.persist()
+            if npc_obj.dialogue.get('enter') is not None:
+                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+            elif npc_obj.dialogue.get('loop') is not None:
+                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+
+
+async def warpath_die(channel, npc_obj, enemy):
+
+    enemydata = bknd_core.execute_sql_query(
+        "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1 AND {id_server} = %s".format(
+            id_enemy=ewcfg.col_id_enemy,
+            display_name=ewcfg.col_enemy_class,
+            life_state=ewcfg.col_enemy_life_state,
+            id_server=ewcfg.col_id_server
+        ), (
+            npc_obj.enemyclass,
+            enemy.id_server
+        ))
+
+    for enemy in enemydata:
+        sim_enemy = EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+        if enemy.life_state == ewcfg.enemy_lifestate_alive:
+            sim_enemy.level += 50
+            sim_enemy.slimes += 5000000
+            enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+            sim_enemy.persist()
+    await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='hit')
+    await asyncio.sleep(15)
+
+    for enemy in enemydata:
+        sim_enemy = EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+        bknd_hunting.delete_enemy(sim_enemy)
+
+    response = "{} ran away...".format(enemy.display_name)
+    return await fe_utils.send_message(None, channel, response)
+
+async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
+    item_data = EwItem(id_item=item.get('id_item'))
+    item_has_expired = float(getattr(item_data, "time_expir", 0)) < time.time()
+    if item_data.item_type == ewcfg.it_food and (willEatExpired or not item_has_expired):
+        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
+        bknd_item.item_delete(item.get('id_item'))
+    else:
+        response = "{} turns their nose at your offer."
+        return await fe_utils.send_message(None, channel, response)

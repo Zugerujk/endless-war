@@ -288,6 +288,22 @@ status_effect_list = [
         str_describe_self=""
     ),
     EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_tanky_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They look exceedingly difficult to kill.",
+        str_describe_self="",
+        dmg_mod=-.8,
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_dodgy_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Their movements are erratic, they're incredibly difficult to hit.'",
+        str_describe_self="",
+        hit_chance_mod=-.8
+    ),
+    EwStatusEffectDef(
         id_status=ewcfg.status_dueling,
         time_expire=300,
         str_acquire="",

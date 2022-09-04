@@ -76,6 +76,7 @@ def spawn_enemy(
         pre_chosen_props = None,
         pre_chosen_npc = None,
         manual_spawn = False,
+        is_buddy = False
 ):
     time_now = int(time.time())
     response = ""
@@ -219,6 +220,7 @@ def spawn_enemy(
         enemy.enemy_props = props if pre_chosen_props is None else pre_chosen_props
 
         enemy.persist()
+        buddies = []
         if enemy.enemytype == 'npc':
             chosen_npc = active_npcs_map.get(enemy.enemyclass)
             for status in chosen_npc.starting_statuses:
@@ -238,6 +240,9 @@ def spawn_enemy(
                 for status in chosen_npc.starting_statuses:
                     if 'leveltrainer' in status:
                         sl_level = int(status[0])
+
+                    if 'buddy' in status:
+                        buddies.append(status[5:])
 
                 name = chosen_npc.slimeoid_name if len(chosen_npc.slimeoid_name) > 0 else None
 
@@ -274,7 +279,10 @@ def spawn_enemy(
                                                 pre_chosen_poi=chosen_poi, manual_spawn=True)
 
                     resp_cont.add_response_container(sub_resp_cont)
-
+        if len(buddies) > 0 and not is_buddy:
+            for buddy in buddies:
+                sub_resp_cont = spawn_enemy(id_server=id_server, pre_chosen_type='npc', pre_chosen_poi=chosen_poi, manual_spawn=True, is_buddy=True, pre_chosen_npc=buddy)
+                resp_cont.add_response_container(sub_resp_cont)
 
         if enemytype not in ewcfg.raid_bosses:
 
