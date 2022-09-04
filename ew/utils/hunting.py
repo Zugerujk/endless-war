@@ -30,14 +30,16 @@ def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
             npcname = random.choice(spawn_probability_list)
             chosen_npc = active_npcs_map.get(npcname)
             enemydata = bknd_core.execute_sql_query(
-                    "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1".format(
+                    "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1 AND {id_server} = %s".format(
                         id_enemy=ewcfg.col_id_enemy,
-                        display_name=ewcfg.col_display_name,
-                        life_state=ewcfg.col_enemy_life_state
+                        display_name=ewcfg.col_enemy_class,
+                        life_state=ewcfg.col_enemy_life_state,
+                        id_server=ewcfg.col_id_server
                     ), (
-                        chosen_npc.str_name,
+                        chosen_npc.enemyclass,
+                        enemy.id_server
                     ))
-            if len(enemydata) > 0:
+            if len(enemydata) == 0:
                 break
             else:
                 loop_count += 1
