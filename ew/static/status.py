@@ -372,6 +372,12 @@ trauma_list = [
         trauma_class=ewcfg.trauma_class_damage,
     ),
     EwTrauma(
+        id_trauma=ewcfg.trauma_id_backfire,
+        str_trauma_self="You are suffering from a chronic case of stupidity.",
+        str_trauma="They are suffering from a chronic case of stupidity.",
+        trauma_class=ewcfg.trauma_class_damage
+    ),
+    EwTrauma(
         id_trauma=ewcfg.trauma_id_betrayal,
         str_trauma_self="You look anxious around your teammates, wary of betrayal.",
         str_trauma="They look anxious around their teammates, wary of betrayal.",
@@ -665,19 +671,19 @@ trauma_list = [
         str_trauma="There is a deep, precise indent in the crown of their skull. How embarrassing!",
         trauma_class=ewcfg.trauma_class_hunger,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_awp,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_huntingrifle,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-                EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_monofilamentwhip,
         str_trauma_self="Your body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
         str_trauma="Their body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
@@ -717,6 +723,12 @@ trauma_list = [
         id_trauma=ewcfg.weapon_id_juvierang,
         str_trauma_self="Your head is cleaved in with an L-shaped imprint. Loser!",
         str_trauma="Their head is cleaved in with an L-shaped imprint. Loser!",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 48
+        id_trauma=ewcfg.weapon_id_missilelauncher,
+        str_trauma_self="You still haven't found the missing body part from your last encounter.",
+        str_trauma="It looks like they are still searching for a missing body part.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
 ]

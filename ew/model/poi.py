@@ -128,9 +128,6 @@ class EwPoi:
     # The wiki page associated with that poi
     wikipage = ""
 
-    #check to split POI
-    isSplit = ""
-
     #if !jump will take you anywhere
     jump_dest = ""
 
@@ -177,7 +174,6 @@ class EwPoi:
             neighbors = None,
             topic = "",
             wikipage = "",
-            isSplit = "",
             jump_dest = ""
     ):
         self.id_poi = id_poi
@@ -221,7 +217,6 @@ class EwPoi:
         self.write_manuscript = write_manuscript
         self.topic = topic
         self.wikipage = wikipage
-        self.isSplit = isSplit
         self.jump_dest = jump_dest
 
         self.neighbors = neighbors

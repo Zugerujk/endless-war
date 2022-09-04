@@ -73,7 +73,7 @@ async def weather_tick(id_server = None):
                             continue
                         else:
                             mutations = user_data.get_mutations()
-                            if ewcfg.mutation_id_airlock in mutations:
+                            if ewcfg.mutation_id_airlock in mutations or ewcfg.mutation_id_monplanto in mutations:
                                 user_data.hunger -= min(user_data.hunger, 5)
                     except:
                         ewutils.logMsg("Error occurred in weather tick for server {}".format(id_server))
@@ -322,9 +322,15 @@ async def weather_tick(id_server = None):
 
 async def weather_cycle(id_server = None):
     market_data = EwMarket(id_server)
-    
+    valid_weather = False
+
+    # In case the weather is somehow set to something un-weatherable
+    for weather in weather_static.weather_list:
+        if weather.name == market_data.weather:
+            valid_weather = True
+
     # Potentially change the weather
-    if random.randrange(3) == 0:
+    if random.randrange(3) == 0 or valid_weather == False:
             pattern_count = len(weather_static.weather_list)
 
             if pattern_count > 1:

@@ -1752,7 +1752,6 @@ class EwUser(EwUserBase):
                 if (level >= mutation_level + new_mutation_obj.tier) and (self.life_state not in [ewcfg.life_state_corpse]) and (mutation_level < 50):
 
                     add_success = self.add_mutation(new_mutation)
-
                     if add_success:
                         response += "\n\nWhat’s this? You are mutating!! {}".format(new_mutation_obj.str_acquire)
 
@@ -1821,7 +1820,12 @@ class EwUser(EwUserBase):
                 rigor = True
             else:
                 rigor = False
-
+            # Ambidextrous
+            if ewcfg.mutation_id_ambidextrous in mutations:
+                ambidextrous = True
+            else:
+                ambidextrous = False
+                
             # Clear and reset user attributes
             if cause != ewcfg.cause_suicide or self.slimelevel > 10:
                 self.rand_seed = random.randrange(500000)
@@ -1836,8 +1840,6 @@ class EwUser(EwUserBase):
             self.hunger = 0
             self.inebriation = 0
             self.bounty = 0
-
-            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
             # Stat processing
             ewstats.increment_stat(user=self, metric=ewcfg.stat_lifetime_deaths)
@@ -1863,13 +1865,13 @@ class EwUser(EwUserBase):
 
                 ids_to_drop = []
                 # Drop some of your items
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your foods
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your weapons
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your cosmetics
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop all of your relics
                 ids_to_drop.extend(itm_utils.die_dropall(user_data=self, item_type=ewcfg.it_relic, kill_method=cause))
 
@@ -1901,6 +1903,8 @@ class EwUser(EwUserBase):
             self.weapon = -1
             self.sidearm = -1
             self.time_expirpvp = 0
+
+            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
             try:
                 item_cache = bknd_core.get_cache(obj_type = "EwItem")
@@ -2061,7 +2065,7 @@ class EwUser(EwUserBase):
 
             response = item_props['str_eat'] + ("\n\nYou're stuffed!" if self.hunger <= 0 else "")
             try:
-                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw"]:
+                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw", "chilledaushucklog"]:
                     self.clear_status(id_status=ewcfg.status_ghostbust_id)
                     self.applyStatus(id_status=ewcfg.status_ghostbust_id)
                     # Bust player if they're a ghost
@@ -2192,14 +2196,12 @@ class EwUser(EwUserBase):
                 # Retry if player already has the mutation
                 if result in current_mutations:
                     continue
-                
                 # Retry if the mutation is incompatible with an already-had mutation
                 for mutations in current_mutations:
                     mutation = static_mutations.mutations_map[mutations]
                     if result in mutation.incompatible:
                         incompatible = True
                         break
-
                 if incompatible:
                     continue
 

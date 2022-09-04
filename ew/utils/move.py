@@ -126,18 +126,23 @@ class EwPath:
 def path_step(path, poi_next, cost_next, user_data, poi_end, landmark_mode = False):
     next_poi = poi_next
 
+    # Observer always makes inaccessible False
     if inaccessible(user_data=user_data, poi=next_poi):
         return False
     else:
         # check if we already got the movement bonus/malus for this district
         if not poi_next.id_poi in path.pois_visited:
+            # if the given next step hasn't been marked visited, do so
             path.pois_visited.add(next_poi.id_poi)
+            # If user has a faction, and the next poi isnt the start or end
             if len(user_data.faction) > 0 and next_poi.id_poi != poi_end.id_poi and next_poi.id_poi != path.steps[0].id_poi:
+                # Grab district data
                 district = EwDistrict(
                     id_server=user_data.id_server,
                     district=next_poi.id_poi
                 )
 
+                # If district data is found and it is capped, add/sub the faction bonus to cost_next
                 if district != None and len(district.controlling_faction) > 0:
                     if user_data.faction == district.controlling_faction:
                         cost_next -= ewcfg.territory_time_gain
@@ -147,11 +152,14 @@ def path_step(path, poi_next, cost_next, user_data, poi_end, landmark_mode = Fal
                 elif user_data.faction == ewcfg.faction_slimecorp:
                     cost_next -= ewcfg.territory_time_gain
 
+    # Add the given next step to the path
     path.steps.append(poi_next)
 
+    # subtract the faction bonus if the cost allows for it
     if landmark_mode and cost_next > ewcfg.territory_time_gain:
         cost_next -= ewcfg.territory_time_gain
 
+    # add the step's cost to the path cost
     path.cost += cost_next
 
     return True
@@ -163,11 +171,14 @@ def path_step(path, poi_next, cost_next, user_data, poi_end, landmark_mode = Fal
 
 
 def path_branch(path_base, poi_next, cost_next, user_data, poi_end, landmark_mode = False):
+    # Create a copy of the base path
     path_next = EwPath(path_from=path_base)
 
+    # Return None if the next step is inaccessible
     if path_step(path_next, poi_next, cost_next, user_data, poi_end, landmark_mode) == False:
         return None
 
+    # Return the base path with its next poi, and the corresponding cost, added, and marked as visited
     return path_next
 
 
@@ -176,68 +187,86 @@ def score_map_from(
         user_data = None,
         landmark_mode = False
 ):
+    # Load all districts with infinite travel time
     score_golf = math.inf
     score_map = {}
     for poi in poi_static.poi_list:
         score_map[poi.id_poi] = score_golf
 
-    paths_finished = []
+    # Initialize some variable names
     paths_walking = []
+    poi_end = None
 
+    # Get EwPoi of the given start district
     poi_start = poi_static.id_to_poi.get(poi_start)
-    poi_end = None
-    poi_end = None
 
+    # Initialize an empty path beginning with the given district, marked as already visited
     path_base = EwPath(
         steps=[poi_start],
         cost=0,
         pois_visited={poi_start.id_poi},
     )
 
+    # Add the base path to the list of paths
     paths_walking.append(path_base)
 
+    # Repeat until No paths are being checked
     count_iter = 0
     while len(paths_walking) > 0:
         count_iter += 1
 
         paths_walking_new = []
 
+        # Iterate through all paths to be walked
         for path in paths_walking:
+            # Grab the known score (infinite to start) of the final step, and skip walking this path if its cost is greater
             step_last = path.steps[-1]
             score_current = score_map.get(step_last.id_poi)
             if path.cost >= score_current:
                 continue
 
+            # Set the mapped score of the last step to the path's cost
             score_map[step_last.id_poi] = path.cost
 
+            # Grab the second to last step if there are 2 or more
             step_penult = path.steps[-2] if len(path.steps) >= 2 else None
 
+            # Set the base path to the one currently being walked, and grab the neighbor ids of the last step
             path_base = path
             neighs = list(step_last.neighbors.keys())
 
+            # If there is a second to last step, and it neighbors the last step, remove it from the neighbor list
             if step_penult != None and step_penult.id_poi in neighs:
                 neighs.remove(step_penult.id_poi)
 
+            # Loop each remaining neighbor
             num_neighbors = len(neighs)
             for i in range(num_neighbors):
-
+                # Grabbing its EwPoi and travel cost from the last step
                 neigh = poi_static.id_to_poi.get(neighs[i])
                 neigh_cost = step_last.neighbors.get(neigh.id_poi)
 
+                # Skip if it has no cost
                 if neigh_cost == None:
                     continue
 
+                # On all but the last neighbor in the loop
                 if i < num_neighbors - 1:
+                    # Create a new path with the neighbor appended, visited, and its cost (-10) added
                     branch = path_branch(path_base, neigh, neigh_cost, user_data, poi_end, landmark_mode)
-                    if branch != None:
+                    if branch != None:  # if the branch *can* be made anyway
                         paths_walking_new.append(branch)
 
+                # For the last neighbor
                 else:
+                    # directly add it to the base path
                     if path_step(path_base, neigh, neigh_cost, user_data, poi_end, landmark_mode):
                         paths_walking_new.append(path_base)
 
+        # Set the paths to process equal to the list of the base path + neighbor, one path for each neighbor
         paths_walking = paths_walking_new
 
+    # Return a dictionary of the cost to reach each district from the given starting point
     return score_map
 
 
@@ -247,19 +276,22 @@ def path_to(
         user_data = None
 ):
     # ewutils.logMsg("beginning pathfinding")
+    # Map all districts with a starting score of infinite
     score_golf = math.inf
     score_map = {}
     for poi in poi_static.poi_list:
         score_map[poi.id_poi] = math.inf
 
+    # Initialize some lists for later use/reference
     paths_finished = []
     paths_walking = []
-
     pois_adjacent = []
 
+    # Grab the EwPoi of the start and destination
     poi_start = poi_static.id_to_poi.get(poi_start)
     poi_end = poi_static.id_to_poi.get(poi_end)
 
+    # Initialize a path beginning at the given start district
     path_base = EwPath(
         steps=[poi_start],
         cost=0,
@@ -267,98 +299,129 @@ def path_to(
     )
 
     path_id = 0
+    # Push a tuple of (Base Cost + LMH of base to destination, path id, and the base EwPath) onto the heap (paths_walking)
     heapq.heappush(paths_walking, (path_base.cost + landmark_heuristic(path_base, poi_end), path_id, path_base))
     path_id += 1
 
+    # While there are paths to walk, do something to all of them, and track the number of iterations
     count_iter = 0
     while len(paths_walking) > 0:
         count_iter += 1
 
+        # grab the smallest (By cost + landmark heuristic) path out of the list, removing it
         path_tuple = heapq.heappop(paths_walking)
 
+        # Grab the EwPath out of the acquired tuple
         path = path_tuple[-1]
 
+        # So long as there WAS a path to grab
         if path is not None:
+            # Grab the final step in the path, and its known score
             step_last = path.steps[-1]
             score_current = score_map.get(step_last.id_poi)
+
+            # Skip conditions
             if poi_end is not None and not poi_start.is_outskirts and not poi_end.is_outskirts and step_last.is_outskirts and poi_end.id_poi != 'temple' and poi_start.id_poi != 'temple':
                 # do not go through outskirts if the start and destination aren't part of them
                 continue
             if path.cost >= score_current:
+                # if the total path cost exceeds the cost of the final step
                 continue
             if user_data.life_state != ewcfg.life_state_corpse and (poi_end and poi_end.id_poi != step_last.id_poi == ewcfg.poi_id_thesewers):
+                # if alive, and the destination EwPoi exists, is not the final step
                 # can't route through the sewers unless you're dead
                 continue
 
+            # assign the path's cost as the score for the final step
             score_map[step_last.id_poi] = path.cost
             # ewutils.logMsg("visiting " + str(step_last))
 
+            # Grab the second to last step if there is one
             step_penult = path.steps[-2] if len(path.steps) >= 2 else None
 
+            # If a destination was passed
             if poi_end != None:
                 # Arrived at the actual destination?
                 if step_last.id_poi == poi_end.id_poi:
+                    # If the final step of the current path is the destination
                     path_final = path
                     if path_final.cost < score_golf:
+                        # if the cost is less than the lowest currently known, overwrite, and empty the finished paths
                         score_golf = path_final.cost
                         paths_finished = []
                     if path_final.cost <= score_golf:
+                        # if the path is the fastest, or equivalent, add to the finished paths
                         paths_finished.append(path_final)
+                    # Leave the "if path is not None" block
                     break
-
+            # If no destination was given
             else:
                 # Looking for adjacent points of interest.
                 poi_adjacent = step_last
-
+                # if the final step is not the starting poi, add it to the list of adjacent pois, and return to the beginning of the loop
                 if poi_adjacent.id_poi != poi_start.id_poi:
                     pois_adjacent.append(poi_adjacent)
                     continue
 
+            # Set the base path to the current path, and get the neighbors of the final step
             path_base = path
             neighs = list(step_last.neighbors.keys())
 
+            # Don't go backwards and recompute from a neighbor you just came from, and computed
             if step_penult != None and step_penult.id_poi in neighs:
                 neighs.remove(step_penult.id_poi)
 
+            # iterate through all remaining neighbors
             num_neighbors = len(neighs)
-            i = 0
             for i in range(num_neighbors):
-
+                # Get the neighbor EwPoi, and its cost from the final step of the path
                 neigh = poi_static.id_to_poi.get(neighs[i])
                 neigh_cost = step_last.neighbors.get(neigh.id_poi)
 
+                # If it has no listed cost, skip it
                 if neigh_cost == None:
                     continue
 
+                # Only if it isn't the last neighbor
                 if i < num_neighbors - 1:
+                    # Create a new path that goes to that neighbor, and throw it on the heap if it's accessible
                     branch = path_branch(path_base, neigh, neigh_cost, user_data, poi_end)
                     if branch != None:
                         heapq.heappush(paths_walking, (branch.cost + landmark_heuristic(branch, poi_end), path_id, branch))
                         path_id += 1
+                # On the last neighbor
                 else:
+                    # If the path to the neighbor is accessible, make it the base path, and throw it on the heap
                     if path_step(path_base, neigh, neigh_cost, user_data, poi_end):
                         heapq.heappush(paths_walking, (path_base.cost + landmark_heuristic(path_base, poi_end), path_id, path_base))
                         path_id += 1
 
     # ewutils.logMsg("finished pathfinding")
 
+    # If a destination was given
     if poi_end != None:
         path_true = None
+        # Return the first finished path if there are any
         if len(paths_finished) > 0:
             path_true = paths_finished[0]
             path_true.iters = count_iter
+        # Otherwise return None and log it
         if path_true is None:
             ewutils.logMsg("Could not find a path.")
         return path_true
+    # if no destination was given, return all districts adjacent to the start district
     else:
         return pois_adjacent
 
 
 def landmark_heuristic(path, poi_end):
+    # If landmark cost maps are uninitialized or no destination is given, return zero
     if len(landmarks) == 0 or poi_end is None:
         return 0
     else:
+        # Grab the last step of the given path
         last_step = path.steps[-1]
+        # List the difference in cost from each landmark between the last step of the path and the destination
         scores = []
         for lm in landmarks:
             score_map = landmarks.get(lm)
@@ -366,6 +429,7 @@ def landmark_heuristic(path, poi_end):
             score_goal = score_map.get(poi_end.id_poi)
             scores.append(abs(score_path - score_goal))
 
+        # Return the maximum of the score differences
         return max(scores)
 
 

@@ -33,6 +33,9 @@ def debug16(one, two, three):
 def debug17(one):
     return " "
 
+def debug19(props, user_data):
+    return props
+
 def movement_checker(user_data, poi_from, poi_to, cmd):
     return
 
@@ -54,3 +57,13 @@ def eg_check3(t, shootee_data, user_data):
     poi = id_to_poi.get(user_data.poi)
 
     return True if not poi.pvp and not (shootee_data.life_state == 3 or shootee_data.get_inhabitee() == user_data.id_user) else False
+
+def es_check1(district_data):
+    return False
+
+def debug37(district_data):
+    return
+
+
+def debug36(user_data):
+    return 1

@@ -22,6 +22,9 @@ cmd_map = {
     ewcfg.cmd_slap: mutationcmds.slap,
     ewcfg.cmd_thirdeye: mutationcmds.tracker,
 
+    # Debug commands
+    ewcfg.cmd_forcegraft: mutationcmds.forcegraft,
+    ewcfg.cmd_forcechemo: mutationcmds.forcechemo,
 }
 
 apt_dm_cmd_map = {

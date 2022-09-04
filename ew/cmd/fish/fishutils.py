@@ -281,6 +281,7 @@ def gen_bite_text(size):
         text = "You feel a tug at your fishing pole!" # Just in case flavor text fix
 
     text += " **!REEL NOW!!!!!**"
+
     return text
 
 
