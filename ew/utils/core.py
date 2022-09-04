@@ -29,7 +29,8 @@ DEBUG_OPTIONS = {
     'duperelics': False,
     'speed2x': False,
     'lightspeed': False,
-    'verbose_burn': False
+    'verbose_burn': False,
+    'alternate_talk':False
 }
 
 # Map of user IDs to their course ID.

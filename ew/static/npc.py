@@ -56,12 +56,13 @@ EwNpc(
         image_profile = "https://cdn.discordapp.com/attachments/886372560135143424/994106498038890526/unknown-18.png",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
+        rarity=10,
         rewards = [
         {ewcfg.item_id_oldcd: [100, 1, 1],
          "bobocuatroscalp":[100, 1, 1]},
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer', ewcfg.status_enemy_trainer_id],
-        rarity=10
+
     ),
 EwNpc(
     id_npc = "juviemiku",
@@ -151,6 +152,7 @@ EwNpc(
     image_profile = "https://rfck.app/img/npc/pork.png",
     defaultslime = 6911000,
     defaultlevel = 50,
+    rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [100, 2, 3],
      "officercopbadge":[100, 1, 1]}
@@ -158,7 +160,7 @@ EwNpc(
     starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
-    rarity=7
+    slimeoid_name='Chocolate Donut'
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -177,6 +179,7 @@ EwNpc(
     image_profile = "https://rfck.app/img/npc/riot.png",
     defaultslime = 4911000,
     defaultlevel = 50,
+    rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [50, 1, 1],
     "gasmask":[50, 1, 1],
@@ -186,7 +189,7 @@ EwNpc(
     starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
-    rarity=7
+
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -205,6 +208,7 @@ EwNpc(
     image_profile = "https://rfck.app/img/npc/sleuth.png",
     defaultslime = 5911000,
     defaultlevel = 50,
+    rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [20, 1, 1],
     "revolver":[50, 1, 1],
@@ -214,7 +218,6 @@ EwNpc(
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 25000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
-    rarity=7
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -232,6 +235,7 @@ EwNpc(
     image_profile = "https://rfck.app/img/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
+    rarity=3,
     rewards = [
     {
      "officercopbadge":[100, 1, 1]}
@@ -239,7 +243,7 @@ EwNpc(
     starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False,
-    rarity=3
+
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -417,18 +421,18 @@ EwNpc(
     image_profile = "https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png",
     defaultslime = 30000000,
     defaultlevel = 99,
+    rarity=7,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
-    rarity=7,
     condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
 
 ),
 EwNpc(
     id_npc = "marty",
-    active = True,
+    active = False,
     str_name = "Marty",
     description = "He's a two-faced fellow, but he means well, we promise. He runs a construction company over in Wreckington.",
     poi_list = poi_static.capturable_districts,
@@ -465,11 +469,12 @@ EwNpc(
     image_profile = "",
     defaultslime = 20,
     defaultlevel = 1,
+    rarity=3,
     rewards = [
     {"herbsscalp":[100, 1, 1]}
     ],
     starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
-    rarity=3
+
 ),
 
 ]
@@ -481,5 +486,6 @@ spawn_probability_list = []
 for npc in npc_list:
     if npc.active:
         active_npcs_map[npc.id_npc] = npc
+        #print(npc.rarity)
         for x in range(min(npc.rarity, 10)): #the rarity determines frequency in the list, and thus spawn frequency, capped at 10
             spawn_probability_list.append(npc.id_npc)

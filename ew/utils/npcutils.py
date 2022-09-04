@@ -21,7 +21,7 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj
         npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'move':
-        return await generic_move(enemy=enemy)
+        return await generic_move(enemy=enemy, npc_obj=npc_obj)
     elif keyword == 'act':
         return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'talk':
@@ -133,12 +133,18 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 
 
-async def generic_move(enemy = None): #moves within boundaries every 20 seconds or so
+async def generic_move(enemy = None, npc_obj = None): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
-        if random.randrange(20) == 0:
+        if True or random.randrange(20) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
+                channel = list(resp_cont.channel_responses.keys())[0]
                 await resp_cont.post(delete_after=120)
+                if npc_obj.dialogue.get('enter') is not None:
+                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+                elif npc_obj.dialogue.get('loop') is not None:
+                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()

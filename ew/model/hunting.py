@@ -155,7 +155,8 @@ class EwNpc:
         attacktype = 'amateur',
         condition =  lambda user_data: True,
         description = "",
-        rarity = 5
+        rarity = 5,
+        slimeoid_name = ''
     ):
         self.id_npc = id_npc
         self.active = active
@@ -168,7 +169,8 @@ class EwNpc:
         self.defaultlevel = defaultlevel
         self.rewards = rewards
         self.starting_statuses = starting_statuses
-        self.condition = condition,
+        self.condition = condition
         self.attacktype=attacktype
-        self.description = description,
+        self.description = description
         self.rarity = rarity
+        self.slimeoid_name = slimeoid_name

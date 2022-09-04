@@ -700,6 +700,9 @@ async def talk(cmd):
         elif checked_npc.enemytype != ewcfg.enemy_type_npc:
             response = "What is this, Endless Kiss and Make Up? Stop talking to battle fodder and stab that fucker!" #get some generic enemy dialogue at some point
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        elif ewutils.DEBUG_OPTIONS.get('alternate_talk'):
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
+            await npc_obj.func_ai(keyword='move', enemy=checked_npc, channel=cmd.message.channel)
         else:
             npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
             await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel)

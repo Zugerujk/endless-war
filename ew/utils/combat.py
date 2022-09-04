@@ -555,6 +555,7 @@ class EwEnemy(EwEnemyBase):
         gang_base_response = ""
 
         try:
+        #if True:
             # Raid bosses can move into other parts of the outskirts as well as the city, including district zones.
             destinations = set(poi_static.poi_neighbors.get(self.poi))
             all_destinations = set(destinations)
@@ -562,15 +563,15 @@ class EwEnemy(EwEnemyBase):
             # Filter subzones and gang bases out.
             # Nudge raidbosses into the city.
             for destination in all_destinations:
-
                 destination_poi_data = poi_static.id_to_poi.get(destination)
-                if destination_poi_data.is_subzone or destination_poi_data.is_gangbase or not destination_poi_data.pvp:
-                    destinations.remove(destination)
 
                 if self.enemytype == ewcfg.enemy_type_npc:
                     npc_obj = npc_static.active_npcs_map.get(self.enemyclass)
                     if destination not in npc_obj.poi_list and npc_obj.poi_list != []:
                         destinations.remove(destination)
+                elif destination_poi_data.is_subzone or destination_poi_data.is_gangbase or (not destination_poi_data.pvp and self.enemytype == ewcfg.enemy_type_npc):
+                    destinations.remove(destination)
+
                 if self.poi in poi_static.outskirts_depths:
                     if destination in poi_static.outskirts_depths:
                         destinations.remove(destination)
@@ -580,6 +581,7 @@ class EwEnemy(EwEnemyBase):
                 elif self.poi in poi_static.outskirts_edges:
                     if (destination in poi_static.outskirts_edges) or (destination in poi_static.outskirts_middle):
                         destinations.remove(destination)
+
 
             if len(destinations) > 0:
 
@@ -605,13 +607,19 @@ class EwEnemy(EwEnemyBase):
                     self.display_name,
                     ewcfg.emote_megaslime
                 )
+
+                if self.enemytype == ewcfg.enemy_type_npc:
+                    new_district_response = "{} just walked in.".format(
+                        self.display_name
+                    )
+
                 resp_cont.add_channel_response(new_ch_name, new_district_response)
 
                 old_district_response = "{} has moved to {}!".format(self.display_name, new_poi_def.str_name)
                 old_poi_def = poi_static.id_to_poi.get(old_poi)
                 old_ch_name = old_poi_def.channel
                 resp_cont.add_channel_response(old_ch_name, old_district_response)
-
+                self.identifier = hunt_utils.set_identifier(poi=new_poi, id_server=self.id_server)
                 if new_poi not in poi_static.outskirts:
                     gang_base_response = "There are reports of a powerful enemy roaming around {}.".format(
                         new_poi_def.str_name)
@@ -622,6 +630,7 @@ class EwEnemy(EwEnemyBase):
             ewutils.logMsg("Failed to move creature. {}".format(e))
         finally:
             self.persist()
+            print(resp_cont.channel_responses)
             return resp_cont
 
     def change_slimes(self, n = 0, source = None):
@@ -1618,7 +1627,7 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
             if condition is not None:
                 for user in users:
                     user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server, data_level=1)
-                    if condition[0](user_data, enemy_data):
+                    if condition(user_data, enemy_data):
                         target_data = user_data
                         break
             elif len(users) > 0:
