@@ -179,10 +179,8 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
     if ewcfg.status_enemy_hostile_id in enemy_statuses:
         if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
             resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
-            print('aim')
         else:
             resp_cont = await enemy.kill()
-            print('kill')
 
         if resp_cont is not None:
             await resp_cont.post()

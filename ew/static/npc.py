@@ -252,7 +252,7 @@ EwNpc(
     str_name = "Slimes MacKenzie", # Knockoff of beloved Slurms MacKenzie, which is a knockoff of Spuds MacKenzie
     description = 'MacKenzie\'s here, guys. It\'s a real party now.',
     poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_speakeasy, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_beachresort],
-    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!"],
+    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!", "Hey you want some cocktails Im pretty sure I can break into Gramps stash in Vagrants Corner.", "Man this place is a lot hotter than back home if I wasn’t slime I’m pretty sure I’d be melting", "I am not saying my fucking catchphrase simp!", "Hey I heard you got the tier three sub from some sandwich shop…I’ll give you an autograph if you give me it.", "Did you know the speak easy also turns into a boat. Yeah me either.", "Check out the tiki bar out in grand toronto when you get the chance dude!"],
                 "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
                 "hit":["HUK---", "HYEHK-"],
                 "die":["Party on, contest winners. Party on."],
@@ -422,6 +422,7 @@ EwNpc(
     defaultslime = 30000000,
     defaultlevel = 99,
     rarity=7,
+    attacktype = 'juvieman',
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
     {ewcfg.weapon_id_juvierang: [50, 1, 1]},
@@ -494,6 +495,7 @@ EwNpc(
     defaultslime = 4000000,
     defaultlevel = 55,
     rarity=3,
+    attacktype = ewcfg.weapon_id_brassknuckles,
     slimeoid_name = 'Lil\' Bruiser',
     rewards = [
     {"n11scalp":[100, 1, 1],
@@ -518,6 +520,7 @@ EwNpc(
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
+    attacktype = 'pizzagraspers',
     rewards = [
     {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
      ewcfg.item_id_quadruplestuffedcrust:[100, 2, 4],
@@ -540,6 +543,7 @@ EwNpc(
     func_ai = npcutils.slox_action,
     image_profile = "",
     defaultslime = 300,
+    attacktype = ewcfg.enemy_attacktype_tinyclaws,
     defaultlevel = 1,
     rarity=5,
     rewards = [

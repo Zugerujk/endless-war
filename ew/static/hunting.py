@@ -279,13 +279,13 @@ enemy_attack_type_list = [
     ),
     EwAttackType(  # 11
         id_type="amateur",
-        str_crit="**AIIIIEEE!!** {name_enemy} screams in abject fear, lunging at {name_target}'s with a {civ_weapon} in hand! Fuck, they actually got you!",
-        str_miss="**MISS!** {name_enemy} trips and falls facefirst on the ground. {name_target} is holding back their laughter at how goddamn stupid this all is.",
+        str_crit="{name_enemy} lunges in a fit of anger, striking {name_target} directly! Fuck, they got you!",
+        str_miss="**MISS!** {name_enemy} whiffs their shot! {name_target} steps back to face them.",
         # str_trauma_self = "Your have deep bruising on your torso.",
         # str_trauma = "They have deep bruising on their torso.",
-        str_kill="{name_enemy} is thrown into an adrenaline rush! They brandish their {civ_weapon} and throw it in a perfect spiral, directly through {name_target}'s skull. {emote_skull}",
+        str_kill="{name_enemy} is thrown into an adrenaline rush! They brandish their weapon and charge {name_target}, landing the hit directly through their skull. {emote_skull}",
         str_killdescriptor="felled",
-        str_damage="{name_enemy} bludgeons {name_target} in the {hitzone}! At least they try to...",
+        str_damage="{name_enemy} bludgeons {name_target} in the {hitzone}!",
         fn_effect=atf_body
     ),
     EwAttackType(  # 11
@@ -386,6 +386,33 @@ EwAttackType(  #17
         str_killdescriptor="pumped",
         str_damage="{name_enemy} lands a potshot on {name_target}!",
         fn_effect=atf_gunkshot
+    ),
+    EwAttackType(  # 14
+        id_type="pizzagraspers",
+        str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of your body! {name_target} breaks several bones!",
+        str_miss="**WHOA!** You barely duck out of the way of {name_enemy}'s grasp!",
+        str_kill="**RRRRRRIPPPP!!!** The {name_enemy} tears you in half! Actually it looks disappointed, {name_target} wasn't rotten enough to eat. {emote_skull}",
+        str_killdescriptor="strangled",
+        str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
+        fn_effect=atf_body
+    ),
+    EwAttackType(  # 8
+        id_type=ewcfg.weapon_id_brassknuckles,
+        str_crit="***SKY UPPERCUT!!*** {name_enemy} executes an artificially difficult combo, rocketing their fist into the bottom of {name_target}’s jaw so hard that {name_target}’s colliding teeth brutally sever an inch off their own tongue!!",
+        str_miss="**MISS!** {name_player} couldn't land a single blow!!",
+        str_kill="{name_enemy} slugs {name_target} right between the eyes! *POW! THWACK!!* **CRUNCH.** Shit. May have gotten carried away there. Oh, well. {emote_skull}",
+        str_killdescriptor="pummeled to death",
+        str_damage="{name_target} is socked in the {hitzone}!!",
+        fn_effect=atf_tusks,
+    ),
+    EwAttackType(  # 8
+        id_type='juvieman',
+        str_crit="**CCCRRRRUUUNNCH!!!** Juvieman throws his Gardening Gut Gatling right into your stomach! Ooh, that one's gonna hurt in the morning!",
+        str_miss="**BIFF!!** {name_enemy} whiffs a punch! Will our hero succumb to the peacefulness of Juviehood?",
+        str_kill="**POWBANG!!! WHOOSH!!** Juvieman hits you with a powerful uppercut! {name_target} goes flying into the great beyond! Once again, the day is saved. {emote_skull}",
+        str_killdescriptor="sent flying into space",
+        str_damage="**BANG!**{name_target} takes a punch to the {hitzone}!!",
+        fn_effect=atf_tusks,
     ),
 ]
 
