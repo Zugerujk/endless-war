@@ -245,7 +245,7 @@ async def find_recipes_by_item(cmd):
                 response = "The item you look to smelt is unable to be done so by chance.\n"
 
             for item in makes_sought_item:
-                if (item.id_recipe == "toughcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_tough
+                if (used_recipe is not None) and (item.id_recipe == "toughcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_tough
                         or item.id_recipe == "smartcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_smart
                         or item.id_recipe == "beautifulcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_beautiful
                         or item.id_recipe == "cutecosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_cute
