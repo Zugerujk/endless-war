@@ -2672,16 +2672,18 @@ vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
 
 vendor_thumbnails = {
-    poi_id_speakeasy:"https://cdn.discordapp.com/attachments/431238867459375145/782030947184541726/unknown.png"
+    poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/img/npc/albertalex.png"],
+    "saloon":["OL' BOY RUSTLE", "https://rfck.app/img/npc/olboyrustle.png"],
+    "basedhardware":["BOMBSHELL BETTY", "https://rfck.app/img/npc/bet.png"],
+    "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
+    "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/img/npc/n2double.png"],
+    "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/img/npc/albertalex.png"],
+    "themuseum":["THE CURATOR", "https://rfck.app/img/npc/CURATOR_GOOD_HEAD.png"],
 }
 
 vendor_dialogue = {
-    poi_id_speakeasy:['Hey, you can talk to me? What, is this Shin Megami Tensei?', 'Oh, random line selection? Yeah, I totally buy that, jackass.']
 }
 
-vendor_npc_names = {
-    poi_id_speakeasy:"CAPTAIN ALBERT ALEXANDER"
-}
 
 pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
 

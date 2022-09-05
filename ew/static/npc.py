@@ -551,6 +551,29 @@ EwNpc(
     ],
     starting_statuses=["buddyslox"],
 ),
+EwNpc(
+    id_npc = "dojomaster",
+    active = True,
+    str_name = "Dojo Master",
+    description = "He's the master of all weapons. Challenge him at your own risk.",
+    poi_list = [ewcfg.poi_id_southsleezeborough, ewcfg.poi_id_dojo],
+    dialogue = {"talk":["ダンクウィートを切るのに大鎌を使わないで！」", "「恐怖の匂いを嗅ぐことを学ぶには、足から始めなければならない。」", "「軍風ダイハック #590: 自分の額の真ん中から少なくとも 180 度離れたところに銃を向けてください。」", "軍実の格言その16 一直線に弾丸をたくさん打てば相手は斬り切れない", "「格闘術のヒント #4306: 刀をたたむと、より簡単に財布に収まります。」"],
+                "loop":["「警備員の皆さん、両生類を入れるのはやめてください。」 *昼食に戻り、箸でハエを捕る*", "「私と一緒に剣の練習をしに来てください。それで海峡を泳ぐことは決してありません。そして、フランス人はあなたの恐怖を嗅ぐでしょう。」", "「若い頃、リボルバーを研いで刃にしようとしたことがありますが、発砲するとうまくいきませんでした。これを教訓にして、武器に走り書きをやめてください。」"],
+                "hit":["結構。私はあなたの挑戦を受け入れます。", "私に来てください！"],
+                "die":["私を倒すには素晴らしいスキルが必要でした。あなたの熟達ぶりは、あなたのスタンスに表れています。次回まで。"],
+                "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
+                },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "", #todo update this
+    defaultslime = 300,
+    attacktype = ewcfg.enemy_attacktype_tinyclaws,
+    defaultlevel = 1,
+    rarity=5,
+    rewards = [
+    {}
+    ],
+    starting_statuses=[],
+),
 ]
 
 active_npcs_map = {}

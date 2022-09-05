@@ -13,8 +13,8 @@ import ew.backend.item as bknd_item
 from ew.backend.dungeons import EwGamestate
 from ew.backend import hunting as bknd_hunting
 import time
-from ew.utils.combat import EwUser
-from ew.utils.combat import EwEnemy
+import ew.utils.combat as util_combat
+#from ew.utils.combat import EwEnemy
 #move: enemy move action
 #talk: action on a !talk
 #act: action every 3 seconds
@@ -130,6 +130,12 @@ async def slox_action(keyword = '', enemy = None, channel = None, item = None):
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
+async def dojomaster_action(keyword = '', enemy = None, channel = None, item = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == 'hit':
+        pass
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -369,7 +375,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
 
 
     item_obj = EwItem(id_item=item.get('id_item'))
-    usermodel = EwUser(id_user=item_obj.id_owner, id_server=enemy.id_server)
+    usermodel = util_combat.EwUser(id_user=item_obj.id_owner, id_server=enemy.id_server)
 
     if item_obj.soulbound or item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
         response = "You can't do that. Isn't that important?"
@@ -433,7 +439,7 @@ async def mozz_move(channel, npc_obj, enemy):
         resp_cont = enemy.move()
         if resp_cont != None:
             channel = list(resp_cont.channel_responses.keys())[0]
-            enemy = EwEnemy(id_server=enemy.id_server, id_enemy=enemy.id_enemy)
+            enemy = util_combat.EwEnemy(id_server=enemy.id_server, id_enemy=enemy.id_enemy)
             items_in_poi = bknd_item.inventory(id_user=enemy.poi, id_server=enemy.id_server,  item_sorting_method='id', item_type_filter=ewcfg.it_food)
             max_food_items = 15
             for item_thing in items_in_poi:
@@ -467,7 +473,7 @@ async def warpath_die(channel, npc_obj, enemy):
         ))
 
     for enemy in enemydata:
-        sim_enemy = EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
         if enemy.life_state == ewcfg.enemy_lifestate_alive:
             sim_enemy.level += 50
             sim_enemy.slimes += 5000000
@@ -477,7 +483,7 @@ async def warpath_die(channel, npc_obj, enemy):
     await asyncio.sleep(15)
 
     for enemy in enemydata:
-        sim_enemy = EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
         bknd_hunting.delete_enemy(sim_enemy)
 
     response = "{} ran away...".format(enemy.display_name)
