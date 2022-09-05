@@ -459,7 +459,6 @@ async def inventory_print(cmd):
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
                 )
-                print(item.get("id_weapon"))
 
                 # Print item type labels if sorting by type and showing a new type of items
                 if sort_by_type:
