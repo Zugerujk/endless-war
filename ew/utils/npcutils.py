@@ -21,7 +21,7 @@ import ew.utils.combat as util_combat
 #die: action when the enemy dies
 #hit: action when the enemy gets hit
 
-async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None):
+async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None, user_data = None):
     if npc_obj is None:
         npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
@@ -39,7 +39,7 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj
     elif keyword == 'give':
         return await generic_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
 
-async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = None): #similar to the generic npc, but with loopable dialogue
+async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'act':
@@ -50,7 +50,7 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = N
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
-async def police_npc_action(keyword = '', enemy = None, channel = None, item = None): #similar to the generic npc, but with loopable dialogue
+async def police_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None): #similar to the generic npc, but with loopable dialogue
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'act':
@@ -60,7 +60,7 @@ async def police_npc_action(keyword = '', enemy = None, channel = None, item = N
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
-async def police_chief_npc_action(keyword = '', enemy = None, channel = None, item = None):
+async def police_chief_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     #run the police set of actions, except for on death
     if keyword == 'die':
@@ -69,7 +69,7 @@ async def police_chief_npc_action(keyword = '', enemy = None, channel = None, it
         return await police_npc_action(keyword = keyword, enemy = enemy, channel = channel, item=item)
 
 
-async def condition_hostile_action (keyword = '', enemy = None, channel = None, item = None):
+async def condition_hostile_action (keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'act':
@@ -78,7 +78,7 @@ async def condition_hostile_action (keyword = '', enemy = None, channel = None, 
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-async def juvieman_action(keyword = '', enemy = None, channel = None, item = None):
+async def juvieman_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     if keyword == 'act':
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
@@ -90,7 +90,7 @@ async def juvieman_action(keyword = '', enemy = None, channel = None, item = Non
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-async def marty_action(keyword = '', enemy = None, channel = None, item = None):
+async def marty_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'give':
@@ -98,7 +98,7 @@ async def marty_action(keyword = '', enemy = None, channel = None, item = None):
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
-async def candidate_action(keyword = '', enemy = None, channel = None, item = None):
+async def candidate_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'give':
@@ -109,7 +109,7 @@ async def candidate_action(keyword = '', enemy = None, channel = None, item = No
         return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-async def mozz_action(keyword = '', enemy = None, channel = None, item = None):
+async def mozz_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     if keyword == 'give':
         return await mozz_give(enemy=enemy, channel=channel, item=item, npc_obj=npc_obj)
@@ -121,7 +121,7 @@ async def mozz_action(keyword = '', enemy = None, channel = None, item = None):
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-async def slox_action(keyword = '', enemy = None, channel = None, item = None):
+async def slox_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     if keyword == 'die':
         return await warpath_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
@@ -130,10 +130,14 @@ async def slox_action(keyword = '', enemy = None, channel = None, item = None):
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
-async def dojomaster_action(keyword = '', enemy = None, channel = None, item = None):
+async def dojomaster_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     if keyword == 'hit':
-        pass
+        return await dojomaster_hit(npc_obj=npc_obj, channel=channel, enemy=enemy, user_data = user_data)
+    if keyword == 'act':
+        await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy) #this fucker's the fastest in the west, i mean east
+        await asyncio.sleep(1)
+        await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
@@ -498,3 +502,18 @@ async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
     else:
         response = "{} turns their nose at your offer."
         return await fe_utils.send_message(None, channel, response)
+
+
+async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probability = 3, user_data = None):
+    if ewcfg.status_enemy_hostile_id not in enemy.getStatusEffects() and territorial:
+        enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+        await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
+    else:
+        if random.randint(1, probability) == 1:
+            await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
+
+    if user_data.weapon != -1:
+        weapon_item = EwItem(id_item=user_data.weapon)
+        itemtype = weapon_item.template
+        user_data.add_weaponskill(n=1, weapon_type = itemtype)
+        user_data.persist()

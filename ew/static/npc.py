@@ -565,14 +565,23 @@ EwNpc(
                 },
     func_ai = npcutils.generic_npc_action,
     image_profile = "", #todo update this
-    defaultslime = 300,
-    attacktype = ewcfg.enemy_attacktype_tinyclaws,
-    defaultlevel = 1,
-    rarity=5,
+    defaultslime = 15000000,
+    attacktype = ewcfg.enemy_attacktype_dojoman,
+    defaultlevel = 99,
+    rarity=1,
     rewards = [
-    {}
+    {ewcfg.weapon_id_brassknuckles:[100, 1, 1],
+     ewcfg.weapon_id_scythe:[100, 1, 1],
+     ewcfg.weapon_id_dualpistols:[100, 1, 1],
+     ewcfg.weapon_id_bat:[100, 1, 1],
+     ewcfg.weapon_id_garrote:[100, 1, 1],
+     ewcfg.weapon_id_katana:[100, 1, 1],
+     ewcfg.weapon_id_yoyo:[100, 1, 1],
+     ewcfg.weapon_id_molotov:[100, 1, 1],
+     ewcfg.weapon_id_broadsword:[100, 1, 1],
+     ewcfg.weapon_id_nunchucks:[100, 1, 1]}
     ],
-    starting_statuses=[],
+    starting_statuses=[ewcfg.status_enemy_dodgy_id],
 ),
 ]
 

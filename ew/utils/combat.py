@@ -417,7 +417,8 @@ class EwEnemy(EwEnemyBase):
                                 name_target=("<@!{}>".format(target_data.id_user)),
                                 hitzone=randombodypart,
                                 strikes=strikes,
-                                civ_weapon=civ_weapon
+                                civ_weapon=civ_weapon,
+                                dojo_weapons=random.choice(ewcfg.dojo_weapons)
                             )
                             kill_descriptor = used_attacktype.str_killdescriptor
                             if crit:

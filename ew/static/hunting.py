@@ -414,6 +414,15 @@ EwAttackType(  #17
         str_damage="**BANG!**{name_target} takes a punch to the {hitzone}!!",
         fn_effect=atf_tusks,
     ),
+    EwAttackType(  # 8
+        id_type='dojoman',
+        str_crit="{name_enemy} cleaves right through you with his broadsword! You get spooked as he says some Japanese you can't understand!",
+        str_miss="{name_enemy} uses the garrote, just to try and give you a chance! Predictably, his attack fails.",
+        str_kill="**SHING!!!** The Dojo Master, with one final katana slice, bisects you so quickly you can't even see it. It is done only with years of trained skill. You were no match.{emote_skull}",
+        str_killdescriptor="bested by a great man",
+        str_damage="**HYAAA!** With perfect form, the Dojo Master runs you through with their {dojo_weapons}!",
+        fn_effect=atf_tusks,
+    ),
 ]
 
 

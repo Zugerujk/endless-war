@@ -2684,6 +2684,7 @@ vendor_thumbnails = {
 vendor_dialogue = {
 }
 
+dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
 
 pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
 
@@ -3976,7 +3977,7 @@ enemy_attacktype_feed = 'feed'
 enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
 enemy_attacktype_cop = 'police'
-
+enemy_attacktype_dojoman = 'dojoman'
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'

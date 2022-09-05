@@ -977,7 +977,7 @@ async def attackEnemy(cmd):
     else:
         if enemy_data.enemytype == ewcfg.enemy_type_npc:
             npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
-            await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel)
+            await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)
         # A non-lethal blow!
         if weapon != None:
             if miss:
@@ -993,6 +993,7 @@ async def attackEnemy(cmd):
                     hitzone=randombodypart,
                     slimeoid_name=slimeoid_name,
                     slimeoid_dmg=slimeoid_dmg
+
                 )
                 if crit:
                     response += " {}".format(weapon.str_crit.format(
@@ -1000,7 +1001,7 @@ async def attackEnemy(cmd):
                         name_target=enemy_data.display_name,
                         hitzone=randombodypart,
                         slimeoid_name=slimeoid_name,
-                        slimeoid_crit=slimeoid_crit
+                        slimeoid_crit=slimeoid_crit,
                     ))
 
                 response += " {target_name} loses {damage:,} slime!".format(
