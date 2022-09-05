@@ -2679,9 +2679,11 @@ vendor_thumbnails = {
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/img/npc/n2double.png"],
     "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/img/npc/albertalex.png"],
     "themuseum":["THE CURATOR", "https://rfck.app/img/npc/CURATOR_GOOD_HEAD.png"],
+    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"]
 }
 
 vendor_dialogue = {
+    "speakeasy":["Ferry's 'ere, lad","*Humming the tune of his own shanty*","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr"]
 }
 
 dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
