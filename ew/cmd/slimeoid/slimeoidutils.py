@@ -207,11 +207,8 @@ class EwSlimeoidCombatData:
         size = self.moxie + self.grit + self.chutzpah
 
         # If the slimeoid is bigger than size_limit feet. Comes before other matchups, so stats together should equal size. Stats are 1 at minimum in CombatData
-        if(not size_limit):
-            size_limit = 42069
-        else:
-            size_limit += 3
-        print(size_limit)
+        size_limit = (size_limit + 3) if size_limit else 42069
+
         if size > size_limit:
             oversize = size - size_limit
 
@@ -478,7 +475,6 @@ async def battle_slimeoids(id_s1, id_s2, challengee_name, challenger_name, chann
     client = ewutils.get_client()
 
     # Nerf level to 10 if it's above 11.
-    print(size_limit)
     if(size_limit):
         challengee_level = min(challengee_slimeoid.level, size_limit)
         challenger_level = min(challenger_slimeoid.level, size_limit)

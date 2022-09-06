@@ -1476,8 +1476,8 @@ async def remove_item(cmd):
     item_search = ewutils.flattenTokenListToString(cmd.tokens[startparse:])
 
     aptmodel = EwApartment(id_user=recipient, id_server=playermodel.id_server)
-    key_1 = EwItem(id_item=aptmodel.key_1)
-    key_2 = EwItem(id_item=aptmodel.key_2)
+    key_1 = EwItem(id_item=aptmodel.key_1) if aptmodel.key_1 != 0 else EwItem(id_item=None)
+    key_2 = EwItem(id_item=aptmodel.key_2) if aptmodel.key_2 != 0 else EwItem(id_item=None)
 
     if key_1.id_owner != str(usermodel.id_user) and key_2.id_owner != str(usermodel.id_user) and usermodel.visiting != ewcfg.location_id_empty:
         response = "Burglary takes finesse. You are but a lowly gangster, who takes money the old fashioned way."
