@@ -207,7 +207,11 @@ class EwSlimeoidCombatData:
         size = self.moxie + self.grit + self.chutzpah
 
         # If the slimeoid is bigger than size_limit feet. Comes before other matchups, so stats together should equal size. Stats are 1 at minimum in CombatData
-        size_limit = (size_limit + 3) if size_limit else 42069
+        if(not size_limit):
+            size_limit = 13
+        else:
+            size_limit += 3
+
 
         if size > size_limit:
             oversize = size - size_limit
