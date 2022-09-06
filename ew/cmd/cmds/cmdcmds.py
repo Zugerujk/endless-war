@@ -933,7 +933,6 @@ async def jump(cmd):
     elif ewcfg.mutation_id_stiltwalker in user_data.get_mutations():
         blimp_obj = EwTransport(id_server=user_data.id_server, poi = ewcfg.poi_id_blimp)
         # If the user is under the blimp, put them on the blimp.
-        print(blimp_obj.current_stop)
         if user_data.poi == blimp_obj.current_stop:
 
             jump_response = "STR-EEEEETCHHHH!!!!"
