@@ -38,6 +38,9 @@ from ..static import slimeoid as sl_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
 
+
+from ew.backend.goonscapestats import goonscape_eat_stat, add_xp
+
 """ Enemy data model for database persistence """
 
 
@@ -1956,6 +1959,10 @@ class EwUser(EwUserBase):
             )
 
     async def eat(self, food_item = None):
+
+        xp_hunger = 0
+        xp_inebriation = 0
+
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
@@ -1991,13 +1998,21 @@ class EwUser(EwUserBase):
 
             hunger_restored = round(hunger_restored)
 
+            xp_hunger = hunger_restored
+
             self.hunger -= hunger_restored
             if self.hunger < 0:
+                xp_hunger += self.hunger #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
             if self.inebriation > 20:
                 self.inebriation = 20
             
+
+            if item_has_expired:
+                xp_hunger /= 3
+
+
             if ewcfg.slimernalia_active:
                 food_type = static_food.food_map.get(item_props.get("id_food"))
                 if food_type and food_type.acquisition == ewcfg.acquisition_smelting:
@@ -2024,6 +2039,16 @@ class EwUser(EwUserBase):
             except:
                 # An exception will occur if there's no id_food prop in the database. We don't care.
                 pass
+
+            
+            xp_yield = xp_hunger * 100
+            
+            client = ewutils.get_client()
+            server = client.get_guild(self.id_server)
+            
+            await add_xp(self.id_user, cmd.message.guild.id, fe_utils.get_channel(server, poi_static.id_to_poi.get(self.poi).channel), goonscape_eat_stat, xp_yield)
+
+
 
             bknd_item.item_delete(food_item.id_item)
 

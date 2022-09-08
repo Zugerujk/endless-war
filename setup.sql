@@ -496,3 +496,42 @@ create table records(
 
     PRIMARY KEY(id_server, record_type)
 );
+
+
+
+CREATE TABLE goonscape_stats (
+
+	id_user BIGINT NOT NULL,
+	id_server BIGINT NOT NULL,
+
+	mining_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	mining_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
+	fishing_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	fishing_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
+	farming_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	farming_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
+	feasting_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	feasting_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
+	PRIMARY KEY (id_user, id_server)
+
+);
+
+CREATE TABLE quest_records (
+
+	time_stamp int NOT NULL,
+
+	id_user BIGINT NOT NULL,
+	id_server BIGINT NOT NULL,
+
+	record_type varchar(16) NOT NULL,
+	record_data varchar(64) NOT NULL,
+
+	PRIMARY KEY (time_stamp, id_user, id_server, record_type)
+
+);
+
+

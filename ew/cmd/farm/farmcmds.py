@@ -20,6 +20,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.slimeoid import EwSlimeoid
+from ew.backend.goonscapestats import goonscape_farm_stat, add_xp
 
 """ Sow seeds that may eventually be !reaped. """
 
@@ -221,6 +222,7 @@ async def reap(cmd):
                     user_initial_level = user_data.slimelevel
 
                     slime_gain = farm.slimes_onreap
+                    crop_gain = 0
 
                     controlling_faction = poi_utils.get_subzone_controlling_faction(user_data.poi, user_data.id_server)
 
@@ -299,6 +301,7 @@ async def reap(cmd):
 
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             metallic_crop_ammount *= 2
+                        crop_gain = metallic_crop_ammount * 3
 
                         for vcreate in range(metallic_crop_ammount):
                             bknd_item.item_create(
@@ -328,6 +331,7 @@ async def reap(cmd):
                         unearthed_vegetable_amount = 3
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             unearthed_vegetable_amount *= 2
+                        crop_gain = unearthed_vegetable_amount
 
                         for vcreate in range(unearthed_vegetable_amount):
                             bknd_item.item_create(
@@ -352,6 +356,13 @@ async def reap(cmd):
 
                     farm.time_lastsow = 0  # 0 means no seeds are currently planted
                     farm.persist()
+
+                    #Goonscape Stat
+                    xp_slime = round(slime_gain * 0.0230)
+                    xp_crop = crop_gain * 1840
+
+                    xp_yield = xp_slime + xp_crop
+                    await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
 
     respctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.message.guild.id)
     respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -468,6 +479,8 @@ async def cultivate(cmd):
             farm.slimes_onreap += ewcfg.farm_slimes_peraction * 2
             farm.action_required = ewcfg.farm_action_none
             farm.persist()
+            xp_yield = 1150
+            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -517,6 +530,8 @@ async def mill(cmd):
             )
 
             response = "You walk up to the official ~~SlimeCorp~~ Garden Gankers Milling Station and shove your irradiated produce into the hand-crank. You begin slowly churning them into a glorious, pastry goo. As the goo tosses and turns inside the machine, it solidifies, and after a few moments a {} pops out!".format(item.str_name)
+            xp_yield = 1840
+            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
 
             # market_data.donated_slimes += ewcfg.slimes_permill
             market_data.persist()
