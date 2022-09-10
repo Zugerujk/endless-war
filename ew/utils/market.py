@@ -260,15 +260,15 @@ def get_majority_shareholder(id_server = None, stock = None):
 
 """ Update all the stocks currently available in the Stock Exchange """
 
-async def update_stocks(id_server = None):
-    if id_server:
+async def update_stocks(id_server = None, time_lasttick = None):
+    if id_server and time_lasttick:
         exchange_data = EwDistrict(district=ewcfg.poi_id_stockexchange, id_server=id_server)
         resp_cont = EwResponseContainer(ewcfg.get_client(), id_server=id_server)
         for stock in ewcfg.stocks:
             s = EwStock(id_server, stock)
             # we don't update stocks when they were just added
             if s.timestamp != 0:
-                s.timestamp = int(time.time())
+                s.timestamp = int(time_lasttick)
                 market_response = await stock_market_tick(s, id_server)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange, market_response)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange_p, market_response)
