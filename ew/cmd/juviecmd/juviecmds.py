@@ -658,7 +658,6 @@ async def mine(cmd):
 
             #GoonScape Stat
             xp_yield = max(1, round(mining_yield * 0.0077))
-            xp_yield = max(1, 15000000)
             await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_mine_stat, xp_yield)
 
             user_data.persist()

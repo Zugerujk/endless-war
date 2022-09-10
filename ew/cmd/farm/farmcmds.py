@@ -301,6 +301,7 @@ async def reap(cmd):
 
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             metallic_crop_ammount *= 2
+
                         crop_gain = metallic_crop_ammount * 3
 
                         for vcreate in range(metallic_crop_ammount):

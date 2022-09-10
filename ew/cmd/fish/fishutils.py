@@ -526,14 +526,12 @@ async def award_fish(fisher, cmd, user_data):
         }
 
         if fisher.inhabitant_id:
-            xp_yield = xp_map.get(xp_type/2, 16000/2)
+            xp_yield = xp_map.get(xp_type, 16000)
+            xp_yield /= 2
             await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
-
-            xp_yield = xp_map.get(xp_type/2, 16000/2)
             await add_xp(inhabitant_id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
         else: 
             xp_yield = xp_map.get(xp_type, 16000)
-            xp_yield = xp_map.get(xp_type, 18000000)
             await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
             
     return response
