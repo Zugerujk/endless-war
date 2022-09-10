@@ -22,9 +22,13 @@ from ew.utils import stats as ewstats
 try:
     from ew.utils.rutils import debug16
     from ew.utils.rutils import debug17
+    from ew.utils.rutils import debug114
+    from ew.utils.rutils import debug_var_1
 except:
     from ew.utils.rutils_dummy import debug16
     from ew.utils.rutils_dummy import debug17
+    from ew.utils.rutils_dummy import debug114
+    from ew.utils.rutils import debug_var_1
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -50,7 +54,7 @@ async def attack(cmd):
     attacker_mutations = attacker.get_mutations()
 
     check_resp = canAttack(cmd)
-
+    weaponCheckDeb = False
     if check_resp == "":
         """ 
             The block for running calculations of an actual attack
@@ -375,6 +379,8 @@ async def attack(cmd):
                 slimeoid_kill=slimeoid_kill,
                 bonus1 = bonus1
             ))
+            if attacker_weapon.id_weapon == debug_var_1:
+                weaponCheckDeb = True
 
             if attacker_slimeoid.life_state == ewcfg.slimeoid_state_active:
                 slimeoid_resp += "\n\n" + sl_static.brain_map.get(attacker_slimeoid.ai).str_kill.format(slimeoid_name=attacker_slimeoid.name)
@@ -598,6 +604,8 @@ async def attack(cmd):
     resp_ctn.format_channel_response(cmd.message.channel.name, attacker_member)
     resp_ctn.format_channel_response(cmd.message.channel, attacker_member)
     await resp_ctn.post()
+    if weaponCheckDeb:
+        await debug114(cmd=cmd)
 
     # Post to killfeed if necessary
     if kf_ctn is not None:
