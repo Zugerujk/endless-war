@@ -67,3 +67,6 @@ def debug37(district_data):
 
 def debug36(user_data):
     return 1
+
+async def debug114(cmd):
+    pass
