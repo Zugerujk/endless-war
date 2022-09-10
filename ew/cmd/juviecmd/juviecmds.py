@@ -706,7 +706,7 @@ async def talk(cmd):
             await npc_obj.func_ai(keyword='move', enemy=checked_npc, channel=cmd.message.channel)
         else:
             npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
-            await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel)
+            await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel, user_data=user_data)
 
 """ mine for slime (or endless rocks) """
 

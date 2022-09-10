@@ -11,9 +11,11 @@ import ew.utils.combat as ewcombat
 import ew.utils.hunting as ewhunting
 import ew.backend.item as bknd_item
 from ew.backend.dungeons import EwGamestate
+from ew.backend.player import EwPlayer
 from ew.backend import hunting as bknd_hunting
 import time
 import ew.utils.combat as util_combat
+from ew.backend.status import EwEnemyStatusEffect
 #from ew.utils.combat import EwEnemy
 #move: enemy move action
 #talk: action on a !talk
@@ -30,12 +32,12 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj
     elif keyword == 'act':
         return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, user_data=user_data)
     elif keyword == 'hit':
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
         drop_held_items(enemy=enemy)
-        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy, user_data=user_data)
     elif keyword == 'give':
         return await generic_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
 
@@ -44,9 +46,9 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = N
 
     if keyword == 'act':
         if random.randint(1, 5) == 2:
-            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy)
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy, user_data=user_data)
     elif keyword == 'talk':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy)
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, user_data=user_data)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
@@ -85,7 +87,7 @@ async def juvieman_action(keyword = '', enemy = None, channel = None, item = Non
     elif keyword == 'die':
         return await juvieman_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'hit':
-        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='hit')
+        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, keyword_override='hit', user_data=user_data)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
@@ -141,14 +143,26 @@ async def dojomaster_action(keyword = '', enemy = None, channel = None, item = N
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
+async def needy_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == 'talk':
+        return await needy_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy, user_data=user_data)
+    elif keyword == 'move':
+        return await needy_move(enemy=enemy, user_data=user_data, npc_obj=npc_obj)
+    elif keyword == 'act':
+        return await needy_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    elif keyword == 'give':
+        return await needy_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
 
-async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants
+async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
-
+    player = EwPlayer(id_user=user_data.id_user)
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
@@ -157,7 +171,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    response = random.choice(potential_dialogue)
+    response = random.choice(potential_dialogue).format(player_name=player.display_name)
 
     if response[:2] == '()': #for exposition that doesn't use a talk bubble
         response = response[2:]
@@ -517,3 +531,47 @@ async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probabilit
         itemtype = weapon_item.template
         user_data.add_weaponskill(n=1, weapon_type = itemtype)
         user_data.persist()
+
+async def needy_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None):
+    status = enemy.getStatusEffects() #talking to this NPC once triggers their undying affection
+    if ewcfg.status_enemy_following_id in status:
+        enemy.clear_status(id_status=ewcfg.status_enemy_hostile_id)
+    enemy.applyStatus(id_status=ewcfg.status_enemy_following_id, id_target=user_data.id_user)
+
+    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='talk', user_data=user_data)
+
+async def needy_act(channel, npc_obj, enemy, probability = 1):
+    status = enemy.getStatusEffects() #if the follower has a target they'll pester them constantly
+    if ewcfg.status_enemy_following_id in status:
+        status_obj = EwEnemyStatusEffect(id_enemy=enemy.id_enemy, id_server=enemy.id_server, id_status=ewcfg.status_enemy_following_id)
+        user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
+        if random.randint(1, probability) == 1:
+            return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop', user_data=user_data)
+
+async def needy_give(channel, npc_obj, enemy, item):
+    status = enemy.getStatusEffects()  # give me a horse, and I will be yours forever. -andrew hussie
+    if ewcfg.status_enemy_following_id in status:
+        enemy.clear_status(id_status=ewcfg.status_enemy_hostile_id)
+    item_obj = EwItem(id_item=item.get('id_item'))
+    enemy.applyStatus(id_status=ewcfg.status_enemy_following_id, id_target=item_obj.id_owner)
+
+    return await generic_give(channel, npc_obj, enemy, item)
+
+async def needy_move(enemy = None, npc_obj = None, user_data = None):
+    if enemy.life_state == ewcfg.enemy_lifestate_alive:
+        pre_chosen_poi = None
+        if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown] and user_data.poi[:3] != 'apt': #follow a targeted player until they can't anymore
+            status = enemy.getStatusEffects()  # if the follower has a target they'll pester them constantly
+            if ewcfg.status_enemy_following_id in status:
+                status_obj = EwEnemyStatusEffect(id_enemy=enemy.id_enemy, id_server=enemy.id_server, id_status=ewcfg.status_enemy_following_id)
+                user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
+                pre_chosen_poi = user_data.poi
+
+        resp_cont = enemy.move(pre_chosen_poi=pre_chosen_poi)
+        if resp_cont != None:
+            channel = list(resp_cont.channel_responses.keys())[0]
+            await resp_cont.post(delete_after=120)
+            if npc_obj.dialogue.get('enter') is not None:
+                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+            elif npc_obj.dialogue.get('loop') is not None:
+                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')

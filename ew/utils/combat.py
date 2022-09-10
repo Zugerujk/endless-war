@@ -548,7 +548,7 @@ class EwEnemy(EwEnemyBase):
         if should_post_resp_cont:
             await resp_cont.post()
 
-    def move(self):
+    def move(self, pre_chosen_poi = None):
         resp_cont = EwResponseContainer(id_server=self.id_server)
 
         old_district_response = ""
@@ -589,6 +589,8 @@ class EwEnemy(EwEnemyBase):
                 old_poi = self.poi
                 new_poi = random.choice(list(destinations))
 
+                if pre_chosen_poi is not None:
+                    new_poi = pre_chosen_poi
                 self.poi = new_poi
                 self.time_lastenter = int(time.time())
                 self.id_target = -1

@@ -3528,6 +3528,7 @@ status_enemy_juviemode_id = "juviemode"
 status_enemy_trainer_id = 'slimeoidtrainer'
 status_enemy_tanky_id = 'tanky'
 status_enemy_dodgy_id = 'dodgy'
+status_enemy_following_id = 'following'
 
 
 status_n1 = "n1"
