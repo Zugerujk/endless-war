@@ -36,7 +36,7 @@ except:
 
 async def stock_market_tick(stock_data, id_server):
     market_data = EwMarket(id_server=id_server)
-    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock)
+    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock, only_latest=False)
     crashstate = EwGamestate(id_server=id_server, id_state='stockcrashdive').bit
 
     # Nudge the value back to stability.
