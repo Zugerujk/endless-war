@@ -2046,7 +2046,7 @@ class EwUser(EwUserBase):
             client = ewutils.get_client()
             server = client.get_guild(self.id_server)
             
-            await add_xp(self.id_user, cmd.message.guild.id, fe_utils.get_channel(server, poi_static.id_to_poi.get(self.poi).channel), goonscape_eat_stat, xp_yield)
+            await add_xp(self.id_user, self.id_server, fe_utils.get_channel(server, poi_static.id_to_poi.get(self.poi).channel), goonscape_eat_stat, xp_yield)
 
 
 
