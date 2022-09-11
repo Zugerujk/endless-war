@@ -3255,7 +3255,7 @@ async def display_goonscape_stats(cmd):
     response = "\n```ini\n"
     for stat_name in [goonscape_mine_stat, goonscape_farm_stat, goonscape_fish_stat, goonscape_eat_stat]:
 
-        stat = EwGoonScapeStat(cmd.message.author.id, stat_name)
+        stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 
         response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
 
