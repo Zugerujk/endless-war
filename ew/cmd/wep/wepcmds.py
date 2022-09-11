@@ -500,7 +500,8 @@ async def attack(cmd):
             # Flavor from backfires
             bkf_msg = "\n\n" + attacker_weapon.str_backfire.format(
                 name_player=attacker_member.display_name,
-                name_target=target_member.display_name
+                name_target=target_member.display_name,
+                hitzone=randombodypart,
             )
             if attacker_killed:
                 bkf_msg += "\nYou have been destroyed by your own stupidity."
