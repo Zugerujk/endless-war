@@ -342,7 +342,7 @@ async def inventory_print(cmd):
 
         #Less tokens exist than colours or weapons. Search each token instea dof each colour/weapon
         if(len(lower_token_list) < 20): #anything above that is just gonna make this loop run long
-            i = 0
+            i = 1
             while i < len(lower_token_list):
                 token = lower_token_list[i]
 
@@ -360,14 +360,16 @@ async def inventory_print(cmd):
                 weapon_prop = static_weapons.weapon_map.get(token)
                 if(weapon_prop):
                     prop_hunt["weapon_type"] = weapon_prop.id_weapon
+                    i += 1
 
-                i += 1
+                if not (hue_prop or weapon_prop):
+                    i += 1
         
         if(not prop_hunt):
             prop_hunt = None
 
         #Display the colour infront of the name, or not
-        if 'color' or 'colour' or 'hue' in lower_token_list:
+        if 'color' in lower_token_list or 'hue' in lower_token_list or 'colour' in lower_token_list:
             display_hue = True
         #Display the weapon type's name after the weapon's name
         if "weapontype" in lower_token_list:

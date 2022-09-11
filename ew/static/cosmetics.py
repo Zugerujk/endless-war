@@ -2149,6 +2149,7 @@ cosmetic_items_list = [
         str_unadorn = "You take off the programmer socks. Please, do us all a favor and do not post pics of your feet.",
         str_onbreak = "FREEDOM! The socks rip apart!",
         durability = 2500000,
+        style = "cute",
         freshness = 10,
     ),
     EwCosmeticItem(
@@ -2572,6 +2573,9 @@ cosmetic_nmsmascot = []
 cosmetic_hatealiens = []
 
 
+# Cosmetics sorted by style (used for random smelting)
+cosmetic_style_names = {"cute":[], "cool":[], "beautiful":[], "tough":[], "smart":[], "evil":[]}
+
 # Populate cosmetic map.
 for cosmetic in cosmetic_items_list:
     cosmetic_map[cosmetic.id_cosmetic] = cosmetic
@@ -2580,3 +2584,5 @@ for cosmetic in cosmetic_items_list:
         cosmetic_nmsmascot.append(cosmetic.id_cosmetic)
     elif cosmetic.ability == "hatealiens":
         cosmetic_hatealiens.append(cosmetic.id_cosmetic)
+    if cosmetic.acquisition == "smelting" and cosmetic.rarity != "Profollean":
+        cosmetic_style_names.get(cosmetic.style).append(cosmetic.id_cosmetic)

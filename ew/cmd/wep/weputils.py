@@ -604,6 +604,7 @@ async def attackEnemy(cmd):
     slimeoid = EwSlimeoid(member=cmd.message.author)
     market_data = EwMarket(id_server=cmd.guild.id)
     time_now_float = time.time()
+    levelup_response = ""
 
     time_now = int(time_now_float)
     # Get shooting player's info
@@ -721,7 +722,7 @@ async def attackEnemy(cmd):
         weapon_item.persist()
 
         # Spend slimes, to a minimum of zero
-        user_data.change_slimes(n=(-user_data.slimes if slimes_spent >= user_data.slimes else -slimes_spent), source=ewcfg.source_spending)
+        levelup_response += user_data.change_slimes(n=(-user_data.slimes if slimes_spent >= user_data.slimes else -slimes_spent), source=ewcfg.source_spending)
 
         user_data.limit_fix()
         user_data.persist()
@@ -833,11 +834,11 @@ async def attackEnemy(cmd):
         slimes_splatter = 0
 
     if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
-        user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
+        levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
         slimes_splatter *= .4
     
     if ewcfg.mutation_id_slurpsup in user_mutations or ewcfg.mutation_id_airlock in user_mutations and market_data.weather == ewcfg.weather_rainy:
-        user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
+        levelup_response += user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
         slimes_splatter *= 0.5
 
     district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)  # district gains 1/8 damage as slime
@@ -892,7 +893,7 @@ async def attackEnemy(cmd):
             slimes_tokiller = 0
 
         district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
-        levelup_response = user_data.change_slimes(n=slimes_tokiller, source=ewcfg.source_killing)
+        levelup_response += user_data.change_slimes(n=slimes_tokiller, source=ewcfg.source_killing)
         if ewcfg.mutation_id_fungalfeaster in user_mutations:
             user_data.hunger = 0
 

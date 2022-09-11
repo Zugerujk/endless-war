@@ -996,6 +996,7 @@ cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
 cmd_rejuvenate = cmd_prefix + 'rejuvenate'
+cmd_goonscape_stats = cmd_prefix + 'stats'
 
 cmd_win = cmd_prefix + 'win'
 cmd_slimefest = cmd_prefix + 'slimefest'
@@ -2335,6 +2336,11 @@ col_status_target = 'id_target'
 col_id_event = 'id_event'
 col_event_type = 'event_type'
 col_time_activate = 'time_activate'
+
+# Database columns for quest records
+col_time_stamp = 'time_stamp'
+col_record_type = 'record_type'
+col_record_data = 'record_data'
 
 # Database columns for advertisements
 col_id_ad = 'id_ad'
