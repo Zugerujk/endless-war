@@ -2391,6 +2391,18 @@ col_id_user_pranker = 'id_user_pranker'
 col_id_user_pranked = 'id_user_pranked'
 col_prank_count = 'prank_count'
 
+#Yachts
+col_id_yacht = 'id_yacht'
+col_name_yacht = 'name_yacht'
+col_thread_id = "thread_id" #Identifier for the thread's name
+col_flood = "flood" #Percentage of water the yacht is taking
+col_filth = "filth" #Level of filth the boat currently holds
+col_helm = "helm" #Player manning the helm
+col_cannon = "cannon" #Player manning the arms and belowdeck
+col_storehouse = "storehouse" #Player manning the storehouse
+col_poopdeck = "poopdeck" #Player currently manning the poopdeck
+
+
 # Item type names
 it_item = "item"
 it_medal = "medal"
