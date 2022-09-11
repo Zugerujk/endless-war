@@ -34,6 +34,7 @@ from .juviecmdutils import init_grid
 from .juviecmdutils import mismine
 from .juviecmdutils import print_grid
 from ew.backend.dungeons import EwGamestate
+from ew.backend.goonscapestats import goonscape_mine_stat, add_xp
 
 try:
     from ew.static.rstatic import digup_relics
@@ -654,6 +655,10 @@ async def mine(cmd):
             # Tell the player their slime level increased and/or they unearthed an item.
             if was_levelup:
                 response += levelup_response
+
+            #GoonScape Stat
+            xp_yield = max(1, round(mining_yield * 0.0077))
+            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_mine_stat, xp_yield)
 
             user_data.persist()
 
