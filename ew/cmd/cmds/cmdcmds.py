@@ -54,7 +54,7 @@ from .cmdsutils import item_off
 from .cmdsutils import location_commands
 from .cmdsutils import mutation_commands
 from ew.cmd.juviecmd import juviecmdutils
-
+from ew.backend.goonscapestats import EwGoonScapeStat, goonscape_mine_stat, goonscape_eat_stat, goonscape_farm_stat, goonscape_fish_stat
 from .cmdsutils import holiday_commands
 from .. import item as ewitem
 from ..apt import aptcmds as apt_cmds
@@ -3249,3 +3249,18 @@ async def fun(cmd):
         response = 'You stop having fun.'"""
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def display_goonscape_stats(cmd):
+    response = "\n```ini\n"
+    for stat_name in [goonscape_mine_stat, goonscape_farm_stat, goonscape_fish_stat, goonscape_eat_stat]:
+
+        stat = EwGoonScapeStat(cmd.message.author.id, stat_name)
+
+        response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
+
+    response += "```"
+
+    
+    await fe_utils.send_response(response, cmd)
+
