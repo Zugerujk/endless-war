@@ -119,6 +119,17 @@ cosmetic_items_list = [
         vendors = ['bazaar'],
     ),
     EwCosmeticItem(
+        id_cosmetic = "bulletnecklace",
+        str_name = "Bullet Necklace",
+        str_desc = "A chain necklace with a big fat bullet hanging off of it. Wearing this really makes you *feel* like a murderer.",
+        rarity = "Plebeian",
+        durability = 2500000,
+        style = "tough",
+        freshness = 9,
+        acquisition = "smelting",
+        price = 1000000,
+    ),
+    EwCosmeticItem(
         id_cosmetic = "cigarette",
         str_name = "cigarette",
         str_desc = "A single cigarette sticking out of your mouth. You huff these things down in seconds but you're never seen without one. Everyone thinks you're really, really cool.",
@@ -2190,6 +2201,24 @@ cosmetic_items_list = [
         acquisition = "smelting",
         price = 5000000,
     ),
+    EwCosmeticItem(
+        id_cosmetic = "officercopbadge",
+        str_name = "NLACPD Officer's Badge",
+        str_desc = "You stole this off a cop after ganking the shit out of em. It's slashed across the surface so nobody confuses you for an actual officer.",
+        durability = 2500000,
+        style = "tough",
+        freshness = 2
+    ),
+    EwCosmeticItem(
+            id_cosmetic = "cookingapron",
+            str_name = "Cooking Apron",
+            str_desc = "An apron with \"Kiss The Cook\" printed on it in big, bold letters. I wonder who the cook is...",
+            str_onadorn = "You slip on the apron. The Cook Is You!",
+            rarity = "Plebeian",
+            durability = 2500000,
+            style = "beautiful",
+            freshness = 5,
+        ),
     EwCosmeticItem(
         id_cosmetic = "wrappingpapersexywear",
         str_name = "Wrapping Paper Sexywear",

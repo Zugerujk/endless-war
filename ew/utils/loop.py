@@ -47,7 +47,10 @@ from ..static.food import swilldermuk_food
 from ..static import poi as poi_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
-
+try:
+    from ..utils import rutils
+except:
+    from ..utils import rutils_dummy as rutils
 
 async def event_tick_loop(id_server):
     # initialise void connections
@@ -758,11 +761,12 @@ async def spawn_enemies(id_server = None, debug = False):
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
     # Why did I make this into incredibly hacky code? Because.
-    if random.randrange(5) == 0:
-            if random.randrange(2) == 0:
-                resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
-            else:
-                resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
+    if random.randrange(4) == 0:
+        resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_npc))
+            #if random.randrange(2) == 0:
+                #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
+            #else:
+                #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
 
     # Chance to spawn enemies that correspond to POI Events.
     if random.randrange(4) == 0:
@@ -1306,6 +1310,8 @@ async def clock_tick_loop(id_server = None, force_active = False):
                     ewutils.logMsg("Kicking AFK players...")
                     await move_utils.kick(id_server)  
 
+                    await rutils.debug255(id_server=id_server)
+
                     sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
 
                     if market_data.clock == 6 or force_active:
@@ -1316,7 +1322,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                         
                         await market_utils.refresh_bazaar(id_server)
                         ewutils.logMsg("...finished bazaar refresh.")
-                        
+
                         await leaderboard_utils.post_leaderboards(client=client, server=server)
 
                         ewutils.logMsg("Releasing timed prisoners...")

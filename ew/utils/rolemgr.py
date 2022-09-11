@@ -69,6 +69,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
             user_data.life_state = ewcfg.life_state_juvenile
         user_data.persist()
 
+
     # Manage faction roles.
     faction_role = ewutils.get_faction(user_data=user_data)
 
@@ -76,6 +77,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
         faction_role = ewcfg.role_juvenile
 
     roles_add.add(faction_role)
+
 
     lastwarp = ewutils.last_warps.get(user_data.id_user)
     lastwarp = 0 if lastwarp is None else lastwarp + 19  # add 19 secs to the last time someone started a teleport to check pvp flagging
@@ -99,6 +101,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
 
         roles_add.add(ewcfg.role_slimernalia)
 
+
     roles_remove = set()
     roles_remove.update(ewcfg.faction_roles)
     roles_remove.update(ewcfg.misc_roles)
@@ -109,6 +112,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
         role_data = roles_map[id_server].get(role_id)
         if role_data and role_id not in roles_remove and role_id not in roles_add:
             replacement_roles.add(role_data)
+
 
     # Adds critical roles
     for role in roles_add:

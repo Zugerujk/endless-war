@@ -203,7 +203,7 @@ async def order(cmd):
         if cmd.tokens_count > 1:
             for token in cmd.tokens[1:]:
                 if token.startswith('<@') == False and token.lower() not in "togo":  # togo can be spelled together or separate
-                    value = token
+                    value = token.lower() #prevents case sensitivity
                     break
 
             for token in cmd.tokens[1:]:

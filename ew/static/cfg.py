@@ -46,12 +46,12 @@ swilldermuk_active = False
 
 
 public_gamestates = {
-    'dhorsemankills': [1, '4'], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
-    'slimernaliakingpin':[1, '-1'], #The existing slimernalia kingpin
-    'cratersvillehole':[1, '0'],
-    'toxingtonhole':[1, '0'],
-    'juviesrowhole':[1, '0'],
-    'hall_counter':[1, '1']
+    'dhorsemankills': [1, '4', 0], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
+    'slimernaliakingpin':[1, '-1', 0], #The existing slimernalia kingpin
+    'cratersvillehole':[1, '0', 0],
+    'toxingtonhole':[1, '0', 0],
+    'juviesrowhole':[1, '0', 0],
+    'hall_counter':[1, '1', 0]
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -166,9 +166,9 @@ poi_id_clinicofslimoplasty = "clinicofslimoplasty"
 poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
+poi_id_greenroom = "greenroom"
 poi_id_ghostcafe = "ghostmaidcafe"
 poi_id_coalitionsurplus = "coalitionsurplus"
-
 
 poi_id_themoon = "themoon"
 
@@ -408,6 +408,7 @@ role_gellphone = "gellphone"
 role_brimstoneprog = "brimstoneprogrammer"
 role_bpadmin = "bpadmin"
 role_bdadmin = "bdadmin"
+role_blasting = "blasting"
 role_brimstonedesperados = "brimstonedesperados"
 role_null_major_role = "nullmajorrole"
 role_null_minor_role = "nullminorrole"
@@ -854,6 +855,7 @@ cmd_defect = cmd_prefix + 'defect'
 cmd_banish = cmd_prefix + 'banish'
 cmd_moveitem = cmd_prefix + 'moveitem'
 cmd_vouch = cmd_prefix + 'vouch'
+cmd_vote = cmd_prefix + 'vote'
 cmd_writhe = cmd_prefix + 'writhe'
 cmd_use = cmd_prefix + 'use'
 cmd_eat = cmd_prefix + 'eat'
@@ -989,6 +991,7 @@ cmd_cancel = cmd_prefix + 'cancel'
 cmd_pray = cmd_prefix + 'pray'
 cmd_flushsubzones = cmd_prefix + 'flushsubzones'
 cmd_flushstreets = cmd_prefix + 'flushstreets'
+cmd_flush = cmd_prefix + 'flush'
 cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
@@ -1072,6 +1075,7 @@ cmd_unpot = cmd_prefix + 'unpot'
 cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
 cmd_smoke = cmd_prefix + 'smoke'
+cmd_huff = cmd_prefix + 'huff'
 cmd_vape = cmd_prefix + 'vape'
 cmd_vapealt1 = cmd_prefix + 'oop'
 cmd_frame = cmd_prefix + 'frame'
@@ -1149,6 +1153,12 @@ cmd_trick = cmd_prefix + 'trick'
 cmd_pacommand = cmd_prefix + 'pacommand'
 
 cmd_surveil = cmd_prefix + 'surveil'
+
+
+cmd_addblurb = cmd_prefix + 'addblurb'
+cmd_displayblurbs = cmd_prefix + 'displayblurbs'
+cmd_deleteblurb = cmd_prefix + 'deleteblurb'
+cmd_blurbcontext = cmd_prefix + 'blurbcontext'
 
 apartment_b_multiplier = 1500
 apartment_a_multiplier = 2000000
@@ -1352,6 +1362,8 @@ cmd_festivity = cmd_prefix + 'festivity'
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
+cmd_talk = cmd_prefix + 'talk'
+
 offline_cmds = [
     cmd_move,
     cmd_move_alt1,
@@ -1510,10 +1522,10 @@ max_capture_points_a = 6553  # 2 hours
 max_capture_points_b = 3277  # 1 hour
 max_capture_points_c = 1638  # 30 minutes
 
-crime_yield_s = 500
-crime_yield_a = 200
-crime_yield_b = 100
-crime_yield_c = 50
+crime_yield_s = 1000
+crime_yield_a = 500
+crime_yield_b = 200
+crime_yield_c = 100
 
 min_garotte = 2000
 
@@ -1634,6 +1646,8 @@ crime_status = {
 1000000:"Not even {their} fellow gangsters can tolerate the sight of {them} now. {their} voice is spun of poison and {their} footsteps leave destruction in {their} wake. Fucking goons."
 }
 
+#if a profile image is absent, this is used
+default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"
 
 # how often to apply weather effects
 weather_tick_length = 10
@@ -2363,6 +2377,15 @@ col_bit = "state_bit"
 col_id_state = "id_state"
 col_number = "number"
 
+#Blurb columns
+col_id_blurb = "blurb"
+col_id_active = "active"
+col_id_id_blurb = "id_blurb"
+col_id_context = "context"
+col_id_subcontext = "subcontext"
+col_id_subsubcontext = "subsubcontext"
+col_id_dateadded = "dateadded"
+
 # SWILLDERMUK
 col_id_user_pranker = 'id_user_pranker'
 col_id_user_pranked = 'id_user_pranked'
@@ -2542,7 +2565,9 @@ stat_harpoon_kills = 'harpoon_kills'
 stat_sniper_kills = 'sniper_kills'
 stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
+stat_juvierang_kills = 'juvierang_kills'
 stat_missilelauncher_kills = 'missilelauncher_kills'
+
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
@@ -2652,6 +2677,25 @@ vendor_breakroom = "The Breakroom"  # Security officers can order items here for
 vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
 
+vendor_thumbnails = {
+    poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/img/npc/albertalex.png"],
+    "saloon":["OL' BOY RUSTLE", "https://rfck.app/img/npc/olboyrustle.png"],
+    "basedhardware":["BOMBSHELL BETTY", "https://rfck.app/img/npc/bet.png"],
+    "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
+    "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/img/npc/n2double.png"],
+    "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/img/npc/albertalex.png"],
+    "themuseum":["THE CURATOR", "https://rfck.app/img/npc/CURATOR_GOOD_HEAD.png"],
+    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"]
+}
+
+vendor_dialogue = {
+    "speakeasy":["Ferry's 'ere, lad","*Humming the tune of his own shanty*","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr"]
+}
+
+dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
+
+pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
+
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
 item_id_ghostlycloth = 'ghostlycloth'
@@ -2706,6 +2750,7 @@ item_id_doublefaggot = "doublefaggot"
 item_id_seaweed = "seaweed"
 item_id_string = "string"
 item_id_tincan = "tincan"
+item_id_oldcd = "oldcd"
 item_id_oldboot = "oldboot"
 item_id_leather = "leather"
 item_id_ectoplasm = "ectoplasm"
@@ -2834,7 +2879,7 @@ item_id_strauberryshortcakes = "strauberryshortcakes"
 item_id_chutzpahcherries = "chutzpahcherries"
 item_id_n3crunch = "n3crunch"
 item_id_slimesours = "slimesours"
-
+item_id_454casullround = ".454casullround"
 # slimeoid food
 item_id_fragilecandy = "fragilecandy"  # +chutzpah -grit
 item_id_rigidcandy = "rigidcandy"  # +grit -chutzpah
@@ -2975,7 +3020,9 @@ weapon_id_monofilamentwhip = 'monowhip'
 weapon_id_fists = 'fists'
 weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
+weapon_id_juvierang = 'juvierang'
 weapon_id_missilelauncher = 'missilelauncher'
+
 
 
 weapon_id_spraycan = 'spraycan'
@@ -3476,10 +3523,19 @@ status_aiming_id = "aiming"
 status_sapfatigue_id = "sapfatigue"
 status_rerollfatigue_id = "rerollfatigue"
 status_high_id = "high"
+status_thinned_id = "thinned"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
-# status_juviemode_id = "juviemode"
+
+status_enemy_hostile_id = "hostile"
+status_enemy_barren_id = "barren"
+status_enemy_juviemode_id = "juviemode"
+status_enemy_trainer_id = 'slimeoidtrainer'
+status_enemy_tanky_id = 'tanky'
+status_enemy_dodgy_id = 'dodgy'
+status_enemy_following_id = 'following'
+
 
 status_n1 = "n1"
 status_n2 = "n2"
@@ -3502,6 +3558,7 @@ status_kevlarattire_id = "kevlarattire"
 status_hogtied_id = "hogtied"
 
 status_pheromones_id = "pheromones"
+status_dueling = "dueling"
 
 time_expire_burn = 12
 time_expire_high = 30 * 60  # 30 minutes
@@ -3931,7 +3988,8 @@ enemy_attacktype_raygun = 'raygun'
 enemy_attacktype_feed = 'feed'
 enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
-
+enemy_attacktype_cop = 'police'
+enemy_attacktype_dojoman = 'dojoman'
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'
@@ -3955,12 +4013,15 @@ enemy_type_microslime = 'microslime'
 enemy_type_grey = 'grey'
 enemy_type_tangeloid = 'tangeloid'
 enemy_type_alienscum = 'alienscum'
+enemy_type_npc = 'npc'
 
 enemy_type_mammoslimebull = 'mammoslimebull'
 enemy_type_slimeofgreed = 'slimeofgreed'
 enemy_type_microgullswarm = 'microgullswarm'
+enemy_type_policeofficer = 'policeofficer'
 # Raid bosses
 enemy_type_megaslime = 'megaslime'
+
 enemy_type_slimeasaurusrex = 'slimeasaurusrex'
 enemy_type_greeneyesslimedragon = 'greeneyesslimedragon'
 enemy_type_unnervingfightingoperator = 'unnervingfightingoperator'
@@ -4011,7 +4072,7 @@ enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_gre
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer]
+slimeoid_trainers = [enemy_type_npc]
 
 # Enemies that spawn during specific poi events
 raider_incursion_enemies = [enemy_type_desertraider, enemy_type_bandito, enemy_type_raiderunderboss]
@@ -4213,6 +4274,9 @@ enemy_drop_tables = {
     ],
     enemy_type_microgullswarm: [
         {item_id_feather: [5, 1, 1]}
+    ],
+    enemy_type_policeofficer: [
+        {"copbadge":[100, 1, 1]}
     ]
 }
 
@@ -4446,6 +4510,22 @@ enemy_data_table = {
         "displayname": "Suspicious Slimeoid Trainer",
         "raredisplayname": "Villainous Slimeoid Champion",
         "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"]
+    },
+    enemy_type_npc: {
+        "slimerange": [100000, 100000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "NPC",
+        "raredisplayname": "NPC Template",
+        "aliases": []
+    },
+    enemy_type_policeofficer: {
+        "slimerange": [100000, 500000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_cop,
+        "displayname": "Police Officer",
+        "raredisplayname": "Crazed Police Officer",
+        "aliases": ["cop", "police", "policeofficer", "officer", "pig"]
     },
     enemy_type_bandito: {
         "slimerange": [300000, 600000],
@@ -4760,6 +4840,8 @@ region_lock_states = {
     "slimecorptunnel": ["lobbylock1", "lobbylock2"],
     "slimecorphotel": ["hotelfound"]
 }
+
+
 
 curse_words = {  # words that the player should be punished for saying via swear jar deduction. the higher number, the more the player gets punished.
     "fag": 20,

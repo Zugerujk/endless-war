@@ -15,6 +15,7 @@ from ew.backend.player import EwPlayer
 from ew.backend import worldevent as bknd_worldevent
 from ew.cmd import apt as ewapt
 from ew.static import cfg as ewcfg
+from ew.static import community_cfg as commcfg
 from ew.static import poi as poi_static
 try:
     from ew.cmd.debug import zone_bonus_flavor
@@ -272,7 +273,8 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
             return
 
-        await rutils.movement_checker(user_data, poi_current, poi, cmd=cmd)
+        await rutils.movement_checker(user_data, poi_current, poi, cmd)
+
 
         await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi
@@ -526,6 +528,8 @@ async def look(cmd):
     bonus_flavor_list = zone_bonus_flavor.get(poi.id_poi)
     if bonus_flavor_list is not None:
         str_desc = poi.str_desc.format(bonusflavor = random.choice(bonus_flavor_list))
+    elif ewcfg.status_thinned_id in user_data.getStatusEffects():
+        str_desc = random.choice(commcfg.district_blurbs.get(poi.id_poi))
     else:
         str_desc = poi.str_desc
 

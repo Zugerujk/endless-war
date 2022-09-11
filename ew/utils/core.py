@@ -26,7 +26,11 @@ DEBUG = False
 
 DEBUG_OPTIONS = {
     'no_race_cooldown': False,
+    'duperelics': False,
+    'speed2x': False,
+    'lightspeed': False,
     'verbose_burn': False,
+    'alternate_talk':False
 }
 
 # Map of user IDs to their course ID.
@@ -58,6 +62,8 @@ active_televisions = {}
 
 tv_counter = 0
 
+
+conversations = {}
 
 class EwVector2D:
     vector = [0, 0]

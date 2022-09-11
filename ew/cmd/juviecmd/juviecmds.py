@@ -16,8 +16,11 @@ from ew.static import items as static_items
 from ew.static import poi as poi_static
 from ew.static import vendors
 from ew.static import weapons as static_weapons
+from ew.static import hunting as static_hunt
+from ew.static import npc as static_npc
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
+from ew.utils import combat as cmbt_utils
 from ew.utils import item as itm_utils
 from ew.utils import poi as poi_utils
 from ew.utils import rolemgr as ewrolemgr
@@ -672,6 +675,43 @@ async def mine(cmd):
     if len(response) > 0:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
+"""Talk with someone. Oh god, somebody answer."""
+
+async def talk(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    if cmd.mentions_count > 0:
+        target_data = EwUser(member = cmd.mentions[0])
+        if target_data.poi == user_data.poi:
+            response = random.choice(ewcfg.pvp_dialogue).format(cmd.mentions[0].display_name)
+        else:
+            response = "You strike up a conversation with- oh. They're not here. You miss {}...".format(cmd.mentions[0].display_name)
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    elif user_data.poi in ewcfg.vendor_dialogue.keys() and cmd.tokens_count == 1:
+        response = random.choice(ewcfg.vendor_dialogue.get(user_data.poi))
+        thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)[0]
+        rawname = ewcfg.vendor_thumbnails.get(user_data.poi)[1]
+        name = "{}{}{}".format("*__", rawname, "__*")
+        return await fe_utils.talk_bubble(response = response, name = name, image = thumbnail, channel = cmd.message.channel)
+
+    elif cmd.tokens_count > 1:
+        huntedenemy = " ".join(cmd.tokens[1:]).lower()
+        checked_npc = cmbt_utils.find_enemy(enemy_search = huntedenemy, user_data=user_data)
+
+        if checked_npc is None:
+            response = "You can't seem to find them here. They're just a figment of your imagination."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        elif checked_npc.enemytype != ewcfg.enemy_type_npc:
+            response = "What is this, Endless Kiss and Make Up? Stop talking to battle fodder and stab that fucker!" #get some generic enemy dialogue at some point
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        elif ewutils.DEBUG_OPTIONS.get('alternate_talk'):
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
+            await npc_obj.func_ai(keyword='move', enemy=checked_npc, channel=cmd.message.channel)
+        else:
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
+            await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel, user_data=user_data)
 
 """ mine for slime (or endless rocks) """
 

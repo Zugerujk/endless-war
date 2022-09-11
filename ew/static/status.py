@@ -86,6 +86,12 @@ status_effect_list = [
         str_describe_self="You are as high as a kite."
     ),
     EwStatusEffectDef(
+        id_status=ewcfg.status_thinned_id,
+        time_expire=ewcfg.time_expire_high,
+        str_describe="They are gassed up on paint thinner.",
+        str_describe_self="You are gassed up on paint thinner."
+    ),
+    EwStatusEffectDef(
         id_status=ewcfg.status_evasive_id,
         time_expire=10,
         str_describe="They have assumed an evasive stance.",
@@ -252,6 +258,57 @@ status_effect_list = [
         str_acquire="You spray yourself with Kinkfish pheromones.",
         str_describe="They smell horrible, but strangely... alluring?",
         str_describe_self="You smell horrible, but strangely... alluring?"
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_barren_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They don't have slime on them.",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_juviemode_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They're under the legal limit for slime. Guess they sucked the government's dick or something.",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_hostile_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Oh shit, they're hostile!",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_trainer_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They've got a slimeoid. Looks ready for a battle...",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_tanky_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They look exceedingly difficult to kill.",
+        str_describe_self="",
+        dmg_mod=-.8,
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_dodgy_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Their movements are erratic, they're incredibly difficult to hit.'",
+        str_describe_self="",
+        hit_chance_mod=-.8
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_dueling,
+        time_expire=300,
+        str_acquire="",
+        str_describe="They're squared up for a duel...",
+        str_describe_self="You're squared up for a duel..."
     )
 ]
 
@@ -676,6 +733,12 @@ trauma_list = [
         id_trauma=ewcfg.weapon_id_skateboard,
         str_trauma_self="The sight of skate tricks makes you cower in fear.",
         str_trauma="The sight of skate tricks makes them cower in fear.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 19
+        id_trauma=ewcfg.weapon_id_juvierang,
+        str_trauma_self="Your head is cleaved in with an L-shaped imprint. Loser!",
+        str_trauma="Their head is cleaved in with an L-shaped imprint. Loser!",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
     EwTrauma(  # 48

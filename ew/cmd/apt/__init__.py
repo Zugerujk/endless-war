@@ -153,6 +153,7 @@ apt_dm_cmd_map = {
     # Framing commands
     ewcfg.cmd_frame: aptcmds.frame,
     ewcfg.cmd_titleframe: aptcmds.frame_title,
+    ewcfg.cmd_flush:aptcmds.flush,
 
 }
 if ewcfg.dh_active:

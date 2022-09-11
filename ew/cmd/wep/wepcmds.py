@@ -823,7 +823,7 @@ async def brandish(cmd):
         else:
             weapon_name = weapon.item_props.get('weapon_name')
 
-        response = weapon_obj.str_brandish.format(weapon=weapon_name, name = cmd.message.author.display_name, tag = user_data.spray)
+        response = random.choice(weapon_obj.str_brandish).format(weapon=weapon_name, name = cmd.message.author.display_name, tag = user_data.spray)
     else:
         response = "{} flips the bird!".format(cmd.message.author.display_name)
     return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
