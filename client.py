@@ -734,7 +734,7 @@ async def debugHandling(message, cmd, cmd_obj):
             if role != None:
                 for user in cmd_obj.mentions:
                     try:
-                        await user.edit(roles=role)
+                        user = await user.edit(roles=role)
                     except:
                         ewutils.logMsg(
                             'Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))

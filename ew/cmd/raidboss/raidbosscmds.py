@@ -50,7 +50,7 @@ async def writhe(cmd):
 
         for writhing in writhings:
             cur_time = time.time()
-            await fe_utils.edit_message(cmd.client, resp, writhing)
+            resp = await fe_utils.edit_message(cmd.client, resp, writhing)
             elapsed = time.time() - cur_time
             await asyncio.sleep(2.0 - elapsed)
 

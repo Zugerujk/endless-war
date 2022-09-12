@@ -680,7 +680,7 @@ async def sync_topics(cmd):
 
         try:
             await asyncio.sleep(2)
-            await channel.edit(topic=new_topic)
+            channel = await channel.edit(topic=new_topic)
             ewutils.logMsg('Changed channel topic for {} to {}'.format(channel, debug_info))
         except:
             ewutils.logMsg('Failed to set channel topic for {} to {}'.format(channel, debug_info))
