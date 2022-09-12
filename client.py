@@ -845,7 +845,7 @@ async def on_message(message):
         return
 
     # Ignore messages in certain channels
-    if message.channel.type ==  0 and message.channel.name in ewcfg.forbidden_channels:
+    if message.channel.name in ewcfg.forbidden_channels:
         return
 
     if message.guild is not None:
@@ -903,20 +903,21 @@ async def on_message(message):
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")
             return await fe_utils.send_message(client, message.channel, response)
-        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"]:
+        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"] or message.channel.type in [discord.ChannelType.public_thread, discord.ChannelType.private_thread]:
             if usermodel.hogtied == 1:
                 response = random.choice(["MMMPH!", "MBBBBB", "HMMHM", "MMMMMHMMF!"])
                 await fe_utils.send_message(client, message.channel, response)
                 await message.delete()
                 return
 
-    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+    if message.channel.type == discord.ChannelType.text and (message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]):
         """
-            Wake up if we need to respond to messages. Could be:
+            Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !
                 direct message (server == None)
-                user is new/has no roles (len(roles) < 4)
-                user is a security officer and has cussed
+                Inaccurate - user is new/has no roles (len(roles) < 4)
+                user - Inaccurate - is a security officer and - ok - has cussed
+                Message is in a designated non-gameplay channel
         """
 
         # Ignore users with weird characters in their name
