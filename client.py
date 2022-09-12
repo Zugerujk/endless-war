@@ -295,8 +295,7 @@ async def on_ready():
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))
 
-        if not debug:
-            await transport_utils.init_transports(id_server=server.id)
+        await transport_utils.init_transports(id_server=server.id)
             
         asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
 
