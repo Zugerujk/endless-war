@@ -910,7 +910,15 @@ async def on_message(message):
                 await message.delete()
                 return
 
-    if message.channel.type == discord.ChannelType.text and (message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]):
+    """ -------------------------------
+    ########## THREAD CUTOFF ##########
+    ------------------------------- """
+
+    # Never treat a message like a command if it's in a thread
+    if message.channel.type != discord.ChannelType.text:
+        return
+
+    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
             Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !
