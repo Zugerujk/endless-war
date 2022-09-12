@@ -747,16 +747,15 @@ async def debugHandling(message, cmd, cmd_obj):
             if role != None:
                 for user in cmd_obj.mentions:
                     try:
-                        user = await user.edit(roles=role)
+                        user = await user.edit(roles=[role])
                     except:
-                        ewutils.logMsg(
-                            'Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
+                        ewutils.logMsg('Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
 
                 response = 'Done.'
             else:
                 response = 'Unrecognized role.'
 
-        await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(message.author, response))
+        await fe_utils.send_message(client, cmd_obj.message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'getrowdy'):
         response = "You get rowdy. Fuck. YES!"
