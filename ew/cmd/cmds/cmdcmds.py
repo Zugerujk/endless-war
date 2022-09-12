@@ -2665,8 +2665,8 @@ async def set_debug_option(cmd):
     response = ""
     if ewutils.DEBUG == True:
         if len(cmd.tokens) == 3:
-            option = cmd.tokens[1]
-            value = cmd.tokens[2]
+            option = cmd.tokens[1].lower()
+            value = cmd.tokens[2].lower()
 
             ewutils.DEBUG_OPTIONS.get(option)
             if option != None:
