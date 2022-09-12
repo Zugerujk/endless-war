@@ -1096,9 +1096,7 @@ async def barter_all(cmd):
 
 
 async def debug_create_random_fish(cmd):
-    if ewutils.DEBUG or cmd.message.author.guild_permissions.administrator:
-        pass
-    else:
+    if not (ewutils.DEBUG or cmd.message.author.guild_permissions.administrator):
         return
 
     fish = random.choice(static_fish.fish_names)
