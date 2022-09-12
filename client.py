@@ -168,7 +168,7 @@ async def on_member_remove(member):
 
 
 @client.event
-async def on_member_update(before, after):
+async def on_presence_update(before, after):
     # update last offline time if they went from offline to online
     try:
         if before.status == discord.Status.offline and after.status != discord.Status.offline:
@@ -179,6 +179,19 @@ async def on_member_update(before, after):
     except Exception as e:
         ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
 
+"""
+@client.event
+async def on_member_update(before, after):
+    # update last offline time if they went from offline to online
+    try:
+        if before.status == discord.Status.offline and after.status != discord.Status.offline:
+            user_data = EwUser(member=after)
+            user_data.time_lastoffline = int(time.time())
+            user_data.persist()
+
+    except Exception as e:
+        ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
+"""
 
 @client.event
 async def on_ready():
