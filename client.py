@@ -1182,7 +1182,7 @@ for cache_type_name in ewcfg.cacheable_types:
 
 # connect to discord and run indefinitely
 try:
-    client.run(token)
+    client.run(token, log_handler=None)
 finally:
     ewutils.TERMINATE = True
     ewutils.logMsg("main thread terminated.")
