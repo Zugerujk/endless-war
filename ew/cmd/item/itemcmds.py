@@ -220,8 +220,11 @@ async def inventory_print(cmd):
     poi_data = poi_static.id_to_poi.get(user_data.poi)
 
     # Note if this is in dms or not, so dms don't get formatted
-    if isinstance(cmd.message.channel, discord.DMChannel) and cmd.message.channel.recipient.id == cmd.message.author.id:
-        targeting_dms = True
+    if isinstance(cmd.message.channel, discord.DMChannel):
+        if cmd.message.channel.recipient is not None and cmd.message.channel.recipient.id == cmd.message.author.id:
+            targeting_dms = True
+        else:
+            return
 
     # Check if it's a chest or not
     if cmd.tokens[0].lower() == ewcfg.cmd_communitychest:
