@@ -857,7 +857,7 @@ async def on_message(message):
         return
 
     # Ignore messages in certain channels
-    if hasattr(message.channel, name) and message.channel.name in ewcfg.forbidden_channels:
+    if hasattr(message.channel, "name") and message.channel.name in ewcfg.forbidden_channels:
         return
 
     if message.guild is not None:
