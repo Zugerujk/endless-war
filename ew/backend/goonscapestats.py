@@ -122,7 +122,6 @@ class EwGoonScapeStat:
 
                     level_up_message = f"```ini\n{line_1}\n{line_2}\n{line_3}\n```"    
 
-                    print(level_up_message) 
                     await send_response(level_up_message, name = "no_name", channel = channel, format_name = False)         
 
 
