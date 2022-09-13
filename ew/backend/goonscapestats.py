@@ -109,8 +109,9 @@ class EwGoonScapeStat:
 
             #if level increased
             if self.level < xp_level:
-
-
+                # Persist before waiting, please
+                self.level = xp_level
+                self.persist() 
                 
                 for x in range(self.level+1, xp_level+1):
 
@@ -122,17 +123,10 @@ class EwGoonScapeStat:
 
                     level_up_message = f"```ini\n{line_1}\n{line_2}\n{line_3}\n```"    
 
-                    await send_response(level_up_message, name = "no_name", channel = channel, format_name = False)         
-
-
-                
-                self.level = xp_level   
+                    await send_response(level_up_message, name = "no_name", channel = channel, format_name = False)
 
                 if self.level == 99:
                     await create_quest_record(int(time.time()), self.id_user, self.id_server, "skill_cape", self.stat)
-
-            self.persist()          
-            
 
         return level_up_message
 
