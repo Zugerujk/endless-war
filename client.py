@@ -927,7 +927,7 @@ async def on_message(message):
     ------------------------------- """
 
     # Never treat a message like a command if it's in a thread
-    if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.DMChannel]:
+    if message.channel.type != discord.ChannelType.text and not isinstance(cmd.message.channel, discord.DMChannel):
         return
 
     if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
