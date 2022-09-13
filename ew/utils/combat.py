@@ -531,9 +531,9 @@ class EwEnemy(EwEnemyBase):
                 district_data.persist()
 
                 # Assign the corpse role to the newly dead player.
-                if was_killed:
-                    member = server.get_member(target_data.id_user)
-                    await ewrolemgr.updateRoles(client=client, member=member)
+                #if was_killed:
+                    #member = server.get_member(target_data.id_user)
+                    #await ewrolemgr.updateRoles(client=client, member=member) This is done in .die() if necessary, no reason to do it here
         # announce death in kill feed channel
         # killfeed_channel = ewutils.get_channel(enemy_data.id_server, ewcfg.channel_killfeed)
         # killfeed_resp = resp_cont.channel_responses[ch_name]
