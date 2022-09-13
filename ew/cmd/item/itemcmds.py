@@ -221,10 +221,7 @@ async def inventory_print(cmd):
 
     # Note if this is in dms or not, so dms don't get formatted
     if isinstance(cmd.message.channel, discord.DMChannel):
-        if cmd.message.channel.recipient is not None and cmd.message.channel.recipient.id == cmd.message.author.id:
-            targeting_dms = True
-        else:
-            return
+        targeting_dms = True
 
     # Check if it's a chest or not
     if cmd.tokens[0].lower() == ewcfg.cmd_communitychest:
