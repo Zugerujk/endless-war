@@ -42,7 +42,7 @@ player = EwPlayer(id_user=id_user)
 
 # Floating profile section
 print("<div class=profile_float><img src=\"{avatar_url}\" class=profile_avatar>".format(
-    avatar_url=player.avatar
+    avatar_url=player.display_avatar.url
 ))
 
 print("<table>")

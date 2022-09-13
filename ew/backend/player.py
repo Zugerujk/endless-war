@@ -91,7 +91,7 @@ class EwPlayer:
             ), (
                 self.id_user,
                 self.id_server,
-                self.avatar,
+                self.display_avatar.url,
                 self.display_name
             ))
 
