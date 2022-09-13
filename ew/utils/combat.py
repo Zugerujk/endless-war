@@ -457,7 +457,8 @@ class EwEnemy(EwEnemyBase):
 
                         enemy_data.persist()
                         district_data.persist()
-                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy)  # moved after trauma definition so it can gurantee .die knows killer
+                        in_server = True if ewutils.is_player_inventory(target_data.id_user, target_data.id_server) else False
+                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy, updateRoles=in_server)  # moved after trauma definition so it can gurantee .die knows killer
                         district_data = EwDistrict(district=district_data.name, id_server=district_data.id_server)
 
                         target_data.persist()
