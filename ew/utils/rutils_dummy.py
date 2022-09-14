@@ -1,6 +1,7 @@
 from ew.backend.dungeons import EwGamestate
 from ew.static.poi import id_to_poi
 
+debug_var_1 = None
 
 debug3 = 'gatekeep'
 debug4 = {
