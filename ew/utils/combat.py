@@ -13,7 +13,7 @@ from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 from .district import EwDistrict
 from .frontend import EwResponseContainer
-from .user import get_move_speed
+from .user import get_move_speed, add_xp
 from ..backend import core as bknd_core
 from ..backend import hunting as bknd_hunt
 from ..backend import item as bknd_item
@@ -37,9 +37,6 @@ from ..static import poi as poi_static
 from ..static import slimeoid as sl_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
-
-
-from ew.backend.goonscapestats import goonscape_eat_stat, add_xp
 
 """ Enemy data model for database persistence """
 
@@ -1963,6 +1960,7 @@ class EwUser(EwUserBase):
 
         xp_hunger = 0
         xp_inebriation = 0
+        responses = []
 
         item_props = food_item.item_props
         mutations = self.get_mutations()
@@ -2047,13 +2045,12 @@ class EwUser(EwUserBase):
             client = ewutils.get_client()
             server = client.get_guild(self.id_server)
             
-            await add_xp(self.id_user, self.id_server, fe_utils.get_channel(server, poi_static.id_to_poi.get(self.poi).channel), goonscape_eat_stat, xp_yield)
-
-
+            responses += await add_xp(self.id_user, self.id_server, ewcfg.goonscape_eat_stat, xp_yield)
 
             bknd_item.item_delete(food_item.id_item)
 
-        return response
+        responses.insert(0, response)
+        return responses
 
     def add_mutation(self, id_mutation, is_artificial = 0):
         mutations = self.get_mutations()

@@ -191,6 +191,10 @@ async def order(cmd):
     current_currency_amount = user_data.slimes
     # poi = ewmap.fetch_poi_if_coordless(cmd.message.channel.name)
     poi = poi_static.id_to_poi.get(user_data.poi)
+
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
+
     if poi is None or len(poi.vendors) == 0 or ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
         # Only allowed in the food court.
         response = "There’s nothing to buy here. If you want to purchase some items, go to a sub-zone with a vendor in it, like the food court, the speakeasy, or the bazaar."
@@ -471,7 +475,8 @@ async def order(cmd):
 
                             user_player_data = EwPlayer(id_user=user_data.id_user)
 
-                            response += "\n\n*{}*: ".format(user_player_data.display_name) + await user_data.eat(item_data)
+                            response += "\n\n*{}*: ".format(user_player_data.display_name)
+                            responses = await user_data.eat(item_data)
                             user_data.persist()
 
                     if premium_purchase:
@@ -483,7 +488,9 @@ async def order(cmd):
             response = "Check the {} for a list of items you can {}.".format(ewcfg.cmd_menu, ewcfg.cmd_order)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 # Eating food
@@ -491,6 +498,8 @@ async def eat_item(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
+    responses = []
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
 
     food_item = None
 
@@ -518,7 +527,8 @@ async def eat_item(cmd):
                 break
 
     if food_item != None:
-        response = await user_data.eat(food_item)
+        responses = await user_data.eat(food_item)
+        response = ""
         user_data.persist()
     else:
         if item_search:
@@ -526,4 +536,6 @@ async def eat_item(cmd):
         else:
             response = "You don't have anything to eat."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()

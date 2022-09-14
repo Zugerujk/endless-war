@@ -433,6 +433,7 @@ async def cast(cmd):
 
 async def reel(cmd):
     user_data = EwUser(member=cmd.message.author)
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
 
     # Must be in the correct channel
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
@@ -466,7 +467,8 @@ async def reel(cmd):
                 else:
                     # If the living player has !reeled, award the fish to the player and negaslime to the ghost
                     if fisher.fleshling_reeled:
-                        response = await award_fish(fisher, cmd, user_data)
+                        response = ""
+                        responses = await award_fish(fisher, cmd, user_data)
                         user_data = EwUser(member = cmd.message.author)
                     # If the living player hasn't !reeled, wait for them to !reel.
                     else:
@@ -503,7 +505,8 @@ async def reel(cmd):
         else:
             # If you're fishing alone OR if you're fishing with a ghost and they've already !reeled.
             if fisher.ghost_reeled or not fisher.inhabitant_id:
-                response = await award_fish(fisher, cmd, user_data)
+                response = ""
+                responses = await award_fish(fisher, cmd, user_data)
             # If you're fishing with a ghost and they haven't !reeled.
             else:
                 fisher.fleshling_reeled = True
@@ -512,7 +515,9 @@ async def reel(cmd):
     else:
         response = "You cast your fishing rod unto a sidewalk. That is to say, you've accomplished nothing. Go to a pier if you want to fish."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 async def appraise(cmd):

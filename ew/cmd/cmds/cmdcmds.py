@@ -54,7 +54,7 @@ from .cmdsutils import item_off
 from .cmdsutils import location_commands
 from .cmdsutils import mutation_commands
 from ew.cmd.juviecmd import juviecmdutils
-from ew.backend.goonscapestats import EwGoonScapeStat, goonscape_mine_stat, goonscape_eat_stat, goonscape_farm_stat, goonscape_fish_stat
+from ew.backend.goonscapestats import EwGoonScapeStat
 from .cmdsutils import holiday_commands
 from .. import item as ewitem
 from ..apt import aptcmds as apt_cmds
@@ -3251,7 +3251,7 @@ async def fun(cmd):
 
 async def display_goonscape_stats(cmd):
     response = "\n```ini\n"
-    for stat_name in [goonscape_mine_stat, goonscape_farm_stat, goonscape_fish_stat, goonscape_eat_stat]:
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
 
         stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 

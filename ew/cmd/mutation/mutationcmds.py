@@ -489,6 +489,8 @@ async def devour(cmd):
     is_brick = 0
     time_now = int(time.time())
     mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_trashmouth)
+    resp_ctn = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
 
     if len(mutation_data.data) > 0:
         time_lastuse = int(mutation_data.data)
@@ -572,13 +574,17 @@ async def devour(cmd):
             if item_obj.item_type != ewcfg.it_food:
                 mutation_data.data = '{}'.format(time_now)
             if is_brick == 0:
-                response = await user_data.eat(item_obj)
+                response = ""
+                responses = await user_data.eat(item_obj)
             user_data.persist()
     elif item_search == "":
         response = "Devour what?"
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 async def longdrop(cmd):
