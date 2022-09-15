@@ -439,6 +439,11 @@ async def debugHandling(message, cmd, cmd_obj):
         #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
         await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
+    elif cmd == (ewcfg.cmd_prefix + 'threado'):
+        #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
+        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)
+        print(cmd_obj.message.channel)
+
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         if cmd.mentions_count == 1 and cmd.tokens_count == 3:
             member = cmd.mentions[0]
@@ -935,7 +940,7 @@ async def on_message(message):
     ------------------------------- """
 
     # Never treat a message like a command if it's in a thread
-    if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private]:
+    if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private] and not ewutils.DEBUG_OPTIONS.get('threadson'):
         return
 
     if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:

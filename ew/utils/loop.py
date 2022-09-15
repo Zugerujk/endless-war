@@ -1354,3 +1354,14 @@ async def clock_tick_loop(id_server = None, force_active = False):
     except Exception as e:
         traceback.print_exc(file=sys.stdout)
         ewutils.logMsg('An error occurred in the scheduled slime market update task: {}. Fix that.'.format(e))
+
+
+async def boat_tick_loop(id_server):
+    interval = ewcfg.boat_tick_length
+    # Loops for boat movement
+    while not ewutils.TERMINATE:
+        await asyncio.sleep(interval)
+        await boat_tick(id_server=id_server)
+
+async def boat_tick(id_server):
+    pass

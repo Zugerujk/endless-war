@@ -36,7 +36,7 @@ def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
                         life_state=ewcfg.col_enemy_life_state,
                         id_server=ewcfg.col_id_server
                     ), (
-                        chosen_npc.enemyclass,
+                        chosen_npc.id_npc,
                         enemy.id_server
                     ))
             if len(enemydata) == 0:

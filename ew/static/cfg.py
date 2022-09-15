@@ -1418,7 +1418,8 @@ client_debug_commands =[
  '!massgenslimeoidnames',
  '!decaytick',
 '!moverelics',
-'!quickrevive']
+'!quickrevive',
+'!threado']
 
 # Maximum amount of slime juveniles can have before being killable
 # max_safe_slime = 100000
@@ -1602,6 +1603,8 @@ enemy_attack_tick_length = 5
 
 # how often to burn
 burn_tick_length = 4
+
+boat_tick_length = 5
 
 # how often to check for statuses to be removed
 removestatus_tick_length = 5
@@ -2401,7 +2404,12 @@ col_helm = "helm" #Player manning the helm
 col_cannon = "cannon" #Player manning the arms and belowdeck
 col_storehouse = "storehouse" #Player manning the storehouse
 col_poopdeck = "poopdeck" #Player currently manning the poopdeck
+col_xcoord = "x_coord"
+col_ycoord = "y_coord"
 
+
+col_id_stat = "stat" #ID of the yacht stat
+col_quantity = "quantity" #amount of stat
 
 # Item type names
 it_item = "item"

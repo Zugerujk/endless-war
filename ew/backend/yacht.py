@@ -15,6 +15,9 @@ class EwYacht():
     cannon = -1 #Player manning the arms and belowdeck
     storehouse = -1 #Player manning the storehouse
     poopdeck = -1 #Player currently manning the poopdeck
+    xcoord = -1 #Ship's x coordinate
+    ycoord = -1 #Ship's y coordinate
+    speed = 0 #Ship's speed
 
     def __init__(self, id_yacht, id_server):
         if id_server is not None and id_yacht is not None:
@@ -29,7 +32,7 @@ class EwYacht():
             # Retrieve object
 
             cursor.execute(
-                "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
+                "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
                     ewcfg.col_name_yacht,
                     ewcfg.col_thread_id,
                     ewcfg.col_id_user,
@@ -38,7 +41,10 @@ class EwYacht():
                     ewcfg.col_helm,
                     ewcfg.col_cannon,
                     ewcfg.col_storehouse,
-                    ewcfg.col_poopdeck
+                    ewcfg.col_poopdeck,
+                    ewcfg.col_xcoord,
+                    ewcfg.col_ycoord,
+                    ewcfg.col_speed
                 ), (
                     self.id_yacht,
                     self.id_server
@@ -54,6 +60,9 @@ class EwYacht():
             self.cannon = result[6]
             self.storehouse = result[7]
             self.poopdeck = result[8]
+            self.xcoord = result[9]
+            self.ycoord = result[10]
+            self.speed = result[11]
 
         finally:
             cursor.close()
@@ -68,7 +77,7 @@ class EwYacht():
 
             # Save the object.
             cursor.execute(
-                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
+                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
                     ewcfg.col_id_yacht,
                     ewcfg.col_name_yacht,
@@ -79,7 +88,11 @@ class EwYacht():
                     ewcfg.col_helm,
                     ewcfg.col_cannon,
                     ewcfg.col_storehouse,
-                    ewcfg.col_poopdeck
+                    ewcfg.col_poopdeck,
+                    ewcfg.col_xcoord,
+                    ewcfg.col_ycoord,
+                    ewcfg.col_speed
+
                 ), (
                     self.id_server,
                     self.id_yacht,
@@ -91,15 +104,109 @@ class EwYacht():
                     self.helm,
                     self.cannon,
                     self.storehouse,
-                    self.poopdeck
+                    self.poopdeck,
+                    self.xcoord,
+                    self.ycoord,
+                    self.speed
                 ))
         finally:
             # Clean up the database handles.
             cursor.close()
             bknd_core.databaseClose(conn_info)
 
+    def getYachtStats(self): #because the stat quantity
+        stats = []
+        try:
+            conn_info = bknd_core.databaseConnect()
+            conn = conn_info.get('conn')
+            cursor = conn.cursor()
+
+            # Retrieve object
+
+            cursor.execute(
+                "SELECT {} FROM yacht_stats WHERE id_server = %s and id_yacht = %s".format(
+                    ewcfg.col_id_stat
+                ), (
+                    self.id_server,
+                    self.id_yacht
+                ))
+            results = cursor.fetchall()
+
+            for result  in results:
+                result_obj = EwYachtStat(id_server=self.id_server, id_stat=result[0])
+                stats.append(result_obj)
+        finally:
+            cursor.close()
+            bknd_core.databaseClose(conn_info)
+        return stats
+
 class EwYachtStat():
     id_yacht = -1 #Name of the affected yacht
     id_stat = "" #The stat in question
     target = 0 #Targeted yacht or player
-    quantiy = "" #Necessary quantity value
+    quantity = "" #Necessary quantity value
+    id_server = -1 # server id
+
+    def __init__(self, id_stat, id_server):
+        if id_server is not None and id_stat is not None:
+            self.id_stat = id_stat
+            self.id_server = id_server
+
+        try:
+            conn_info = bknd_core.databaseConnect()
+            conn = conn_info.get('conn')
+            cursor = conn.cursor()
+
+            # Retrieve object
+
+            cursor.execute(
+                "SELECT {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and id_yacht = %s".format(
+                    ewcfg.col_status_target,
+                    ewcfg.col_quantity
+                ), (
+                    self.id_stat,
+                    self.id_server,
+                    self.id_yacht
+                ))
+            result = cursor.fetchone()
+
+            self.target = result[0]
+            self.quantity = result[1]
+
+        finally:
+            cursor.close()
+            bknd_core.databaseClose(conn_info)
+
+
+    def persist(self):
+        try:
+            conn_info = bknd_core.databaseConnect()
+            conn = conn_info.get('conn')
+            cursor = conn.cursor()
+
+            # Save the object.
+            cursor.execute(
+                "REPLACE INTO yachts({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
+                    ewcfg.col_id_server,
+                    ewcfg.col_id_yacht,
+                    ewcfg.col_id_stat,
+                    ewcfg.col_status_target,
+                    ewcfg.col_quantity
+                ), (
+                    self.id_server,
+                    self.id_yacht,
+                    self.id_stat,
+                    self.target,
+                    self.quantity
+
+                ))
+        finally:
+            # Clean up the database handles.
+            cursor.close()
+            bknd_core.databaseClose(conn_info)
+
+    def __eq__(self, other): #shout out to operator overloading dawg school was useful once
+        if other == self.id_stat:
+            return True
+        else:
+            return False
