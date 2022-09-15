@@ -436,15 +436,15 @@ async def order(cmd):
                  # Yodel this comment is here so i can ctrl+f the word yodel to jump to the code below will be removed before pr
 
                     elif item_props.get(id_food) in ["gumball"]:
-                        random.choice(0,499),
-                    if number < 249:
-                        random.choice(common_gumballs)
-                    elif number < 399:
-                        random.choice(uncommon_gumballs)
-                    elif number < 498:
-                        random.choice(rare_gumballs)
+                       gumballrandint = random.choice(0,499),
+                    if gumballrandint < 249:
+                        random.choice in food.common_gumballs
+                    elif gumballrandint < 399:
+                        random.choice in food.uncommon_gumballs
+                    elif gumballrandint < 498:
+                        random.choice in food.rare_gumballs
                     else:
-                        random.choice(superrare_gumballs)
+                        random.choice in food.superrare_gumballs
 
                     id_item = bknd_item.item_create(
                         item_type=item_type,

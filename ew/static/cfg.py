@@ -2653,6 +2653,7 @@ vendor_downpourlaboratory = "Downpour Armament Vending Machines"  # Store for sh
 vendor_breakroom = "The Breakroom"  # Security officers can order items here for free.
 vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
+vendor_gumballmachine = "Gumball Machine"
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
