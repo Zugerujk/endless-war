@@ -119,7 +119,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
             ewutils.logMsg("Failed to find role for {role}.".format(role = role))
 
     try:
-        await member.edit(roles=replacement_roles)
+        member = await member.edit(roles=replacement_roles)
     except Exception as e:
         ewutils.logMsg('error: failed to replace roles for {}:{}'.format(member.display_name, str(e)))
 

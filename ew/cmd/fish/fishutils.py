@@ -21,7 +21,7 @@ from ew.utils import frontend as ewfrontend
 from ew.utils.district import EwDistrict
 from ew.utils.rolemgr import updateRoles
 from ew.utils.combat import EwUser
-from ew.backend.goonscapestats import goonscape_fish_stat, add_xp
+from ew.utils.user import add_xp
 
 try:    
     from ew.utils import rutils 
@@ -288,6 +288,7 @@ def gen_bite_text(size):
 
 async def award_fish(fisher, cmd, user_data):
     response = ""
+    responses = []
 
     xp_type = None
     actual_fisherman = None
@@ -516,25 +517,17 @@ async def award_fish(fisher, cmd, user_data):
 
         user_data.persist()
 
-        #GoonScape Stat
-        xp_map = {
-            "item": 21000,
-            "common": 11000,
-            "uncommon": 16000,
-            "rare":	26000,
-            "promo": 31000,
-        }
-
         if fisher.inhabitant_id:
-            xp_yield = xp_map.get(xp_type, 16000)
+            xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
             xp_yield /= 2
-            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
-            await add_xp(inhabitant_id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
+            responses += await add_xp(inhabitant_id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
         else: 
-            xp_yield = xp_map.get(xp_type, 16000)
-            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_fish_stat, xp_yield)
+            xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
             
-    return response
+    responses.insert(0, response)
+    return responses
 
 
 def cancel_rod_possession(fisher, user_data):

@@ -543,7 +543,7 @@ async def populate_image(cmd):
                         museum_text = "-------------------------------------------------\n{}\nDonated by {}\n{}\nLENGTH:{} INCHES\n{}".format(
                             fishmap.str_name.upper(), donor.display_name, record.id_image,
                             record.record_amount, fishmap.str_desc)
-                        await message.edit(content=museum_text)
+                        message = await message.edit(content=museum_text)
                     else:
                         response = "Failed to add an image to the message."
 
@@ -551,12 +551,12 @@ async def populate_image(cmd):
                     relicmap = relic_map.get(record.record_type)
                     if relicmap is not None:
                         museum_text = "-------------------------------------------------\n{}\nDiscovered by {}\n{}\n{}".format(relicmap.str_name, donor.display_name, record.id_image, relicmap.str_museum)
-                        await message.edit(content=museum_text)
+                        message = await message.edit(content=museum_text)
                     else:
                         response = "Failed to add an image to the message."
 
             else:
-                await message.edit(content = message.content.replace("-...-", link))
+                message = await message.edit(content = message.content.replace("-...-", link))
 
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:

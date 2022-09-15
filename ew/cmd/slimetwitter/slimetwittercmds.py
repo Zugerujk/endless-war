@@ -28,7 +28,7 @@ async def tweet(cmd):
 
         tweet = fe_utils.discord.Embed()
 
-        tweet.set_thumbnail(url=cmd.message.author.avatar_url)
+        tweet.set_thumbnail(url=cmd.message.author.display_avatar.url)
         # we use the description to set the author since members cannot be mentioned from the author field
         checkmark = ewcfg.emote_verified if user_data.verified else ""
         tweet.description = "<@!{}>{}".format(cmd.message.author.id, checkmark)

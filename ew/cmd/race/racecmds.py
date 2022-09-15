@@ -419,14 +419,14 @@ async def beep(cmd):
         else:
             resp = await cmd_utils.start(cmd=cmd)
             response = "```CRITICAL ERROR: 'life_state' NOT FOUND\nINITIATING LIFECYCLE TERMINATION SEQUENCE IN "
-            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "10 SECONDS...```"))
+            resp = await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "10 SECONDS...```"))
             for i in range(10, 0, -1):
                 await asyncio.sleep(1)
-                await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "{} SECONDS...```".format(i)))
+                resp = await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "{} SECONDS...```".format(i)))
             await asyncio.sleep(1)
-            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "0 SECONDS...```"))
+            resp = await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "0 SECONDS...```"))
             await asyncio.sleep(1)
-            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "0 SECONDS...\nERROR: 'reboot' not in function library in ewrobot.py ln 459```"))
+            resp = await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response + "0 SECONDS...\nERROR: 'reboot' not in function library in ewrobot.py ln 459```"))
             return
         response = random.choice(responses)
     else:

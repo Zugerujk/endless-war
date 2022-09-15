@@ -390,7 +390,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
 
-                    rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
+                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
 
                     user_data.poi = poi_current.id_poi
                     user_data.time_lastenter = int(time.time())
@@ -1027,9 +1027,7 @@ async def teleport_player(cmd):
     author = cmd.message.author
     user_data = EwUser(member=author)
 
-    if ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin:
-        pass
-    else:
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
         return
 
     if cmd.mentions_count == 1:
