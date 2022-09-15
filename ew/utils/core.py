@@ -30,7 +30,8 @@ DEBUG_OPTIONS = {
     'speed2x': False,
     'lightspeed': False,
     'verbose_burn': False,
-    'alternate_talk':False
+    'alternate_talk':False,
+    'transport': False,
 }
 
 # Map of user IDs to their course ID.

@@ -46,7 +46,6 @@ import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
-
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
 import ew.backend.item as bknd_item
@@ -61,13 +60,10 @@ from ew.backend.fish import EwRecord
 
 import ew.utils.core as ewutils
 
-
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.poi as poi_static
-
-
 
 import ew.static.cfg as ewcfg
 
@@ -176,7 +172,7 @@ async def on_member_remove(member):
 
 
 @client.event
-async def on_member_update(before, after):
+async def on_presence_update(before, after):
     # update last offline time if they went from offline to online
     try:
         if before.status == discord.Status.offline and after.status != discord.Status.offline:
@@ -187,6 +183,19 @@ async def on_member_update(before, after):
     except Exception as e:
         ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
 
+"""
+@client.event
+async def on_member_update(before, after):
+    # update last offline time if they went from offline to online
+    try:
+        if before.status == discord.Status.offline and after.status != discord.Status.offline:
+            user_data = EwUser(member=after)
+            user_data.time_lastoffline = int(time.time())
+            user_data.persist()
+
+    except Exception as e:
+        ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
+"""
 
 @client.event
 async def on_ready():
@@ -307,8 +316,7 @@ async def on_ready():
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))
 
-        if not debug:
-            await transport_utils.init_transports(id_server=server.id)
+        await transport_utils.init_transports(id_server=server.id)
             
         asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
 
@@ -747,16 +755,15 @@ async def debugHandling(message, cmd, cmd_obj):
             if role != None:
                 for user in cmd_obj.mentions:
                     try:
-                        await user.edit(roles=role)
+                        user = await user.edit(roles=[role])
                     except:
-                        ewutils.logMsg(
-                            'Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
+                        ewutils.logMsg('Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
 
                 response = 'Done.'
             else:
                 response = 'Unrecognized role.'
 
-        await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(message.author, response))
+        await fe_utils.send_message(client, cmd_obj.message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'getrowdy'):
         response = "You get rowdy. Fuck. YES!"
@@ -858,7 +865,7 @@ async def on_message(message):
         return
 
     # Ignore messages in certain channels
-    if message.channel.type ==  0 and message.channel.name in ewcfg.forbidden_channels:
+    if hasattr(message.channel, "name") and message.channel.name in ewcfg.forbidden_channels:
         return
 
     if message.guild is not None:
@@ -916,20 +923,29 @@ async def on_message(message):
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")
             return await fe_utils.send_message(client, message.channel, response)
-        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"]:
+        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"] or message.channel.type in [discord.ChannelType.public_thread, discord.ChannelType.private_thread]:
             if usermodel.hogtied == 1:
                 response = random.choice(["MMMPH!", "MBBBBB", "HMMHM", "MMMMMHMMF!"])
                 await fe_utils.send_message(client, message.channel, response)
                 await message.delete()
                 return
 
+    """ -------------------------------
+    ########## THREAD CUTOFF ##########
+    ------------------------------- """
+
+    # Never treat a message like a command if it's in a thread
+    if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private]:
+        return
+
     if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
-            Wake up if we need to respond to messages. Could be:
+            Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !
                 direct message (server == None)
-                user is new/has no roles (len(roles) < 4)
-                user is a security officer and has cussed
+                Inaccurate - user is new/has no roles (len(roles) < 4)
+                user - Inaccurate - is a security officer and - ok - has cussed
+                Message is in a designated non-gameplay channel
         """
 
         # Ignore users with weird characters in their name
@@ -1174,7 +1190,7 @@ for cache_type_name in ewcfg.cacheable_types:
 
 # connect to discord and run indefinitely
 try:
-    client.run(token)
+    client.run(token, log_handler=None)
 finally:
     ewutils.TERMINATE = True
     ewutils.logMsg("main thread terminated.")

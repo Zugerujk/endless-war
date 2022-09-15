@@ -65,6 +65,7 @@ def server_update(server = None):
 
     # Update values with Member data.
     dbserver.name = server.name
-    dbserver.icon = server.icon
+    dbserver.icon = server.icon.url if server.icon is not None else ""
+
 
     dbserver.persist()

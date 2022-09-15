@@ -304,7 +304,8 @@ class EwCompany:
 
     """ Load the Company data from the database. """
 
-    def __init__(self, id_server = None, stock = None, onlyLatest = None):
+    def __init__(self, id_server = None, stock = None, only_latest = None):
+
         if id_server is not None and stock is not None:
             self.id_server = id_server
             self.id_stock = stock

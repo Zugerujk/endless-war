@@ -20,7 +20,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.slimeoid import EwSlimeoid
-from ew.backend.goonscapestats import goonscape_farm_stat, add_xp
+from ew.utils.user import add_xp
 
 """ Sow seeds that may eventually be !reaped. """
 
@@ -171,7 +171,7 @@ async def reap(cmd):
         else:
             return
 
-    response = ""
+    response, responses = "", []
     levelup_response = ""
     mutations = user_data.get_mutations()
     cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
@@ -363,10 +363,11 @@ async def reap(cmd):
                     xp_crop = crop_gain * 1840
 
                     xp_yield = xp_slime + xp_crop
-                    await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
+                    responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_farm_stat, xp_yield)
 
     respctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.message.guild.id)
     respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
     await respctn.post()
 
 
@@ -423,7 +424,7 @@ async def check_farm(cmd):
 async def cultivate(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    response = ""
+    response, responses = "", []
     levelup_response = ""
     mutations = user_data.get_mutations()
 
@@ -481,13 +482,17 @@ async def cultivate(cmd):
             farm.action_required = ewcfg.farm_action_none
             farm.persist()
             xp_yield = 1150
-            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_farm_stat, xp_yield)
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    respctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
+    return await respctn.post()
 
 
 async def mill(cmd):
     user_data = EwUser(member=cmd.message.author)
+    responses = []
 
     market_data = EwMarket(id_server=user_data.id_server)
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -532,7 +537,7 @@ async def mill(cmd):
 
             response = "You walk up to the official ~~SlimeCorp~~ Garden Gankers Milling Station and shove your irradiated produce into the hand-crank. You begin slowly churning them into a glorious, pastry goo. As the goo tosses and turns inside the machine, it solidifies, and after a few moments a {} pops out!".format(item.str_name)
             xp_yield = 1840
-            await add_xp(cmd.message.author.id, cmd.message.guild.id, cmd.message.channel, goonscape_farm_stat, xp_yield)
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_farm_stat, xp_yield)
 
             # market_data.donated_slimes += ewcfg.slimes_permill
             market_data.persist()
@@ -550,4 +555,7 @@ async def mill(cmd):
         else:
             response = "Mill which item? (check **!inventory**)"
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    respctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
+    return await respctn.post()

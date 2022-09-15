@@ -43,25 +43,29 @@ async def collect_bet(cmd, resp, value, user_data, currency_used):
 
         if value > user_data.slimecoin:
             response = "You don't have enough SlimeCoin for that bet."
-            return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            return
 
         # subtract costs
         user_data.change_slimecoin(n=-value, coinsource=ewcfg.coinsource_casino)
     
     elif currency_used == ewcfg.currency_slime:
         if user_data.life_state == ewcfg.life_state_corpse:
-            return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, ewcfg.str_casino_negaslime_dealer))
+            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, ewcfg.str_casino_negaslime_dealer))
+            return
 
         if user_data.poi != ewcfg.poi_id_thecasino:
             response = "You try to shove the slime through your phone into the casino, but it just bounces off the screen. Better use a digital currency. Or your soul."
-            return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            return
 
         if value == -1:
             value = user_data.slimes
 
         if value > user_data.slimes:
             response = "You don't have enough slime for that bet."
-            return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
+            return
 
         # Phoebus likes big bets and he cannot lie
         if ewcfg.slimernalia_active and (value > ewcfg.phoebus_bet_floor):

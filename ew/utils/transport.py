@@ -21,6 +21,9 @@ class EwTransport(EwTransportBase):
         last_messages = []
         # Loop till bot stops
         while not ewutils.TERMINATE:
+            if ewutils.DEBUG and not ewutils.DEBUG_OPTIONS.get("transport", False):
+                await asyncio.sleep(1)
+                continue
 
             # Grab EwTransportLine object for current line
             transport_line = poi_static.id_to_transport_line.get(self.current_line)
