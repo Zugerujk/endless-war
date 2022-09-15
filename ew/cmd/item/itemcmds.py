@@ -220,7 +220,7 @@ async def inventory_print(cmd):
     poi_data = poi_static.id_to_poi.get(user_data.poi)
 
     # Note if this is in dms or not, so dms don't get formatted
-    if isinstance(cmd.message.channel, discord.DMChannel) and cmd.message.channel.recipient.id == cmd.message.author.id:
+    if isinstance(cmd.message.channel, discord.DMChannel):
         targeting_dms = True
 
     # Check if it's a chest or not
@@ -340,7 +340,7 @@ async def inventory_print(cmd):
 
         #Less tokens exist than colours or weapons. Search each token instea dof each colour/weapon
         if(len(lower_token_list) < 20): #anything above that is just gonna make this loop run long
-            i = 0
+            i = 1
             while i < len(lower_token_list):
                 token = lower_token_list[i]
 
@@ -358,14 +358,16 @@ async def inventory_print(cmd):
                 weapon_prop = static_weapons.weapon_map.get(token)
                 if(weapon_prop):
                     prop_hunt["weapon_type"] = weapon_prop.id_weapon
+                    i += 1
 
-                i += 1
+                if not (hue_prop or weapon_prop):
+                    i += 1
         
         if(not prop_hunt):
             prop_hunt = None
 
         #Display the colour infront of the name, or not
-        if 'color' or 'colour' or 'hue' in lower_token_list:
+        if 'color' in lower_token_list or 'hue' in lower_token_list or 'colour' in lower_token_list:
             display_hue = True
         #Display the weapon type's name after the weapon's name
         if "weapontype" in lower_token_list:
@@ -459,7 +461,6 @@ async def inventory_print(cmd):
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
                 )
-                print(item.get("id_weapon"))
 
                 # Print item type labels if sorting by type and showing a new type of items
                 if sort_by_type:
@@ -830,13 +831,16 @@ async def item_use(cmd):
         item = EwItem(id_item=item_sought.get('id_item'))
 
         response = "The item doesn't have !use functionality"  # if it's not overwritten
+        responses = []
+        resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
 
         secret_use = await ewdebug.secret_context(user_data, item, cmd)
         if secret_use is True:
             return
 
         if item.item_type == ewcfg.it_food:
-            response = await user_data.eat(item)
+            response = None
+            responses = await user_data.eat(item)
             user_data.persist()
 
         if item.item_type == ewcfg.it_weapon:
@@ -953,7 +957,9 @@ async def item_use(cmd):
                 if user_data.poi == "room103" and context == 'cabinetkey':
                     response = ewdebug.debug_code
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+        if response is not None: resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+        for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+        await resp_ctn.post()
 
     else:
         if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -962,6 +968,8 @@ async def item_use(cmd):
             response = "Use which item? (check **!inventory**)"
 
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    return
 
 
 async def manually_edit_item_properties(cmd):

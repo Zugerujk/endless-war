@@ -54,7 +54,7 @@ from .cmdsutils import item_off
 from .cmdsutils import location_commands
 from .cmdsutils import mutation_commands
 from ew.cmd.juviecmd import juviecmdutils
-
+from ew.backend.goonscapestats import EwGoonScapeStat
 from .cmdsutils import holiday_commands
 from .. import item as ewitem
 from ..apt import aptcmds as apt_cmds
@@ -298,7 +298,7 @@ async def data(cmd):
             outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
             user_data.persist()
 
-            # If user is wearing all pieces of the NMS mascot costume, add text 
+            # If user is wearing all pieces of the a costume set, add text 
             if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
                 response_block += "You're dressed like a fucking airplane with tits, dude. "
             elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
@@ -563,7 +563,7 @@ async def thrash(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if (user_data.life_state == ewcfg.life_state_enlisted or user_data.life_state == ewcfg.life_state_kingpin) and user_data.faction == ewcfg.faction_rowdys:
-        response = '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + "{emote}" + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + "{emote}" + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
+        response = '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + "{emote}" + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + "{emote}" + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf
         final_response = response.format(emote=random.choice(ewcfg.thrash_emotes))
         await fe_utils.send_response(final_response, cmd)
 
@@ -933,7 +933,6 @@ async def jump(cmd):
     elif ewcfg.mutation_id_stiltwalker in user_data.get_mutations():
         blimp_obj = EwTransport(id_server=user_data.id_server, poi = ewcfg.poi_id_blimp)
         # If the user is under the blimp, put them on the blimp.
-        print(blimp_obj.current_stop)
         if user_data.poi == blimp_obj.current_stop:
 
             jump_response = "STR-EEEEETCHHHH!!!!"
@@ -1337,9 +1336,11 @@ async def fashion(cmd):
                 outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
                 user_data.persist()
                 
-                # If user is wearing all pieces of the NMS mascot costume, add text 
+                # If user is wearing all pieces of the a costume set, add text 
                 if all(elem in adorned_ids for elem in static_cosmetics.cosmetic_nmsmascot):
                     response += "You're dressed like a fucking airplane with tits, dude."
+                elif all(elem in adorned_ids for elem in static_cosmetics.cosmetic_hatealiens):
+                    response += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
                 
                 elif outfit_map is not None:
                     response += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style'])
@@ -1429,9 +1430,11 @@ async def fashion(cmd):
             if len(adorned_cosmetics) >= 2:
                 response += "\n\n"
 
-                # If user is wearing all pieces of the NMS mascot costume, add text 
+                # If user is wearing all pieces of a costume set, add text 
                 if all(elem in adorned_ids for elem in static_cosmetics.cosmetic_nmsmascot):
                     response += "They're dressed like a fucking airplane with tits, dude."
+                elif all(elem in adorned_ids for elem in static_cosmetics.cosmetic_hatealiens):
+                    response += "Their taste in clothes is a symbol of hatred to illegal aliens everywhere."
                 elif user_data.freshness < ewcfg.freshnesslevel_1:
                     response += "Their outfit is starting to look pretty fresh, but They’ve got a long way to go if they wanna be NLACakaNM’s next top model."
                 elif user_data.freshness < ewcfg.freshnesslevel_2:
@@ -2632,9 +2635,7 @@ async def ping_me(cmd):
     author = cmd.message.author
     user_data = EwUser(member=author)
 
-    if ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin:
-        pass
-    else:
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
         return
 
     try:
@@ -2664,8 +2665,8 @@ async def set_debug_option(cmd):
     response = ""
     if ewutils.DEBUG == True:
         if len(cmd.tokens) == 3:
-            option = cmd.tokens[1]
-            value = cmd.tokens[2]
+            option = cmd.tokens[1].lower()
+            value = cmd.tokens[2].lower()
 
             ewutils.DEBUG_OPTIONS.get(option)
             if option != None:
@@ -3246,3 +3247,18 @@ async def fun(cmd):
         response = 'You stop having fun.'"""
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def display_goonscape_stats(cmd):
+    response = "\n```ini\n"
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+
+        stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+
+        response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
+
+    response += "```"
+
+    
+    await fe_utils.send_response(response, cmd)
+

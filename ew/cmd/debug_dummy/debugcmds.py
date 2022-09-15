@@ -1,3 +1,6 @@
+debugroom = None
+
+
 async def debug1(cmd):
     return
 

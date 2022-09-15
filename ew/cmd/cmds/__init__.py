@@ -26,6 +26,9 @@ cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check goonscape stats
+    ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
+
     # Rowdys thrash and Killers dab.
     ewcfg.cmd_thrash: cmdcmds.thrash,
     ewcfg.cmd_dab: cmdcmds.dab,

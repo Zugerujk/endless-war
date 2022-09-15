@@ -26,6 +26,7 @@ from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
+from ew.utils.user import add_xp
 from . import juviecmdutils
 from .juviecmdutils import create_mining_event
 from .juviecmdutils import gen_scavenge_captcha
@@ -366,6 +367,9 @@ async def mine(cmd):
     time_now = int(time.time())
     poi = poi_static.id_to_poi.get(user_data.poi)
 
+    responses = []
+    resp_ctn = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+
     unearthed_item_type = ""
     response = ""
     # Kingpins can't mine.
@@ -655,6 +659,10 @@ async def mine(cmd):
             if was_levelup:
                 response += levelup_response
 
+            #GoonScape Stat
+            xp_yield = max(1, round(mining_yield * 0.0077))
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+
             user_data.persist()
 
             if printgrid:
@@ -664,8 +672,10 @@ async def mine(cmd):
         return await mismine(cmd, user_data, "channel")
     # response = "You can't mine here! Go to the mines in Juvie's Row, Toxington, or Cratersville!"
 
-    if len(response) > 0:
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    if len(response) > 0 or len(responses) > 0:
+        resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+        return await resp_ctn.post()
 
 
 """ mine for slime (or endless rocks) """

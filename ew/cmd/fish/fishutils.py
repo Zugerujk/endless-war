@@ -21,6 +21,7 @@ from ew.utils import frontend as ewfrontend
 from ew.utils.district import EwDistrict
 from ew.utils.rolemgr import updateRoles
 from ew.utils.combat import EwUser
+from ew.utils.user import add_xp
 
 try:    
     from ew.utils import rutils 
@@ -287,7 +288,9 @@ def gen_bite_text(size):
 
 async def award_fish(fisher, cmd, user_data):
     response = ""
+    responses = []
 
+    xp_type = None
     actual_fisherman = None
     actual_fisherman_data = user_data
 
@@ -296,6 +299,7 @@ async def award_fish(fisher, cmd, user_data):
         actual_fisherman_data = EwUser(id_user=actual_fisherman, id_server=cmd.guild.id)
 
     if fisher.current_fish in ["item", "seaitem"]:
+        xp_type = "item"
         slimesea_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=ewcfg.poi_id_slimesea)
 
         if fisher.pier.pier_type == ewcfg.fish_slime_moon and fisher.current_fish == "item":
@@ -468,6 +472,7 @@ async def award_fish(fisher, cmd, user_data):
                 'length': fisher.length
             }
         )
+        xp_type = static_fish.fish_map[fisher.current_fish].rarity
 
         if fisher.inhabitant_id:
             server = cmd.guild
@@ -511,7 +516,18 @@ async def award_fish(fisher, cmd, user_data):
         fisher.stop()
 
         user_data.persist()
-    return response
+
+        if fisher.inhabitant_id:
+            xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
+            xp_yield /= 2
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
+            responses += await add_xp(inhabitant_id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
+        else: 
+            xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
+            
+    responses.insert(0, response)
+    return responses
 
 
 def cancel_rod_possession(fisher, user_data):
