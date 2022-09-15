@@ -54,7 +54,7 @@ from .cmdsutils import item_off
 from .cmdsutils import location_commands
 from .cmdsutils import mutation_commands
 from ew.cmd.juviecmd import juviecmdutils
-from ew.backend.goonscapestats import EwGoonScapeStat, goonscape_mine_stat, goonscape_eat_stat, goonscape_farm_stat, goonscape_fish_stat
+from ew.backend.goonscapestats import EwGoonScapeStat
 from .cmdsutils import holiday_commands
 from .. import item as ewitem
 from ..apt import aptcmds as apt_cmds
@@ -2662,9 +2662,7 @@ async def ping_me(cmd):
     author = cmd.message.author
     user_data = EwUser(member=author)
 
-    if ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin:
-        pass
-    else:
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
         return
 
     try:
@@ -2694,8 +2692,8 @@ async def set_debug_option(cmd):
     response = ""
     if ewutils.DEBUG == True:
         if len(cmd.tokens) == 3:
-            option = cmd.tokens[1]
-            value = cmd.tokens[2]
+            option = cmd.tokens[1].lower()
+            value = cmd.tokens[2].lower()
 
             ewutils.DEBUG_OPTIONS.get(option)
             if option != None:
@@ -3280,9 +3278,9 @@ async def fun(cmd):
 
 async def display_goonscape_stats(cmd):
     response = "\n```ini\n"
-    for stat_name in [goonscape_mine_stat, goonscape_farm_stat, goonscape_fish_stat, goonscape_eat_stat]:
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
 
-        stat = EwGoonScapeStat(cmd.message.author.id, stat_name)
+        stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 
         response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
 

@@ -28,7 +28,7 @@ except:
     from ew.utils.rutils_dummy import debug16
     from ew.utils.rutils_dummy import debug17
     from ew.utils.rutils_dummy import debug114
-    from ew.utils.rutils import debug_var_1
+    from ew.utils.rutils_dummy import debug_var_1
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -127,19 +127,21 @@ async def attack(cmd):
 
                 # Wait for a response, return if received. wait_for will throw an exception if it times out
                 try:
-                    msg = await cmd.client.wait_for('message', timeout=5, check=lambda message: message.author == attacker_member)
+                    garrote_resp_msg = await cmd.client.wait_for('message', timeout=5, check=lambda msg: msg.author == target_member)
                     return
-                finally:
-                    # Refresh data
-                    attacker = EwUser(member=attacker_member)
-                    target = EwUser(member=target_member)
+                except asyncio.TimeoutError:
+                    garrote_resp_msg = None
+                
+                # Refresh data
+                attacker = EwUser(member=attacker_member)
+                target = EwUser(member=target_member)
 
-                    # stop attack if either user died, or if they are no longer in the same zone
-                    if ewcfg.life_state_corpse in [attacker.life_state, target.life_state] or target.poi != attacker.poi:
-                        return
-                    else:
-                        # This status should be automatically removed, but just in case, get rid of it before continuing
-                        target.clear_status(ewcfg.status_strangled_id)
+                # stop attack if either user died, or if they are no longer in the same zone
+                if ewcfg.life_state_corpse in [attacker.life_state, target.life_state] or target.poi != attacker.poi:
+                    return
+                else:
+                    # This status should be automatically removed, but just in case, get rid of it before continuing
+                    target.clear_status(ewcfg.status_strangled_id)
 
             # apply targeted statuses to target
             for status_id, value in ctn.apply_status.items():

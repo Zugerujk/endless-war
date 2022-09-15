@@ -8,14 +8,6 @@ from ew.utils.frontend import send_response
 from ew.backend.questrecords import create_quest_record
 
 
-goonscape_mine_stat = "mining"
-goonscape_fish_stat = "fishing"
-goonscape_farm_stat = "farming"
-goonscape_eat_stat = "feasting"
-
-
-
-
 class EwGoonScapeStat:
 
     def __init__(self, id_user, id_server, stat_name):
@@ -24,25 +16,27 @@ class EwGoonScapeStat:
         self.id_server = id_server
         self.stat = stat_name
 
-
         try:
 
             conn_info = bknd_core.databaseConnect()
             conn = conn_info.get('conn')
             cursor = conn.cursor()
 
-            # Retrieve object
-            cursor.execute("SELECT {}, {} FROM goonscape_stats WHERE id_user = %s".format(
-                self.stat + "_level",
-                self.stat + "_xp",
-            ), (self.id_user,))
+            # Retrieve data of given stat
+            cursor.execute("SELECT {}, {} FROM goonscape_stats WHERE id_user = %s AND id_server = %s".format(
+                ewcfg.gs_stat_to_level_col.get(self.stat),
+                ewcfg.gs_stat_to_xp_col.get(self.stat),
+            ), (
+                self.id_user,
+                self.id_server,
+            ))
             result = cursor.fetchone()
 
             if result != None:
                 self.level = result[0]
                 self.xp = result[1]
             else:
-                #insert if there is no exiting row for user
+                # Create a new entry for the stat if no existing one was found
                 cursor.execute("INSERT INTO goonscape_stats({}, {}) VALUES(%s, %s)".format(
                     ewcfg.col_id_user, 
                     ewcfg.col_id_server
@@ -56,8 +50,6 @@ class EwGoonScapeStat:
                 self.level = 1
                 self.xp = 0
 
-            #bknd_core.cache_data(self)
-
         finally:
             # Clean up the database handles.
             cursor.close()
@@ -66,13 +58,14 @@ class EwGoonScapeStat:
 
     def persist(self):
         bknd_core.execute_sql_query(
-            "UPDATE goonscape_stats SET {level_column} = %s, {xp_column} = %s WHERE id_user = %s".format(
-                level_column=self.stat + "_level",
-                xp_column=self.stat + "_xp",
+            "UPDATE goonscape_stats SET {} = %s, {} = %s WHERE id_user = %s AND id_server = %s".format(
+                ewcfg.gs_stat_to_level_col.get(self.stat),
+                ewcfg.gs_stat_to_xp_col.get(self.stat),
             ), (
                 self.level,
                 self.xp,
                 self.id_user,
+                self.id_server
             )
         )
 
@@ -96,8 +89,9 @@ class EwGoonScapeStat:
         return level
 
 
-    async def add_xp(self, value, channel):
+    async def add_xp(self, value):
         level_up_message = None
+        responses = []
 
         if value <= 0:
             pass
@@ -106,43 +100,28 @@ class EwGoonScapeStat:
 
             #check for level up cap at 99
             xp_level = min(99, self.xp_to_level(self.xp) - 1)
+            start_level = self.level
 
             #if level increased
-            if self.level < xp_level:
+            if start_level < xp_level:
+                # Persist before waiting, please
+                self.level = xp_level
+
+            self.persist() 
+
+            for x in range(start_level+1, xp_level+1):
+
+                line_1 = "Congradulations, you just advanced a {stat} level.".format(stat = self.stat.capitalize()) 
+                length_1 = len(line_1)
+                line_2 = "[Your {stat} level is now {level}.]".format(stat = self.stat.capitalize(), level = x).center(length_1)
+                line_3 = ";Click here to continue".center(length_1)
 
 
-                
-                for x in range(self.level+1, xp_level+1):
+                level_up_message = f"```ini\n{line_1}\n{line_2}\n{line_3}\n```"    
 
-                    line_1 = "Congradulations, you just advanced a {stat} level.".format(stat = self.stat.capitalize()) 
-                    length_1 = len(line_1)
-                    line_2 = "[Your {stat} level is now {level}.]".format(stat = self.stat.capitalize(), level = x).center(length_1)
-                    line_3 = ";Click here to continue".center(length_1)
+                responses.append(level_up_message)
 
+            if start_level < xp_level and self.level == 99:
+                await create_quest_record(int(time.time()), self.id_user, self.id_server, "skill_cape", self.stat)
 
-                    level_up_message = f"```ini\n{line_1}\n{line_2}\n{line_3}\n```"    
-
-                    print(level_up_message) 
-                    await send_response(level_up_message, name = "no_name", channel = channel, format_name = False)         
-
-
-                
-                self.level = xp_level   
-
-                if self.level == 99:
-                    await create_quest_record(int(time.time()), self.id_user, self.id_server, "skill_cape", self.stat)
-
-            self.persist()          
-            
-
-        return level_up_message
-
-
-
-
-
-
-async def add_xp(id_user, id_server, channel, stat_name, xp_value):
-
-    stat = EwGoonScapeStat(id_user, id_server, stat_name)
-    await stat.add_xp(xp_value, channel)
+        return responses

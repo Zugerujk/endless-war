@@ -288,7 +288,7 @@ async def print_grid_minesweeper(cmd):
             grid_cont.time_last_posted = time_now
             grid_cont.times_edited = 0
         else:
-            await fe_utils.edit_message(cmd.client, grid_cont.message, fe_utils.formatMessage(cmd.message.author, grid_edit))
+            grid_cont.message = await fe_utils.edit_message(cmd.client, grid_cont.message, fe_utils.formatMessage(cmd.message.author, grid_edit))
             grid_cont.times_edited += 1
 
         if grid_cont.wall_message == "":
@@ -298,7 +298,7 @@ async def print_grid_minesweeper(cmd):
             msg_handles = await resp_cont.post()
             grid_cont.wall_message = msg_handles[0]
         else:
-            await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
+            grid_cont.wall_message = await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
 
 
 async def print_grid_bubblebreaker(cmd):
@@ -350,7 +350,7 @@ async def print_grid_bubblebreaker(cmd):
             grid_cont.time_last_posted = time_now
             grid_cont.times_edited = 0
         else:
-            await fe_utils.edit_message(cmd.client, grid_cont.message, fe_utils.formatMessage(cmd.message.author, grid_edit))
+            grid_cont.message = await fe_utils.edit_message(cmd.client, grid_cont.message, fe_utils.formatMessage(cmd.message.author, grid_edit))
             grid_cont.times_edited += 1
 
         if grid_cont.wall_message == "":
@@ -360,7 +360,7 @@ async def print_grid_bubblebreaker(cmd):
             msg_handles = await resp_cont.post()
             grid_cont.wall_message = msg_handles[0]
         else:
-            await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
+            grid_cont.wall_message = await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
 
 
 # for pokemining

@@ -3052,6 +3052,43 @@ weapon_id_slimeringcan = 'slimeringcan'
 weapon_id_fingernails = 'fingernails'
 weapon_id_roomba = 'roomba'
 
+# Goonscape stat constants. yknow. where they fucking should be. retard
+goonscape_mine_stat = "mining"
+goonscape_fish_stat = "fishing"
+goonscape_farm_stat = "farming"
+goonscape_eat_stat = "feasting"
+
+# Database columns for goonscape stats
+col_id_mining_level = goonscape_mine_stat + "_level"
+col_id_mining_xp = goonscape_mine_stat + "_xp"
+col_id_fishing_level = goonscape_fish_stat + "_level"
+col_id_fishing_xp = goonscape_fish_stat + "_xp"
+col_id_farming_level = goonscape_farm_stat + "_level"
+col_id_farming_xp = goonscape_farm_stat + "_xp"
+col_id_feasting_level = goonscape_eat_stat + "_level"
+col_id_feasting_xp = goonscape_eat_stat + "_xp"
+
+gs_stat_to_level_col = {
+    goonscape_mine_stat: col_id_mining_level,
+    goonscape_fish_stat: col_id_fishing_level,
+    goonscape_farm_stat: col_id_farming_level,
+    goonscape_eat_stat: col_id_feasting_level
+}
+gs_stat_to_xp_col = {
+    goonscape_mine_stat: col_id_mining_xp,
+    goonscape_fish_stat: col_id_fishing_xp,
+    goonscape_farm_stat: col_id_farming_xp,
+    goonscape_eat_stat: col_id_feasting_xp,
+}
+
+#GoonScape Stat
+gs_fish_xp_map = {
+    "item": 21000,
+    "common": 11000,
+    "uncommon": 16000,
+    "rare":	26000,
+    "promo": 31000,
+}
 
 
 theforbiddenoneoneone_desc = "This card that you hold in your hands contains an indescribably powerful being known simply " \

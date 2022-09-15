@@ -247,6 +247,8 @@ def wef_garrote(ctn = None):
         ctn.crit = True
 
     if ctn.miss == False:
+        # Make damage integer
+        ctn.slimes_damage = int(ctn.slimes_damage)
         # Stop movement
         ewutils.moves_active[ctn.user_data.id_user] = 0
         # Stun player for 5 seconds

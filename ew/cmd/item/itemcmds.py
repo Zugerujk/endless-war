@@ -222,7 +222,7 @@ async def inventory_print(cmd):
     poi_data = poi_static.id_to_poi.get(user_data.poi)
 
     # Note if this is in dms or not, so dms don't get formatted
-    if isinstance(cmd.message.channel, discord.DMChannel) and cmd.message.channel.recipient.id == cmd.message.author.id:
+    if isinstance(cmd.message.channel, discord.DMChannel):
         targeting_dms = True
 
     # Check if it's a chest or not
@@ -833,13 +833,16 @@ async def item_use(cmd):
         item = EwItem(id_item=item_sought.get('id_item'))
 
         response = "The item doesn't have !use functionality"  # if it's not overwritten
+        responses = []
+        resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
 
         secret_use = await ewdebug.secret_context(user_data, item, cmd)
         if secret_use is True:
             return
 
         if item.item_type == ewcfg.it_food:
-            response = await user_data.eat(item)
+            response = None
+            responses = await user_data.eat(item)
             user_data.persist()
 
         if item.item_type == ewcfg.it_weapon:
@@ -956,7 +959,9 @@ async def item_use(cmd):
                 if user_data.poi == "room103" and context == 'cabinetkey':
                     response = ewdebug.debug_code
 
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+        if response is not None: resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
+        for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+        await resp_ctn.post()
 
     else:
         if item_search:  # if they didnt forget to specify an item and it just wasn't found
@@ -965,6 +970,8 @@ async def item_use(cmd):
             response = "Use which item? (check **!inventory**)"
 
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    return
 
 
 async def manually_edit_item_properties(cmd):

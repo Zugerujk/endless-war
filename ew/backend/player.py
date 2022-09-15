@@ -122,7 +122,7 @@ def player_update(member = None, server = None):
         # Update values with Member data.
         id_server_old = player.id_server
         player.id_server = server.id
-        player.avatar = member.avatar_url
+        player.avatar = member.display_avatar.url
         player.display_name = member.display_name
 
         # Save the updated data.
