@@ -427,9 +427,20 @@ async def order(cmd):
                             item_props['str_unadorn'] = item_props['str_unadorn'].format(customfanhoodie = member)
 
 
-
                     elif item_props.get('id_food') in ["freeapple"]:
                         item_props['poisoned'] = 'yes'
+                 # Yodel this comment is here so i can ctrl+f the word yodel to jump to the code below will be removed before pr
+
+                    elif item_props.get(id_food) in ["gumball"]:
+                        random.choice(0,499),
+                    if number < 249:
+                        random.choice(common_gumballs)
+                    elif number < 399:
+                        random.choice(uncommon_gumballs)
+                    elif number < 498:
+                        random.choice(rare_gumballs)
+                    else:
+                        random.choice(superrare_gumballs)
 
                     id_item = bknd_item.item_create(
                         item_type=item_type,
@@ -439,8 +450,7 @@ async def order(cmd):
                         stack_size=0,
                         item_props=item_props
                     )
-                    
-                
+
                     if value == 0:
                         response = "You swipe a {} from the counter at {}.".format(name, current_vendor)
                     else:
