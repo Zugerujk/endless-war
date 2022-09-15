@@ -28,7 +28,7 @@ except:
     from ew.utils.rutils_dummy import debug16
     from ew.utils.rutils_dummy import debug17
     from ew.utils.rutils_dummy import debug114
-    from ew.utils.rutils import debug_var_1
+    from ew.utils.rutils_dummy import debug_var_1
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer

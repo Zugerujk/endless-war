@@ -46,7 +46,6 @@ import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
-
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
 import ew.backend.item as bknd_item
@@ -61,13 +60,10 @@ from ew.backend.fish import EwRecord
 
 import ew.utils.core as ewutils
 
-
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.poi as poi_static
-
-
 
 import ew.static.cfg as ewcfg
 
