@@ -807,6 +807,9 @@ async def debugHandling(message, cmd, cmd_obj):
             response += "\nIt's a full moon!"
 
         market_data.persist()
+
+        await bknd_weather.weather_cycle(id_server=message.guild.id)
+
         await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'postleaderboard'):

@@ -329,6 +329,10 @@ async def weather_cycle(id_server = None):
         if weather.name == market_data.weather:
             valid_weather = True
 
+    # Seed the randomness based on day, clock, and a random unknown consistent stat 
+    seed = (market_data.day * 24) + market_data.clock + (market_data.donated_poudrins + 1) 
+    random.seed(seed)
+
     # Potentially change the weather
     if random.randrange(3) == 0 or valid_weather == False:
             pattern_count = len(weather_static.weather_list)
@@ -343,9 +347,103 @@ async def weather_cycle(id_server = None):
                 while market_data.weather == weather_old:
                     pick = random.randrange(len(weather_static.weather_list))
                     market_data.weather = weather_static.weather_list[pick].name
-                    market_data.persist()
+                market_data.persist()
             # Log message for statistics tracking.
             ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
+
+
+def forecast_txt(id_server=None):
+    market_data = EwMarket(id_server)
+
+    weather_icon_list = []
+    moon_phase_list = []
+    day_list = []
+    blank = 0
+    weather_icon = ewcfg.weather_icon_map.get(market_data.weather)
+
+    current_weather = market_data.weather
+    current_day = market_data.day
+    current_clock = market_data.clock + 1
+    if current_clock >= 24:
+        current_day += 1
+        current_clock = 0
+
+
+    starting_position = (market_data.clock + 1) / 4
+
+    while blank < starting_position:
+        weather_icon_list.append(ewcfg.emote_blank)
+        blank += 1
+
+    # Simulate the next week, ig.
+    while len(weather_icon_list) < 42:
+
+        # Simulate weather
+        seed = (current_day * 24) + current_clock + (market_data.donated_poudrins + 1) 
+        random.seed(seed)
+
+        if random.randrange(3) == 0:
+            pattern_count = len(weather_static.weather_list)
+
+            if pattern_count > 1:
+                weather_old = current_weather
+
+                # Randomly select a new weather pattern. Try again if we get the same one we currently have.
+                while current_weather == weather_old:
+                    pick = random.randrange(len(weather_static.weather_list))
+                    current_weather = weather_static.weather_list[pick].name
+                weather_icon = ewcfg.weather_icon_map.get(current_weather)
+
+        # Place icon
+        if current_clock % 4 == 0:
+            chance = 1
+            if (24 >= len(weather_icon_list) > 18) and random.randrange(2) != 0:
+                chance = 2
+            elif (30 >= len(weather_icon_list) > 24) and random.randrange(3) != 0:
+                chance = 3
+            elif len(weather_icon_list) > 30 and random.randrange(4) != 0:
+                chance = 5
+
+            if random.randrange(chance) != 0:
+                weather_icon_list.append("❓")
+            else:
+                weather_icon_list.append(weather_icon)
+
+        # Tick up clock
+        current_clock += 1
+        if current_clock >= 24:
+            current_clock = 0
+            current_day += 1
+
+    # Figure out moon phases + days
+    moon = 0
+    while moon < 7:
+        day_str = "Day {:,}".format(market_data.day)
+
+        day_list.append("\n`{:^11}`|".format(day_str))
+
+        market_data.clock = 22
+        moon_phase = ewutils.check_moon_phase(market_data)
+        market_data.day += 1
+
+        moon_phase_icon = ewcfg.moon_phase_icon_map.get(moon_phase)
+        moon_phase_list.append(moon_phase_icon)
+
+        moon += 1
+
+    # Create forecast response
+    # Uggo
+    # 0-6 are day, 7-49 are weather, 49-55 are moon                                                           # Thin space characters for spacing
+    forecast_response = ":blank::blank::blank::blank:     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
+                        "{0}:blank:{7}:blank:|:blank:{8}:blank:|:blank:{9}:blank:|:blank:{10}:blank:|:blank:{11}:blank:|:blank:{12}:blank:|:blank::blank::blank:{49}"\
+                        "{1}:blank:{13}:blank:|:blank:{14}:blank:|:blank:{15}:blank:|:blank:{16}:blank:|:blank:{17}:blank:|:blank:{18}:blank:|:blank::blank::blank:{50}"\
+                        "{2}:blank:{19}:blank:|:blank:{20}:blank:|:blank:{21}:blank:|:blank:{22}:blank:|:blank:{23}:blank:|:blank:{24}:blank:|:blank::blank::blank:{51}"\
+                        "{3}:blank:{25}:blank:|:blank:{26}:blank:|:blank:{27}:blank:|:blank:{28}:blank:|:blank:{29}:blank:|:blank:{30}:blank:|:blank::blank::blank:{52}"\
+                        "{4}:blank:{31}:blank:|:blank:{32}:blank:|:blank:{33}:blank:|:blank:{34}:blank:|:blank:{35}:blank:|:blank:{36}:blank:|:blank::blank::blank:{53}"\
+                        "{5}:blank:{37}:blank:|:blank:{38}:blank:|:blank:{39}:blank:|:blank:{40}:blank:|:blank:{41}:blank:|:blank:{42}:blank:|:blank::blank::blank:{54}"\
+                        "{6}:blank:{43}:blank:|:blank:{44}:blank:|:blank:{45}:blank:|:blank:{46}:blank:|:blank:{47}:blank:|:blank:{48}:blank:|:blank::blank::blank:{55}".format(*day_list, *weather_icon_list, *moon_phase_list)
+    
+    return forecast_response
 
 
 async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None, no_buffer=False): # Events are natural disasters, pop-up events, etc.
