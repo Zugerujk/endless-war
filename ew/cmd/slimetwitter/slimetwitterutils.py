@@ -10,7 +10,7 @@ def get_tweet_color(user_data):
         color = ewcfg.tweet_color_by_faction.get(user_data.faction)
 
     if color is None:
-        color = fe_utils.discord.Embed.Empty
+        color = None
     else:
         color = fe_utils.discord.Colour(int(color, 16))
 

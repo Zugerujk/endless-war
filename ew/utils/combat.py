@@ -13,7 +13,7 @@ from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 from .district import EwDistrict
 from .frontend import EwResponseContainer
-from .user import get_move_speed
+from .user import get_move_speed, add_xp
 from ..backend import core as bknd_core
 from ..backend import hunting as bknd_hunt
 from ..backend import item as bknd_item
@@ -454,7 +454,8 @@ class EwEnemy(EwEnemyBase):
 
                         enemy_data.persist()
                         district_data.persist()
-                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy)  # moved after trauma definition so it can gurantee .die knows killer
+                        in_server = True if ewutils.is_player_inventory(target_data.id_user, target_data.id_server) else False
+                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy, updateRoles=in_server)  # moved after trauma definition so it can gurantee .die knows killer
                         district_data = EwDistrict(district=district_data.name, id_server=district_data.id_server)
 
                         target_data.persist()
@@ -527,9 +528,9 @@ class EwEnemy(EwEnemyBase):
                 district_data.persist()
 
                 # Assign the corpse role to the newly dead player.
-                if was_killed:
-                    member = server.get_member(target_data.id_user)
-                    await ewrolemgr.updateRoles(client=client, member=member)
+                #if was_killed:
+                    #member = server.get_member(target_data.id_user)
+                    #await ewrolemgr.updateRoles(client=client, member=member) This is done in .die() if necessary, no reason to do it here
         # announce death in kill feed channel
         # killfeed_channel = ewutils.get_channel(enemy_data.id_server, ewcfg.channel_killfeed)
         # killfeed_resp = resp_cont.channel_responses[ch_name]
@@ -1956,6 +1957,11 @@ class EwUser(EwUserBase):
             )
 
     async def eat(self, food_item = None):
+
+        xp_hunger = 0
+        xp_inebriation = 0
+        responses = []
+
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
@@ -1991,13 +1997,21 @@ class EwUser(EwUserBase):
 
             hunger_restored = round(hunger_restored)
 
+            xp_hunger = hunger_restored
+
             self.hunger -= hunger_restored
             if self.hunger < 0:
+                xp_hunger += self.hunger #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
             if self.inebriation > 20:
                 self.inebriation = 20
             
+
+            if item_has_expired:
+                xp_hunger /= 3
+
+
             if ewcfg.slimernalia_active:
                 food_type = static_food.food_map.get(item_props.get("id_food"))
                 if food_type and food_type.acquisition == ewcfg.acquisition_smelting:
@@ -2025,9 +2039,18 @@ class EwUser(EwUserBase):
                 # An exception will occur if there's no id_food prop in the database. We don't care.
                 pass
 
+            
+            xp_yield = xp_hunger * 100
+            
+            client = ewutils.get_client()
+            server = client.get_guild(self.id_server)
+            
+            responses += await add_xp(self.id_user, self.id_server, ewcfg.goonscape_eat_stat, xp_yield)
+
             bknd_item.item_delete(food_item.id_item)
 
-        return response
+        responses.insert(0, response)
+        return responses
 
     def add_mutation(self, id_mutation, is_artificial = 0):
         mutations = self.get_mutations()

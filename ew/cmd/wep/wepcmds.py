@@ -22,9 +22,13 @@ from ew.utils import stats as ewstats
 try:
     from ew.utils.rutils import debug16
     from ew.utils.rutils import debug17
+    from ew.utils.rutils import debug114
+    from ew.utils.rutils import debug_var_1
 except:
     from ew.utils.rutils_dummy import debug16
     from ew.utils.rutils_dummy import debug17
+    from ew.utils.rutils_dummy import debug114
+    from ew.utils.rutils_dummy import debug_var_1
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -50,7 +54,7 @@ async def attack(cmd):
     attacker_mutations = attacker.get_mutations()
 
     check_resp = canAttack(cmd)
-
+    weaponCheckDeb = False
     if check_resp == "":
         """ 
             The block for running calculations of an actual attack
@@ -123,19 +127,21 @@ async def attack(cmd):
 
                 # Wait for a response, return if received. wait_for will throw an exception if it times out
                 try:
-                    msg = await cmd.client.wait_for('message', timeout=5, check=lambda message: message.author == attacker_member)
+                    garrote_resp_msg = await cmd.client.wait_for('message', timeout=5, check=lambda msg: msg.author == target_member)
                     return
-                finally:
-                    # Refresh data
-                    attacker = EwUser(member=attacker_member)
-                    target = EwUser(member=target_member)
+                except asyncio.TimeoutError:
+                    garrote_resp_msg = None
+                
+                # Refresh data
+                attacker = EwUser(member=attacker_member)
+                target = EwUser(member=target_member)
 
-                    # stop attack if either user died, or if they are no longer in the same zone
-                    if ewcfg.life_state_corpse in [attacker.life_state, target.life_state] or target.poi != attacker.poi:
-                        return
-                    else:
-                        # This status should be automatically removed, but just in case, get rid of it before continuing
-                        target.clear_status(ewcfg.status_strangled_id)
+                # stop attack if either user died, or if they are no longer in the same zone
+                if ewcfg.life_state_corpse in [attacker.life_state, target.life_state] or target.poi != attacker.poi:
+                    return
+                else:
+                    # This status should be automatically removed, but just in case, get rid of it before continuing
+                    target.clear_status(ewcfg.status_strangled_id)
 
             # apply targeted statuses to target
             for status_id, value in ctn.apply_status.items():
@@ -375,6 +381,8 @@ async def attack(cmd):
                 slimeoid_kill=slimeoid_kill,
                 bonus1 = bonus1
             ))
+            if attacker_weapon.id_weapon == debug_var_1:
+                weaponCheckDeb = True
 
             if attacker_slimeoid.life_state == ewcfg.slimeoid_state_active:
                 slimeoid_resp += "\n\n" + sl_static.brain_map.get(attacker_slimeoid.ai).str_kill.format(slimeoid_name=attacker_slimeoid.name)
@@ -500,7 +508,8 @@ async def attack(cmd):
             # Flavor from backfires
             bkf_msg = "\n\n" + attacker_weapon.str_backfire.format(
                 name_player=attacker_member.display_name,
-                name_target=target_member.display_name
+                name_target=target_member.display_name,
+                hitzone=randombodypart,
             )
             if attacker_killed:
                 bkf_msg += "\nYou have been destroyed by your own stupidity."
@@ -598,6 +607,8 @@ async def attack(cmd):
     resp_ctn.format_channel_response(cmd.message.channel.name, attacker_member)
     resp_ctn.format_channel_response(cmd.message.channel, attacker_member)
     await resp_ctn.post()
+    if weaponCheckDeb:
+        await debug114(cmd=cmd)
 
     # Post to killfeed if necessary
     if kf_ctn is not None:

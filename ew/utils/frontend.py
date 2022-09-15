@@ -388,8 +388,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
 
 
 async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False):
-    user_data = EwUser(member=cmd.message.author)
-    user_mutations = user_data.get_mutations()
+    
 
     if cmd is None and channel is None:
         raise Exception("No channel to send message to")
@@ -399,6 +398,8 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
 
     if name is None and cmd:
         name = cmd.author_id.display_name
+        user_data = EwUser(member=cmd.message.author)
+        user_mutations = user_data.get_mutations()
         if ewcfg.mutation_id_amnesia in user_mutations:
             name = '?????'
 
@@ -679,7 +680,7 @@ async def sync_topics(cmd):
 
         try:
             await asyncio.sleep(2)
-            await channel.edit(topic=new_topic)
+            channel = await channel.edit(topic=new_topic)
             ewutils.logMsg('Changed channel topic for {} to {}'.format(channel, debug_info))
         except:
             ewutils.logMsg('Failed to set channel topic for {} to {}'.format(channel, debug_info))

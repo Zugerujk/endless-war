@@ -18,6 +18,7 @@ try:
     from ew.cmd.debugr import debug22
 except:
     from ew.static.rstatic_dummy import debugsmoke
+    from ew.cmd.debugr_dummy import debug22
 
 async def smoke(cmd):
     user_data = EwUser(member=cmd.message.author)

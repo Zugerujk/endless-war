@@ -30,6 +30,9 @@ cmd_map = {
     ewcfg.cmd_forecast: cmdcmds.forecast,
     ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
 
+    # check goonscape stats
+    ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
+
     # Rowdys thrash and Killers dab.
     ewcfg.cmd_thrash: cmdcmds.thrash,
     ewcfg.cmd_dab: cmdcmds.dab,

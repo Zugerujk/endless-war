@@ -995,6 +995,7 @@ cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
 cmd_rejuvenate = cmd_prefix + 'rejuvenate'
+cmd_goonscape_stats = cmd_prefix + 'stats'
 
 cmd_win = cmd_prefix + 'win'
 cmd_slimefest = cmd_prefix + 'slimefest'
@@ -2324,6 +2325,11 @@ col_id_event = 'id_event'
 col_event_type = 'event_type'
 col_time_activate = 'time_activate'
 
+# Database columns for quest records
+col_time_stamp = 'time_stamp'
+col_record_type = 'record_type'
+col_record_data = 'record_data'
+
 # Database columns for advertisements
 col_id_ad = 'id_ad'
 col_id_sponsor = 'id_sponsor'
@@ -2989,6 +2995,43 @@ weapon_id_slimeringcan = 'slimeringcan'
 weapon_id_fingernails = 'fingernails'
 weapon_id_roomba = 'roomba'
 
+# Goonscape stat constants. yknow. where they fucking should be. retard
+goonscape_mine_stat = "mining"
+goonscape_fish_stat = "fishing"
+goonscape_farm_stat = "farming"
+goonscape_eat_stat = "feasting"
+
+# Database columns for goonscape stats
+col_id_mining_level = goonscape_mine_stat + "_level"
+col_id_mining_xp = goonscape_mine_stat + "_xp"
+col_id_fishing_level = goonscape_fish_stat + "_level"
+col_id_fishing_xp = goonscape_fish_stat + "_xp"
+col_id_farming_level = goonscape_farm_stat + "_level"
+col_id_farming_xp = goonscape_farm_stat + "_xp"
+col_id_feasting_level = goonscape_eat_stat + "_level"
+col_id_feasting_xp = goonscape_eat_stat + "_xp"
+
+gs_stat_to_level_col = {
+    goonscape_mine_stat: col_id_mining_level,
+    goonscape_fish_stat: col_id_fishing_level,
+    goonscape_farm_stat: col_id_farming_level,
+    goonscape_eat_stat: col_id_feasting_level
+}
+gs_stat_to_xp_col = {
+    goonscape_mine_stat: col_id_mining_xp,
+    goonscape_fish_stat: col_id_fishing_xp,
+    goonscape_farm_stat: col_id_farming_xp,
+    goonscape_eat_stat: col_id_feasting_xp,
+}
+
+#GoonScape Stat
+gs_fish_xp_map = {
+    "item": 21000,
+    "common": 11000,
+    "uncommon": 16000,
+    "rare":	26000,
+    "promo": 31000,
+}
 
 
 theforbiddenoneoneone_desc = "This card that you hold in your hands contains an indescribably powerful being known simply " \

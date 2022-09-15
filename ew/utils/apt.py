@@ -96,7 +96,7 @@ async def handle_hourly_events(id_server = None):
                         brick_obj = EwItem(id_item=we.event_props.get("brick_id"))
                         id_user = brick_obj.id_owner.replace("stomach", "")
                         brick_user = EwUser(id_server=id_server, id_user=id_user)
-                        brick_member = server.get_member(user_id=int(id_user))
+                        brick_member = server.get_member(int(id_user))
                         poi = poi_static.id_to_poi.get(brick_user.poi)
                         channel_brick = fe_utils.get_channel(server, poi.channel)
                         if brick_member:
@@ -116,7 +116,7 @@ async def handle_hourly_events(id_server = None):
                         if "decorate" in clock_obj.id_owner:
                             isFurnished = True
                         clock_user = clock_obj.id_owner.replace("decorate", "")
-                        clock_member = server.get_member(user_id=clock_user)
+                        clock_member = server.get_member(clock_user)
                         if clock_member != None:
                             clock_player = EwUser(member=clock_member)
                             if (isFurnished == False or ("apt" in clock_player.poi and clock_player.visiting == "empty")) and clock_member:

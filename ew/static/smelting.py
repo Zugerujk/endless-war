@@ -15,7 +15,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_cool_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("cool")
     ),
     EwSmeltingRecipe(
         id_recipe="toughcosmetic",
@@ -28,7 +28,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_tough_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("tough")
     ),
     EwSmeltingRecipe(
         id_recipe="smartcosmetic",
@@ -41,7 +41,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_smart_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("smart")
     ),
     EwSmeltingRecipe(
         id_recipe="beautifulcosmetic",
@@ -54,7 +54,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_beautiful_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("beautiful")
     ),
     EwSmeltingRecipe(
         id_recipe="cutecosmetic",
@@ -67,7 +67,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_cute_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("cute")
     ),
     EwSmeltingRecipe(
         id_recipe="evilcosmetic",
@@ -80,7 +80,7 @@ smelting_recipe_list = [
             ewcfg.item_id_slimepoudrin: 4,
             ewcfg.item_id_evil_material: 1,
         },
-        products=cosmetics.cosmetic_names
+        products=cosmetics.cosmetic_style_names.get("evil")
     ),
     EwSmeltingRecipe(
         id_recipe="knightarmor",
