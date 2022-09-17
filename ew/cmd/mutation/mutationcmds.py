@@ -407,6 +407,8 @@ async def piss(cmd):
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 response = "You piss HARD and FAST right onto {}!!".format(target_member.display_name)
+            elif ewcfg.mutation_id_quantumlegs in mutations:
+                    response = "You rev up your quantum cock and piss HARD and FAST right onto {}!!".format(target_member.display_name)
             else:
                 response = "You can't !piss on someone who isn't there! Moron!"
 
