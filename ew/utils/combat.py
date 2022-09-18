@@ -11,6 +11,7 @@ from . import hunting as hunt_utils
 from . import item as itm_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
+from . import npcutils as npcutils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from .user import get_move_speed, add_xp
@@ -2029,6 +2030,7 @@ class EwUser(EwUserBase):
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
+        isDrink = food_item.template in static_food.drinks
 
         # Find out if the item is perishable
         if item_props.get('perishable') != None:
@@ -2047,7 +2049,7 @@ class EwUser(EwUserBase):
         if item_has_expired and not (user_has_spoiled_appetite or item_is_non_perishable):
             response = "You realize that the {} you were trying to eat is already spoiled. Ugh, not eating that.".format(food_item.name)
         # ewitem.item_drop(food_item.id_item)
-        elif food_item.template in static_food.drinks and self.poi == ewcfg.poi_id_711:
+        elif npcutils.find_drinkster(user_data=self, isDrink=isDrink):
             response = "Oh shit, it's the Drinkster! He snatches the {} right out of your hand and crushes it!\nhttps://rfck.app/img/npc/drinksterdance.gif".format(food_item.name)
             bknd_item.item_delete(food_item.id_item)
             return response

@@ -1080,6 +1080,7 @@ async def attackEnemy(cmd):
     elif was_killed and enemy_data.enemytype == ewcfg.enemy_type_npc:
         npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
         await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
+        await resp_cont.post()
 
     # Send the response to the player.
 

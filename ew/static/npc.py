@@ -491,7 +491,7 @@ EwNpc(
                 "give":["Ey, buddy. Dat means a lot."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/n11reformed.png",
     defaultslime = 4000000,
     defaultlevel = 55,
     rarity=3,
@@ -516,7 +516,7 @@ EwNpc(
                 "give":["()Mozz takes your spoiled food and runs away with it!"]
                 },
     func_ai = npcutils.mozz_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/mozz.png",
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
@@ -569,6 +569,7 @@ EwNpc(
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
     rarity=1,
+    slimeoid_name='蒸気船たかはし',
     rewards = [
     {ewcfg.weapon_id_brassknuckles:[100, 1, 1],
      ewcfg.weapon_id_scythe:[100, 1, 1],
@@ -581,7 +582,7 @@ EwNpc(
      ewcfg.weapon_id_broadsword:[100, 1, 1],
      ewcfg.weapon_id_nunchucks:[100, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_dodgy_id],
+    starting_statuses=[ewcfg.status_enemy_dodgy_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
 ]
 
