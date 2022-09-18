@@ -2289,7 +2289,6 @@ cosmetic_items_list = [
         freshness = 7,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "heartearrings",
         str_name = "Heart Earrings",
