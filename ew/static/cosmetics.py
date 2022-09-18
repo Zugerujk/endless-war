@@ -1927,7 +1927,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "yarmulke",
         str_name = "Yarmulke",
-        str_desc = "Oy Vey!", # For the love of all that is holy please do not smite me down, Igonis was the one behind this item.
+        str_desc = "Barukh Attah Adonai. May you keep your faith in your lord; the one true god, Yahweh", # Igonis is gone, I'm not keeping Oy Vey as the description text as ignois's request.
         rarity = "Patrician",
         durability = 2500000,
         style = "smart",

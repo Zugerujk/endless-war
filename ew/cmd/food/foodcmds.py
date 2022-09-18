@@ -433,18 +433,21 @@ async def order(cmd):
 
                     elif item_props.get('id_food') in ["freeapple"]:
                         item_props['poisoned'] = 'yes'
-                 # Yodel this comment is here so i can ctrl+f the word yodel to jump to the code below will be removed before pr
 
-                    elif item_props.get(id_food) in ["gumball"]:
-                       gumballrandint = random.choice(0,499),
-                    if gumballrandint < 249:
-                        random.choice in food.common_gumballs
-                    elif gumballrandint < 399:
-                        random.choice in food.uncommon_gumballs
-                    elif gumballrandint < 498:
-                        random.choice in food.rare_gumballs
-                    else:
-                        random.choice in food.superrare_gumballs
+                    elif item_props.get('id_food') in ["gumball"]:
+                        gumballrandint = random.randint(0,499)
+                        if gumballrandint < 299: # 60%
+                            new_gumball = random.choice(static_food.common_gumballs)
+                        elif gumballrandint < 449: # 30%
+                            new_gumball = random.choice(static_food.uncommon_gumballs)
+                        elif gumballrandint < 498: # 9.8%
+                            new_gumball = random.choice(static_food.rare_gumballs)
+                        else: # .2%
+                            new_gumball = random.choice(static_food.superrare_gumballs) 
+                        print(new_gumball)
+                        item = static_food.food_map.get(new_gumball) #See the below line
+                        item_props = itm_utils.gen_item_props(item) #Replaces the item that you are ordering from the gumball machine into the random gumball the odds spits out.
+                        item_props['vendors'] = ["Gumball Machine"] #Assigns all gumballs as a vendor from the gumball machine, but only allows you to order the gumball that causes the function by having that one listed as the vendor.
 
                     id_item = bknd_item.item_create(
                         item_type=item_type,
@@ -457,6 +460,8 @@ async def order(cmd):
 
                     if value == 0:
                         response = "You swipe a {} from the counter at {}.".format(name, current_vendor)
+                    elif "Gumball Machine" in item_props.get("vendors"):
+                        response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball.".format(value, currency_used)
                     else:
                         response = "You slam {:,} {} down on the counter at {} for {}.".format(value, currency_used, current_vendor, name)
 
@@ -470,6 +475,8 @@ async def order(cmd):
 
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and give it to {}.".format(name, current_vendor, target_player_data.display_name)
+                            elif "Gumball Machine" in item_props.get("vendors"):
+                                response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball and throw it into {}'s mouth.".format(value, currency_used, target_player_data.display_name)
                             else:
                                 response = "You slam {:,} {} down on the counter at {} for {} and give it to {}.".format(value, currency_used, current_vendor, name, target_player_data.display_name)
 
@@ -480,6 +487,8 @@ async def order(cmd):
 
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and eat it right on the spot.".format(name, current_vendor)
+                            elif "Gumball Machine" in item_props.get("vendors"):
+                                response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball and pop it in your mouth.".format(value, currency_used)
                             else:
                                 response = "You slam {:,} {} down on the counter at {} for {} and eat it right on the spot.".format(value, currency_used, current_vendor, name)
 
