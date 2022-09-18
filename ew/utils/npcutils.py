@@ -5,6 +5,7 @@ import random
 from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
 from ew.static import items as static_items
+from ew.static import food as static_food
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
@@ -158,6 +159,16 @@ async def needy_npc_action(keyword = '', enemy = None, channel = None, item = No
         return await needy_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+
+async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    drink = find_drink(id_server=enemy.id_server, user_data=user_data, item=item)
+
+    if drink is not None and keyword in ['talk', 'give']:
+        return await crush_drink(channel=channel, id_item=drink)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
@@ -599,8 +610,26 @@ def find_drinkster(user_data, isDrink):
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
             enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
-            enemy_obj.poi = user_data.poi
-            enemy.persist()
-            if isDrink:
+            if isDrink and user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_thesewers]:
+                enemy_obj.poi = user_data.poi
+                enemy.persist()
                 return True
     return False
+
+def find_drink(id_server, user_data = None, item = None):
+    if item is not None:
+        item_obj = EwItem(id_item=item.get('id_item'))
+        if item_obj.template in static_food.drinks:
+            return item_obj.id_item
+    elif user_data is not None:
+        inv = bknd_item.inventory(id_user=user_data.id_user, id_server=id_server, item_type_filter=ewcfg.it_food)
+        for itm in inv:
+            item_obj = EwItem(id_item=itm.get('id_item'))
+            if item.template in static_food.drinks:
+                return item_obj.id_item
+    return None
+
+async def crush_drink(channel = None, id_item = None):
+    response = "https://rfck.app/img/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
+    bknd_item.item_delete(id_item)
+    return await fe_utils.send_message(None, channel, response)
