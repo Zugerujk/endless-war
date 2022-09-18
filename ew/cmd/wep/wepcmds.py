@@ -1001,7 +1001,7 @@ async def annoint(cmd):
 
     # Grab the wanted name
     if cmd.tokens_count < 2:
-        annoint_name = weapon_item.item_props.get("weapon_name")
+        annoint_name = weapon_item.name
     else:
         annoint_name = cmd.message.content[(len(ewcfg.cmd_annoint)):].strip() 
 
