@@ -653,7 +653,7 @@ item_list = [
             "gamergate",
         ],
         str_name="The official nonofficial ENDLESS WAR Game Guide, Version IV",
-        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/##/2022. Use the !help command to crack it open.",
+        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/24/2022. Use the !help command to crack it open.",
         vendors=[ewcfg.vendor_college],
         price=10000,
     ),
