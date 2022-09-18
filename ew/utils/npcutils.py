@@ -162,7 +162,9 @@ async def needy_npc_action(keyword = '', enemy = None, channel = None, item = No
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
-    player = EwPlayer(id_user=user_data.id_user)
+
+    player = None if user_data is None else EwPlayer(id_user=user_data.id_user)
+
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
@@ -171,7 +173,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    response = random.choice(potential_dialogue).format(player_name=player.display_name)
+    response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
 
     if response[:2] == '()': #for exposition that doesn't use a talk bubble
         response = response[2:]
@@ -189,12 +191,13 @@ async def generic_move(enemy = None, npc_obj = None): #moves within boundaries e
         if random.randrange(20) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
-                channel = list(resp_cont.channel_responses.keys())[0]
-                await resp_cont.post(delete_after=120)
-                if npc_obj.dialogue.get('enter') is not None:
-                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
-                elif npc_obj.dialogue.get('loop') is not None:
-                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+                if len(resp_cont.channel_responses) > 0:
+                    channel = list(resp_cont.channel_responses.keys())[0]
+                    await resp_cont.post(delete_after=120)
+                    if npc_obj.dialogue.get('enter') is not None:
+                        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+                    elif npc_obj.dialogue.get('loop') is not None:
+                        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
 
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
@@ -210,12 +213,12 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             await resp_cont.post()
 
     elif random.randrange(25) == 0:
-        response = random.choice(npc_obj.dialogue.get('act'))
-        if response is None:
-            response = random.choice(npc_obj.dialogue.get('talk'))
-
-        name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
-        if response is not None:
+        resp_set = npc_obj.dialogue.get('loop')
+        if resp_set is None:
+            resp_set = npc_obj.dialogue.get('talk')
+        if resp_set is not None:
+            response = random.choice(resp_set)
+            name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -486,26 +489,20 @@ async def warpath_die(channel, npc_obj, enemy):
             life_state=ewcfg.col_enemy_life_state,
             id_server=ewcfg.col_id_server
         ), (
-            npc_obj.enemyclass,
+            enemy.enemyclass,
             enemy.id_server
         ))
 
-    for enemy in enemydata:
-        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+    for enemy_id in enemydata:
+        sim_enemy = util_combat.EwEnemy(id_server=enemy.id_server, id_enemy=enemy_id[0])
         if enemy.life_state == ewcfg.enemy_lifestate_alive:
+            enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
             sim_enemy.level += 50
             sim_enemy.slimes += 5000000
-            enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
             sim_enemy.persist()
+
     await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='hit')
-    await asyncio.sleep(15)
-
-    for enemy in enemydata:
-        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
-        bknd_hunting.delete_enemy(sim_enemy)
-
-    response = "{} ran away...".format(enemy.display_name)
-    return await fe_utils.send_message(None, channel, response)
+    
 
 async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
     item_data = EwItem(id_item=item.get('id_item'))
@@ -545,7 +542,7 @@ async def needy_act(channel, npc_obj, enemy, probability = 1):
     if ewcfg.status_enemy_following_id in status:
         status_obj = EwEnemyStatusEffect(id_enemy=enemy.id_enemy, id_server=enemy.id_server, id_status=ewcfg.status_enemy_following_id)
         user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
-        if random.randint(1, probability) == 1:
+        if random.randint(1, probability) == 1 and user_data.poi == enemy.poi:
             return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop', user_data=user_data)
 
 async def needy_give(channel, npc_obj, enemy, item):

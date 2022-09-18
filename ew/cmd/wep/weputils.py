@@ -493,9 +493,7 @@ def canAttack(cmd):
         if (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
             response = "Take a moment to appreciate your last slaughter."
-        elif ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
-            response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
-        # what the fuck is this
+                # what the fuck is this
         elif user_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_lucky, ewcfg.life_state_executive] and not ewcfg.slimernalia_active:
 
             # Only killers, rowdys, the cop killer, and rowdy fucker can shoot people.
@@ -505,8 +503,11 @@ def canAttack(cmd):
                 response = "You lack the moral fiber necessary for violence."
 
         elif enemy_data != None:
-            # enemy found, redirect variables to code in ewhunting
-            response = ewcfg.enemy_targeted_string
+            if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
+                response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
+            else:
+                # enemy found, redirect variables to code in ewhunting
+                response = ewcfg.enemy_targeted_string
 
         else:
             # no enemy is found within that district

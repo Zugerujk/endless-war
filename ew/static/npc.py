@@ -117,7 +117,7 @@ EwNpc(
     active = True,
     str_name = "Carrot Top",
     description = "The weakest of the Garden Gankers. They grunt a big game but they're basically free slime.",
-    poi_list = [],
+    poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["Hey dude. Or, uh, dudette. I actually can't see that well.", "Ignore me, loser. Just on official Ganker business.", "HECK!!!!!"],
                 "loop":["ARGH!!!", "EUGHHH!!!", "Rgh...", "hmmmmmRRRR..."],
                 "rareloop":["ARGH!!! UGHH!!!!!!! I'm getting bullied on slime twitter!!!"],
@@ -543,11 +543,11 @@ EwNpc(
     func_ai = npcutils.slox_action,
     image_profile = "",
     defaultslime = 300,
-    attacktype = ewcfg.enemy_attacktype_tinyclaws,
+    attacktype = 'slox',
     defaultlevel = 1,
     rarity=5,
     rewards = [
-    {}
+    {ewcfg.item_id_dankwheat:[1, 1, 1]} #maybe you'll get a dankwheat. try it, sicko.
     ],
     starting_statuses=["buddyslox"],
 ),

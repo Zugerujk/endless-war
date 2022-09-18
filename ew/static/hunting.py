@@ -423,6 +423,15 @@ EwAttackType(  #17
         str_damage="**HYAAA!** With perfect form, the Dojo Master runs you through with their {dojo_weapons}!",
         fn_effect=atf_tusks,
     ),
+    EwAttackType(  # 8
+        id_type='slox',
+        str_crit="{name_enemy} scratches your face to ribbons! You stagger back as blood starts flowing into your eyes!",
+        str_miss="{name_enemy} winces, remembering its murdered slox friend! It near-misses your face!",
+        str_kill="**WIIIEEEEE!!!** The slox got its revenge on you. You have paid for your cruelty in blood. {emote_skull}",
+        str_killdescriptor="come-upped",
+        str_damage="**RRRIIIIPPP!** The grieving Slox gnaws at your face!",
+        fn_effect=atf_talons,
+    ),
 ]
 
 

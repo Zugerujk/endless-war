@@ -36,7 +36,7 @@ def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
                         life_state=ewcfg.col_enemy_life_state,
                         id_server=ewcfg.col_id_server
                     ), (
-                        chosen_npc.enemyclass,
+                        chosen_npc.id_npc,
                         enemy.id_server
                     ))
             if len(enemydata) == 0:
@@ -229,6 +229,8 @@ def spawn_enemy(
                     time_expire = status_obj.time_expire
                     status_effect = EwEnemyStatusEffect(id_status=status, enemy_data=enemy, time_expire=time_expire, value=0, source="", id_target=-1)
                     status_effect.persist()
+                if 'buddy' in status:
+                    buddies.append(status[5:])
 
             if ewcfg.status_enemy_trainer_id in chosen_npc.starting_statuses:
                 sl_level = 1
@@ -241,8 +243,7 @@ def spawn_enemy(
                     if 'leveltrainer' in status:
                         sl_level = int(status[0])
 
-                    if 'buddy' in status:
-                        buddies.append(status[5:])
+
 
                 name = chosen_npc.slimeoid_name if len(chosen_npc.slimeoid_name) > 0 else None
 
