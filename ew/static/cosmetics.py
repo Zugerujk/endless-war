@@ -1568,7 +1568,7 @@ cosmetic_items_list = [
     ),
     EwCosmeticItem(
         id_cosmetic = "devilmanshirt",
-        str_name = "Devilman Shirt ",
+        str_name = "Devilman Shirt",
         str_desc = "I'm Devilman!!! No, not really. I just bought this cheap shirt to cosplay...",
         rarity = "Plebeian",
         durability = 2500000,
