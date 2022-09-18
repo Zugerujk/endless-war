@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.17 S4A1 Free Apple (Cosmiture W2)"
+version = "v4.18 S4A1 Goonscape Gumballs and QUANTUM COCK"
 
 
 dir_msgqueue = 'msgqueue'
@@ -3936,7 +3936,7 @@ sea_scavenge_responses = [
     "see a school of Fuck Sharks circling below you",
     "notice an approaching kraken",
     "remember you can't swim",
-    "Crank put you here, didn't he?",
+    "think of how you got here in the first place. Was it Crank? It was probably Crank.",
 ]
 
 # Enemy life states
