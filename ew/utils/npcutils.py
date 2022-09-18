@@ -390,7 +390,7 @@ async def marty_give(channel, npc_obj, enemy, item):
 
 async def candidate_give(channel, npc_obj, enemy, item):
     statename = npc_obj.id_npc + "morale"
-    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate = EwGamestate(id_state=statename, id_server=enemy.id_server)
     gamestate.number += 10
     gamestate.persist()
 
@@ -398,7 +398,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
     item_obj = EwItem(id_item=item.get('id_item'))
     usermodel = util_combat.EwUser(id_user=item_obj.id_owner, id_server=enemy.id_server)
 
-    if item_obj.soulbound or item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
+    if item_obj.soulbound or item_obj.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item_obj.id_item == usermodel.weapon:
         response = "You can't do that. Isn't that important?"
         return await fe_utils.send_message(None, channel, response)
     if item_obj.item_type in([ewcfg.it_questitem, item_obj.item_type == ewcfg.it_medal, ewcfg.it_relic])  or item_obj.item_props.get('rarity') == ewcfg.rarity_princeps or item_obj.item_props.get('id_cosmetic') == "soul" or item_obj.item_props.get('id_furniture') == "propstand" or item_obj.item_props.get('id_furniture') in static_items.furniture_collection or item_obj.item_props.get('acquisition') == 'relic':
@@ -418,7 +418,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
 
 async def candidate_die(channel, npc_obj, enemy, item):
     statename = npc_obj.id_npc + "morale"
-    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate = EwGamestate(id_state=statename, id_server=enemy.id_server)
     gamestate.number -= 100
     gamestate.persist()
     drop_held_items(enemy=enemy)
@@ -496,13 +496,13 @@ async def warpath_die(channel, npc_obj, enemy):
     for enemy_id in enemydata:
         sim_enemy = util_combat.EwEnemy(id_server=enemy.id_server, id_enemy=enemy_id[0])
         if enemy.life_state == ewcfg.enemy_lifestate_alive:
-            enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+            sim_enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
             sim_enemy.level += 50
             sim_enemy.slimes += 5000000
             sim_enemy.persist()
 
     await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='hit')
-    
+
 
 async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
     item_data = EwItem(id_item=item.get('id_item'))

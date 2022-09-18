@@ -2436,6 +2436,10 @@ leaderboard_lifetimedeaths = "BIGGEST VICTIMS"
 entry_type_player = "player"
 entry_type_districts = "districts"
 entry_type_relics = "relics"
+entry_type_gamestates = "gamestates"
+
+gamestate_leaderboard_markers = {}
+
 
 # district control channel topic text
 control_topic_killers = "Currently controlled by the killers."
