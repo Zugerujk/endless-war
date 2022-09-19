@@ -444,7 +444,6 @@ async def order(cmd):
                             new_gumball = random.choice(static_food.rare_gumballs)
                         else: # .2%
                             new_gumball = random.choice(static_food.superrare_gumballs) 
-                        print(new_gumball)
                         item = static_food.food_map.get(new_gumball) #See the below line
                         item_props = itm_utils.gen_item_props(item) #Replaces the item that you are ordering from the gumball machine into the random gumball the odds spits out.
                         item_props['vendors'] = ["Gumball Machine"] #Assigns all gumballs as a vendor from the gumball machine, but only allows you to order the gumball that causes the function by having that one listed as the vendor.

@@ -1485,6 +1485,10 @@ acquisition_bartering = "bartering"
 acquisition_trickortreating = "trickortreating"
 acquisition_bazaar = "bazaar"
 acquisition_huntingtrophy = "huntingtrophy"
+acquisition_commongumball = "commongumball"
+acquisition_uncommongumball = "uncommongumball"
+acquisition_raregumball = "raregumball"
+acquisition_superraregumball = "superraregumball"
 
 # standard food expiration in seconds
 std_food_expir = 12 * 3600  # 12 hours
