@@ -1706,7 +1706,7 @@ smelting_recipe_list = [
             "pizzaball",
         ],
         ingredients={
-            'quattuorsexagintuplestuffedcrust': 3,
+            ewcfg.item_id_quattuorsexagintuplestuffedcrust: 3,
         },
         products=["pizzaball"],
     ),
