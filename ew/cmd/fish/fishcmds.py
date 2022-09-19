@@ -434,6 +434,7 @@ async def cast(cmd):
 async def reel(cmd):
     user_data = EwUser(member=cmd.message.author)
     resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
 
     # Must be in the correct channel
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:

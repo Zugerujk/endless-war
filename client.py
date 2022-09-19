@@ -911,7 +911,7 @@ async def on_message(message):
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")
             return await fe_utils.send_message(client, message.channel, response)
-        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"] or message.channel.type in [discord.ChannelType.public_thread, discord.ChannelType.private_thread]:
+        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"] or message.channel.type in [discord.ChannelType.public_thread, discord.ChannelType.private_thread]:
             if usermodel.hogtied == 1:
                 response = random.choice(["MMMPH!", "MBBBBB", "HMMHM", "MMMMMHMMF!"])
                 await fe_utils.send_message(client, message.channel, response)

@@ -1278,8 +1278,7 @@ async def map(cmd):
 
 
 async def transportmap(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author,
-                                                                                        "Map of the subway: https://cdn.discordapp.com/attachments/431238867459375145/570392908780404746/t_system_final_stop_telling_me_its_wrong_magicks.png\nPlease note that there also exists a **blimp** that goes between Dreadford and Assault Flats Beach, as well as a **ferry** that goes between Wreckington and Vagrant's Corner."))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Map of the subway: https://cdn.discordapp.com/attachments/431237299137675297/1021140587572887653/slimemapfinal.png"))
 
 
 """ Check your outfit. """
