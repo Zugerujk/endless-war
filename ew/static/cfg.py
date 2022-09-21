@@ -1490,6 +1490,9 @@ acquisition_uncommongumball = "uncommongumball"
 acquisition_raregumball = "raregumball"
 acquisition_superraregumball = "superraregumball"
 
+# All the different gumball acquisition types
+gumball_acquisitions = [acquisition_commongumball, acquisition_uncommongumball, acquisition_raregumball, acquisition_superraregumball]
+
 # standard food expiration in seconds
 std_food_expir = 12 * 3600  # 12 hours
 farm_food_expir = 12 * 3600 * 4  # 2 days
