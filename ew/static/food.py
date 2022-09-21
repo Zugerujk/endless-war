@@ -2718,7 +2718,7 @@ food_list = [
         time_expir = 600000,
         acquisition = "uncommongumball",
     ),
-        EwFood(
+    EwFood(
         id_food = "purplekilliflowergumball",
         recover_hunger = 250,
         price = 25000,
