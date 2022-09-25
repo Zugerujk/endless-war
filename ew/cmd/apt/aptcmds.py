@@ -219,7 +219,7 @@ async def signlease(cmd):
                 accepted = False
 
     except Exception as e:
-        print(e)
+        ewutils.logMsg("Error handling apt signlease confirmation {}".format(e))
         accepted = False
 
     if not accepted:
@@ -494,13 +494,12 @@ async def trickortreat(cmd = None):
                 await fe_utils.send_message(cmd.client, target, fe_utils.formatMessage(target, response))
             except:
                 response = "They aren't taking in any visitors right now."
-                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                return await fe_utils.send_response(response, cmd)
 
             try:
                 treat = False
                 if ewutils.active_target_map.get(user_data.id_user) == target_apt.poi:
                     # For Double Halloween spam knocking isn't really an issue. Just clear up their slot in the active target map for now.
-                    # print('DEBUG: Spam knock in trickortreat command.')
                     ewutils.active_target_map[user_data.id_user] = ""
                     return  # returns if the user is spam knocking. However, the person in the apt still gets each of the DMs above.
                 else:
@@ -516,9 +515,6 @@ async def trickortreat(cmd = None):
                             treat = False
                     else:
                         reject = True
-                    # user_data = EwUser(member=cmd.message.author)
-                    # if ewutils.active_target_map.get(user_data.id_user) != "": #checks if a user is knocking, records the recipient and removes it when done
-                    #	user_data.persist()
             except:
                 reject = True
             user_data = EwUser(member=cmd.message.author)
@@ -567,26 +563,22 @@ async def trickortreat(cmd = None):
                     ewutils.active_target_map[user_data.id_user] = ""
                 user_data.change_slimes(n=-slime_loss, source=ewcfg.source_damage)
                 if user_data.slimes <= 0:
-                    client = ewutils.get_client()
-                    server = client.get_guild(user_data.id_server)
                     user_poi = poi_static.id_to_poi.get(user_data.poi)
 
                     resp_cont = EwResponseContainer(id_server=user_data.id_server)
-                    player_data = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
 
                     user_data.trauma = ewcfg.trauma_id_environment
-                    user_data.die(cause=ewcfg.cause_killing)
-                    deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.display_name)
+                    await user_data.die(cause=ewcfg.cause_killing)
+                    deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=cmd.message.author.display_name)
 
                     resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
                     resp_cont.add_channel_response(user_poi.channel, deathreport)
 
                     await resp_cont.post()
-                    await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
 
                 user_data.persist()
                 response = ewcfg.halloween_tricks_trickee[trick_index].format(target.display_name, slime_loss)
-                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                await fe_utils.send_response(response, cmd)
                 response = ewcfg.halloween_tricks_tricker[trick_index].format(cmd.message.author.display_name, slime_loss)
                 return await fe_utils.send_message(cmd.client, target, fe_utils.formatMessage(target, response))
 
@@ -662,33 +654,30 @@ async def trickortreat(cmd = None):
 
                 user_data.change_slimes(n=-slime_loss, source=ewcfg.source_damage)
                 if user_data.slimes <= 0:
-                    client = ewutils.get_client()
-                    server = client.get_guild(user_data.id_server)
                     user_poi = poi_static.id_to_poi.get(user_data.poi)
 
                     resp_cont = EwResponseContainer(id_server=user_data.id_server)
-                    player_data = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
 
                     user_data.trauma = ewcfg.trauma_id_environment
-                    user_data.die(cause=ewcfg.cause_killing)
-                    deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.display_name)
+                    await user_data.die(cause=ewcfg.cause_killing)
+                    deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=cmd.message.author.display_name)
 
                     resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
                     resp_cont.add_channel_response(user_poi.channel, deathreport)
 
                     await resp_cont.post()
-                    await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
+
                 user_data.persist()
                 response += ewcfg.halloween_tricks_trickee[trick_index].format("A pranksterous resident", slime_loss)
 
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_response(response, cmd)
         else:
             response = "Whose door are you knocking?"
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_response(response, cmd)
 
     else:
         response = "One door at a time, please."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_response(response, cmd)
 
 
 async def cancel(cmd):
@@ -1065,6 +1054,9 @@ async def apt_look(cmd):
         furn_response += "SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP.\n\n"
     if all(elem in furniture_id_list for elem in static_items.furniture_NMS):
         furn_response += "This room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
+        furn_response += "Whoa, your flat is so futuristic! You;ve got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
+
 
     market_data = EwMarket(id_server=playermodel.id_server)
     clock_data = ewutils.weather_txt(market_data)
@@ -1484,8 +1476,8 @@ async def remove_item(cmd):
     item_search = ewutils.flattenTokenListToString(cmd.tokens[startparse:])
 
     aptmodel = EwApartment(id_user=recipient, id_server=playermodel.id_server)
-    key_1 = EwItem(id_item=aptmodel.key_1)
-    key_2 = EwItem(id_item=aptmodel.key_2)
+    key_1 = EwItem(id_item=aptmodel.key_1) if aptmodel.key_1 != 0 else EwItem(id_item=None)
+    key_2 = EwItem(id_item=aptmodel.key_2) if aptmodel.key_2 != 0 else EwItem(id_item=None)
 
     if key_1.id_owner != str(usermodel.id_user) and key_2.id_owner != str(usermodel.id_user) and usermodel.visiting != ewcfg.location_id_empty:
         response = "Burglary takes finesse. You are but a lowly gangster, who takes money the old fashioned way."

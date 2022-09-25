@@ -635,14 +635,25 @@ item_list = [
         vendors=[ewcfg.vendor_bazaar]
     ),
     EwGeneralItem(
+        id_item=ewcfg.item_id_moon_dust_pod,
+        alias = [
+            "moondust",
+            "moonpod",
+            "moondustjuice",
+        ],
+        str_name="Moon Dust Vape Pod",
+        str_desc="A moon dust-flavored vape pod. You don't know what flavor \"Moon Dust\" is but geez, this one sure is addictive. It could be made out of fiberglass and you wouldn't care.",
+        context = "vapepod",
+    ),
+    EwGeneralItem(
         id_item=ewcfg.item_id_gameguide,
         alias=[
             "gg",
             "gameguide",
             "gamergate",
         ],
-        str_name="The official unofficial ENDLESS WAR Game Guide, Version III",
-        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 7/19/2020. Use the !help command to crack it open.",
+        str_name="The official nonofficial ENDLESS WAR Game Guide, Version IV",
+        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/##/2022. Use the !help command to crack it open.",
         vendors=[ewcfg.vendor_college],
         price=10000,
     ),
@@ -1913,8 +1924,34 @@ item_list = [
     EwGeneralItem(
         id_item=ewcfg.item_id_ghosttoken,
         str_name="Ghost Token",
-        str_desc="A token received for good behavior at the ghost maid cafe!"
-    )
+        str_desc="A token received for good behavior at the Ghost Maid Cafe!",
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_giftribbon,
+        str_name="Gift Ribbon",
+        str_desc="A spool of ribbon meant to use to make some festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_gallonofmilk,
+        str_name="Gallon of Milk",
+        context = 'milk',
+        str_desc="It's the fabled container of milk that is the cause of many missing fathers. As if some cruel twist of fate, you were the one to get some ever before many deadbeat fathers were able to get. It's a sense of achievement, to own a gallon of milk...\nAh, what's that? The cap to this milk is manufactured incorrectly, you can't seem to twist it off.\n...Ah, what's this? There's no expiration date on this milk either.\nWell, I suppose it's useless.",
+        price=250000,
+        vendors=[ewcfg.vendor_bazaar]
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_alienleather,
+        str_name="Alien Leather",
+        str_desc="You've skinned so many of the gray bastards to the point that you can make some fine gray leather. Hairless creeps are the best to slaughter, PETA be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_monofilamentcloth,
+        str_name="Monofilament Cloth",
+        str_desc="Its a full textile at this point, Perfect material to make the grays start understanding that you're violent, language barrier be damned.",
+        acquisition=ewcfg.acquisition_smelting
+    ),
+
 ]
 # item_list += ewdebug.debugitem_set
 
@@ -1959,8 +1996,11 @@ prank_items_heinous = []  # common
 prank_items_scandalous = []  # uncommon
 prank_items_forbidden = []  # rare
 
+prank_items_instantuse = []  # instant use items
+prank_items_response = []  # response items
+prank_items_trap = []  # traps
 
-# Gather all prank items
+# Gather all prank items based on rarity
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.rarity == ewcfg.prank_rarity_heinous:
         prank_items_heinous.append(p)
@@ -1974,6 +2014,22 @@ for p in item_list:
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.rarity == ewcfg.prank_rarity_forbidden:
         prank_items_forbidden.append(p)
+    else:
+        pass
+# Gather all prank items based on type
+for p in item_list:
+    if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_instantuse:
+        prank_items_instantuse.append(p)
+    else:
+        pass
+for p in item_list:
+    if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_response:
+        prank_items_response.append(p)
+    else:
+        pass
+for p in item_list:
+    if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_trap:
+        prank_items_trap.append(p)
     else:
         pass
 
@@ -2001,6 +2057,17 @@ furniture_list = [
         vendors = ['bazaar'],
         furniture_place_desc = "You hang the clock on the wall.",
         furniture_look_desc = "The broken clock says it's 2:33.",
+    ),
+    EwFurniture(
+        id_furniture = "ninetndoshitcube",
+        str_name = "ninetndo shitcube",
+        str_desc = "The Nintendo Shitcube is exactly what it says on the tin. Its a Nintendo Gamecube crafted exquisitely out of exclusively Mega-wombat shit.  Its reminiscent of brown bricks in minecrap. ",
+        rarity = "Plebian",
+        acquisition = "bartering",
+        price = 100000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You throw your Nintendo Shitcube at the fucking wall.",
+        furniture_look_desc = "Your eyes glance over at the Nintendo Shitcube indented into the fucking wall.",
     ),
     EwFurniture(
         id_furniture = "bevanssnot",
@@ -3527,6 +3594,64 @@ furniture_list = [
         furniture_place_desc = "You hire a bunch of contract workers from the yellow pages, getting the fireplace installed. Of course, you act like a curmudgeon all the while and don't even pay them afterwards, citing that you wanted it a few centimeters to the left.",
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
     ),
+    EwFurniture(
+        id_furniture = "sandbag",
+        str_name = "Sandbag",
+        str_desc = "Thanks to the dojo's shitty architectual integrity, sometimes you can manage to get the support beams holding these sandbags up to snap and break. Thanks to how infrequently this happens however, the Dojo Master is probably never going to notice.",
+        rarity = "Patrician",
+        furniture_place_desc = "You grab the chains and fling it onto a load bearing support beam, nothing bad can come of this!",
+        furniture_look_desc = "One of the Dojo's prized sandbags hangs from the ceiling to whale on.",
+    ),
+    EwFurniture(
+        id_furniture = "statueofnarcissism",
+        str_name = "Statue of Narcissism",
+        str_desc = "A muscular marble statue that's been cleanly decapitated, their once drab face now replaced with a simple hand mirror. How kind of someone to carve a statue of you! They got all the details right!",
+        rarity = "Patrician",
+        furniture_place_desc = "You spend an hour putting this into place. Of course, 55 minutes is just you staring at the statue afterwards.",
+        furniture_look_desc = "A polished statue of you is one of the center points of your apartment.",
+        price = 20000000,
+        vendors = ['bazaar'],
+    ),
+    EwFurniture(
+        id_furniture = "futuredesk",
+        str_name = "Future Desk",
+        str_desc = "A sci-fi desk made up of several floating zero-G parts that makes for an awesome spot to waste away at. When not in use it packs up into an easy-to-transport small cube.",
+        rarity = "Patrician",
+        acquisition = "smelting",
+        furniture_place_desc = "You place down the cubed desk and press the button on its packaging, prompting it to spring up into place like a pop-up book.",
+        furniture_look_desc = "A futuristic desk floats idly in the corner.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurelamp",
+        str_name = "Future Lamp",
+        str_desc = "A simplistically designed lamp made up of basic shapes with a big glass dome atop it. There's a warning on the side to not look at it for too long, as the inside contains a miniature replica of the sun.",
+        rarity = "Patrician",
+        acquisition = "smelting",
+        furniture_place_desc = "You take a bit to find a way to set the lamp down properly before activating the tiny sun inside of it. Hope you like wearing sunscreen indoors.",
+        furniture_look_desc = "A futuristic lamp emits an almost blinding light across the room.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurebed",
+        str_name = "Future Bed",
+        str_desc = "This bed is more of a large pod, with two doors on the side that close up into your own little resting space. The inside works as a display for anything of your choosing: from the night sky, to nature, or to a live-action view of the violence happening outside.",
+        rarity = "Patrician",
+        acquisition = "smelting",
+        furniture_place_desc = "After managing to cram such a big pod bed through your small apartment door, you plug it into a wall outlet and watch as it ticks up hundreds of thousands of slimecoin a second into your electricity bill.",
+        furniture_look_desc = "A futuristic pod bed is in the room, taking up most of the space.",
+        furn_set = "hatealiens",
+    ),
+    EwFurniture(
+        id_furniture = "futurecouch",
+        str_name = "Future Couch",
+        str_desc = "What the fuck is a future couch? Can someone please tell me what defines a couch as being from the future? Anyone? Seriously, anyone at all?",
+        rarity = "Patrician",
+        acquisition = "smelting",
+        furniture_place_desc = "You place the future couch into the living room, still confused at why it lifts off the floor and onto the wall.",
+        furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
+        furn_set = "hatealiens",
+    ),
 ]
 
 furniture_map = {}
@@ -3545,6 +3670,7 @@ furniture_instrument = []
 furniture_NMS = []
 furniture_specialhue = []
 furniture_collection = []
+furniture_hatealiens = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3577,3 +3703,5 @@ for furniture in furniture_list:
         furniture_specialhue.append(furniture.id_furniture)
     elif furniture.furn_set == "collection":
         furniture_collection.append(furniture.id_furniture)
+    elif furniture.furn_set == "hatealiens":
+        furniture_hatealiens.append(furniture.id_furniture)

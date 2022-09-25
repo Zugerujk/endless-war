@@ -28,8 +28,8 @@ def item_drop(
             item_data.item_props["adorned"] = "false"
         item_data.persist()
         bknd_item.give_item(id_user=dest, id_server=item_data.id_server, id_item=item_data.id_item)
-    except:
-        ewutils.logMsg("Failed to drop item {}.".format(id_item))
+    except Exception as e:
+        ewutils.logMsg("Failed to drop item {}: {}.".format(id_item, e))
 
 
 def get_fish_collection(id_item, id_server):
@@ -138,14 +138,13 @@ def get_weapon_collection(id_item, id_server):
 
     for wep in weapon_inv:
         weapon_item = EwItem(id_item=wep.get('id_item'))
-        kills = weapon_item.item_props.get('totalkills')
-        if kills is None:
-            kills = 0
+        kills = weapon_item.item_props.get('totalkills', 0)
+        backfires = weapon_item.item_props.get('totalsuicides', 0)
         name = weapon_item.item_props.get('weapon_name')
         if name is None or name == '':
             name = 'Generic {}'.format(weapon_item.item_props.get('weapon_type'))
 
-        response += "{}: {} KILLS\n".format(name, kills)
+        response += "{}: {} KILLS{}\n".format(name, kills, ", {} BACKFIRES".format(backfires) if backfires > 0 else "")
 
     return response
 

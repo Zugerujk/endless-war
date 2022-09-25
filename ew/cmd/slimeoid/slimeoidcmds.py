@@ -1,5 +1,6 @@
 import random
 import time
+import asyncio
 
 from ew.backend import core as bknd_core
 from ew.backend import item as bknd_item
@@ -492,9 +493,14 @@ async def slimeoidbattle(cmd):
 
     pvp_battle = False
     fatal = False
+    size_limit = False
+    bet = None
     response = ""
     user_name = "" # get it, like a username!
     target_name = ""
+    duel = False
+    if cmd.tokens[0] == "!slimeoidduel":
+        duel = True
 
     if ewutils.channel_name_is_poi(str(cmd.message.channel)) is False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
@@ -523,7 +529,11 @@ async def slimeoidbattle(cmd):
         challengee_slimeoid = EwSlimeoid(member=member)
 
         # Sets the bet to 0 if no bet is specified or if not at the arena.
-        bet = ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
+        if "bet" in cmd.tokens:
+            location = cmd.tokens.index("bet")+1
+            if len(cmd.tokens) > location:
+                bet = ewutils.getIntToken(tokens=[0,cmd.tokens[location]], allow_all=True)
+        
 
         if bet == None or challenger.poi != ewcfg.poi_id_arena:
             bet = 0
@@ -534,6 +544,19 @@ async def slimeoidbattle(cmd):
         # Make the slimeoid battle fatal if "todeath" is anywhere in the command
         if "death" in ewutils.flattenTokenListToString(cmd.tokens):
             fatal = True
+        if "size" in cmd.tokens:
+            if challenger.poi == ewcfg.poi_id_arena:
+                location = cmd.tokens.index("size")+1
+                if len(cmd.tokens) > location:
+                    size_limit = ewutils.getIntToken(tokens=[0,cmd.tokens[location]])
+                if(size_limit == None):
+                    size_limit = False
+            else:
+                response = "Theres nobody to officiate the match, don't bother making it fair. Go to the arena for that."
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+        if fatal and size_limit:
+            response = "You're dumber than you look if you think a slimeoid will hold back in a deathmatch."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
 
     else:
         
@@ -542,7 +565,7 @@ async def slimeoidbattle(cmd):
         challengee = cmbt_utils.find_enemy(targetenemy, challenger)
         
         if challengee is None:
-            response = "Huh? Who do you want to challenge?"
+            response = "Huh? Who do you want to challenge? You don't use an @ on npcs, try using their letter from {}".format(ewcfg.cmd_survey)
             return await fe_utils.send_response(response, cmd)
         
         target_name = challengee.display_name
@@ -564,7 +587,7 @@ async def slimeoidbattle(cmd):
     if pvp_battle:
         ewutils.active_target_map[challengee.id_user] = challenger.id_user
         response = "You have been challenged by {} to a Slimeoid Battle{}. Do you !accept or !refuse?".format(user_name, " **TO THE DEATH**" if fatal else "").replace("@", "\{at\}")
-        await fe_utils.send_response(response, cmd)
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(member, response))
 
         # Wait for an answer
         accepted = 0
@@ -576,29 +599,45 @@ async def slimeoidbattle(cmd):
                     accepted = 1
         except:
             accepted = 0
+        
+        if accepted == 1:
+            if duel:
+                response = "**THREE**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
+                response = "**TWO**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
+                response = "**ONE**"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
+                await asyncio.sleep(1)
 
-        # Load information again in case it changed while we were awaiting the challenge
-        challengee = EwUser(member=member)
-        challengee_slimeoid = EwSlimeoid(member=member)
-        challenger = EwUser(member=author)
-        challengee_slimeoid = EwSlimeoid(member=member)
+            # Load information again in case it changed while we were awaiting the challenge
+            challengee = EwUser(member=member)
+            challengee_slimeoid = EwSlimeoid(member=member)
+            challenger = EwUser(member=author)
+            challengee_slimeoid = EwSlimeoid(member=member)
 
-        ewutils.active_target_map[challengee.id_user] = ""
-        ewutils.active_target_map[challenger.id_user] = ""
+            ewutils.active_target_map[challengee.id_user] = ""
+            ewutils.active_target_map[challenger.id_user] = ""
 
-        # Double check to make sure nothing has happened in the mean time
+            # Double check to make sure nothing has happened in the mean time
 
-        if challenger_slimeoid.life_state != ewcfg.slimeoid_state_active:
-            ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
-            ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
-            response = "You do not have a Slimeoid ready to battle with!"
-            return await fe_utils.send_response(response, cmd)
+            if challenger_slimeoid.life_state != ewcfg.slimeoid_state_active:
+                ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
+                ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
+                response = "You do not have a Slimeoid ready to battle with!"
+                return await fe_utils.send_response(response, cmd)
 
-        if challengee_slimeoid.life_state != ewcfg.slimeoid_state_active:
-            ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
-            ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
-            response = "{} does not have a Slimeoid ready to battle with!".format(target_name)
-            return await fe_utils.send_response(response, cmd)
+            if challengee_slimeoid.life_state != ewcfg.slimeoid_state_active:
+                ewutils.active_slimeoidbattles[challenger_slimeoid_id] = False
+                ewutils.active_slimeoidbattles[challengee_slimeoid_id] = False
+                response = "{} does not have a Slimeoid ready to battle with!".format(target_name)
+                return await fe_utils.send_response(response, cmd)
+
+            if duel:
+                response = "***GO!***"
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
     else:
         accepted = 1
 
@@ -627,7 +666,8 @@ async def slimeoidbattle(cmd):
             battle_type=ewcfg.battle_type_arena,
             challengee_name=target_name,
             challenger_name=user_name,
-            pvp_battle=pvp_battle
+            pvp_battle=pvp_battle,
+            size_limit=size_limit
         )
 
         # Challenger won

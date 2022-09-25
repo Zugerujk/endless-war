@@ -46,7 +46,6 @@ import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
-
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
 import ew.backend.item as bknd_item
@@ -61,13 +60,10 @@ from ew.backend.fish import EwRecord
 
 import ew.utils.core as ewutils
 
-
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.poi as poi_static
-
-
 
 import ew.static.cfg as ewcfg
 
@@ -92,14 +88,6 @@ last_helped_times = {}
 
 # Map of server ID to a map of active users on that server.
 active_users_map = {}
-
-# Map of server ID to slime twitter channels
-channels_slimetwitter = {}
-
-#Map of comm serv channels
-channels_deviantsplaart = {}
-
-channels_artexhibits = {}
 
 # Map of all command words in the game to their implementing function.
 
@@ -156,6 +144,7 @@ re_moan_g = re.compile('.*![b]+[r]+[a]+[i]+[n]+[z]+.*')
 re_measure_g = re.compile('!measure.*')
 re_yoslimernalia_g = re.compile('.*![y]+[o]+[s]+[l]+[i]+[m]+[e]+[r]+[n]+[a]+[l]+[i]+[a]+.*')
 
+
 @client.event
 async def on_member_remove(member):
     # Kill players who leave the server.
@@ -167,14 +156,26 @@ async def on_member_remove(member):
             return
 
         user_data.trauma = ewcfg.trauma_id_suicide
-        user_data.die(cause=ewcfg.cause_leftserver)
-        user_data.persist()
+        await user_data.die(updateRoles=False, cause=ewcfg.cause_leftserver)
 
         ewutils.logMsg('Player killed for leaving the server.')
-    except:
-        ewutils.logMsg('Failed to kill member who left the server.')
+    except Exception as e:
+        ewutils.logMsg(f'Failed to kill member who left the server: {e}')
 
 
+@client.event
+async def on_presence_update(before, after):
+    # update last offline time if they went from offline to online
+    try:
+        if before.status == discord.Status.offline and after.status != discord.Status.offline:
+            user_data = EwUser(member=after)
+            user_data.time_lastoffline = int(time.time())
+            user_data.persist()
+
+    except Exception as e:
+        ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
+
+"""
 @client.event
 async def on_member_update(before, after):
     # update last offline time if they went from offline to online
@@ -184,9 +185,9 @@ async def on_member_update(before, after):
             user_data.time_lastoffline = int(time.time())
             user_data.persist()
 
-    except:
-        ewutils.logMsg('Failed to update member\'s last offline time.')
-
+    except Exception as e:
+        ewutils.logMsg(f'Failed to update member\'s last offline time: {e}')
+"""
 
 @client.event
 async def on_ready():
@@ -210,20 +211,14 @@ async def on_ready():
     fake_observer = EwUser()
     fake_observer.life_state = ewcfg.life_state_observer
     for poi in poi_static.poi_list:
+        # This just cleans poi roles, why is this here?
         if poi.role != None:
             poi.role = ewutils.mapRoleName(poi.role)
-        if poi.major_role != None:
-            poi.major_role = ewutils.mapRoleName(poi.major_role)
-        if poi.minor_role != None:
-            poi.minor_role = ewutils.mapRoleName(poi.minor_role)
 
         neighbors = []
         neighbor_ids = []
-        # if poi.coord != None:
         if len(poi.neighbors.keys()) > 0:
             neighbors = move_utils.path_to(poi_start=poi.id_poi, user_data=fake_observer)
-        # elif poi.id_poi == ewcfg.poi_id_thesewers:
-        #	neighbors = poi_static.poi_list
 
         if neighbors != None:
 
@@ -231,10 +226,10 @@ async def on_ready():
                 neighbor_ids.append(neighbor.id_poi)
 
         poi_static.poi_neighbors[poi.id_poi] = set(neighbor_ids)
-        # ewutils.logMsg("Found neighbors for poi {}: {}".format(poi.id_poi, poi_static.poi_neighbors[poi.id_poi]))
 
     for id_poi in poi_static.landmark_pois:
         ewutils.logMsg("beginning landmark precomputation for " + id_poi)
+        # Set each landmark's value to a dictionary of all pois, and their total cost from that landmark
         move_utils.landmarks[id_poi] = move_utils.score_map_from(
             poi_start=id_poi,
             user_data=fake_observer,
@@ -242,9 +237,6 @@ async def on_ready():
         )
 
     ewutils.logMsg("finished landmark precomputation")
-
-    # Channels in the connected discord servers to announce to.
-    channels_announcement = []
 
     # Channels in the connected discord servers to send stock market updates to. Map of server ID to channel.
     channels_stockmarket = {}
@@ -264,30 +256,14 @@ async def on_ready():
 
         # Grep around for channels
         ewutils.logMsg("connected to server: {}".format(server.name))
-        for channel in server.channels:
-            if (channel.type == discord.ChannelType.text):
-                if (channel.name == ewcfg.channel_stockexchange):
-                    channels_stockmarket[server.id] = channel
-                    ewutils.logMsg("• found channel for stock exchange: {}".format(channel.name))
 
-                elif (channel.name == ewcfg.channel_slimetwitter):
-                    channels_slimetwitter[server.id] = channel
-                    ewutils.logMsg("• found channel for slime twitter: {}".format(channel.name))
-
-                elif (channel.name == ewcfg.channel_artexhibits):
-                    channels_artexhibits[server.id] = channel
-                    ewutils.logMsg("• found channel for art exhibits: {}".format(channel.name))
-
-                elif (channel.name == ewcfg.channel_deviantsplaart):
-                    channels_deviantsplaart[server.id] = channel
-                    ewutils.logMsg("• found channel for deviantSPLAART: {}".format(channel.name))
+        # Map a bunch of the main channels
+        fe_utils.map_channels(server)
 
         ewdebug.initialize_gamestate(id_server=server.id)
 
-
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
-        #ewutils.logMsg("Global fists are {}\nGlobal fingernails are {}".format(combat_utils.fist_item, combat_utils.fingernails_item))
 
         # create all the districts in the database
         for poi_object in poi_static.poi_list:
@@ -304,9 +280,6 @@ async def on_ready():
             resp_cont = dist.change_ownership(new_owner=dist.controlling_faction, actor="init", client=client)
             dist.persist()
             await resp_cont.post()
-
-        # kill people who left the server while the bot was offline
-        # ewutils.kill_quitters(server.id) #FIXME function get_member doesn't find users reliably
 
         asyncio.ensure_future(loop_utils.capture_tick_loop(id_server=server.id))
 
@@ -331,9 +304,9 @@ async def on_ready():
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))
 
-        if not debug:
-            await transport_utils.init_transports(id_server=server.id)
-            asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
+        await transport_utils.init_transports(id_server=server.id)
+            
+        asyncio.ensure_future(bknd_weather.weather_tick_loop(id_server=server.id))
 
         asyncio.ensure_future(bknd_farm.farm_tick_loop(id_server=server.id))
         
@@ -342,6 +315,7 @@ async def on_ready():
         asyncio.ensure_future(loop_utils.clock_tick_loop(id_server=server.id))
 
         print('\nNUMBER OF CHANNELS IN SERVER: {}\n'.format(len(server.channels)))
+
 
     try:
         ewutils.logMsg('Creating message queue directory.')
@@ -591,10 +565,6 @@ async def debugHandling(message, cmd, cmd_obj):
 
         await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, "Apple created."))
 
-    elif cmd == (ewcfg.cmd_prefix + 'weathertick'):
-
-        await apt_utils.setOffAlarms(id_server=message.guild.id)
-
     elif cmd == (ewcfg.cmd_prefix + 'createhat'):
         patrician_rarity = 20
         patrician_smelted = random.randint(1, patrician_rarity)
@@ -765,23 +735,23 @@ async def debugHandling(message, cmd, cmd_obj):
         if cmd_obj.mentions_count == 0:
             response = 'Set who\'s role?'
         else:
-            roles_map = ewutils.getRoleMap(message.guild.roles)
+            id_server = cmd_obj.guild.id
+            roles_map = ewrolemgr.roles_map[id_server]
             role_target = cmd_obj.tokens[1]
             role = roles_map.get(role_target)
 
             if role != None:
                 for user in cmd_obj.mentions:
                     try:
-                        await user.edit(roles=role)
+                        user = await user.edit(roles=[role])
                     except:
-                        ewutils.logMsg(
-                            'Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
+                        ewutils.logMsg('Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
 
                 response = 'Done.'
             else:
                 response = 'Unrecognized role.'
 
-        await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(message.author, response))
+        await fe_utils.send_message(client, cmd_obj.message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'getrowdy'):
         response = "You get rowdy. Fuck. YES!"
@@ -878,21 +848,18 @@ async def on_message(message):
     time_now = int(time.time())
     ewcfg.set_client(client)
 
-    playermodel = EwPlayer(id_user=message.author.id)
-    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
-
     """ do not interact with our own messages """
     if message.author.id == client.user.id or message.author.bot == True:
         return
 
     # Ignore messages in certain channels
-    if message.channel.type ==  0 and message.channel.name in ewcfg.forbidden_channels:
+    if hasattr(message.channel, "name") and message.channel.name in ewcfg.forbidden_channels:
         return
 
-    if message.guild != None:
+    if message.guild is not None:
         # Note that the user posted a message.
         active_map = active_users_map.get(message.guild.id)
-        if active_map == None:
+        if active_map is None:
             active_map = {}
             active_users_map[message.guild.id] = active_map
         active_map[message.author.id] = True
@@ -906,14 +873,16 @@ async def on_message(message):
     content_tolower = message.content.lower()
     content_tolower_list = content_tolower.split(" ")
 
-
     re_awoo = re_awoo_g
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
 
+    playermodel = EwPlayer(id_user=message.author.id)
+    usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
+
     # update the player's time_last_action which is used for kicking AFK players out of subzones
-    if message.guild != None:
+    if message.guild is not None:
 
         try:
             bknd_core.execute_sql_query("UPDATE users SET {time_last_action} = %s WHERE id_user = %s AND id_server = %s".format(
@@ -923,10 +892,9 @@ async def on_message(message):
                 message.author.id,
                 message.guild.id
             ))
-        except:
-            ewutils.logMsg('server {}: failed to update time_last_action for {}'.format(message.guild.id, message.author.id))
+        except Exception as e:
+            ewutils.logMsg('server {}: failed to update time_last_action for {}: {}'.format(message.guild.id, message.author.id, e))
 
-        #user_data = EwUser(member=message.author)
         statuses = usermodel.getStatusEffects()
 
         if ewcfg.status_strangled_id in statuses:
@@ -938,27 +906,34 @@ async def on_message(message):
 
         if ewutils.active_restrictions.get(usermodel.id_user) == 3:
             usermodel.trauma = ewcfg.trauma_id_environment
-            die_resp = usermodel.die(cause=ewcfg.cause_praying)
-            usermodel.persist()
-            await ewrolemgr.updateRoles(client=client, member=message.author)
+            die_resp = await usermodel.die(cause=ewcfg.cause_praying)
             await die_resp.post()
 
             response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")
             return await fe_utils.send_message(client, message.channel, response)
-        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom"]:
+        if str(message.channel) in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"] or message.channel.type in [discord.ChannelType.public_thread, discord.ChannelType.private_thread]:
             if usermodel.hogtied == 1:
                 response = random.choice(["MMMPH!", "MBBBBB", "HMMHM", "MMMMMHMMF!"])
                 await fe_utils.send_message(client, message.channel, response)
                 await message.delete()
                 return
 
-    if message.content.startswith(ewcfg.cmd_prefix) or message.guild == None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+    """ -------------------------------
+    ########## THREAD CUTOFF ##########
+    ------------------------------- """
+
+    # Never treat a message like a command if it's in a thread
+    if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private]:
+        return
+
+    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
-            Wake up if we need to respond to messages. Could be:
+            Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !
                 direct message (server == None)
-                user is new/has no roles (len(roles) < 4)
-                user is a security officer and has cussed
+                Inaccurate - user is new/has no roles (len(roles) < 4)
+                user - Inaccurate - is a security officer and - ok - has cussed
+                Message is in a designated non-gameplay channel
         """
 
         # Ignore users with weird characters in their name
@@ -980,8 +955,7 @@ async def on_message(message):
         mentions = message.mentions
         mentions_count = len(mentions)
 
-
-        if message.guild == None:
+        if message.guild is None:
             guild_used = ewcfg.server_list[playermodel.id_server]
             admin_permissions = False
         else:
@@ -1006,7 +980,7 @@ async def on_message(message):
             Punish the user for swearing.
             The swear_jar attribute has been repurposed for SlimeCorp security officers
         """
-        if ewdebug.debug_content_1 in content_tolower:
+        if ewdebug.debug_content_1 in content_tolower and False:
             usermodel.persist()
             await ewdebug.contentCheck(cmd=cmd_obj, line=content_tolower)
 
@@ -1019,7 +993,7 @@ async def on_message(message):
         """
             Handle direct messages.
         """
-        if message.guild == None:
+        if message.guild is None:
 
             poi = poi_static.id_to_poi.get(usermodel.poi)
             cmd_obj.guild = ewcfg.server_list[playermodel.id_server]
@@ -1049,11 +1023,9 @@ async def on_message(message):
             # Nothing else to do in a DM.
             return
 
-        # assign the appropriate roles to a user with less than @everyone, faction, both location roles
-        # if len(message.author.roles) < 4:
-        # await ewrolemgr.updateRoles(client = client, member = message.author)
 
-        #user_data = EwUser(member=message.author)
+        # assign the appropriate roles to a user with less than @everyone, faction, both location roles
+
         if usermodel.arrested > 0:
             return
 
@@ -1080,7 +1052,7 @@ async def on_message(message):
 
         # Check the main command map for the requested command.
         #global cmd_map
-        cmd_fn = cmd_map.get(cmd)
+        cmd_fn = cmd_map.get(cmd.replace(ewcfg.cmd_prefix, '!', 1))
 
         if usermodel.poi in ewdebug.act_pois.keys():
             keycontent = ewutils.flattenTokenListToString(content_tolower)
@@ -1091,10 +1063,7 @@ async def on_message(message):
                 #    function = ewdebug.act_pois.get(usermodel.poi).get(content_tolower)
                 #return await function(cmd=cmd_obj)
 
-        #if usermodel.poi in poi_static.tutorial_pois:
-        #    return await ewdungeons.tutorial_cmd(cmd_obj)
-
-        if cmd_fn != None:
+        if cmd_fn is not None:
             # Execute found command
             return await cmd_fn(cmd_obj)
         # AWOOOOO
@@ -1106,11 +1075,8 @@ async def on_message(message):
             return await ewcmd.cmdcmds.yoslimernalia(cmd_obj)
         elif re_measure.match(cmd):
             return await ewcmd.cmdcmds.cockdraw(cmd_obj)
-        elif debug == True and cmd in ewcfg.client_debug_commands:
+        elif debug and cmd in ewcfg.client_debug_commands:
             return await debugHandling(message=message, cmd=cmd, cmd_obj=cmd_obj)
-
-
-
 
         # didn't match any of the command words.
         else:
@@ -1123,13 +1089,7 @@ async def on_message(message):
             elif randint == 3:
                 msg_mistake = "ENDLESS WAR pays you no mind."
 
-            msg = await fe_utils.send_message(client, cmd_obj.message.channel, msg_mistake, 2)
-            await asyncio.sleep(2)
-            try:
-                await msg.delete()
-                pass
-            except:
-                pass
+            return await fe_utils.send_response(msg_mistake, cmd_obj, 2)
 
     elif content_tolower.find(ewcfg.cmd_howl) >= 0 or content_tolower.find(ewcfg.cmd_howl_alt1) >= 0 or re_awoo.match(content_tolower):
         """ Howl if !howl is in the message at all. """
@@ -1155,32 +1115,36 @@ async def on_message(message):
             return
 
 
-
 @client.event
 async def on_raw_reaction_add(payload):
     if ewutils.DEBUG:
         emoji_req = 2
     else:
         emoji_req = 10
-    # We only respond to reactions in the slime twitter channel
-    if (payload.guild_id is not None  # not a dm
-            and channels_slimetwitter[payload.guild_id] is not None  # server has a slime twitter channel
-            and payload.channel_id == channels_slimetwitter[payload.guild_id].id):  # reaction was in that channel
-        message = await channels_slimetwitter[payload.guild_id].fetch_message(payload.message_id)
 
+    # Currently only respond to reactions in the main server
+    if payload.guild_id is None:
+        # Was a DM
+        return
+
+    server = client.get_guild(payload.guild_id)
+
+    slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
+    deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
+
+    # Slime Twitter Emote Handling
+    if slime_twitter is not None and payload.channel_id == slime_twitter.id:
+        message = await slime_twitter.fetch_message(payload.message_id)
         if len(message.embeds) > 0:
-
             embed = message.embeds[0]
             userid = "<@!{}>".format(payload.user_id)
-
             if embed.description.startswith(userid):
-
-                if (str(payload.emoji) == ewcfg.emote_delete_tweet):
+                if str(payload.emoji) == ewcfg.emote_delete_tweet:
                     await message.delete()
-    elif (payload.guild_id is not None # not a dm
-        and channels_deviantsplaart.get(payload.guild_id) is not None
-        and payload.channel_id == channels_deviantsplaart[payload.guild_id].id):
-        message = await channels_deviantsplaart[payload.guild_id].fetch_message(payload.message_id)
+
+    # Deviant Splaart Emote Handling
+    elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:
+        message = await deviant_splaart.fetch_message(payload.message_id)
         if str(payload.emoji) == ewcfg.emote_111 or str(payload.emoji) == ewcfg.emote_111_debug:
             for react in message.reactions:
                 if react.count >= emoji_req and react.emoji.id in [720412882143150241, 431547758181220377]:
@@ -1190,8 +1154,8 @@ async def on_raw_reaction_add(payload):
                     current_record.legality = 0
                     current_record.persist()
 
-                    art_channel = channels_artexhibits[payload.guild_id]
-                    await fe_utils.send_message(client, art_channel, msgtext)
+                    art_exhibits = fe_utils.get_channel(server, ewcfg.channel_artexhibits)
+                    await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 
 
@@ -1213,7 +1177,7 @@ for cache_type_name in ewcfg.cacheable_types:
 
 # connect to discord and run indefinitely
 try:
-    client.run(token)
+    client.run(token, log_handler=None)
 finally:
     ewutils.TERMINATE = True
     ewutils.logMsg("main thread terminated.")

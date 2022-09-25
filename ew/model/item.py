@@ -414,6 +414,9 @@ class EwRelic:
     #Whether the relic has an effect or not
     has_effect = 0
 
+    #If a relic tracker is used, indicates the location of a relic
+    tracker_text = ""
+
 
     def __init__(
             self,
@@ -427,7 +430,8 @@ class EwRelic:
             str_museum = "",
             str_use = "",
             amount_yield = 0,
-            has_effect = False
+            has_effect = False,
+            tracker_text = ""
 
 
     ):
@@ -442,3 +446,4 @@ class EwRelic:
         self.str_use = str_use
         self.amount_yield = amount_yield
         self.has_effect = has_effect
+        self.tracker_text = tracker_text

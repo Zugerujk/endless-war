@@ -14,6 +14,7 @@ import ew.static.vendors as vendors
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
+from ew.utils import core as ewutils
 
 try:
     from ew.cmd import debug as ewdebug
@@ -35,7 +36,7 @@ except:
 
 async def stock_market_tick(stock_data, id_server):
     market_data = EwMarket(id_server=id_server)
-    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock)
+    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock, only_latest=False)
     crashstate = EwGamestate(id_server=id_server, id_state='stockcrashdive').bit
 
     # Nudge the value back to stability.
@@ -181,31 +182,30 @@ async def stock_market_tick(stock_data, id_server):
 """" returns the total number of shares a player has in a certain stock """
 
 
-def getUserTotalShares(id_server = None, stock = None, id_user = None):
-    if id_server != None and stock != None and id_user != None:
+def getUserTotalShares(id_server, stock, id_user):
+    values = 0
 
-        values = 0
+    try:
 
-        try:
+        data = bknd_core.execute_sql_query("SELECT {shares} FROM shares WHERE {id_server} = %s AND {id_user} = %s AND {stock} = %s".format(
+            stock=ewcfg.col_stock,
+            shares=ewcfg.col_shares,
+            id_server=ewcfg.col_id_server,
+            id_user=ewcfg.col_id_user
+        ), (
+            id_server,
+            id_user,
+            stock,
+        ))
 
-            data = bknd_core.execute_sql_query("SELECT {shares} FROM shares WHERE {id_server} = %s AND {id_user} = %s AND {stock} = %s".format(
-                stock=ewcfg.col_stock,
-                shares=ewcfg.col_shares,
-                id_server=ewcfg.col_id_server,
-                id_user=ewcfg.col_id_user
-            ), (
-                id_server,
-                id_user,
-                stock,
-            ))
+        for row in data:
+            values = row[0]
 
-            for row in data:
-                values = row[0]
-
-        except:
-            pass
-        finally:
-            return values
+    except Exception as e:
+        ewutils.logMsg(f"Failed to get user total shares for {id_user}: {e}")
+        pass
+    finally:
+        return values
 
 
 """" updates the total number of shares a player has in a certain stock """
@@ -260,15 +260,15 @@ def get_majority_shareholder(id_server = None, stock = None):
 
 """ Update all the stocks currently available in the Stock Exchange """
 
-async def update_stocks(id_server = None):
-    if id_server:
+async def update_stocks(id_server = None, time_lasttick = None):
+    if id_server and time_lasttick:
         exchange_data = EwDistrict(district=ewcfg.poi_id_stockexchange, id_server=id_server)
         resp_cont = EwResponseContainer(ewcfg.get_client(), id_server=id_server)
         for stock in ewcfg.stocks:
             s = EwStock(id_server, stock)
             # we don't update stocks when they were just added
             if s.timestamp != 0:
-                s.timestamp = int(time.time())
+                s.timestamp = int(time_lasttick)
                 market_response = await stock_market_tick(s, id_server)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange, market_response)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange_p, market_response)

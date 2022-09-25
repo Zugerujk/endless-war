@@ -26,6 +26,9 @@ cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check goonscape stats
+    ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
+
     # Rowdys thrash and Killers dab.
     ewcfg.cmd_thrash: cmdcmds.thrash,
     ewcfg.cmd_dab: cmdcmds.dab,
@@ -197,7 +200,14 @@ cmd_map = {
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
     ewcfg.cmd_dual_key_ban:cmdcmds.dual_key_ban,
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
-    ewcfg.cmd_setslime: cmdcmds.set_slime
+    ewcfg.cmd_setslime: cmdcmds.set_slime,
+
+    # Debug for world events
+    ewcfg.cmd_createpoievent: cmdcmds.manual_poi_event_create,
+    ewcfg.cmd_listworldevents: cmdcmds.list_worldevents,
+    ewcfg.cmd_listworldevents_alt1: cmdcmds.list_worldevents,
+    ewcfg.cmd_endworldevent: cmdcmds.end_worldevent,
+    ewcfg.cmd_fun: cmdcmds.fun
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_spook] = cmdcmds.spook

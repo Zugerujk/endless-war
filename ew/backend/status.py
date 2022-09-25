@@ -268,7 +268,10 @@ def applyStatus(user_data, id_status = None, value = 0, source = "", multiplier 
             status_effect = EwStatusEffect(id_status=id_status, user_data=user_data, time_expire=time_expire, value=value, source=source, id_target=id_target)
 
             if id_status in statuses:
-                status_effect.value = value
+                if id_status == ewcfg.status_burning_id:
+                    status_effect.value = int(status_effect.value) + int(value)
+                else:
+                    status_effect.value = value
 
                 if status.time_expire > 0 and id_status in ewcfg.stackable_status_effects:
                     status_effect.time_expire += time_expire

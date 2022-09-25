@@ -218,20 +218,21 @@ class EwStock:
         elif self.total_shares >= 9223372036854775807:
             self.total_shares = 9223372036854775807
 
-    def __init__(self, id_server = None, stock = None, timestamp = None):
+    def __init__(self, id_server = None, stock = None, timestamp = None, only_latest = True):
         if id_server is not None and stock is not None:
             self.id_server = id_server
             self.id_stock = stock
 
             # get stock data at specified timestamp
             if timestamp is not None:
-                data = bknd_core.execute_sql_query("SELECT {stock}, {market_rate}, {exchange_rate}, {boombust}, {total_shares}, {timestamp} FROM stocks WHERE id_server = %s AND {stock} = %s AND {timestamp} = %s".format(
+                data = bknd_core.execute_sql_query("SELECT {stock}, {market_rate}, {exchange_rate}, {boombust}, {total_shares}, {timestamp} FROM stocks WHERE id_server = %s AND {stock} = %s AND {timestamp} = %s{limit}".format(
                     stock=ewcfg.col_stock,
                     market_rate=ewcfg.col_market_rate,
                     exchange_rate=ewcfg.col_exchange_rate,
                     boombust=ewcfg.col_boombust,
                     total_shares=ewcfg.col_total_shares,
-                    timestamp=ewcfg.col_timestamp
+                    timestamp=ewcfg.col_timestamp,
+                    limit=" LIMIT 1" if only_latest else " LIMIT 2"
                 ), (
                     id_server,
                     stock,
@@ -240,13 +241,14 @@ class EwStock:
             # otherwise get most recent data
             else:
 
-                data = bknd_core.execute_sql_query("SELECT {stock}, {market_rate}, {exchange_rate}, {boombust}, {total_shares}, {timestamp} FROM stocks WHERE id_server = %s AND {stock} = %s ORDER BY {timestamp} DESC".format(
+                data = bknd_core.execute_sql_query("SELECT {stock}, {market_rate}, {exchange_rate}, {boombust}, {total_shares}, {timestamp} FROM stocks WHERE id_server = %s AND {stock} = %s ORDER BY {timestamp} DESC{limit}".format(
                     stock=ewcfg.col_stock,
                     market_rate=ewcfg.col_market_rate,
                     exchange_rate=ewcfg.col_exchange_rate,
                     boombust=ewcfg.col_boombust,
                     total_shares=ewcfg.col_total_shares,
                     timestamp=ewcfg.col_timestamp,
+                    limit=" LIMIT 1" if only_latest else " LIMIT 2"
                 ), (
                     id_server,
                     stock
@@ -302,7 +304,7 @@ class EwCompany:
 
     """ Load the Company data from the database. """
 
-    def __init__(self, id_server = None, stock = None):
+    def __init__(self, id_server = None, stock = None, only_latest = None):
         if id_server is not None and stock is not None:
             self.id_server = id_server
             self.id_stock = stock

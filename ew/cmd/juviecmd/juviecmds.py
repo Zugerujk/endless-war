@@ -26,6 +26,7 @@ from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
+from ew.utils.user import add_xp
 from . import juviecmdutils
 from .juviecmdutils import create_mining_event
 from .juviecmdutils import gen_scavenge_captcha
@@ -155,12 +156,10 @@ async def crush(cmd):
 
             # Kill player if they have less than 1 million slime
             if user_data.slimes < 1000000:
-                die_resp = user_data.die(cause=ewcfg.cause_crushing)
+                die_resp = await user_data.die(cause=ewcfg.cause_crushing)
                 resp_cont.add_response_container(die_resp)
 
                 response = "You {} your hard-earned slime crystal with your bare teeth.\nAs the nerve endings in your teeth explode, you realize you bit into a negapoudrin! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
-
-                user_data.persist()
 
             # Remove 1 million slime from the player
             else:
@@ -181,12 +180,10 @@ async def crush(cmd):
 
             # Kill player if they have less than 1 million slime
             if user_data.slimes < 1000000:
-                die_resp = user_data.die(cause=ewcfg.cause_crushing)
+                die_resp = await user_data.die(cause=ewcfg.cause_crushing)
                 resp_cont.add_response_container(die_resp)
                 
                 response = "You {} the Negaslimeoid core with your bare teeth.\nAs the nerve endings in your teeth explode, you recoil in pain! You writhe on the ground as slime gushes from all of your orifices. You fucking die. {}".format(command, ewcfg.emote_slimeskull)
-
-                user_data.persist()
 
             # Remove 1 million slime from the player
             else:
@@ -370,6 +367,9 @@ async def mine(cmd):
     time_now = int(time.time())
     poi = poi_static.id_to_poi.get(user_data.poi)
 
+    responses = []
+    resp_ctn = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+
     unearthed_item_type = ""
     response = ""
     # Kingpins can't mine.
@@ -473,11 +473,11 @@ async def mine(cmd):
                     has_pickaxe = True
                 elif (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
-                    print(poi.mother_districts[0] + 'hole')
+                    # print(poi.mother_districts[0] + 'hole')
                     minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
                     added = random.randint(5, 15)
                     checked_dict = digup_relics.get(poi.mother_districts[0])
-                    print(checked_dict)
+                    # print(checked_dict)
                     dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
 
 
@@ -539,7 +539,7 @@ async def mine(cmd):
                         unearthed_item_type = "skeleton"
 
                 # Triple slimegain and ectoplasm every !mine
-                if world_events.get(id_event) == ewcfg.event_type_spookyskeleton:
+                if world_events.get(id_event) == ewcfg.event_type_spookyghost:
                     event_data = EwWorldEvent(id_event=id_event)
                     if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
                         mining_yield *= 3
@@ -547,6 +547,12 @@ async def mine(cmd):
                         unearthed_item_amount = 1
                         # Set the item pool to ghost
                         unearthed_item_type = "ghost"
+
+                # Halve hunger cost
+                if world_events.get(id_event) == ewcfg.event_type_gas_leak:
+                    event_data = EwWorldEvent(id_event=id_event)
+                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
+                        hunger_cost_mod = int(hunger_cost_mod) / 2
 
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd)
@@ -653,6 +659,10 @@ async def mine(cmd):
             if was_levelup:
                 response += levelup_response
 
+            #GoonScape Stat
+            xp_yield = max(1, round(mining_yield * 0.0077))
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+
             user_data.persist()
 
             if printgrid:
@@ -662,8 +672,10 @@ async def mine(cmd):
         return await mismine(cmd, user_data, "channel")
     # response = "You can't mine here! Go to the mines in Juvie's Row, Toxington, or Cratersville!"
 
-    if len(response) > 0:
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    if len(response) > 0 or len(responses) > 0:
+        resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+        return await resp_ctn.post()
 
 
 """ mine for slime (or endless rocks) """
@@ -1070,8 +1082,7 @@ async def hall_answer(cmd):
                 user_data.persist()
             else:
                 dealt_string = "gets vaporized!"
-                user_data.die(cause=ewcfg.cause_praying)
-                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                await user_data.die(cause=ewcfg.cause_praying)
 
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 

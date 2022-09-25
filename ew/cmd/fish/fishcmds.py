@@ -3,6 +3,7 @@ import random
 import time
 
 from ew.backend import item as bknd_item
+from ew.backend import worldevent as bknd_worldevent
 from ew.backend.fish import EwOffer
 from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
@@ -98,10 +99,18 @@ async def cast(cmd):
             fisher.current_fish = gen_fish(market_data, fisher, has_fishingrod, mutations)
 
             high_value_bait_used = False
-
+            fishing_frenzy = False
             # global fishing_counter
             fishutils.fishing_counter += 1
             current_fishing_id = fisher.fishing_id = fishutils.fishing_counter
+            
+            # Check world events for fishing frenzy
+            world_events = bknd_worldevent.get_world_events(id_server=user_data.id_server, active_only=True)
+            for id_event in world_events:
+                if world_events.get(id_event) == ewcfg.event_type_fishing_frenzy:
+                    event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
+                    if event_data.event_props.get('poi') == user_data.poi:
+                        fishing_frenzy = True
 
             item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
             author = cmd.message.author
@@ -113,13 +122,28 @@ async def cast(cmd):
             if item_sought:
                 item = EwItem(id_item=item_sought.get('id_item'))
 
+                #the Mertwink Idol affects everyone in the area
+                idol_item = bknd_item.find_item(item_search='', id_user=user_data.id_user, id_server=user_data.id_server)
+                idol_on = False
+                if idol_item:
+                    idol_item_obj = EwItem(id_item=idol_item.get('id_item'))
+                    if idol_item_obj.id_owner == user_data.poi or idol_item_obj.id_owner == str(user_data.id_user):
+                        idol_on = True
+                    elif idol_item_obj.id_owner.isnumeric():
+                        idol_owner = EwUser(id_server=user_data.id_server, id_user=int(idol_item_obj.id_owner))
+                        if idol_owner.poi == user_data.poi:
+                            idol_on = True
+
                 if item.item_type == ewcfg.it_food:
 
                     str_name = item.item_props['food_name']
                     id_food = item.item_props.get('id_food')
                     fisher.bait = True
 
-                    if id_food in static_food.plebe_bait:
+                    if idol_on:
+                        fisher.current_fish = "mertwink"
+
+                    elif id_food in static_food.plebe_bait:
                         fisher.current_fish = "plebefish"
 
                     elif id_food == "doublestuffedcrust":
@@ -244,7 +268,7 @@ async def cast(cmd):
                     targeted_district = poi_static.id_to_poi.get(targeted_district_id)
                     
                     ewutils.moves_active[target_data.id_user] = 0
-                    rutils.movement_checker(target_data, poi_static.id_to_poi.get(target_data.poi), targeted_district)
+                    await rutils.movement_checker(target_data, poi_static.id_to_poi.get(target_data.poi), targeted_district, cmd=cmd)
 
                     # Move the target into that district
                     await ewrolemgr.updateRoles(client=cmd.client, member=cmd.mentions[0], new_poi=targeted_district_id)
@@ -277,14 +301,18 @@ async def cast(cmd):
                     if valid_poi is False:
                         district_sought_id = random.choice(poi_static.capturable_districts)
                         district = poi_static.id_to_poi.get(district_sought_id)
-                    
-                    response = "You cast your fishing pole towards NLACakaNM. You wager it'll land in... {}? Probably.".format(district.str_name)
+
+                    if fisher.bait == False:
+                        response = "You cast your fishing line towards NLACakaNM. You wager it'll land in... {}? Probably.".format(district.str_name)
+                    else:
+                        response = "You attach your {} to the hook as bait and then cast your fishing line towards NLACakaNM. You wager it'll land in... {}? Probably.".format(str_name, district.str_name)
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     
                     fisher.cast_poi = district
             else:
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+            # Generate bite text
             bite_text = gen_bite_text(fisher.current_size)
 
             # User has a 1/10 chance to get a bite
@@ -320,6 +348,8 @@ async def cast(cmd):
                 # Wait this many seconds until trying for a bite - 30 if high on weed, 5 if debug bait, 60 if regular.
                 if high_value_bait_used:
                     await asyncio.sleep(5)
+                elif fishing_frenzy:
+                    await asyncio.sleep(30)
                 elif fisher.pier.pier_type == ewcfg.fish_slime_moon:
                     if fisher.high:
                         await asyncio.sleep(35)
@@ -370,9 +400,14 @@ async def cast(cmd):
                 else:
                     break
 
+            # If user has I Chum Fast, @ them on alert
+            fishing_message = fe_utils.formatMessage(cmd.message.author, bite_text)
+            if ewcfg.mutation_id_ichumfast in mutations:
+                fishing_message = "{} <@{}>!!!".format(fishing_message, user_data.id_user)
+
             # Set bite to true, send !REEL alert, wait 8 seconds.
             fisher.bite = True
-            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, bite_text))
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fishing_message)
 
             # Wait for !reel
             await asyncio.sleep(8)
@@ -398,6 +433,8 @@ async def cast(cmd):
 
 async def reel(cmd):
     user_data = EwUser(member=cmd.message.author)
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
 
     # Must be in the correct channel
     if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
@@ -431,7 +468,8 @@ async def reel(cmd):
                 else:
                     # If the living player has !reeled, award the fish to the player and negaslime to the ghost
                     if fisher.fleshling_reeled:
-                        response = await award_fish(fisher, cmd, user_data)
+                        response = ""
+                        responses = await award_fish(fisher, cmd, user_data)
                         user_data = EwUser(member = cmd.message.author)
                     # If the living player hasn't !reeled, wait for them to !reel.
                     else:
@@ -468,7 +506,8 @@ async def reel(cmd):
         else:
             # If you're fishing alone OR if you're fishing with a ghost and they've already !reeled.
             if fisher.ghost_reeled or not fisher.inhabitant_id:
-                response = await award_fish(fisher, cmd, user_data)
+                response = ""
+                responses = await award_fish(fisher, cmd, user_data)
             # If you're fishing with a ghost and they haven't !reeled.
             else:
                 fisher.fleshling_reeled = True
@@ -477,7 +516,9 @@ async def reel(cmd):
     else:
         response = "You cast your fishing rod unto a sidewalk. That is to say, you've accomplished nothing. Go to a pier if you want to fish."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 async def appraise(cmd):
@@ -1061,9 +1102,7 @@ async def barter_all(cmd):
 
 
 async def debug_create_random_fish(cmd):
-    if ewutils.DEBUG or cmd.message.author.guild_permissions.administrator:
-        pass
-    else:
+    if not (ewutils.DEBUG or cmd.message.author.guild_permissions.administrator):
         return
 
     fish = random.choice(static_fish.fish_names)
