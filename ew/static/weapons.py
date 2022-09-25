@@ -1,6 +1,7 @@
 import random
 
 from . import cfg as ewcfg
+from . import community_cfg as comm_cfg
 from ..model.weapon import EwWeapon
 from ..utils import core as ewutils
 
@@ -1257,7 +1258,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the thinner bomb.",
         # str_trauma_self = "You have the hangover from hell.",
         # str_trauma = "They have the hangover from hell.",
-        str_kill=random.choice(comm_cfg.thinnerbombkilltext),
+        str_kill=random.choice(comm_cfg.thinnerbombskilltext),
         str_killdescriptor="drugged",
         str_damage=random.choice(["{name_target} gets a thinnerbomb to the {hitzone}!!",
                                   "{name_player} slashes {name_target} with a broken thinnerbomb! Ooh, right in the {hitzone}!!"]),
@@ -1845,7 +1846,7 @@ weapon_list = [
         # str_trauma = "It looks like they are still searching for a missing body part.",
         # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
     ),
-    EwWeapon(  # 44
+    EwWeapon(  # 49
         id_weapon=ewcfg.weapon_id_pistol,
         alias=[
             "singlepistol",
@@ -1867,12 +1868,12 @@ weapon_list = [
         str_description="It's a pistol.",
         str_scalp=" Looking at it fills you with pride.",
         fn_effect=get_normal_attack(),
-        price=10000
-        vendors=[ewcfg.vendor_coalitionsurplus]
+        price=10000,
+        vendors=[ewcfg.vendor_coalitionsurplus],
         stat=ewcfg.stat_pistol_kills,
-        str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!"
+        str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!",
     ),
-    EwWeapon(  # 44
+    EwWeapon(  # 50
         id_weapon=ewcfg.weapon_id_combatknife,
         alias=[
             "knife",
@@ -1894,12 +1895,12 @@ weapon_list = [
         str_description="It's a combat knife.",
         str_scalp=" It’s been sliced evenly into several pieces.",
         fn_effect=get_normal_attack(),
-        price=10000
-        vendors=[ewcfg.vendor_dojo]
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_combatknife_kills,
-        str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!"
+        str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!",
     ),
-    EwWeapon(  # 44
+    EwWeapon(  # 51
         id_weapon=ewcfg.weapon_id_machete,
         alias=[],
         str_crit="**Critical hit!!** {name_player} wedges their blade deep within {name_target}’s guts!",
@@ -1918,12 +1919,12 @@ weapon_list = [
         str_description="It's a machete.",
         str_scalp=" It’s been sliced beyond recognition.",
         fn_effect=get_normal_attack(weapon_type='variable_damage'),
-        price=10000
-        vendors=[ewcfg.vendor_dojo]
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_machete_kills,
-        str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!"
+        str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!",
     ),
-    EwWeapon(  # 44
+    EwWeapon(  # 52
         id_weapon=ewcfg.weapon_id_boomerang,
         alias=[
             "rang",
@@ -1944,12 +1945,12 @@ weapon_list = [
         str_description="It's a boomerang, the rims made of sharpened metal.",
         str_scalp=" It smells of vegemite.",
         fn_effect=get_normal_attack(weapon_type='burst_fire'),
-        price=10000
-        vendors=[ewcfg.vendor_dojo]
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_boomerang_kills,
-        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves."
+        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
     ),
-    EwWeapon(  # 44
+    EwWeapon(  # 53
         id_weapon=ewcfg.weapon_id_combatmanual,
         alias=[
             "manual",
@@ -1971,10 +1972,10 @@ weapon_list = [
         str_description="It’s a combat manual, showing how to fight without just flailing your arms around.",
         str_scalp=" The thrill of the fight was unmatched.",
         fn_effect=get_normal_attack(weapon_type='small_game'),
-        price=10000
-        vendors=[ewcfg.vendor_dojo]
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_combatmanual_kills,
-        str_brandish="{name} puts on some nerd glasses and begins to read from their {weapon}."
+        str_brandish="{name} puts on some nerd glasses and begins to read from their {weapon}.",
     ),
 ]
 
