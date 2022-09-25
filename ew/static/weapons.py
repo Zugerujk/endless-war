@@ -357,7 +357,6 @@ weapon_list = [
     EwWeapon(  # 1
         id_weapon=ewcfg.weapon_id_revolver,
         alias=[
-            "pistol",
             "handgun",
             "bigiron"
         ],
