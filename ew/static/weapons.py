@@ -2005,13 +2005,13 @@ slimeoid_dmg_text = {
 }
 
 slimeoid_kill_text = {
-    "blades":["unleashes a flurry of strikes too fast for the eye to see. After a few heartbeats, slices slowly slide apart like fresh cut salami."],
-    "teeth":["clenches their prey in its powerful jaws. Ripping and tearing the head from its body until there’s nothing left but a stump."],
-    "grip":["has a tight stranglehold on their prey, squeezing until their brain bursts out of their skull like a cyst filled with grey matter."],
-    "bludgeon":["swiftly bashes their prey with force of a semi truck. Their bones are flung out of their body before vaporizing against a nearby building."],
-    "spikes":["slings a hail of gnarled spikes, pinning their victim against the wall like a carnival act. It eagerly picks off meat chunks of its prey to feast on like skewered BBQ."],
-    "electricity":["filled with unlimited power, charges up for a massive powerful arc, unleashing a blinding lightning strike. The taste of metal fills the static-charged atmosphere before its prey is struck with 80 jigawats of power."],
-    "slam":["jumps high into the air. With the force of an atomic warhead they crash down through the stratosphere and obliterate their prey below, painting the district green. "]
+    "blades":"unleashes a flurry of strikes too fast for the eye to see. After a few heartbeats, slices slowly slide apart like fresh cut salami.",
+    "teeth":"clenches their prey in its powerful jaws. Ripping and tearing the head from its body until there’s nothing left but a stump.",
+    "grip":"has a tight stranglehold on their prey, squeezing until their brain bursts out of their skull like a cyst filled with grey matter.",
+    "bludgeon":"swiftly bashes their prey with force of a semi truck. Their bones are flung out of their body before vaporizing against a nearby building.",
+    "spikes":"slings a hail of gnarled spikes, pinning their victim against the wall like a carnival act. It eagerly picks off meat chunks of its prey to feast on like skewered BBQ.",
+    "electricity":"filled with unlimited power, charges up for a massive powerful arc, unleashing a blinding lightning strike. The taste of metal fills the static-charged atmosphere before its prey is struck with 80 jigawats of power.",
+    "slam":"jumps high into the air. With the force of an atomic warhead they crash down through the stratosphere and obliterate their prey below, painting the district green. "
 }
 
 
