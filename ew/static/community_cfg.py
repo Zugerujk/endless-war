@@ -438,12 +438,6 @@ monowhipkilltext = [
     "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a mess of body parts. {emote_skull}"
 ]
 
-combatmanualkilltext = [
-    "{name_player} remembers their training. They barrage {name_target} with their fists alone, battering and bruising them until their face is near unrecognizable. {name_player} finishes with a strong blow to the chest that shatters most of their ribs. {emote_skull}",
-    "{name_player} tactically sneaks around, coming in for the kill. Clasping their hands around {name_target}’s head, they quickly twist it around until their neck cracks a most gruesome crack. They fall limp, dead. {emote_skull}",
-    "{name_player} grabs {name_target} by the legs, swinging them around violently! {name_target} screams bloody murder while being spun around, eventually being let go and being sent flying into a solid concrete wall. They’re not getting up from that. {emote_skull}"
-]
-
 broadswordkilltext = [
     "{name_player} raises their sword overhead and violently slams it down on {name_target}. {name_target} gets messily chopped into two pieces, blood and guts spurting everywhere. {name_target}",
     "{name_player} skewers {name_target} through the back to the hilt of their sword before kicking them off in a gruesome fashion. {name_player} then points downward several times out of disrespect. {emote_skull}",

@@ -708,12 +708,6 @@ trauma_list = [
         str_trauma = "They have several long cut scars across their body.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
-    EwTrauma(  # 23
-        id_trauma=ewcfg.weapon_id_combatmanual,
-        str_trauma_self = "Your ribs are still partially broken from that beatdown.",
-        str_trauma = "Their ribs are still partially broken from that beatdown.",
-        trauma_class=ewcfg.trauma_class_sapregeneration
-    ),
 ]
 
 trauma_map = {}

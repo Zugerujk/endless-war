@@ -2547,7 +2547,6 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
-stat_combatmanual_kills = 'combat_manual_kills'
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
@@ -2985,8 +2984,6 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
-weapon_id_combatmanual = 'combatmanual'
-
 
 weapon_id_spraycan = 'spraycan'
 weapon_id_paintgun = 'paintgun'

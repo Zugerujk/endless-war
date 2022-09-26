@@ -1950,33 +1950,6 @@ weapon_list = [
         stat=ewcfg.stat_boomerang_kills,
         str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
     ),
-    EwWeapon(  # 53
-        id_weapon=ewcfg.weapon_id_combatmanual,
-        alias=[
-            "manual",
-            "book",
-        ],
-        str_crit="**Critical hit!!** {name_player} grabs {name_target} in an unbreakable grip! They get suplexed, breaking a few of their bones.",
-        str_miss="**MISS!!** {name_player} can’t land a hit in!",
-        str_equip="You remember your training.",
-        str_name="combatmanual",
-        str_weapon="a combat manual",
-        str_weaponmaster_self="You are a rank {rank} {title} fighter.",
-        str_weaponmaster="They are a rank {rank} {title} fighter.",
-        # str_trauma_self = "Your ribs are still partially broken from that beatdown.",
-        # str_trauma = "They ribs are still partially broken from that beatdown.",
-        str_kill=random.choice(comm_cfg.combatmanualkilltext),
-        str_killdescriptor="brutalized",
-        str_damage="{name_target} is slugged in the {hitzone}!!",
-        str_duel="{name_player} and {name_target} take the time to study up on their techniques, reading book after book on the subject.",
-        str_description="It’s a combat manual, showing how to fight without just flailing your arms around.",
-        str_scalp=" The thrill of the fight was unmatched.",
-        fn_effect=get_normal_attack(weapon_type='small_game'),
-        price=10000,
-        vendors=[ewcfg.vendor_dojo],
-        stat=ewcfg.stat_combatmanual_kills,
-        str_brandish="{name} puts on some nerd glasses and begins to read from their {weapon}.",
-    ),
 ]
 
 # A map of id_weapon to EwWeapon objects.
