@@ -7,8 +7,6 @@ from ew.backend import core as bknd_core
 from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
 from ew.backend.market import EwStock
-from ew.backend.market import EwCompany
-#from ew.cmd import debug as ewdebug
 from ew.backend.player import EwPlayer
 from ew.backend.fish import EwRecord
 from ew.backend.dungeons import EwGamestate
@@ -16,7 +14,6 @@ from ew.static import cfg as ewcfg
 from ew.static import community_cfg as comm_cfg
 from ew.static import poi as poi_static
 from ew.static.fish import fish_map
-from ew.static import vendors
 try:
     from ew.static.rstatic import relic_map
 except:
@@ -34,9 +31,8 @@ except:
     import ew.static.rstatic_dummy as relic_static
 
 
-
-""" player invests slimecoin in the market """
 async def invest(cmd):
+    """ player invests slimecoin in the market """
     user_data = EwUser(member = cmd.message.author)
 
     time_now = round(time.time())
@@ -114,9 +110,9 @@ async def invest(cmd):
 
                 else:
                     user_data.change_slimecoin(n = -cost_total, coinsource = ewcfg.coinsource_invest)
-                    shares = getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
+                    shares = market_utils.getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
                     shares += net_shares
-                    updateUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user, shares = shares)
+                    market_utils.updateUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user, shares = shares)
                     user_data.time_lastinvest = time_now
 
                     stock.total_shares += net_shares
@@ -136,8 +132,8 @@ async def invest(cmd):
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
-""" player withdraws slimecoin from the market """
 async def withdraw(cmd):
+    """ player withdraws slimecoin from the market """
     user_data = EwUser(member = cmd.message.author)
 
     time_now = round(time.time())
@@ -173,7 +169,7 @@ async def withdraw(cmd):
         if stock != None:
             stock = EwStock(id_server = cmd.guild.id, stock = stock)
 
-            total_shares = getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
+            total_shares = market_utils.getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
 
             if value != None:
                 if value < 0:
@@ -202,7 +198,7 @@ async def withdraw(cmd):
                         user_data.persist()
                         stock.timestamp = round(time.time())
                         stock.persist()
-                        updateUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user, shares = total_shares)
+                        market_utils.updateUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user, shares = total_shares)
                 else:
                     response = "You don't have that many shares in {stock} to exchange.".format(stock = ewcfg.stock_names.get(stock.id_stock))
             else:
@@ -210,11 +206,11 @@ async def withdraw(cmd):
         else:
             response = "That's not a valid stock name, please use a proper one, you cunt: {}".format(ewutils.formatNiceList(names = ewcfg.stocks))
 
-
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" player turns slimecoin into slime """
+
 async def redeem(cmd):
+    """ player turns slimecoin into slime """
     user_data = EwUser(member = cmd.message.author)
 
     time_now = round(time.time())
@@ -267,8 +263,9 @@ async def redeem(cmd):
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" donate slime to slimecorp in exchange for slimecoin """
+
 async def donate(cmd):
+    """ donate slime to slimecorp in exchange for slimecoin """
     user_data = EwUser(member = cmd.message.author)
 
     market_data = EwMarket(id_server = user_data.id_server)
@@ -339,6 +336,7 @@ async def donate(cmd):
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 async def museum_donate(cmd):
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -465,7 +463,6 @@ async def relic_donate(id_item, cmd):
     return response
 
 
-
 async def art_donate(id_item, cmd):
     item_obj = EwItem(id_item=id_item)
 
@@ -507,6 +504,7 @@ async def art_donate(id_item, cmd):
 
 
 async def populate_image(cmd):
+    """ Add art for records e.g. posts in the aquarium, relic exhibit, etc."""
     if 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
         if cmd.tokens_count != 4:
             response = "Invalid command. Try !addart <fish/relic> <title> <link>."
@@ -564,9 +562,8 @@ async def populate_image(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
-
-""" transfer slimecoin between players """
 async def xfer(cmd):
+    """ Transfer slimecoin between players """
     time_now = round(time.time())
     user_data = EwUser(member = cmd.message.author)
 
@@ -659,9 +656,8 @@ async def xfer(cmd):
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
-""" show the current market exchange rate """
 async def rate(cmd):
-    user_data = EwUser(member = cmd.message.author)
+    """ Show the current market exchange rate """
 
     response = ""
 
@@ -691,8 +687,9 @@ async def rate(cmd):
         # Send the response to the player.
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" show player's shares in a stock """
+
 async def shares(cmd):
+    """ Show player's shares in a stock """
     user_data = EwUser(member = cmd.message.author)
 
     stock = ""
@@ -715,10 +712,9 @@ async def shares(cmd):
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" show all interactable stocks in the market """
-async def stocks(cmd):
-    user_data = EwUser(member = cmd.message.author)
 
+async def stocks(cmd):
+    """ Show all interactable stocks in the market """
 
     if cmd.message.channel.name  not in [ewcfg.channel_stockexchange, ewcfg.channel_stockexchange_p]:
         # Only allowed in the stock exchange.
@@ -732,8 +728,9 @@ async def stocks(cmd):
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" show player's slimecoin balance """
+
 async def slimecoin(cmd):
+    """ Show player's slimecoin balance """
     if cmd.mentions_count == 0:
         user_data = EwUser(member = cmd.message.author)
         coins = user_data.slimecoin
@@ -746,248 +743,17 @@ async def slimecoin(cmd):
         coins = user_data.slimecoin
         response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
 
-
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-""" update stock values according to market activity """
-def market_tick(stock_data, id_server):
-    market_data = EwMarket(id_server = id_server)
-    company_data = EwCompany(id_server = id_server, stock = stock_data.id_stock)
-    crashstate = EwGamestate(id_server=id_server, id_state = 'stockcrashdive').bit
 
-
-    # Nudge the value back to stability.
-    market_rate = stock_data.market_rate
-    if market_rate >= 1030:
-        market_rate -= 10
-    elif market_rate <= 970:
-        market_rate += 10
-
-
-    # Invest/Withdraw effects
-    coin_rate = 0
-    stock_at_last_tick = EwStock(id_server = id_server, stock = stock_data.id_stock, timestamp = market_data.time_lasttick)
-    latest_stock = EwStock(id_server = id_server, stock = stock_data.id_stock)
-    total_shares = [latest_stock.total_shares, stock_at_last_tick.total_shares]
-
-    # Add profit bonus.
-    profits = company_data.recent_profits
-    profit_bonus = profits / 100 #- 1 * ((latest_stock.exchange_rate / ewcfg.default_stock_exchange_rate) ** 0.2)
-    profit_bonus = min(50, max(profit_bonus, -50))
-    market_rate += (profit_bonus / 2)
-
-    if total_shares[0] != total_shares[1]:
-        # Positive if net investment, negative if net withdrawal.
-        coin_change = (total_shares[0] - total_shares[1])
-        coin_rate = ((coin_change * 1.0) / total_shares[1] if total_shares[1] != 0 else 1)
-
-        if coin_rate > 1.0:
-            coin_rate = 1.0
-        elif coin_rate < -0.5:
-            coin_rate = -0.5
-
-        coin_rate = round((coin_rate * ewcfg.max_iw_swing) if coin_rate > 0 else (
-                    coin_rate * 2 * ewcfg.max_iw_swing))
-
-    market_rate += coin_rate
-
-    # Tick down the boombust cooldown.
-    if stock_data.boombust < 0:
-        stock_data.boombust += 1
-    elif stock_data.boombust > 0:
-        stock_data.boombust -= 1
-
-    # Adjust the market rate.
-    fluctuation = 0  # (random.randrange(5) - 2) * 100
-    noise = (random.randrange(19) - 9) * 2
-    subnoise = (random.randrange(13) - 6)
-
-    # Some extra excitement!
-    if noise == 0 and subnoise == 0:
-        boombust = (random.randrange(3) - 1) * 200
-
-        if crashstate == 1 and boombust > 0:
-            boombust = -boombust
-
-        # If a boombust occurs shortly after a previous boombust, make sure it's the opposite effect. (Boom follows bust, bust follows boom.)
-        if (stock_data.boombust > 0 and boombust > 0) or (stock_data.boombust < 0 and boombust < 0):
-            boombust *= -1
-
-        if boombust != 0:
-            stock_data.boombust = ewcfg.cd_boombust
-
-            if boombust < 0:
-                stock_data.boombust *= -1
-    else:
-        boombust = 0
-
-    market_rate += fluctuation + noise + subnoise + boombust
-
-    if market_rate > 500 and crashstate == 1:
-        market_rate = round(market_rate / 1.25)
-
-    if market_rate < 300:
-        market_rate = (300 + noise + subnoise)
-
-    #percentage = ((market_rate / 10) - 100)
-    #percentage_abs = percentage * -1
-
-
-    exchange_rate_increase = round((market_rate - ewcfg.default_stock_market_rate) * min(stock_data.exchange_rate, ewcfg.default_stock_exchange_rate) / ewcfg.default_stock_market_rate)
-
-    percentage = exchange_rate_increase / stock_data.exchange_rate
-    percentage_abs = percentage * -1
-
-
-    # negative exchange rate causes problems, duh
-    #exchange_rate_increase = max(exchange_rate_increase, -stock_data.exchange_rate + 1000)
-
-    points = abs(exchange_rate_increase / 1000.0)
-
-    stock_data.exchange_rate += exchange_rate_increase
-    stock_data.market_rate = market_rate
-
-
-    # Give some indication of how the market is doing to the users.
-    response = ewcfg.stock_emotes.get(stock_data.id_stock) + ' ' + ewcfg.stock_names.get(stock_data.id_stock) + ' '
-
-    if stock_data.exchange_rate < 1000:
-        response += 'has gone bankrupt!'
-        if stock_data.total_shares > 0:
-            majority_shareholder = get_majority_shareholder(stock = stock_data.id_stock, id_server = id_server)
-            player_data = EwPlayer(id_user = majority_shareholder)
-            shares = getUserTotalShares(stock = stock_data.id_stock, id_user = majority_shareholder, id_server = stock_data.id_server)
-            shares_lost = round(shares * 0.9)
-            stock_data.total_shares -= shares_lost
-            updateUserTotalShares(stock = stock_data.id_stock, id_user = majority_shareholder, id_server = stock_data.id_server, shares = shares - shares_lost)
-            response += ' The majority shareholder {} is held responsible. SlimeCorp seizes 90% of their shares in the company to pay for the damages.'.format(player_data.display_name)
-            stock_data.exchange_rate = 10000
-        else:
-            response += ' SlimeCorp pumps several billion slimecoin into bailing the company out and a new image campaign.'
-            stock_data.exchange_rate = ewcfg.default_stock_exchange_rate
-            stock_data.market_rate = ewcfg.default_stock_market_rate
-    else:
-        # Market is up ...
-        if market_rate > 1200:
-            response += 'is skyrocketing!!! Slime stock is up {p:.3g} points!!!'.format(p = points)
-        elif market_rate > 1100:
-            response += 'is booming! Slime stock is up {p:.3g} points!'.format(p = points)
-        elif market_rate > 1000:
-            response += 'is doing well. Slime stock is up {p:.3g} points.'.format(p = points)
-        # Market is down ...
-        elif market_rate < 800:
-            response += 'is plummeting!!! Slime stock is down {p:.3g} points!!!'.format(p = points)
-        elif market_rate < 900:
-            response += 'is stagnating! Slime stock is down {p:.3g} points!'.format(p = points)
-        elif market_rate < 1000:
-            response += 'is a bit sluggish. Slime stock is down {p:.3g} points.'.format(p = points)
-        # Perfectly balanced
-        else:
-            response += 'is holding steady. No change in slime stock value.'
-
-    response += ' ' + ewcfg.stock_emotes.get(stock_data.id_stock)
-
-    stock_data.persist()
-
-    company_data.total_profits += company_data.recent_profits
-    company_data.recent_profits = 0
-    company_data.persist()
-
-
-    # Send the announcement.
-    return response
-
-""" Returns an array of the most recent counts of all invested slime coin, from newest at 0 to oldest. """
-def getRecentTotalShares(id_server=None, stock=None, count=2):
-    if id_server != None and stock != None:
-
-        values = []
-
-        try:
-
-            count = round(count)
-            data = bknd_core.execute_sql_query("SELECT {total_shares} FROM stocks WHERE {id_server} = %s AND {stock} = %s ORDER BY {timestamp} DESC LIMIT %s".format(
-                stock = ewcfg.col_stock,
-                total_shares = ewcfg.col_total_shares,
-                id_server = ewcfg.col_id_server,
-                timestamp = ewcfg.col_timestamp,
-            ), (
-                id_server,
-                stock,
-                (count if (count > 0) else 2)
-            ))
-
-            for row in data:
-                values.append(row[0])
-
-            # Make sure we return at least one value.
-            if len(values) == 0:
-                values.append(0)
-
-            # If we don't have enough data, pad out to count with the last value in the array.
-            value_last = values[-1]
-            while len(values) < count:
-                values.append(value_last)
-        except:
-            pass
-        finally:
-            return values
-
-"""" returns the total number of shares a player has in a certain stock """
-def getUserTotalShares(id_server=None, stock=None, id_user=None):
-    if id_server != None and stock != None and id_user != None:
-
-        values = 0
-
-        try:
-
-            data = bknd_core.execute_sql_query("SELECT {shares} FROM shares WHERE {id_server} = %s AND {id_user} = %s AND {stock} = %s".format(
-                stock = ewcfg.col_stock,
-                shares = ewcfg.col_shares,
-                id_server = ewcfg.col_id_server,
-                id_user = ewcfg.col_id_user
-            ), (
-                id_server,
-                id_user,
-                stock,
-            ))
-
-            for row in data:
-                values = row[0]
-
-        except:
-            pass
-        finally:
-            return values
-
-"""" updates the total number of shares a player has in a certain stock """
-def updateUserTotalShares(id_server=None, stock=None, id_user=None, shares=0):
-    if id_server != None and stock != None and id_user != None:
-
-        try:
-
-            bknd_core.execute_sql_query("REPLACE INTO shares({id_server}, {id_user}, {stock}, {shares}) VALUES(%s, %s, %s, %s)".format(
-                stock = ewcfg.col_stock,
-                shares = ewcfg.col_shares,
-                id_server = ewcfg.col_id_server,
-                id_user = ewcfg.col_id_user
-            ), (
-                id_server,
-                id_user,
-                stock,
-                shares,
-            ))
-        except:
-            pass
-
-""" used for !shares """
 def get_user_shares_str(id_server = None, stock = None, id_user = None):
+    """ Used for !shares. """
     response = ""
     if id_server != None and stock != None and id_user != None:
         user_data = EwUser(id_server = id_server, id_user = id_user)
         stock = EwStock(id_server = id_server, stock = stock)
-        shares = getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
+        shares = market_utils.getUserTotalShares(id_server = user_data.id_server, stock = stock.id_stock, id_user = user_data.id_user)
         shares_value = round(shares * (stock.exchange_rate / 1000.0))
 
         response = "You have {shares:,} shares in {stock}".format(shares = shares, stock = ewcfg.stock_names.get(stock.id_stock))
@@ -998,31 +764,6 @@ def get_user_shares_str(id_server = None, stock = None, id_user = None):
         #	response += "."
 
     return response
-
-""" get user ID of player with most shares in a stock """
-def get_majority_shareholder(id_server = None, stock = None):
-    result = None
-    if id_server is not None and stock is not None:
-        try:
-
-            data = bknd_core.execute_sql_query("SELECT {id_user}, {shares} FROM shares WHERE {id_server} = %s AND {stock} = %s ORDER BY {shares} DESC LIMIT 1".format(
-                stock = ewcfg.col_stock,
-                shares = ewcfg.col_shares,
-                id_server = ewcfg.col_id_server,
-                id_user = ewcfg.col_id_user
-            ), (
-                id_server,
-                stock,
-            ))
-
-            if len(data) > 0:
-                if data[0][1] > 0:
-                    result = data[0][0]
-
-        except:
-            pass
-        finally:
-            return result
 
 
 async def trade(cmd):
@@ -1193,6 +934,7 @@ async def trade(cmd):
 
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
 async def offer_item(cmd):
     user_data = EwUser(member=cmd.message.author)
 
@@ -1246,6 +988,7 @@ async def offer_item(cmd):
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
 async def remove_offer(cmd):
     user_data = EwUser(member=cmd.message.author)
 
@@ -1290,6 +1033,7 @@ async def remove_offer(cmd):
         response = "You need to be trading with someone to remove an offer."
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 async def complete_trade(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -1385,6 +1129,7 @@ async def complete_trade(cmd):
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
 async def cancel_trade(cmd):
     user_trade = ewutils.active_trades.get(cmd.message.author.id)
 
@@ -1402,3 +1147,56 @@ async def bazaar_refresh(cmd):
         return
     ewutils.logMsg(f"{cmd.message.author.display_name} force refreshed the bazaar.")
     await market_utils.refresh_bazaar(id_server=cmd.guild.id)
+
+
+async def set_stock_value(cmd):
+    """ Update a stock's exchange rate. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    stock = None
+    stock_new_value = None
+
+    if len(cmd.tokens) >= 3:
+        search_stock = cmd.tokens[1]
+        if str.isnumeric(cmd.tokens[2]):
+            stock_new_value = cmd.tokens[2]
+        if search_stock in ewcfg.stocks:
+            stock = EwStock(id_server=cmd.message.guild.id, stock=search_stock)
+        else:
+            return await fe_utils.send_response(f"Unrecognised stock. Try: {ewcfg.stocks}.", cmd)
+
+    if stock is not None and stock_new_value is not None:
+        old_value = stock.exchange_rate
+        stock.exchange_rate = stock_new_value
+        stock.timestamp = int(time.time())
+        stock.persist()
+        return await fe_utils.send_response(f"Updated {cmd.tokens[1]}'s stock value to be {stock_new_value} per 1000 shares instead of {old_value} per 1000.", cmd)
+    else:
+        return await fe_utils.send_response(f"Incorrect syntax. It's {cmd.tokens[0]} <stock_name> <new_rate>.", cmd)
+
+
+async def set_stock_shares(cmd):
+    """ Set a player's holdings of a certain stock to a certain quantity. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    member = None
+    stock = None
+    stock_amount = None
+
+    if len(cmd.tokens) >= 3:
+        member = cmd.mentions[0]
+        stock = cmd.tokens[2]
+        if stock not in ewcfg.stocks:
+            return await fe_utils.send_response(f"Unrecognised stock. Try: {ewcfg.stocks}.", cmd)
+        if str.isnumeric(cmd.tokens[3]):
+            stock_amount = cmd.tokens[3]
+
+    if member and stock and stock_amount:
+        old_holdings = market_utils.getUserTotalShares(id_server=cmd.message.guild.id, stock=stock, id_user=member.id)
+        market_utils.updateUserTotalShares(id_server=cmd.message.guild.id, stock=stock, id_user=member.id, shares=stock_amount)
+
+        return await fe_utils.send_response(f"Updated {member.display_name}'s holdings of {stock} stock from {old_holdings} to {stock_amount}.", cmd)
+    else:
+        return await fe_utils.send_response(f"Incorrect syntax. It's {cmd.tokens[0]} @user <stock_name> <share_amount>.", cmd)
