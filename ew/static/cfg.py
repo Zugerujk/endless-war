@@ -3137,12 +3137,12 @@ fish_size_huge = "huge"
 fish_size_colossal = "colossal"
 
 fish_size_range = {
-	fish_size_miniscule:[0, 3],
-	fish_size_small:[3, 6],
-	fish_size_average:[6, 18],
-	fish_size_big: [18, 42],
-	fish_size_huge: [42, 66],
-	fish_size_colossal:[66, 90]
+    fish_size_miniscule:[0, 3],
+    fish_size_small: [3, 6],
+    fish_size_average: [6, 18],
+    fish_size_big: [18, 42],
+    fish_size_huge: [42, 66],
+    fish_size_colossal: [66, 90]
 }
 
 bully_responses = [
@@ -4760,8 +4760,8 @@ sacrifice_rates = {
 }
 
 zine_cost = 10000
-minimum_pages = 5
-maximum_pages = 20
+minimum_pages = 1
+maximum_pages = 30
 
 # zine related commands that can be used in DMs
 zine_commands = [
