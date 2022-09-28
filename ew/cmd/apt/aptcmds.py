@@ -997,7 +997,7 @@ async def apt_look(cmd):
     resp_cont.add_channel_response(cmd.message.channel, fridge_response)
 
     # Closet Compartment
-    closet_response = "\n\n" + apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    closet_response = "\n\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, closet_response)
 
     # Bookshelf Compartment

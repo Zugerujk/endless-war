@@ -141,7 +141,7 @@ def apt_decorate_look_str(id_server: int, id_user: int) -> str:
 
 
 def apt_fridge_look_str(id_server: int, id_user: int) -> str:
-    response = "**The fridge contains:**\n\n"
+    response = "**The fridge contains:**\n"
     frids = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_fridge, id_server=id_server)
     if frids:
 
@@ -172,8 +172,8 @@ def apt_fridge_look_str(id_server: int, id_user: int) -> str:
 
 
 def apt_closet_look_str(id_server: int, id_user: int) -> str:
-    closet_resp = "**The closet contains:**\n\n"
-    hatstand_resp = "\n\n**The hat stand holds:**\n\n"
+    closet_resp = "**The closet contains:**\n"
+    hatstand_resp = "\n\n**The hat stand holds:**\n"
     hatstand_contents = 0
 
     closets = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_closet, id_server=id_server)
@@ -217,7 +217,7 @@ def apt_closet_look_str(id_server: int, id_user: int) -> str:
 
 
 def apt_bookshelf_look_str(id_server: int, id_user: int) -> str:
-    response = "**The bookshelf holds:**\n\n"
+    response = "**The bookshelf holds:**\n"
     shelves = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_bookshelf, id_server=id_server)
     if shelves:
         shelf_pile = []
