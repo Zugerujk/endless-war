@@ -82,15 +82,52 @@ def getPriceBase(cmd):
         return hut.market_rate * 201
 
 
-def apt_decorate_look_str(id_server: int, id_user: int) -> str:
+def apt_max_compartment_capacity(user_data: EwUser, apt_data: EwApartment, compartment: str) -> int:
+    max_capacity = ewcfg.apt_storage_base
+
+    # Property Class Modifiers
+    if apt_data.apt_class == ewcfg.property_class_b:
+        max_capacity *= 2
+    elif apt_data.apt_class == ewcfg.property_class_a:
+        max_capacity *= 4
+    elif apt_data.apt_class == ewcfg.property_class_s:
+        max_capacity *= 8
+
+    # Mutation Modifiers
+    if ewcfg.mutation_id_packrat in user_data.get_mutations():
+        max_capacity *= 2
+
+    # Compartment Modifiers
+    if compartment == ewcfg.compartment_id_bookshelf:
+        max_capacity *= 3
+    elif compartment == ewcfg.compartment_id_decorate:
+        max_capacity *= 0.75
+    elif compartment == ewcfg.compartment_id_closet:
+        max_capacity *= 2
+
+    return int(max_capacity)
+
+
+def prepare_compartment_capacity(id_user, id_server, compartment) -> int:
+    """ Why does this exist? As a nice little wrapper for all the behaviour for per-compartment commands. It's my refactor, I choose the jank! """
+    user_data = EwUser(id_user=id_user, id_server=id_server)
+    if user_data.visiting != "empty" and user_data.visiting is not None:
+        apt_data = EwApartment(id_user=user_data.visiting, id_server=id_server)
+    else:
+        apt_data = EwApartment(id_user=id_user, id_server=id_server)
+
+    max_capacity = apt_max_compartment_capacity(user_data, apt_data, compartment)
+
+    return max_capacity
+
+
+def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     furn_response = ""
     furns = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_decorate, id_server=id_server, item_type_filter=ewcfg.it_furniture)
     furniture_id_list = []
     for furn in furns:
         i = EwItem(furn.get('id_item'))
-
         furn_response += "{} ".format(i.item_props['furniture_look_desc'])
-
         furniture_id_list.append(i.item_props['id_furniture'])
 
         hue = hue_static.hue_map.get(i.item_props.get('hue'))
@@ -137,14 +174,18 @@ def apt_decorate_look_str(id_server: int, id_user: int) -> str:
     clock_data = clock_data[16:20]
     furn_response = furn_response.format(time=clock_data)
 
+    if show_capacity:
+        max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_decorate)
+        furn_response += f"\n\nFurniture Capacity ({len(furns)}/{max_capacity})"
+
     return furn_response
 
 
-def apt_fridge_look_str(id_server: int, id_user: int) -> str:
+def apt_fridge_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     response = "**The fridge contains:**\n"
     frids = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_fridge, id_server=id_server)
+    fridge_contents = []
     if frids:
-
         stacked_fridge_map = {}
         for frid in frids:
             if frid.get("name") in stacked_fridge_map:
@@ -158,23 +199,30 @@ def apt_fridge_look_str(id_server: int, id_user: int) -> str:
             item = stacked_fridge_map.get(item_name)
 
             # Generate the stack's line in the response
-            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
+            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}".format(
                 name=item.get('name'),
                 soulbound_style=("**" if item.get('soulbound') else ""),
                 quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
             )
-            response += response_part
+            fridge_contents.append(response_part)
+        response += ewutils.formatNiceList(fridge_contents)
         response += '.'
     else:
         response += "Nothing."
 
+    if show_capacity:
+        max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_fridge)
+        response += f"\n\nFridge Capacity: ({len(frids)}/{max_capacity})"
+
     return response
 
 
-def apt_closet_look_str(id_server: int, id_user: int) -> str:
+def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     closet_resp = "**The closet contains:**\n"
     hatstand_resp = "\n\n**The hat stand holds:**\n"
-    hatstand_contents = 0
+    hatstand_contents = []
+    closet_contents = []
+    poud_stack = 0
 
     closets = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_closet, id_server=id_server)
     if closets:
@@ -190,33 +238,41 @@ def apt_closet_look_str(id_server: int, id_user: int) -> str:
             # Get the stack's item data
             item = stacked_closet_map.get(item_name)
             item_obj = EwItem(id_item=item.get('id_item'))
+            if item_obj.id_item == ewcfg.item_id_slimepoudrin:
+                poud_stack += 1
             map_obj = cosmetics.cosmetic_map.get(item_obj.item_props.get('id_cosmetic'))
             # Generate the stack's line in the response
-            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
+            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}".format(
                 name=item.get('name'),
                 soulbound_style=("**" if item.get('soulbound') else ""),
                 quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
             )
             if map_obj is not None and map_obj.is_hat:
-                hatstand_resp += response_part
-                hatstand_contents += 1
+                hatstand_contents.append(response_part)
             else:
-                closet_resp += response_part
+                closet_contents.append(response_part)
         # Because of the doubled up nature, closet can be empty while the hatstand has stuff
         if not closet_resp:
             closet_resp = "Nothing."
+        else:
+            closet_resp += ewutils.formatNiceList(closet_contents)
     else:
         closet_resp += "Nothing."
 
     response = ""
     response += closet_resp
     if hatstand_contents:
+        hatstand_resp += ewutils.formatNiceList(hatstand_contents)
         response += hatstand_resp
+
+    if show_capacity:
+        max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_closet)
+        response += f"\n\nCloset Capacity: ({len(closets) - poud_stack}/{max_capacity})"
 
     return response
 
 
-def apt_bookshelf_look_str(id_server: int, id_user: int) -> str:
+def apt_bookshelf_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     response = "**The bookshelf holds:**\n"
     shelves = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_bookshelf, id_server=id_server)
     if shelves:
@@ -226,13 +282,18 @@ def apt_bookshelf_look_str(id_server: int, id_user: int) -> str:
         response += ewutils.formatNiceList(shelf_pile)
         response = response + '.'
 
+    # This is only done for the compartment-specific commands, so loading apt_model and user_model is relatively efficient
+    if show_capacity:
+        max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_bookshelf)
+        response += f"\n\nBookshelf Capacity: ({len(shelves)}/{max_capacity})"
+
     return response
 
 
-def apt_slimeoid_look_str(id_server: int, id_user: int) -> str:
+def apt_slimeoid_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     response = ""
+    data = None
     id_user = str(id_user) + 'freeze'
-
     slimeoid_data = EwSlimeoid(id_user=str(id_user), id_server=id_server)
 
     if slimeoid_data:
@@ -250,5 +311,8 @@ def apt_slimeoid_look_str(id_server: int, id_user: int) -> str:
                 response += row[0]
                 iterate += 1
             response += " cooing to themselves."
+
+    if show_capacity:
+        response += f"\n\nFreezer Capacity: ({len(data)}/???)"
 
     return response

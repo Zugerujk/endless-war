@@ -28,7 +28,7 @@ from ew.utils import slimeoid as slimeoid_utils
 from ew.utils.combat import EwUser
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
-from .aptutils import getPriceBase, usekey, apt_decorate_look_str, apt_closet_look_str, apt_fridge_look_str, apt_bookshelf_look_str, apt_slimeoid_look_str
+from .aptutils import getPriceBase, usekey, apt_decorate_look_str, apt_closet_look_str, apt_fridge_look_str, apt_bookshelf_look_str, apt_slimeoid_look_str, apt_max_compartment_capacity
 
 
 async def nothing(cmd):  # for an accept, refuse, sign or rip
@@ -1085,22 +1085,22 @@ async def store_item(cmd):
     if len(cmd.tokens) < 2:
         if dest == "store":
             response = "{} what?".format(cmd.tokens[0])
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_closet:
             # Grab just the closet compartment look text
-            response = apt_closet_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id)
+            response = apt_closet_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_fridge:
             # Grab just the fridge compartment look text
-            response = apt_fridge_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id)
+            response = apt_fridge_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_bookshelf:
             # Grab just the bookshelf compartment look text
-            response = apt_bookshelf_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id)
+            response = apt_bookshelf_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_decorate:
             # Grab just the decoration compartment look text
-            response = apt_decorate_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id)
+            response = apt_decorate_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
 
     destination = dest  # used to separate the compartment keyword from the string displayed to the user.
@@ -1158,19 +1158,6 @@ async def store_item(cmd):
             else:
                 destination = ewcfg.compartment_id_closet
 
-        storage_limit_base = 4
-        if apt_model.apt_class == ewcfg.property_class_b:
-            storage_limit_base *= 2
-
-        elif apt_model.apt_class == ewcfg.property_class_a:
-            storage_limit_base *= 4
-
-        elif apt_model.apt_class == ewcfg.property_class_s:
-            storage_limit_base *= 8
-
-        if ewcfg.mutation_id_packrat in user_mutations:
-            storage_limit_base *= 2
-
         name_string = item_sought.get('name')
 
         items_stored = bknd_item.inventory(id_user=recipient + destination, id_server=playermodel.id_server)
@@ -1178,36 +1165,39 @@ async def store_item(cmd):
         poud_offset = 0
 
         if destination == ewcfg.compartment_id_closet:
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_closet)
             for item_cnt in items_stored:
                 if item_cnt.get('name') == "Slime Poudrin" and item_cnt.get('item_type') == ewcfg.it_item:
-                    poud_offset += 1 #poudrins don't count toward closet totals
-            #print("{}, {}, {}".format(poud_offset, len(items_stored), storage_limit_base * 2))
-            if len(items_stored) - poud_offset >= storage_limit_base * 2 and not(item_sought.get('name') == 'Slime Poudrin' and item_sought.get('item_type') == ewcfg.it_item):
+                    poud_offset += 1  # poudrins don't count toward closet totals
+            if len(items_stored) - poud_offset >= storage_capacity and not(item_sought.get('name') == 'Slime Poudrin' and item_sought.get('item_type') == ewcfg.it_item):
                 response = "The closet is bursting at the seams. Fearing the consequences of opening the door, you decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * 2 - (len(items_stored)-poud_offset) < multistow and (item_sought.get('name') != 'Slime Poudrin' or item.item_type != ewcfg.it_item):
-                multistow = storage_limit_base * 2 - (len(items_stored)-poud_offset)
+            elif storage_capacity - (len(items_stored)-poud_offset) < multistow and (item_sought.get('name') != 'Slime Poudrin' or item.item_type != ewcfg.it_item):
+                multistow = storage_capacity - (len(items_stored)-poud_offset)
 
         elif destination == ewcfg.compartment_id_fridge:
-            if len(items_stored) >= storage_limit_base:
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_fridge)
+            if len(items_stored) >= storage_capacity:
                 response = "The fridge is so full it's half open, leaking 80's era CFCs into the flat. You decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base - len(items_stored) < multistow:
-                multistow = storage_limit_base - len(items_stored)
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         elif destination == ewcfg.compartment_id_decorate:
-            if len(items_stored) >= int(storage_limit_base * .75):
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_decorate)
+            if len(items_stored) >= storage_capacity:
                 response = "You have a lot of furniture here already. Hoarding is unladylike, so you decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * .75 - len(items_stored) < multistow:
-                multistow = storage_limit_base * .75 - len(items_stored)
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         elif destination == ewcfg.compartment_id_bookshelf:
-            if len(items_stored) >= int(storage_limit_base * 3):
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_bookshelf)
+            if len(items_stored) >= storage_capacity:
                 response = "Quite frankly, you doubt you wield the physical ability to cram another zine onto your bookshelf, so you decided to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * 3 - len(items_stored) < multistow:
-                multistow = storage_limit_base * 3 - len(items_stored)
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         items_had = 0
         loop_sought = item_sought.copy()
@@ -1244,7 +1234,6 @@ async def store_item(cmd):
             cache_item.update({'id_owner': recipient + destination})
             item_cache.set_entry(data=cache_item)
 
-            #bknd_item.give_item(id_item=item.id_item, id_server=playermodel.id_server, id_user=recipient + destination)
             loop_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
         if items_had > 1:
@@ -1252,7 +1241,7 @@ async def store_item(cmd):
 
         bknd_item.give_item_multi(id_list=item_list, destination=recipient + destination)
 
-        if (destination == ewcfg.compartment_id_decorate):
+        if destination == ewcfg.compartment_id_decorate:
             response = item.item_props['furniture_place_desc']
             if items_had > 1:
                 response += "(x{})".format(items_had)

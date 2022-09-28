@@ -1508,6 +1508,8 @@ property_class_a = "a"
 property_class_b = "b"
 property_class_c = "c"
 
+apt_storage_base = 4
+
 # Thar we go
 cmd_to_apt_dest = {
     cmd_fridge: compartment_id_fridge,
