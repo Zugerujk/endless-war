@@ -363,7 +363,10 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         if len(split_list) >= 3:
             ewutils.logMsg(f"Tried to send oversize message with {len(split_list)} parts - John Discord (rate limit) doesn't like this.")
         for blurb in split_list:
-            await send_message(client=client, channel=channel, text=blurb, delete_after=delete_after, embed=embed)
+            try:
+                await send_message(client=client, channel=channel, text=blurb, delete_after=delete_after, embed=embed)
+            except Exception as e:
+                ewutils.logMsg(f"Failed to send message to channel {channel}, reason was: {e}")
             embed = None
         return
 

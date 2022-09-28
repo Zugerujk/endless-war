@@ -1298,7 +1298,9 @@ cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
+cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
+cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
 # race
 cmd_set_race = cmd_prefix + 'setrace'
