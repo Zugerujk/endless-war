@@ -315,6 +315,7 @@ compartment_id_closet = "closet"
 compartment_id_fridge = "fridge"
 compartment_id_decorate = "decorate"
 compartment_id_bookshelf = "bookshelf"
+compartment_id_freeze = "freeze"
 location_id_empty = "empty"
 
 # Outskirts
@@ -1506,6 +1507,16 @@ property_class_s = "s"
 property_class_a = "a"
 property_class_b = "b"
 property_class_c = "c"
+
+# Thar we go
+cmd_to_apt_dest = {
+    cmd_fridge: compartment_id_fridge,
+    cmd_store: "store",
+    cmd_closet: compartment_id_closet,
+    cmd_decorate: compartment_id_decorate,
+    cmd_shelve: compartment_id_bookshelf,
+    cmd_shelve_alt_1: compartment_id_bookshelf
+}
 
 # district capturing
 capture_tick_length = 10  # in seconds; also affects how much progress is made per tick

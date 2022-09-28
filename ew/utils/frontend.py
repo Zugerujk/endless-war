@@ -350,7 +350,7 @@ async def post_in_hideouts(id_server, message):
         channels=[ewcfg.channel_copkilltown, ewcfg.channel_rowdyroughhouse]
     )
 
-
+# FIXME remove client from this and a bunch of other front end commands, it's completely useless
 async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True):
     """
         Proxy to discord.py channel.send with exception handling
@@ -371,13 +371,12 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         return
 
     # catch any future @everyone exploits
-    if filter_everyone and text is not None:
-        text = text.replace("@everyone", "{at}everyone")
+    mention_allows = discord.AllowedMentions(everyone=filter_everyone, users=False, roles=False)
 
     try:
         # Whitespace messages will always fail to send, don't clutter the log
         if text and not text.isspace():
-            return await channel.send(content=text, delete_after=delete_after)
+            return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows)
         if embed is not None:
             return await channel.send(embed=embed)
     except discord.errors.Forbidden:
@@ -387,11 +386,8 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         ewutils.logMsg('Send message failed to send message to channel: {}\n{}: {}'.format(channel, text, e))
 
 
-""" Simpler to use version of send_message that formats message by default """
-
-
-async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False):
-    
+async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False, embed = None):
+    """ Simpler to use wrapper for send_message that formats message by default """
 
     if cmd is None and channel is None:
         raise Exception("No channel to send message to")
@@ -415,13 +411,13 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
     if format_ats:
         response_text = response_text.replace("@", "{at}")
 
-    allowed_mentions = discord.AllowedMentions(everyone=allow_everyone, users=False, roles=False)
-
     try:
-        # TODO: experiment with allow_mentions argument. Might get rid of the need to filter "@"s
-        return await channel.send(content=response_text, delete_after=delete_after, allowed_mentions=allowed_mentions)
+        # The None is for send_message's vestigial client bit. I gotta put it in like this or otherwise the millions
+        # of implementations that rely on client as a positional will break
+        # and i do not wish to change every instance of send_message today
+        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=allow_everyone, embed=embed)
     except discord.errors.Forbidden:
-        ewutils.logMsg('Could not message user: {}\n{}'.format(channel, response_text))
+        ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
         raise
     except Exception as e:
         ewutils.logMsg('Send response failed to send message to channel: {}\n{}:\n{}'.format(channel, response_text, e))

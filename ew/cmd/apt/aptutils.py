@@ -1,17 +1,24 @@
 import asyncio
+import random
+from copy import deepcopy
 
 from ew.backend import item as bknd_item
+from ew.backend import core as bknd_core
 from ew.backend.apt import EwApartment
 from ew.backend.item import EwItem
 from ew.backend.market import EwStock
 from ew.static import cfg as ewcfg
+from ew.static import cosmetics
 from ew.static import poi as poi_static
+from ew.static import hue as hue_static
+from ew.static import items as static_items
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils import move as move_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
-
+from ew.utils.market import EwMarket
+from ew.utils.slimeoid import EwSlimeoid
 
 
 async def usekey(cmd, owner_user):
@@ -75,13 +82,173 @@ def getPriceBase(cmd):
         return hut.market_rate * 201
 
 
-"""
-	Apartments were originally intended to be read-only channels
-	with all interaction being in the dms only. Someone apparently
-	forgot maps existed and created this behemoth to parse the 
-	proper commands from dms. DM command parsing will be redone
-	with the same update that releases this package so this is 
-	entirely nonsensical to keep around.
+def apt_decorate_look_str(id_server: int, id_user: int) -> str:
+    furn_response = ""
+    furns = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_decorate, id_server=id_server, item_type_filter=ewcfg.it_furniture)
+    furniture_id_list = []
+    for furn in furns:
+        i = EwItem(furn.get('id_item'))
 
-	--Crank Note: I removed it. Just imagine the biggest if else chain you've ever seen, then double it.
-"""
+        furn_response += "{} ".format(i.item_props['furniture_look_desc'])
+
+        furniture_id_list.append(i.item_props['id_furniture'])
+
+        hue = hue_static.hue_map.get(i.item_props.get('hue'))
+        if hue is not None and i.item_props.get('id_furniture') not in static_items.furniture_specialhue:
+            furn_response += " It's {}. ".format(hue.str_name)
+        elif i.item_props.get('id_furniture') in static_items.furniture_specialhue:
+            if hue is not None:
+                furn_response = furn_response.replace("-*HUE*-", hue.str_name)
+            else:
+                furn_response = furn_response.replace("-*HUE*-", "white")
+
+    furn_response += "\n\n"
+
+    # FIXME Refactor this for the love of god
+    if all(elem in furniture_id_list for elem in static_items.furniture_lgbt):
+        furn_response += "This is the most homosexual room you could possibly imagine. Everything is painted rainbow. A sign on your bedroom door reads \"FORNICATION ZONE\". There's so much love in the air that some dust mites set up a gay bar in your closet. It's amazing.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_haunted):
+        furn_response += "One day, on a whim, you decided to say \"Levy Jevy\" 3 times into the mirror. Big mistake. Not only did it summon several staydeads, but they're so enamored with your decoration that they've been squatting here ever since.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_highclass):
+        furn_response += "This place is loaded. Marble fountains, fully stocked champagne fridges, complementary expensive meats made of bizarre unethical ingredients, it's a treat for the senses. You wonder if there's any higher this place can go. Kind of depressing, really.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_leather):
+        furn_response += "34 innocent lives. 34 lives were taken to build the feng shui in this one room. Are you remorseful about that? Obsessed? Nobody has the base antipathy needed to peer into your mind and pick at your decisions. The leather finish admittedly does look fantastic, however. Nice work.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_church):
+        furn_response += random.choice(ewcfg.bible_verses) + "\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_pony):
+        furn_response += "When the Mane 6 combine their powers, kindness, generosity, loyalty, honesty, magic, and the other one, they combine to form the most powerful force known to creation: friendship. Except for slime. That's still stronger.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_blackvelvet):
+        furn_response += "Looking around just makes you want to loosen your tie a bit and pull out an expensive cigar. Nobody in this city of drowned rats and slimeless rubes can stop you now. You commit homicide...in style. Dark, velvety smooth style.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_seventies):
+        furn_response += "Look at all this vintage furniture. Didn't the counterculture that created all this shit advocate for 'peace and love'? Yuck. I hope you didn't theme your bachelor pad around that kind of shit and just bought everything for its retro aesthetic.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_shitty):
+        furn_response += "You're never gonna make it. Look at all this furniture you messed up, do you think someday you can escape this? You're never gonna have sculptures like Stradivarius, or paintings as good as that one German guy. You're deluded and sitting on splinters. Grow up. \n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_instrument):
+        furn_response += "You assembled the instruments. Now all you have to do is form a soopa groop and play loudly over other people acts next Slimechella. It's high time the garage bands of this city take over, with fresh homemade shredding and murders most foul. The world's your oyster. As soon as you can trust them with all this expensive equipment.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_slimecorp):
+        furn_response += "SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_NMS):
+        furn_response += "This room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
+        furn_response += "Whoa, your flat is so futuristic! You;ve got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
+
+    market_data = EwMarket(id_server=id_server)
+    clock_data = ewutils.weather_txt(market_data)
+    clock_data = clock_data[16:20]
+    furn_response = furn_response.format(time=clock_data)
+
+    return furn_response
+
+
+def apt_fridge_look_str(id_server: int, id_user: int) -> str:
+    response = "**The fridge contains:**\n\n"
+    frids = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_fridge, id_server=id_server)
+    if frids:
+
+        stacked_fridge_map = {}
+        for frid in frids:
+            if frid.get("name") in stacked_fridge_map:
+                stacked_item = stacked_fridge_map.get(frid.get("name"))
+                stacked_item["quantity"] += frid.get("quantity")
+            else:
+                stacked_fridge_map[frid.get("name")] = deepcopy(frid)
+        item_names = stacked_fridge_map.keys()
+        for item_name in item_names:
+            # Get the stack's item data
+            item = stacked_fridge_map.get(item_name)
+
+            # Generate the stack's line in the response
+            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
+                name=item.get('name'),
+                soulbound_style=("**" if item.get('soulbound') else ""),
+                quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
+            )
+            response += response_part
+        response += '.'
+    else:
+        response += "Nothing."
+
+    return response
+
+
+def apt_closet_look_str(id_server: int, id_user: int) -> str:
+    closet_resp = "**The closet contains:**\n\n"
+    hatstand_resp = "\n\n**The hat stand holds:**\n\n"
+    hatstand_contents = 0
+
+    closets = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_closet, id_server=id_server)
+    if closets:
+        stacked_closet_map = {}
+        for closet in closets:
+            if closet.get("name") in stacked_closet_map:
+                stacked_item = stacked_closet_map.get(closet.get("name"))
+                stacked_item["quantity"] += closet.get("quantity")
+            else:
+                stacked_closet_map[closet.get("name")] = deepcopy(closet)
+        item_names = stacked_closet_map.keys()
+        for item_name in item_names:
+            # Get the stack's item data
+            item = stacked_closet_map.get(item_name)
+            item_obj = EwItem(id_item=item.get('id_item'))
+            map_obj = cosmetics.cosmetic_map.get(item_obj.item_props.get('id_cosmetic'))
+            # Generate the stack's line in the response
+            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
+                name=item.get('name'),
+                soulbound_style=("**" if item.get('soulbound') else ""),
+                quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
+            )
+            if map_obj is not None and map_obj.is_hat:
+                hatstand_resp += response_part
+                hatstand_contents += 1
+            else:
+                closet_resp += response_part
+        # Because of the doubled up nature, closet can be empty while the hatstand has stuff
+        if not closet_resp:
+            closet_resp = "Nothing."
+    else:
+        closet_resp += "Nothing."
+
+    response = ""
+    response += closet_resp
+    if hatstand_contents:
+        response += hatstand_resp
+
+    return response
+
+
+def apt_bookshelf_look_str(id_server: int, id_user: int) -> str:
+    response = "**The bookshelf holds:**\n\n"
+    shelves = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_bookshelf, id_server=id_server)
+    if shelves:
+        shelf_pile = []
+        for shelf in shelves:
+            shelf_pile.append(shelf.get('name'))
+        response += ewutils.formatNiceList(shelf_pile)
+        response = response + '.'
+
+    return response
+
+
+def apt_slimeoid_look_str(id_server: int, id_user: int) -> str:
+    response = ""
+    id_user = str(id_user) + 'freeze'
+
+    slimeoid_data = EwSlimeoid(id_user=str(id_user), id_server=id_server)
+
+    if slimeoid_data:
+        sql = f"SELECT {ewcfg.col_name} FROM slimeoids WHERE {ewcfg.col_id_user} = %s"
+        data = bknd_core.execute_sql_query(sql, [id_user])
+
+        if data:
+            response += "In the freezer, you hear "
+            iterate = 0
+            for row in data:
+                if iterate > 0:
+                    response += ", "
+                if iterate >= len(data) - 1 and len(data) > 1:
+                    response += "and "
+                response += row[0]
+                iterate += 1
+            response += " cooing to themselves."
+
+    return response
