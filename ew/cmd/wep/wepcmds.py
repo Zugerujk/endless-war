@@ -373,7 +373,8 @@ async def attack(cmd):
 
         if target_killed:
             # Flavortext for fatal blows only
-            hit_msg = "\n\n{}".format(attacker_weapon.str_kill.format(
+            chosen_kill_str = random.choice(attacker_weapon.str_kill)
+            hit_msg = "\n\n{}".format(chosen_kill_str.format(
                 name_player=attacker_member.display_name,
                 name_target=target_member.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
