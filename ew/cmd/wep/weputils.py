@@ -898,7 +898,7 @@ async def attackEnemy(cmd):
         # Enemy was killed.
         bknd_hunt.delete_enemy(enemy_data)
 
-        kill_descriptor = "beaten to death"
+        chosen_kill_str = "beaten to death"
         if weapon != None:
             response = weapon.str_damage.format(
                 name_player=cmd.message.author.display_name,
@@ -907,7 +907,6 @@ async def attackEnemy(cmd):
                 slimeoid_name=slimeoid_name,
                 slimeoid_dmg=slimeoid_dmg
             )
-            kill_descriptor = weapon.str_killdescriptor
             if crit:
                 response += " {}".format(weapon.str_crit.format(
                     name_player=cmd.message.author.display_name,
@@ -916,8 +915,8 @@ async def attackEnemy(cmd):
                     slimeoid_name=slimeoid_name,
                     slimeoid_crit=slimeoid_crit
                 ))
-
-            response += "\n\n{}".format(weapon.str_kill.format(
+            chosen_kill_str = random.choice(weapon.str_kill)
+            response += "\n\n{}".format(chosen_kill_str.format(
                 name_player=cmd.message.author.display_name,
                 name_target=enemy_data.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
