@@ -3019,6 +3019,7 @@ poi_list = [
         property_class="",
         vendors=['saloon'],
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=False,
         neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
@@ -3031,6 +3032,7 @@ poi_list = [
         permissions={'hang-em-square': ['read', 'send', 'connect']},
         property_class="",
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=True,
         neighbors={"saloon": 20, "dreadford": 20}
     ),

@@ -1031,7 +1031,7 @@ async def annoint(cmd):
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             
         # Change weapon's name if needed
-        if weapon_item.item_props["weapon_name"] != annoint_name:
+        if weapon_item.item_props.get("weapon_name", "") != annoint_name:
             newname = 1
             weapon_item.item_props["weapon_name"] = annoint_name
 
