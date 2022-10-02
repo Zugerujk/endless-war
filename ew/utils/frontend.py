@@ -372,11 +372,10 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
 
     # catch any future @everyone exploits
     mention_allows = discord.AllowedMentions(everyone=filter_everyone, users=False, roles=False)
-
     try:
         # Whitespace messages will always fail to send, don't clutter the log
         if text and not text.isspace():
-            return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows)
+            return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows, embed=embed)
         if embed is not None:
             return await channel.send(embed=embed)
     except discord.errors.Forbidden:
