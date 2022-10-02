@@ -3103,7 +3103,7 @@ weather_icon_map = {
     weather_rainy: "💧",
     weather_windy: "🍃",
     weather_lightning: "⛈️",
-    weather_cloudy: "⛅",
+    weather_cloudy: "☁️",
     weather_snow: "☃️",
     weather_foggy: "🌫️",
     weather_bicarbonaterain: "🥤"

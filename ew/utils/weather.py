@@ -372,7 +372,7 @@ def forecast_txt(id_server=None):
     starting_position = (market_data.clock + 1) / 4
 
     while blank < starting_position:
-        weather_icon_list.append(ewcfg.emote_blank)
+        weather_icon_list.append("     　") # Should be :blank:, is 5 hair spaces and an ideographic space due to character limit.
         blank += 1
 
     # Simulate the next week, ig.
@@ -433,15 +433,15 @@ def forecast_txt(id_server=None):
 
     # Create forecast response
     # Uggo
-    # 0-6 are day, 7-49 are weather, 49-55 are moon                                                           # Thin space characters for spacing
-    forecast_response = ":blank::blank::blank::blank:     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
-                        "{0}:blank:{7}:blank:|:blank:{8}:blank:|:blank:{9}:blank:|:blank:{10}:blank:|:blank:{11}:blank:|:blank:{12}:blank:|:blank::blank::blank:{49}"\
-                        "{1}:blank:{13}:blank:|:blank:{14}:blank:|:blank:{15}:blank:|:blank:{16}:blank:|:blank:{17}:blank:|:blank:{18}:blank:|:blank::blank::blank:{50}"\
-                        "{2}:blank:{19}:blank:|:blank:{20}:blank:|:blank:{21}:blank:|:blank:{22}:blank:|:blank:{23}:blank:|:blank:{24}:blank:|:blank::blank::blank:{51}"\
-                        "{3}:blank:{25}:blank:|:blank:{26}:blank:|:blank:{27}:blank:|:blank:{28}:blank:|:blank:{29}:blank:|:blank:{30}:blank:|:blank::blank::blank:{52}"\
-                        "{4}:blank:{31}:blank:|:blank:{32}:blank:|:blank:{33}:blank:|:blank:{34}:blank:|:blank:{35}:blank:|:blank:{36}:blank:|:blank::blank::blank:{53}"\
-                        "{5}:blank:{37}:blank:|:blank:{38}:blank:|:blank:{39}:blank:|:blank:{40}:blank:|:blank:{41}:blank:|:blank:{42}:blank:|:blank::blank::blank:{54}"\
-                        "{6}:blank:{43}:blank:|:blank:{44}:blank:|:blank:{45}:blank:|:blank:{46}:blank:|:blank:{47}:blank:|:blank:{48}:blank:|:blank::blank::blank:{55}".format(*day_list, *weather_icon_list, *moon_phase_list)
+    # 0-6 are day, 7-49 are weather, 49-55 are moon. What should be :blank: is replaced with 5 hair spaces and 1 ideographic space, for character limit reasons.
+    forecast_response = "     　     　     　     　     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
+                        "{0}     　{7}     　|     　{8}     　|     　{9}     　|     　{10}     　|     　{11}     　|     　{12}     　|     　     　     　{49}"\
+                        "{1}     　{13}     　|     　{14}     　|     　{15}     　|     　{16}     　|     　{17}     　|     　{18}     　|     　     　     　{50}"\
+                        "{2}     　{19}     　|     　{20}     　|     　{21}     　|     　{22}     　|     　{23}     　|     　{24}     　|     　     　     　{51}"\
+                        "{3}     　{25}     　|     　{26}     　|     　{27}     　|     　{28}     　|     　{29}     　|     　{30}     　|     　     　     　{52}"\
+                        "{4}     　{31}     　|     　{32}     　|     　{33}     　|     　{34}     　|     　{35}     　|     　{36}     　|     　     　     　{53}"\
+                        "{5}     　{37}     　|     　{38}     　|     　{39}     　|     　{40}     　|     　{41}     　|     　{42}     　|     　     　     　{54}"\
+                        "{6}     　{43}     　|     　{44}     　|     　{45}     　|     　{46}     　|     　{47}     　|     　{48}     　|     　     　     　{55}".format(*day_list, *weather_icon_list, *moon_phase_list)
     
     return forecast_response
 
