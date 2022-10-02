@@ -25,7 +25,7 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = False
+dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
 dh_stage = -1
@@ -1643,9 +1643,9 @@ weather_tick_length = 10
 # moon phase string names
 moon_new = "new" #                      
 moon_waxing_start = "waxinghorns" #       :
-moon_waxing_end = "waxingmaw" #          (:
+moon_waxing_end = "waxingmandibles" #          (:
 moon_full = "crescent" #                ((:
-moon_waning_start = "waningmandibles" # ((
+moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 

@@ -3545,7 +3545,7 @@ transport_lines = [
     ),
 ]
 
-if ewcfg.dh_active:
+if ewcfg.dh_active and ewcfg.dh_stage >= 1:
     transport_lines.append(EwTransportLine(  # white subway line from downtown to juvies row
         id_line=ewcfg.transport_line_subway_white_eastbound,
         alias=[

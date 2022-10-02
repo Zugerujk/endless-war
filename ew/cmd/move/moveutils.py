@@ -12,6 +12,8 @@ from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils.combat import EwEnemy
 from ew.utils.slimeoid import EwSlimeoid
+from ew.utils.transport import EwTransport
+from ew.cmd.transport.transportutils import get_transports_at_stop
 
 """
     Returns data for POI if it isn't on the map.
@@ -325,8 +327,22 @@ async def one_eye_dm(id_user = None, id_server = None, poi = None):
 
 async def send_arrival_response(cmd, poi, channel):
     response = "You {} {}.".format(poi.str_enter, poi.str_name)
+
+    # If the poi is a void connection
     if poi.id_poi in bknd_worldevent.get_void_connection_pois(cmd.guild.id):
         response += "\nYou notice an underground passage that wasn't there last time you came here."
+    
+    # If the poi has any transports stopped at it
+    transports = get_transports_at_stop(id_server=cmd.guild.id, stop=poi.id_poi)
+    if transports != []:
+        response += "\n"
+        for transport in transports:
+            # Get the poi object
+            transport_poi = EwTransport(id_server=cmd.guild.id, poi=transport)
+            # Get the transport
+            transport_data = poi_static.id_to_transport_line.get(transport_poi.current_line)
+            # Add to response
+            response += "\n{} is currently stopped here.".format(transport_data.str_name)
 
     return await fe_utils.send_message(cmd.client,
                                        channel,
