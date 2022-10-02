@@ -46,12 +46,12 @@ swilldermuk_active = False
 
 
 public_gamestates = {
-    'dhorsemankills': [1, '4'], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
-    'slimernaliakingpin':[1, '-1'], #The existing slimernalia kingpin
-    'cratersvillehole':[1, '0'],
-    'toxingtonhole':[1, '0'],
-    'juviesrowhole':[1, '0'],
-    'hall_counter':[1, '1']
+    'dhorsemankills': [1, '4', 0], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
+    'slimernaliakingpin':[1, '-1', 0], #The existing slimernalia kingpin
+    'cratersvillehole':[1, '0', 0],
+    'toxingtonhole':[1, '0', 0],
+    'juviesrowhole':[1, '0', 0],
+    'hall_counter':[1, '1', 0]
 }
 
 forbidden_channels = ["suggestion-box"]
