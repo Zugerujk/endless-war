@@ -46,12 +46,12 @@ swilldermuk_active = False
 
 
 public_gamestates = {
-    'dhorsemankills': [1, '4'], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
-    'slimernaliakingpin':[1, '-1'], #The existing slimernalia kingpin
-    'cratersvillehole':[1, '0'],
-    'toxingtonhole':[1, '0'],
-    'juviesrowhole':[1, '0'],
-    'hall_counter':[1, '1']
+    'dhorsemankills': [1, '4', 0], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
+    'slimernaliakingpin':[1, '-1', 0], #The existing slimernalia kingpin
+    'cratersvillehole':[1, '0', 0],
+    'toxingtonhole':[1, '0', 0],
+    'juviesrowhole':[1, '0', 0],
+    'hall_counter':[1, '1', 0]
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -315,6 +315,7 @@ compartment_id_closet = "closet"
 compartment_id_fridge = "fridge"
 compartment_id_decorate = "decorate"
 compartment_id_bookshelf = "bookshelf"
+compartment_id_freeze = "freeze"
 location_id_empty = "empty"
 
 # Outskirts
@@ -781,6 +782,8 @@ cmd_exchangerate_alt4 = cmd_prefix + 'rates'
 cmd_shares = cmd_prefix + 'shares'
 cmd_shares_alt1 = cmd_prefix + 'stonks'
 cmd_stocks = cmd_prefix + 'stocks'
+cmd_setstockvalue = cmd_prefix + 'setstockvalue'
+cmd_setstockshares = cmd_prefix + 'setstockshares'
 cmd_negapool = cmd_prefix + 'negapool'
 cmd_negaslime = cmd_prefix + 'negaslime'
 cmd_endlesswar = cmd_prefix + 'endlesswar'
@@ -1300,7 +1303,9 @@ cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
+cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
+cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
 # race
 cmd_set_race = cmd_prefix + 'setrace'
@@ -1504,6 +1509,18 @@ property_class_s = "s"
 property_class_a = "a"
 property_class_b = "b"
 property_class_c = "c"
+
+apt_storage_base = 4
+
+# Thar we go
+cmd_to_apt_dest = {
+    cmd_fridge: compartment_id_fridge,
+    cmd_store: "store",
+    cmd_closet: compartment_id_closet,
+    cmd_decorate: compartment_id_decorate,
+    cmd_shelve: compartment_id_bookshelf,
+    cmd_shelve_alt_1: compartment_id_bookshelf
+}
 
 # district capturing
 capture_tick_length = 10  # in seconds; also affects how much progress is made per tick
@@ -3165,12 +3182,12 @@ fish_size_huge = "huge"
 fish_size_colossal = "colossal"
 
 fish_size_range = {
-	fish_size_miniscule:[0, 3],
-	fish_size_small:[3, 6],
-	fish_size_average:[6, 18],
-	fish_size_big: [18, 42],
-	fish_size_huge: [42, 66],
-	fish_size_colossal:[66, 90]
+    fish_size_miniscule:[0, 3],
+    fish_size_small: [3, 6],
+    fish_size_average: [6, 18],
+    fish_size_big: [18, 42],
+    fish_size_huge: [42, 66],
+    fish_size_colossal: [66, 90]
 }
 
 bully_responses = [
@@ -4788,8 +4805,8 @@ sacrifice_rates = {
 }
 
 zine_cost = 10000
-minimum_pages = 5
-maximum_pages = 20
+minimum_pages = 1
+maximum_pages = 30
 
 # zine related commands that can be used in DMs
 zine_commands = [

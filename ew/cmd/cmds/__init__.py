@@ -203,7 +203,9 @@ cmd_map = {
     ewcfg.cmd_cockdraw: cmdcmds.cockdraw,
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
     ewcfg.cmd_dual_key_ban:cmdcmds.dual_key_ban,
+    ewcfg.cmd_dual_key_ban_alt1: cmdcmds.dual_key_ban,
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
+    ewcfg.cmd_dual_key_release_alt1: cmdcmds.dual_key_release,
     ewcfg.cmd_setslime: cmdcmds.set_slime,
 
     # Debug for world events
