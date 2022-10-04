@@ -25,7 +25,7 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = False
+dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
 dh_stage = -1
@@ -795,6 +795,8 @@ cmd_hunger = cmd_prefix + 'hunger'
 cmd_clock = cmd_prefix + 'clock'
 cmd_time = cmd_prefix + 'time'
 cmd_weather = cmd_prefix + 'weather'
+cmd_forecast = cmd_prefix + 'forecast'
+cmd_forecast_alt1 = cmd_prefix + 'corecast'
 cmd_patchnotes = cmd_prefix + 'patchnotes'
 cmd_howl = cmd_prefix + 'howl'
 cmd_howl_alt1 = cmd_prefix + '56709'
@@ -1641,9 +1643,9 @@ weather_tick_length = 10
 # moon phase string names
 moon_new = "new" #
 moon_waxing_start = "waxinghorns" #       :
-moon_waxing_end = "waxingmaw" #          (:
+moon_waxing_end = "waxingmandibles" #          (:
 moon_full = "crescent" #                ((:
-moon_waning_start = "waningmandibles" # ((
+moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
@@ -3101,6 +3103,29 @@ weather_cloudy = "cloudy"
 weather_snow = "snow"
 weather_foggy = "foggy"
 weather_bicarbonaterain = "bicarbonaterain"
+
+# Weather icons
+weather_icon_map = {
+    weather_sunny: "☀️",
+    weather_rainy: "💧",
+    weather_windy: "🍃",
+    weather_lightning: "⛈️",
+    weather_cloudy: "☁️",
+    weather_snow: "☃️",
+    weather_foggy: "🌫️",
+    weather_bicarbonaterain: "🥤"
+}
+
+# Moon phase icons TODO: Make these accurate to the more cool moon phases found @ the string names
+moon_phase_icon_map = {
+    moon_new: "🌑",
+    moon_waxing_start: "🌒",
+    moon_waxing_end: "🌔",
+    moon_full: emote_moon,
+    moon_waning_start: "🌖",
+    moon_waning_end: "🌘",
+    moon_special: "🟢",
+}
 
 # stock ids
 stock_kfc = "kfc"

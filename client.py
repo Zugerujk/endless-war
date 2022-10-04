@@ -46,6 +46,8 @@ import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
+from ew.cmd.race.racecmds import ree as racecmdsree
+
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
 import ew.backend.item as bknd_item
@@ -143,6 +145,7 @@ re_awoo_g = re.compile('.*![a]+[w]+o[o]+.*') #taking these out of on_message so 
 re_moan_g = re.compile('.*![b]+[r]+[a]+[i]+[n]+[z]+.*')
 re_measure_g = re.compile('!measure.*')
 re_yoslimernalia_g = re.compile('.*![y]+[o]+[s]+[l]+[i]+[m]+[e]+[r]+[n]+[a]+[l]+[i]+[a]+.*')
+re_ree_g = re.compile('.*![r]+[e]+[e]+.*')
 
 
 @client.event
@@ -819,6 +822,9 @@ async def debugHandling(message, cmd, cmd_obj):
             response += "\nIt's a full moon!"
 
         market_data.persist()
+
+        await bknd_weather.weather_cycle(id_server=message.guild.id)
+
         await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'postleaderboard'):
@@ -882,6 +888,7 @@ async def on_message(message):
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
+    re_ree = re_ree_g
 
     playermodel = EwPlayer(id_user=message.author.id)
     usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
@@ -1083,6 +1090,8 @@ async def on_message(message):
             return await ewcmd.cmdcmds.yoslimernalia(cmd_obj)
         elif re_measure.match(cmd):
             return await ewcmd.cmdcmds.cockdraw(cmd_obj)
+        elif re_ree.match(cmd):
+            return await racecmdsree(cmd_obj)
         elif debug and cmd in ewcfg.client_debug_commands:
             return await debugHandling(message=message, cmd=cmd, cmd_obj=cmd_obj)
 
@@ -1121,6 +1130,12 @@ async def on_message(message):
             ))
         else:
             return
+    elif content_tolower.find(ewcfg.cmd_ree) >= 0 or re_ree.match(content_tolower):
+        return await racecmdsree(cmd_utils.EwCmd(
+            message=message,
+            client=client,
+            guild=message.guild
+        ))
 
 
 @client.event

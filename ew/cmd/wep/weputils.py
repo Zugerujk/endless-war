@@ -954,7 +954,7 @@ async def attackEnemy(cmd):
         user_data.persist()
         resp_cont.add_channel_response(cmd.message.channel, response)
 
-        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active:
+        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active and ewcfg.dh_stage >= 1:
             horseman_deaths = market_data.horseman_deaths
 
             if horseman_deaths == 0:

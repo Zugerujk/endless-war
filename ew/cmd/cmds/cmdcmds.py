@@ -540,6 +540,16 @@ async def weather(cmd):
     await fe_utils.send_response(response, cmd)
 
 
+async def forecast(cmd):
+    # Get forecast from weather_utils
+    forecast_response = weather_utils.forecast_txt(id_server=cmd.guild.id)
+
+    response = "The weather forecast is:\n{}".format(forecast_response)
+
+    # Send response
+    await fe_utils.send_response(response, cmd)
+
+
 """
 	Killers DAB
 """

@@ -576,7 +576,7 @@ async def look(cmd):
             ad_resp = format_ad_response(ad_data)
             ad_formatting = "\n\n..."
 
-    if poi.id_poi in['westoutskirts', 'ufoufo'] and ewcfg.dh_active:
+    if poi.id_poi in['westoutskirts', 'ufoufo'] and ewcfg.dh_active and ewcfg.dh_stage >= 3:
         state = EwGamestate(id_server=user_data.id_server, id_state='shipstate')
         if poi.id_poi == 'westoutskirts' and state.bit == 1:
             extra_resp = '\nThere\'s a UFO landed here.'

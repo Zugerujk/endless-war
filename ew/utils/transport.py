@@ -77,38 +77,54 @@ class EwTransport(EwTransportBase):
                 # Grab EwPoi of station
                 stop_data = poi_static.id_to_poi.get(self.current_stop)
 
-                # announce new stop inside the transport
-                response = "We have reached {}.".format(stop_data.str_name)
-
                 # Initialize next_line in this scope
                 next_line = transport_line
 
-                # Allow for some stops to be blocked
-                if stop_data.is_transport_stop:
-                    response += " You may exit now."
+                # Get district data for the stop and the transport
+                stop_district = EwDistrict(self.id_server, self.current_stop)
+                transport_district = EwDistrict(self.id_server, self.poi)
+                
+                # See whether players are in a district or not
+                stop_players = stop_district.get_players_in_district()
+                transport_players = transport_district.get_players_in_district()
+                
+                # If players are in the transport
+                if transport_players != []:
+                    # Announce new stop inside the transport
+                    response = "We have reached {}.".format(stop_data.str_name)
 
-                # If it's at the end, announce new route
-                if stop_data.id_poi == transport_line.last_stop:
-                    next_line = poi_static.id_to_transport_line[transport_line.next_line]
-                    response += " This {} will proceed on {}.".format(self.transport_type, next_line.str_name.replace("The", "the"))
-                else:
-                    # Otherwise announce next stop, if usable
-                    next_stop = poi_static.id_to_poi.get(transport_line.schedule.get(stop_data.id_poi)[1])
-                    if next_stop.is_transport_stop:
-                        response += " The next stop is {}.".format(next_stop.str_name)
-                resp_cont.add_channel_response(poi_data.channel, response)
+                    # Allow for some stops to be blocked
+                    if stop_data.is_transport_stop:
+                        response += " You may exit now."
 
+                    # If it's at the end, announce new route
+                    if stop_data.id_poi == transport_line.last_stop:
+                        next_line = poi_static.id_to_transport_line[transport_line.next_line]
+                        response += " This {} will proceed on {}.".format(self.transport_type, next_line.str_name.replace("The", "the"))
+                    else:
+                        # Otherwise announce next stop, if usable
+                        next_stop = poi_static.id_to_poi.get(transport_line.schedule.get(stop_data.id_poi)[1])
+                        if next_stop.is_transport_stop:
+                            response += " The next stop is {}.".format(next_stop.str_name)
+                    resp_cont.add_channel_response(poi_data.channel, response)
 
+                # If there are players at the stop
+                if stop_players != [] and self.transport_type != ewcfg.transport_type_blimp:
                 # announce transport has arrived at the stop
-                if stop_data.is_transport_stop:
-                    response = "{} has arrived. You may board now.".format(next_line.str_name)
-                    resp_cont.add_channel_response(stop_data.channel, response)
-                elif self.transport_type == ewcfg.transport_type_ferry:
-                    response = "{} sails by.".format(next_line.str_name)
-                    resp_cont.add_channel_response(stop_data.channel, response)
+                    if stop_data.is_transport_stop:
+                        response = "{} has arrived. You may board now.".format(next_line.str_name)
+                        resp_cont.add_channel_response(stop_data.channel, response)
+                    elif self.transport_type == ewcfg.transport_type_ferry:
+                        response = "{} sails by.".format(next_line.str_name)
+                        resp_cont.add_channel_response(stop_data.channel, response)
+                # Blimp is main districts and slow - worthwhile to always
                 elif self.transport_type == ewcfg.transport_type_blimp:
-                    response = "{} flies overhead.".format(next_line.str_name)
-                    resp_cont.add_channel_response(stop_data.channel, response)
+                    if stop_data.is_transport_stop:
+                        response = "{} has arrived. You may board now.".format(next_line.str_name)
+                        resp_cont.add_channel_response(stop_data.channel, response)
+                    else:
+                        response = "{} flies overhead.".format(next_line.str_name)
+                        resp_cont.add_channel_response(stop_data.channel, response)
 
                 last_messages = await resp_cont.post()
 

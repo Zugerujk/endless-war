@@ -26,6 +26,10 @@ cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
+
     # check goonscape stats
     ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
 
@@ -276,6 +280,10 @@ apt_dm_cmd_map = {
     ewcfg.cmd_time: cmdcmds.weather,
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
+
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
 
     # Check patchnotes
     ewcfg.cmd_news: cmdcmds.patchnotes,

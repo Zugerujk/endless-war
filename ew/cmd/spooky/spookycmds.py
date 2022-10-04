@@ -587,7 +587,7 @@ async def sacrifice(cmd):
     item_property = ''
 
 
-    if ewcfg.dh_active:
+    if ewcfg.dh_active and ewcfg.dh_stage >= 2:
         if user_data.poi != 'endlesswar':
             response = 'The altars are next to ENDLESS WAR. Sacrifice your worldly possessions over there.'
         elif not item_sought:
