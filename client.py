@@ -400,6 +400,10 @@ async def on_member_join(member):
         server=member.guild
     )
     user_data = EwUser(member=member)
+    if member.joined_at.timestamp() - member.created_at.timestamp() < 604800:
+        user_data.poi = 'altlock'
+        user_data.persist()
+
 
     # attempt to force discord.py to cache the user
     await member.guild.query_members(user_ids=[member.id], presences=True)
@@ -428,13 +432,14 @@ async def debugHandling(message, cmd, cmd_obj):
         await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
-        if cmd.mentions_count == 1 and cmd.tokens_count == 3:
+        print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
+        """if cmd.mentions_count == 1 and cmd.tokens_count == 3:
             member = cmd.mentions[0]
             user = EwUser(member = member)
             cmd_fnc =  cmd_map.get('!revive')
             await cmd_fnc(cmd=cmd_obj, player_auto = member.id)
             cmd_fnc =  cmd_map.get('!tpp')
-            await cmd_fnc(cmd=cmd_obj)
+            await cmd_fnc(cmd=cmd_obj)"""
 
 
     elif cmd ==  (ewcfg.cmd_prefix + 'moverelics'):
@@ -1029,6 +1034,9 @@ async def on_message(message):
         if usermodel.arrested > 0:
             return
 
+        if usermodel.poi == 'altlock':
+            response = 'You\'re locked from the game because your account was created too close to your join date. Dirty little sneak. Talk to a mod if there\'s some good reason to get it unlocked.'
+            return await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
         mutations = usermodel.get_mutations()
         # Scold/ignore offline players.
         if message.author.status == discord.Status.offline:
