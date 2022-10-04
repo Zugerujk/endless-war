@@ -26,6 +26,10 @@ cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
+
     # check goonscape stats
     ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
 
@@ -199,7 +203,9 @@ cmd_map = {
     ewcfg.cmd_cockdraw: cmdcmds.cockdraw,
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
     ewcfg.cmd_dual_key_ban:cmdcmds.dual_key_ban,
+    ewcfg.cmd_dual_key_ban_alt1: cmdcmds.dual_key_ban,
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
+    ewcfg.cmd_dual_key_release_alt1: cmdcmds.dual_key_release,
     ewcfg.cmd_setslime: cmdcmds.set_slime,
 
     # Debug for world events
@@ -276,6 +282,10 @@ apt_dm_cmd_map = {
     ewcfg.cmd_time: cmdcmds.weather,
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
+
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
 
     # Check patchnotes
     ewcfg.cmd_news: cmdcmds.patchnotes,

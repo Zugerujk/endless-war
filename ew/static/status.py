@@ -684,6 +684,30 @@ trauma_list = [
         str_trauma="It looks like they are still searching for a missing body part.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
+    EwTrauma(  # 20
+        id_trauma=ewcfg.weapon_id_pistol,
+        str_trauma_self = "You have several small holes in your chest.",
+        str_trauma = "They have several small holes in their chest.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 21
+        id_trauma=ewcfg.weapon_id_combatknife,
+        str_trauma_self = "You are covered in several cut wound scars.",
+        str_trauma = "They are covered in several cut wound scars.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 22
+        id_trauma=ewcfg.weapon_id_machete,
+        str_trauma_self = "Your body has been loosely stitched back together.",
+        str_trauma = "Their body has been loosely stitched back together.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 23
+        id_trauma=ewcfg.weapon_id_boomerang,
+        str_trauma_self = "You have several long cut scars across your body.",
+        str_trauma = "They have several long cut scars across their body.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
 ]
 
 trauma_map = {}

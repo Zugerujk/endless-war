@@ -373,7 +373,8 @@ async def attack(cmd):
 
         if target_killed:
             # Flavortext for fatal blows only
-            hit_msg = "\n\n{}".format(attacker_weapon.str_kill.format(
+            chosen_kill_str = random.choice(attacker_weapon.str_kill)
+            hit_msg = "\n\n{}".format(chosen_kill_str.format(
                 name_player=attacker_member.display_name,
                 name_target=target_member.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
@@ -1001,7 +1002,7 @@ async def annoint(cmd):
 
     # Grab the wanted name
     if cmd.tokens_count < 2:
-        annoint_name = weapon_item.item_props.get("weapon_name")
+        annoint_name = weapon_item.name
     else:
         annoint_name = cmd.message.content[(len(ewcfg.cmd_annoint)):].strip() 
 
@@ -1030,7 +1031,7 @@ async def annoint(cmd):
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             
         # Change weapon's name if needed
-        if weapon_item.item_props["weapon_name"] != annoint_name:
+        if weapon_item.item_props.get("weapon_name", "") != annoint_name:
             newname = 1
             weapon_item.item_props["weapon_name"] = annoint_name
 

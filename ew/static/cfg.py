@@ -25,7 +25,7 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = False
+dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
 dh_stage = -1
@@ -46,12 +46,12 @@ swilldermuk_active = False
 
 
 public_gamestates = {
-    'dhorsemankills': [1, '4'], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
-    'slimernaliakingpin':[1, '-1'], #The existing slimernalia kingpin
-    'cratersvillehole':[1, '0'],
-    'toxingtonhole':[1, '0'],
-    'juviesrowhole':[1, '0'],
-    'hall_counter':[1, '1']
+    'dhorsemankills': [1, '4', 0], #determines spawn frequency in double halloween. the bit is set to true(unused) and the value is set to 4, indicating he has been killed 4 times.
+    'slimernaliakingpin':[1, '-1', 0], #The existing slimernalia kingpin
+    'cratersvillehole':[1, '0', 0],
+    'toxingtonhole':[1, '0', 0],
+    'juviesrowhole':[1, '0', 0],
+    'hall_counter':[1, '1', 0]
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -315,6 +315,7 @@ compartment_id_closet = "closet"
 compartment_id_fridge = "fridge"
 compartment_id_decorate = "decorate"
 compartment_id_bookshelf = "bookshelf"
+compartment_id_freeze = "freeze"
 location_id_empty = "empty"
 
 # Outskirts
@@ -781,6 +782,8 @@ cmd_exchangerate_alt4 = cmd_prefix + 'rates'
 cmd_shares = cmd_prefix + 'shares'
 cmd_shares_alt1 = cmd_prefix + 'stonks'
 cmd_stocks = cmd_prefix + 'stocks'
+cmd_setstockvalue = cmd_prefix + 'setstockvalue'
+cmd_setstockshares = cmd_prefix + 'setstockshares'
 cmd_negapool = cmd_prefix + 'negapool'
 cmd_negaslime = cmd_prefix + 'negaslime'
 cmd_endlesswar = cmd_prefix + 'endlesswar'
@@ -795,6 +798,8 @@ cmd_hunger = cmd_prefix + 'hunger'
 cmd_clock = cmd_prefix + 'clock'
 cmd_time = cmd_prefix + 'time'
 cmd_weather = cmd_prefix + 'weather'
+cmd_forecast = cmd_prefix + 'forecast'
+cmd_forecast_alt1 = cmd_prefix + 'corecast'
 cmd_patchnotes = cmd_prefix + 'patchnotes'
 cmd_howl = cmd_prefix + 'howl'
 cmd_howl_alt1 = cmd_prefix + '56709'
@@ -1300,7 +1305,9 @@ cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
+cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
+cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
 # race
 cmd_set_race = cmd_prefix + 'setrace'
@@ -1512,6 +1519,18 @@ property_class_a = "a"
 property_class_b = "b"
 property_class_c = "c"
 
+apt_storage_base = 4
+
+# Thar we go
+cmd_to_apt_dest = {
+    cmd_fridge: compartment_id_fridge,
+    cmd_store: "store",
+    cmd_closet: compartment_id_closet,
+    cmd_decorate: compartment_id_decorate,
+    cmd_shelve: compartment_id_bookshelf,
+    cmd_shelve_alt_1: compartment_id_bookshelf
+}
+
 # district capturing
 capture_tick_length = 10  # in seconds; also affects how much progress is made per tick
 max_capture_points_s = 13105  # 4 hours
@@ -1648,11 +1667,11 @@ crime_status = {
 weather_tick_length = 10
 
 # moon phase string names
-moon_new = "new" #                      
+moon_new = "new" #
 moon_waxing_start = "waxinghorns" #       :
-moon_waxing_end = "waxingmaw" #          (:
+moon_waxing_end = "waxingmandibles" #          (:
 moon_full = "crescent" #                ((:
-moon_waning_start = "waningmandibles" # ((
+moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
@@ -1875,7 +1894,7 @@ emote_slimeepic = "<:slimeepic:973836637777825864>"
 
 
 
-# Lists for randomly chosen !dab and !thrash emotes 
+# Lists for randomly chosen !dab and !thrash emotes
 dab_emotes = [
 emote_copkiller,
 emote_benkart,
@@ -2552,6 +2571,10 @@ stat_sniper_kills = 'sniper_kills'
 stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
 stat_missilelauncher_kills = 'missilelauncher_kills'
+stat_pistol_kills = 'pistol_kills'
+stat_combatknife_kills = 'combat_knife_kills'
+stat_machete_kills = 'machete_kills'
+stat_boomerang_kills = 'boomerang_kills'
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
@@ -2643,7 +2666,7 @@ vendor_beachresort = "Beach Resort"  # Assault Flats Beach bar and the sunburnt 
 vendor_countryclub = "Country Club"  # Dreadford's snobbish vendor. Crookline's Splatify is the southwest bar in the game now.
 vendor_farm = "Farm"  # contains all the vegetables you can !reap
 vendor_bazaar = "bazaar" # General store, and pulls in the item pool from every other vendor in the game.
-vendor_giftshop = "giftshop" 
+vendor_giftshop = "giftshop"
 vendor_college = "College"  # You can buy game guides from either of the colleges
 vendor_glocksburycomics = "Glocksbury Comics"  # Repels and trading cards are sold here
 vendor_slimypersuits = "Slimy Persuits"  # You can buy candy from here
@@ -2659,8 +2682,9 @@ vendor_atomicforest = "Atomic Forest Stockpile"  # Storage of atomic forest
 vendor_downpourlaboratory = "Downpour Armament Vending Machines"  # Store for shamblers to get stuff
 vendor_breakroom = "The Breakroom"  # Security officers can order items here for free.
 vendor_rpcity = "RP City"  # Double halloween costume store
-vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
+vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
 vendor_gumballmachine = "Gumball Machine"
+
 
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
@@ -2986,7 +3010,10 @@ weapon_id_fists = 'fists'
 weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
 weapon_id_missilelauncher = 'missilelauncher'
-
+weapon_id_pistol = 'pistol'
+weapon_id_combatknife = 'combatknife'
+weapon_id_machete = 'machete'
+weapon_id_boomerang = 'boomerang'
 
 weapon_id_spraycan = 'spraycan'
 weapon_id_paintgun = 'paintgun'
@@ -3105,6 +3132,29 @@ weather_snow = "snow"
 weather_foggy = "foggy"
 weather_bicarbonaterain = "bicarbonaterain"
 
+# Weather icons
+weather_icon_map = {
+    weather_sunny: "☀️",
+    weather_rainy: "💧",
+    weather_windy: "🍃",
+    weather_lightning: "⛈️",
+    weather_cloudy: "☁️",
+    weather_snow: "☃️",
+    weather_foggy: "🌫️",
+    weather_bicarbonaterain: "🥤"
+}
+
+# Moon phase icons TODO: Make these accurate to the more cool moon phases found @ the string names
+moon_phase_icon_map = {
+    moon_new: "🌑",
+    moon_waxing_start: "🌒",
+    moon_waxing_end: "🌔",
+    moon_full: emote_moon,
+    moon_waning_start: "🌖",
+    moon_waning_end: "🌘",
+    moon_special: "🟢",
+}
+
 # stock ids
 stock_kfc = "kfc"
 stock_pizzahut = "pizzahut"
@@ -3143,12 +3193,12 @@ fish_size_huge = "huge"
 fish_size_colossal = "colossal"
 
 fish_size_range = {
-	fish_size_miniscule:[0, 3],
-	fish_size_small:[3, 6],
-	fish_size_average:[6, 18],
-	fish_size_big: [18, 42],
-	fish_size_huge: [42, 66],
-	fish_size_colossal:[66, 90]
+    fish_size_miniscule:[0, 3],
+    fish_size_small: [3, 6],
+    fish_size_average: [6, 18],
+    fish_size_big: [18, 42],
+    fish_size_huge: [42, 66],
+    fish_size_colossal: [66, 90]
 }
 
 bully_responses = [
@@ -3280,9 +3330,9 @@ soul_durability = 100000000  # 100 mega
 
 cosmetic_id_raincoat = "raincoat"
 
-cosmeticAbility_id_lucky = "lucky" 
+cosmeticAbility_id_lucky = "lucky"
 cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability.
-cosmeticAbility_id_clout = "clout" 
+cosmeticAbility_id_clout = "clout"
 cosmeticAbility_id_nmsmascot = "nmsmascot" # Used to track the NMS mascot cosmetic set
 cosmeticAbility_id_hatealiens = "hatealiens" # Used to track the anti-alien cosmetic set
 cosmeticAbility_id_furry = "furry"
@@ -4205,7 +4255,7 @@ enemy_drop_tables = {
         {item_id_civilianscalp: [100, 1, 1]},
         {weapon_id_bat: [10, 1, 1]},
         {weapon_id_molotov: [10, 1, 1]},
-        {"gasmask": [10, 1, 1]} 
+        {"gasmask": [10, 1, 1]}
     ],
     enemy_type_antiprotestprotester: [
         {item_id_slimepoudrin: [100, 1, 2]},
@@ -4223,7 +4273,7 @@ enemy_drop_tables = {
         {"crop": [60, 2, 4]},
         {item_id_leather: [100, 1, 2]},
         {item_id_dragonsoul: [12, 1, 1]},
-        {item_id_monsterbones: [100, 2, 8]} 
+        {item_id_monsterbones: [100, 2, 8]}
     ],
     enemy_type_mutatedbarrel: [
         {item_id_slimepoudrin: [100, 3, 30]},
@@ -4656,13 +4706,13 @@ event_type_gas_leak = "gasleak"
 # In list format
 poi_events = [
     event_type_tornado,
-    event_type_meteor_shower, 
+    event_type_meteor_shower,
     event_type_smog_warning,
-    event_type_poudrin_hail, 
+    event_type_poudrin_hail,
     event_type_radiation_storm,
     event_type_jape_storm,
     event_type_firestorm,
-    event_type_raider_incursion, 
+    event_type_raider_incursion,
     event_type_slimeunist_protest,
     event_type_dimensional_rift,
     event_type_fishing_frenzy,
@@ -4768,8 +4818,8 @@ sacrifice_rates = {
 }
 
 zine_cost = 10000
-minimum_pages = 5
-maximum_pages = 20
+minimum_pages = 1
+maximum_pages = 30
 
 # zine related commands that can be used in DMs
 zine_commands = [
@@ -4874,27 +4924,27 @@ captcha_dict = [
     'HEHE', 'WEED', 'LMAO', 'EPIC', 'NICE',
     'SOUL', 'KILL', 'FREE', 'GOOP', 'CAVE',
     'ZOOM', 'FIVE', 'NINE', 'BASS', 'FIRE',
-    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE', 
+    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE',
     # 5
     'GUNKY', 'BOORU', 'ROWDY', 'GHOST', 'ORDER',
     'SCARE', 'BULLY', 'FERRY', 'SAINT', 'SLASH',
     'SLOSH', 'PARTY', 'BASED', 'TULPA', 'RELIC',
     'SLURP', 'MONTH', 'SEVEN', 'BRASS', 'MINES',
     'CHEMO', 'LIGHT', 'FURRY', 'PIZZA', 'ARENA',
-    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME', 
+    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME',
     # 6
     'SLUDGE', 'KILLER', 'MUNCHY', 'BLAAAP', 'BARTER',
     'ARTIST', 'FUCKER', 'MINING', 'SURVEY', 'THRASH',
     'BEWARE', 'STOCKS', 'COWARD', 'CRINGE', 'INVEST',
     'BUSTAH', 'KILLAH', 'KATANA', 'GHOSTS', 'BASSED',
-    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER', 
+    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER',
     # 7
     'KINGPIN', 'ENDLESS', 'ATTACKS', 'FUCKERS', 'FISHING',
     'VIOLENT', 'SQUEEZE', 'LOBSTER', 'WESTERN', 'EASTERN',
     'REGIONS', 'DISCORD', 'KNUCKLE', 'MOLOTOV', 'SHAMBLE',
     'WARFARE', 'BIGIRON', 'POUDRIN', 'PATRIOT', 'MINIGUN',
     'MONSTER', 'DIVORCE', 'GARROTE', 'ASSAULT', 'PICKAXE',
-    'HARPOON', 'HUNTING', 
+    'HARPOON', 'HUNTING',
     # 8
     'GAMEPLAY', 'CONFLICT', 'EXCHANGE', 'FEEDBACK', 'GRENADES',
     'VIOLENCE', 'TACOBELL', 'PIZZAHUT', 'OUTSKIRT', 'WHATEVER',
@@ -4912,7 +4962,7 @@ captcha_dict = [
     'PLAYGROUND', 'NEWYONKERS', 'OLDYONKERS', 'VANDALPARK', 'SLIMERMAID',
     'SLIMEXODIA', 'WEBBEDFEET', 'NOSEFERATU', 'BINGEEATER', 'TRASHMOUTH',
     'DIREAPPLES', 'BLACKLIMES', 'POKETUBERS', 'PULPGOURDS', 'ROWDDISHES',
-    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS', 
+    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS',
     # 27
     'STOPSCAVENGINGANDTOUCHGRASS', 'GETSERIOUSPSYCHOLOGICALHELP',
     'FEELTHETOUCHOFAWOMANINSTEAD', 'THISISNTVERYIMPRESSIVECHUMP',

@@ -3,15 +3,9 @@ from . import marketcmds
 
 cmd_map = {
 
-    # Display the progress towards the current Quarterly Goal.
-    # ewcfg.cmd_quarterlyreport: cmds.quarterlyreport,
-
     # Transfer slimecoin between players. Shares a cooldown with investments.
     ewcfg.cmd_transfer: marketcmds.xfer,
     ewcfg.cmd_transfer_alt1: marketcmds.xfer,
-
-    # Redeem slime with SlimeCoin
-    # ewcfg.cmd_redeem: cmds.redeem,
 
     # Donate your slime to SlimeCorp in exchange for SlimeCoin.
     ewcfg.cmd_donate: marketcmds.donate,
@@ -40,7 +34,11 @@ cmd_map = {
     ewcfg.cmd_canceltrade: marketcmds.cancel_trade,
     ewcfg.cmd_bazaar_refresh: marketcmds.bazaar_refresh,
 
-    ewcfg.cmd_addart:marketcmds.populate_image,
+    # Museum Mod Commands
+    ewcfg.cmd_addart: marketcmds.populate_image,
 
+    # Stock Admin/Mod Commands
+    ewcfg.cmd_setstockvalue: marketcmds.set_stock_value,
+    ewcfg.cmd_setstockshares: marketcmds.set_stock_shares,
 
 }
