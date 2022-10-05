@@ -1092,19 +1092,19 @@ async def store_item(cmd):
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_closet:
             # Grab just the closet compartment look text
-            response = apt_closet_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            response = apt_closet_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_fridge:
             # Grab just the fridge compartment look text
-            response = apt_fridge_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            response = apt_fridge_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_bookshelf:
             # Grab just the bookshelf compartment look text
-            response = apt_bookshelf_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            response = apt_bookshelf_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
         elif dest == ewcfg.compartment_id_decorate:
             # Grab just the decoration compartment look text
-            response = apt_decorate_look_str(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            response = apt_decorate_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
             return await fe_utils.send_response(response, cmd)
 
     destination = dest  # used to separate the compartment keyword from the string displayed to the user.
