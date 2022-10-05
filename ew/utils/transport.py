@@ -6,6 +6,7 @@ from .frontend import EwResponseContainer
 from ..backend.transport import EwTransportBase
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+import traceback
 
 """
 	Database Object for public transportation vehicles, such as ferries or subway trains
@@ -157,6 +158,7 @@ def get_transports_at_stop(id_server, stop):
             result.append(row[0])
 
     except:
+        traceback.print_exception(file=sys.stdout)
         ewutils.logMsg("Failed to retrieve transports at stop {}.".format(stop))
     finally:
         return result
