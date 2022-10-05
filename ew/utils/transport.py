@@ -7,6 +7,7 @@ from ..backend.transport import EwTransportBase
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 import traceback
+import sys
 
 """
 	Database Object for public transportation vehicles, such as ferries or subway trains
