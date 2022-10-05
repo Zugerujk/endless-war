@@ -342,6 +342,7 @@ async def send_arrival_response(cmd, poi, channel):
             transport_data = poi_static.id_to_transport_line.get(transport_poi.current_line)
             if transport_data is None:
                 ewutils.logMsg("id_to_transport_line returned None given id {}".format(transport_poi.current_line))
+                ewutils.logMsg("transport returned by get_transports_at_stop was {}".format(transport))
                 continue
             # Add to response
             response += "\n{} is currently stopped here.".format(transport_data.str_name)
