@@ -853,7 +853,6 @@ async def spar(cmd):
         else:
             # Get killing player's info.
             user_data = EwUser(member=cmd.message.author)
-
             weapon_item = EwItem(id_item=user_data.weapon)
 
             # Get target's info.
@@ -877,6 +876,8 @@ async def spar(cmd):
             elif (user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False) or user_data.life_state == ewcfg.life_state_corpse:
                 # Only killers, rowdys, the cop killer, and the rowdy fucker can spar
                 response = "Juveniles lack the backbone necessary for combat."
+            elif user_data.weapon <= 0 or sparred_data.weapon <= 0:
+                response = "You both need WEAPONs to master your WEAPONs, dumbasses."
             else:
                 was_juvenile = False
                 was_sparred = False
@@ -888,7 +889,7 @@ async def spar(cmd):
 
                 # Determine if the !spar is a duel:
                 weapon = None
-                if user_data.weapon >= 0 and sparred_data.weapon >= 0 and weapon_item.item_props.get("weapon_type") == sparred_weapon_item.item_props.get("weapon_type"):
+                if weapon_item.item_props.get("weapon_type") == sparred_weapon_item.item_props.get("weapon_type"):
                     weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                     duel = True
 
