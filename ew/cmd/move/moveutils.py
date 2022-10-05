@@ -12,8 +12,7 @@ from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils.combat import EwEnemy
 from ew.utils.slimeoid import EwSlimeoid
-from ew.utils.transport import EwTransport
-from ew.cmd.transport.transportutils import get_transports_at_stop
+from ew.utils.transport import EwTransport, get_transports_at_stop
 
 """
     Returns data for POI if it isn't on the map.
@@ -341,13 +340,10 @@ async def send_arrival_response(cmd, poi, channel):
             transport_poi = EwTransport(id_server=cmd.guild.id, poi=transport)
             # Get the transport
             transport_data = poi_static.id_to_transport_line.get(transport_poi.current_line)
+            if transport_data is None:
+                ewutils.logMsg("id_to_transport_line returned None given id {}".format(transport_poi.current_line))
+                continue
             # Add to response
             response += "\n{} is currently stopped here.".format(transport_data.str_name)
 
-    return await fe_utils.send_message(cmd.client,
-                                       channel,
-                                       fe_utils.formatMessage(
-                                           cmd.message.author,
-                                           response
-                                       )
-                                       )
+    return await fe_utils.send_message(cmd.client, channel, fe_utils.formatMessage(cmd.message.author, response))

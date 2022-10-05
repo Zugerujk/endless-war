@@ -11,8 +11,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
-from ew.utils.transport import EwTransport
-from .transportutils import get_transports_at_stop
+from ew.utils.transport import EwTransport, get_transports_at_stop
 
 """ Enter a transport vehicle from a transport stop """
 
