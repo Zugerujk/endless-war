@@ -493,9 +493,7 @@ def canAttack(cmd):
         if (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
             response = "Take a moment to appreciate your last slaughter."
-        elif ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
-            response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
-        # what the fuck is this
+                # what the fuck is this
         elif user_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_lucky, ewcfg.life_state_executive] and not ewcfg.slimernalia_active:
 
             # Only killers, rowdys, the cop killer, and rowdy fucker can shoot people.
@@ -505,8 +503,11 @@ def canAttack(cmd):
                 response = "You lack the moral fiber necessary for violence."
 
         elif enemy_data != None:
-            # enemy found, redirect variables to code in ewhunting
-            response = ewcfg.enemy_targeted_string
+            if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
+                response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
+            else:
+                # enemy found, redirect variables to code in ewhunting
+                response = ewcfg.enemy_targeted_string
 
         else:
             # no enemy is found within that district
@@ -900,7 +901,7 @@ async def attackEnemy(cmd):
         # Enemy was killed.
         bknd_hunt.delete_enemy(enemy_data)
 
-        kill_descriptor = "beaten to death"
+        chosen_kill_str = "beaten to death"
         if weapon != None:
             response = weapon.str_damage.format(
                 name_player=cmd.message.author.display_name,
@@ -909,7 +910,6 @@ async def attackEnemy(cmd):
                 slimeoid_name=slimeoid_name,
                 slimeoid_dmg=slimeoid_dmg
             )
-            kill_descriptor = weapon.str_killdescriptor
             if crit:
                 response += " {}".format(weapon.str_crit.format(
                     name_player=cmd.message.author.display_name,
@@ -918,8 +918,8 @@ async def attackEnemy(cmd):
                     slimeoid_name=slimeoid_name,
                     slimeoid_crit=slimeoid_crit
                 ))
-
-            response += "\n\n{}".format(weapon.str_kill.format(
+            chosen_kill_str = random.choice(weapon.str_kill)
+            response += "\n\n{}".format(chosen_kill_str.format(
                 name_player=cmd.message.author.display_name,
                 name_target=enemy_data.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
@@ -957,7 +957,7 @@ async def attackEnemy(cmd):
         user_data.persist()
         resp_cont.add_channel_response(cmd.message.channel, response)
 
-        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active:
+        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active and ewcfg.dh_stage >= 1:
             horseman_deaths = market_data.horseman_deaths
 
             if horseman_deaths == 0:
@@ -1079,6 +1079,7 @@ async def attackEnemy(cmd):
     elif was_killed and enemy_data.enemytype == ewcfg.enemy_type_npc:
         npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
         await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
+        await resp_cont.post()
 
     # Send the response to the player.
 

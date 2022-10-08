@@ -54,6 +54,8 @@ from .moveutils import send_arrival_response
 
 
 async def move(cmd = None, isApt = False, continuousMove = -1):
+    server_data = ewcfg.server_list[cmd.guild.id]
+    member_object = cmd.message.author
     player_data = EwPlayer(id_user=cmd.message.author.id)
     user_data = EwUser(id_user=cmd.message.author.id, id_server=player_data.id_server, data_level=1)
     poi_current = poi_static.id_to_poi.get(user_data.poi)
@@ -97,9 +99,6 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
     else:
         intoApt = False
-    server_data = ewcfg.server_list[user_data.id_server]
-    client = ewutils.get_client()
-    member_object = server_data.get_member(user_data.id_user)
 
     movement_method = ""
 
@@ -276,7 +275,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
         await rutils.movement_checker(user_data, poi_current, poi, cmd)
 
 
-        await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=poi.id_poi)
+        await ewrolemgr.updateRoles(client=cmd.client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi
         user_data.time_lastenter = int(time.time())
 
@@ -401,7 +400,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
                     ewutils.end_trade(user_data.id_user)
 
-                    await ewrolemgr.updateRoles(client=client, member=member_object)
+                    await ewrolemgr.updateRoles(client=cmd.client, member=member_object)
                     await one_eye_dm(id_server=user_data.id_server, id_user=user_data.id_user, poi=poi_current.id_poi)
 
                     # also move any ghosts inhabiting the player
@@ -581,7 +580,7 @@ async def look(cmd):
             ad_resp = format_ad_response(ad_data)
             ad_formatting = "\n\n..."
 
-    if poi.id_poi in['westoutskirts', 'ufoufo'] and ewcfg.dh_active:
+    if poi.id_poi in['westoutskirts', 'ufoufo'] and ewcfg.dh_active and ewcfg.dh_stage >= 3:
         state = EwGamestate(id_server=user_data.id_server, id_state='shipstate')
         if poi.id_poi == 'westoutskirts' and state.bit == 1:
             extra_resp = '\nThere\'s a UFO landed here.'

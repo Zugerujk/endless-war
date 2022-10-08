@@ -5,6 +5,7 @@ import random
 from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
 from ew.static import items as static_items
+from ew.static import food as static_food
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
@@ -16,6 +17,8 @@ from ew.backend import hunting as bknd_hunting
 import time
 import ew.utils.combat as util_combat
 from ew.backend.status import EwEnemyStatusEffect
+import ew.utils.core as ewutils
+
 #from ew.utils.combat import EwEnemy
 #move: enemy move action
 #talk: action on a !talk
@@ -37,6 +40,7 @@ async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj
         return await generic_hit(npc_obj=npc_obj, channel=channel, enemy=enemy)
     elif keyword == 'die':
         drop_held_items(enemy=enemy)
+        await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
         return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy, user_data=user_data)
     elif keyword == 'give':
         return await generic_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
@@ -155,6 +159,16 @@ async def needy_npc_action(keyword = '', enemy = None, channel = None, item = No
         return await needy_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+
+async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    drink = find_drink(id_server=enemy.id_server, user_data=user_data, item=item)
+
+    if drink is not None and keyword in ['talk', 'give']:
+        return await crush_drink(channel=channel, id_item=drink)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
 #top level functions here
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
@@ -162,7 +176,9 @@ async def needy_npc_action(keyword = '', enemy = None, channel = None, item = No
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
-    player = EwPlayer(id_user=user_data.id_user)
+
+    player = None if user_data is None else EwPlayer(id_user=user_data.id_user)
+
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
@@ -171,7 +187,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    response = random.choice(potential_dialogue).format(player_name=player.display_name)
+    response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
 
     if response[:2] == '()': #for exposition that doesn't use a talk bubble
         response = response[2:]
@@ -189,12 +205,13 @@ async def generic_move(enemy = None, npc_obj = None): #moves within boundaries e
         if random.randrange(20) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
-                channel = list(resp_cont.channel_responses.keys())[0]
-                await resp_cont.post(delete_after=120)
-                if npc_obj.dialogue.get('enter') is not None:
-                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
-                elif npc_obj.dialogue.get('loop') is not None:
-                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+                if len(resp_cont.channel_responses) > 0:
+                    channel = list(resp_cont.channel_responses.keys())[0]
+                    await resp_cont.post(delete_after=120)
+                    if npc_obj.dialogue.get('enter') is not None:
+                        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+                    elif npc_obj.dialogue.get('loop') is not None:
+                        return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
 
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
@@ -210,12 +227,12 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             await resp_cont.post()
 
     elif random.randrange(25) == 0:
-        response = random.choice(npc_obj.dialogue.get('act'))
-        if response is None:
-            response = random.choice(npc_obj.dialogue.get('talk'))
-
-        name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
-        if response is not None:
+        resp_set = npc_obj.dialogue.get('loop')
+        if resp_set is None:
+            resp_set = npc_obj.dialogue.get('talk')
+        if resp_set is not None:
+            response = random.choice(resp_set)
+            name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -273,7 +290,9 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     potential_dialogue = npc_obj.dialogue.get(keyword_override)
     drop_held_items(enemy=enemy)
     response = random.choice(potential_dialogue)
+    await fe_utils.send_message(None, channel, response)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+    await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     if response is not None:
         await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
@@ -295,6 +314,7 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     drop_held_items(enemy=enemy)
     response = random.choice(potential_dialogue)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+    await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     if response is not None:
         await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
@@ -387,7 +407,7 @@ async def marty_give(channel, npc_obj, enemy, item):
 
 async def candidate_give(channel, npc_obj, enemy, item):
     statename = npc_obj.id_npc + "morale"
-    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate = EwGamestate(id_state=statename, id_server=enemy.id_server)
     gamestate.number += 10
     gamestate.persist()
 
@@ -395,7 +415,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
     item_obj = EwItem(id_item=item.get('id_item'))
     usermodel = util_combat.EwUser(id_user=item_obj.id_owner, id_server=enemy.id_server)
 
-    if item_obj.soulbound or item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
+    if item_obj.soulbound or item_obj.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item_obj.id_item == usermodel.weapon:
         response = "You can't do that. Isn't that important?"
         return await fe_utils.send_message(None, channel, response)
     if item_obj.item_type in([ewcfg.it_questitem, item_obj.item_type == ewcfg.it_medal, ewcfg.it_relic])  or item_obj.item_props.get('rarity') == ewcfg.rarity_princeps or item_obj.item_props.get('id_cosmetic') == "soul" or item_obj.item_props.get('id_furniture') == "propstand" or item_obj.item_props.get('id_furniture') in static_items.furniture_collection or item_obj.item_props.get('acquisition') == 'relic':
@@ -415,7 +435,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
 
 async def candidate_die(channel, npc_obj, enemy, item):
     statename = npc_obj.id_npc + "morale"
-    gamestate = EwGamestate(id_state=statename, id_server=npc_obj.id_server)
+    gamestate = EwGamestate(id_state=statename, id_server=enemy.id_server)
     gamestate.number -= 100
     gamestate.persist()
     drop_held_items(enemy=enemy)
@@ -423,7 +443,7 @@ async def candidate_die(channel, npc_obj, enemy, item):
 
     if npc_obj.dialogue.get('die') is not None:
         response = random.choice(npc_obj.dialogue.get('die'))
-
+    await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
@@ -453,19 +473,22 @@ async def mozz_give(channel, npc_obj, enemy, item):
         await attack_talk(channel, npc_obj, enemy, territorial = True)
 
 async def mozz_move(channel, npc_obj, enemy):
-    if random.randrange(20) == 0:
+    if random.randrange(20) == 0 or ewutils.DEBUG_OPTIONS.get('alternate_talk') == True:
         resp_cont = enemy.move()
+        await resp_cont.post()
         if resp_cont != None:
             channel = list(resp_cont.channel_responses.keys())[0]
             enemy = util_combat.EwEnemy(id_server=enemy.id_server, id_enemy=enemy.id_enemy)
-            items_in_poi = bknd_item.inventory(id_user=enemy.poi, id_server=enemy.id_server,  item_sorting_method='id', item_type_filter=ewcfg.it_food)
+            items_in_poi = bknd_item.inventory(id_user=enemy.poi if not ewutils.DEBUG else ewcfg.poi_id_southsleezeborough, id_server=enemy.id_server,  item_sorting_method='id', item_type_filter=ewcfg.it_food)
             max_food_items = 15
             for item_thing in items_in_poi:
                 item = EwItem(id_item = item_thing.get('id_item'))
                 item_has_expired = float(getattr(item, "time_expir", 0)) < time.time()
                 if item_has_expired:
                     max_food_items -= 1
+                    print('Deleting {}.'.format(item.template))
                     bknd_item.item_delete(item_thing.get('id_item'))
+
                     if random.randrange(5) == 0:
                         enemy.level += 1
                     if max_food_items <= 0:
@@ -486,26 +509,20 @@ async def warpath_die(channel, npc_obj, enemy):
             life_state=ewcfg.col_enemy_life_state,
             id_server=ewcfg.col_id_server
         ), (
-            npc_obj.enemyclass,
+            enemy.enemyclass,
             enemy.id_server
         ))
 
-    for enemy in enemydata:
-        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
+    for enemy_id in enemydata:
+        sim_enemy = util_combat.EwEnemy(id_server=enemy.id_server, id_enemy=enemy_id[0])
         if enemy.life_state == ewcfg.enemy_lifestate_alive:
+            sim_enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
             sim_enemy.level += 50
             sim_enemy.slimes += 5000000
-            enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
             sim_enemy.persist()
+    await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='hit')
-    await asyncio.sleep(15)
 
-    for enemy in enemydata:
-        sim_enemy = util_combat.EwEnemy(id_server=npc_obj.id_server, id_enemy=enemy.id_enemy)
-        bknd_hunting.delete_enemy(sim_enemy)
-
-    response = "{} ran away...".format(enemy.display_name)
-    return await fe_utils.send_message(None, channel, response)
 
 async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
     item_data = EwItem(id_item=item.get('id_item'))
@@ -545,7 +562,7 @@ async def needy_act(channel, npc_obj, enemy, probability = 1):
     if ewcfg.status_enemy_following_id in status:
         status_obj = EwEnemyStatusEffect(id_enemy=enemy.id_enemy, id_server=enemy.id_server, id_status=ewcfg.status_enemy_following_id)
         user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
-        if random.randint(1, probability) == 1:
+        if random.randint(1, probability) == 1 and user_data.poi == enemy.poi:
             return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop', user_data=user_data)
 
 async def needy_give(channel, npc_obj, enemy, item):
@@ -575,3 +592,44 @@ async def needy_move(enemy = None, npc_obj = None, user_data = None):
                 return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
             elif npc_obj.dialogue.get('loop') is not None:
                 return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+
+
+def find_drinkster(user_data, isDrink):
+    enemydata = bknd_core.execute_sql_query(
+        "SELECT {id_enemy}, {poi} FROM enemies WHERE {enemyclass} = %s AND {life_state} = 1 AND {id_server} = %s".format(
+            id_enemy=ewcfg.col_id_enemy,
+            poi=ewcfg.col_poi,
+            enemyclass=ewcfg.col_enemy_class,
+            life_state=ewcfg.col_enemy_life_state,
+            id_server=ewcfg.col_id_server
+        ), (
+            'thedrinkster',
+            user_data.id_server
+        ))
+    for enemy in enemydata:
+        poi = poi_static.id_to_poi.get(enemy[1])
+        if user_data.poi in poi.neighbors.keys():
+            enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
+            if isDrink and user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_thesewers]:
+                enemy_obj.poi = user_data.poi
+                enemy.persist()
+                return True
+    return False
+
+def find_drink(id_server, user_data = None, item = None):
+    if item is not None:
+        item_obj = EwItem(id_item=item.get('id_item'))
+        if item_obj.template in static_food.drinks:
+            return item_obj.id_item
+    elif user_data is not None:
+        inv = bknd_item.inventory(id_user=user_data.id_user, id_server=id_server, item_type_filter=ewcfg.it_food)
+        for itm in inv:
+            item_obj = EwItem(id_item=itm.get('id_item'))
+            if item.template in static_food.drinks:
+                return item_obj.id_item
+    return None
+
+async def crush_drink(channel = None, id_item = None):
+    response = "https://rfck.app/img/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
+    bknd_item.item_delete(id_item)
+    return await fe_utils.send_message(None, channel, response)

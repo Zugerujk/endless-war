@@ -204,7 +204,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "birthdayhat",
         str_name = "birthday hat",
-        str_desc = "A striped, multi-color birthday hat. ",
+        str_desc = "A striped, multi-color birthday hat.",
         rarity = "Plebeian",
         durability = 2500000,
         style = "cute",
@@ -700,7 +700,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "pajamaonesie",
         str_name = "Pajama Onesie",
-        str_desc = "A soft jumpsuit with an audacious, repeating design printed over the entire cosmetic. You feel like getting a little bit fucking rowdy wearing this outrageous onesie. ",
+        str_desc = "A soft jumpsuit with an audacious, repeating design printed over the entire cosmetic. You feel like getting a little bit fucking rowdy wearing this outrageous onesie.",
         durability = 2500000,
         style = "cute",
         freshness = 6,
@@ -1568,7 +1568,7 @@ cosmetic_items_list = [
     ),
     EwCosmeticItem(
         id_cosmetic = "gamertee",
-        str_name = "Gamer Graphic Tee ",
+        str_name = "Gamer Graphic Tee",
         str_desc = "A t-shirt referencing your favorite retro game. Irrefutably, this makes you a **TRUE GAMER**. Gootube Channel and stupid smile not included.",
         rarity = "Plebeian",
         durability = 2500000,
@@ -1579,7 +1579,7 @@ cosmetic_items_list = [
     ),
     EwCosmeticItem(
         id_cosmetic = "devilmanshirt",
-        str_name = "Devilman Shirt ",
+        str_name = "Devilman Shirt",
         str_desc = "I'm Devilman!!! No, not really. I just bought this cheap shirt to cosplay...",
         rarity = "Plebeian",
         durability = 2500000,
@@ -1938,7 +1938,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "yarmulke",
         str_name = "Yarmulke",
-        str_desc = "Oy Vey!", # For the love of all that is holy please do not smite me down, Igonis was the one behind this item.
+        str_desc = "Oy Vey!",
         rarity = "Patrician",
         durability = 2500000,
         style = "smart",
@@ -2318,7 +2318,6 @@ cosmetic_items_list = [
         freshness = 7,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "heartearrings",
         str_name = "Heart Earrings",

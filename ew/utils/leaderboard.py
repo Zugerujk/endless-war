@@ -13,6 +13,7 @@ from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 import asyncio
 from functools import partial
+import itertools as iter
 
 try:
     import ew.static.rstatic as static_relic
@@ -475,6 +476,21 @@ def make_relics_found_board(id_server, title):
         entry_type=ewcfg.entry_type_relics
     )
 
+def make_gamestate_board(id_server, gamestates, headers ,title, useValues = False):
+    entries = []
+    for (state, header) in zip(gamestates, headers):
+        state_obj = EwGamestate(id_server=id_server, id_state=state)
+        if useValues:
+            entries.append([header, int(state_obj.value)])
+        else:
+            entries.append([header, state_obj.number])
+
+        return format_board(
+            entries=entries,
+            title=title,
+            entry_type=ewcfg.entry_type_relics
+        )
+
 
 
 # SLIMERNALIA
@@ -740,5 +756,13 @@ def board_entry(entry, entry_type, divide_by):
             type,
             number
         )
-
+    elif entry_type == ewcfg.entry_type_gamestates:
+        type = entry[0]
+        number = entry[1]
+        symbol = ewcfg.gamestate_leaderboard_markers.get(entry[0], ewcfg.emote_slime3)
+        result = "\n{} `{:_>15} | {}`".format(
+            symbol,
+            type,
+            number
+        )
     return result

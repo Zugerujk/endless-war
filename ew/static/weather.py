@@ -11,9 +11,9 @@ weather_list = [
         sunset="The sky is darkening, the low clouds an iridescent orange.",
         night_new="Stars pierce through the atmosphere as factories belch smoke all through the night.",
         night_waxing_start="The moon's horns pierce through the sky as factories belch smoke all through the night.",
-        night_waxing_end="The moon's maw crunches through the sky as factories belch smoke all through the night.",
+        night_waxing_end="The moon's mandibles gnash through the sky as factories belch smoke all through the night",
         night_full="The crescent moon looms yellow as factories belch smoke all through the night.",
-        night_waning_start="The moon's mandibles gnash through the sky as factories belch smoke all through the night.",
+        night_waning_start="The moon's maw crunches through the sky as factories belch smoke all through the night.",
         night_waning_end="A curved sliver of the moon scratches the sky as factories belch smoke all through the night.",
         night_special="Factories are illuminated green as the eerie moon casts its glow through the night sky."
     ),
@@ -24,9 +24,9 @@ weather_list = [
         sunset="Distant thunder rumbles as it rains, the sky now growing dark.",
         night_new="Silverish clouds coat the sky, and the night is black in the heavy rain.",
         night_waxing_start="Silverish clouds hide the moon's horns, and the night is black in the heavy rain.",
-        night_waxing_end="Silverish clouds hide the moon's maw, and the night is black in the heavy rain.",
+        night_waxing_end="Silverish clouds hide the moon's mandibles, and the night is black in the heavy rain.",
         night_full="Silverish clouds hide the crescent moon, and the night is black in the heavy rain.",
-        night_waning_start="Silverish clouds hide the moon's mandibles, and the night is black in the heavy rain.",
+        night_waning_start="Silverish clouds hide the moon's maw, and the night is black in the heavy rain.",
         night_waning_end="Silverish clouds hide a sliver of the moon, and the night is black in the heavy rain.",
         night_special="Pearlescent clouds coat the sky, the olive rain a pule from the dim green moon."
     ),

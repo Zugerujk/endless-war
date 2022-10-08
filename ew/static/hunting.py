@@ -389,9 +389,9 @@ EwAttackType(  #17
     ),
     EwAttackType(  # 14
         id_type="pizzagraspers",
-        str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of your body! {name_target} breaks several bones!",
+        str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of {name_target}'s body! {name_target} breaks several bones!",
         str_miss="**WHOA!** You barely duck out of the way of {name_enemy}'s grasp!",
-        str_kill="**RRRRRRIPPPP!!!** The {name_enemy} tears you in half! Actually it looks disappointed, {name_target} wasn't rotten enough to eat. {emote_skull}",
+        str_kill="**RRRRRRIPPPP!!!** The {name_enemy} tears {name_target} in half! Actually it looks disappointed, {name_target} was too fresh to eat. {emote_skull}",
         str_killdescriptor="strangled",
         str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
         fn_effect=atf_body
@@ -407,21 +407,30 @@ EwAttackType(  #17
     ),
     EwAttackType(  # 8
         id_type='juvieman',
-        str_crit="**CCCRRRRUUUNNCH!!!** Juvieman throws his Gardening Gut Gatling right into your stomach! Ooh, that one's gonna hurt in the morning!",
+        str_crit="**CCCRRRRUUUNNCH!!!** Juvieman throws his Gardening Gut Gatling right into {name_target}'s stomach! Ooh, that one's gonna hurt in the morning!",
         str_miss="**BIFF!!** {name_enemy} whiffs a punch! Will our hero succumb to the peacefulness of Juviehood?",
-        str_kill="**POWBANG!!! WHOOSH!!** Juvieman hits you with a powerful uppercut! {name_target} goes flying into the great beyond! Once again, the day is saved. {emote_skull}",
+        str_kill="**POWBANG!!! WHOOSH!!** Juvieman hits {name_target} with a powerful uppercut! {name_target} goes flying into the great beyond! Once again, the day is saved. {emote_skull}",
         str_killdescriptor="sent flying into space",
         str_damage="**BANG!**{name_target} takes a punch to the {hitzone}!!",
         fn_effect=atf_tusks,
     ),
     EwAttackType(  # 8
         id_type='dojoman',
-        str_crit="{name_enemy} cleaves right through you with his broadsword! You get spooked as he says some Japanese you can't understand!",
-        str_miss="{name_enemy} uses the garrote, just to try and give you a chance! Predictably, his attack fails.",
-        str_kill="**SHING!!!** The Dojo Master, with one final katana slice, bisects you so quickly you can't even see it. It is done only with years of trained skill. You were no match.{emote_skull}",
+        str_crit="{name_enemy} cleaves right through {name_target} with his broadsword! {name_target} gets spooked as he says some Japanese you can't understand!",
+        str_miss="{name_enemy} uses the garrote, just to try and give {name_target} a chance! Predictably, his attack fails.",
+        str_kill="**SHING!!!** The Dojo Master, with one final katana slice, bisects {name_target} so quickly {name_target} can't even see it. It is done only with years of trained skill. {name_target} was no match.{emote_skull}",
         str_killdescriptor="bested by a great man",
         str_damage="**HYAAA!** With perfect form, the Dojo Master runs you through with their {dojo_weapons}!",
         fn_effect=atf_tusks,
+    ),
+    EwAttackType(  # 8
+        id_type='slox',
+        str_crit="{name_enemy} scratches {name_target}'s face to ribbons! {name_target} staggers back as blood starts flowing into their eyes!",
+        str_miss="{name_enemy} winces, remembering its murdered slox friend! It near-misses {name_target}'s face!",
+        str_kill="**WIIIEEEEE!!!** The slox got its revenge on {name_target}. They have paid for their cruelty in blood. {emote_skull}",
+        str_killdescriptor="come-upped",
+        str_damage="**RRRIIIIPPP!** The grieving Slox gnaws at {name_target}'s face!",
+        fn_effect=atf_talons,
     ),
 ]
 

@@ -111,7 +111,7 @@ class EwWeapon:
             id_weapon = "",
             alias = [],
             str_equip = "",
-            str_kill = "",
+            str_kill: list = [],
             str_killdescriptor = "",
             str_trauma = "",
             str_trauma_self = "",

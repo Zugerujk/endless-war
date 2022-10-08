@@ -10,19 +10,21 @@ from . import poi as poi_static
 npc_list = [
     EwNpc(
         id_npc="thedrinkster",  # unique id for each npc
-        active = False,  # whether an npc spawns
+        active = True,  # whether an npc spawns
         str_name = "The Drinkster",  # Name of the NPC
-        poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley],  # list of locations an NPC roams in
-        dialogue = {"talk":["heyyyy. stupid hoser pucknick bitches. i'm gonna steal your drink. huehuehuehuehuehuehuehue"]},  # list of dialogue an npc can use
+        poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_oozegardens, ewcfg.poi_id_wreckington, ewcfg.poi_id_glocksbury, ewcfg.poi_id_krakbay, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_smogsburg],  # list of locations an NPC roams in
+        dialogue = {"talk":["...", "Feeling kind of thirsty..."],
+                    "give":"Thanks, buddy! I'll take it, but honestly I'd rather have something to drink.",
+                    "loop":["...", "Feeling kind of thirsty..."]},  # list of dialogue an npc can use
         func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
-        image_profile = "https://www.cupholdersplus.com/mm5/graphics/00000001/BD-Shorty-Drinkster-Bench-Seat-Console-Fiesta_540x540.jpg",  # image link to add to dialogue embeds
-        defaultslime = 200,
-        defaultlevel = 1,
+        image_profile = "https://rfck.app/img/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
+        defaultslime = 2036231,
+        defaultlevel = 22,
+        slimeoid_name = "Orange Crush",
         rewards = [
-        {ewcfg.item_id_slimepoudrin: [75, 5, 6]},
-        {ewcfg.rarity_patrician: [20, 1, 1]},
-        {ewcfg.item_id_monsterbones: [100, 1, 3]},
-        ]
+        {ewcfg.item_id_slimepoudrin: [75, 5, 6]}
+        ],
+        starting_statuses=[ewcfg.status_enemy_juviemode_id, ewcfg.status_enemy_trainer_id]
     ),
 EwNpc(
         id_npc="thehostiledrinkster",  # unique id for each npc
@@ -117,7 +119,7 @@ EwNpc(
     active = True,
     str_name = "Carrot Top",
     description = "The weakest of the Garden Gankers. They grunt a big game but they're basically free slime.",
-    poi_list = [],
+    poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["Hey dude. Or, uh, dudette. I actually can't see that well.", "Ignore me, loser. Just on official Ganker business.", "HECK!!!!!"],
                 "loop":["ARGH!!!", "EUGHHH!!!", "Rgh...", "hmmmmmRRRR..."],
                 "rareloop":["ARGH!!! UGHH!!!!!!! I'm getting bullied on slime twitter!!!"],
@@ -491,7 +493,7 @@ EwNpc(
                 "give":["Ey, buddy. Dat means a lot."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/n11reformed.png",
     defaultslime = 4000000,
     defaultlevel = 55,
     rarity=3,
@@ -516,7 +518,7 @@ EwNpc(
                 "give":["()Mozz takes your spoiled food and runs away with it!"]
                 },
     func_ai = npcutils.mozz_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/mozz.png",
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
@@ -543,11 +545,11 @@ EwNpc(
     func_ai = npcutils.slox_action,
     image_profile = "",
     defaultslime = 300,
-    attacktype = ewcfg.enemy_attacktype_tinyclaws,
+    attacktype = 'slox',
     defaultlevel = 1,
     rarity=5,
     rewards = [
-    {}
+    {ewcfg.item_id_dankwheat:[1, 1, 1]} #maybe you'll get a dankwheat. try it, sicko.
     ],
     starting_statuses=["buddyslox"],
 ),
@@ -555,7 +557,7 @@ EwNpc(
     id_npc = "dojomaster",
     active = True,
     str_name = "Dojo Master",
-    description = "He's the master of all weapons. Challenge him at your own risk.",
+    description = "He's the master of all weapons. He seems to be in a zen-like state right now.",
     poi_list = [ewcfg.poi_id_southsleezeborough, ewcfg.poi_id_dojo],
     dialogue = {"talk":["ダンクウィートを切るのに大鎌を使わないで！」", "「恐怖の匂いを嗅ぐことを学ぶには、足から始めなければならない。」", "「軍風ダイハック #590: 自分の額の真ん中から少なくとも 180 度離れたところに銃を向けてください。」", "軍実の格言その16 一直線に弾丸をたくさん打てば相手は斬り切れない", "「格闘術のヒント #4306: 刀をたたむと、より簡単に財布に収まります。」"],
                 "loop":["「警備員の皆さん、両生類を入れるのはやめてください。」 *昼食に戻り、箸でハエを捕る*", "「私と一緒に剣の練習をしに来てください。それで海峡を泳ぐことは決してありません。そして、フランス人はあなたの恐怖を嗅ぐでしょう。」", "「若い頃、リボルバーを研いで刃にしようとしたことがありますが、発砲するとうまくいきませんでした。これを教訓にして、武器に走り書きをやめてください。」"],
@@ -569,6 +571,7 @@ EwNpc(
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
     rarity=1,
+    slimeoid_name='蒸気船たかはし',
     rewards = [
     {ewcfg.weapon_id_brassknuckles:[100, 1, 1],
      ewcfg.weapon_id_scythe:[100, 1, 1],
@@ -581,7 +584,26 @@ EwNpc(
      ewcfg.weapon_id_broadsword:[100, 1, 1],
      ewcfg.weapon_id_nunchucks:[100, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_dodgy_id],
+    starting_statuses=[ewcfg.status_enemy_dodgy_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
+),
+EwNpc(
+    id_npc = "queenofengland",
+    active = True,
+    str_name = "Her Late Majesty Queen Elizabeth II",
+    description = 'She\'s fallen on hard times ever since...well, you know.',
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["Hi there, sir, may I inquire about bus fare?", "I just need one small favor...", "Hello! Thanks for talking to me finally.", "I'm going to bother you now."],
+                "loop":["Cash?", "Can I have some cash?", "Hi, hey! Cash!", "Do you speak British?", "Cash, please?", "I want 100 po- I mean slime.", "Ca-ca-cash?", "May I have another poudrin?", "Alms for the poor?", "Alms for the pudgy?", "I'm not the Queen, I'm different. I need some cash for the train.", "Cash!", "Cash??", "CASH.", "Cash...", "Cash... 🥺", "I need some cash, good sir...🧐🧐🧐"],
+                },
+    func_ai = npcutils.needy_npc_action,
+    image_profile = "https://rfck.app/img/npc/slimequeen.png",
+    defaultslime = 15,
+    defaultlevel = 1,
+    slimeoid_name = "Oliver Twist",
+    rewards = [
+    {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_juviemode_id, '1leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
 ]
 

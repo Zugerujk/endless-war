@@ -1054,7 +1054,7 @@ poi_list = [
         role="7-11",
         permissions={'outside-the-7-11': ['read', 'send', 'connect']},
         pvp=False,
-        vendors=['vending machine'],
+        vendors=['vending machine', 'Gumball Machine'],
         is_subzone=True,
         mother_districts=['poudrinalley'],
         neighbors={'poudrinalley': 20},
@@ -3019,6 +3019,7 @@ poi_list = [
         property_class="",
         vendors=['saloon'],
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=False,
         neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
@@ -3031,6 +3032,7 @@ poi_list = [
         permissions={'hang-em-square': ['read', 'send', 'connect']},
         property_class="",
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=True,
         neighbors={"saloon": 20, "dreadford": 20}
     ),
@@ -3545,7 +3547,7 @@ transport_lines = [
     ),
 ]
 
-if ewcfg.dh_active:
+if ewcfg.dh_active and ewcfg.dh_stage >= 1:
     transport_lines.append(EwTransportLine(  # white subway line from downtown to juvies row
         id_line=ewcfg.transport_line_subway_white_eastbound,
         alias=[
