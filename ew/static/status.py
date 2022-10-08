@@ -309,7 +309,14 @@ status_effect_list = [
         str_acquire="",
         str_describe="They're squared up for a duel...",
         str_describe_self="You're squared up for a duel..."
-    )
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_following_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They're a little too attached to someone right now.",
+        str_describe_self="",
+    ),
 ]
 
 status_effects_def_map = {}

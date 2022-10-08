@@ -1385,7 +1385,7 @@ async def enemy_perform_action(id_server):
 
     # Only select enemies that are either in a zone with a player in it, or that act autonomously (raid bosses)
     enemydata = bknd_core.execute_sql_query(
-        "SELECT {id_enemy} FROM enemies WHERE ((enemies.poi IN (SELECT users.poi FROM users WHERE NOT (users.life_state = %s OR users.life_state = %s) AND users.id_server = {id_server})) OR (enemies.enemytype IN %s) OR (enemies.life_state = %s OR enemies.expiration_date < %s) OR (enemies.id_target != -1)) AND enemies.id_server = {id_server}".format(
+        "SELECT {id_enemy} FROM enemies WHERE ((enemies.poi IN (SELECT users.poi FROM users WHERE NOT (users.life_state = %s OR users.life_state = %s) AND users.id_server = {id_server})) OR (enemies.enemytype IN %s) OR (enemies.enemytype = 'npc') OR (enemies.life_state = %s OR enemies.expiration_date < %s) OR (enemies.id_target != -1)) AND enemies.id_server = {id_server}".format(
             id_enemy=ewcfg.col_id_enemy,
             id_server=id_server
         ), (

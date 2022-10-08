@@ -152,7 +152,7 @@ async def needy_npc_action(keyword = '', enemy = None, channel = None, item = No
     if keyword == 'talk':
         return await needy_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy, user_data=user_data)
     elif keyword == 'move':
-        return await needy_move(enemy=enemy, user_data=user_data, npc_obj=npc_obj)
+        return await needy_move(enemy=enemy, npc_obj=npc_obj)
     elif keyword == 'act':
         return await needy_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'give':
@@ -216,7 +216,6 @@ async def generic_move(enemy = None, npc_obj = None): #moves within boundaries e
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()
-    print('tick')
     if ewcfg.status_enemy_hostile_id in enemy_statuses:
         if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
             resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
@@ -574,24 +573,29 @@ async def needy_give(channel, npc_obj, enemy, item):
 
     return await generic_give(channel, npc_obj, enemy, item)
 
-async def needy_move(enemy = None, npc_obj = None, user_data = None):
+async def needy_move(enemy = None, npc_obj = None):
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
         pre_chosen_poi = None
-        if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown] and user_data.poi[:3] != 'apt': #follow a targeted player until they can't anymore
-            status = enemy.getStatusEffects()  # if the follower has a target they'll pester them constantly
-            if ewcfg.status_enemy_following_id in status:
-                status_obj = EwEnemyStatusEffect(id_enemy=enemy.id_enemy, id_server=enemy.id_server, id_status=ewcfg.status_enemy_following_id)
-                user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
+        move_probability = 20
+        status = enemy.getStatusEffects()  # if the follower has a target they'll pester them constantly
+        if ewcfg.status_enemy_following_id in status:
+            status_obj = EwEnemyStatusEffect(enemy_data=enemy, id_status=ewcfg.status_enemy_following_id)
+            user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
+            if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown] and user_data.poi[:3] != 'apt' and user_data.poi != enemy.poi:
                 pre_chosen_poi = user_data.poi
+                move_probability = 1
+            else:
+                return
 
-        resp_cont = enemy.move(pre_chosen_poi=pre_chosen_poi)
-        if resp_cont != None:
-            channel = list(resp_cont.channel_responses.keys())[0]
-            await resp_cont.post(delete_after=120)
-            if npc_obj.dialogue.get('enter') is not None:
-                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
-            elif npc_obj.dialogue.get('loop') is not None:
-                return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+        if random.randint(1, move_probability) == 1:
+            resp_cont = enemy.move(pre_chosen_poi=pre_chosen_poi)
+            if resp_cont != None:
+                channel = list(resp_cont.channel_responses.keys())[0]
+                await resp_cont.post(delete_after=120)
+                if npc_obj.dialogue.get('enter') is not None:
+                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='enter')
+                elif npc_obj.dialogue.get('loop') is not None:
+                    return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
 
 
 def find_drinkster(user_data, isDrink):
