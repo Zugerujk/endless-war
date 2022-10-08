@@ -3081,6 +3081,11 @@ poi_list = [
 		neighbors = {'glocksbury': 20},
 		wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
 	),
+    EwPoi(
+        id_poi = ""
+
+
+    )
 ]
 
 # if you're looking for poi_map, here it is

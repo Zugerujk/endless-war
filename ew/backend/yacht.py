@@ -20,53 +20,53 @@ class EwYacht():
     speed = 0 #Ship's speed
 
     def __init__(self, id_yacht, id_server):
+
+        self.id_server = id_server
         if id_server is not None and id_yacht is not None:
             self.id_yacht = id_yacht
-            self.id_server = id_server
+            try:
+                conn_info = bknd_core.databaseConnect()
+                conn = conn_info.get('conn')
+                cursor = conn.cursor()
 
-        try:
-            conn_info = bknd_core.databaseConnect()
-            conn = conn_info.get('conn')
-            cursor = conn.cursor()
+                # Retrieve object
 
-            # Retrieve object
+                cursor.execute(
+                    "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
+                        ewcfg.col_name_yacht,
+                        ewcfg.col_thread_id,
+                        ewcfg.col_id_user,
+                        ewcfg.col_flood,
+                        ewcfg.col_filth,
+                        ewcfg.col_helm,
+                        ewcfg.col_cannon,
+                        ewcfg.col_storehouse,
+                        ewcfg.col_poopdeck,
+                        ewcfg.col_xcoord,
+                        ewcfg.col_ycoord,
+                        ewcfg.col_speed
+                    ), (
+                        self.id_yacht,
+                        self.id_server
+                    ))
+                result = cursor.fetchone()
 
-            cursor.execute(
-                "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
-                    ewcfg.col_name_yacht,
-                    ewcfg.col_thread_id,
-                    ewcfg.col_id_user,
-                    ewcfg.col_flood,
-                    ewcfg.col_filth,
-                    ewcfg.col_helm,
-                    ewcfg.col_cannon,
-                    ewcfg.col_storehouse,
-                    ewcfg.col_poopdeck,
-                    ewcfg.col_xcoord,
-                    ewcfg.col_ycoord,
-                    ewcfg.col_speed
-                ), (
-                    self.id_yacht,
-                    self.id_server
-                ))
-            result = cursor.fetchone()
+                self.yacht_name = result[0]
+                self.thread_id = result[1]
+                self.owner = result[2]
+                self.flood = result[3]
+                self.filth = result[4]
+                self.helm = result[5]
+                self.cannon = result[6]
+                self.storehouse = result[7]
+                self.poopdeck = result[8]
+                self.xcoord = result[9]
+                self.ycoord = result[10]
+                self.speed = result[11]
 
-            self.yacht_name = result[0]
-            self.thread_id = result[1]
-            self.owner = result[2]
-            self.flood = result[3]
-            self.filth = result[4]
-            self.helm = result[5]
-            self.cannon = result[6]
-            self.storehouse = result[7]
-            self.poopdeck = result[8]
-            self.xcoord = result[9]
-            self.ycoord = result[10]
-            self.speed = result[11]
-
-        finally:
-            cursor.close()
-            bknd_core.databaseClose(conn_info)
+            finally:
+                cursor.close()
+                bknd_core.databaseClose(conn_info)
 
 
     def persist(self):

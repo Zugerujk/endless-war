@@ -341,6 +341,8 @@ poi_id_northwest_outskirts_depths = "northwestoutskirtsdepths"
 poi_id_north_outskirts_depths = "northoutskirtsdepths"
 poi_id_nuclear_beach_depths = "nuclearbeachdepths"
 
+poi_id_capnalexyachtshack = 'capnalexyachtshack'
+
 # The Sphere
 poi_id_thesphere = "thesphere"
 
@@ -1183,6 +1185,8 @@ apartment_classes = [*apartment_class_map.keys()]
 
 soulprice = 500000000
 
+yachtprice = 1000000000000000
+
 tv_set_slime = 5000000
 tv_set_level = 100
 
@@ -1372,6 +1376,12 @@ cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
 cmd_talk = cmd_prefix + 'talk'
+
+
+#YACHTS
+cmd_avast = cmd_prefix + 'avast'
+cmd_setsail = cmd_prefix + 'setsail'
+cmd_rentyacht = cmd_prefix + 'rentyacht'
 
 offline_cmds = [
     cmd_move,
