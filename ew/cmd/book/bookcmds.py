@@ -23,7 +23,7 @@ async def begin_manuscript(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
 
     if not poi.write_manuscript or poi.id_poi == ewcfg.poi_id_clinicofslimoplasty:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
+        response = "You'd love to begin work on your zine, however your current location doesn't strike you as a particularly good place to get started. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS) to pick up a blank manuscript."
 
     elif user_data.slimes < cost:
         response = "You don't have enough slime to create a manuscript. ({:,}/{:,})".format(user_data.slimes, cost)
@@ -59,12 +59,7 @@ async def begin_manuscript(cmd):
 async def set_pen_name(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
+    if user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
         response = "You are just too hungry to alter the pen name of your masterpiece!"
 
     elif user_data.manuscript == -1:
@@ -89,12 +84,7 @@ async def set_title(cmd):
 
     title = cmd.message.content[(len(cmd.tokens[0])):].strip()
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
+    if user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
         response = "You are just too hungry to alter the title of your masterpiece!"
 
     elif user_data.manuscript == -1:
@@ -122,12 +112,7 @@ async def set_genre(cmd):
 
     genre = cmd.message.content[(len(cmd.tokens[0])):].strip()
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
+    if user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
         response = "You are just too hungry to alter the title of your masterpiece!"
 
     elif user_data.manuscript == -1:
@@ -157,24 +142,17 @@ async def set_genre(cmd):
 async def edit_page(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    response = ""
-
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.manuscript == -1:
+    if user_data.manuscript == -1:
         response = "You have yet to create a manuscript. Try !createmanuscript"
 
     elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
         response = "You are just too hungry to write your masterpiece!"
 
     elif cmd.tokens_count == 1:
-        response = "You must specify a valid page to edit."
+        response = f"You must specify a valid page to edit. Try {cmd.tokens[0]} <page> <content>"
 
     elif cmd.tokens_count < 3:
-        response = "What are you writing down exactly?"
+        response = f"What are you writing down exactly? Try {cmd.tokens[0]} <page> <content>."
 
     else:
         page = cmd.tokens[1]
@@ -198,7 +176,7 @@ async def edit_page(cmd):
             book = EwBook(member=cmd.message.author, book_state=0)
 
             if page not in range(0, book.pages + 1):
-                response = "You must specify a valid page to edit."
+                response = f"You must specify a valid page to edit. (1 - {book.pages})"
 
             else:
                 accepted = True
@@ -234,12 +212,7 @@ async def edit_page(cmd):
 async def view_page(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.manuscript == -1:
+    if user_data.manuscript == -1:
         response = "You have yet to create a manuscript. Try !createmanuscript"
 
     elif cmd.tokens_count == 1:
@@ -273,12 +246,7 @@ async def view_page(cmd):
 async def check_manuscript(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
-
-    if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
-
-    elif user_data.manuscript == -1:
+    if user_data.manuscript == -1:
         response = "You have yet to create a manuscript. Try !createmanuscript"
 
     else:
@@ -312,7 +280,7 @@ async def publish_manuscript(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
 
     if not poi.write_manuscript:
-        response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
+        response = "You'd love to publish your zine, however your current location doesn't strike you as a particularly good place for exposure. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
 
     elif user_data.manuscript == -1:
         response = "You have yet to create a manuscript. Try !createmanuscript"
@@ -810,12 +778,6 @@ async def order_zine(cmd):
 
                     user_data = EwUser(member=cmd.message.author)
 
-                    #if book.genre != 10:
-                    #    price = ewcfg.zine_cost
-                    #else:
-                    #    price = ewcfg.zine_cost / 4
-
-                    #if user_data.slimes < price:
                     poudrins = bknd_item.find_item(item_search="slimepoudrin", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
 
                     if poudrins == None:

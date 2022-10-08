@@ -373,7 +373,8 @@ async def attack(cmd):
 
         if target_killed:
             # Flavortext for fatal blows only
-            hit_msg = "\n\n{}".format(attacker_weapon.str_kill.format(
+            chosen_kill_str = random.choice(attacker_weapon.str_kill)
+            hit_msg = "\n\n{}".format(chosen_kill_str.format(
                 name_player=attacker_member.display_name,
                 name_target=target_member.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
@@ -852,7 +853,6 @@ async def spar(cmd):
         else:
             # Get killing player's info.
             user_data = EwUser(member=cmd.message.author)
-
             weapon_item = EwItem(id_item=user_data.weapon)
 
             # Get target's info.
@@ -876,6 +876,8 @@ async def spar(cmd):
             elif (user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False) or user_data.life_state == ewcfg.life_state_corpse:
                 # Only killers, rowdys, the cop killer, and the rowdy fucker can spar
                 response = "Juveniles lack the backbone necessary for combat."
+            elif user_data.weapon <= 0 or sparred_data.weapon <= 0:
+                response = "You both need WEAPONs to master your WEAPONs, dumbasses."
             else:
                 was_juvenile = False
                 was_sparred = False
@@ -887,7 +889,7 @@ async def spar(cmd):
 
                 # Determine if the !spar is a duel:
                 weapon = None
-                if user_data.weapon >= 0 and sparred_data.weapon >= 0 and weapon_item.item_props.get("weapon_type") == sparred_weapon_item.item_props.get("weapon_type"):
+                if weapon_item.item_props.get("weapon_type") == sparred_weapon_item.item_props.get("weapon_type"):
                     weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                     duel = True
 
@@ -1001,7 +1003,7 @@ async def annoint(cmd):
 
     # Grab the wanted name
     if cmd.tokens_count < 2:
-        annoint_name = weapon_item.item_props.get("weapon_name")
+        annoint_name = weapon_item.name
     else:
         annoint_name = cmd.message.content[(len(ewcfg.cmd_annoint)):].strip() 
 
@@ -1030,7 +1032,7 @@ async def annoint(cmd):
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             
         # Change weapon's name if needed
-        if weapon_item.item_props["weapon_name"] != annoint_name:
+        if weapon_item.item_props.get("weapon_name", "") != annoint_name:
             newname = 1
             weapon_item.item_props["weapon_name"] = annoint_name
 

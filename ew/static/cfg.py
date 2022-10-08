@@ -1,7 +1,7 @@
 # Global configuration options.
 
 
-version = "v4.17 S4A1 Free Apple (Cosmiture W2)"
+version = "v4.18 S4A1 Goonscape Gumballs and QUANTUM COCK"
 
 
 dir_msgqueue = 'msgqueue'
@@ -25,7 +25,7 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = False
+dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
 dh_stage = -1
@@ -315,6 +315,7 @@ compartment_id_closet = "closet"
 compartment_id_fridge = "fridge"
 compartment_id_decorate = "decorate"
 compartment_id_bookshelf = "bookshelf"
+compartment_id_freeze = "freeze"
 location_id_empty = "empty"
 
 # Outskirts
@@ -782,6 +783,8 @@ cmd_exchangerate_alt4 = cmd_prefix + 'rates'
 cmd_shares = cmd_prefix + 'shares'
 cmd_shares_alt1 = cmd_prefix + 'stonks'
 cmd_stocks = cmd_prefix + 'stocks'
+cmd_setstockvalue = cmd_prefix + 'setstockvalue'
+cmd_setstockshares = cmd_prefix + 'setstockshares'
 cmd_negapool = cmd_prefix + 'negapool'
 cmd_negaslime = cmd_prefix + 'negaslime'
 cmd_endlesswar = cmd_prefix + 'endlesswar'
@@ -796,6 +799,8 @@ cmd_hunger = cmd_prefix + 'hunger'
 cmd_clock = cmd_prefix + 'clock'
 cmd_time = cmd_prefix + 'time'
 cmd_weather = cmd_prefix + 'weather'
+cmd_forecast = cmd_prefix + 'forecast'
+cmd_forecast_alt1 = cmd_prefix + 'corecast'
 cmd_patchnotes = cmd_prefix + 'patchnotes'
 cmd_howl = cmd_prefix + 'howl'
 cmd_howl_alt1 = cmd_prefix + '56709'
@@ -1004,6 +1009,8 @@ cmd_identify = cmd_prefix + 'identify'
 cmd_startshift = cmd_prefix + 'startshift'
 cmd_serve = cmd_prefix + 'serve'
 cmd_sow_cloth = cmd_prefix + 'sowcloth'
+cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
+cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -1018,7 +1025,7 @@ cmd_chemo = cmd_prefix + 'chemo'
 cmd_graft = cmd_prefix + 'graft'
 cmd_bleedout = cmd_prefix + 'bleedout'
 cmd_skullbash = cmd_prefix + 'skullbash'
-cmd_juviemode = cmd_prefix + 'legallimit'
+# cmd_juviemode = cmd_prefix + 'legallimit'
 cmd_manual_unban = cmd_prefix + 'unban'
 cmd_post_leaderboard = cmd_prefix + 'postleaderboard'
 
@@ -1308,7 +1315,9 @@ cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
+cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
+cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
 # race
 cmd_set_race = cmd_prefix + 'setrace'
@@ -1495,6 +1504,13 @@ acquisition_bartering = "bartering"
 acquisition_trickortreating = "trickortreating"
 acquisition_bazaar = "bazaar"
 acquisition_huntingtrophy = "huntingtrophy"
+acquisition_commongumball = "commongumball"
+acquisition_uncommongumball = "uncommongumball"
+acquisition_raregumball = "raregumball"
+acquisition_superraregumball = "superraregumball"
+
+# All the different gumball acquisition types
+gumball_acquisitions = [acquisition_commongumball, acquisition_uncommongumball, acquisition_raregumball, acquisition_superraregumball]
 
 # standard food expiration in seconds
 std_food_expir = 12 * 3600  # 12 hours
@@ -1514,6 +1530,18 @@ property_class_s = "s"
 property_class_a = "a"
 property_class_b = "b"
 property_class_c = "c"
+
+apt_storage_base = 4
+
+# Thar we go
+cmd_to_apt_dest = {
+    cmd_fridge: compartment_id_fridge,
+    cmd_store: "store",
+    cmd_closet: compartment_id_closet,
+    cmd_decorate: compartment_id_decorate,
+    cmd_shelve: compartment_id_bookshelf,
+    cmd_shelve_alt_1: compartment_id_bookshelf
+}
 
 # district capturing
 capture_tick_length = 10  # in seconds; also affects how much progress is made per tick
@@ -1653,11 +1681,11 @@ default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86
 weather_tick_length = 10
 
 # moon phase string names
-moon_new = "new" #                      
+moon_new = "new" #
 moon_waxing_start = "waxinghorns" #       :
-moon_waxing_end = "waxingmaw" #          (:
+moon_waxing_end = "waxingmandibles" #          (:
 moon_full = "crescent" #                ((:
-moon_waning_start = "waningmandibles" # ((
+moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
@@ -1880,7 +1908,7 @@ emote_slimeepic = "<:slimeepic:973836637777825864>"
 
 
 
-# Lists for randomly chosen !dab and !thrash emotes 
+# Lists for randomly chosen !dab and !thrash emotes
 dab_emotes = [
 emote_copkiller,
 emote_benkart,
@@ -2571,6 +2599,10 @@ stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
 stat_juvierang_kills = 'juvierang_kills'
 stat_missilelauncher_kills = 'missilelauncher_kills'
+stat_pistol_kills = 'pistol_kills'
+stat_combatknife_kills = 'combat_knife_kills'
+stat_machete_kills = 'machete_kills'
+stat_boomerang_kills = 'boomerang_kills'
 
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
@@ -2663,7 +2695,7 @@ vendor_beachresort = "Beach Resort"  # Assault Flats Beach bar and the sunburnt 
 vendor_countryclub = "Country Club"  # Dreadford's snobbish vendor. Crookline's Splatify is the southwest bar in the game now.
 vendor_farm = "Farm"  # contains all the vegetables you can !reap
 vendor_bazaar = "bazaar" # General store, and pulls in the item pool from every other vendor in the game.
-vendor_giftshop = "giftshop" 
+vendor_giftshop = "giftshop"
 vendor_college = "College"  # You can buy game guides from either of the colleges
 vendor_glocksburycomics = "Glocksbury Comics"  # Repels and trading cards are sold here
 vendor_slimypersuits = "Slimy Persuits"  # You can buy candy from here
@@ -2679,7 +2711,9 @@ vendor_atomicforest = "Atomic Forest Stockpile"  # Storage of atomic forest
 vendor_downpourlaboratory = "Downpour Armament Vending Machines"  # Store for shamblers to get stuff
 vendor_breakroom = "The Breakroom"  # Security officers can order items here for free.
 vendor_rpcity = "RP City"  # Double halloween costume store
-vendor_coalitionsurplus = "Coalition Surplus" # Charcoal Park vendor, mix of furniture, cosmetics, 
+vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
+vendor_gumballmachine = "Gumball Machine"
+
 
 vendor_thumbnails = {
     poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/img/npc/albertalex.png"],
@@ -3026,7 +3060,10 @@ weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
 weapon_id_juvierang = 'juvierang'
 weapon_id_missilelauncher = 'missilelauncher'
-
+weapon_id_pistol = 'pistol'
+weapon_id_combatknife = 'combatknife'
+weapon_id_machete = 'machete'
+weapon_id_boomerang = 'boomerang'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -3146,6 +3183,29 @@ weather_snow = "snow"
 weather_foggy = "foggy"
 weather_bicarbonaterain = "bicarbonaterain"
 
+# Weather icons
+weather_icon_map = {
+    weather_sunny: "☀️",
+    weather_rainy: "💧",
+    weather_windy: "🍃",
+    weather_lightning: "⛈️",
+    weather_cloudy: "☁️",
+    weather_snow: "☃️",
+    weather_foggy: "🌫️",
+    weather_bicarbonaterain: "🥤"
+}
+
+# Moon phase icons TODO: Make these accurate to the more cool moon phases found @ the string names
+moon_phase_icon_map = {
+    moon_new: "🌑",
+    moon_waxing_start: "🌒",
+    moon_waxing_end: "🌔",
+    moon_full: emote_moon,
+    moon_waning_start: "🌖",
+    moon_waning_end: "🌘",
+    moon_special: "🟢",
+}
+
 # stock ids
 stock_kfc = "kfc"
 stock_pizzahut = "pizzahut"
@@ -3184,12 +3244,12 @@ fish_size_huge = "huge"
 fish_size_colossal = "colossal"
 
 fish_size_range = {
-	fish_size_miniscule:[0, 3],
-	fish_size_small:[3, 6],
-	fish_size_average:[6, 18],
-	fish_size_big: [18, 42],
-	fish_size_huge: [42, 66],
-	fish_size_colossal:[66, 90]
+    fish_size_miniscule:[0, 3],
+    fish_size_small: [3, 6],
+    fish_size_average: [6, 18],
+    fish_size_big: [18, 42],
+    fish_size_huge: [42, 66],
+    fish_size_colossal: [66, 90]
 }
 
 bully_responses = [
@@ -3321,9 +3381,9 @@ soul_durability = 100000000  # 100 mega
 
 cosmetic_id_raincoat = "raincoat"
 
-cosmeticAbility_id_lucky = "lucky" 
+cosmeticAbility_id_lucky = "lucky"
 cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability.
-cosmeticAbility_id_clout = "clout" 
+cosmeticAbility_id_clout = "clout"
 cosmeticAbility_id_nmsmascot = "nmsmascot" # Used to track the NMS mascot cosmetic set
 cosmeticAbility_id_hatealiens = "hatealiens" # Used to track the anti-alien cosmetic set
 cosmeticAbility_id_furry = "furry"
@@ -3655,7 +3715,7 @@ help_responses = {
     "gangs": "**Gang Violence** is the center focus of **Rowdy Fuckers Cop Killers' ENDLESS WAR**. Enlisting in a gang allows you to attack other gang members, juveniles, ghosts, and slime beasts with the **'!kill'** command. To enlist in a gang, use **'!enlist'**. However, a member of that gang must use **'!vouch'** for you beforehand in the same area as you. Enlisting will permanently affiliate you with that gang, unless you are !pardon'd by the **ROWDY FUCKER** (Munchy), the **COP KILLER** (Ben Saint), and the mods. You may use **'!renounce'** to return to the life of a juvenile, but you will lose half of your current slime, and you will still be affiliated with that gang, thus disallowing you from entering the enemy's gang base. Additionally, a Kingpin or administrator, should they feel the need to, can inflict the banishment status upon you, preventing you from enlisting in their gang.",
     "food": "Food lowers your hunger by a set amount, and can be ordered from various **restaurants** within the city. Generally speaking, the more expensive food is, the more hunger it sates. You can **'!order [food name] togo'** to order it togo, otherwise you will eat it on the spot, and you can **'!use [food name]'** to use it once its in your inventory. You can only carry a certain amount of food depending on your level. Regular food items expire after 2 in-game days by default, or 12 hours in real life, while crops expire after 8 in-game days (48 hours), and food items gained from milling expire after a whole 2 weeks in real life. Additionally, a lot of food from other vendors have varying expiry dates, as these resturants don't usually see many people ordering food to go. Three popular restauraunts close by various gang bases include **THE SPEAKEASY** (juveniles), **THE SMOKER'S COUGH** (rowdys), and **RED MOBSTER SEAFOOD** (killers), though there are other places to order food as well, such as the **Food Court**.",
     "capturing": "Capping is a battle for influence over the 33 districts of NLACakaNM, and one of your main goals as a gangster. Capped territories award your kingpin slime, and give your teammates benefits while visiting. You will automatically capture for your gang if you are enlisted and have more than 200,000 slime on you. Capturing creates influence for you, or decrease it for the enemy if they have influence there. Think of yourself mindlessly vandalizing the walls of the city wherever you go so long as you have the slime to do the deed. As you go, you can check your **!progress** to see how much influence you still need. It can be more or less depending on the territory class, running from rank C to S. \n\nA few more things to note:\n>You can't capture districts locked by surrounding captured districts, and that includes trying to top up progress of districts your own gang has locked in.\n>Don't attack enemy territory when it is surrounded by enemy territory/outskirts. Small little bitches like yourself are prone to fucking up severely under that much pressure.\n>The nightlife starts in the late night. Fewer cops are around to erase your handiwork, so if you cap then you will gain a 33% capping bonus.\n>Paint tools used to be fundamental with capturing, but you no longer need them even sidearmed, you can just keep your weapons out while you capture.",
-    "transportation": "There are various methods of transportation within the city, the quickest and most efficient of them being **The Subway System**. Trains can be boarded with **'!board'** or **'!embark'**, and to board specific trains, you can add your destination to the command. For example, to board the red line to Cratersville, you would use '!board pinktocv'. **'!disembark'** can be used to exit a train. **The Ferry** (which moves between Vagrant's Corner and Wreckington) and **The Blimp** (which moves between Dreadford and Assault Flats Beach) can also be used as methods of transportation, though they take longer to arrive at their destinations than the trains do. Refer to the diagram below on understanding which districts and streets have subway stations in them.\nhttps://cdn.discordapp.com/attachments/431238867459375145/570392908780404746/t_system_final_stop_telling_me_its_wrong_magicks.png",
+    "transportation": "There are various methods of transportation within the city, the quickest and most efficient of them being **The Subway System**. Trains can be boarded with **'!board'** or **'!embark'**, and to board specific trains, you can add your destination to the command. For example, to board the red line to Cratersville, you would use '!board pinktocv'. **'!disembark'** can be used to exit a train. **The Ferry** (which moves between Vagrant's Corner and Wreckington) and **The Blimp** (which moves between Dreadford and Assault Flats Beach) can also be used as methods of transportation, though they take longer to arrive at their destinations than the trains do. Refer to the diagram below on understanding which districts and streets have subway stations in them.\nhttps://cdn.discordapp.com/attachments/431237299137675297/1021140587572887653/slimemapfinal.png",
     "death": "Death is an integral mechanic to Endless War. Even the most experienced players will face the sewers every now and again. If you find yourself in such a situation, use **'!revive'** in the sewers channel, and you will return to the land of the living as a juvenile at the base of ENDLESS WAR. Dying will drop some of your unadorned cosmetics and food, and some of your unequiped weapons, but your currently adorned cosmetics and equiped weapon will remain in your inventory (Gangsters will lose half of their food/unadorned cosmetics, while Juveniles lose only a quarter). Alternatively, you can hold off on reviving and remain a **ghost**, which has its own gameplay mechanics associated with it. To learn more, use '!help ghosts' at one of the colleges or with a game guide, or see the wiki page here: https://rfck.miraheze.org/wiki/Ghosts",
     # Introductions, part 2
     "dojo": "**The Dojo** is where you acquire weapons to fight and kill other players with. To purchase a weapon, use **'!order [weapon]'**. There are many weapons you can choose from (you can view all of them with !menu), and they all perform differently from one another. Once you've purchased a weapon, you can use **'!equip [weapon]'** to equip it, provided that you're enlisted in a gang beforehand. You can also name your weapon by spending a poudrin on it with **'!annoint [name]'**. Furthermore, annointing will increase your mastery over that weapon, but it's much more inefficient to do so through **sparring**. To learn more about the sparring system and weapon ranks, use '!help sparring'.",
@@ -3683,10 +3743,10 @@ help_responses = {
     "stocks": "**The Stock Exchange** is a sub-zone within downtown NLACakaNM, open only during the daytime (6AM-8PM). It allows players to **'!invest'** in various **'!stocks'**, which not only affects their own personal monetary gains, but the city's economy as well. Stocks will shift up and down value, which affects the price of food associated with the food chains of those respective stocks. The rate of exchange for stocks can be checked with **'!rates'**, and to withdraw your **'!shares'** from a stock, use **'!withdraw [amount] [stock]'** (the same logic also applies to !invest). Additionally, players may **'!transfer'** their slimecoin to other players at any time of the day while in the stock exchange, but at the cost of a 5% broker's fee and a 5 minute cooldown on subsequent transfers.",
     # Additional gameplay mechanics, part 3
     "trading": "Trading allows you to exchange multiple items at once with another player. You can ask someone to trade with you by using **!trade [player]**. Should they accept, you will be able to offer items with **!offer [item]**. Use **!removeoffer [item]** to remove an item from your offers. You can check both player's offers by using **!trade** again. When you're ready to finish the trade, use **!completetrade**. The items will only be exchanged when both players do the command. Note that if a player adds or removes an item afterwards you will no longer be set as ready and will need to redo the command. Should you want to cancel the trade, you can do so by using **!canceltrade**.",
-    "weather": "The weather of NLACakaNM can have certain outcomes on gameplay, most notably in regards to mutations like White Nationalist or Light As A Feather. Right now, however, you should be most concerned with **Bicarbonate Rain Storms**, which rapidly destroy slime both on the ground and within your very being. It's advised that you pick up a rain coat at The Bazaar to avoid further harm. To check the weather, use **'!weather'**.",
+    "weather": "The weather of NLACakaNM can have certain outcomes on gameplay, most notably in regards to mutations like White Nationalist or Light As A Feather. Right now, however, you should be most concerned with **Natural Disasters**, which can ruin your day. To check the weather, use **'!weather'**.",
     "casino": "**The Casino** is a sub-zone in Green Light District where players may bet their slime and slimecoin in various games, including **'!slimepachinko'**, **'!slimecraps'**, **'!slimeslots'**, **'!slimeroulette'**, **'!slimebaccarat'**, and **!slimeskat**. Some games allow you to bet certain amounts, while other games have a fixed cost. Furthermore, the casino allows you to challenge other players to a game of **'!russianroulette'**, where most of the loser's slime is transferred to the winner. To bet with slime, simply add 'slime' to the name of the game you wish to play. Example: **!slimeslots 500 slime**. You can gamble through your gellphone, but only with slimecoin.",
     "bleeding": "When you get hit by someone using a '!kill' command, certain things happen to your slime. Let's say you take 20,000 points of damage. **50%** of that slime, in this case 10,000, immediately becomes scavengeable. However, the other 50%, provided that you didn't die instantly, will undergo the **bleeding** process. 25% of that slime, in this case 5,000, is immediately added to a 'bleed pool', causing it to slowly trickle out of your body and onto the ground for it to be scavenged. The remaining 25% of that slime will **slowly** be added to the 'bleed pool', where it will then bleed, just as previously stated. Upon dying, your 'bleed pool' is immediately dumped onto the ground, ready to be scavenged. Think of it like the 'rolling HP' system from the game *EarthBound*. When you get hit, you don't take all your damage upfront, it instead slowly trickles down.",
-    "offline": "Given that ENDLESS WAR is a **Discord** game, there are a few peculiarities surrounding it and how it interacts with Discord itself. When you set your status to **'Offline'**, you can still move between districts if you typed a '!goto' command beforehand. You won't show up on the sidebar in that district's channel, but people can still scout for you, and see the '[player] has entered [district]' message when you do enter the district they're in. Furthermore, you **can't** use commands while offline, and can only use commands **10 seconds** after coming online again. Often times, you may find yourself using '!scout' or '!look' on a district, only to find that **no one** is there besides yourself. This is likely because they're in that district, just with their status set to offline. The exception to this, of course, is if you have the **Chameleon Skin** mutation, which lets you type a handful of commands even while offline, including **!goto**, **!look**, **!scout**, **!survey**, **!embark**, and **!disembark**.",
+    "offline": "Given that ENDLESS WAR is a **Discord** game, there are a few peculiarities surrounding it and how it interacts with Discord itself. When you set your status to **'Offline'**, you can still move between districts if you typed a '!goto' command beforehand. You won't show up on the sidebar in that district's channel, but people can still scout for you, and see the '[player] has entered [district]' message when you do enter the district they're in. Furthermore, you **can't** use commands while offline, and can only use commands **5 seconds** after coming online again. Often times, you may find yourself using '!scout' or '!look' on a district, only to find that **no one** is there besides yourself. This is likely because they're in that district, just with their status set to offline. The exception to this, of course, is if you have the **Chameleon Skin** mutation, which lets you type a handful of commands even while offline, including **!goto**, **!look**, **!scout**, **!survey**, **!embark**, and **!disembark**.",
     # Additional gameplay mechanics, part 4
     "profile": "This isn't so much a guide on gameplay mechanics as it is just a guide for what to expect from roleplaying in ENDLESS WAR. The general rule of thumb is that your profile picture will act as your 'persona' that gets depicted in fanworks, and it can be said that many of the colorful characters you'll find in NLCakaNM originated in this way.",
     "manuscripts": "First of all, to start a manuscript, you're gonna need to head down to the Cafe, either University, or the Comic Shop.\n\nYou can **!beginmanuscript [title]** at the cost of 20k slime.\n\nIf you happen to regret your choice of title, you can just **!settitle [new title]**.\n\nThe author name is already set to your nickname, but if you want to change it, you change your nickname and then **!setpenname**.\n\nYou're required to specify a genre for your future zine by using **!setgenre [genre name]** (Genre list includes: narrative, historical, comic, ||porn||, instructional, lore, reference, journal, newspaper, and experimental).\n\nIf at any time you would like to look at the title, author name, and length of your manuscript, then use **!manuscript**.\n\n*NOW*, if you actually want to start getting stuff done, you're gonna need to **!editpage [page number] [content]**. Every zine has 10 pages (kinda) that you can work with, but you can **!setpages [pages]** to customize it (maximum is 20, minimum is 5). Each holds a maximum of 1500 characters of content. You can fill it with information, image links, smut, whatever floats your freakish boat. If you try to edit a page that already has writing, it will ask you to confirm the change before overwriting it.\n\nYou can also set a cover, which is optional. You do this with **!editpage cover [image link]**.\n\nTo check any of your pages, simply **!viewpage [number]** to see how it looks.\n\nKeep in mind that manuscripts ARE NOT items and can't be lost on death. They're accessible from any authoring location (Cafe, NLACU, NMS, Comics). A player can only have 1 manuscript out at a time.\n\nOnce you are completely finished, you can **!publish** your manuscript (it will ask you to confirm that you are completely done with it), which will enable the citizens of the town to purchase it from any zine place. From there, it will be bought and rated by the people and you may even earn some royalty poudrins for it.",
@@ -3697,21 +3757,21 @@ help_responses = {
     "slimeball": "**Slimeball** is a sport where two teams of players compete to get the ball into the opposing team's goal to score points. A game of Slimeball is started when a player does !slimeball [team] in a district. Other players can join in by doing the same command in the same district. Once you've joined a game, you can do !slimeball to see your data, the ball's location and the score. To move around the field, use !slimeballgo [coordinates]. You can kick the ball by running into it. To stop, use !slimeballstop. Each team's goal is open between 20 and 30 Y, and located at the ends of the field (0 and 99 X for purple and pink respectively). To leave a game, do !slimeballleave, or join a different game. A game of Slimeball ends when no players are left.",
     "relics": "**Relics** are one-of-a-kind items hidden all over the city. You can !donate them to the museum in Ooze Gardens for a big slime payout and some additional information about that part of the city. The Curator is pretty airheaded though, so he won't notice if you swipe them back. Long story, he makes replicas, you get the idea. If you are killed with a relic, it gets passed to your killer. Also, hoarding too many might result in graverobbers creeping down your back stair. Be careful, now!",
     # Weapons
-    "normal": "**Normal weapons** include the **Dual Pistols**, **Revolver**, and the **Yo-yo**. They have a damage modifier of 110%, no cost modifier, 20% crit chance, a crit multiplier of 180%, and a 90% chance to hit. These are straight forward weapons with no gimmicks and average damage.",
-    "multiple-hit": "**Multiple hit weapons** include the **SMG**, **Assault Rifle**, and the **Nunchuck**. They deal three attacks per kill command with an overall cost modifier of 80%, and each attack has a 40% damage modifier, 20% crit chance, a crit multiplier of 150%, and an 85% chance to hit. These are very safe reliable weapons, though they deal slightly below average damage on average.",
-    "variable-damage": "**Variable damage weapons** include the **Nailbat**, **Bass**, and the **Brass Knuckles**. They have a randomised damage modifier between 50% and 250%, no cost modifier, 10% crit chance, a crit multiplier of 150%, and a 90% chance to hit. On average, these weapons deal pretty good damage for a very reasonable attack cost, but their unreliability can make them quite risky to use.",
-    "small-game": "**Small game weapons** include the **Knives** and the **Minecraft Bow**. They have a damage modifier of 50%, a cost modifier of 25%, 10% crit chance, a crit multiplier of 200%, and a 95% chance to hit. These are reliable and underpowered weapons, with extremely low usage costs making them very efficient. Best used for bullying weaklings and hunting.",
-    "heavy": "**Heavy weapons** include the **Scythe**, **Shotgun**, and the **Broadsword**. They have a damage modifier of 170%, a cost modifier of 275%, 10% crit chance, a crit multiplier of 150%, and an 80% chance to hit. Unreliable and incredibly expensive to use, to compensate for their very high damage.",
-    "defensive": "**Defensive weapons** currently only include the **Umbrella**. While you have one equipped, you take 25% reduced damage! They have a damage modifier of 75%, a cost modifier of 150%, 10% crit chance, a crit multiplier of 150%, and an 85% chance to hit, with a captcha of 4. Best used for punching down or protecting yourself while traveling, these weapons are typically too weak and unwieldy for use in normal combat scenarios.",
-    "precision": "**Precision weapons** currently only include the **Katana**. They have a damage modifier of 130%, a cost modifier of 130%, a crit multiplier of 200%, with a captcha of 4. They always hit, and get a guaranteed crit if you have no other weapons equipped. These weapons deal very high and reliably damage, but only if you're willing to bear the burden of their captcha and the lack of flexibility they impose.",
-    "incendiary": "**Incendiary weapons** include the **Molotov Bottles** and the **Dragon Claw**. They have a damage modifier of 75%, a cost modifier of 150%, 10% crit chance, a crit multiplier of 200%, a 90% chance to hit, and a captcha of 4. You will take 10% to 15% of your slime as damage if you enter the captcha wrong! They also deal an extra 50% damage to the target and any flagged enemies in the area over time, causing them to explode on death. A more powerful alternative to explosive weapons, if you can deal with the damage being dealt over time, rather than on one go.",
-    "explosive": "**Explosive weapons** currently only include the **Grenades**. They have a damage modifier of 75%, a cost modifier of 150%, 10% crit chance, a crit multiplier of 200%, a 90% chance to hit, and a captcha of 4. You will take 10% to 15% of your slime as damage if you enter the captcha wrong! They also deal an extra 50% damage to the target and any flagged enemies in the area. The go-to if you're being swarmed by a mob of weaklings, can clear entire districts in one go.",
+    "normal": "**Normal weapons** include the **Dual Pistols**, **Revolver**, and the **Yo-yo**. These are straight forward weapons with no gimmicks and average damage.",
+    "multiple-hit": "**Multiple hit weapons** include the **SMG**, **Assault Rifle**, and the **Nunchuck**. They deal three weak attacks per kill command, and are very safe reliable weapons, though they deal slightly below average damage on average.",
+    "variable-damage": "**Variable damage weapons** include the **Nailbat**, **Bass**, and the **Brass Knuckles**. On average, these weapons deal pretty good damage for a very reasonable attack cost, but their unreliability can make them quite risky to use.",
+    "small-game": "**Small game weapons** include the **Knives** and the **Minecraft Bow**. These are reliable and underpowered weapons, with extremely low usage costs making them very efficient. Best used for bullying weaklings and hunting.",
+    "heavy": "**Heavy weapons** include the **Scythe**, **Shotgun**, and the **Broadsword**. Unreliable and incredibly expensive to use, to compensate for their very high damage.",
+    "defensive": "**Defensive weapons** currently only include the **Umbrella**. While you have one equipped, you take 25% reduced damage! Best used for punching down or protecting yourself while traveling, these weapons are typically too weak and unwieldy for use in normal combat scenarios. Always has a captcha length of 4.",
+    "precision": "**Precision weapons** currently only include the **Katana**. They always hit, and get a guaranteed crit if you have no other weapons equipped. These weapons deal very high and reliably damage, but only if you're willing to bear the burden of their captcha and the lack of flexibility they impose. Always has a captcha length of 4.",
+    "incendiary": "**Incendiary weapons** include the **Molotov Bottles** and the **Dragon Claw**. You will take 10% to 15% of your slime as damage if you enter the captcha wrong! They also deal an extra 50% damage to the target and any flagged enemies in the area over time, causing them to explode on death. A more powerful alternative to explosive weapons, if you can deal with the damage being dealt over time, rather than on one go. Usually has a captcha length of 4.",
+    "explosive": "**Explosive weapons** currently only include the **Grenades**. You will take 10% to 15% of your slime as damage if you enter the captcha wrong! They also deal an extra 50% damage to the target and any flagged enemies in the area. The go-to if you're being swarmed by a mob of weaklings, can clear entire districts in one go. Usually has a captcha length of 4.",
 
-    weapon_id_revolver: "**The revolver** is a normal weapon for sale at the Dojo. It's an ordinary six-shot revolver, so you'll have to **!reload** it after attacking six times, though its attack cost is reduced to 80% to compensate. Goes well with a cowboy hat.",
-    weapon_id_dualpistols: "**The dual pistols** are a normal weapon for sale at the Dojo. Shockingly, these aren't that common, despite the city being chock-full of gangsters.",
-    weapon_id_shotgun: "**The shotgun** is a heavy weapon for sale at the Dojo. It's a double barrelled shotgun, so you'll need to !reload after every two shots, though your cost multiplier is reduced down to 250% to compensate. Grass grows, birds fly, sun shines, and this thing hurts people; it's a force of nature.",
-    weapon_id_rifle: "**The rifle** is a multiple-hit weapon for sale at the Dojo. Its magazine only holds enough bullets for ten attacks, so you'll have to **!reload** after hitting the rate limit, but its cost multiplier goes down to 70% to compensate. The experts are still undecided, but most people would agree this is a FAMAS.",
-    weapon_id_smg: "**The SMG** is a multiple hit-weapon for sale at the Dojo. Its magazine only holds enough bullets for ten attacks, so you'll have to **!reload** after hitting the rate limit, but its cost multiplier goes down to 70% to compensate. This is pretty good if you like to move around a lot, since the crosshair doesn't grow that much while you're sprinting.",
+    weapon_id_revolver: "**The revolver** is a normal weapon for sale at Coalition Surplus. It's an ordinary six-shot revolver, so you'll have to **!reload** it after attacking six times, though its attack cost is reduced to 80% to compensate. Goes well with a cowboy hat.",
+    weapon_id_dualpistols: "**The dual pistols** are a normal weapon for sale at Coalition Surplus. Shockingly, these aren't that common, despite the city being chock-full of gangsters.",
+    weapon_id_shotgun: "**The shotgun** is a heavy weapon for sale at Coalition Surplus. It's a double barrelled shotgun, so you'll need to !reload after every two shots, though your cost multiplier is reduced down to 250% to compensate. Grass grows, birds fly, sun shines, and this thing hurts people; it's a force of nature.",
+    weapon_id_rifle: "**The rifle** is a multiple-hit weapon for sale at Coalition Surplus. Its magazine only holds enough bullets for ten attacks, so you'll have to **!reload** after hitting the rate limit, but its cost multiplier goes down to 70% to compensate. The experts are still undecided, but most people would agree this is a FAMAS.",
+    weapon_id_smg: "**The SMG** is a multiple hit-weapon for sale at Coalition Surplus. Its magazine only holds enough bullets for ten attacks, so you'll have to **!reload** after hitting the rate limit, but its cost multiplier goes down to 70% to compensate. This is pretty good if you like to move around a lot, since the crosshair doesn't grow that much while you're sprinting.",
     weapon_id_bat: "**The nailbat** is a variable-damage weapon for sale at the Dojo. This thing could actually be used to hit balls if you took the nails off it, but that seems a little high-tech...",
     weapon_id_brassknuckles: "**The brass knuckles** are a variable-damage weapon for sale at the Dojo. Made by sanding away most of a huge pair of metal gauntlets.",
     weapon_id_katana: "**The katana** is a precision weapon for sale at the Dojo. This weapon is folded over a thousand times, so it can cut clean through steel and is vastly superior to any other weapon on earth.",
@@ -3723,20 +3783,21 @@ help_responses = {
     weapon_id_umbrella: "**The umbrella** is a defensive weapon for sale at the Bazaar. It has a futurecore feel to it, with the reinforced graphene canopy allowing visibility from the inside out, but not the other way around. Certainly one of the most stylish weapons seen in the city.",
     weapon_id_knives: "**The throwing knives** are a small-game weapon for sale at the Dojo. These are often quite dull, relying less on the knives's inherent properties and more on the slime-fueled superstrength of its wielders to pierce through their targets.",
     weapon_id_molotov: "**The molotov bottles** are an incendiary weapon for sale at the Dojo. Made with a special slime-based concoction powerful enough to level Juvie's Row if applied correctly. This shit is like bottled malice.",
-    weapon_id_grenades: "**The grenades** are an explosive weapon for sale at the Dojo. These may actually be nuclear powered, judging by their ability to wipe out entire districts full of gangsters in one blast.",
+    weapon_id_grenades: "**The grenades** are an explosive weapon for sale at Coalition Surplus. These may actually be nuclear powered, judging by their ability to wipe out entire districts full of gangsters in one blast.",
     weapon_id_dclaw: "**The Dragon Claw** is an incendiary weapon acquired via smelting. It merges into your body, turning your arm into a weapon of mass destruction.",
     weapon_id_bow: "**The Minecraft bow** is a small-game weapon acquired via smelting. The calming music most people hum while wielding this thing is quite the interesting contrast, when considered along with the impaled corpses they leave behind.",
 
     weapon_id_garrote: "**The Garrote Wire** is a unique weapon. It has a damage modifier of 1500%, no cost modifier, guaranteed hits, and a 1% chance for a crit, which does 1000% damage. When you attack with a garrote, the target has 5 seconds to send any message before the damage is done. If they do, the attack fails.",
     weapon_id_minigun: "The **Minigun** is a special variant of **variable damage weapons**. It deals ten attacks per kill command with an overall cost modifier of 500%, and each attack has a 30% damage modifier, 10% crit chance, a crit multiplier of 200%, and a 50% chance to hit, with a captcha of 6. This is a strange weapon that can potentially deal astronomical damage if used in the right circumstances, and if you're willing to deal with its exceptionally long captcha.",
     weapon_id_staff: "The **Eldritch Staff** is a unique weapon. By default, it has a damage modifier of 30%, a cost modifier of 200%, guaranteed hits, no crit chance, and a crit multiplier of 180%. A number of conditions may be met to increase the damage multiplier by 60% and crit chance by 6.66%: tenebrous weather and locations, grudges between the user and its target, the time of day, and the user's general degeneracy will all contribute to the weapon's effectiveness.",
-
-    weapon_id_spraycan: "**The spray can** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.8 and a spray cost mod of 1. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence.",
-    weapon_id_paintgun: "**The paint gun** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.7 and a spray cost mod of 0.75. It has a captcha length of 6, a miss chance of O% and a 20% chance for a crit, which does 2x influence.",
-    weapon_id_paintroller: "**The paint roller** is a paint tool for sale at Based Hardware. It has a capping modifier of 1.75 and a spray cost mod of 4. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence.",
-    weapon_id_paintbrush: "**The paint brush** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.5 and a spray cost mod of .25. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 1.5x influence.",
-    weapon_id_watercolors: "**Watercolors** are a paint tool for sale at Based Hardware. It does a set 4000 influence per shot. It has a captcha length of 3, a miss chance of 10% and a .1% chance for a crit, which zeros out the whole district regardless of owner.",
-    weapon_id_thinnerbomb: "**Thinner bombs** are a paint tool for sale at Based Hardware. It has a capping modifier of 0.15 and a spray cost mod of 2. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence. When you cap with a thinner bomb, it is used up, and you have to buy more. When decapping, damage is multiplied by 10.",
+    weapon_id_missilelauncher: "The **Missile Launcher** Is a unique weapon. It has guaranteed backfiring damage with successful hits, misses, and a deadly backfire if you get the captcha wrong. It deals normal weapon damage but has 100% AOE effect rather than the usual 10-15% of the other AOE weaponry. Has a captcha length of 11 and has a ammo capacity of 1.",
+    # Commented out guide for paint weapons until they have a use again.
+    #weapon_id_spraycan: "**The spray can** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.8 and a spray cost mod of 1. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence.",
+    #weapon_id_paintgun: "**The paint gun** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.7 and a spray cost mod of 0.75. It has a captcha length of 6, a miss chance of O% and a 20% chance for a crit, which does 2x influence.",
+    #weapon_id_paintroller: "**The paint roller** is a paint tool for sale at Based Hardware. It has a capping modifier of 1.75 and a spray cost mod of 4. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence.",
+    #weapon_id_paintbrush: "**The paint brush** is a paint tool for sale at Based Hardware. It has a capping modifier of 0.5 and a spray cost mod of .25. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 1.5x influence.",
+    #weapon_id_watercolors: "**Watercolors** are a paint tool for sale at Based Hardware. It does a set 4000 influence per shot. It has a captcha length of 3, a miss chance of 10% and a .1% chance for a crit, which zeros out the whole district regardless of owner.",
+    #weapon_id_thinnerbomb: "**Thinner bombs** are a paint tool for sale at Based Hardware. It has a capping modifier of 0.15 and a spray cost mod of 2. It has a captcha length of 4, a miss chance of 10% and a 10% chance for a crit, which does 2x influence. When you cap with a thinner bomb, it is used up, and you have to buy more. When decapping, damage is multiplied by 10.",
 
     weapon_id_hoe: "**The Hoe** is a farming tool for sale at the Atomic Forest. It can be equipped by juvies to give a 1.5x modifier of slime gain on a !reap command.",
     weapon_id_pitchfork: "**The Pitchfork** is a farming tool for sale at the Atomic Forest. It can be equipped by juvies to multiply your crops on a !reap command by 2.",
@@ -3832,11 +3893,11 @@ mutation_descriptions = {
     mutation_id_monplanto: "Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     mutation_id_foghorn: "During foggy weather, gain an increased critical hit chance.",
     mutation_id_slurpsup: "During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",
-    mutation_id_deathfromabove: "During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-grenade weapon.",
+    mutation_id_deathfromabove: "During lightning, 10% of your damage is additionally dealt to bystanders when attacking with any non-AOE weapon.",
     mutation_id_ichumfast: "While fishing, you will be @'d upon any !reel notification.",
     mutation_id_scopicretinas: "You can !scout up to two districts away.",
     mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
-    mutation_id_stiltwalker: "You can !jump to the blimp from the ground, as well as mines from Waffle House.",
+    mutation_id_stiltwalker: "You can !jump to the blimp from the ground, and into a random mine from Waffle House.",
 }
 
 consult_responses = {
@@ -3873,17 +3934,17 @@ consult_responses = {
 }
 
 basic_commands = "!slime: Check your slime.\n!look: Look at your surroundings.\n!survey: Get a shortened version of !look.\n!goto <district>: Move to a new area.\n!halt: Stop moving.\n!data: Check your current status.\n!slimecoin: Check your slimecoin.\n!eat: Eat food.\n!use: Use an item.\n!scavenge <captcha>: Scavenge slime off the ground.\n!map: Pull up the map.\n!scout <district>: Check for enemies in an adjacent district."
-juvenile_commands = "!dance: Dance, monkey.\n!enlist <gang>: Enlist in the Rowdys or the Killers.\n!legallimit: Juvies below 100,000 slime can cap their slime at that amount. They can't be killed below Level 18, so this makes them invulnerable."
+juvenile_commands = "!dance: Dance, monkey.\n!enlist <gang>: Enlist in the Rowdys or the Killers."
 enlisted_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!suicide: Nah, I'm not telling you what this does.\n!vouch: If a Juvie isn't affiliated, you can !vouch for them to join your gang."
-corpse_commands = "!boo: Become way too scary.\n!haunt <player>: You can haunt active players to rob them of some slime and get antislime.\n!inhabit <player>: Inhabit another player.\n!letgo: Stop inhabiting someone.\n!possessweapon: Possess the weapon of someone you're inhabiting.\n!possessfishingrod: Possess someone's fishing rod in the same way.\n!unpossessfishingrod: Stop possessing the fishing rod.\n!negaslimeoid: Check on your Negaslimeoid, if you have created one.\n!crystalizenegapoudrin: Create a negapoudrin with negaslime."
+corpse_commands = "!boo: Become way too scary.\n!haunt <player>: You can haunt active players to rob them of some slime and get antislime.\n!inhabit <player>: Inhabit another player.\n!letgo: Stop inhabiting someone.\n!possessweapon: Possess the weapon of someone you're inhabiting.\n!possessfishingrod: Possess someone's fishing rod in the same way.\n!unpossessfishingrod: Stop possessing the fishing rod.\n!negaslimeoid: Check on your Negaslimeoid, if you have created one.\n!crystalizenegapoudrin: Create a negapoudrin with negaslime.\n!sowcloth: Rip part of your etheral body into fabric."
 player_info_commands = "!data <player>: Check basic player info. Excluding <player> shows your own data.\n!slime <player>:Same as !data, but shows slime count.\n!slimecoin <player>: Same as the above two, but shows SlimeCoin.\n!hunger: Displays hunger.\n!mutations: Check mutations. Add 'level' to the end to display by mutation level.\n!fashion: Displays fashion info.\n!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search.\n!inv search <contents>: Display all items that contain <contents>.\n!apartment: Check your apartment.\n!mastery: Check weapon mastery."
 external_link_commands = "!map: Pull up the world map.\n!time: Get the latest RFCK time and weather.\n!transportmap: Pull a transportation map of the city.\n!patchnotes: See the latest patchnotes.\n!booru: Get a link to the RFCK Booru.\n!wiki: Get a link to the wiki.\n!leaderboard: Get a link to the online leaderboard.\n!bandcamp: Links to the RFCK Bandcamp.\n!tutorial: Gives a more in-depth view of Endless War Gameplay."
 combat_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!aim <player>: Increase accuracy toward a target.\n!taunt <player>: Decrease you opponent's accuracy.\n!dodge <player>: Increase evasion for a short time.\n!reload: Some weapons have limited ammo and need to reload."
 capping_commands = "!spray <captcha>: Spray the district in your gang's paint.\n!progress: Displays capture progress in your current district.\n!tag: Spray your tagged image.\n!changespray <tag>:Change the image link that displays on a !tag."
 item_commands = "!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search, general, food, cosmetic, color, furniture, weapon, weapontype, preserved, <item color>, <weapon type>.\n!inv search <contents>: Display all items that contain <contents>.\n!inspect <item>: Inspect an item in your inventory.\n!discard <item>: Discard an item.\n!use <item>: Some items can be used.\n!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade.\n!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item.\n!scrawl <item> <description>: Add a message to an item.\n!strip <item>: Remove a message from an item\n!give @player <item>: Giving away items increases festivity."
 cosmetics_dyes_commands = "!adorn <cosmetic>: Wear a cosmetic\n!dedorn <cosmetic>: Take a cosmetic off.\n!dyecosmetic <cosmetic> <dye>: Dye a cosmetic using dyes in your inventory.\n!dyefurniture <furniture> <dye>: Change the color of furniture with dye.\n!saturateslimeoid <dye>: Dye your slimeoid."
-miscellaneous_commands = "!quarterlyreport: Display the current quarterly goal.\n!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
-flavor_commands = "Command list: !salute\n!unsalute\n!hurl\n!howl\n!moan\n!pot\n!bully <target>\n!lol\n!jam <instrument>"
+miscellaneous_commands = "!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
+flavor_commands = "Command list: \n!salute\n!unsalute\n!hurl\n!howl\n!moan\n!pot\n!bully <target>\n!lol\n!jam <instrument>\n!measure <subject>\n!skate"
 slimeoid_commands = "!slimeoid: Check your or another player's slimeoid.\n!saturateslimeoid <dye>: Dye your slimeoid. Some colors are strong against others in battle.\n!bottleslimeoid:Put your slimeoid in a bottle, turning them into an item.\n!unbottleslimeoid: Unbottle a slimeoid.\n!feedslimeoid <food>: Feed your slimeoid stat modifying candy, or normal food so they can fight again sooner.\n!dressslimeoid <cosmetic>: Dress up your slimeoid.\n!undressslimeoid: Take cosmetics off your slimeoid.\n!slimeoidbattle <player>: Challenge another player to a slimeoid battle. Add keywords to modify the battle. Keywords are: death, bet <number>, size <number>.\n!slimeoidduel <player>: Varient of !slimeoidbattle which includes a countdown before the match begins (swap dyes)\n!playfetch, !petslimeoid, !abuseslimeoid, !walkslimeoid, !observeslimeoid: You can interact with your own slimeoid, or somebody's you share quadrants with, in various ways."
 trading_commands = "!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade."
 smelting_commands = "!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item."
@@ -3992,7 +4053,8 @@ jump_responses = {
 sea_scavenge_responses = [
     "see a school of Fuck Sharks circling below you",
     "notice an approaching kraken",
-    "remember you can't swim"
+    "remember you can't swim",
+    "think of how you got here in the first place. Was it Crank? It was probably Crank.",
 ]
 
 # Enemy life states
@@ -4258,7 +4320,7 @@ enemy_drop_tables = {
         {item_id_civilianscalp: [100, 1, 1]},
         {weapon_id_bat: [10, 1, 1]},
         {weapon_id_molotov: [10, 1, 1]},
-        {"gasmask": [10, 1, 1]} 
+        {"gasmask": [10, 1, 1]}
     ],
     enemy_type_antiprotestprotester: [
         {item_id_slimepoudrin: [100, 1, 2]},
@@ -4276,7 +4338,7 @@ enemy_drop_tables = {
         {"crop": [60, 2, 4]},
         {item_id_leather: [100, 1, 2]},
         {item_id_dragonsoul: [12, 1, 1]},
-        {item_id_monsterbones: [100, 2, 8]} 
+        {item_id_monsterbones: [100, 2, 8]}
     ],
     enemy_type_mutatedbarrel: [
         {item_id_slimepoudrin: [100, 3, 30]},
@@ -4728,13 +4790,13 @@ event_type_gas_leak = "gasleak"
 # In list format
 poi_events = [
     event_type_tornado,
-    event_type_meteor_shower, 
+    event_type_meteor_shower,
     event_type_smog_warning,
-    event_type_poudrin_hail, 
+    event_type_poudrin_hail,
     event_type_radiation_storm,
     event_type_jape_storm,
     event_type_firestorm,
-    event_type_raider_incursion, 
+    event_type_raider_incursion,
     event_type_slimeunist_protest,
     event_type_dimensional_rift,
     event_type_fishing_frenzy,
@@ -4840,8 +4902,8 @@ sacrifice_rates = {
 }
 
 zine_cost = 10000
-minimum_pages = 5
-maximum_pages = 20
+minimum_pages = 1
+maximum_pages = 30
 
 # zine related commands that can be used in DMs
 zine_commands = [
@@ -4948,27 +5010,27 @@ captcha_dict = [
     'HEHE', 'WEED', 'LMAO', 'EPIC', 'NICE',
     'SOUL', 'KILL', 'FREE', 'GOOP', 'CAVE',
     'ZOOM', 'FIVE', 'NINE', 'BASS', 'FIRE',
-    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE', 
+    'TEXT', 'AWOO', 'GOKU', 'FOUR', 'VAPE',
     # 5
     'GUNKY', 'BOORU', 'ROWDY', 'GHOST', 'ORDER',
     'SCARE', 'BULLY', 'FERRY', 'SAINT', 'SLASH',
     'SLOSH', 'PARTY', 'BASED', 'TULPA', 'RELIC',
     'SLURP', 'MONTH', 'SEVEN', 'BRASS', 'MINES',
     'CHEMO', 'LIGHT', 'FURRY', 'PIZZA', 'ARENA',
-    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME', 
+    'LUCKY', 'RIFLE', '56709', 'SNIPE', 'SLIME',
     # 6
     'SLUDGE', 'KILLER', 'MUNCHY', 'BLAAAP', 'BARTER',
     'ARTIST', 'FUCKER', 'MINING', 'SURVEY', 'THRASH',
     'BEWARE', 'STOCKS', 'COWARD', 'CRINGE', 'INVEST',
     'BUSTAH', 'KILLAH', 'KATANA', 'GHOSTS', 'BASSED',
-    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER', 
+    'REVIVE', 'BATTLE', 'PAWPAW', 'SLEDGE', 'HAMMER',
     # 7
     'KINGPIN', 'ENDLESS', 'ATTACKS', 'FUCKERS', 'FISHING',
     'VIOLENT', 'SQUEEZE', 'LOBSTER', 'WESTERN', 'EASTERN',
     'REGIONS', 'DISCORD', 'KNUCKLE', 'MOLOTOV', 'SHAMBLE',
     'WARFARE', 'BIGIRON', 'POUDRIN', 'PATRIOT', 'MINIGUN',
     'MONSTER', 'DIVORCE', 'GARROTE', 'ASSAULT', 'PICKAXE',
-    'HARPOON', 'HUNTING', 
+    'HARPOON', 'HUNTING',
     # 8
     'GAMEPLAY', 'CONFLICT', 'EXCHANGE', 'FEEDBACK', 'GRENADES',
     'VIOLENCE', 'TACOBELL', 'PIZZAHUT', 'OUTSKIRT', 'WHATEVER',
@@ -4986,7 +5048,7 @@ captcha_dict = [
     'PLAYGROUND', 'NEWYONKERS', 'OLDYONKERS', 'VANDALPARK', 'SLIMERMAID',
     'SLIMEXODIA', 'WEBBEDFEET', 'NOSEFERATU', 'BINGEEATER', 'TRASHMOUTH',
     'DIREAPPLES', 'BLACKLIMES', 'POKETUBERS', 'PULPGOURDS', 'ROWDDISHES',
-    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS', 
+    'DRAGONCLAW', 'ARSONBROOK', 'SKATEBOARD', 'POPPEPPERS',
     # 27
     'STOPSCAVENGINGANDTOUCHGRASS', 'GETSERIOUSPSYCHOLOGICALHELP',
     'FEELTHETOUCHOFAWOMANINSTEAD', 'THISISNTVERYIMPRESSIVECHUMP',

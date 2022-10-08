@@ -11,8 +11,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
-from ew.utils.transport import EwTransport
-from .transportutils import get_transports_at_stop
+from ew.utils.transport import EwTransport, get_transports_at_stop
 
 """ Enter a transport vehicle from a transport stop """
 
@@ -79,7 +78,7 @@ async def embark(cmd):
             if transport_data.current_line == transport_line.id_line:
                 ticket = None
 
-                if ewcfg.dh_active:
+                if ewcfg.dh_active and ewcfg.dh_stage >= 1:
                     user_data = EwUser(member = cmd.message.author)
                     if user_data.poi in [ewcfg.poi_id_dt_subway_station, ewcfg.poi_id_rr_subway_station, ewcfg.poi_id_jr_subway_station]:
                         if transport_line.id_line in [ewcfg.transport_line_subway_white_eastbound, ewcfg.transport_line_subway_white_westbound]:
