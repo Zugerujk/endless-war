@@ -1782,7 +1782,7 @@ smelting_recipe_list = [
         str_name="Monster Bone Gauntlets",
         alias=[
             'mbgaultets',
-            'Monster Bone Gauntlets',
+            'Monsterbonegauntlet',
             'Gauntlets',
             'Gauntlet',
         ],
@@ -1840,7 +1840,7 @@ smelting_recipe_list = [
         ],
         ingredients={
             'monsterbonebevor': 1,
-            'monsterbonegauntlet': 1, 
+            'monsterbonegauntlets': 1, 
             'monsterbonefullplate': 1, 
             'monsterbonegreaves': 1, 
             'monsterbonesabatons': 1,
