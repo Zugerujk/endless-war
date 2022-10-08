@@ -543,7 +543,7 @@ EwNpc(
                 "give":["()The slox takes your gift and brings it back to their resting place to share it with their friend."]
                 },
     func_ai = npcutils.slox_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/sloxes_f.png",
     defaultslime = 300,
     attacktype = 'slox',
     defaultlevel = 1,
@@ -566,7 +566,7 @@ EwNpc(
                 "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
                 },
     func_ai = npcutils.generic_npc_action,
-    image_profile = "", #todo update this
+    image_profile = "https://rfck.app/img/npc/dojomaster.png",
     defaultslime = 15000000,
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
