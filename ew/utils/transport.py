@@ -6,6 +6,8 @@ from .frontend import EwResponseContainer
 from ..backend.transport import EwTransportBase
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+import traceback
+import sys
 
 """
 	Database Object for public transportation vehicles, such as ferries or subway trains
@@ -137,3 +139,27 @@ async def init_transports(id_server = None):
         for poi in poi_static.transports:
             transport_data = EwTransport(id_server=id_server, poi=poi)
             asyncio.ensure_future(transport_data.move_loop())
+
+
+""" utility function to get all transports stopped at the given poi """
+
+
+def get_transports_at_stop(id_server, stop):
+    result = []
+    try:
+        data = bknd_core.execute_sql_query("SELECT {poi} FROM transports WHERE {id_server} = %s AND {current_stop} = %s".format(
+            poi=ewcfg.col_poi,
+            id_server=ewcfg.col_id_server,
+            current_stop=ewcfg.col_current_stop
+        ), (
+            id_server,
+            stop
+        ))
+        for row in data:
+            result.append(row[0])
+
+    except:
+        traceback.print_exception(file=sys.stdout)
+        ewutils.logMsg("Failed to retrieve transports at stop {}.".format(stop))
+    finally:
+        return result
