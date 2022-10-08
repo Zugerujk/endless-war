@@ -565,7 +565,7 @@ EwNpc(
                 "die":["私を倒すには素晴らしいスキルが必要でした。あなたの熟達ぶりは、あなたのスタンスに表れています。次回まで。"],
                 "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
                 },
-    func_ai = npcutils.generic_npc_action,
+    func_ai = npcutils.dojomaster_action,
     image_profile = "https://rfck.app/img/npc/dojomaster.png",
     defaultslime = 15000000,
     attacktype = ewcfg.enemy_attacktype_dojoman,
