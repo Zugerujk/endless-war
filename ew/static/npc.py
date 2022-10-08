@@ -535,7 +535,7 @@ EwNpc(
     active = True,
     str_name = "Slox",
     description = "It's a harmless little creature that just enjoys resting with its friend under the Poudrin Alley bridge.",
-    poi_list = ewcfg.poi_id_poudrinalley,
+    poi_list = [ewcfg.poi_id_poudrinalley],
     dialogue = {"talk":["Prrrr...."],
                 "loop":["*yawn* ", "Prrrr...."],
                 "hit":["!!", "RRRRR!"],
@@ -543,7 +543,7 @@ EwNpc(
                 "give":["()The slox takes your gift and brings it back to their resting place to share it with their friend."]
                 },
     func_ai = npcutils.slox_action,
-    image_profile = "",
+    image_profile = "https://rfck.app/img/npc/sloxes_f.png",
     defaultslime = 300,
     attacktype = 'slox',
     defaultlevel = 1,
@@ -565,8 +565,8 @@ EwNpc(
                 "die":["私を倒すには素晴らしいスキルが必要でした。あなたの熟達ぶりは、あなたのスタンスに表れています。次回まで。"],
                 "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
                 },
-    func_ai = npcutils.generic_npc_action,
-    image_profile = "", #todo update this
+    func_ai = npcutils.dojomaster_action,
+    image_profile = "https://rfck.app/img/npc/dojomaster.png",
     defaultslime = 15000000,
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
@@ -589,7 +589,7 @@ EwNpc(
 EwNpc(
     id_npc = "queenofengland",
     active = True,
-    str_name = "Her Late Majesty Queen Elizabeth II",
+    str_name = "Her Late Majesty Queen Elizabeth",
     description = 'She\'s fallen on hard times ever since...well, you know.',
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["Hi there, sir, may I inquire about bus fare?", "I just need one small favor...", "Hello! Thanks for talking to me finally.", "I'm going to bother you now."],
@@ -599,6 +599,7 @@ EwNpc(
     image_profile = "https://rfck.app/img/npc/slimequeen.png",
     defaultslime = 15,
     defaultlevel = 1,
+    str_juviemode = "You decide to just kill the Queen to get her off your back, but you decide the only thing more annoying than her is causing an international incident. Christ alive, she's just gonna spend it on alcohol anyway.",
     slimeoid_name = "Oliver Twist",
     rewards = [
     {ewcfg.item_id_slimepoudrin: [80, 1, 3]},

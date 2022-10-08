@@ -28,6 +28,7 @@ from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
 
+
 """ A data-moving class which holds references to objects we want to modify with weapon effects. """
 
 
@@ -504,7 +505,11 @@ def canAttack(cmd):
 
         elif enemy_data != None:
             if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
-                response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
+                npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+                if npc_obj.str_juviemode != '' and npc_obj.str_juviemode is not None:
+                    response = npc_obj.str_juviemode
+                else:
+                    response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
             else:
                 # enemy found, redirect variables to code in ewhunting
                 response = ewcfg.enemy_targeted_string

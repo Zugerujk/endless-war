@@ -119,20 +119,24 @@ async def cast(cmd):
             item_sought = bknd_item.find_item(item_search=item_search, id_user=author.id, id_server=server.id)
 
             # Give a chance to catch a specific fish if you use certain items as bait
-            if item_sought:
+            idol_item = bknd_item.find_item(item_search='', id_user=user_data.id_user, id_server=user_data.id_server)
+            idol_on = False
+            if idol_item:
+                idol_item_obj = EwItem(id_item=idol_item.get('id_item'))
+                if idol_item_obj.id_owner == user_data.poi or idol_item_obj.id_owner == str(user_data.id_user):
+                    idol_on = True
+                elif idol_item_obj.id_owner.isnumeric():
+                    idol_owner = EwUser(id_server=user_data.id_server, id_user=int(idol_item_obj.id_owner))
+                    if idol_owner.poi == user_data.poi:
+                        idol_on = True
+            
+            if idol_on:
+                fisher.current_fish = "mertwink"
+            elif item_sought:
                 item = EwItem(id_item=item_sought.get('id_item'))
 
                 #the Mertwink Idol affects everyone in the area
-                idol_item = bknd_item.find_item(item_search='', id_user=user_data.id_user, id_server=user_data.id_server)
-                idol_on = False
-                if idol_item:
-                    idol_item_obj = EwItem(id_item=idol_item.get('id_item'))
-                    if idol_item_obj.id_owner == user_data.poi or idol_item_obj.id_owner == str(user_data.id_user):
-                        idol_on = True
-                    elif idol_item_obj.id_owner.isnumeric():
-                        idol_owner = EwUser(id_server=user_data.id_server, id_user=int(idol_item_obj.id_owner))
-                        if idol_owner.poi == user_data.poi:
-                            idol_on = True
+
 
                 if item.item_type == ewcfg.it_food:
 
@@ -140,10 +144,7 @@ async def cast(cmd):
                     id_food = item.item_props.get('id_food')
                     fisher.bait = True
 
-                    if idol_on:
-                        fisher.current_fish = "mertwink"
-
-                    elif id_food in static_food.plebe_bait:
+                    if id_food in static_food.plebe_bait:
                         fisher.current_fish = "plebefish"
 
                     elif id_food == "doublestuffedcrust":

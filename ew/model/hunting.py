@@ -138,6 +138,8 @@ class EwNpc:
     rarity = 5 #relative spawn frequency
 
     slimeoid_name = '' #if a slimeoid trainer has a specific named slimeoid, it is named here.
+
+    str_juviemode = "" #unique string for why you can't kill them
     
     def __init__(
         self,
@@ -156,7 +158,8 @@ class EwNpc:
         condition =  lambda user_data: True,
         description = "",
         rarity = 5,
-        slimeoid_name = ''
+        slimeoid_name = '',
+        str_juviemode = ''
     ):
         self.id_npc = id_npc
         self.active = active
@@ -173,4 +176,5 @@ class EwNpc:
         self.attacktype=attacktype
         self.description = description
         self.rarity = rarity
-        self.slimeoid_name = slimeoid_name
+        self.slimeoid_name = slimeoid_name,
+        self.str_juviemode = str_juviemode

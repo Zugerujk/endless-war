@@ -28,8 +28,6 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import slimeoid as slimeoid_utils
 from ew.utils.combat import EwUser
 from ew.utils.frontend import EwResponseContainer
-from ew.utils.slimeoid import EwSlimeoid, get_slimeoid_look_string
-from .aptutils import getPriceBase, usekey
 import ew.cmd.cmds.cmdsutils as cmdutils
 
 from ew.utils.slimeoid import EwSlimeoid
