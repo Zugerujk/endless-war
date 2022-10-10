@@ -363,7 +363,7 @@ pistolskilltext = [
 combatknifekilltext = [
     "{name_player} shanks {name_target} right in the gut! As {name_target} struggles, {name_player} pulls their blade to the side and lets {name_target}’s intestines spill out all over the floor. {emote_skull}",
     "{name_player} encounters {name_target} on the mean streets, pulling out their trusty dagger and shaking them down for anything they’ve got. When they’re unwilling to give away their hard earned slime {name_target} gets a slash to the throat. {emote_skull}",
-    "{name_player} sneaks around, knife in hand. They spy {name_target} minding their own business, a perfect prey. Swooping in from the shadows, {name_player} delivers a crippling backstab that severs their spinal collum. {emote_skull}"
+    "{name_player} sneaks around, knife in hand. They spy {name_target} minding their own business, a perfect prey. Swooping in from the shadows, {name_player} delivers a crippling backstab that severs their spinal column. {emote_skull}"
 ]
 
 riflekilltext = [
@@ -374,7 +374,7 @@ riflekilltext = [
 
 smgkilltext = [
     "{name_player} wildly blasts away at {name_target}. All but one of the bullets missed, with the one shot that hit perfectly piercing {name_target}'s skull. {emote_skull}",
-    "{name_player} blasts {name_player} point blank with an SMG. After their magazine empties, all that remains of {name_target} is a smoldering stain. {emote_skull}",
+    "{name_player} blasts {name_target} point blank with an SMG. After their magazine empties, all that remains of {name_target} is a smoldering stain. {emote_skull}",
     "{name_player} drives up beside {name_target}, blasting an SMG at them from the driver's seat before speeding away.  {emote_skull}"
 ]
 
@@ -393,12 +393,12 @@ boomerangkilltext = [
 batkilltext = [
     "{name_player} raises their bat for an overhead swing. **CRRUNCHH** {name_target}'s skull cracks open, spilling gray matter over the concrete. {emote_skull}",
     "{name_player} strikes {name_target} square in the cranium. Much to the cheers of some bystanders, {name_target}'s head flies out of the park in a bloody spiral! {emote_skull}",
-    "{name_player} brings {name_target} to their knees with a strike to the kneecaps before knocking them out cold with a bat straight to the face. {emote_skull}"
+    "{name_player} brings {name_target} to their knees with a strike to the kneecaps before knocking them out cold with a bat straight to the face, knocking out a handful of teeth. {emote_skull}"
 ]
 
 brassknuckleskilltext = [
     "{name_player} slugs {name_target} right in the throat before finishing off with a brass knuckle uppercut that breaks off most of their lower jaw. {emote_skull}",
-    "{name_player} perfectly executes a cheap fighting game combo! {name_player} is stuck in an infinite, continually getting brass to the face before eventually dying. {emote_skull}",
+    "{name_player} perfectly executes a cheap fighting game combo! {name_target} is stuck in an infinite, continually getting brass to the face before eventually dying. {emote_skull}",
     "{name_player} hits their brass knuckles together, prepping for a big strike. They crush {name_target}’s head between their fists, pushing until their skull pops. {emote_skull}"
 ]
 
@@ -421,21 +421,21 @@ machetekilltext = [
 ]
 
 bowkilltext = [
-    "{name_player} quickly enchants their bow with Fire Aspect I. {name_target} gets struck by a flaming arrow, burning up in an instant. {emote_skull}",
+    "{name_player} quickly enchants their bow with Fire Aspect I. {name_target} gets struck by a flaming arrow, burning into a crisp in an instant. {emote_skull}",
     "{name_player} nocks arrow after arrow into their bow, launching them into {name_target}. {name_target} looks less like a person and more like a porcupine. {emote_skull}",
     "{name_player} chases around {name_target}, right clicking their bow over and over. {name_target} turns red and falls over, disappearing into smoke particles. {emote_skull}"
 ]
 
 kniveskilltext = [
     "{name_player} grabs handfuls of knives and tosses them in the direction of {name_target}. All of the knives pierce through {name_target}, leaving their corpse pinned to a wall. {emote_skull}",
-    "{name_player} lobs a knife at {name_target} **PLUNK!** The knife lands right between {name_target}'s eyes with satisfying precision, killing them instantly. {emote_skull}",
+    "{name_player} lobs a knife at {name_target}. **PLUNK!** The knife lands right between {name_target}'s eyes with satisfying precision, killing them instantly. {emote_skull}",
     "{name_player} holds a knife in one hand and focuses in for a throw... **THUNK!** The knife embeds itself in {name_target}’s throat, spurting blood in a crimson red fountain. {emote_skull}"
 ]
 
 monowhipkilltext = [
-    "{name_player} repeatedly lashes {name_target} with their monowhip. {name_target} stumbles backwards before eventually falling into tiny slices. {emote_skull}",
+    "{name_player} repeatedly lashes {name_target} with their monowhip. {name_target} stumbles backwards before eventually falling into tiny meat slices. {emote_skull}",
     "{name_player} tosses out their monowhip, snagging it around {name_target}'s torso. With one tug, {name_target} is reduced to nothing but a bleeding torso. {emote_skull}",
-    "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a mess of body parts. {emote_skull}"
+    "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a messy pile of body parts. {emote_skull}"
 ]
 
 broadswordkilltext = [
@@ -464,7 +464,7 @@ shotgunkilltext = [
 
 sledgehammerkilltext = [
     "{name_player} brings their sledge to one of {name_target}'s kneecaps, bending their leg backwards with a sickly crunch. As {name_target} yelps in pain they get their skull caved in by an overhead swing. {emote_skull}",
-    "{name_player} starts to spin around, sledge in hand. As they let go it goes flying directly into {name_target}'s chest, shattering several rib bones upon impact. {emote_skull}",
+    "{name_player} starts to spin around, sledge in hand. As they let go it goes flying directly into {name_target}'s chest, shattering most of their rib bones upon impact and fracturing their lungs. {emote_skull}",
     "{name_player} hits {name_target} on the side of the head with their sledge, bringing {name_target} to the ground. Winding up a finishing swing, {name_target}'s head is messily crushed like a watermelon."
 ]
 
@@ -475,13 +475,13 @@ katanakilltext = [
 ]
 
 huntingriflekilltext = [
-    "{name_player} hops off a car and performs a full 720 noscope! The shot connects, causing {name_target}’s head to explode into meaty chunks. Log off, n00b. {emote_skull}",
+    "{name_player} hops off the hood of a car and performs a full 720 noscope! The shot connects, causing {name_target}’s head to explode into meaty chunks. Log off, n00b. {emote_skull}",
     "{name_player} snipes {name_target] in the thigh, knocking them off their feet. {name_player} takes out their trusty hunting knife and carves out a {name_target} pelt. Ahh, the thrill of the hunt. {emote_skull}",
     "{name_player} waits in the bushes for a potential target. {name_target} walks into {name_player}’s line of sights, quickly receiving a bullet in the skull. {emote_skull}"
 ]
 
 sniperkilltext = [
-    "{name_player} holds their breath for a precision shot. ***BANG!** Their sniper round violently pierces {name_target}'s skull, leaving their head barely hanging on by a tendon. {emote_skull}",
+    "{name_player} holds their breath for a precision shot. **BANG!** Their sniper round violently pierces {name_target}'s skull, leaving their head barely hanging on by a tendon. {emote_skull}",
     "{name_player} works the bolt of their sniper as they prepare to fire. **BLAM!** The force of the shot severs {name_target}’s leg, knocking them over as their stump spurts blood everywhere. {emote_skull}",
     "{name_player} perfectly places a sniper shot into {name_target}’s chest from a nearby rooftop. {name_target}’s internal organs are completely and utterly destroyed. {emote_skull}"
 ]
@@ -495,13 +495,13 @@ grenadekilltext = [
 molotovkilltext = [
     "{name_player} lobs their molotov with an overhead swing. In its arc, it gets sniped out of the air by a stray bullet. The flames and broken glass shards rain down upon {name_target}, killing them near instantly. {emote_skull}",
     "{name_player} chucks a molotov in the direction of {name_target}. It’s a direct hit, causing {name_target} to burn up into a crisp with some blood-curdling screeches of agony. {emote_skull}",
-    "{name_player} tosses molotov after molotov, burning up the surrounding area. Alongside the carnage, {name_target} gets swallowed by the flames. {emote_skull}"
+    "{name_player} tosses molotov after molotov, burning up the surrounding area with the grace of a pyromaniac. Alongside the carnage, {name_target} gets swallowed by the flames. {emote_skull}"
 ]
 
 dclawkilltext = [
     "{name_player} viciously claws at {name_target} with raging fury. By the end of the rampage, {name_target} is nothing more than a charred pile of mush. {emote_skull}",
     "{name_player} blasts searing flames at {name_target} from their palm. {name_target} burns up rather easily into a fine crisp. The soul of the dragon is temporarily satisfied. {emote_skull}",
-    "{name_player} hits {name_target} with an overhead slash! The deep cuts alight, burning them up from the inside out. Mmm… smells like bacon. {emote_skull}"
+    "{name_player} hits {name_target} with an overhead slash! The deep cuts alight, burning them up from the inside out. {name_target}'s body chars a crisp black. Mmm… smells like bacon. {emote_skull}"
 ]
 
 umbrellakilltext = [
