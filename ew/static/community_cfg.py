@@ -470,7 +470,7 @@ sledgehammerkilltext = [
 
 katanakilltext = [
     "{name_player} slowly unsheathes their katana before a bright flash of light envelops the screen. {name_player} is suddenly behind {nane_target}, who is now in two pieces.",
-    "{name_player} ambushes {name_target} from above, slicing their katana through them like butter. As they sheath the blade {name_target} suddenly explodes in a fountain of blood. {emote_skull}"
+    "{name_player} ambushes {name_target} from above, slicing their katana through them like butter. As they sheath the blade {name_target} suddenly explodes in a fountain of blood. {emote_skull}",
     "{name_player} delivers a devastating katana slash across {name_target}’s chest. Their intestines spill out, bringing them to their knees before getting a swift decapitation. {emote_skull}"
 ]
 
