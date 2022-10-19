@@ -157,6 +157,7 @@ async def store(cmd):
 
 """retrieve items from a communal chest in your gang base"""
 
+used_chest_poi_ids = []
 
 async def take(cmd):
     if len(cmd.tokens) < 2:
@@ -173,6 +174,9 @@ async def take(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
     if poi.community_chest == None:
         response = "There is no community chest here."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif user_data.poi in used_chest_poi_ids:
+        response = "Wait until the last bloke is done. Even thieves have to wait in line!"
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if len(poi.factions) > 0 and user_data.faction not in poi.factions:
@@ -201,11 +205,14 @@ async def take(cmd):
     if item_sought:
         item_search = ewutils.flattenTokenListToString(item_sought.get('name'))
         loop_sought = item_sought.copy()
+        if multisnag > 1:
+            used_chest_poi_ids.append(user_data.poi)
         while multisnag > 0 and loop_sought is not None:
             if items_snagged == 0:
                 inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=loop_sought.get('item_type'), return_strings=True, pronoun="You")
 
                 if inv_response != "":
+                    used_chest_poi_ids.remove(user_data.poi)
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
                 list_items = bknd_item.inventory(
@@ -236,6 +243,7 @@ async def take(cmd):
                     if user_data.life_state == ewcfg.life_state_corpse:
                         del weapons_held
                         response = "Ghosts can't hold weapons."
+                        used_chest_poi_ids.remove(user_data.poi)
                         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     elif user_data.get_weapon_capacity() - len(weapons_held) < multisnag:
                         multisnag = user_data.get_weapon_capacity() - len(weapons_held)
@@ -277,7 +285,8 @@ async def take(cmd):
         response = "You retrieve a {} from the community chest.".format(name_string)
 
         del item_sought
-
+        if multisnag > 1:
+            used_chest_poi_ids.remove(user_data.poi)
     else:
         if item_search:
             response = "There isn't one here."
