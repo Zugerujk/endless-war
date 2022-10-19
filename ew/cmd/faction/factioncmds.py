@@ -53,6 +53,7 @@ async def vouch(cmd):
 # Maybe these should be moved to item cmds
 """store items in a communal chest in your gang base"""
 
+used_chest_poi_ids = []
 
 async def store(cmd):
     if len(cmd.tokens) < 2:
@@ -65,6 +66,9 @@ async def store(cmd):
     poi = poi_static.id_to_poi.get(user_data.poi)
     if poi.community_chest == None:
         response = "There is no community chest here."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif user_data.poi in used_chest_poi_ids:
+        response = "You watch patiently as someone infront of you shits their entire stomach into the chest. They'll be done in a moment, try again then."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if len(poi.factions) > 0 and user_data.faction not in poi.factions:
@@ -97,7 +101,8 @@ async def store(cmd):
 
             item_cache = bknd_core.get_cache(obj_type="EwItem")
 
-
+            if multistow > 1:
+                used_chest_poi_ids.append(user_data.poi)
             while multistow > 0 and loop_sought is not None:
                 item = EwItem(id_item=loop_sought.get("id_item"))
                 item_search = ewutils.flattenTokenListToString(loop_sought.get('name'))
@@ -106,6 +111,8 @@ async def store(cmd):
                         if user_data.weaponmarried:
                             weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
                             response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
+                            if multistow > 1:
+                                used_chest_poi_ids.remove(user_data.poi)
                             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                         else:
                             user_data.weapon = -1
@@ -141,6 +148,8 @@ async def store(cmd):
             else:
                 name_string = item_sought.get("name")
 
+            if multistow > 1 or items_had > 1:
+                used_chest_poi_ids.remove(user_data.poi)
             bknd_item.give_item_multi(id_list=items, destination=poi.community_chest)
             response = "You store your {} in the community chest.".format(name_string)
 
@@ -157,7 +166,7 @@ async def store(cmd):
 
 """retrieve items from a communal chest in your gang base"""
 
-used_chest_poi_ids = []
+
 
 async def take(cmd):
     if len(cmd.tokens) < 2:
@@ -212,7 +221,8 @@ async def take(cmd):
                 inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=loop_sought.get('item_type'), return_strings=True, pronoun="You")
 
                 if inv_response != "":
-                    used_chest_poi_ids.remove(user_data.poi)
+                    if multisnag > 1:
+                        used_chest_poi_ids.remove(user_data.poi)
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
                 list_items = bknd_item.inventory(
@@ -243,7 +253,8 @@ async def take(cmd):
                     if user_data.life_state == ewcfg.life_state_corpse:
                         del weapons_held
                         response = "Ghosts can't hold weapons."
-                        used_chest_poi_ids.remove(user_data.poi)
+                        if multisnag > 1:
+                            used_chest_poi_ids.remove(user_data.poi)
                         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     elif user_data.get_weapon_capacity() - len(weapons_held) < multisnag:
                         multisnag = user_data.get_weapon_capacity() - len(weapons_held)
@@ -285,7 +296,7 @@ async def take(cmd):
         response = "You retrieve a {} from the community chest.".format(name_string)
 
         del item_sought
-        if multisnag > 1:
+        if multisnag > 1 or items_snagged > 1:
             used_chest_poi_ids.remove(user_data.poi)
     else:
         if item_search:
