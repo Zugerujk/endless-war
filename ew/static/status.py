@@ -331,6 +331,12 @@ trauma_list = [
         trauma_class=ewcfg.trauma_class_damage,
     ),
     EwTrauma(
+        id_trauma=ewcfg.trauma_id_backfire,
+        str_trauma_self="You are suffering from a chronic case of stupidity.",
+        str_trauma="They are suffering from a chronic case of stupidity.",
+        trauma_class=ewcfg.trauma_class_damage
+    ),
+    EwTrauma(
         id_trauma=ewcfg.trauma_id_betrayal,
         str_trauma_self="You look anxious around your teammates, wary of betrayal.",
         str_trauma="They look anxious around their teammates, wary of betrayal.",
@@ -624,19 +630,19 @@ trauma_list = [
         str_trauma="There is a deep, precise indent in the crown of their skull. How embarrassing!",
         trauma_class=ewcfg.trauma_class_hunger,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_awp,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-            EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_huntingrifle,
         str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
         str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
-                EwTrauma(  # 17
+    EwTrauma(  # 17
         id_trauma=ewcfg.weapon_id_monofilamentwhip,
         str_trauma_self="Your body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
         str_trauma="Their body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
@@ -670,6 +676,36 @@ trauma_list = [
         id_trauma=ewcfg.weapon_id_skateboard,
         str_trauma_self="The sight of skate tricks makes you cower in fear.",
         str_trauma="The sight of skate tricks makes them cower in fear.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 48
+        id_trauma=ewcfg.weapon_id_missilelauncher,
+        str_trauma_self="You still haven't found the missing body part from your last encounter.",
+        str_trauma="It looks like they are still searching for a missing body part.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 20
+        id_trauma=ewcfg.weapon_id_pistol,
+        str_trauma_self = "You have several small holes in your chest.",
+        str_trauma = "They have several small holes in their chest.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 21
+        id_trauma=ewcfg.weapon_id_combatknife,
+        str_trauma_self = "You are covered in several cut wound scars.",
+        str_trauma = "They are covered in several cut wound scars.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 22
+        id_trauma=ewcfg.weapon_id_machete,
+        str_trauma_self = "Your body has been loosely stitched back together.",
+        str_trauma = "Their body has been loosely stitched back together.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 23
+        id_trauma=ewcfg.weapon_id_boomerang,
+        str_trauma_self = "You have several long cut scars across your body.",
+        str_trauma = "They have several long cut scars across their body.",
         trauma_class=ewcfg.trauma_class_sapregeneration
     ),
 ]

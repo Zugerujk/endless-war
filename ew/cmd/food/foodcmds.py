@@ -191,6 +191,10 @@ async def order(cmd):
     current_currency_amount = user_data.slimes
     # poi = ewmap.fetch_poi_if_coordless(cmd.message.channel.name)
     poi = poi_static.id_to_poi.get(user_data.poi)
+
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
+
     if poi is None or len(poi.vendors) == 0 or ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
         # Only allowed in the food court.
         response = "There’s nothing to buy here. If you want to purchase some items, go to a sub-zone with a vendor in it, like the food court, the speakeasy, or the bazaar."
@@ -418,6 +422,29 @@ async def order(cmd):
                                 item_props['furniture_look_desc'] = item_props['furniture_look_desc'].format(custom=customname)
                                 item_props['furniture_place_desc'] = item_props['furniture_place_desc'].format(custom=customname)
 
+                    elif item.item_type == ewcfg.it_cosmetic:
+                        if item_props.get('id_cosmetic') == "customfanhoodie" and cmd.mentions_count > 0:
+                            member = cmd.mentions[0].display_name
+                            item_props['cosmetic_desc'] = item_props['cosmetic_desc'].format(customfanhoodie=member)
+                            item_props['cosmetic_name'] = item_props['cosmetic_name'].format(customfanhoodie=member)
+                            item_props['str_onadorn'] = item_props['str_onadorn'].format(customfanhoodie=member)
+                            item_props['str_unadorn'] = item_props['str_unadorn'].format(customfanhoodie=member)
+
+                    elif item_props.get('id_food') in ["freeapple"]:
+                        item_props['poisoned'] = 'yes'
+
+                    elif item_props.get('id_food') in ["gumball"]:
+                        gumballrand = random.random()
+                        if gumballrand < 0.6:  # 60%
+                            new_gumball = random.choice(static_food.common_gumballs)
+                        elif gumballrand < 0.9:  # 30%
+                            new_gumball = random.choice(static_food.uncommon_gumballs)
+                        elif gumballrand < 0.998:  # 9.8%
+                            new_gumball = random.choice(static_food.rare_gumballs)
+                        else:  # .2%
+                            new_gumball = random.choice(static_food.superrare_gumballs) 
+                        item = static_food.food_map.get(new_gumball)  #See the below line
+                        item_props = itm_utils.gen_item_props(item)  #Replaces the item that you are ordering from the gumball machine into the random gumball the odds spits out.
 
                     id_item = bknd_item.item_create(
                         item_type=item_type,
@@ -430,6 +457,8 @@ async def order(cmd):
 
                     if value == 0:
                         response = "You swipe a {} from the counter at {}.".format(name, current_vendor)
+                    elif item.acquisition in ewcfg.gumball_acquisitions:
+                        response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball.".format(value, currency_used)
                     else:
                         response = "You slam {:,} {} down on the counter at {} for {}.".format(value, currency_used, current_vendor, name)
 
@@ -437,12 +466,14 @@ async def order(cmd):
                         item_data = EwItem(id_item=id_item)
 
                         # Eat food on the spot!
-                        if target_data != None:
+                        if target_data is not None:
 
                             target_player_data = EwPlayer(id_user=target_data.id_user)
 
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and give it to {}.".format(name, current_vendor, target_player_data.display_name)
+                            elif item.acquisition in ewcfg.gumball_acquisitions:
+                                response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball and throw it into {}'s mouth.".format(value, currency_used, target_player_data.display_name)
                             else:
                                 response = "You slam {:,} {} down on the counter at {} for {} and give it to {}.".format(value, currency_used, current_vendor, name, target_player_data.display_name)
 
@@ -453,12 +484,15 @@ async def order(cmd):
 
                             if value == 0:
                                 response = "You swipe a {} from the counter at {} and eat it right on the spot.".format(name, current_vendor)
+                            elif item.acquisition in ewcfg.gumball_acquisitions:
+                                response = "You jam {:,} {} down the coin slot at the Gumball Machine and twist the crank for a random gumball and pop it in your mouth.".format(value, currency_used)
                             else:
                                 response = "You slam {:,} {} down on the counter at {} for {} and eat it right on the spot.".format(value, currency_used, current_vendor, name)
 
                             user_player_data = EwPlayer(id_user=user_data.id_user)
 
-                            response += "\n\n*{}*: ".format(user_player_data.display_name) + await user_data.eat(item_data)
+                            response += "\n\n*{}*: ".format(user_player_data.display_name)
+                            responses = await user_data.eat(item_data)
                             user_data.persist()
 
                     if premium_purchase:
@@ -470,7 +504,9 @@ async def order(cmd):
             response = "Check the {} for a list of items you can {}.".format(ewcfg.cmd_menu, ewcfg.cmd_order)
 
     # Send the response to the player.
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 # Eating food
@@ -478,6 +514,8 @@ async def eat_item(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
+    responses = []
+    resp_ctn = fe_utils.EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
 
     food_item = None
 
@@ -505,7 +543,8 @@ async def eat_item(cmd):
                 break
 
     if food_item != None:
-        response = await user_data.eat(food_item)
+        responses = await user_data.eat(food_item)
+        response = ""
         user_data.persist()
     else:
         if item_search:
@@ -513,4 +552,6 @@ async def eat_item(cmd):
         else:
             response = "You don't have anything to eat."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()

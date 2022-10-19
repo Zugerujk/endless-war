@@ -1,5 +1,5 @@
 import asyncio
-import datetime
+import discord
 import random
 import sys
 import time
@@ -54,7 +54,7 @@ from .cmdsutils import item_off
 from .cmdsutils import location_commands
 from .cmdsutils import mutation_commands
 from ew.cmd.juviecmd import juviecmdutils
-
+from ew.backend.goonscapestats import EwGoonScapeStat
 from .cmdsutils import holiday_commands
 from .. import item as ewitem
 from ..apt import aptcmds as apt_cmds
@@ -298,9 +298,11 @@ async def data(cmd):
             outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
             user_data.persist()
 
-            # If user is wearing all pieces of the NMS mascot costume, add text 
+            # If user is wearing all pieces of the a costume set, add text 
             if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
                 response_block += "You're dressed like a fucking airplane with tits, dude. "
+            elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
+                response_block += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
             # Otherwise, generate response text for freshness and style.
             elif outfit_map is not None:
                 response_block += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style']) + " "
@@ -538,6 +540,16 @@ async def weather(cmd):
     await fe_utils.send_response(response, cmd)
 
 
+async def forecast(cmd):
+    # Get forecast from weather_utils
+    forecast_response = weather_utils.forecast_txt(id_server=cmd.guild.id)
+
+    response = "The weather forecast is:\n{}".format(forecast_response)
+
+    # Send response
+    await fe_utils.send_response(response, cmd)
+
+
 """
 	Killers DAB
 """
@@ -547,16 +559,9 @@ async def dab(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if (user_data.life_state == ewcfg.life_state_enlisted or user_data.life_state == ewcfg.life_state_kingpin) and user_data.faction == ewcfg.faction_killers:
-        responses = [
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_copkiller + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_copkiller + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_benkart + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_benkart + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_taasenchamp + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_taasenchamp + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_hellaben + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_hellaben + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_phantomhorn + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_phantomhorn + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_dab + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_dab + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck
-        ]
-        response = random.choice(responses)
-        await fe_utils.send_response(response, cmd)
+        response = '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + "{emote}" + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + "{emote}" + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_ck + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_ck + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck + ewcfg.emote_ck + ewcfg.emote_slime1 + ewcfg.emote_ck
+        final_response = response.format(emote=random.choice(ewcfg.dab_emotes))
+        await fe_utils.send_response(final_response, cmd)
 
 
 """
@@ -568,16 +573,9 @@ async def thrash(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if (user_data.life_state == ewcfg.life_state_enlisted or user_data.life_state == ewcfg.life_state_kingpin) and user_data.faction == ewcfg.faction_rowdys:
-        responses = [
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_rowdyfucker + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rowdyfucker + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_munchykart + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_munchykart + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_freaker + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_freaker + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_sweetmunch + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_sweetmunch + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_strawberrymilk + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_strawberrymilk + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf,
-            '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_thrash + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_thrash + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf
-        ]
-        response = random.choice(responses)
-        await fe_utils.send_response(response, cmd)
+        response = '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + "{emote}" + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_slime1 + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + "{emote}" + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime3 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_slime1 + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf + ewcfg.emote_rf
+        final_response = response.format(emote=random.choice(ewcfg.thrash_emotes))
+        await fe_utils.send_response(final_response, cmd)
 
 
 """
@@ -941,6 +939,60 @@ async def jump(cmd):
             await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
         return await resp_cont.post()
             
+    # If the user has Stiltwalker
+    elif ewcfg.mutation_id_stiltwalker in user_data.get_mutations():
+        blimp_obj = EwTransport(id_server=user_data.id_server, poi = ewcfg.poi_id_blimp)
+        # If the user is under the blimp, put them on the blimp.
+        if user_data.poi == blimp_obj.current_stop:
+
+            jump_response = "STR-EEEEETCHHHH!!!!"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, jump_response))
+            await asyncio.sleep(1)
+
+            response = "{} steps up from the city streets below. MF built like a pole, swear to god.".format(cmd.message.author.display_name)
+            # Change their POI
+            user_data.poi = ewcfg.poi_id_blimp
+            blimp_poi = poi_static.id_to_poi.get(ewcfg.poi_id_blimp)
+            user_data.time_lastenter = int(time.time())
+            user_data.persist()
+            # Move ghosts, update roles, send messages.
+            await user_data.move_inhabitants(id_poi=ewcfg.poi_id_blimp)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, blimp_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
+
+            return
+
+        # If the user is in the Waffle House, put them in a random mine.
+        elif user_data.poi == ewcfg.poi_id_wafflehouse:
+
+            jump_response = "STR-EEEEETCHHHH!!!!"
+            await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, jump_response))
+            await asyncio.sleep(1)
+  
+            # Choose a random mine
+            jump_poi_id = random.choice([ewcfg.poi_id_mine, ewcfg.poi_id_mine_sweeper, ewcfg.poi_id_mine_bubble, ewcfg.poi_id_tt_mines,
+                                        ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
+                                        ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble])
+            jump_poi = poi_static.id_to_poi.get(jump_poi_id)
+            response = "{} steps up from the ever-ethereal Waffle House, a creature of the night emerging from utter nothingness. MF built like Slenderman, swear to god.".format(cmd.message.author.display_name)
+            # Change their POI, do all POI-moving checks.
+            user_data.poi = jump_poi_id
+            user_data.time_lastenter = int(time.time())
+            user_data.persist()
+            await user_data.move_inhabitants(id_poi=jump_poi_id)
+            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+            await fe_utils.send_message(cmd.client, fe_utils.get_channel(cmd.guild, jump_poi.channel), fe_utils.formatMessage(cmd.message.author, response))
+
+            return
+
+        # Unique flavor for the slime's end cliffs, can't kill self.
+        elif user_data.poi == ewcfg.poi_id_slimesendcliffs:
+            response = "You take a step into the Slime Sea. Heh, it tickles! You're feeling your legs getting dissolved, dumbass. You take a step out."
+
+        # Otherwise, unique !jump flavor.
+        else:
+            response = random.choice(comm_cfg.stiltwalker_jump_response)
+
     # If you're NOT at the cliffs.
     elif cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
         roll = random.randrange(25)
@@ -1236,8 +1288,7 @@ async def map(cmd):
 
 
 async def transportmap(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author,
-                                                                                        "Map of the subway: https://cdn.discordapp.com/attachments/431238867459375145/570392908780404746/t_system_final_stop_telling_me_its_wrong_magicks.png\nPlease note that there also exists a **blimp** that goes between Dreadford and Assault Flats Beach, as well as a **ferry** that goes between Wreckington and Vagrant's Corner."))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Map of the subway: https://cdn.discordapp.com/attachments/431237299137675297/1021140587572887653/slimemapfinal.png"))
 
 
 """ Check your outfit. """
@@ -1294,9 +1345,11 @@ async def fashion(cmd):
                 outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
                 user_data.persist()
                 
-                # If user is wearing all pieces of the NMS mascot costume, add text 
+                # If user is wearing all pieces of the a costume set, add text 
                 if all(elem in adorned_ids for elem in static_cosmetics.cosmetic_nmsmascot):
                     response += "You're dressed like a fucking airplane with tits, dude."
+                elif all(elem in adorned_ids for elem in static_cosmetics.cosmetic_hatealiens):
+                    response += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
                 
                 elif outfit_map is not None:
                     response += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style'])
@@ -1386,9 +1439,11 @@ async def fashion(cmd):
             if len(adorned_cosmetics) >= 2:
                 response += "\n\n"
 
-                # If user is wearing all pieces of the NMS mascot costume, add text 
+                # If user is wearing all pieces of a costume set, add text 
                 if all(elem in adorned_ids for elem in static_cosmetics.cosmetic_nmsmascot):
                     response += "They're dressed like a fucking airplane with tits, dude."
+                elif all(elem in adorned_ids for elem in static_cosmetics.cosmetic_hatealiens):
+                    response += "Their taste in clothes is a symbol of hatred to illegal aliens everywhere."
                 elif user_data.freshness < ewcfg.freshnesslevel_1:
                     response += "Their outfit is starting to look pretty fresh, but They’ve got a long way to go if they wanna be NLACakaNM’s next top model."
                 elif user_data.freshness < ewcfg.freshnesslevel_2:
@@ -1809,6 +1864,8 @@ async def commands(cmd):
         response += "\n\n" + ewcfg.item_commands
     if "cosmeticsanddyes" in category:
         response += "\n\n" + ewcfg.cosmetics_dyes_commands
+    if "slimeoids" in category:
+        response += "\n\n" + ewcfg.slimeoid_commands
     if "smelting" in category:
         response += "\n\n" + ewcfg.smelting_commands
     if "trading" in category:
@@ -1819,6 +1876,8 @@ async def commands(cmd):
         response += "\n\n" + ewcfg.miscellaneous_commands
     if "flavor" in category:
         response += "\n\n" + ewcfg.flavor_commands
+    if "farming" in category:
+        response += "\n\n" + ewcfg.farm_commands
     if "allitem" in category:
         response += "\n\n"
         for item in ewcfg.item_unique_commands.keys():
@@ -2482,8 +2541,24 @@ async def set_slime(cmd):
     target = None
 
     if cmd.mentions_count != 1:
-        response = "Invalid use of command. Example: !setslime @player 100"
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        # If no user is @'d, try for a POI.
+        poi = poi_static.id_to_poi.get(cmd.tokens[1])
+        # Can't match to a POI
+        if poi == None:
+            response = "Invalid use of command. Example: !setslime @player 100"
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        else:
+            # Get district data & number entered
+            district_data = EwDistrict(id_server=cmd.guild.id, district=poi.id_poi)
+            new_slime = ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
+            if new_slime == None:
+                response = "Invalid number entered."
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))            
+            district_data.slimes = new_slime
+            district_data.persist()
+            # Send message
+            response = "Set {}'s slime to {}.".format(poi.str_name, new_slime)
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
 
@@ -2543,8 +2618,8 @@ async def make_bp(cmd):
     if EwUser(member=cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
         return
 
-    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 474770324035076096:
-        response = 'We were only going to give admin to M@ this time around.'
+    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 487483183957278730:
+        response = 'We were only going to give admin to Zug this time around.'
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.mentions_count > 0:
         recipient = cmd.mentions[0]
@@ -2569,9 +2644,7 @@ async def ping_me(cmd):
     author = cmd.message.author
     user_data = EwUser(member=author)
 
-    if ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin:
-        pass
-    else:
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
         return
 
     try:
@@ -2601,8 +2674,8 @@ async def set_debug_option(cmd):
     response = ""
     if ewutils.DEBUG == True:
         if len(cmd.tokens) == 3:
-            option = cmd.tokens[1]
-            value = cmd.tokens[2]
+            option = cmd.tokens[1].lower()
+            value = cmd.tokens[2].lower()
 
             ewutils.DEBUG_OPTIONS.get(option)
             if option != None:
@@ -2707,23 +2780,29 @@ async def release(cmd):
         await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
 
 
-
 async def dual_key_ban(cmd):
     if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
         return await cmd_utils.fake_failed_command(cmd)
     final_ban_text = ""
 
     player = None
-    if cmd.tokens_count == 2:
-        if '<@!' in cmd.tokens[1]:
-            userid = cmd.tokens[1][3:-1]
-            player = EwPlayer(id_user=int(userid))
+    member = None
 
     if cmd.mentions_count == 1:
-        member = cmd.mentions[0]
+        # Raw mentions so we can even grab the funny ones
+        mention_id = cmd.message.raw_mentions[0]
+        member = cmd.message.guild.get_member(mention_id)
+
+    if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
+        mention_id = cmd.tokens[1]
+        member = cmd.message.guild.get_member(int(mention_id))
+
+    if member is not None:
+        # If the person you're trying to dualkey is also a mod/admin/etc.
         if 0 < ewrolemgr.check_clearance(member=member) < 4:
-            response = "I'm sorry, {}. I can't let you do that.".format(cmd.message.author.display_name)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            response = f"I'm sorry, {cmd.message.author.display_name}. I can't let you do that."
+            return await fe_utils.send_response(response, cmd)
+        player = EwPlayer(id_user=member.id, id_server=cmd.message.guild.id)
 
     if player is not None:
         target_data = EwUser(id_user=player.id_user, id_server=player.id_server)
@@ -2737,14 +2816,14 @@ async def dual_key_ban(cmd):
                     yourban = "dualkey{}".format(cmd.message.author.id)
                     if yourban not in target_data.get_bans():
                         target_data.ban(faction="dualkey{}".format(cmd.message.author.id))
-                    response = "You banish {} into the torturous depths of somewhere else. They're in a better place now. What a shame.".format(player.display_name)
-                    final_ban_text = "{} is now banned.".format(player.display_name)
+                    response = "You banish {} into the torturous depths of somewhere else. They're in a better place now. What a shame.".format(member.display_name)
+                    final_ban_text = "{} is now banned.".format(member.display_name)
                     try:
                         await member.ban(reason="Dual key banned.")
                     except:
                         response = "Ban failed. Were they out of the server? Either way, your key's in."
                         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+                        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
 
                         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -2759,13 +2838,14 @@ async def dual_key_ban(cmd):
         target_data.ban(faction="dualkey{}".format(cmd.message.author.id))
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, player.display_name, final_ban_text))
+        await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
 
-        response = "You turn your key. {} is just one step away from banishment...".format(player.display_name)
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        response = "You turn your key. {} is just one step away from banishment...".format(member.display_name)
+        return await fe_utils.send_response(response, cmd)
     else:
-        response = "Either your syntax is wrong or they're out of the server. It's !dualkeyban @player."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        response = "Either your syntax is wrong or they're out of the server. It's either !dualkeyban @player or !dualkeyban <ID>."
+        return await fe_utils.send_response(response, cmd)
+
 
 async def dual_key_release(cmd):
     if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
@@ -2773,11 +2853,23 @@ async def dual_key_release(cmd):
     response = ""
     final_unban_text = ""
     player = None
-    if cmd.tokens_count == 2:
-        if '<@!' in cmd.tokens[1]:
-            userid = cmd.tokens[1][3:-1]
-            player = EwPlayer(id_user=int(userid))
+    member = None
 
+    if cmd.mentions_count == 1:
+        # Raw mentions so we can even grab the funny ones
+        mention_id = cmd.message.raw_mentions[0]
+        member = cmd.message.guild.get_member(mention_id)
+
+    if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
+        mention_id = cmd.tokens[1]
+        member = cmd.message.guild.get_member(int(mention_id))
+
+    if member is not None:
+        # If the person you're trying to dualkey is also a mod/admin/etc.
+        if 0 < ewrolemgr.check_clearance(member=member) < 4:
+            response = f"I'm sorry, {cmd.message.author.display_name}. I can't let you (un)do that."
+            return await fe_utils.send_response(response, cmd)
+        player = EwPlayer(id_user=member.id, id_server=cmd.message.guild.id)
 
     if player is not None:
         target_data = EwUser(id_user=int(player.id_user), id_server = cmd.guild.id)
@@ -2796,21 +2888,19 @@ async def dual_key_release(cmd):
             if 'dualkey' in ban:
                 ban_count += 1
         if ban_count < 2:
-
-            banned_users = await cmd.guild.bans()
-            for ban in banned_users:
+            async for ban in cmd.guild.bans():
                 if ban.user.id == player.id_user:
                     await cmd.guild.unban(ban.user)
-                    final_unban_text = "{} is unbanned!".format(player.display_name)
+                    final_unban_text = "{} is unbanned!".format(member.display_name)
             response += final_unban_text
 
         if "You never banned them to begin with." not in response:
             leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-            await fe_utils.send_message(cmd.client, leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, player.display_name, final_unban_text))
+            await fe_utils.send_message(cmd.client, leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, member.display_name, final_unban_text))
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
     else:
-        response = "They haven't been in the server before or your syntax is wrong. It's !dualkeyrelease <@player>."
+        response = "They haven't been in the server before or your syntax is wrong. It's !dualkeyrelease @player or !dualkeyrelease <ID>."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -3183,3 +3273,18 @@ async def fun(cmd):
         response = 'You stop having fun.'"""
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def display_goonscape_stats(cmd):
+    response = "\n```ini\n"
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+
+        stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+
+        response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
+
+    response += "```"
+
+    
+    await fe_utils.send_response(response, cmd)
+

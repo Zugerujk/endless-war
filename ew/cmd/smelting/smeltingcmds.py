@@ -212,6 +212,8 @@ async def find_recipes_by_item(cmd):
         found_recipe = smelting.smelting_recipe_map.get(sought_item)
         if found_recipe != None:
             used_recipe = found_recipe.id_recipe
+        else:
+            used_recipe = sought_item
 
         makes_sought_item = []
         uses_sought_item = []
@@ -242,17 +244,17 @@ async def find_recipes_by_item(cmd):
 
             # Checks for if the item is a cosmetic that cannot be smelted.
             if sought_item in cosmetics.unique_smeltables:
-                response = "The item you look to smelt is unable to be done so by mortal hands. Only consulting with the ancients, or even possibly the ancient-ers, could create that."
+                response = "The item you look to smelt is unable to be done so by chance.\n"
 
             else:
                 for item in makes_sought_item:
-                    if (item.id_recipe == "toughcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_tough
+                    if (used_recipe and (item.id_recipe == "toughcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_tough
                             or item.id_recipe == "smartcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_smart
                             or item.id_recipe == "beautifulcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_beautiful
                             or item.id_recipe == "cutecosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_cute
                             or item.id_recipe == "coolcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_cool
                             or item.id_recipe == "evilcosmetic" and cosmetics.cosmetic_map[used_recipe].style != ewcfg.style_evil
-                            or (item.id_recipe in ["toughcosmetic", "smartcosmetic", "beautifulcosmetic", "cutecosmetic", "coolcosmetic", "evilcosmetic"] and cosmetics.cosmetic_map[used_recipe].id_cosmetic in cosmetics.unique_smeltables)):
+                            or (item.id_recipe in ["toughcosmetic", "smartcosmetic", "beautifulcosmetic", "cutecosmetic", "coolcosmetic", "evilcosmetic"] and cosmetics.cosmetic_map[used_recipe].id_cosmetic in cosmetics.unique_smeltables))):
                         list_length -= 1
                         continue
                     else:

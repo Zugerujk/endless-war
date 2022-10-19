@@ -1,6 +1,7 @@
 import asyncio
 import random
 import time
+import math
 
 from ew.backend import core as bknd_core
 from ew.backend import item as bknd_item
@@ -21,6 +22,7 @@ from ew.utils import move as move_utils
 from ew.utils import poi as poi_utils
 from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
+from ew.utils import cmd as cmd_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -193,6 +195,9 @@ async def graft(cmd):
 async def preserve(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
+    if ewcfg.mutation_id_rigormortis not in mutations:
+        response = "You can't just preserve something by saying you're going to. Everything ends eventually."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None)
@@ -200,18 +205,17 @@ async def preserve(cmd):
     if item_sought:
         item_obj = EwItem(id_item=item_sought.get('id_item'))
 
-        if item_obj.item_props.get('preserved') == None:
-            preserve_id = 0
-        else:
-            preserve_id = int(item_obj.item_props.get('preserved'))
-
-        if ewcfg.mutation_id_rigormortis not in mutations:
-            response = "You can't just preserve something by saying you're going to. Everything ends eventually."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        elif item_obj.soulbound == True:
+        if item_obj.soulbound == True:
             response = "This thing's bound to your soul. There's no need to preserve it twice."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        elif preserve_id == int(user_data.id_user):
+
+        preserve_id = item_obj.item_props.get('preserved')
+        if preserve_id == None:
+            preserve_id = 0
+        else:
+            preserve_id = int(preserve_id)
+
+        if preserve_id == int(user_data.id_user):
             response = "Didn't you already preserve this? You're so paranoid."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif item_obj.item_props.get('preserved') == "nopreserve":
@@ -404,6 +408,26 @@ async def piss(cmd):
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 response = "You piss HARD and FAST right onto {}!!".format(target_member.display_name)
+           
+            elif ewcfg.mutation_id_quantumlegs in mutations:
+                    time_now = int(time.time())
+                    mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_quantumlegs)
+                    if len(mutation_data.data) > 0:
+                        time_lastuse = int(mutation_data.data)
+                    else:
+                        time_lastuse = 0
+
+                    if time_lastuse + 60 * 60 > time_now:
+                        response = "You can't do that again yet. Try again in about {} minute(s)".format(math.ceil((time_lastuse + 60 * 60 - time_now) / 60))
+                        return await fe_utils.send_response(response, cmd)
+                    
+                    mutation_data.data = str(time_now)
+                    mutation_data.persist()
+                    response = "The space directly above {}'s head prolapses into a shower of piss. Slurp's up!".format(target_member.display_name)
+                    resp_cont = EwResponseContainer(id_server=cmd.guild.id)
+                    resp_cont.add_channel_response(poi_static.id_to_poi.get(target_user_data.poi).channel, response)
+                    await resp_cont.post()
+                    response = "You rev up your quantum cock and piss HARD and FAST right onto {}!!".format(target_member.display_name)
             else:
                 response = "You can't !piss on someone who isn't there! Moron!"
 
@@ -455,7 +479,6 @@ async def fursuit(cmd):
     # gets days until full moon
     if ewcfg.mutation_id_organicfursuit in mutations:
         days_until = -market_data.day % 29
-        print(days_until)
         if days_until > 15:
             days_until -= 16
         elif days_until <= 14:
@@ -487,6 +510,8 @@ async def devour(cmd):
     is_brick = 0
     time_now = int(time.time())
     mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_trashmouth)
+    resp_ctn = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
 
     if len(mutation_data.data) > 0:
         time_lastuse = int(mutation_data.data)
@@ -570,13 +595,17 @@ async def devour(cmd):
             if item_obj.item_type != ewcfg.it_food:
                 mutation_data.data = '{}'.format(time_now)
             if is_brick == 0:
-                response = await user_data.eat(item_obj)
+                response = ""
+                responses = await user_data.eat(item_obj)
             user_data.persist()
     elif item_search == "":
         response = "Devour what?"
     else:
         response = "Are you sure you have that item?"
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+    return await resp_ctn.post()
 
 
 async def longdrop(cmd):
@@ -760,3 +789,80 @@ async def tracker(cmd):
             response = "You're tracking {} right now. LOL, they're lookin pretty dumb over there.".format(target.display_name)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+"""
+Admin-only commands
+"""
+
+# Force a mutation to be grafted, ignoring incompatibilities and mutation level.
+async def forcegraft(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    # Grab player or, if none specified, the author.
+    if cmd.mentions_count == 1:
+        user = cmd.mentions[0]
+    else:
+        user = cmd.message.author
+
+    user_data = EwUser(member=user)
+
+    # Get desired mutation
+    target_name = ewutils.flattenTokenListToString(cmd.tokens[1:])
+    target = ewutils.get_mutation_alias(target_name)
+
+    mutations = user_data.get_mutations()
+
+    if target == 0:
+        response = "There is not a \"{}\" mutation.".format(target_name)
+    elif target in mutations:
+        response = "You already have that mutation."
+    else:
+        # Add the mutation
+        user_data.add_mutation(id_mutation=target, is_artificial=1)
+        response = "You have forcibly grafted {}.".format(target)
+    # Send message
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def forcechemo(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    # Grab player or, if none specified, the author.
+    if cmd.mentions_count == 1:
+        user = cmd.mentions[0]
+    else:
+        user = cmd.message.author
+
+    user_data = EwUser(member=user)
+
+    # Get desired mutation
+    target_name = ewutils.flattenTokenListToString(cmd.tokens[1:])
+    target = ewutils.get_mutation_alias(target_name)
+
+    mutations = user_data.get_mutations()
+
+    if target == 0:
+        response = "There is not a \"{}\" mutation.".format(target_name)
+    elif target not in mutations:
+        response = "You do not have that mutation."
+    else:
+        # Remove the mutation
+        try:
+            bknd_core.execute_sql_query(
+                "DELETE FROM mutations WHERE {id_server} = %s AND {id_user} = %s AND {mutation} = %s".format(
+                    id_server=ewcfg.col_id_server,
+                    id_user=ewcfg.col_id_user,
+                    mutation=ewcfg.col_id_mutation
+                ), (
+                    user_data.id_server,
+                    user_data.id_user,
+                    target,
+                ))
+        except:
+            ewutils.logMsg("Failed to clear mutations for user {}.".format(user_data.id_user))
+        response = "You have forcibly chemo'd {}.".format(target)
+    # Send message
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

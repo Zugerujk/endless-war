@@ -18,6 +18,12 @@ try:
     from ew.cmd.debugr import debug22
 except:
     from ew.static.rstatic_dummy import debugsmoke
+    from ew.cmd.debugr_dummy import debug22
+
+async def smoke(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    item_sought = None
+    space_adorned = 0
 
 async def smoke(cmd):
     usermodel = EwUser(member=cmd.message.author)
@@ -262,9 +268,19 @@ async def adorn(cmd):
                     user_data.race = ewcfg.race_furry
                     time_now = int(time.time())
                     user_data.time_racialability = time_now + ewcfg.cd_change_race
-                    # Only certain will get extra flavor text
-                    if ability in ['moonlighter', 'furry']:
-                        response += " ...You feel yourself becoming... furpilled?"
+                    response += " ...You feel yourself becoming... furpilled?"
+                # Cosmetics with this ability will turn you into a demon
+                elif ability in ['demon']:
+                    user_data.race = ewcfg.race_demon
+                    time_now = int(time.time())
+                    user_data.time_racialability = time_now + ewcfg.cd_change_race
+                    response += " ...You feel yourself becoming... demonic?"
+                # Cosmetics with this ability will turn you into an insectoid
+                elif ability in ['bug']:
+                    user_data.race = ewcfg.race_insectoid
+                    time_now = int(time.time())
+                    user_data.time_racialability = time_now + ewcfg.cd_change_race
+                    response += " ...You feel yourself becoming... buggish?"
 
                 item_sought.persist()
                 user_data.persist()

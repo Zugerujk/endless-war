@@ -31,12 +31,11 @@ try:
 except:
     from ew.utils import rutils_dummy as relic_utils
 
-""" update stock values according to market activity """
-
 
 async def stock_market_tick(stock_data, id_server):
+    """ Update stock values according to market activity """
     market_data = EwMarket(id_server=id_server)
-    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock)
+    company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock, only_latest=False)
     crashstate = EwGamestate(id_server=id_server, id_state='stockcrashdive').bit
 
     # Nudge the value back to stability.
@@ -179,10 +178,8 @@ async def stock_market_tick(stock_data, id_server):
     return response
 
 
-"""" returns the total number of shares a player has in a certain stock """
-
-
 def getUserTotalShares(id_server, stock, id_user):
+    """" Returns the total number of shares a player has in a certain stock """
     values = 0
 
     try:
@@ -208,10 +205,8 @@ def getUserTotalShares(id_server, stock, id_user):
         return values
 
 
-"""" updates the total number of shares a player has in a certain stock """
-
-
 def updateUserTotalShares(id_server = None, stock = None, id_user = None, shares = 0):
+    """" Updates the total number of shares a player has in a certain stock """
     if id_server != None and stock != None and id_user != None:
 
         try:
@@ -231,10 +226,45 @@ def updateUserTotalShares(id_server = None, stock = None, id_user = None, shares
             pass
 
 
-""" get user ID of player with most shares in a stock """
+def getRecentTotalShares(id_server=None, stock=None, count=2):
+    """ Returns an array of the most recent counts of all invested slime coin, from newest at 0 to oldest. """
+    if id_server != None and stock != None:
+
+        values = []
+
+        try:
+
+            count = round(count)
+            data = bknd_core.execute_sql_query("SELECT {total_shares} FROM stocks WHERE {id_server} = %s AND {stock} = %s ORDER BY {timestamp} DESC LIMIT %s".format(
+                stock = ewcfg.col_stock,
+                total_shares = ewcfg.col_total_shares,
+                id_server = ewcfg.col_id_server,
+                timestamp = ewcfg.col_timestamp,
+            ), (
+                id_server,
+                stock,
+                (count if (count > 0) else 2)
+            ))
+
+            for row in data:
+                values.append(row[0])
+
+            # Make sure we return at least one value.
+            if len(values) == 0:
+                values.append(0)
+
+            # If we don't have enough data, pad out to count with the last value in the array.
+            value_last = values[-1]
+            while len(values) < count:
+                values.append(value_last)
+        except:
+            pass
+        finally:
+            return values
 
 
 def get_majority_shareholder(id_server = None, stock = None):
+    """ Get user ID of player with most shares in a stock """
     result = None
     if id_server is not None and stock is not None:
         try:
@@ -258,17 +288,16 @@ def get_majority_shareholder(id_server = None, stock = None):
         finally:
             return result
 
-""" Update all the stocks currently available in the Stock Exchange """
 
-async def update_stocks(id_server = None):
-    if id_server:
-        exchange_data = EwDistrict(district=ewcfg.poi_id_stockexchange, id_server=id_server)
+async def update_stocks(id_server = None, time_lasttick = None):
+    """ Update all the stocks currently available in the Stock Exchange """
+    if id_server and time_lasttick:
         resp_cont = EwResponseContainer(ewcfg.get_client(), id_server=id_server)
         for stock in ewcfg.stocks:
             s = EwStock(id_server, stock)
             # we don't update stocks when they were just added
             if s.timestamp != 0:
-                s.timestamp = int(time.time())
+                s.timestamp = int(time_lasttick)
                 market_response = await stock_market_tick(s, id_server)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange, market_response)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange_p, market_response)
@@ -276,10 +305,8 @@ async def update_stocks(id_server = None):
         await resp_cont.post()
                 
 
-
-""" Clear the bazaar and then refresh stock. """
-
 async def refresh_bazaar(id_server = None):
+    """ Clear the bazaar and then refresh stock. """
     if id_server:
         # Update the list of available bazaar items by clearing the current list and adding the new items
         market_data = EwMarket(id_server)

@@ -31,7 +31,7 @@ try:
 except:
     from ew.cmd.debugr_dummy import debug13
 
-cookingresponses = ['A fat man slams his fist down, demanding his chicken nuggies!\nquick! **!serve** !', 'A truly fashionable man, wearing a kimono, slides up to the bar and asks you for a drink.\nquick! **!serve**', 'A girl with a "Ghots FTW" shirt demands some authentic quizie!\nQuick! **!serve**!!!', 'A killer with four lip piercings slams their slime on the counter! They want a big ass cake!\nquick! **!serve** !', 'Past president Ronald Reagan demands some nice ghost pie!\nquick! **!serve** !', 'A large humanoid slug slithers into the cafe! He wants the worst pie ever!\nquick! **!serve** !', 'The human version of a pile of phlegm enters the cafe. He wants to drink your best brew with ghost milk!\nquick! **!serve** !']
+cookingresponses = ['A fat man slams his fist down, demanding his chicken nuggies!\nquick! **!serve** !', 'A truly fashionable man, wearing a kimono, slides up to the bar and asks you for a drink.\nquick! **!serve** !', 'A girl with a "Ghots FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A killer with four lip piercings slams their slime on the counter! They want a big ass cake!\nQuick! **!serve** !', 'Past president Ronald Reagan demands some nice ghost pie!\nQuick! **!serve** !', 'A large humanoid slug slithers into the cafe! He wants the worst pie ever!\nQuick! **!serve** !', 'The human version of a pile of phlegm enters the cafe. He wants to drink your best brew with ghost milk!\nQuick! **!serve** !', "A little creature enters the cafe. They want a big pile of ghost pancakes!\nQuick!**!serve** !", 'A girl with a "Ghosts FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A girl with a "Goats FTW" shirt demands some authentic quizie!\nQuick! **!serve** !']
 
 async def negapool(cmd):
     # Add persisted negative slime.
@@ -587,7 +587,7 @@ async def sacrifice(cmd):
     item_property = ''
 
 
-    if ewcfg.dh_active:
+    if ewcfg.dh_active and ewcfg.dh_stage >= 2:
         if user_data.poi != 'endlesswar':
             response = 'The altars are next to ENDLESS WAR. Sacrifice your worldly possessions over there.'
         elif not item_sought:
@@ -665,7 +665,6 @@ async def startshift(cmd):
 					await asyncio.sleep(random.randrange(3, 6))
 					if chef.serve == True:
 						response = "You messed up and dwopped the dish ಥ_ಥ! Your manager angwily shoos you away into the bathwoom to cwean up and takes cawe of the guest. You eawned no moneyz!"
-						await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 						chef.stop()
 						chef.cooking = False
 						user_data.persist()
@@ -719,7 +718,7 @@ async def sow_cloth(cmd):
     user_data = EwUser(member=cmd.message.author)
     response = ""
     if user_data.life_state != ewcfg.life_state_corpse:
-        response = "You dry to tug at your flesh, but it won't come free!"
+        response = "You try to tug at your flesh, but it won't come free!"
     elif user_data.slimes > -100000:
         response = "Using your form to create cloth would probably destroy you... Get more antislime!"
     else:
@@ -733,5 +732,5 @@ async def sow_cloth(cmd):
         )
         user_data.change_slimes(n=100000, source=ewcfg.source_spending)
         user_data.persist()
-        response = "You rip a sheet of your ghostly form free, feeling the essence ripped from your very being. Using your teeth to refine it into a fine white cloth."
+        response = "You tear a sheet of your ghostly form free, shrieking as your essence is ripped from your very being. You use your teeth to refine it into a fine white cloth."
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

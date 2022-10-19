@@ -119,7 +119,7 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
             ewutils.logMsg("Failed to find role for {role}.".format(role = role))
 
     try:
-        await member.edit(roles=replacement_roles)
+        member = await member.edit(roles=replacement_roles)
     except Exception as e:
         ewutils.logMsg('error: failed to replace roles for {}:{}'.format(member.display_name, str(e)))
 
@@ -141,6 +141,37 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
     if not user_poi_obj:
         user_poi_obj = poi_static.id_to_poi.get(ewcfg.poi_id_downtown)
 
+
+    if user_data.life_state != ewcfg.life_state_enlisted:
+        # Let aligned juvies access gang comms
+        if user_data.life_state == ewcfg.life_state_juvenile and user_data.faction != '':
+            channels = []
+            overwrite = discord.PermissionOverwrite()
+            overwrite.read_messages = True
+            overwrite.send_messages = True
+            overwrite.connect = True
+
+            # Figure out if the user is killer-aligned or rowdy-aligned
+            if user_data.faction == ewcfg.faction_killers:
+                channels.append(fe_utils.get_channel(server, "killer-comms"))
+                channels.append(fe_utils.get_channel(server, "killer-walkie-talkie"))
+            elif user_data.faction == ewcfg.faction_rowdys:
+                channels.append(fe_utils.get_channel(server, "rowdy-comms"))
+                channels.append(fe_utils.get_channel(server, "rowdy-walkie-talkie"))
+            # Set perms                
+            for channel in channels:
+                if used_member not in channel.overwrites:
+                    await channel.set_permissions(used_member, overwrite = overwrite)
+        # Remove comms perms from all others.
+        else:
+            channels = []
+            channels.append(fe_utils.get_channel(server, "killer-comms"))
+            channels.append(fe_utils.get_channel(server, "killer-walkie-talkie"))
+            channels.append(fe_utils.get_channel(server, "rowdy-comms"))
+            channels.append(fe_utils.get_channel(server, "rowdy-walkie-talkie"))
+            for channel in channels:
+                if used_member in channel.overwrites:
+                    await channel.set_permissions(used_member, overwrite = None)
 
     # Part 1: Remove overrides the user shouldn't have
     for poi in poi_static.poi_list:

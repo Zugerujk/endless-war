@@ -15,6 +15,10 @@ from ..static import cfg as ewcfg
 from ..static import mutations as static_mutations
 from ..static import poi as poi_static
 from ..static import weather as weather_static
+try:
+    from . import rutils as rutils
+except:
+    from . import rutils_dummy as rutils
 
 
 TERMINATE = False
@@ -22,6 +26,8 @@ DEBUG = False
 
 DEBUG_OPTIONS = {
     'no_race_cooldown': False,
+    'verbose_burn': False,
+    'transport': False,
 }
 
 # Map of user IDs to their course ID.
@@ -570,8 +576,11 @@ def end_trade(id_user):
         trading_offers[id_user] = []
 
 
-def calc_half_life(slime=None):
-    relative_level = level_byslime(slime) - 54
+def calc_half_life(user_data):
+
+    relative_level = rutils.debug36(user_data)
+    # relative_level = level_byslime(user_data.slimes) - 54
+    
     if relative_level > 0:
         return (60 * 60 * 24 * 14) / relative_level
     else:

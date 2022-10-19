@@ -1,6 +1,7 @@
 import random
 
 from . import cfg as ewcfg
+from . import community_cfg as comm_cfg
 from ..model.weapon import EwWeapon
 from ..utils import core as ewutils
 
@@ -102,14 +103,26 @@ def get_weapon_type_stats(weapon_type):
             "cost_multiplier": 1,
             "crit_chance": 0,
             "crit_multiplier": 1,
-            "hit_chance": 0.9
-        }
+            "hit_chance": 0.9,
+        },
+        "missilelauncher": {
+            "damage_multiplier": 1.1,
+            "bystander_damage": 1,
+            "cost_multiplier": 2.25,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.8,
+            "backfire_chance": 1, # Guaranteed backfire with every attack
+            "backfire_multiplier": 0.15,
+            "backfire_crit_mult": 0.75,  # Halve backfire damage relative to attack damage on crit
+            "backfire_miss_mult": 10, # Don't fuck it up or you're a dead motherfucker
+        },
     }
 
     return types[weapon_type]
 
 
-def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, apply_status = None, mass_apply_status = None):
+def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_multiplier = None, damage_multiplier = None, crit_chance = None, crit_multiplier = None, hit_chance = None, backfire_chance = None, backfire_multiplier = None, backfire_crit_mult = None, backfire_miss_mult = None, apply_status = None, mass_apply_status = None):
     weapon_stats = get_weapon_type_stats(weapon_type)
     if cost_multiplier:
         weapon_stats["cost_multiplier"] = cost_multiplier
@@ -121,6 +134,16 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
         weapon_stats["crit_multiplier"] = crit_multiplier
     if hit_chance:
         weapon_stats["hit_chance"] = hit_chance
+    if backfire_chance:
+        weapon_stats["backfire_chance"] = backfire_chance
+    if backfire_multiplier:
+        weapon_stats["backfire_multiplier"] = backfire_multiplier
+    if backfire_crit_mult:
+        weapon_stats["backfire_crit_mult"] = backfire_crit_mult
+    if backfire_miss_mult:
+        weapon_stats["backfire_miss_mult"] = backfire_miss_mult
+    if bystander_damage:
+        weapon_stats["bystander_damage"] = bystander_damage
     if apply_status:
         weapon_stats["apply_status"] = apply_status
     if mass_apply_status:
@@ -128,13 +151,19 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
 
     def get_hit_damage(ctn):
         hit_damage = 0
+        hit_backfire = 0
         base_damage = ctn.slimes_damage
 
         player_has_sharptoother = (ewcfg.mutation_id_sharptoother in ctn.user_data.get_mutations())
         hit_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
+        backfire_roll = min(random.random(), random.random()) if player_has_sharptoother else random.random()
         guarantee_crit = (weapon_type == "precision" and ctn.user_data.sidearm == -1)
 
         ignore_hitchance = weapon_stats["hit_chance"] == -1
+
+        # Roll for backfire early so misses and crits can modify it
+        if backfire_roll < weapon_stats.get("backfire_chance", 0):
+            hit_backfire += base_damage * weapon_stats.get("backfire_multiplier", 0.5) * weapon_stats.get("damage_multiplier", 1)
 
         # Adds the base chance to hit and the chance from modifiers. Hits if the roll is lower
         if (hit_roll < (weapon_stats["hit_chance"] + ctn.hit_chance_mod)) or ignore_hitchance:
@@ -142,37 +171,46 @@ def get_normal_attack(weapon_type = "normal", cost_multiplier = None, damage_mul
             effective_multiplier = weapon_stats["damage_multiplier"]
             if "variable_damage_multiplier" in weapon_stats:
                 effective_multiplier += random.random() * weapon_stats["variable_damage_multiplier"]
+                hit_backfire = (hit_backfire / weapon_stats.get("damage_multiplier", 1)) * effective_multiplier
 
             # Multiplies the damage by the effective multiplier
             hit_damage = base_damage * effective_multiplier
             if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
                 hit_damage *= weapon_stats["crit_multiplier"]
+                hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
                     ctn.crit = True
 
             if weapon_stats.get("apply_status") is not None:
                 ctn.apply_status.update(weapon_stats.get("apply_status"))
             ctn.mass_apply_status = weapon_stats.get("mass_apply_status")
-            ctn.explode = True if weapon_type == "explosive" else False
+            ctn.explode = True if weapon_type in ["explosive", "missilelauncher"] else False
+        # If you miss. I didn't need to add this, but it just seemed right.
+        else:
+            # default to zero backfire on a miss unless the weapon specifies otherwise
+            hit_backfire *= weapon_stats.get("backfire_miss_mult", 0)
 
-        return hit_damage
+        return hit_damage, hit_backfire
 
     def attack(ctn):
         ctn.slimes_spent = int(ctn.slimes_spent * weapon_stats["cost_multiplier"])
         damage = 0
+        backfire = 0
         if "shots" in weapon_stats:
             ctn.crit = True
             for _ in range(weapon_stats["shots"]):
-                hit_damage = get_hit_damage(ctn)
+                hit_damage, hit_backfire = get_hit_damage(ctn)
                 damage += hit_damage
+                backfire += hit_backfire
                 if hit_damage == 0:
                     ctn.crit = False
         else:
-            damage = get_hit_damage(ctn)
+            damage, backfire = get_hit_damage(ctn)
             # TODO: Move this to if damage so that multi-shot weapons can also deal bystander effects when needed
             if "bystander_damage" in weapon_stats:
-                ctn.bystander_damage = damage * weapon_stats["bystander_damage"]
+                ctn.bystander_damage = int(damage * weapon_stats["bystander_damage"])
 
+        ctn.backfire_damage = int(backfire)
         if damage:
             ctn.slimes_damage = int(damage)
             # If any weapon is given a status to apply to the target that requires a damage based value, handle it here
@@ -210,6 +248,8 @@ def wef_garrote(ctn = None):
         ctn.crit = True
 
     if ctn.miss == False:
+        # Make damage integer
+        ctn.slimes_damage = int(ctn.slimes_damage)
         # Stop movement
         ewutils.moves_active[ctn.user_data.id_user] = 0
         # Stun player for 5 seconds
@@ -318,7 +358,6 @@ weapon_list = [
     EwWeapon(  # 1
         id_weapon=ewcfg.weapon_id_revolver,
         alias=[
-            "pistol",
             "handgun",
             "bigiron"
         ],
@@ -331,7 +370,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the revolver.",
         # str_trauma_self = "You have scarring on both temples, which occasionally bleeds.",
         # str_trauma = "They have scarring on both temples, which occasionally bleeds.",
-        str_kill="{name_player} puts their revolver to {name_target}'s head. **BANG**. Execution-style. Blood splatters across the hot asphalt. {emote_skull}",
+        str_kill=comm_cfg.revolverkilltext,
         str_killdescriptor="gunned down",
         str_damage="{name_target} takes a bullet to the {hitzone}!!",
         str_duel="**BANG BANG**. {name_player} and {name_target} practice their quick-draw, bullets whizzing past one another's heads.",
@@ -342,7 +381,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.8),
         price=10000,
         clip_size=6,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_revolver_kills,
         str_brandish="{name} spins {weapon} around on their finger, blowing smoke off the barrel like a Texas gunman."
@@ -364,7 +403,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the dual pistols.",
         # str_trauma_self = "You have several stitches embroidered into your chest over your numerous bullet wounds.",
         # str_trauma = "They have several stitches embroidered into your chest over your numerous bullet wounds.",
-        str_kill="{name_player} dramatically pulls both triggers on their dual pistols midair, sending two bullets straight into {name_target}'s lungs'. {emote_skull}",
+        str_kill=comm_cfg.dualpistolskilltext,
         str_killdescriptor="double gunned down",
         str_damage="{name_target} takes a flurry of bullets to the {hitzone}!!",
         str_duel="**tk tk tk tk tk tk tk tk tk tk**. {name_player} and {name_target} hone their twitch aim and trigger fingers, unloading clip after clip of airsoft BBs into one another with the eagerness of small children.",
@@ -374,7 +413,7 @@ weapon_list = [
         str_scalp=" It has a couple bullet holes in it.",
         fn_effect=get_normal_attack(),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_dual_pistols_kills,
         str_brandish="{name} cocks {weapon} back, aiming them at the nearest passersby. *Bang.*"
     ),
@@ -395,7 +434,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the shotgun.",
         # str_trauma_self = "You have a few large, gaping holes in your abdomen. Someone could stick their arm through the biggest one.",
         # str_trauma = "They have a few large, gaping holes in your abdomen. Someone could stick their arm through the biggest one.",
-        str_kill="{name_player} blasts their shotgun into {name_target}'s chest at point-blank range, causing guts to explode from their back and coat the surrounding street. **chk chk** Who's next? {emote_skull}",
+        str_kill=comm_cfg.shotgunkilltext,
         str_killdescriptor="pumped full of lead",
         str_damage="{name_target} takes a shotgun blast to the {hitzone}!!",
         str_duel="**BOOM.** {name_player} and {name_target} stand about five feet away from a wall, pumping it full of lead over and over to study it's bullet spread.",
@@ -406,7 +445,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=2.5, weapon_type='heavy'),
         clip_size=8,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_shotgun_kills,
         str_brandish="**ChkCHK.** {name} takes {weapon} and pumps back a couple rounds, listening to the shells clink onto the ground."
@@ -427,7 +466,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the assault rifle.",
         # str_trauma_self = "Your torso is riddled with scarred-over bulletholes.",
         # str_trauma = "Their torso is riddled with scarred-over bulletholes.",
-        str_kill="**RAT-TAT-TAT-TAT-TAT!!** {name_player} rains a hail of bullets directly into {name_target}!! They're officially toast! {emote_skull}",
+        str_kill=comm_cfg.riflekilltext,
         str_killdescriptor="gunned down",
         str_damage="Bullets rake over {name_target}'s {hitzone}!!",
         str_duel="**RAT-TAT-TAT-TAT-TAT!!** {name_player} and {name_target} practice shooting at distant targets with quick, controlled bursts.",
@@ -438,7 +477,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_rifle_kills,
         str_brandish="**BAM BAM!** {name} takes {weapon} and fires some warning rounds into the air."
@@ -458,7 +497,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the SMG.",
         # str_trauma_self = "Your copious amount of bullet holes trigger onlookers’ Trypophobia.",
         # str_trauma = "Their copious amount of bullet holes trigger onlookers’ Trypophobia.",
-        str_kill="**RATTA TATTA TAT!!** {name_player}’s bullets rip through what little was left of {name_target} after the initial barrage. All that remains is a few shreds of clothing and splatterings of slime. {emote_skull}",
+        str_kill=comm_cfg.smgkilltext,
         str_killdescriptor="riddled with bullets",
         str_damage="A reckless barrage of bullets pummel {name_target}’s {hitzone}!!",
         str_duel="**RATTA TATTA TAT!!** {name_player} and {name_target} spray bullets across the floor and walls of the Dojo, having a great time.",
@@ -471,7 +510,7 @@ weapon_list = [
         fn_effect=get_normal_attack(cost_multiplier=0.7, weapon_type='burst_fire'),
         clip_size=10,
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_smg_kills,
         str_brandish="**RATTATTATTAT!** {name} takes {weapon} and fires a line of bullets along the ground. *You're next.*"
@@ -491,7 +530,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the minigun.",
         # str_trauma_self = "What little is left of your body has large holes punched through it, resembling a slice of swiss cheese.",
         # str_trauma = "What little is left of their body has large holes punched through it, resembling a slice of swiss cheese.",
-        str_kill="**TKTKTKTKTKTKTKTKTK!!** {name_player} pushes their minigun barrel right up to {name_target}’s chest, unloading a full round of ammunition and knocking their lifeless corpse back a few yards from the sheer force of the bullets. They failed to outsmart bullet. {emote_skull}",
+        str_kill=comm_cfg.minigunkilltext,
         str_killdescriptor="obliterated",
         str_damage="Cascades of bullets easily puncture and rupture {name_target}’s {hitzone}!!",
         str_duel="**...** {name_player} and {name_target} crouch close to the ground, throwing sandwiches unto the floor next to each other and repeating memetic voice lines ad nauseam.",
@@ -523,7 +562,7 @@ weapon_list = [
         str_weapon="a bat full of nails",
         # str_trauma_self = "Your head appears to be slightly concave on one side.",
         # str_trauma = "Their head appears to be slightly concave on one side.",
-        str_kill="{name_player} pulls back for a brutal swing! **CRUNCCHHH.** {name_target}'s brains splatter over the sidewalk. {emote_skull}",
+        str_kill=comm_cfg.batkilltext,
         str_killdescriptor="nail bat battered",
         str_damage="{name_target} is struck with a hard blow to the {hitzone}!!",
         # str_backfire = "{name_player} recklessly budgens themselves with a particularly overzealous swing! Man, how the hell could they fuck up so badly?",
@@ -552,7 +591,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} pugilist.",
         # str_trauma_self = "You've got two black eyes, missing teeth, and a profoundly crooked nose.",
         # str_trauma = "They've got two black eyes, missing teeth, and a profoundly crooked nose.",
-        str_kill="{name_player} slugs {name_target} right between the eyes! *POW! THWACK!!* **CRUNCH.** Shit. May have gotten carried away there. Oh, well. {emote_skull}",
+        str_kill=comm_cfg.brassknuckleskilltext,
         str_killdescriptor="pummeled to death",
         str_damage="{name_target} is socked in the {hitzone}!!",
         str_duel="**POW! BIFF!!** {name_player} and {name_target} take turns punching each other in the abs. It hurts so good.",
@@ -581,7 +620,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the blade.",
         # str_trauma_self = "A single clean scar runs across the entire length of your body.",
         # str_trauma = "A single clean scar runs across the entire length of their body.",
-        str_kill="Faster than the eye can follow, {name_player}'s blade glints in the greenish light. {name_target} falls over, now in two pieces. {emote_skull}",
+        str_kill=comm_cfg.katanakilltext,
         str_killdescriptor="bisected",
         str_damage="{name_target} is slashed across the {hitzone}!!",
         str_duel="**CRACK!! THWACK!! CRACK!!** {name_player} and {name_target} duel with bamboo swords, viciously striking at head, wrist and belly.",
@@ -613,7 +652,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} berserker.",
         # str_trauma_self = "A large dent resembling that of a half-chopped down tree appears on the top of your head.",
         # str_trauma = "A dent resembling that of a half-chopped down tree appears on the top of their head.",
-        str_kill="{name_player} skewers {name_target} through the back to the hilt of their broadsword, before kicking their lifeless corpse onto the street corner in gruesome fashion. {name_player} screams at the top of their lungs. {emote_skull}",
+        str_kill=comm_cfg.broadswordkilltext,
         str_killdescriptor="slayed",
         str_damage="{name_target}'s {hitzone} is separated from their body!!",
         str_duel="SCHWNG SCHWNG! {name_player} and {name_target} scream at the top of their lungs to rehearse their battle cries.",
@@ -638,7 +677,7 @@ weapon_list = [
             "nunchucks"
         ],
         str_crit="**COMBO!** {name_player} strikes {name_target} with a flurry of 5 vicious blows!",
-        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the head with their own nun-chucks!!",
+        # str_backfire = "**Whack!!** {name_player} fucks up their kung-fu routine and whacks themselves in the {hitzone} with their own nun-chucks!!",
         str_miss="**WOOSH** {name_player} whiffs every strike!",
         str_equip="You equip the nun-chucks.",
         str_name="nun-chucks",
@@ -647,7 +686,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} kung-fu {title}.",
         # str_trauma_self = "You are covered in deep bruises. You hate martial arts of all kinds.",
         # str_trauma = "They are covered in deep bruises. They hate martial arts of all kinds.",
-        str_kill="**HIIII-YAA!!** With expert timing, {name_player} brutally batters {name_target} to death, then strikes a sweet kung-fu pose. {emote_skull}",
+        str_kill=comm_cfg.nunchuckskilltext,
         str_killdescriptor="fatally bludgeoned",
         str_damage="{name_target} takes a bunch of nun-chuck whacks directly in the {hitzone}!!",
         str_duel="**HII-YA! HOOOAAAAAHHHH!!** {name_player} and {name_target} twirl wildly around one another, lashing out with kung-fu precision.",
@@ -673,7 +712,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the scythe.",
         # str_trauma_self = "You are wrapped tightly in bandages that hold your two halves together.",
         # str_trauma = "They are wrapped tightly in bandages that hold their two halves together.",
-        str_kill="**SLASHH!!** {name_player}'s scythe cleaves the air, and {name_target} staggers. A moment later, {name_target}'s torso topples off their waist. {emote_skull}",
+        str_kill=comm_cfg.scythekilltext,
         str_killdescriptor="sliced in twain",
         str_damage="{name_target} is cleaved through the {hitzone}!!",
         str_duel="**WHOOSH, WHOOSH** {name_player} and {name_target} swing their blades in wide arcs, dodging one another's deadly slashes.",
@@ -701,7 +740,7 @@ weapon_list = [
         str_weapon="a yo-yo",
         # str_trauma_self = "Simple yo-yo tricks caught even in your peripheral vision triggers intense PTSD flashbacks.",
         # str_trauma = "Simple yo-yo tricks caught even in their peripheral vision triggers intense PTSD flashbacks.",
-        str_kill="{name_player} performs a modified Kwyjibo, effortlessly nailing each step before killing their opponent just ahead of the dismount.",
+        str_kill=comm_cfg.yoyokilltext,
         str_killdescriptor="amazed",
         str_damage="{name_player} used {name_target}'s {hitzone} as a counterweight!!",
         str_duel="**whhzzzzzz** {name_player} and {name_target} practice trying to Walk the Dog for hours. It never clicks.",
@@ -716,7 +755,6 @@ weapon_list = [
     EwWeapon(  # 14
         id_weapon=ewcfg.weapon_id_knives,
         alias=[
-            "knife",
             "dagger",
             "daggers",
             "throwingknives",
@@ -731,7 +769,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the throwing knife.",
         # str_trauma_self = "You are covered in scarred-over lacerations and puncture wounds.",
         # str_trauma = "They are covered in scarred-over lacerations and puncture wounds.",
-        str_kill="A blade flashes through the air!! **THUNK.** {name_target} is a goner, but {name_player} slits their throat before fleeing the scene, just to be safe. {emote_skull}",
+        str_kill=comm_cfg.kniveskilltext,
         str_killdescriptor="knifed",
         str_damage="{name_target} is stuck by a knife in the {hitzone}!!",
         str_duel="**TING! TING!!** {name_player} and {name_target} take turns hitting one another's knives out of the air.",
@@ -752,8 +790,8 @@ weapon_list = [
             "bombs",
             "moly"
         ],
-        # str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!",
-        str_miss="**A dud!!** the rag failed to ignite the molotov!",
+        #str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!", Not needed with miss text included, double announcing basically
+        str_miss="**OH FUCK!** Your molotov combusts and shatters all over you the moment {name_player} set it alight!",
         str_crit="{name_player}’s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
         str_equip="You equip the molotov cocktail.",
         str_name="molotov cocktail",
@@ -762,18 +800,26 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} arsonist.",
         # str_trauma_self = "You're wrapped in bandages. What skin is showing appears burn-scarred.",
         # str_trauma = "They're wrapped in bandages. What skin is showing appears burn-scarred.",
-        str_kill="**SMASH!** {name_target}'s front window shatters and suddenly flames are everywhere!! The next morning, police report that {name_player} is suspected of arson. {emote_skull}",
+        str_kill=comm_cfg.molotovkilltext,
         str_killdescriptor="exploded",
         str_damage="{name_target} dodges a bottle, but is singed on the {hitzone} by the blast!!",
         str_duel="{name_player} and {name_target} compare notes on frontier chemistry, seeking the optimal combination of combustibility and fuel efficiency.",
         str_description="These are glass bottles filled with some good ol' fashioned pyrotechnics.",
         str_scalp=" It's burnt to a crisp!",
-        fn_effect=get_normal_attack(weapon_type='incendiary'),
+        fn_effect=get_normal_attack(
+            weapon_type='incendiary',
+            hit_chance=0.6,
+            damage_multiplier=.8,
+            bystander_damage=.75,
+            backfire_chance=0.75,
+            backfire_multiplier=.65,
+            backfire_crit_mult=.65,
+            backfire_miss_mult=1,
+        ),
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
-        classes=[ewcfg.weapon_class_burning, ewcfg.weapon_class_captcha],
+        classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=4,
         str_brandish="{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."
     ),
     EwWeapon(  # 16
@@ -791,7 +837,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} f {title} of the grenades.",
         # str_trauma_self = "Blast scars and burned skin are spread unevenly across your body.",
         # str_trauma = "Blast scars and burned skin are spread unevenly across their body.",
-        str_kill="**KA-BOOM!!** {name_player} pulls the safety pin and holds their grenade just long enough to cause it to explode mid air, right in front of {name_target}’s face, blowing it to smithereens. {emote_skull}",
+        str_kill=comm_cfg.grenadekilltext,
         str_killdescriptor="exploded",
         str_damage="{name_player}’s grenade explodes, sending {name_target}’s {hitzone} flying off their body!!",
         str_duel="**KA-BOOM!!** {name_player} and {name_target} pull the pin out of their grenades and hold it in their hands to get a feel for how long it takes for them to explode. They lose a few body parts in the process.",
@@ -799,7 +845,7 @@ weapon_list = [
         str_scalp=" It's covered in metallic shrapnel.",
         fn_effect=get_normal_attack(weapon_type='explosive'),
         price=10000,
-        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
+        vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_grenade_kills,
         captcha_length=4,
@@ -821,7 +867,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the garrotte.",
         # str_trauma_self = "There is noticeable bruising and scarring around your neck.",
         # str_trauma = "There is noticeable bruising and scarring around their neck.",
-        str_kill="{name_player} quietly moves behind {name_target} and... **!!!** After a brief struggle, only a cold body remains. {emote_skull}",
+        str_kill=comm_cfg.garrotekilltext,
         str_killdescriptor="garrote wired",
         str_damage="{name_target} is ensnared by {name_player}'s wire!!",
         str_duel="{name_player} and {name_target} compare their dexterity by playing Cat's Cradle with deadly wire.",
@@ -849,7 +895,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} coward of the pickaxe.",
         # str_trauma_self = "There is a deep, precise indent in the crown of your skull. How embarrassing!",
         # str_trauma = "There is a deep, precise indent in the crown of their skull. How embarrassing!",
-        str_kill="**THWACK!!** {name_player} summons what little courage they possess to lift the pickaxe above their head and !mine {name_target} to death. How embarrassing! {emote_skull}",
+        str_kill=comm_cfg.pickaxekilltext,
         str_killdescriptor="!mined",
         str_damage="{name_target} is lightly tapped on the {hitzone}!!",
         str_duel="**THWACK, THWACK** {name_player} and {name_target} spend some quality time together, catching up and discussing movies they recently watched or food they recently ate.",
@@ -880,7 +926,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} fisherman.",
         # str_trauma_self = "There is a piercing on the side of your mouth. How embarrassing!",
         # str_trauma = "There is a piercing on the side of their mouth. How embarrassing!",
-        str_kill="*whsssh* {name_player} summons what little courage they possess to reel in {name_target} and wring all the slime out of them. How embarrassing! {emote_skull}",
+        str_kill=comm_cfg.fishingrodkilltext,
         str_killdescriptor="!reeled",
         str_damage="{name_target} is lightly pierced on the {hitzone}!!",
         str_duel="**whsssh, whsssh** {name_player} and {name_target} spend some quality time together, discussing fishing strategy and preferred types of bait.",
@@ -907,7 +953,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the bass guitar.",
         # str_trauma_self = "There is a large concave dome in the side of your head.",
         # str_trauma = "There is a large concave dome in the side of their head.",
-        str_kill="*CRASSHHH.* {name_player} brings down the bass on {name_target} with righteous fury. Discordant notes play harshly as the bass tries its hardest to keep itself together. {emote_skull}",
+        str_kill=comm_cfg.basskilltext,
         str_killdescriptor="smashed to pieces",
         str_damage="{name_target} is whacked across the {hitzone}!!",
         str_duel="**SMASHHH.** {name_player} and {name_target} smash their bass together before admiring eachothers skillful basslines.",
@@ -934,7 +980,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the umbrella.",
         # str_trauma_self = "You have a large hole in your chest.",
         # str_trauma = "They have a large hole in their chest.",
-        str_kill="*SPLAT.* {name_player} pierces {name_target} through the chest, hoists them over their head, and opens their umbrella, causing them to explode in a rain of blood and slime. {emote_skull}",
+        str_kill=comm_cfg.umbrellakilltext,
         str_killdescriptor="umbrella'd",
         str_damage="{name_target} is struck in the {hitzone}!!",
         str_duel="**THWACK THWACK.** {name_player} and {name_target} practice their fencing technique, before comparing their favorite umbrella patterns.",
@@ -962,7 +1008,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} minecraft bow {title}.",
         # str_trauma_self = "There is a pixelated arrow in the side of your head.",
         # str_trauma = "There is a pixelated arrow in the side of their head.",
-        str_kill="*Pew Pew Pew.* {name_player} spams the bow as {name_target}'s life fades, riddling their body with arrows. {emote_skull}",
+        str_kill=comm_cfg.bowkilltext,
         str_killdescriptor="shot to death",
         str_damage="{name_target} is shot in the {hitzone}!!",
         str_duel="{name_player} and {name_target} shoot distant targets, {name_player} is clearly the superior bowman.",
@@ -987,7 +1033,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the dragon claw.",
         # str_trauma_self = "Three smoldering claw marks are burned into your flesh, the flames `won't seem to extinguish.",
         # str_trauma = "Three smoldering claw marks are burned into their flesh, the flames won't seem to extinguish.",
-        str_kill="***Thwip.*** {name_player}'s dragon claw cuts the air followed by a trail of flame and blood, the camera pans out and {name_target} is shown, cut in twain. {emote_skull}",
+        str_kill=comm_cfg.dclawkilltext,
         str_killdescriptor="cut to pieces",
         str_damage=random.choice(["{name_target} is slashed across the {hitzone}!!", "{name_player} furiously slashes {name_target} across the {hitzone}!!", "{name_player} flicks their fingers and a jet of flame ignites from the dragon claw, burning {name_target} in the {hitzone}!!"]),
         str_duel="**SLICE!! SWIPE!! SLASH!!** {name_player} and {name_target} cut the fuck out of eachother, a fire extinguisher is never more than a meter away.",
@@ -1016,7 +1062,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the spray can.",
         # str_trauma_self = "You're having trouble breathing, and the inside of your mouth is off-color.",
         # str_trauma = "They're weirdly short of breath, and their mouth and tongue are off-color.",
-        str_kill="***PPPPPPSSSSSSSSSHHHHHhhhhhfff.*** {name_player} forcibly opens {name_target}'s mouth and sprays everything they have into their lungs. Their eyes roll back into their head and, trembling, they slowly asphyxiate in your arms. {emote_skull}",
+        str_kill=comm_cfg.spraycankilltext,
         str_killdescriptor="suffocated",
         str_damage=random.choice(["{name_target} is whacked across the {hitzone}!!",
                                   "{name_player} sprays {name_target} with paint, making them a gaudy color in the {hitzone}!!",
@@ -1054,7 +1100,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the paint gun.",
         # str_trauma_self = "You have a splitting headache.",
         # str_trauma = "They look hungover, almost like their entire body exploded.",
-        str_kill="***SPLAAAAART!!!!*** {name_player} fatally strikes {name_target}, and they explode from the inside out! There's a lot more gore than when you see it happen in Splatoon, though.{emote_skull}",
+        str_kill=comm_cfg.paintgunkilltext,
         str_killdescriptor="imploded",
         str_damage=random.choice(["{name_target} is splatted in the {hitzone}!!",
                                   "{name_player} shoots {name_target} with paint, making them a gaudy color in the {hitzone}!!",
@@ -1096,7 +1142,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the paint roller.",
         # str_trauma_self = "There's a gaudy colored dent in your skull.",
         # str_trauma = "There is a gaudy colored dent in their skull.",
-        str_kill="***CA-CRACK!*** {name_player} opens {name_target}'s skull like an egg using the dull metal edge of the roller. It appears to be hollow, after all, {name_target} was stupid enough to get killed with a fucking paint roller.{emote_skull}",
+        str_kill=comm_cfg.paintrollerkilltext,
         str_killdescriptor="cracked open",
         str_damage=random.choice(["{name_target} is swatted in the {hitzone}!!",
                                   "{name_player} slaps {name_target} with paint, making them a gaudy color in the {hitzone}!!",
@@ -1135,7 +1181,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the paintbrush.",
         # str_trauma_self = "You have bruises all over your body and you can't get the paint out of your clothes.",
         # str_trauma = "They have bruises all over their body, and they can't get the paint out of their clothes.",
-        str_kill="***MASTERPIECE!*** {name_target} takes a mortal brush to the forehead, courtesy of {name_player}'s talent as a painter. {emote_skull}",
+        str_kill=comm_cfg.paintbrushkilltext,
         str_killdescriptor="paintbrushed to death",
         str_damage=random.choice(["{name_target} is handlestabbed in the {hitzone}!!",
                                   "{name_player} flecks {name_target} with paint, making them a gaudy color in the {hitzone}!!",
@@ -1174,7 +1220,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} flaming homosexual of watercolors.",
         # str_trauma_self = "You are eternally humiliated after being murdered by a gangster wielding watercolor paints.",
         # str_trauma = "They are eternally humiliated after being murdered by a gangster wielding watercolor paints.",
-        str_kill="```bash\n\"HUUUUUUH?? {name_target} goes and kills themselves after having an existential crisis! {name_player} seems to have done this with only their own retardation!\"\n```",
+        str_kill=comm_cfg.watercolorskilltext,
         str_killdescriptor="driven to suicide",
         str_damage="```ini\n[{name_player} paints a picture of {name_target}. Their self esteem takes a hit!]\n```",
         str_duel="```json\n\"{name_player} and {name_target} practice art using Dojo-owned easels and canvases. Eventually, the training session breaks down and, you just throw paint water at each other and giggle like schoolgirls.\"\n```",
@@ -1212,7 +1258,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} vandal of the thinner bomb.",
         # str_trauma_self = "You have the hangover from hell.",
         # str_trauma = "They have the hangover from hell.",
-        str_kill="***WHAT A SIZZLER!*** {name_target}, dazed from the concentrated toxic chemicals in the air, falls to the ground, giving {name_player} the chance to stab them through the neck with the broken bottle. Inhalants. Not even once. {emote_skull}",
+        str_kill=comm_cfg.thinnerbombskilltext,
         str_killdescriptor="drugged",
         str_damage=random.choice(["{name_target} gets a thinnerbomb to the {hitzone}!!",
                                   "{name_player} slashes {name_target} with a broken thinnerbomb! Ooh, right in the {hitzone}!!"]),
@@ -1254,7 +1300,7 @@ weapon_list = [
             "A pitch black horror forms around {name_target}'s {hitzone} and tears into it."
         ]),
         str_crit="{name_player} notices {name_target} still recoiling from the damage, and takes the chance to bonk the everliving shit out of them with their staff. **Critical hit!!**",
-        str_kill="A mass of tiny hands erupts from the ground below {name_target}, grabbing on to their body. Their screams echo across the streets as they're dragged through the ground and into the sewers.",
+        str_kill=comm_cfg.staffkilltext,
         str_equip="You equip the eldritch staff.",
         str_name="eldritch staff",
         str_weapon="an eldritch staff",
@@ -1276,7 +1322,7 @@ weapon_list = [
         str_miss="**MISS!!** {name_player}'s hoe strikes the earth with a loud THUD.",
         str_damage="{name_player} scrapes their hoe across {name_target}'s {hitzone}.",
         str_crit="**CRITICAL HIT!!** {name_player} gets their hoe deep into {name_target}'s body, cutting up their vitals!",
-        str_kill="{name_player} pushes {name_target} to the ground. After an intense windup, they slam their hoe down on {name_target}'s neck, decapitating them in the process.",
+        str_kill=comm_cfg.hoekilltext,
         str_equip="You ready your hoe.",
         str_name="hoe",
         str_weapon="a hoe",
@@ -1301,7 +1347,7 @@ weapon_list = [
         str_miss="**MISS!!** {name_player}'s pitchfork is planted firmly into the ground.",
         str_damage="{name_player} stabs {name_target}'s {hitzone} with their pitchfork!",
         str_crit="**CRITICAL HIT!!** {name_player} pokes several holes in {name_target}!",
-        str_kill="{name_player} plants their pitchfork firmly into {name_target} and lifts them high into the air. After {name_target} loses consciousness, {name_player} throws them to the ground and stabs them again for good measure.",
+        str_kill=comm_cfg.pitchforkkilltext,
         str_equip="You pick up your pitchfork and give the ground a light tap with the handle's end.",
         str_name="pitchfork",
         str_weapon="a pitchfork",
@@ -1326,7 +1372,7 @@ weapon_list = [
         str_miss="**MISS!!** {name_player}'s shovel is planted firmly into the ground.",
         str_damage="{name_player} swings their shovel at {name_target}'s {hitzone}!",
         str_crit="**CRITICAL HIT!** The flat end of {name_player}'s shovel impacts {name_target}'s chest! They start coughing up blood!",
-        str_kill="*BONK!* {name_player}'s shovel lands right on top of {name_target}'s head. Their skull and brain is completely crushed by the impact. {name_player} buries them in a shallow grave.",
+        str_kill=comm_cfg.shovelkilltext,
         str_equip="You grip your shovel tightly in both hands.",
         str_name="shovel",
         str_weapon="a shovel",
@@ -1351,7 +1397,7 @@ weapon_list = [
         str_miss="**MISS!!** Spouts of slime from {name_player}'s Slimering Can fly everywhere!",
         str_damage="{name_player} pours slime onto {name_target}'s {hitzone}. What the fuck is that going to accomplish?",
         str_crit="**CRITIAL HIT!!** {name_player} pours slime onto {name_target}'s eyes! How unsanitary!",
-        str_kill="{name_player} rams their Slimering Can down {name_target}'s throat. {name_target} chokes to death on slime.",
+        str_kill=comm_cfg.slimeringcankilltext,
         str_equip="You pick up your Slimering Can.",
         str_name="slimering can",
         str_weapon="a slimering can",
@@ -1386,7 +1432,7 @@ weapon_list = [
         str_weaponmaster="",
         # str_trauma_self = "A single clean scar runs across the entire length of your body.",
         # str_trauma = "A single clean scar runs across the entire length of their body.",
-        str_kill="{name_player} lunges at {name_target} with fingernails bared! They're mercilessly rips them to pieces, tufts of skin flying every which way! **BRRRRRRRAP!!!** When the dust settles, {name_target} is unrecognizable, and more importantly, dead as fuck. {emote_skull}",
+        str_kill=comm_cfg.fingernailskilltext,
         str_killdescriptor="torn apart",
         str_damage="{name_target} is slashed across the {hitzone}!!",
         str_duel="",
@@ -1414,7 +1460,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} roomba {title}.",
         # str_trauma_self = "A single clean scar runs across the entire length of your body.",
         # str_trauma = "A single clean scar runs across the entire length of their body.",
-        str_kill="{name_player} jumps at {name_target} using the roomba as a springboard! Screaming bloody murder, they beat {name_target} to within an inch of their life. The roomba follows, sucking whatever morsel of slime was left. Job finished. {emote_skull}",
+        str_kill=comm_cfg.roombakilltext,
         str_killdescriptor="sucked dry",
         str_damage="{name_player}'s roomba sucks gobs of slime out of {name_target}'s {hitzone}!!",
         str_duel="{name_player} and {name_target} begin engineering their portable vaccuums into high class battle bots. By the time you're done the Dojo floor is spotless and everyone nearby is dead.",
@@ -1453,7 +1499,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the Laywaster 9000.",
         # str_trauma_self = "You have a few large, gaping holes in your abdomen. Someone could stick their arm through the biggest one.",
         # str_trauma = "They have a few large, gaping holes in your abdomen. Someone could stick their arm through the biggest one.",
-        str_kill="**VRRRRRRRRRRRRRRRRRRRRRRRRRRRR!**{name_player} swings violently through {name_target}'s unconscious body, each slash making them more unrecognizable than the last. As more and more blood flecks across {name_player}'s face, their opponent turns into a pile of viscera. {emote_skull}",
+        str_kill=["**VRRRRRRRRRRRRRRRRRRRRRRRRRRRR!**{name_player} swings violently through {name_target}'s unconscious body, each slash making them more unrecognizable than the last. As more and more blood flecks across {name_player}'s face, their opponent turns into a pile of viscera. {emote_skull}"],
         str_killdescriptor="shredded to a paste",
         str_damage="{name_target}'s {hitzone} is torn into!! Blood flies everywhere!",
         str_duel="**...** {name_player} and {name_target} clash with each other chainsaw blow for chainsaw blow like badasses.",
@@ -1481,7 +1527,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the chainsaw.",
         # str_trauma_self = "Your body runs jagged with large chunks missing and patches of skin torn up.",
         # str_trauma = "Their body runs jagged with large chunks missing and patches of skin torn up.",
-        str_kill="**REEERNREERN!!** {name_player} revs up their chainsaw and carves up {name_target}’s torso, cutting through the guts, bile, viscera, and slime, sending it all flying. They’ve been cut down to size. {emote_skull}",
+        str_kill=comm_cfg.chainsawkilltext,
         str_killdescriptor="chainsaw’d",
         str_damage="The numerous finely tooth blades tear at {name_target}’s {hitzone}!!",
         str_duel="**...** {name_player} and {name_target} clash with each other chainsaw blow for chainsaw blow like badasses.",
@@ -1510,7 +1556,7 @@ weapon_list = [
         str_weapon="a hunting rifle",
         str_weaponmaster_self="You are a rank {rank} {title} gentleman of the hunting rifle.",
         str_weaponmaster="They are a rank {rank} {title} gentleman of the hunting rifle.",
-        str_kill="**360 NOSCOPED!!** {name_player} spins and fires! {name_target}'s head subsequently explodes! Get wr3ck3d, my good sir! {emote_skull}",
+        str_kill=comm_cfg.huntingriflekilltext,
         str_killdescriptor="d3s7r0y3d",
         str_damage="{name_player} sneaks a few shots into {name_target}’s {hitzone}!!",
         str_duel="**...** {name_player} and {name_target} spin around like idiots, firing wildly and sipping tea.",
@@ -1540,7 +1586,7 @@ weapon_list = [
         str_weapon="a harpoon gun",
         str_weaponmaster_self="You are a rank {rank} salty {title} of the harpoon gun.",
         str_weaponmaster="They are a rank {rank} salty {title} of the harpoon gun.",
-        str_kill="**YARRR!!** {name_player} fires a harpoon right into {name_target}! {name_target} is dragged up on deck, vanquished. {emote_skull}",
+        str_kill=["**YARRR!!** {name_player} fires a harpoon right into {name_target}! {name_target} is dragged up on deck, vanquished. {emote_skull}"],
         str_killdescriptor="harpooned",
         str_damage="{name_player} harpoons {name_target}’s {hitzone}!!",
         str_duel="**...** {name_player} and {name_target} dock their vessels next to one another, locked in a stern gaze. Suddenly, harpoons erupt from either vessel, smashing through timber and flesh alike.",
@@ -1570,7 +1616,7 @@ weapon_list = [
         str_weapon="a model 397 hunting rifle",
         str_weaponmaster_self="You are a rank {rank} {title} of the model 1397 hunting rifle.",
         str_weaponmaster="They are a rank {rank} gentleman of the model 1397  hunting rifle.",
-        str_kill="**360 NOSCOPED!!** {name_player} spins and fires! {name_target}'s head subsequently explodes! Get wr3ck3d, my good sir! {emote_skull}",
+        str_kill=["**360 NOSCOPED!!** {name_player} spins and fires! {name_target}'s head subsequently explodes! Get wr3ck3d, my good sir! {emote_skull}"],
         str_killdescriptor="d3s7r0y3d",
         str_damage="{name_player} sneaks a few shots into {name_target}’s {hitzone}!!",
         str_duel="**...** {name_player} and {name_target} spin around like idiots, firing wildly and sipping tea.",
@@ -1598,7 +1644,7 @@ weapon_list = [
         str_weapon="a slimeoid whistle",
         str_weaponmaster_self="You are a rank {rank} trainer of the slimeoid whistle.",
         str_weaponmaster="They are a rank {rank} trainer of the the slimeoid whistle.",
-        str_kill="{name_player}’s shrill screech overpowers {name_target}'s screams. {slimeoid_name} {slimeoid_kill} They enjoy a nice fleshy snack after the deed is done. {emote_skull}",
+        str_kill=["{name_player}’s shrill screech overpowers {name_target}'s screams. {slimeoid_name} {slimeoid_kill} They enjoy a nice fleshy snack after the deed is done. {emote_skull}"],
         str_killdescriptor="sicced on",
         str_damage="{name_target} is {slimeoid_dmg} by {slimeoid_name}!!",
         str_duel="[ ! ] {name_player} challenges {name_target} to a ‘slimeoid battle’. They summon their slimeoids and begin attacking each other.",
@@ -1625,7 +1671,7 @@ weapon_list = [
         str_weapon="a sniper rifle",
         str_weaponmaster_self="You are a rank {rank} {title} of the sniper rifle.",
         str_weaponmaster="They are a rank {rank} {title} of the sniper rifle.",
-        str_kill="As soon as {name_player} rounds the corner, the damage is done. {name_target}'s lifeless body ragdolls to the floor. {emote_skull}",
+        str_kill=comm_cfg.sniperkilltext,
         str_killdescriptor="fragged",
         str_damage="{name_player} lands a shot on {name_target}’s {hitzone}!",
         str_duel="**...** {name_player} and {name_target} begin time trials on pictures of long-dead terrorists",
@@ -1656,7 +1702,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the diamond pickaxe.",
         # str_trauma_self = "There is a deep, precise indent in the crown of your skull. How embarrassing!",
         # str_trauma = "There is a deep, precise indent in the crown of their skull. How embarrassing!",
-        str_kill="**THWACK!!** {name_player} uses their block game skills to !mine {name_target} to death. How embarrassing! {emote_skull}",
+        str_kill=comm_cfg.diamondpickaxekilltext,
         str_killdescriptor="!mined",
         str_damage="{name_target} is lightly tapped on the {hitzone}!!",
         str_duel="**THWACK, THWACK** {name_player} and {name_target} spend some quality time together, catching up on the latest minecraft manhunt episode.",
@@ -1684,7 +1730,7 @@ weapon_list = [
         str_weaponmaster="They are a rank {rank} {title} of the monowhip.",
         # str_trauma_self = "You are covered in scarred-over lacerations and puncture wounds.",
         # str_trauma = "They are covered in scarred-over lacerations and puncture wounds.",
-        str_kill="A flash of neon hangs in the air!! {name_target}'s torso seperates from the rest of their body, as limbs fall to the floor. {name_player}'s monowhip retracts into its handle. {emote_skull}",
+        str_kill=comm_cfg.monowhipkilltext,
         str_killdescriptor="flayed",
         str_damage="{name_target} is flayed by the monowhip!!",
         str_duel="{name_player} and {name_target} avoid disaster and study Indiana Jones films.",
@@ -1705,7 +1751,7 @@ weapon_list = [
         str_weapon="their fists",
         str_weaponmaster_self="",
         str_weaponmaster="",
-        str_kill="{name_target} is hit!!\n\n{name_target} has died.",
+        str_kill=comm_cfg.unarmedkilltext,
         str_killdescriptor="pummeled",
         str_damage="{name_target} is hit!!",
         str_duel="",
@@ -1729,7 +1775,7 @@ weapon_list = [
         str_weapon="a sledgehammer (*EUUUUUEGH???*)",
         str_weaponmaster_self="You are a rank {rank} {title} hammerkind.",
         str_weaponmaster="They are a rank {rank} {title} hammerkind.",
-        str_kill="{name_player} brings their sledgehammer to {name_target}’s kneecaps, bending them backwards with a sickly crunch. As {name_target} yelps in pain, they get their skull caved in by an overhead swing. {emote_skull}",
+        str_kill=comm_cfg.sledgehammerkilltext,
         str_killdescriptor="slammed",
         str_damage="{name_player} swings their sledgehammer into {name_target}’s {hitzone}!",
         str_duel="**Whooosh-crik!** {name_player} spends all of their energy holding their own against {name_target}. One might say that these sledgehammer schizophrenics have become pseudo-fathers in make-believe construction work. Two fathers, eh?",
@@ -1755,7 +1801,7 @@ weapon_list = [
         str_weapon="a skateboard",
         str_weaponmaster_self="You are a rank {rank} {title} pro skater.",
         str_weaponmaster="They are a rank {rank} {title} pro skater.",
-        str_kill="{name_player} hops off their skateboard and smacks {name_target} right in the face with it, breaking off a few teeth. As {name_target} hits the floor, {name_player} takes the opportunity to film themselves kickflipping over their body.",
+        str_kill=comm_cfg.skateboardkilltext,
         str_killdescriptor="tricked on",
         str_damage="{name_target} is smacked with a board across their {hitzone}!!",
         str_duel="{name_player} and {name_target} wheel out an old CRT, grinding out optimal trick lines on Tony Clark’s Underground for the PlaySlimestion 2.",
@@ -1766,11 +1812,145 @@ weapon_list = [
         stat=ewcfg.stat_skateboard_kills,
         str_brandish="Try !stunt."
     ),
+    EwWeapon(  # 48
+        id_weapon=ewcfg.weapon_id_missilelauncher,
+        alias=[
+            "missile",
+            "rocketlauncher",
+            "launcher",
+        ],
+        str_backfire = "{name_player}'s blast is too close to them, searing off bits of their {hitzone}!",
+        str_crit="**Critical hit!!** {name_player} stands on one knee and obliterates {name_target} to high hell!",
+        str_miss="**MISS!!** {name_player} literally blows themselves up due to the complex rocket science of pointing and shooting.",
+        str_equip="You heave the missile launcher over your shoulder.",
+        str_name="missile launcher",
+        str_weapon="a missile launcher",
+        str_weaponmaster_self="You are a rank {rank} {title} patriot.",
+        str_weaponmaster="They are a rank {rank} {title} patriot.",
+        str_kill=comm_cfg.missilelauncherkilltext,
+        str_killdescriptor="burnt and exploded",
+        str_damage="{name_target}'s {hitzone} gets blasted into the skies from {name_player}'s missile!!",
+        str_duel="{name_player} and {name_target} nearly get kicked out of the dojo from their attempt of sparring with missile launchers, something about \"attempted terrorism\" or some shit.",
+        str_description="It's an entire missile launcher.",
+        str_scalp=" The charred remains makes it hard to figure out who it belongs to.",
+        fn_effect=get_normal_attack(weapon_type='missilelauncher'),
+        classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha, ewcfg.weapon_class_ammo],
+        vendors=[ewcfg.vendor_coalitionsurplus],
+        stat=ewcfg.stat_missilelauncher_kills,
+        clip_size = 1,
+        captcha_length = 11,
+        price = 1500000,
+        str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
+        str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
+        str_reload_warning = "Quick, reload before someone gets here!",
+        # str_trauma = "It looks like they are still searching for a missing body part.",
+        # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
+    ),
+    EwWeapon(  # 49
+        id_weapon=ewcfg.weapon_id_pistol,
+        alias=[
+            "singlepistol",
+            "strap",
+        ],
+        str_crit="**Critical hit!!** {name_player} plants a bullet through {name_target}’s skull, blood gushes violently from the open wound!!",
+        str_miss="**MISS!!** {name_player}’s bad handling makes them drop their pistol when firing. Whoops!",
+        str_equip="You equip the pistol.",
+        str_name="pistol",
+        str_weapon="a pistol",
+        str_weaponmaster_self="You are a rank {rank} {title} of the pistol.",
+        str_weaponmaster="They are a rank {rank} {title} of the pistol.",
+        # str_trauma_self = "You have several small holes in your chest.",
+        # str_trauma = "They have several small holes in their chest.",
+        str_kill=comm_cfg.pistolskilltext,
+        str_killdescriptor="shot",
+        str_damage="{name_target} receives a bullet to the {hitzone}!!",
+        str_duel="{name_player} and {name_target} take some time together to shoot out all the windows in the dojo.",
+        str_description="It's a pistol.",
+        str_scalp=" Looking at it fills you with pride.",
+        fn_effect=get_normal_attack(),
+        price=10000,
+        vendors=[ewcfg.vendor_coalitionsurplus],
+        stat=ewcfg.stat_pistol_kills,
+        str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!",
+    ),
+    EwWeapon(  # 50
+        id_weapon=ewcfg.weapon_id_combatknife,
+        alias=[
+            "knife",
+            "spoon",
+        ],
+        str_crit="**Critical hit!!** {name_player} drives their blade into {name_target}’s spine, dealing crippling nerve damage!!",
+        str_miss="**MISS!!** {name_player} misses their swipes!!",
+        str_equip="You equip the combat knife.",
+        str_name="combat knife",
+        str_weapon="a combat knife",
+        str_weaponmaster_self="You are a rank {rank} {title} backstabber.",
+        str_weaponmaster="They are a rank {rank} {title} backstabber.",
+        # str_trauma_self = "You are covered in several cut wound scars.",
+        # str_trauma = "They are covered in several cut wound scars.",
+        str_kill=comm_cfg.combatknifekilltext,
+        str_killdescriptor="stabbed",
+        str_damage="{name_target} is sliced across their {hitzone}!!",
+        str_duel="{name_player} and {name_target} ditch the dojo and get into a knife fight in a nearby alleyway, reveling in the sharp stinging pain of the cuts.",
+        str_description="It's a combat knife.",
+        str_scalp=" It’s been sliced evenly into several pieces.",
+        fn_effect=get_normal_attack(),
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
+        stat=ewcfg.stat_combatknife_kills,
+        str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!",
+    ),
+    EwWeapon(  # 51
+        id_weapon=ewcfg.weapon_id_machete,
+        alias=[],
+        str_crit="**Critical hit!!** {name_player} wedges their blade deep within {name_target}’s guts!",
+        str_miss="**MISS!!** {name_player} swings miss their target!!",
+        str_equip="You equip your machete.",
+        str_name="machete",
+        str_weapon="a machete",
+        str_weaponmaster_self="You are a rank {rank} {title} serial killer.",
+        str_weaponmaster="They are a rank {rank} {title} serial killer.",
+        # str_trauma_self = "Your body has been loosely stitched back together.",
+        # str_trauma = "Their body has been loosely stitched back together.",
+        str_kill=comm_cfg.machetekilltext,
+        str_killdescriptor="slashed",
+        str_damage="{name_target} is diced across their {hitzone}!!",
+        str_duel="{name_player} and {name_target} harass juvies in the streets, laughing as they run away in panicked fear.",
+        str_description="It's a machete.",
+        str_scalp=" It’s been sliced beyond recognition.",
+        fn_effect=get_normal_attack(weapon_type='variable_damage'),
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
+        stat=ewcfg.stat_machete_kills,
+        str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!",
+    ),
+    EwWeapon(  # 52
+        id_weapon=ewcfg.weapon_id_boomerang,
+        alias=[
+            "rang",
+        ],
+        str_crit="**Critical hit!!** {name_player}’s boomerang nails their target several times, slicing them viciously!",
+        str_miss="**MISS!!** {name_player}’s ‘rang flies far away from its intended target!",
+        str_equip="You equip the boomerang.",
+        str_name="boomerang",
+        str_weapon="a boomerang",
+        str_weaponmaster_self="You are a rank {rank} {title} australian.",
+        str_weaponmaster="They are a rank {rank} {title} australian.",
+        # str_trauma_self = "You have several long cut scars across your body.",
+        # str_trauma = "They have several long cut scars across their body.",
+        str_kill=comm_cfg.boomerangkilltext,
+        str_killdescriptor="boomerang’d",
+        str_damage="{name_target} is sliced by a boomerang across their {hitzone}!!",
+        str_duel="{name_player} and {name_target} play catch with their deadly boomerangs. It isn’t over until someone loses a few fingers.",
+        str_description="It's a boomerang, the rims made of sharpened metal.",
+        str_scalp=" It smells of vegemite.",
+        fn_effect=get_normal_attack(weapon_type='burst_fire'),
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
+        stat=ewcfg.stat_boomerang_kills,
+        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
+    ),
 ]
-
-
-
-
 
 # A map of id_weapon to EwWeapon objects.
 weapon_map = {}
@@ -1812,7 +1992,6 @@ slimeoid_weapon_type_convert = {
     11: get_normal_attack(weapon_type='burst_fire'),
     12: get_normal_attack(weapon_type='burst_fire'),
     13: get_normal_attack(weapon_type='burst_fire'),
-
 }
 
 slimeoid_dmg_text = {

@@ -56,6 +56,9 @@ class EwWeapon:
     # Displayed when a weapon effect causes a miss.
     str_miss = ""
 
+    # Displayed when a weapon effect causes backfire damage
+    str_backfire = ""
+
     # Displayed when !inspect-ing
     str_description = ""
 
@@ -108,7 +111,7 @@ class EwWeapon:
             id_weapon = "",
             alias = [],
             str_equip = "",
-            str_kill = "",
+            str_kill: list = [],
             str_killdescriptor = "",
             str_trauma = "",
             str_trauma_self = "",
@@ -122,6 +125,7 @@ class EwWeapon:
             fn_effect = None,
             str_crit = "",
             str_miss = "",
+            str_backfire = "",
             str_description = "",
             str_reload = "",
             str_reload_warning = "",
@@ -158,6 +162,7 @@ class EwWeapon:
         self.fn_effect = fn_effect
         self.str_crit = str_crit
         self.str_miss = str_miss
+        self.str_backfire = str_backfire
         self.str_description = str_description
         self.str_reload = str_reload
         self.str_reload_warning = str_reload_warning

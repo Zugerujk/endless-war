@@ -26,7 +26,7 @@ class EwServer:
                 ewcfg.col_icon
             ), (self.id_server,))
 
-            if data != None:
+            if data != ():
                 # Record found: apply the data to this object.
                 self.name = data[0]
             else:
@@ -65,6 +65,6 @@ def server_update(server = None):
 
     # Update values with Member data.
     dbserver.name = server.name
-    dbserver.icon = server.icon_url
+    dbserver.icon = server.icon.url if server.icon is not None else ""
 
     dbserver.persist()

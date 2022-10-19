@@ -1,6 +1,7 @@
 import time
 
 from . import core as ewutils
+from ..backend.goonscapestats import EwGoonScapeStat
 from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 
@@ -32,3 +33,8 @@ def get_move_speed(user_data):
 
 
     return move_speed
+
+
+async def add_xp(id_user, id_server, stat_name, xp_value):
+    stat = EwGoonScapeStat(id_user, id_server, stat_name)
+    return await stat.add_xp(xp_value)

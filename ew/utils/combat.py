@@ -13,7 +13,7 @@ from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 from .district import EwDistrict
 from .frontend import EwResponseContainer
-from .user import get_move_speed
+from .user import get_move_speed, add_xp
 from ..backend import core as bknd_core
 from ..backend import hunting as bknd_hunt
 from ..backend import item as bknd_item
@@ -454,7 +454,8 @@ class EwEnemy(EwEnemyBase):
 
                         enemy_data.persist()
                         district_data.persist()
-                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy)  # moved after trauma definition so it can gurantee .die knows killer
+                        in_server = True if ewutils.is_player_inventory(target_data.id_user, target_data.id_server) else False
+                        die_resp = await target_data.die(cause=ewcfg.cause_killing_enemy, updateRoles=in_server)  # moved after trauma definition so it can gurantee .die knows killer
                         district_data = EwDistrict(district=district_data.name, id_server=district_data.id_server)
 
                         target_data.persist()
@@ -527,9 +528,9 @@ class EwEnemy(EwEnemyBase):
                 district_data.persist()
 
                 # Assign the corpse role to the newly dead player.
-                if was_killed:
-                    member = server.get_member(target_data.id_user)
-                    await ewrolemgr.updateRoles(client=client, member=member)
+                #if was_killed:
+                    #member = server.get_member(target_data.id_user)
+                    #await ewrolemgr.updateRoles(client=client, member=member) This is done in .die() if necessary, no reason to do it here
         # announce death in kill feed channel
         # killfeed_channel = ewutils.get_channel(enemy_data.id_server, ewcfg.channel_killfeed)
         # killfeed_resp = resp_cont.channel_responses[ch_name]
@@ -1701,7 +1702,6 @@ class EwUser(EwUserBase):
                 if (level >= mutation_level + new_mutation_obj.tier) and (self.life_state not in [ewcfg.life_state_corpse]) and (mutation_level < 50):
 
                     add_success = self.add_mutation(new_mutation)
-
                     if add_success:
                         response += "\n\nWhat’s this? You are mutating!! {}".format(new_mutation_obj.str_acquire)
 
@@ -1735,7 +1735,7 @@ class EwUser(EwUserBase):
 
         client: discord.Client = ewcfg.get_client()
         server: discord.Guild = client.get_guild(self.id_server)
-        member: discord.Member = server.get_member(self.id_user)
+        member: EwPlayer = EwPlayer(id_server=self.id_server, id_user=self.id_user)
 
         # Make The death report
         deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
@@ -1770,7 +1770,12 @@ class EwUser(EwUserBase):
                 rigor = True
             else:
                 rigor = False
-
+            # Ambidextrous
+            if ewcfg.mutation_id_ambidextrous in mutations:
+                ambidextrous = True
+            else:
+                ambidextrous = False
+                
             # Clear and reset user attributes
             if cause != ewcfg.cause_suicide or self.slimelevel > 10:
                 self.rand_seed = random.randrange(500000)
@@ -1785,8 +1790,6 @@ class EwUser(EwUserBase):
             self.hunger = 0
             self.inebriation = 0
             self.bounty = 0
-
-            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
 
             # Stat processing
             ewstats.increment_stat(user=self, metric=ewcfg.stat_lifetime_deaths)
@@ -1812,13 +1815,13 @@ class EwUser(EwUserBase):
 
                 ids_to_drop = []
                 # Drop some of your items
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your foods
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your weapons
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop some of your cosmetics
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor, ambidextrous=ambidextrous))
                 # Drop all of your relics
                 ids_to_drop.extend(itm_utils.die_dropall(user_data=self, item_type=ewcfg.it_relic, kill_method=cause))
 
@@ -1851,6 +1854,8 @@ class EwUser(EwUserBase):
             self.sidearm = -1
             self.time_expirpvp = 0
 
+            ewutils.weaponskills_clear(id_server=self.id_server, id_user=self.id_user,weaponskill=ewcfg.weaponskill_max_onrevive)
+
             try:
                 item_cache = bknd_core.get_cache(obj_type = "EwItem")
                 if item_cache is not False:
@@ -1881,16 +1886,16 @@ class EwUser(EwUserBase):
         # Run explosion after location/stat reset, to prevent looping onto self
         if cause not in ewcfg.explosion_block_list:
             if user_has_combustion:
-                explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(server.get_member(self.id_user).display_name)
+                explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(member.display_name)
                 resp_cont.add_channel_response(explode_poi_channel, explode_resp)
 
                 explosion = await explode(damage=explode_damage, district_data=explode_district)
                 resp_cont.add_response_container(explosion)
 
-        ewutils.logMsg(f'Server {server.name} ({server.id}): {member.name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
+        ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, member)
+            await ewrolemgr.updateRoles(client, server.get_member(self.id_user))
 
         return resp_cont
 
@@ -1952,6 +1957,11 @@ class EwUser(EwUserBase):
             )
 
     async def eat(self, food_item = None):
+
+        xp_hunger = 0
+        xp_inebriation = 0
+        responses = []
+
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
@@ -1987,13 +1997,21 @@ class EwUser(EwUserBase):
 
             hunger_restored = round(hunger_restored)
 
+            xp_hunger = hunger_restored
+
             self.hunger -= hunger_restored
             if self.hunger < 0:
+                xp_hunger += self.hunger #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
             if self.inebriation > 20:
                 self.inebriation = 20
             
+
+            if item_has_expired:
+                xp_hunger /= 3
+
+
             if ewcfg.slimernalia_active:
                 food_type = static_food.food_map.get(item_props.get("id_food"))
                 if food_type and food_type.acquisition == ewcfg.acquisition_smelting:
@@ -2004,7 +2022,7 @@ class EwUser(EwUserBase):
 
             response = item_props['str_eat'] + ("\n\nYou're stuffed!" if self.hunger <= 0 else "")
             try:
-                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw"]:
+                if item_props['id_food'] in ["coleslaw", "bloodcabbagecoleslaw", "chilledaushucklog"]:
                     self.clear_status(id_status=ewcfg.status_ghostbust_id)
                     self.applyStatus(id_status=ewcfg.status_ghostbust_id)
                     # Bust player if they're a ghost
@@ -2021,9 +2039,18 @@ class EwUser(EwUserBase):
                 # An exception will occur if there's no id_food prop in the database. We don't care.
                 pass
 
+            
+            xp_yield = xp_hunger * 100
+            
+            client = ewutils.get_client()
+            server = client.get_guild(self.id_server)
+            
+            responses += await add_xp(self.id_user, self.id_server, ewcfg.goonscape_eat_stat, xp_yield)
+
             bknd_item.item_delete(food_item.id_item)
 
-        return response
+        responses.insert(0, response)
+        return responses
 
     def add_mutation(self, id_mutation, is_artificial = 0):
         mutations = self.get_mutations()
@@ -2135,14 +2162,12 @@ class EwUser(EwUserBase):
                 # Retry if player already has the mutation
                 if result in current_mutations:
                     continue
-                
                 # Retry if the mutation is incompatible with an already-had mutation
                 for mutations in current_mutations:
                     mutation = static_mutations.mutations_map[mutations]
                     if result in mutation.incompatible:
                         incompatible = True
                         break
-
                 if incompatible:
                     continue
 

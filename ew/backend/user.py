@@ -261,6 +261,7 @@ class EwUserBase:
                 if (self.time_joined == 0) and (member != None) and (member.joined_at != None):
                     self.time_joined = int(member.joined_at.timestamp())
 
+
                 self.limit_fix()
             finally:
                 # Clean up the database handles.
