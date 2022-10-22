@@ -434,7 +434,7 @@ kniveskilltext = [
 
 monowhipkilltext = [
     "{name_player} repeatedly lashes {name_target} with their monowhip. {name_target} stumbles backwards before eventually falling into tiny meat slices. {emote_skull}",
-    "{name_player} tosses out their monowhip, snagging it around {name_target}'s torso. With one tug, {name_target} is reduced to nothing but a bleeding torso. {emote_skull}",
+    "{name_player} tosses out their monowhip, snagging it around {name_target}'s chest. With one tug, {name_target} is reduced to nothing but a bleeding torso. {emote_skull}",
     "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a messy pile of body parts. {emote_skull}"
 ]
 
