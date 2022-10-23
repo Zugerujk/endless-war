@@ -3028,7 +3028,303 @@ food_list = [
         time_expir = 600000,
         acquisition = "superraregumball",
     ),
-    
+        EwFood(
+        id_food = "MoonPie",
+        alias = ['Moonpie'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Moon Pie",
+        str_eat = "You imagine sinking your teeth into the squishy marshmallow, crunchy graham kraker and melty chocolate. Unfortunately the pie is so stale and hard you have to guzzle it down like a snake.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But older just means better.”
+        time_expir = 13200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "KillWafer",
+        alias = ['wafer'],
+        recover_hunger = 666,
+        price = 1000000,
+        str_name = "Killmunion Wafer",
+        str_eat = "A shadowy priest steps from the shadow, blessing the wafer as you give an ironic prayer. You partake the crunchy wafer disc, quickly washing it down with the blood of Ben. Amen.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But the pre-EW box you found them in was sealed tight.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "BigGayGumballs",
+        alias = ['Big Gay Ball, big tasty balls'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Big Gay Gumballs",
+        str_eat = "You pop one of the blue gumballs into your jaw. It’s bigger than you think, but you are able to shove the second one into your drooling maw. Little saltier than expected. You’ll be chewing and blowing bubbles for the next 6 hours.",
+        str_desc = "Two flavory gumballs wrapped in a single crinkly wrapper. A mustachio logo gives a cheeky wink."
+        time_expir = 13200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "Gummy Snakes",
+        alias = ['gummysnake'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Gummy Snakes",
+        str_eat = "The gummies are a little chewier than you’d hope, but your more distracted by your lips going numb and droopy. You stop feeling the gummies biting back after the 4th snake.",
+        str_desc = "A half melted knot of gummy snakes in a tiny bag. You swear one of the gummies squirm. Little uncanny, but you appreciate they are still around in some form. ",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SugarScythes",
+        alias = ['sugar scythe'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Sugar Scythes",
+        str_eat = "There are two ways eat this thing: Carefully suck the flavor out to avoid lacerations. Or don’t be a pussy and crunch it one bite! You feel crystal shards cleaving a new harlequin smile on your ugly mug. Sugar and copper make a kino after taste.”
+        str_desc = "A scythe shaped lollipop. The tip of the blade is sticking out of its night blue wrapper.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "GoonDrops",
+        alias = [‘Goon drop'],
+        recover_hunger = 1,
+        price = 10000,
+        str_name = "Goon drops",
+        str_eat = "One drop. One gulp. And for a single moment, YOUR MIND EXPANDS! Your Drops Per Second sextuples! Your reflexes outpace any AHK! You can see the very code in the sidewalk….! 
+\n
+\n
+Snap back to reality… 
+\n
+\n
+You quickly pop another. And another. Each drop is less satisfying than the last, but you carry on in hopes of getting that first chew high. Another one. Another. You go so far as duping Goon Drops with every chew. You snap back at a passerby saying trying to say hello. Why are they giving you that look? Fucking pussy ass bitch! Cope and seeth, retard! Learn how to taste python, you cringe ass zoomer! THESE FUCKING 4SKINS JUST HAVE TO COME IN TO RUIN DOUBLE HALOWEEN!” 
+        str_desc = "Sugar powdered nubs in the shape of github logo. These are THE candies to eat if you want to dominate the Double Halloween meta. Don’t believe me asshole? Just check the flow chart! ",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "BonBonRose",
+        alias = [‘BonBon Rose, BonRose, Bon Rose’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "BonBon Rose",
+        str_eat = "You bite into the soft delicacy; alas a treat from an older time. The flavor is odd but a reliable to give you a decent snack. Man, it’s a terrible time for rain.” 
+        str_desc = "A red bonbon in the shape of a rose. You’re not sure you recognize this candy. Maybe you say the name in the wiki? You tried to ask a season 2 killer, but the only response was a single tear drop.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SchraffyTaffy",
+        alias = [‘SchraffyTaffy’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Schraffy Taffy ",
+        str_eat = "You gnaw at the petrified cube. It takes a couple of minutes, but you were able to chip off a sliver. Instantly your world turns into VR cyber-scape. Suckling the taffy shard, you noticed did taste candy more than hear it. Electrospheric with a hint of 8bit… What the fuck is Neo-Gnosticism?” 
+        str_desc = "Old school taffy in a cyberpunk themed wrapper. When you hold at the right angle, you can see holographic words that spell out https://tinyurl.com/3pjdxnvx.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SolFood",
+        alias = [‘SolFood’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Sol Food",
+        str_eat = "It only takes one bite to feel your belt line increase 3 sizes. The spicy shrimp blends well with the Borscht roux. You are so transfixed in a full belly haze you almost choke on the complementary slime coin inside. ” 
+        str_desc = "You never heard of Gopnik Gumbo, but apparently modern foodology has shrunk it into a fun sized candy bar. You swear there was some butterfly handing these out at the Stock Exchange.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SchemerDoodle",
+        alias = [‘SchemerDoodle, Scheme Doodle’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Schemer-Doodle",
+        str_eat = "The cookie is gooey and warm as if it hot out of the oven. This cookie would be perfect if you didn’t have to eat around the slip of paper baked into the center. You left it wet and crumpled in the gutter. ” 
+        str_desc = "A simple sugar cookie just like your grandma used to make. Kinda odd it’s inside a tiny manilla folder with TOP SECRET written over it. Modern marketing sure is odd.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SourPvnkKids",
+        alias = [‘SourPatchKids’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Sour Pvnk Kids",
+        str_eat = "You roll one of the little skele-boys in your palm for a moment. Ignoring own better judgement and expiration date, you quickly pop one in your mouth… Hey, not too bad. You shove a few more in your gullet before you feel your face twinge. The exponential sour tang hit you all at once, pinch your face into a skeletal visage. As the muscle spasms subside, you look around hoping no one saw you in bone-face…” 
+        str_desc = "Little sour candies in the shape of skele-boys. If their reputation didn’t tickle your fight or flight response, the sick ass art on the bags will! High in vitamin D...eeze nuts!",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "TrixyStix",
+        alias = [‘TrixyStix’],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = " Trixy Stix",
+        str_eat = "It takes half a second to snort down the entire tube. Despite your sinus cavities being engorged into ulsers, the stuff doesn’t quiet have the same punch as it used. Make you wish for the good ol’ pcp. Can’t say your surprised this shit was discontinued.” 
+        str_desc = "A straw of colorful dust of questionable origin. While it was never a popular in NLCakaNM, Ben Saint seems to have an obsessive hatred for the candy ever since the rebranding. It’s rumored the Kingpin will buy it out of spite just to post angry review on Slime Twitter.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "KetoKats",
+        alias = [‘KetoKat’],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = " KetoKats",
+        str_eat = "The crispy crack is music to your ears as you break yourself a piece. The chocolate slowly melts in your mouth as your notice the hint of KillerFlower. You can literally feel the fat burn, sloughing off your bones. This is totally worth the kidney stones!”
+        str_desc = "A mouthwatering chocolate bar you can share with your friends. Not that you’re going to give up a single crumb to those mooching panhandlers. Good for shedding those pounds. Cuz OH BOY, do you need it!",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "SpaceDuds",
+        alias = [‘SpaceDuds’],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = " Space Duds",
+        str_eat = “You walk down the street as you toss the Duds in your mouth. You never tasted the milky way, but you’d bet it would taste something like this… Shit I could have made these Milky Way bars. Like, Space Duds is a good pun, but I think the cosmic imagery would have been cool for the flavor text. Fuck. I guess I’ll just stick to Space Duds I guess. Sorry Space Dad, I fucked up your funny candy. 
+        str_desc = “A box of chewy Mexican chocolate balls normally sold at the Cinema concession stand. Not only are they tasty, but each ball contains an entire bread loaf worth of carbohydrates!",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "Monards",
+        alias = [‘Monards’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Monards Wine Gums",
+        str_eat = “You squeeze the candy juice into a wine glass, twirling it around pretentiously to let it breath. You awkwardly chat to a homeless man about your new start up before you take a sip. A truly delightfully aroma. You finish it off with a chug before blacking out. You wake up several hours later. You now have a new tramp stamp and a missing kidney. Great…”
+        str_desc = “A offbrand knockoff of the popular NTxVakaNNS sweats. These wine gummies will knock out any lightweight with a sweat tooth. Spiked with the famous Monsoon-brewed Goonshine Wine.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "Skebbles",
+        alias = [‘Skebbles’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Skebbles",
+        str_eat = “”
+        str_desc = “Taste the Rainebow.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "CopburyEgg",
+        alias = [‘Copbury Egg’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Copbury Egg",
+        str_eat = “You bite through the chocolate shell, a gooey flood of caramel drizzles down your chin. God this shit is so good! But the people around you are giving dirty looks. You ain’t no bootlicker… but you decide to quickly slink into the shadow to finish the egg in shame.”
+        str_desc = “A chocolate egg candy. Killers loves these IRONICALLY. They used to come with a real cop inside, but dumbass Rowdys kept choking on them. Can’t have shit in Detroit!",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "JohnnyRanchers",
+        alias = [‘Johnny Ranchers’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Johnny Ranchers",
+        str_eat = “You dump the entire box into your grub pit. You ain’t no sissy ass bitch! You suck and gum the ranchers into a half melted slab. It takes a few minute for the juices to saturate your mouth. Just in time for the ranchers gluing your teeth shut. It would be a shame to puke it up now.”
+        str_desc = “Bertie Botts? You what, mate? Nah bruv, they ain’t got shit on my shit. They pussy out on having *good* flavors. Nah, every rancher is 100% guaranteed kino. We got bean, leather boot, bean, chipped tooth, bean, pickled dick, pickle rick, beans. List goes on and on, cunt. Just pop one, eh?",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+
+),
+    EwFood(
+        id_food = "Danymals",
+        alias = [‘Danymals’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Danymals",
+        str_eat = “It only take one sip to convince you to butt chug the entire thing. Smooth cow paste and fruit chucks flow down your gullet like a trickle-down economics. This shot would be one hell of a wopper if it wasn’t laced with cyanide. Now your throat is itchy… FUCK DANYMALS, THEY ARE TRASH! ”
+        str_desc = “A yogurt-y drink in the shape of someone’s overly muscular fursona. You can smell a fruity aroma under the poorly sealed tinfoil lid. You also smell a whiff of… calzone? Out of all the things some asshole could of spike your yogurt with, you better count yourself lucky.",
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "CoonconutPatties",
+        alias = [‘CoonconutPatties’],
+        recover_hunger = 300,
+        price = -10000,
+        str_name = " Coonconut Patties",
+        str_eat = “You have a moment of hesitation as you notice strange coloration of the fudge. You take cautious mouse nibbles at the slab. The fudge is flakey, and the coconut has a slight musk to it. You’re not sure you like it. But the wrapper says it’s good. Your conflicting feeling is overshadowed by a sudden urge to toss one into the KFC deep fryer. Experiment for another time.”
+        str_desc = “A simple fudged covered coconut disk beloved by rodents and Floridians alike. Everyone else hates it. But they just lack the mature taste to appreciate it. Each patty is lovingly hand crafted by a retirement home chef.
+\n 
+*Nah, it’s the best candy.* - **Coonrat1**.” 
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "ToxiRoll",
+        alias = [‘Toxi Roll, toxiroll, toxi-roll’],
+        recover_hunger = -100,
+        price = 10000,
+        str_name = "Toxi Roll",
+        str_eat = “You pop the Toxi Roll in your mouth, paper and all. Not that you’d be able to tear off the chemically infused wrapper. ”
+        str_desc = “A *‘Chocolate’* flavored taffy with a small whiff of chloroform. The signature treat of the malformed freaks of Toxington. It slowly acid washes the pockets of your jeans. Fresh!”
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "AmphibiGum",
+        alias = [‘Amphibigum, Amphibi gum’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = " Amphibi-Gum",
+        str_eat = “You take the first chew. The taste of minty marsh gush into your cavities and ulcers. It’s an acquired taste, but once you get past the bitterness, the chewing calms your nerves. Even when the flavor fades, you gum the strip until it dissolves into nothing. ”
+        str_desc = “A simple strip of gum speckled with fly shaped caffeine crystals. Empty boxes of these things litter the Cathedral. Some say you can occasionally hear the violent smacks and chewing emitting from the mysterious depths home to the grass-less.” 
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "KrakerJacks",
+        alias = [‘KrakerJacks, KrakerJacks, Kraker Jacks’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Kraker Jacks",
+        str_eat = “You shovel the contents down your nashing maw. The Karamel gluing your teeth together made it all the harder to chew the rock-hard popkorn. Even the tiny plastic toy gets wedged in between your teeth, saving you from an embarrassing death.
+\n 
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+Oh, also now your gay.”
+        str_desc = “A fun-sized box of Karamel Korn. Theses bring you back to the good ol’ days when your father would take you to your local Based Ball game on the weekends. Well, before you fucking murdered him. Just, uh, don’t eat these in front of the King Pin.” 
+        time_expir = 43200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "DoggyTreats",
+        alias = ['DoggyTreats'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "DoggyTreats",
+        str_eat = "You imagine sinking your teeth into the squishy marshmallow, crunchy graham kraker and melty chocolate. Unfortunately the pie is so stale and hard you have to guzzle it down like a snake.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But older just means better.”
+        time_expir = 13200,
+        acquisition = "trickortreating",
+),
+    EwFood(
+        id_food = "",
+        alias = ['Salt Lick, Saltlick’],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Salt Lick",
+        str_eat = "Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick.",
+        str_desc = "Just a block of salt on a stick. A traditional Killer treat since their inception. ”
+        time_expir = 13200,
+        acquisition = "trickortreating",
+),
 ]
 # A map of id_food to EwFood objects.
 food_map = {}
