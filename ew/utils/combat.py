@@ -2043,7 +2043,6 @@ class EwUser(EwUserBase):
             item_is_non_perishable = False
 
 
-
         user_has_spoiled_appetite = ewcfg.mutation_id_spoiledappetite in mutations
         item_has_expired = float(getattr(food_item, "time_expir", 0)) < time.time()
         if item_has_expired and not (user_has_spoiled_appetite or item_is_non_perishable):
@@ -2052,7 +2051,7 @@ class EwUser(EwUserBase):
         elif npcutils.find_drinkster(user_data=self, isDrink=isDrink):
             response = "Oh shit, it's the Drinkster! He snatches the {} right out of your hand and crushes it!\nhttps://rfck.app/img/npc/drinksterdance.gif".format(food_item.name)
             bknd_item.item_delete(food_item.id_item)
-            return response
+            return [response]
         else:
             hunger_restored = int(item_props['recover_hunger'])
             if self.id_user in ewutils.food_multiplier and ewutils.food_multiplier.get(self.id_user) > 0:

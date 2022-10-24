@@ -14,9 +14,9 @@ npc_list = [
         str_name = "The Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_oozegardens, ewcfg.poi_id_wreckington, ewcfg.poi_id_glocksbury, ewcfg.poi_id_krakbay, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_smogsburg],  # list of locations an NPC roams in
         dialogue = {"talk":["...", "Feeling kind of thirsty..."],
-                    "give":"Thanks, buddy! I'll take it, but honestly I'd rather have something to drink.",
+                    "give":["Thanks, buddy! I'll take it, but honestly I'd rather have something to drink."],
                     "loop":["...", "Feeling kind of thirsty..."]},  # list of dialogue an npc can use
-        func_ai = npcutils.generic_npc_action,  # function the enemy's AI uses
+        func_ai = npcutils.drinkster_npc_action,  # function the enemy's AI uses
         image_profile = "https://rfck.app/img/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
         defaultslime = 2036231,
         defaultlevel = 22,
