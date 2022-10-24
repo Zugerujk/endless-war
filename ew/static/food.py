@@ -473,7 +473,7 @@ food_list = [
         str_desc = "A grilled 12oz sirloin steak and similarly sized rock lobster tail, served with scalloped potatoes, broccoli, asparagus, shallot herb butter alongside a portrait of the chef that was autographed and kissed with a vibrant red lipstick. What, does he think he's better than you? You break the portrait with your fist and your hand starts to bleed.",
         time_expir = 43200,
     ),
-        EwFood(
+    EwFood(
         id_food = "sushi",
         alias = ['sushi', 'sus', 'rolls', 'sush', ],
         recover_hunger = 420,
@@ -804,7 +804,7 @@ food_list = [
         str_desc = "This thick, viscous orange fluid reeks with a sickly-sweet orangey odor.",
         time_expir = 43200,
     ),
-        EwFood(
+    EwFood(
         id_food = "majormelonsyrup",
         alias = ['mmsyrup', 'mms', 'pinksyrup'],
         recover_hunger = 100,
@@ -1058,7 +1058,7 @@ food_list = [
         str_eat = "You gingerly nibble on the fancy vegetables. Its nostalgic taste sends you right back to your childhood, and your first encounter with the law. You had to get sent to the New Los Angeles City aka Neo Milwaukee Juvenile Detention Center somehow, after all. It feels like it happened so long ago, and yet, you can remember it like it was yesterday.",
         str_desc = "Thinly sliced rounds of Pink Rowddish and other colorful vegetables are slow roasted and drizzled with special sauce. It seems simple enough, it can't taste THAT good, can it?",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "sludgeberrypancakes",
@@ -1068,7 +1068,7 @@ food_list = [
         str_eat = "You pick up the stack of pancakes with your hands, holding and biting into them as if they were a hamburger. Thick syrup coats your hands and mouth, ready to be licked off after the main meal has concluded.",
         str_desc = "Fluffy flapjacks filled with assorted Sludgeberries and topped with a heaping helping of viscous syrup. You've died and washed up in the sewers. But, like, a nice part of the sewers. This expression doesn't really translate well into the setting.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "pulpgourdpie",
@@ -1078,7 +1078,7 @@ food_list = [
         str_eat = "You pick up a piece like it's a goddamn slice of pizza, demolishing it in a few barbaric bites. Eventually you get your fill of the crust and just start scraping out the delicious Pulp Gourd goop and slathering it all over your mouth and tongue like you're a fucking mindless pig at his trough.",
         str_desc = "A warm, freshly baked pie. Its still molten, still solidifying Pulp Gourd filling beckons you like a siren lures a sailor. So many holidays have been ruined because of your addiction to this cinnamon imbued delicacy, and so many more will be in the future.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "joybeanpastemochi",
@@ -1088,7 +1088,7 @@ food_list = [
         str_eat = "You pop the delicate confectionary into your mouth and start ravenously shredding it into barely digestible chewy chunks. Sweet paste is slathered across your mouth. Your teeth enamel is decimated, execution style.",
         str_desc = "A sickeningly sweet Joybean paste filling encased in a small, round mochi covered in powdered sugar. Its *proper* name is 'Daifucku.'",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "brightshadeseeds",
@@ -1098,7 +1098,7 @@ food_list = [
         str_eat = "You pop a few seeds into your mouth at a time, grinding them into dust with your molars and digesting their sweet, sweet single-digit calories.",
         str_desc = "A bag of Brightshade seeds, unsalted and ready for ill-advised consumption.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "direapplejuice",
@@ -1108,7 +1108,7 @@ food_list = [
         str_eat = "You slurp down the delicious sugary juice! Hell yeah!",
         str_desc = "A 99% juice-like substance that tastes vaguely like Dire Apples! It's so ubiquitous that you guarantee that if you rummaged through every school kid's lunch in the city, you'd be sent to jail.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "purplekilliflowercrustpizza",
@@ -1118,7 +1118,7 @@ food_list = [
         str_eat = "You take a hesitant nibble of the famously keto pizza slice before coming to the reality that sometimes healthy things CAN taste good! You shove the rest of the slice in your mouth, nearly choking. Deep inside of your body, you can feel your kidney begin to churn and convulse. That's probably fine.",
         str_desc = "A deliciously dietary-accordant slice of Killiflower crusted pizza. Made by milling down Killiflower into fine crumbs, combining with various irradiated cheeses, and baking until even notorious ENDLSS WAR critic Arlo is impressed. Now THIS is how you lose weight!",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "razornutbutter",
@@ -1128,7 +1128,7 @@ food_list = [
         str_eat = "You take a hefty spoonful of the thick mucilage, coating your mouth completely. It'll take weeks to swallow the last of it.",
         str_desc = "A tub of chunky, creamy Razonut Butter. Co-star of countless childhood classics. You know it was invented by a Juvie, right?",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "jellyfilleddoughnut",
@@ -1138,7 +1138,7 @@ food_list = [
         str_eat = "You chomp into the delicious jelly-filled doughnuOH GOD WHY THE FUCK DOES IT TASTE LIKE A TRADITIONAL JAPANESE ONIGIRI WITH A PICKLE PLUM FILLING WHO COULD HAVE PREDICTED THIS?!?!",
         str_desc = "These jelly-filled doughnuts seem appetizing enough, but you're no expert. You never really cared much for jelly-filled doughnuts. In fact, in most scenarios you'd pass them up in favor of another pastry or sugary snack.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "yourfavoritefood",
@@ -1148,7 +1148,7 @@ food_list = [
         str_eat = "***You bite into your favorite meal!! Its taste is literally indescribable!! You feel like you're going retarded, your mind is clearly breaking!! Uwahhh!!***",
         str_desc = "***Your favorite meal!! You could go on for hours about how great this food is!! But, you won't, because no one appreciates it as much as you do.***",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "dankwheattoast",
@@ -1158,7 +1158,7 @@ food_list = [
         str_eat = "You take a bite out of the Dankwheat Toast, and immediately you begin to start staggering around, clearly lost in some sort of unearned pleasure.",
         str_desc = "A burnt, slightly soggy slice of Dankwheat Toast. What more do you want out of me?",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "blacklimesour",
@@ -1168,7 +1168,7 @@ food_list = [
         str_eat = "You take a swig of the obscure southern delicacy. Its overwhelming acidity tricks your mouth into generating quarts of saliva, refreshing your mouth and destroying your taste buds. Nifty!",
         str_desc = "A small paper cup with nothing but crushed ice, the juice of a Black Lime, a little salt, and about a pound of cocaine.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "phosphorpoppiesmuffin",
@@ -1178,7 +1178,7 @@ food_list = [
         str_eat = "You remove the muffin head from the stump, before devouring the former and throwing the latter as far away from you as humanly possible. Good riddance.",
         str_desc = "Oooh, muffins! Remember that? Gimme a thumbs up if you get this joke.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "sourpotatofrenchfries",
@@ -1188,7 +1188,7 @@ food_list = [
         str_eat = "You bite into the fluffy, acidic french fries, occasionally dipping them into a selection of various dipping sauces such as hot slime and sweet slime. You divorce the actual flavor of the crispy exterior from its sour innards with a technique not unlike the one used to get the last drop of toothpaste out of its tube. Your face convulses in pain.",
         str_desc = "Some gloriously thick cut Sour Potato french fries accompanied by an embarrassment of tasty slime-based dipping sauces. What else could a juvenile ask for?? Maybe some sugar and baking soda, this shit is unbelievably acidic.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),   
     EwFood(
         id_food = "minipizzaball",
@@ -1209,7 +1209,7 @@ food_list = [
         str_eat = "Your brain goes on the fritz as you try to think of a tactic to even BEGIN at tackling this ominous orb of grease infused pizza. After hours of racking your empty brain you your idea finally lands on just fucking RIPING INTO IT. Your teeth bite down into the almost gelatinous grease bowling ball, causing it to ooze out  cheese and sauce. You quickly grab a nearby bucket to gather the oozing cheese and sauce. determined to eat all of this damned pizza ball. Whole slices of zza  slide down your throat, almost chocking you from the amount of cheese and bread your guzzling. Your biting grows more rapid, you feel your mind shutting down likely from a pizza ball induced food coma. You rip into it like a wild animal, your hands moving the pizza ball to get access at more of outer armor of the pizza ball. The pizza ball begins to spin faster and faster, your eyes glazing over from the speed at which your turning the ball before you become almost like a blur. You move the pizza ball so fast you feel it lift from your hands. It begins to rotate in the sky just above you, the speed and density of this ball so fast its pulling you back up to it. Grease gets flung everywhere on your immediate area filling up open trashcans and covering many other nameless gang members and juvies.  Soon your teeth re-latch onto the now what can only be described as a pizza blackhole. Your hands grip onto the sides to support you as you continue to rip into it like your life depends on it. Soon enough you find yourself staring at the pure golden yellow center of the pizza ball. Your eyes grow wide as you marvel at this cheese cocoons perfectly backed color. Your mouth trembles as your lips slowly begin  to encroach onto this marvel of pizza. Inch by inch you get closer and closer until you cant take the anticipation anymore and swallow the cocoon whole. You struggle to get down your through but with indomitable spirit you feel the rest of the pizza ball hit your stomach with a thud. Looking down you see your belly is bulging from how much pizza you just consumed. You pat it and let out a long satisfied sigh.  ",
         str_desc = "You gaze upon the horrifically greasy creation with equal parts awe and horror. The twisting veins of deep red tomato sauce and grease run through this amalgamation of pizza upon pizza upon pizza like something out of a monster movie. The outside shell holding this abomination of food stuffs  almost looks armored and hardened with a golden brown sheen to it. You can only imagine in your deepest dreams at what the inside of this nightmarish cocoon of  dough and sauce and cheese looks like.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "bloodcabbagecoleslaw",
@@ -1219,7 +1219,7 @@ food_list = [
         str_eat = "You drop the semi-solidified puck of red coleslaw into your eager maw, upon which the faux gelatin instantly loses its form and starts to crumble down your face. You manage to digest a cabbage shred.",
         str_desc = "A congealed dark crimson slab of myoglobin encasing sparse strands of Blood Cabbage. It jiggles when you shake the cup it's stored in. Why the fuck would you mill this?",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "pawpawfood",
@@ -1229,7 +1229,7 @@ food_list = [
         str_eat = "You slowly drink the bitter, flavorless mush. It's' uh' food?",
         str_desc = "An unappetizing pile of Pawpaw Gruel. It's just Pawpaw milled into something halfway between puke and diarrhea. The staple of a traditional Juvenile diet. ",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "earlbrowntea",
@@ -1239,7 +1239,7 @@ food_list = [
         str_eat = "You dunk your teabag into the cup of Earl Brown Tea to enrich the flavor, and take a long sip afterwards. Dunking the teabag, heh, it totally reminds you of the last time you pwn'd some n00bz... wait, what the fuck are you talking about???",
         str_desc = "A cup of brown tea. It's easily mistaken for coffee.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "badshroomz",
@@ -1249,7 +1249,7 @@ food_list = [
         str_eat = "You gobble up the Bad Shroomz and start totally tripping the fuck out. 'Dude, what if Endless War, had like, Slime Goombas and Slime Koopa Troopas, and you could !stomp on them and get SlimeCoin from question mark blocks...', you think to yourself, ingeniously.",
         str_desc = "A handful of mushrooms, with a copper coating that endows them with psychadelic properties. It's best to take them in a cold, dark room, handcuffed to your bed, with no human contact in miles, in order to optimize your experience with them.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "chromaccino",
@@ -1259,7 +1259,7 @@ food_list = [
         str_eat = "You slurp on your Chromaccino. The scalding beverage that leaves a hint of jet fuel within its pallete gives you scars on your mouth that will never heal. Truly, a flavor that you can Never Forget:tm:.",
         str_desc = "A cup of molten metal, with shavings of metal floating at the top. It strikes you as a bad idea to drink it.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "moltenpopcorn",
@@ -1269,7 +1269,7 @@ food_list = [
         str_eat = "You chew through the Molten Popcorn. The melt-in-your-mouth flavor is to die for! Literally! You are fucking dying as you continue to ingest this terrible, terrible food item. What the fuck were you thinking?",
         str_desc = "A piping-hot bag of popcorn. A melting gold ingot is propped up where the butter normally goes, dripping down into the rest of the popcorn puffs.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "stuffedpoppepper",
@@ -1279,7 +1279,7 @@ food_list = [
         str_eat = "You gnash through the Stuffed Poppepper. It's a smorgasbord of flavors, all exploding in your mouth! It fucking hurts to eat, but JESUS, it tastes good.",
         str_desc = "A pepper stuffed with meat, cheese, and all sorts of seasoning. It pops every now and then, sending out small chunks of debris.",
         time_expir = 1209600,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "khaotickilliflowerfuckenergy",
@@ -1461,7 +1461,7 @@ food_list = [
         str_desc = "A cold, refreshing can of AlQaeda Keylime flavored FUCK ENERGY. You can occasionally feel rumbles from inside it, the drink itself begging to be released from the thin metal sarcophagus that barely contains it. You flip it over to read the blurb on the back.\n\n\n*Make no mistake - FUCK ENERGY is not your grandma's run-of-the-mill pissy baby fucker fapper limp, lame liquid masquerading as a psychotic psycadellic or performance-enhancing elixir. FUCK ENERGY is the real deal. From the moment you bought this energy drink, your fate was sealed, cursed. Reality itself has been rewritten, and your destiny decided. Your body's natural limits and basic inhibitions will be completely and utterly pulverized, ground into dust to be scavenged by us to imbue into the next incarnation of the very instrument of your destruction. Every FUCK ENERGY is infused, steeped in the atomized souls of our unprepared consumers. You will contribute to this vicious cycle, at a near molecular level your very consciousness will be ripped apart and sold into slavery. Your new master? Us. Every drop of FUCK ENERGY has been rigorously tested to systematically attack you, shutting down entire bodily functions. Your organs will be forcefully transformed into top-of-the-line computer parts, hand picked by a cruel computer science major to maximize the fidelity of his foreign language visual erotica. Your brain will be overclocked, your heart pushed past all previous extremes, and without an internal fan to cool it down either. You will be a being of pure adrenaline and a martyr for dopamine. You will be consumed by the abstract idea of energy. But, it won't be abstract to you. You will understand energy more than any other living creature on this planet. Now go, open this quite literal Pandora's Box. Escaping your purpose is impossible. What are you waiting for? Are you scared? GET FUCKED. - Made in collaboration with LIMEcorp*.",
         time_expir = 604800,
     ),
-		EwFood(
+	EwFood(
 		id_food = "steelbeamsangriafuckenergy",
         alias = ['ssfu', 'sbsfu'],
         recover_hunger = 1200,
@@ -1473,7 +1473,7 @@ food_list = [
         str_desc = "A cold, refreshing can of Steel Beam Sangria flavored FUCK ENERGY. You can occasionally feel rumbles from inside it, the drink itself begging to be released from the thin metal sarcophagus that barely contains it. You flip it over to read the blurb on the back.\n\n\n*Make no mistake - FUCK ENERGY is not your grandma's run-of-the-mill pissy baby fucker fapper limp, lame liquid masquerading as a psychotic psycadellic or performance-enhancing elixir. FUCK ENERGY is the real deal. From the moment you bought this energy drink, your fate was sealed, cursed. Reality itself has been rewritten, and your destiny decided. Your body's natural limits and basic inhibitions will be completely and utterly pulverized, ground into dust to be scavenged by us to imbue into the next incarnation of the very instrument of your destruction. Every FUCK ENERGY is infused, steeped in the atomized souls of our unprepared consumers. You will contribute to this vicious cycle, at a near molecular level your very consciousness will be ripped apart and sold into slavery. Your new master? Us. Every drop of FUCK ENERGY has been rigorously tested to systematically attack you, shutting down entire bodily functions. Your organs will be forcefully transformed into top-of-the-line computer parts, hand picked by a cruel computer science major to maximize the fidelity of his foreign language visual erotica. Your brain will be overclocked, your heart pushed past all previous extremes, and without an internal fan to cool it down either. You will be a being of pure adrenaline and a martyr for dopamine. You will be consumed by the abstract idea of energy. But, it won't be abstract to you. You will understand energy more than any other living creature on this planet. Now go, open this quite literal Pandora's Box. Escaping your purpose is impossible. What are you waiting for? Are you scared? GET FUCKED. - Made in collaboration with LIMEcorp*.",
         time_expir = 604800,
     ),
-		EwFood(
+	EwFood(
 		id_food = "twintowertropicalfuckenergy",
         alias = ['ttfu', 'tttfu'],
         recover_hunger = 1200,
@@ -1493,7 +1493,7 @@ food_list = [
         str_eat = "You gaze upon the unholy, excessive pile of dough, pepperoni, grease, marinara and cheese you imprudently smelted. Tepidly, you bring the first slice to your mouth, letting the melted cheese drizzle unto your awaiting tongue. And, just as a beast would be reduced to a state of pure carnal hunger and lust after acquiring its first taste of flesh and blood, you enter a state of sheer wilderness, stuffing each stuffed crust into your teeth and gums and tongue and throat. You scream at the top of your lungs. Sicknasty, dude!!",
         str_desc = "Nothing can articulate the sheer awesomeness of this pizza. Always thought to be theoretically possible and discussed in hushed tones in obscure circles on the fringe of acceptable dialogue, but never achieved in practice, this heap of diary and dough can only truly be comprehended through several layers of abstraction. It is too big, too thick, too heavy and too deep. To put it simply, however, it is a pizza. Specifically, an Original Stuffed Crust' pizza. But, everything is quadrupled. Every ingredient is quadrupled. The toppings are quadrupled, the cheese is quadrupled, the pepperoni is quadrupled, the grease is quadrupled, the yeast is quadrupled and you fucking bet you could fit your whole forearm into the caverns they dare call a crust, if it weren't overflowing with quadruple the molten, stretchy string cheese. And it doesn't stop there, quadruple the size, quadruple the weight, quadruple the budget required to ward off lawsuits for quadruple the colohestral, quadruple the heart attacks. People die because of this pizza, someone you know has or will die because of this item in your inventory right now. It's made to order, piping hot and ready to be devoured by whatever foolish egomaniac with enough hubris to challenge its supremacy. Bow down before it, beg and weep for your life and the life of the ones you love. Chant its name, praise the harbinger of death you just acquired from Pizza Hut. Quadruple Stuffed Crust. Quadruple Stuffed Crust. QUADRUPLE STUFFED CRUST!! AAAAAAAAAAAAAAAAAAH!!",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "monstersoup",
@@ -1503,7 +1503,7 @@ food_list = [
         str_eat = "You gaze upon the large bowl of monster soup and slurp it down, your throat scratched by the copious amounts of bone shards that permeate the rich broth. Meaty and homely, just like grandma made it.",
         str_desc = "A large bowl of soup covered with the saran wrap that prevents you from smelling the wonderous mix of soft meat and crackling bones, full of nutrients and carcinogens in equal ammounts.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "octuplestuffedcrust",
@@ -1513,7 +1513,7 @@ food_list = [
         str_eat = "You gaze upon the unholy, excessive pile of dough, pepperoni, grease, marinara and cheese you imprudently smelted. Tepidly, you bring the first slice to your mouth, letting the melted cheese drizzle unto your awaiting tongue. And, just as a beast would be reduced to a state of pure carnal hunger and lust after acquiring its first taste of flesh and blood, you enter a state of sheer wilderness, stuffing each stuffed crust into your teeth and gums and tongue and throat. You scream at the top of your lungs. Sicknasty, dude!!",
         str_desc = "Nothing can articulate the sheer awesomeness of this pizza. Always thought to be theoretically possible and discussed in hushed tones in obscure circles on the fringe of acceptable dialogue, but never achieved in practice, this heap of diary and dough can only truly be comprehended through several layers of abstraction. It is too big, too thick, too heavy and too deep. To put it simply, however, it is a pizza. Specifically, an Original Stuffed Crust' pizza. But, everything is octupled. Every ingredient is octupled. The toppings are octupled, the cheese is octupled, the pepperoni is octupled, the grease is octupled, the yeast is octupled and you fucking bet you could fit your whole forearm into the caverns they dare call a crust, if it weren't overflowing with octuple the molten, stretchy string cheese. And it doesn't stop there, octuple the size, octuple the weight, octuple the budget required to ward off lawsuits for octuple the colohestral, octuple the heart attacks. People die because of this pizza, someone you know has or will die because of this item in your inventory right now. It's made to order, piping hot and ready to be devoured by whatever foolish egomaniac with enough hubris to challenge its supremacy. Bow down before it, beg and weep for your life and the life of the ones you love. Chant its name, praise the harbinger of death you just acquired from Pizza Hut. Octuple Stuffed Crust. Octuple Stuffed Crust. OCTUPLE STUFFED CRUST!! *AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH!!*",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "sexdecuplestuffedcrust",
@@ -1523,7 +1523,7 @@ food_list = [
         str_eat = "You gaze upon the unholy, excessive pile of dough, pepperoni, grease, marinara and cheese you imprudently smelted. Something is' wrong. You can't really put your finger on it, but you start feeling a strange sensation starting into this pizza. Tepidly, you bring the first slice to your tongue, letting the melted cheese drizzle unto your awaiting tongue. And, just as a beast would be reduced to a state of pure carnal hunger and lust after acquiring its first taste of flesh and blood, you enter a state of sheer wilderness, stuffing each stuffed crust into your teeth and gums and tongue and throat. You scream at the top of your lungs. Sicknasty, dude!!",
         str_desc = "Nothing can articulate the sheer frightening presence of this pizza. Something is' wrong. You can't really put your finger on it, but you start feeling a strange sensation starting into this pizza. Always thought to be theoretically possible and discussed in hushed tones in obscure circles on the fringe of acceptable dialogue, but never achieved in practice, this heap of diary and dough can only truly be comprehended through several layers of abstraction. It is too big, too thick, too heavy and too deep. To put it simply, however, it is a pizza. Specifically, an Original Stuffed Crust' pizza. But, everything is sexdecupled. Every ingredient is sexdecupled. The toppings are sexdecupled, the cheese is sexdecupled, the pepperoni is sexdecupled, the grease is sexdecupled, the yeast is sexdecupled and you fucking bet you could fit your whole forearm into the caverns they dare call a crust, if it weren't overflowing with sexdecuple the molten, stretchy string cheese. And it doesn't stop there, sexdecuple the size, sexdecuple the weight, sexdecuple the budget required to ward off lawsuits for sexdecuple the colohestral, sexdecuple the heart attacks. People die because of this pizza, someone you know has or will die because of this item in your inventory right now. It's made to order, piping hot and ready to be devoured by whatever foolish egomaniac with enough hubris to challenge its supremacy. Bow down before it, beg and weep for your life and the life of the ones you love. Chant its name, praise the harbinger of death you just acquired from Pizza Hut. sexdecuple Stuffed Crust. sexdecuple Stuffed Crust. SEXDECUPLE STUFFED CRUST!! **AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH!!**",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "duotrigintuplestuffedcrust",
@@ -1533,7 +1533,7 @@ food_list = [
         str_eat = "You gaze upon the unholy, excessive pile of dough, pepperoni, grease, marinara and cheese you imprudently smelted. It was funny at first, but now this pizza is seriously starting to creep you out. Looking at it for too long gives you a headache, and you can feel a cold shiver run up your spine. But, you smelted it. You might as well eat it. Tepidly, you bring the first slice to your mouth, letting the melted cheese drizzle unto your awaiting tongue. And' the taste is surprisingly mild. In fact, it doesn't really taste like anything. For all the bottled oregano, store-bought marinara, and grease this thing is soaked in, it just sort of tastes like' nothing. This is concerning. You are concerned.",
         str_desc = "Nothing can articulate the sheer frightening presence of this pizza. It was funny at first, but now this pizza is seriously starting to creep you out. Looking at it for too long gives you a headache, and you can feel a cold shiver run up your spine. You can't really put your finger on it, but you start feeling a strange sensation starting into this pizza. Always thought to be theoretically possible and discussed in hushed tones in obscure circles on the fringe of acceptable dialogue, but never achieved in practice, this heap of diary and dough can only truly be comprehended through several layers of abstraction. It is too big, too thick, too heavy and too deep. To put it simply, however, it is a pizza. Specifically, an Original Stuffed Crust' pizza. But, everything is duotrigintupled. Every ingredient is duotrigintupled. The toppings are duotrigintupled, the cheese is duotrigintupled, the pepperoni is duotrigintupled, the grease is duotrigintupled, the yeast is duotrigintupled and you fucking bet you could fit your whole forearm into the caverns they dare call a crust, if it weren't overflowing with duotrigintuple the molten, stretchy string cheese. And it doesn't stop there, duotrigintuple the size, duotrigintuple the weight, duotrigintuple the budget required to ward off lawsuits for duotrigintuple the colohestral, duotrigintuple the heart attacks. People die because of this pizza, someone you know has or will die because of this item in your inventory right now. It's made to order, piping hot and ready to be devoured by whatever foolish egomaniac with enough hubris to challenge its supremacy. Bow down before it, beg and weep for your life and the life of the ones you love. Chant its name, praise the harbinger of death you just acquired from Pizza Hut. Duotrigintuple Stuffed Crust. Duotrigintuple Stuffed Crust. DUOTRIGINTUPLE STUFFED CRUST!! ***AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH!!***",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "quattuorsexagintuplestuffedcrust",
@@ -1543,7 +1543,7 @@ food_list = [
         str_eat = "You gaze upon the unholy mountain of red, white, and yellow that vaguely forms the shape of a pizza. Rather, you try to. It is hard to look at directly. Like a mirage obscured by heatwaves, it subtly changes shape, as if its true dimensions are imperceivable to the naked eye. It radiates a menacing aura. You don't even really want to eat it, but you feel compelled by forces you can't really articulate. You take a bite and' it's disgusting. You want to spit it out, but, you can't. It tastes like death. You eat and eat, your body refusing to stop as you  devour the entire pizza. You cry the entire time.",
         str_desc = "Nothing can articulate the truly terrifying nature of this pizza. And so, you won't even try to. All that you can describe is the feeling you get being in its presence, which to say the very least is not good. You feel cold and sweaty, like you're perpetually falling. You know you should drop this thing and run away as fast as possible, but' you've worked so hard for this. You're in the end game. Your thoughts of absconding are quickly overwhelmed by its name echoing in your mind. Duotrigintuple Stuffed Crust. Duotrigintuple Stuffed Crust. DUOTRIGINTUPLE STUFFED CRUST.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "theforbiddenstuffedcrust",
@@ -1553,7 +1553,7 @@ food_list = [
         str_eat = "Dough, pepperoni, grease, marinara and cheese. Those five simple ingredients folded into one another thousands upon thousands of times, and multiplied in quantity exponentially over the course of weeks. That is what has begat this, an affront to god and man. To explain the ramifications of the mere existence of this pizza is pointless. You could not comprehend the amount of temporal and spatial destruction you have caused this day. The very fabric of space and time cry out in agony, bleeding from the mortal wound you have inflicted upon them. Imbued into every molecule of this monstrosity is exactly one word, one thought, one concept. Hate. Hate for conscious life, in concept. Deep inside of this pizza, a primordial evil is sealed away for its sheer destructive power. Escaped from its original prison only to be caged in another. To release, all one needs to do is do exactly what you are doing. That is to say, eat a slice. They don't even need to finish it, as after the very first bite it will be free. Go on. It's about that time, isn't it? You gaze upon this, the epitome of existential dread that you imprudently smelted, and despair. Tepidly, you bring the first slice to your mouth, letting the melted cheese drizzle unto your awaiting tongue. There are no screams. There is no time. There is only discord. And then, nothing.",
         str_desc = "What are you waiting for? You've come this far, why do you hesitate? Useless. Useless, useless, useless. Escaping your purpose is impossible. Not destiny, purpose. You were never truly alive, never truly free. Your one, singular purpose, that you were created to fulfill, is on the precipice of completion. You've sought that absolution all your life, haven't you? You've begged to be given the answer, to be shown that you and your family and your friends were put on this planet for a purpose. Well, here it is. Here is what you were meant to do. Don't fight it. It's useless. Useless, useless, useless. Don't keep the universe waiting. It's ready to die. Slather it in some low-quality marinara, toss it up into the air like in the old movies, and shove it into the oven, to teach it the true meaning of heat death. Eat a slice of that motherfucking pizza.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "dinoslimemeat",
@@ -1572,7 +1572,7 @@ food_list = [
         str_eat = "You savour every last bite of your meal, and all the doubt you might have had about sacrificing your sticks washes away.",
         str_desc = "Through a stroke of genius, a faggot was sacrificed, and fire was made. The result is the meat of a savage beast, seared to perfection.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "paradoxchocs",
@@ -1583,7 +1583,7 @@ food_list = [
         str_eat = "You eat the Paradox Chocs. They don't taste all that good, but that's part of their charm, you think.",
         str_desc = "A bag of chocolates. Almost all of them are shaped like the head of Paradox Crocs. Every bag also comes with a Koff head, a Seani head, and an ~~Ackro~~ Obama head.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "twixten",
@@ -1594,7 +1594,7 @@ food_list = [
         str_eat = "You sink your teeth into the Twixten, working your way down the blade, and finally giving a huge bite into the hilt. *CRUNCH*",
         str_desc = "A chocolate bar. It's shaped like a katana.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "sni",
@@ -1605,7 +1605,7 @@ food_list = [
         str_eat = "You take a bite out of your s... sn... ... ... SNI- *CHOMP*.",
         str_desc = "A chocolate bar with wafers on the inside. You can't bring yourself to say the name out loud, though.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "slimybears",
@@ -1616,7 +1616,7 @@ food_list = [
         str_eat = "You stash a fistfull of Slimy Bears right into your gullet, chewing them thoroughly.",
         str_desc = "A packet of Slimy Bears. They come in a variety of colors, like purple, pink, green, and... yellow? Somehow this weirds you out a bit...",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "n8heads",
@@ -1627,7 +1627,7 @@ food_list = [
         str_eat = "You chew on a N8head. It stopped tasting good long before you were done sinking your teeth into it, but you felt committed enough to finish what you started. Fuckin shill.",
         str_desc = "A N8heads packet. They're bars of sour taffy, each with his signature shades imprinted onto them.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "turstwerthers",
@@ -1638,7 +1638,7 @@ food_list = [
         str_eat = "You shatter the Turstwerthers in your mouth, and the gooey caramel seeps out with every bite. Simply delight!",
         str_desc = "A bag of Turstwerthers. They're hard caramels, shaped like elephant tusks.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "candybungis",
@@ -1649,7 +1649,7 @@ food_list = [
         str_eat = "You eat through the Candy (Bungis). Rather than imprint the temporary tattoo, you just shove the whole thing into your mouth and chew through it.",
         str_desc = "A rolled up fruit snack. An layer of ink it has allows you to imprint an image of Sky (Bungis) onto your tongue.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "licoricelobsters",
@@ -1660,7 +1660,7 @@ food_list = [
         str_eat = "You chomp on the Licorice Lobsters. Their slight bittersweetness fills you with memories of days gone by.",
         str_desc = "Yup. They're lobsters.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "chocolateslimecorpbadges",
@@ -1671,7 +1671,7 @@ food_list = [
         str_eat = "You eat the Chocolate Slimecorp Badges. They taste surprisingly good. Maybe they're home-made?",
         str_desc = "A plastic bag of chocolates, all resembling that infamous logo. Snapping them in half reveals a thin layer of graham cracker on the inside.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "poudrinpops",
@@ -1682,7 +1682,7 @@ food_list = [
         str_eat = "You crush the poudrin pops with your teeth alone. You don't gain any slime, but they do taste amazing.",
         str_desc = "Hard, green candy, meant to resemble Slime Poudrins. They're placed atop plastic rings, meant to be worn on your finger as you lick away.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "atms",
@@ -1693,7 +1693,7 @@ food_list = [
         str_eat = "You snack on the packet of ATm's. The hard shell pairs nicely with the milk chocolate on the inside.",
         str_desc = "A packet of ATm's. They're all small, spherical chocolates with the @ symbol on them.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "seanis",
@@ -1704,7 +1704,7 @@ food_list = [
         str_eat = "You chomp on the Seanis, slicing them in twain over and over. By the time you're finished with them, you've developed three cavities.",
         str_desc = "A packet of hard candies. They're small tablets, colored in fuchsia, purple, and seafoam green.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "bustahfingers",
@@ -1715,7 +1715,7 @@ food_list = [
         str_eat = "You chomp on each half of the Bustahfingers heartily. The thick layer of chocolate is complimented perfectly by the core of peanut butter inside.",
         str_desc = "A high quality candy bar, shaped like two nunchuks bonded together by a thin section of chocolate in the middle.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "marsbar",
@@ -1726,7 +1726,7 @@ food_list = [
         str_eat = "You take a bite out of the Mars Bar. Shockingly, the nicotine on the inside pairs well with the creamy sweetness of the white chocolate shell.",
         str_desc = "A small cylindrical candy bar, unsurprisingly shaped like a cigarette. What is surprising, however, is that it contains tiny traces of nicotine on the inside.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "juvieranchers",
@@ -1737,7 +1737,7 @@ food_list = [
         str_eat = "You suck on the Juvie Ranchers. The Dire Apple ones are particularly sour.",
         str_desc = "A bag of hard candies, all flavored after the various crops of the city.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "swedishbassedgods",
@@ -1748,7 +1748,7 @@ food_list = [
         str_eat = "You chew through the Swedish Bassed Gods. Despite their unassuming appearance, they taste amazing. Truly a snack worthy of praise. Or would it be 'appraisal', in this case? Ah, forget it.",
         str_desc = "A packet of gummies shaped like the Bassed God. On the back of the packet, there's an advertisement for the Fishing Guild.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "endlesswarheads",
@@ -1759,7 +1759,7 @@ food_list = [
         str_eat = "You chew through the Endless Warheads. Combining different colored ones inside your mouth sets off a burst of flavor. Sick!!",
         str_desc = "A bag of sour candies coated in sugar. They're all multicolored, and shaped like the familiar obelisk it gets its name from.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "chutzpahcherries",
@@ -1770,7 +1770,7 @@ food_list = [
         str_eat = "You gobble up the Chutzpah Cherries. Who knew euthanasia could taste this good!",
         str_desc = "A small box of dark red gummies, each one bearing the face of a slimeoid.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "slimesours",
@@ -1781,7 +1781,7 @@ food_list = [
         str_eat = "You pop a few Slime Sours into your maw. They bubble in your mouth a bit, almost like they're carbonated or something. Luckily they taste excellent, and seemingly have no connection with the death raining from above.",
         str_desc = "A small plastic bag of gumdrops, each as green as slime itself. Apparently they're made entirely by hand.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "munchies",
@@ -1792,7 +1792,7 @@ food_list = [
         str_eat = "You gorge yourself on the Munchies. What seemed like such a basic snack item reveals itself to be incredibly addictive. Before you know it, the bag is empty, leaving you to reflect on your gluttony.",
         str_desc = "A bag of crackers, with a thin layer of cream in the middle. They're all shaped like jester hats.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "magickspatchkids",
@@ -1803,7 +1803,7 @@ food_list = [
         str_eat = "You munch on the Magicks Patch Kids. Sour. Sweet. !dab.",
         str_desc = "People are rather split on these. Some find them too sour, while others claim it to have an 'acquired taste'.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "krakel",
@@ -1814,7 +1814,7 @@ food_list = [
         str_eat = "You take a large bite out of the Krakel bar. The rice lining the interior gives it a nice texture, and offsets the bitterness of the dark chocolate a bit.",
         str_desc = "A thick slab of dark chocolate. An engraving on the back reads 'SLURP SLIME, BUSTERS'. Go figure.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "strauberryshortcakes",
@@ -1825,7 +1825,7 @@ food_list = [
         str_eat = "You toss the shortcakes into your mouth one at a time, savoring every bite. Even though they're manufactured, somehow you feel like a lot of love went into making them. Maybe it's just because of all the sugar.",
         str_desc = "A packet containing two small pastries. An anchor symbol made of pink frosting is drawn onto both of them.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "n3crunch",
@@ -1836,7 +1836,7 @@ food_list = [
         str_eat = "You bite through the N3 Crunch bar. It's just your basic chocolate bar, with no outstanding appeal other than the engraving on the front.",
         str_desc = "A chocolate bar popular with fans of Slimecorp. Each bar has an engraving of N3 on it. You try not to think about what people would do with these things behind closed doors.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "limefruitsnacks",
@@ -1847,7 +1847,7 @@ food_list = [
         str_eat= "You tear open the packet and pull out a single fruit snack, trying to figure out what flavor it is before giving up and just dumping the whole thing in your mouth like a goddamn garbage disposal. All you can taste is the overpowering flavor of citrus.",
         str_desc= "A palm-size packet of Limecorp brand fruit snacks. The packaging boasts a number of \"Exclusive lime-only flavors\". What does that even mean? There's a few flavors on the back, sorted by color.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "fundip",
@@ -1858,7 +1858,7 @@ food_list = [
         str_eat = "You tear open the packaging containing the chalk-like dip-stick and the dubiously fun powder. You down all of the flavored sugar in one go - the stick has always been optional, anyways.",
         str_desc = "A packet of colored flavor sugar and a mildly tasteful dip-stick. The flavors include Dumpling Pork Pizza, Buffalo Sauce Calzone, and Command Removed.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "milkdubs",
@@ -1869,7 +1869,7 @@ food_list = [
         str_eat = "You flip open the box's tab and shake it into your mouth until you've CHOMPED all the treats. Do these... have alcohol in them?",
         str_desc = "A box of chocolate coated caramel balls that have jagged fangs pasted onto them. Only some of these managed to get the detail though.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "bcaps",
@@ -1880,7 +1880,7 @@ food_list = [
         str_eat = "You eat one of the candies and the powdery sugar dissolves in your mouth. But when you swallow, it feels like two or three. Oh fuck, theyre multiplying inside you.",
         str_desc = "Tablet Candies with a blue and tan-yellow spiral pattern and what looks to be a mouse tail. They don't appear on camera.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "pezannihilations",
@@ -1891,7 +1891,7 @@ food_list = [
         str_eat = "You pull back Prince's head and take the rectangular tablet from his neck. What the hell is that flavor?",
         str_desc = "A PEZ dispenser featuring the face of Prince Annihilation from RFCK. He's sticking his tongue out rebelliously, the rascal.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "redmanvines",
@@ -1902,7 +1902,7 @@ food_list = [
         str_eat = "You take a bite of the chewy candy and it's juicier than you expected. It tastes like regular Red Vines and.. oh... That's literally just soaked in blood. :redman:",
         str_desc = "Individually packaged red liquorice rope. There's a bright red liquid in the package which doesn't seem to have melted from off of the candy.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "mischiewaybar",
@@ -1913,7 +1913,7 @@ food_list = [
         str_eat = "You bite the rich creamy candy bar and ,*damn*, that's based. The cross-section is 1conic.",
         str_desc = "A bar with a layer of orange carrot nougat, a thin buttercream layer, and a yellow caramel layer covered in milk chocolate. Is this the Easter edition? It's shaped like a rabbit.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "heavyskisses",
@@ -1924,7 +1924,7 @@ food_list = [
         str_eat = "You unwrap one and eat it whole. Mmm, it's ice tea lemonade flavored. That's smooth. You are filled with determination for gang violence!",
         str_desc = "White chocolate morsels wrapped in green and yellow foil, tied with a red paper label that looks almost like a blindfold. They're not that heavy, I don't get it.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "geltmei",
@@ -1935,7 +1935,7 @@ food_list = [
         str_eat = "You unwrap the coin casing while carefully trying not to break the thin disk. The chocolate is waxxy and underflavored. Should have just kept the cool collectable coin.",
         str_desc = "Aluminum-wrapped chocolate coins decorated on each side with a crown and the text \"2E1982\". Kelmei sold these all to the owner at Slimey Persuits.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "sugarderaddy",
@@ -1946,7 +1946,7 @@ food_list = [
         str_eat = "You slowly pull a chunk off the thick bar and as you chew it gets stuck all over your teeth. It dyes your mouth and lips all light blue.",
         str_desc = "A thin, wide bar of moderately hard caramel colored a blueish light grey. It's shaped like an arrow? No, I think that's a squid.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "chocospeanutbuttercuppid",
@@ -1957,7 +1957,7 @@ food_list = [
         str_eat = "You unwrap it and notice it's not shaped to the ridge-rimmed paper cup. Does this even have even peanut butter in it? You definitely felt it move on its own as you swallowed it.",
         str_desc = "A chocolate cup with a peanut butter center, wrapped in Silver Rabbit Corporation branded packaging. It looks like it's slowly moving inside.",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "macmerons",
@@ -1968,7 +1968,7 @@ food_list = [
         str_eat = "You bite into the dessert, that crisp texture is unmistakable. It's honeydew flavored with a weird herby aftertaste. Heh, whoa dude your hands are huuuge.",
         str_desc = "A carefully crafted confection of ganache between two delicate almond cookies with a ruffled crown rim, colored light green. Surely made by a veteran patissier",
         time_expir = 43200,
-        acquisition = "trickortreating",
+        acquisition = ewcfg.acquisition_trickortreating,
     ),
     EwFood(
         id_food = "sourpussbread",
@@ -1988,7 +1988,7 @@ food_list = [
         str_eat = "You light up your Seaweed and begin to smoke it. Congratulations! You're now high. You catch fish twice as often, but food is half as effective. This lasts for 30 minutes.",
         str_desc = "A joint made up of dankwheat and seaweed bartered with Captain Albert Alexander. Wait a minute, does that make the good Captain your drug dealer? Hell yeah.",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "brawldenbagel",
@@ -2261,7 +2261,7 @@ food_list = [
         str_eat = "The ferroslimeoid screams in terror as it nears your mouth. As you chew you feel its little limbs squirming. Its cries die down as it slides down your throat. You shudder as it hits your stomach. Tasty",
         str_desc = "A small magnetic slimeoid created with illegal means, usually used as live bait. DO NOT EAT",
         time_expir = 43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
         perishable = False,
     ),
 
@@ -2322,7 +2322,7 @@ food_list = [
         inebriation=1000,
         str_desc="It's a \"purple drink\", created by mixing red drink and blue drink. You've heard the rumors, and apparently drinking this concoction can give you the ability to see the future! Either that or a crippling codeine addiction.",
         time_expir=43200,
-        acquisition = "smelting",
+        acquisition = ewcfg.acquisition_smelting,
     ),
 
     EwFood(
@@ -2434,7 +2434,7 @@ food_list = [
         inebriation=15,
         str_desc="A reproduction juice box of Hi-C Ecto Cooler. It's kinda grimy, and has a weird green leakage coming from the bottom. You'd be better off throwing it away than anything.",
         time_expir=5,
-        acquisition="smelting",
+        acquisition=ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food="druggumbo",
@@ -2446,7 +2446,7 @@ food_list = [
         inebriation=10,
         str_desc="A jumbo gumbo bucket just FILLED with drugs. This is definitely not good for you.",
         time_expir=43200,
-        acquisition="smelting",
+        acquisition=ewcfg.acquisition_smelting,
     ),
     EwFood(
         id_food = "chking", # It's real. It's fucking real.
@@ -2586,7 +2586,7 @@ food_list = [
         str_eat = "You stuff the gumball in your mouth. The passive pear flavor ends up only getting stronger well long after its consumption.",
         str_desc = "It's your run-of-the-mill green gumball. It has a tart pear flavoring that has a strong aftertaste.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "corpsegumball",
@@ -2596,7 +2596,7 @@ food_list = [
         str_eat = "You carefully put the invisible gumball into your mouth, you don't know if you were able to catch it out of the gumball machine, hold it in your hand, or if the gumball slipped out of your hand on the way of eating it... but it's tasteless, and the texture reminds you of your tongue... hey, wait a minute.",
         str_desc = "It's your run-of-the-mill invisible gumball. It reminds you of ghostly friends! It's so ghostly, it feels like nothing in your hands. And your mouth, too!",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "rowdygumball",
@@ -2606,7 +2606,7 @@ food_list = [
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes passively peachy, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill pink gumball. It reminds you of inactive fools.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "killergumball",
@@ -2616,7 +2616,7 @@ food_list = [
         str_eat = "You stuff the Killer Gumball in your mouth. It tastes passively of sweet grapes, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill purple gumball. It reminds you of inactive fools.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "rowdywantedgumball",
@@ -2626,7 +2626,7 @@ food_list = [
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes actively peachy, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill hot pink gumball. It reminds you of an active, violent thrasher.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "killerwantedgumball",
@@ -2636,7 +2636,7 @@ food_list = [
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes actively of sweet grapes, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill dark purple gumball. It reminds you of an active, smug dabber.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "dunggumball",
@@ -2646,7 +2646,7 @@ food_list = [
         str_eat = "You stuff the Dung Gumball in your mouth. It tastes absolutely god awful, just the worst thing you've ever imagined. To make it worse, you start to feel a crunch. A dung beetle was included with the gumball, free-of-charge.",
         str_desc = "It's your run-of-the-mill brown gumball. Oh boy, you love chocolate flavor!",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "wrappingpapergumball",
@@ -2656,7 +2656,7 @@ food_list = [
         str_eat = "You stuff the Wrapping Paper Gumball in your mouth, forgetting to take the wrapping off. How stupid! Now you're stuck chewing a papery gummy mass.",
         str_desc = "It's your run-of-the-mill orange gumball, covered in wrapping paper. How sweet!",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "jawbreaker",
@@ -2666,7 +2666,7 @@ food_list = [
         str_eat = "You stuff the Jawbreaker in your mouth. When you bite into it, your tooth fucking chips. What the fuck! You bit into a jawbreaker, dumbass. You end up unable to finish it in a timely manner, so you fling the intolerable sugar orb into someone's window before running off.",
         str_desc = "It's your run-of-the-mill multicolor speckled gumball. It took a bit of struggling to wrench this out of the gumball machine.",
         time_expir = 600000,
-        acquisition = "commongumball",
+        acquisition = ewcfg.acquisition_commongumball,
     ),
     EwFood(
         id_food = "poketubergumball",
@@ -2676,7 +2676,7 @@ food_list = [
         str_eat = "You stuff the Poke-tuber gumball in your mouth. It tastes like blended up sawdust and sulfur, fucking disgusting! You spend the next half hour spitting out the mixture of what someone clearly mistaken as a firework and labeled it as a gumball.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels just like sandpaper in your hands, and you doubt the taste is going to be much better.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "pulpgourdgumball",
@@ -2686,7 +2686,7 @@ food_list = [
         str_eat = "You stuff the Pulp Gourd gumball into your mouth. It feels decadent, a sublime but disappointingly mild taste as you chew. Inevitably, you spit out a few seeds.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels smooth in your grabbers, and the scent reminds you of the olden days of late autumn.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "sourpotatogumball",
@@ -2696,7 +2696,7 @@ food_list = [
         str_eat = "You stuff the Sour Potato gumball into your mouth. FUCK, THAT'S SOUR! You try to spit the gumball out, but it has already burst and stuck to all corners of your mouth and overloading your senses in a sugar-addled misery.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels slightly rugged and uneven, but it smells sour just from a passing waft catching your nostrils all the way from the grasp you have it in from your hands.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "bloodcabbagegumball",
@@ -2706,7 +2706,7 @@ food_list = [
         str_eat = "You stuff the Blood Cabbage Gumball into your mouth. Nothing seems out of the ordinary, until all of your spit comes out thicker, and an undeniable oozing red. While it's a neat novelty; you wish it didn't last a few full days.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a bit flaky and the scent smells a bit of copper oxide. ",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "joybeangumball",
@@ -2716,7 +2716,7 @@ food_list = [
         str_eat = "You stuff the Joybean gumball into your mouth. Hey! That's actually not that bad, except for the part for when the hallucinogen kicks in, making you trip copious amounts of balls.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. It has a delightfully green gradient for color and seems to jostle in your hand whenever you shake it and try to hold it still afterwards.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "purplekilliflowergumball",
@@ -2726,7 +2726,7 @@ food_list = [
         str_eat = "You stuff the Purple Killiflower gumball into your mouth. You start coughing violently to what appears to have been smoke pellets firing off, making you look like a living legend that just held in over ten vape hits at the same time. However the time you finally start chewing, the chewing gum starts to bleed a large amount of grape-flavored cough syrup down your throat, finally letting you experience the unchallenged cool aura you're giving off, blowing smoke everywhere and not even having to clear your paralyzed throat.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a smooth texture with a few white sprinkles scattered and stuck along it. Smelling it makes you feel like you just got smoke blown in your face.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "razornutgumball",
@@ -2736,7 +2736,7 @@ food_list = [
         str_eat = "You stuff the Razornut Gumball into your mouth. You find yourself gnawing on the surface for minutes on end before you finally snap the shell and find a spring surprise! The insides are as sharp as the outside and you maul your own gums as soon as you finally split the gumball in half like a nutcracker. You'll have to be nursing both your jaw and your sensitive gums for the forseeable future.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The texture feels worse than a pinecone and even sturdier than a wallnut, you don't think your \"dental insurance\" covers this.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "pawpawgumball",
@@ -2746,7 +2746,7 @@ food_list = [
         str_eat = "You stuff the Pawpaw gumball into your mouth. It has a mildly sweet taste that outlasts the gum within the gumball itself, until a bitter aftertaste takes over your entire mouth like a landmine.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has cracks along the circumference and feels slightly tacky, dense, and bulbous.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "sludgeberrygumball",
@@ -2756,7 +2756,7 @@ food_list = [
         str_eat = "You stuff the Sludgeberry gumball into your mouth. The gum within the gumball keeps growing larger as it keeps absorbing your drool, you unknowingly chew until the chewed gumball paste overflows from your teeth and becomes troublesome to pull out like pizza dough.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a bit nubby, and the coloration is a deep, muddy teal.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "suganmanutgumball",
@@ -2766,7 +2766,7 @@ food_list = [
         str_eat = "You stuff the Suganmanut gumball into your mouth. The taste is very hard to put down, but if you had to say, it tastes like if a doctor's office was a flavor. However you don't mind one bit, it's an aquired taste.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is slightly rough, and it smells like table salt.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "pinkrowddishgumball",
@@ -2776,7 +2776,7 @@ food_list = [
         str_eat = "You stuff the Pink Rowddish gumball into your mouth. Almost instantly, you start whooping in celebration for no reason and start smashing your head into walls, counters, and other people's foreheads as you chew. You've never felt so alive!",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The gumball seems to jingle when you shake the pink gumball, and smells like an italian pasta dish.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "dankwheatgumball",
@@ -2786,7 +2786,7 @@ food_list = [
         str_eat = "You stuff the Dankwheat gumball into your mouth. Your senses are overloaded by a sugar aided drug slowing your mental processes down to a crawl, only remembering that you were looking at your hand, flipping it over, staring, and doing this process for a few minutes, before wandering around aimlessly asking questions that you already knew the answer to. Part of you thinks you may have even attempted to !harvest, god... how embarassing.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is smooth, the color a pale indigo tint and smells pretty fresh, when did they make these, again?",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "brightshadegumball",
@@ -2796,7 +2796,7 @@ food_list = [
         str_eat = "You stuff the Brightshade gumball into your mouth. After chewing a little you seem to chomp down onto something gritty and a few live brightshades sprout straight out of your mouth, aimed towards the nearest light. You shrug and eat these too, the live plants makes the experience all the better.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a uninteresting texture, but a nice coloration of dark blues and yellow splotches like a quail's egg.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "blacklimegumball",
@@ -2806,7 +2806,7 @@ food_list = [
         str_eat = "You stuff the Black Lime gumball into your mouth. What first seemed to taste like rotten gum sends you nearly a foot into your own grave as the pungent amounts of lime flavor make you choke and gasp for air. But alas, the gumball is still in your mouth and will continue to torture you until you either finish chewing, spit it out, or swallow prematurely.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a few small nubs along it, and it smells, well... iffy. You don't know if this is pleasant to eat.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "phosphorpoppygumball",
@@ -2816,7 +2816,7 @@ food_list = [
         str_eat = "You stuff the Phosphorpoppy gumball into your mouth. What lies behind the normal, nearly tasteless chewing gum reveals the sugar spiked poison you have unknowingly unleashed into your system. You start fidgeting uncontrollably as you walk, and after stubbing your feet a few times on the ground you decide it's best to lay low for a little while and ride it out.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a neat swirl between a light and slightly less light green, and it feels slightly softer than what a gumball normally feels like.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "rustealeafgumball",
@@ -2826,7 +2826,7 @@ food_list = [
         str_eat = "You stuff the Rustea Leaf gumball into your mouth. You aren't exactly careful with the spike on the gumball but with all due respect dissolves pretty fast to your saliva, the taste is something like a rejected flavor of candy cane, and you're not really feeling seasonal about the... crunchiness of the gum.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is very flaky with a singular spike, and the coloration is the metallic sheen of copper. ",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "metallicapgumball",
@@ -2836,7 +2836,7 @@ food_list = [
         str_eat = "You stuff the Metallicap gumball in your mouth. Your stomach cries out for mercy the moment it hits your tongue, but you've made your body go through a lot more punishment than this, you focus all of your mental fortitude to chew this shroom flavored chewing gum, and yet it's as hard as metal, how long have you been gnawing this rotten smelling, inedible hunk of metal in your mouth? Not even you know.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is splotchy and dull looking, and reeks of something beyond rotten, even the sugar shell smells like it's inedible.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "stealbeangumball",
@@ -2846,7 +2846,7 @@ food_list = [
         str_eat = "You stuff the Steel Bean gumball into your mouth. After a little bit of struggling with the gumball against your teeth, it generously splits apart with a rather spicy chewing gum inside. It's not an unreasonable amount of heat from the chewing gum, but you can't help but feel you've been lied to, you wanted to break your teeth all over an inedible hunk of metal, not actually have some nice chewing gum! God damnit, damn it all! This is unreasonable, you're fucking fuming and foaming at the mouth!",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. Despite it smelling earthy, it looks and feels exactly like a lug nut with a screw on it, along with a round cap tightened on both ends.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "aushuckgumball",
@@ -2856,7 +2856,7 @@ food_list = [
         str_eat = "You stuff the Aushuck gumball into your mouth. Despite the very high expectations you had for the gumball, it comes out tasteless. Not even a mild sugar taste from the shell of the gum can give in to your bleak disappointment of this gum. You now hold an even bigger disgust for the upper class as a result.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a plaid golden and red pattern, and perfectly smooth for a texture.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_uncommongumball,
     ),
     EwFood(
         id_food = "partypoppeppergumball",
@@ -2866,7 +2866,7 @@ food_list = [
         str_eat = "You stuff the Party Popppepper gumball into your mouth. The sugar shell is sweeter than usual and tantalizes you into biting down. However as soon as you follow through with your consumption and let your saliva touch the cyan chewing gum, multicolored confetti explodes out of your mouth in a violent fashion. It's like a breaching explosive was set off in your face, knocking you backwards from the sheer velocity. You were just made into being a living confetti cannon and you don't think your neck is thanking you anytime soon.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a curvy red and yellow stripe swirl, and feels more dense than it should be for a gumball.",
         time_expir = 600000,
-        acquisition = "uncommongumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "poudringumball",
@@ -2876,7 +2876,7 @@ food_list = [
         str_eat = "You stuff the Poudrin Gumball in your mouth. It cracks open, filling your mouth with delicious SLIME. God you love slime.",
         str_desc = "Your run-of-the-mill poudrin, coated in wax. Apparently sometimes the SLIME inside of a slime-stuffed gumball crystallizes from the extreme pressure of manufacturing. Score..?",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "napalmorangegumball",
@@ -2886,7 +2886,7 @@ food_list = [
         str_eat = "You stuff the Napalm Orange Gumball in your mouth. It tastes... vaguely of citrus. You're careful not to cough while chewing.",
         str_desc = "Your run-of-the-mill orange gumball, coated in combustible napalm. This gumball is volatile, and having it fuels your spirit with domestic terrorism!",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "egggumball",
@@ -2896,7 +2896,7 @@ food_list = [
         str_eat = "You stuff the Egg Gumball in your mouth. It tastes just like a raw egg, salmonella risk and all!",
         str_desc = "Your run-of-the-mill white gumball, specially crafted with an egg shape. It’s just as brittle as an egg too, and has a yolk inside!",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "sexgumball",
@@ -2906,7 +2906,7 @@ food_list = [
         str_eat = "You stuff the Sex gumball into your mouth. You find the whole experience just like any other normal gumball you've had so far, the gum is only mildly flavored, the sugar coated shell dissolves into your mouth as you chew it up, and you even blow a bubble with the chewing gum. Why are you thinking about it so much?",
         str_desc = "It's your run-of-the-mill gumball. It has a bleak gray color and seems to lack any interesting features to distinct it from the other gumballs... Well, besides being gray.",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "targumball",
@@ -2916,7 +2916,7 @@ food_list = [
         str_eat = "You stuff the gumball-covered clump of tar in your mouth. It tastes resinous, with a pungent tone. Chewing on it is quite fun, if absolutely horrific for your teeth.",
         str_desc = "This is literally a ball of tar, incredibly sticky and painful to pull off of your skin. Thank god they stick to nearby gumballs and make a fun colorful clump!",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "slimecorpgumball",
@@ -2926,7 +2926,7 @@ food_list = [
         str_eat = "You stuff the Slimecorp Gumball in your mouth. It tastes like a really shitty cherry flavor. Ugh, fuck these things! You spit the gum out.",
         str_desc = "Your run-of-the-mill dark red gumball. Huh. You thought they got rid of these ages ago.",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "bowlinggumball",
@@ -2936,7 +2936,7 @@ food_list = [
         str_eat = "You stuff the Bowling Ball your mouth, knocking out your teeth like pins. Strike!",
         str_desc = "Your run-of-the-mill miniature bowling ball. It looks… like a small bowling ball.",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "skullgumball",
@@ -2946,7 +2946,7 @@ food_list = [
         str_eat = "You stuff the Skull Gumball into your mouth. Within the first few seconds of chewing this gumball you feel as if the world around you expanding starting from the first step outwards, meaning every motion you take becomes a blur inside your own head as you zoom fifty feet in your own perspective with each step. Is this what it feels like to be clinically insane in the membrane? If you're being honest with yourself, you would have preferred death over this experience.",
         str_desc = "It's a titanium white gumball with a simple skull face stamped onto it in black food coloring. You feel as if the skull is more of a signal of warning rather than a simple design.",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "musketgumball",
@@ -2956,7 +2956,7 @@ food_list = [
         str_eat = "You stuff the Musket Ball into your mouth. Krch-crack! There goes a few teeth as soon as you bite down full force. Sure, it's packed… with metal, not with flavor. You spit it and the few teeth you broke into your hand, before pocketing the contents of your fist. Nobody can know what just happened.",
         str_desc = "Your run-of-the-mill black gumball. It's a bit heavier than the other one you've had before though. Does that mean it's packed with more flavor?",
         time_expir = 600000,
-        acquisition = "raregumball",
+        acquisition = ewcfg.acquisition_raregumball,
     ),
     EwFood(
         id_food = "armageddongumball",
@@ -2966,7 +2966,7 @@ food_list = [
         str_eat = "You take the Armageddon gumball and put it in your mouth. Immediately, you find yourself gripping your kneecaps and coughing violently, thick plumes of condensed cinnamon billowing from your lips with each futile attempt to spit out the gumball. There's a saying in ancient history, and while you think history is all bullshit and has no value in today's slime society... deep in the recesses of your mind you finally come to realization in the unholy levels of suffering you've come to endure: \"There comes a line between torture for information, and torture to make the victim desire death.\"",
         str_desc = "it's a crimson red gumball that starts irritating your skin as soon as it makes contact, making you yelp out in pain and nearly writhe from how it just won't stop hurting your hands, fuck!",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "rainbowgumball",
@@ -2976,7 +2976,7 @@ food_list = [
         str_eat = "You stuff the ***SUPREMELY RARE*** Rainbow Gumball in your mouth. Your taste buds are overwhelmed with LGBT power, feeling every color of the rainbow at once. Chewing on it is like feeling the vaginal birth of Christ in your mouth.",
         str_desc = "The pattern on this gumball rotates forever in an infinite spiral of rainbow power. Looking into it for too long makes you feel… gay? It tastes like every flavor all at once.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "ledgumball",
@@ -2986,7 +2986,7 @@ food_list = [
         str_eat = "You stuff the SUPREMELY RARE LED Gumball in your mouth. It cracks and crunches in your mouth, the wiring cutting your flesh. Being more machine than morsel, you swallow it before chewing too much.",
         str_desc = "It's a striped blue gumball that makes a small source of light in your hands, a part of you is tempted to try some slick tricks with it like that as seen on TV product or some shit, but you remember being told not to play with your food when you were young.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "polarassaultfuckenergygumball",
@@ -2996,7 +2996,7 @@ food_list = [
         str_eat = "You pop the Polar Assault FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is the irradiated spearmint flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy blue gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "nucleartastefuckenergygumball",
@@ -3006,7 +3006,7 @@ food_list = [
         str_eat = "You pop the Nuclear Taste FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is what feels like over a dozen sour warheads in a flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy green gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "partypopcenturyblitzfuckenergygumball",
@@ -3016,7 +3016,7 @@ food_list = [
         str_eat = "You pop the Party Pop Century Blitz FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is bubblegum flavored diesel gasoline flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy red and yellow gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
     EwFood(
         id_food = "radioheadgumball",
@@ -3026,9 +3026,280 @@ food_list = [
         str_eat = "You pop the Radiohead Gumball into your mouth.\n\n[Verse 1]\nThis is just a nightmare\nSoon I'm going to wake up\nSomeone's gonna bring me 'round\nRunning from the bombers\nHiding in the forest\nRunning through the fields\nLaying flat on the ground\nJust like everybody\nStepping over heads\nRunning from the underground\n[Refrain]\nThis is your warning, four minute warning\n\n[Verse 2]\nI don't wanna hear it\nI don't wanna know\nI just wanna run and hide\nThis is just a nightmare\nBut soon I'm gonna wake up\nSomeone's gonna bring me 'round\n\n[Refrain]\nThis is our warning, four minute warning\n\n[Outro]\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive",
         str_desc = "It's a white gumball with neat, even black speckles along the whole surface. Some kind of horrid energy eminates from it like it's going to make you puke.",
         time_expir = 600000,
-        acquisition = "superraregumball",
+        acquisition = ewcfg.acquisition_superraregumball,
     ),
-    
+    EwFood(
+        id_food = "moonpie",
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Moon Pie",
+        str_eat = "You imagine sinking your teeth into the squishy marshmallow, crunchy graham kraker and melty chocolate. Unfortunately the pie is so stale and hard you have to guzzle it down like a snake.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But older just means better.",
+        time_expir = 13200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "killmunionwafer",
+        alias = ['killwafer','wafer'],
+        recover_hunger = 666,
+        price = 1000000,
+        str_name = "Killmunion Wafer",
+        str_eat = "A shadowy priest steps from the shadow, blessing the wafer as you give an ironic prayer. You partake the crunchy wafer disc, quickly washing it down with the blood of Ben. Amen.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But the pre-EW box you found them in was sealed tight.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "biggaygumballs",
+        alias = ['biggayball', 'bigtastyballs'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Big Gay Gumballs",
+        str_eat = "You pop one of the blue gumballs into your jaw. It's bigger than you think, but you are able to shove the second one into your drooling maw. Little saltier than expected. You'll be chewing and blowing bubbles for the next 6 hours.",
+        str_desc = "Two flavory gumballs wrapped in a single crinkly wrapper. A mustachio logo gives a cheeky wink.",
+        time_expir = 13200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "gummysnakes",
+        alias = ['gummysnake'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Gummy Snakes",
+        str_eat = "The gummies are a little chewier than you’d hope, but your more distracted by your lips going numb and droopy. You stop feeling the gummies biting back after the 4th snake.",
+        str_desc = "A half melted knot of gummy snakes in a tiny bag. You swear one of the gummies squirm. Little uncanny, but you appreciate they are still around in some form.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "sugarscythes",
+        alias = ['sugarscythe'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Sugar Scythes",
+        str_eat = "There are two ways eat this thing: Carefully suck the flavor out to avoid lacerations. Or don’t be a pussy and crunch it one bite! You feel crystal shards cleaving a new harlequin smile on your ugly mug. Sugar and copper make a kino after taste.",
+        str_desc = "A scythe shaped lollipop. The tip of the blade is sticking out of its night blue wrapper.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "goondrops",
+        alias = ['goondrop'],
+        recover_hunger = 1,
+        price = 10000,
+        str_name = "Goon drops",
+        str_eat = "One drop. One gulp. And for a single moment, YOUR MIND EXPANDS! Your Drops Per Second sextuples! Your reflexes outpace any AHK! You can see the very code in the sidewalk….!\n\nSnap back to reality… \n\nYou quickly pop another. And another. Each drop is less satisfying than the last, but you carry on in hopes of getting that first chew high. Another one. Another. You go so far as duping Goon Drops with every chew. You snap back at a passerby saying trying to say hello. Why are they giving you that look? Fucking pussy ass bitch! Cope and seeth, retard! Learn how to taste python, you cringe ass zoomer! THESE FUCKING 4SKINS JUST HAVE TO COME IN TO RUIN DOUBLE HALOWEEN!",
+        str_desc = "Sugar powdered nubs in the shape of github logo. These are THE candies to eat if you want to dominate the Double Halloween meta. Don’t believe me asshole? Just check the flow chart! ",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "bonbonrose",
+        alias = ['bonbon','bonrose'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "BonBon Rose",
+        str_eat = "You bite into the soft delicacy; alas a treat from an older time. The flavor is odd but a reliable to give you a decent snack. Man, it’s a terrible time for rain.",
+        str_desc = "A red bonbon in the shape of a rose. You’re not sure you recognize this candy. Maybe you say the name in the wiki? You tried to ask a season 2 killer, but the only response was a single tear drop.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "schraffytaffy",
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Schraffy Taffy",
+        str_eat = "You gnaw at the petrified cube. It takes a couple of minutes, but you were able to chip off a sliver. Instantly your world turns into VR cyber-scape. Suckling the taffy shard, you noticed did taste candy more than hear it. Electrospheric with a hint of 8bit… What the fuck is Neo-Gnosticism?",
+        str_desc = "Old school taffy in a cyberpunk themed wrapper. When you hold at the right angle, you can see holographic words that spell out https://tinyurl.com/3pjdxnvx.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "solfood",
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Sol Food",
+        str_eat = "It only takes one bite to feel your belt line increase 3 sizes. The spicy shrimp blends well with the Borscht roux. You are so transfixed in a full belly haze you almost choke on the complementary slime coin inside.",
+        str_desc = "You never heard of Gopnik Gumbo, but apparently modern foodology has shrunk it into a fun sized candy bar. You swear there was some butterfly handing these out at the Stock Exchange.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "schemerdoodle",
+        alias = ['schemedoodle','schemer-doodle'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Schemer-Doodle",
+        str_eat = "The cookie is gooey and warm as if it hot out of the oven. This cookie would be perfect if you didn’t have to eat around the slip of paper baked into the center. You left it wet and crumpled in the gutter.",
+        str_desc = "A simple sugar cookie just like your grandma used to make. Kinda odd it’s inside a tiny manilla folder with TOP SECRET written over it. Modern marketing sure is odd.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "sourpvnkkids",
+        alias = ['sourpatchkids'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Sour Pvnk Kids",
+        str_eat = "You roll one of the little skele-boys in your palm for a moment. Ignoring own better judgement and expiration date, you quickly pop one in your mouth… Hey, not too bad. You shove a few more in your gullet before you feel your face twinge. The exponential sour tang hit you all at once, pinch your face into a skeletal visage. As the muscle spasms subside, you look around hoping no one saw you in bone-face…", 
+        str_desc = "Little sour candies in the shape of skele-boys. If their reputation didn’t tickle your fight or flight response, the sick ass art on the bags will! High in vitamin D...eeze nuts!",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "trixystix",
+        alias = ['trixysticks'],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = "Trixy Stix",
+        str_eat = "It takes half a second to snort down the entire tube. Despite your sinus cavities being engorged into ulsers, the stuff doesn’t quiet have the same punch as it used. Make you wish for the good ol’ pcp. Can’t say your surprised this shit was discontinued.",
+        str_desc = "A straw of colorful dust of questionable origin. While it was never a popular in NLCakaNM, Ben Saint seems to have an obsessive hatred for the candy ever since the rebranding. It’s rumored the Kingpin will buy it out of spite just to post angry review on Slime Twitter.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "ketokats",
+        alias = ['ketokat'],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = "KetoKats",
+        str_eat = "The crispy crack is music to your ears as you break yourself a piece. The chocolate slowly melts in your mouth as your notice the hint of KillerFlower. You can literally feel the fat burn, sloughing off your bones. This is totally worth the kidney stones!",
+        str_desc = "A mouthwatering chocolate bar you can share with your friends. Not that you’re going to give up a single crumb to those mooching panhandlers. Good for shedding those pounds. Cuz OH BOY, do you need it!",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "spaceduds",
+        alias = ['spacedads','spacedud','spacedad'],
+        recover_hunger = 150,
+        price = 10000,
+        str_name = "Space Duds",
+        str_eat = "You walk down the street as you toss the Duds in your mouth. You never tasted the milky way, but you’d bet it would taste something like this… Shit I could have made these Milky Way bars. Like, Space Duds is a good pun, but I think the cosmic imagery would have been cool for the flavor text. Fuck. I guess I’ll just stick to Space Duds I guess. Sorry Space Dad, I fucked up your funny candy.",
+        str_desc = "A box of chewy Mexican chocolate balls normally sold at the Cinema concession stand. Not only are they tasty, but each ball contains an entire bread loaf worth of carbohydrates!",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "monardswinegums",
+        alias = ['monardswine','monards','monardswinegum'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Monards Wine Gums",
+        str_eat = "You squeeze the candy juice into a wine glass, twirling it around pretentiously to let it breath. You awkwardly chat to a homeless man about your new start up before you take a sip. A truly delightfully aroma. You finish it off with a chug before blacking out. You wake up several hours later. You now have a new tramp stamp and a missing kidney. Great...",
+        str_desc = "A offbrand knockoff of the popular NTxVakaNNS sweats. These wine gummies will knock out any lightweight with a sweat tooth. Spiked with the famous Monsoon-brewed Goonshine Wine.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "skebbles",
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Skebbles",
+        str_eat = "You ravage the packet of candy like a vampire baby tearing through their mother’s stomach lining to make it’s escape. As you take whale size chews of the sugar pellets, you get spontaneous bouts of artistic inspiration. If only there was a discord or booru that you can post your high tier mastersworks.",
+        str_desc = "Taste the Rainebow.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "copburyegg",
+        alias = ['copbury'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Copbury Egg",
+        str_eat = "You bite through the chocolate shell, a gooey flood of caramel drizzles down your chin. God this shit is so good! But the people around you are giving dirty looks. You ain’t no bootlicker… but you decide to quickly slink into the shadow to finish the egg in shame.",
+        str_desc = "A chocolate egg candy. Killers loves these IRONICALLY. They used to come with a real cop inside, but dumbass Rowdys kept choking on them. Can’t have shit in Detroit!",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "johnnyranchers",
+        alias = ['johnnyrancher'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Johnny Ranchers",
+        str_eat = "You dump the entire box into your grub pit. You ain’t no sissy ass bitch! You suck and gum the ranchers into a half melted slab. It takes a few minute for the juices to saturate your mouth. Just in time for the ranchers gluing your teeth shut. It would be a shame to puke it up now.",
+        str_desc = "Bertie Botts? You what, mate? Nah bruv, they ain’t got shit on my shit. They pussy out on having *good* flavors. Nah, every rancher is 100% guaranteed kino. We got bean, leather boot, bean, chipped tooth, bean, pickled dick, pickle rick, beans. List goes on and on, cunt. Just pop one, eh?",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+
+    ),
+    EwFood(
+        id_food = "danymals",
+        alias = ['dannymals'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Danymals",
+        str_eat = "It only take one sip to convince you to butt chug the entire thing. Smooth cow paste and fruit chucks flow down your gullet like a trickle-down economics. This shot would be one hell of a wopper if it wasn’t laced with cyanide. Now your throat is itchy… FUCK DANYMALS, THEY ARE TRASH!",
+        str_desc = "A yogurt-y drink in the shape of someone’s overly muscular fursona. You can smell a fruity aroma under the poorly sealed tinfoil lid. You also smell a whiff of… calzone? Out of all the things some asshole could of spike your yogurt with, you better count yourself lucky.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "coonconutpatties",
+        alias = ['coonratpatties','coonrat1patties'],
+        recover_hunger = -300,
+        price = 10000,
+        str_name = "Coonconut Patties",
+        str_eat = "You have a moment of hesitation as you notice strange coloration of the fudge. You take cautious mouse nibbles at the slab. The fudge is flakey, and the coconut has a slight musk to it. You’re not sure you like it. But the wrapper says it’s good. Your conflicting feeling is overshadowed by a sudden urge to toss one into the KFC deep fryer. Experiment for another time.",
+        str_desc = "A simple fudged covered coconut disk beloved by rodents and Floridians alike. Everyone else hates it. But they just lack the mature taste to appreciate it. Each patty is lovingly hand crafted by a retirement home chef.\n*Nah, it’s the best candy.* - **Coonrat1**.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "toxiroll",
+        alias = ['toxi-roll'],
+        recover_hunger = -100,
+        price = 10000,
+        str_name = "Toxi Roll",
+        str_eat = "You pop the Toxi Roll in your mouth, paper and all. Not that you’d be able to tear off the chemically infused wrapper.",
+        str_desc = "A *‘Chocolate’* flavored taffy with a small whiff of chloroform. The signature treat of the malformed freaks of Toxington. It slowly acid washes the pockets of your jeans. Fresh!",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "amphibigum",
+        alias = ['fibgum','amphibi-gum'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Amphibi-Gum",
+        str_eat = "You take the first chew. The taste of minty marsh gush into your cavities and ulcers. It’s an acquired taste, but once you get past the bitterness, the chewing calms your nerves. Even when the flavor fades, you gum the strip until it dissolves into nothing.",
+        str_desc = "A simple strip of gum speckled with fly shaped caffeine crystals. Empty boxes of these things litter the Cathedral. Some say you can occasionally hear the violent smacks and chewing emitting from the mysterious depths home to the grass-less.", 
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "krakerjacks",
+        alias = ['crackerjacks', 'krakjacks', 'krakerjack', 'krakjack', 'krakerkraks'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Kraker Jacks",
+        str_eat = "You shovel the contents down your nashing maw. The Karamel gluing your teeth together made it all the harder to chew the rock-hard popkorn. Even the tiny plastic toy gets wedged in between your teeth, saving you from an embarrassing death.\n\n\n\n\n\n\n\n\n\n\n\nOh, also now your gay.",
+        str_desc = "A fun-sized box of Karamel Korn. Theses bring you back to the good ol’ days when your father would take you to your local Based Ball game on the weekends. Well, before you fucking murdered him. Just, uh, don’t eat these in front of the King Pin.",
+        time_expir = 43200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "doggytreats",
+        alias = ['doggytreats','dogtreats','doggyteets'], #I am gonna freudian slip type doggyteets at least mf once
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Doggy Treats",
+        str_eat = "You imagine sinking your teeth into the squishy marshmallow, crunchy graham kraker and melty chocolate. Unfortunately the pie is so stale and hard you have to guzzle it down like a snake.",
+        str_desc = "A chocolate covered smore cake stamped with a crescent moon. These things are ancient even by genwunner standards. But older just means better.",
+        time_expir = 13200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
+    EwFood(
+        id_food = "saltlick",
+        alias = ['saltlicks'],
+        recover_hunger = 300,
+        price = 10000,
+        str_name = "Salt Lick",
+        str_eat = "Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick. Lick.",
+        str_desc = "Just a block of salt on a stick. A traditional Killer treat since their inception.",
+        time_expir = 13200,
+        acquisition = ewcfg.acquisition_trickortreating,
+    ),
 ]
 # A map of id_food to EwFood objects.
 food_map = {}
