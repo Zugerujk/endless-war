@@ -1134,7 +1134,15 @@ async def push(cmd):
                     item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
 
             elif item_object.item_props.get('adorned'):
-                bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
+                if "slimeoid" in item_object.item_props and item_object.item_props.get("slimeoid"):
+                    pass
+                else:
+                    if "adorned" in item_object.item_props:
+                        item_object.item_props["adorned"] = "false"
+                    
+
+                    item_object.persist()
+                    bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
             else:
                 item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)

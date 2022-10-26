@@ -101,55 +101,59 @@ async def store(cmd):
 
             item_cache = bknd_core.get_cache(obj_type="EwItem")
 
+            chest_occupied = False
             if multistow > 1:
+                chest_occupied = True
                 used_chest_poi_ids.append(user_data.poi)
-            while multistow > 0 and loop_sought is not None:
-                item = EwItem(id_item=loop_sought.get("id_item"))
-                item_search = ewutils.flattenTokenListToString(loop_sought.get('name'))
-                if item.item_type == ewcfg.it_weapon:
-                    if user_data.weapon >= 0 and item.id_item == user_data.weapon:
-                        if user_data.weaponmarried:
-                            weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
-                            response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
-                            if multistow > 1:
-                                used_chest_poi_ids.remove(user_data.poi)
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                        else:
-                            user_data.weapon = -1
+            try:
+                while multistow > 0 and loop_sought is not None:
+                    item = EwItem(id_item=loop_sought.get("id_item"))
+                    item_search = ewutils.flattenTokenListToString(loop_sought.get('name'))
+                    if item.item_type == ewcfg.it_weapon:
+                        if user_data.weapon >= 0 and item.id_item == user_data.weapon:
+                            if user_data.weaponmarried:
+                                weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
+                                response = "Your cuckoldry is appreciated, but your {} will always remain faithful to you.".format(item_sought.get('name'))
+                                if chest_occupied:
+                                    used_chest_poi_ids.remove(user_data.poi)
+                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            else:
+                                user_data.weapon = -1
+                                user_data.persist()
+                        elif item.id_item == user_data.sidearm:
+                            user_data.sidearm = -1
                             user_data.persist()
-                    elif item.id_item == user_data.sidearm:
-                        user_data.sidearm = -1
-                        user_data.persist()
 
-                if item.item_type == ewcfg.it_cosmetic:
-                    if "adorned" in item.item_props:
-                        item.item_props["adorned"] = "false"
-                    if "slimeoid" in item.item_props:
-                        item.item_props["slimeoid"] = "false"
+                    if item.item_type == ewcfg.it_cosmetic:
+                        if "adorned" in item.item_props:
+                            item.item_props["adorned"] = "false"
+                        if "slimeoid" in item.item_props:
+                            item.item_props["slimeoid"] = "false"
 
-                item.persist()
-                #bknd_item.give_item(id_item=loop_sought.get('id_item'), id_server=item.id_server, id_user=poi.community_chest)
-                items.append(int(loop_sought.get('id_item')))
+                    item.persist()
+                    #bknd_item.give_item(id_item=loop_sought.get('id_item'), id_server=item.id_server, id_user=poi.community_chest)
+                    items.append(int(loop_sought.get('id_item')))
 
-                cache_item = item_cache.get_entry(unique_vals={"id_item": int(loop_sought.get('id_item'))})
-                cache_item.update({'id_owner': poi.community_chest})
-                item_cache.set_entry(data=cache_item)
+                    cache_item = item_cache.get_entry(unique_vals={"id_item": int(loop_sought.get('id_item'))})
+                    cache_item.update({'id_owner': poi.community_chest})
+                    item_cache.set_entry(data=cache_item)
 
-                #= await event_loop.run_in_executor(None, item_cache.find_entries, criteria)
-                func = partial(bknd_item.find_item, item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None)
-                event_loop = asyncio.get_event_loop()
-                loop_sought = await event_loop.run_in_executor(None, func)
+                    #= await event_loop.run_in_executor(None, item_cache.find_entries, criteria)
+                    func = partial(bknd_item.find_item, item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None)
+                    event_loop = asyncio.get_event_loop()
+                    loop_sought = await event_loop.run_in_executor(None, func)
 
-                items_had += 1
-                multistow -= 1
-
+                    items_had += 1
+                    multistow -= 1
+            except:
+                ewutils.logMsg("Failed to multi-stow {}. Error thrown.".format(item_sought).get("name"))
+            if chest_occupied:
+                used_chest_poi_ids.remove(user_data.poi)
             if items_had > 1:
                 name_string = "{}(x{})".format(item_sought.get("name"), items_had)
             else:
                 name_string = item_sought.get("name")
 
-            if multistow > 1 or items_had > 1:
-                used_chest_poi_ids.remove(user_data.poi)
             bknd_item.give_item_multi(id_list=items, destination=poi.community_chest)
             response = "You store your {} in the community chest.".format(name_string)
 
@@ -214,80 +218,87 @@ async def take(cmd):
     if item_sought:
         item_search = ewutils.flattenTokenListToString(item_sought.get('name'))
         loop_sought = item_sought.copy()
+
+        chest_occupied = False
         if multisnag > 1:
+            chest_occupied = True
             used_chest_poi_ids.append(user_data.poi)
-        while multisnag > 0 and loop_sought is not None:
-            if items_snagged == 0:
-                inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=loop_sought.get('item_type'), return_strings=True, pronoun="You")
+        try:
+            while multisnag > 0 and loop_sought is not None:
+                if items_snagged == 0:
+                    inv_response = bknd_item.check_inv_capacity(user_data=user_data, item_type=loop_sought.get('item_type'), return_strings=True, pronoun="You")
 
-                if inv_response != "":
-                    if multisnag > 1:
-                        used_chest_poi_ids.remove(user_data.poi)
-                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
-
-                list_items = bknd_item.inventory(
-                        id_user=cmd.message.author.id,
-                        id_server=cmd.guild.id,
-                        item_type_filter=loop_sought.get('item_type')
-                    )
-
-
-
-                if loop_sought.get('item_type') == ewcfg.it_food:
-                    food_items = bknd_item.inventory(
-                        id_user=cmd.message.author.id,
-                        id_server=cmd.guild.id,
-                        item_type_filter=ewcfg.it_food
-                    )
-
-                    if user_data.get_food_capacity() - len(food_items) < multisnag:
-                        multisnag = user_data.get_food_capacity() - len(food_items)
-                        del food_items
-                elif loop_sought.get('item_type') == ewcfg.it_weapon:
-                    weapons_held = bknd_item.inventory(
-                        id_user=cmd.message.author.id,
-                        id_server=cmd.guild.id,
-                        item_type_filter=ewcfg.it_weapon
-                    )
-
-                    if user_data.life_state == ewcfg.life_state_corpse:
-                        del weapons_held
-                        response = "Ghosts can't hold weapons."
-                        if multisnag > 1:
+                    if inv_response != "":
+                        if chest_occupied:
                             used_chest_poi_ids.remove(user_data.poi)
-                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                    elif user_data.get_weapon_capacity() - len(weapons_held) < multisnag:
-                        multisnag = user_data.get_weapon_capacity() - len(weapons_held)
-                        del weapons_held
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
 
-                else:
-                    other_items = bknd_item.inventory(
-                        id_user=cmd.message.author.id,
-                        id_server=user_data.id_server,
-                        item_type_filter=loop_sought.get('item_type')
-                    )
-                    if ewcfg.generic_inv_limit - len(other_items) < multisnag:
-                        multisnag = ewcfg.generic_inv_limit - len(other_items)
-                        del other_items
-
-            items_snagged += 1
-            multisnag -= 1
-
-            bknd_item.give_item(id_item=loop_sought.get('id_item'), id_server=user_data.id_server, id_user=user_data.id_user)
-            item_list.append(loop_sought.get('id_item'))
-
-            cache_item = item_cache.get_entry(unique_vals={"id_item": loop_sought.get('id_item')})
-            cache_item.update({'id_owner': cmd.message.author.id})
-            item_cache.set_entry(data=cache_item)
+                    list_items = bknd_item.inventory(
+                            id_user=cmd.message.author.id,
+                            id_server=cmd.guild.id,
+                            item_type_filter=loop_sought.get('item_type')
+                        )
 
 
-            #loop_sought = bknd_item.find_item(item_search=item_search, id_user=poi.community_chest, id_server=cmd.guild.id if cmd.guild is not None else None, admin=admin)
 
-            func = partial(bknd_item.find_item, item_search=item_search, id_user=poi.community_chest,
-                           id_server=cmd.guild.id if cmd.guild is not None else None, admin=admin)
-            event_loop = asyncio.get_event_loop()
-            loop_sought = await event_loop.run_in_executor(None, func)
+                    if loop_sought.get('item_type') == ewcfg.it_food:
+                        food_items = bknd_item.inventory(
+                            id_user=cmd.message.author.id,
+                            id_server=cmd.guild.id,
+                            item_type_filter=ewcfg.it_food
+                        )
 
+                        if user_data.get_food_capacity() - len(food_items) < multisnag:
+                            multisnag = user_data.get_food_capacity() - len(food_items)
+                            del food_items
+                    elif loop_sought.get('item_type') == ewcfg.it_weapon:
+                        weapons_held = bknd_item.inventory(
+                            id_user=cmd.message.author.id,
+                            id_server=cmd.guild.id,
+                            item_type_filter=ewcfg.it_weapon
+                        )
+
+                        if user_data.life_state == ewcfg.life_state_corpse:
+                            del weapons_held
+                            response = "Ghosts can't hold weapons."
+                            if chest_occupied:
+                                used_chest_poi_ids.remove(user_data.poi)
+                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                        elif user_data.get_weapon_capacity() - len(weapons_held) < multisnag:
+                            multisnag = user_data.get_weapon_capacity() - len(weapons_held)
+                            del weapons_held
+
+                    else:
+                        other_items = bknd_item.inventory(
+                            id_user=cmd.message.author.id,
+                            id_server=user_data.id_server,
+                            item_type_filter=loop_sought.get('item_type')
+                        )
+                        if ewcfg.generic_inv_limit - len(other_items) < multisnag:
+                            multisnag = ewcfg.generic_inv_limit - len(other_items)
+                            del other_items
+
+                items_snagged += 1
+                multisnag -= 1
+
+                bknd_item.give_item(id_item=loop_sought.get('id_item'), id_server=user_data.id_server, id_user=user_data.id_user)
+                item_list.append(loop_sought.get('id_item'))
+
+                cache_item = item_cache.get_entry(unique_vals={"id_item": loop_sought.get('id_item')})
+                cache_item.update({'id_owner': cmd.message.author.id})
+                item_cache.set_entry(data=cache_item)
+
+
+                #loop_sought = bknd_item.find_item(item_search=item_search, id_user=poi.community_chest, id_server=cmd.guild.id if cmd.guild is not None else None, admin=admin)
+
+                func = partial(bknd_item.find_item, item_search=item_search, id_user=poi.community_chest,
+                            id_server=cmd.guild.id if cmd.guild is not None else None, admin=admin)
+                event_loop = asyncio.get_event_loop()
+                loop_sought = await event_loop.run_in_executor(None, func)
+        except:
+            ewutils.logMsg("Failed to multi-snag {}. Error thrown.".format(item_sought).get("name"))
+        if chest_occupied:
+            used_chest_poi_ids.remove(user_data.poi)
         if items_snagged > 1:
             name_string = "{}(x{})".format(item_sought.get("name"), items_snagged)
         else:
@@ -296,8 +307,6 @@ async def take(cmd):
         response = "You retrieve a {} from the community chest.".format(name_string)
 
         del item_sought
-        if multisnag > 1 or items_snagged > 1:
-            used_chest_poi_ids.remove(user_data.poi)
     else:
         if item_search:
             response = "There isn't one here."
