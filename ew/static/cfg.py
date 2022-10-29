@@ -3,7 +3,7 @@ import datetime
 # Global configuration options.
 
 
-version = "v4.18 S4A1 Goonscape Gumballs and QUANTUM COCK"
+version = "v4.19 S4A1 DOUBLE HALLOWEEN 2022 🎃🦇"
 
 
 dir_msgqueue = 'msgqueue'
