@@ -309,7 +309,7 @@ async def haunt(cmd):
                 market_data.negaslime -= haunted_slimes
                 
                 if ewcfg.dh_active:
-                    await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloween_stat, haunted_slimes*5)
+                    await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, haunted_slimes*5)
 
                 user_data.time_lasthaunt = time_now
                 user_data.clear_status(id_status=ewcfg.status_busted_id)
