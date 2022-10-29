@@ -486,6 +486,7 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
     # event_props['alert'] = alert
 
     # Always give a specific alert, as to let players know something is happening
+    alert = "gangbase"
     event_props['alert'] = "gangbase"
 
 
