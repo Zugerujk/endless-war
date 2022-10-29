@@ -72,8 +72,8 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
     # Manage faction roles.
     faction_role = ewutils.get_faction(user_data=user_data)
 
-    if ewcfg.dh_stage == 4 and ewcfg.dh_active:
-        faction_role = ewcfg.role_juvenile
+    # if ewcfg.dh_stage == 4 and ewcfg.dh_active:
+    #     faction_role = ewcfg.role_juvenile
 
     roles_add.add(faction_role)
 

@@ -27,9 +27,10 @@ from ew.utils.district import EwDistrict
 
 try:
     import ew.static.rstatic as relic_static
+    import ew.cmd.debug as debug
 except:
     import ew.static.rstatic_dummy as relic_static
-
+    import ew.cmd.debug_dummy as debug
 
 async def invest(cmd):
     """ player invests slimecoin in the market """
@@ -343,7 +344,7 @@ async def museum_donate(cmd):
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id)
     if item_sought:
         item_obj = EwItem(id_item=item_sought.get("id_item"))
-        if item_obj.item_type == ewcfg.it_relic or item_obj.template in relic_static.alt_relics:
+        if (item_obj.item_type == ewcfg.it_relic or item_obj.template in relic_static.alt_relics) and "scrap" not in item_obj.item_props.get('id_relic'):
             response = await relic_donate(item_obj.id_item, cmd)
         elif item_obj.item_props.get('acquisition') == ewcfg.acquisition_fishing:
             response = await fish_donate(item_obj.id_item, cmd)

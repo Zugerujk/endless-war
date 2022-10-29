@@ -1,3 +1,5 @@
+import datetime
+
 # Global configuration options.
 
 
@@ -28,7 +30,7 @@ territory_time_gain = 10
 dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
-dh_stage = -1
+dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = False
@@ -169,6 +171,9 @@ poi_id_themuseum = "themuseum"
 poi_id_ghostcafe = "ghostmaidcafe"
 poi_id_coalitionsurplus = "coalitionsurplus"
 
+poi_id_raiddenentryway = "raiddenentryway"
+poi_id_raiddenatrium = "raiddenatrium"
+poi_id_raiddencore = "raiddencore"
 
 poi_id_themoon = "themoon"
 
@@ -771,6 +776,7 @@ cmd_slimecoin = cmd_prefix + 'slimecoin'
 cmd_slimecoin_alt1 = cmd_prefix + 'slimecredit'
 cmd_slimecoin_alt2 = cmd_prefix + 'coin'
 cmd_slimecoin_alt3 = cmd_prefix + 'sc'
+cmd_turnin = cmd_prefix + 'turnin'
 cmd_crime = cmd_prefix + 'crime'
 cmd_invest = cmd_prefix + 'invest'
 cmd_withdraw = cmd_prefix + 'withdraw'
@@ -1796,9 +1802,9 @@ emote_dice6 = "<:dice6:436942524469346334>"
 emote_negaslime = "<:ns:453826200616566786>"
 emote_bustin = "<:bustin:455194248741126144>"
 emote_ghost = "<:lordofghosts:434002083256205314>"
-emote_slimefull = "<:slimefull:496397819154923553>"
-emote_purple = "<:purple:496397848343216138>"
-emote_pink = "<:pink:496397871180939294>"
+# emote_slimefull = "<:slimefull:496397819154923553>" # Removed
+# emote_purple = "<:purple:496397848343216138>" # Removed
+# emote_pink = "<:pink:496397871180939294>" # Removed
 emote_slimecoin = "<:slimecoin:440576133214240769>"
 emote_slimegun = "<:slimegun:436500203743477760>"
 emote_slimeshot = "<:slimeshot:436604890928644106>"
@@ -1809,33 +1815,43 @@ emote_srs = "<:srs:631859962519224341>"
 emote_staydead = "<:sd:506840095714836480>"
 emote_janus1 = "<:janus1:694404178956779592>"
 emote_janus2 = "<:janus2:694404179342655518>"
-emote_masterpoudrin = "<:masterpoudrin:694788959418712114>"
-emote_poketubers = "<:c_poketubers:706989587112787998>"
-emote_pulpgourds = "<:c_pulpgourds:706989587469172746>"
-emote_sourpotatoes = "<:c_sourpotatoes:706989587196543067>"
-emote_bloodcabbages = "<:c_bloodcabbages:706989586475253832>"
-emote_joybeans = "<:c_joybeans:706989586949210223>"
-emote_killiflower = "<:c_killiflower:706989587003736114>"
-emote_razornuts = "<:c_razornuts:706989587129434364>"
-emote_pawpaw = "<:c_pawpaw:706989587137953812>"
-emote_sludgeberries = "<:c_sludgeberries:706989587205062656>"
-emote_suganmanuts = "<:c_suganmanuts:706989587276234862>"
-emote_pinkrowddishes = "<:c_pinkrowddishes:706989586684969091>"
-emote_dankwheat = "<:c_dankwheat:706989586714460222>"
-emote_brightshade = "<:c_brightshade:706989586676580373>"
-emote_blacklimes = "<:c_blacklimes:706989586890489947>"
-emote_phosphorpoppies = "<:c_phosphorpoppies:706989586898878496>"
-emote_direapples = "<:c_direapples:706989586928238663>"
-emote_rustealeaves = "<:c_rustealeaves:743337308295790642>"
-emote_metallicaps = "<:c_metallicaps:743337308228419714>"
-emote_steelbeans = "<:c_steelbeans:743337307968372757>"
-emote_aushucks = "<:c_aushucks:743337307859320923>"
-emote_blankregional = "<:bl:747207921926144081>"
-emote_greenlawn = "<:gr:726271625489809411>"
+# emote_masterpoudrin = "<:masterpoudrin:694788959418712114>" # Removed
+# emote_blankregional = "<:bl:747207921926144081>" # Removed
+# emote_greenlawn = "<:gr:726271625489809411>" # Removed
 emote_limelawn = "<:li:726271664815472692>"
-emote_frozentile = "<:ft:743276248381259846>"
+# emote_frozentile = "<:ft:743276248381259846>" # Removed
 
-# Emotes for the negaslime writhe animation
+# Emotes for crops
+emote_poketubers = "<:c_poketubers:1026711024881119252>"
+emote_pulpgourds = "<:c_pulpgourds:1026711026290405376>"
+emote_sourpotatoes = "<:c_sourpotatoes:1026711035794706462>"
+emote_bloodcabbages = "<:c_bloodcabbage:1026711005700554762>"
+emote_joybeans = "<:c_joybeans:1026711013518737468>"
+emote_killiflower = "<:c_purplekilliflower:1026711028341415986>"
+emote_razornuts = "<:c_razornuts:1026711030941880421>"
+emote_pawpaw = "<:c_pawpaw:1026711019533381663>"
+emote_sludgeberries = "<:c_sludgeberries:1026711034272157747>"
+emote_suganmanuts = "<:c_suganmanuts:1026711038692954113>"
+emote_pinkrowddishes = "<:c_pinkrowddishes:1026711022771388416>"
+emote_dankwheat = "<:c_dankwheat:1026711009945190410>"
+emote_brightshade = "<:c_brightshade:1026711007592198224>"
+emote_blacklimes = "<:c_blacklimes:1026711004161253377>"    
+emote_phosphorpoppies = "<:c_phosphorpoppies:1026711021034938388>"
+emote_direapples = "<:c_direapple:1026711011853619241>"
+emote_rustealeaves = "<:c_rustealeaves:1026711032699297812>"
+emote_metallicaps = "<:c_metallicaps:1026711015066435664>"
+emote_steelbeans = "<:c_steelbeans:1026711037220769822>"
+emote_aushucks = "<:c_aushucks:1026711001795661886>"
+emote_partypoppeppers = "<:c_partypoppeppers:1026711016949686283>"
+
+# Emotes for moon phases
+emote_moon_green = "<:moongreen:1026709273843089490> "
+emote_moon_waxinghorns = "<:moonwaxinghorns:1026709279857709097> "
+emote_moon_waxingmandibles = "<:moonwaxingmandibles:1026709282374303805>"
+emote_moon_waningmaw = "<:moonwaningmaw:1026709276514857031> "
+emote_moon_waningsliver = "<:moonwaningsliver:1026709278096101406>"
+
+# Emotes for the negaslime writhe animation - all but blank removed
 emote_vt = "<:vt:492067858160025600>"
 emote_ve = "<:ve:492067844930928641>"
 emote_va = "<:va:492067850878451724>"
@@ -1854,7 +1870,7 @@ emote_slugs = "<:q_slugs:752228834333556756>"
 emote_shields = "<:q_shields:752228833897218159>"
 emote_broken_heart = ":broken_heart:"
 
-# Emotes for minesweeper
+# Emotes for minesweeper - all unused
 emote_ms_hidden = ":pick:"
 emote_ms_mine = ":x:"
 emote_ms_flagged = ":triangular_flag_on_post:"
@@ -2428,19 +2444,22 @@ leaderboard_fashion = "NLACakaNM'S TOP MODELS"
 leaderboard_crime = "BIGGEST CROOKS"
 leaderboard_relics = "KNOWN RELICS"
 leaderboard_kingpindonated = "KINGPIN SLIME EARNED"
+leaderboard_lifetimekills = "LIFETIME KILLS"
+leaderboard_lifetimedeaths = "BIGGEST VICTIMS"
 # SLIMERNALIA
 leaderboard_slimernalia = "MOST FESTIVE"
 # SWILLDERKMUK
 leaderboard_gambit_high = "HIGHEST GAMBIT"
 leaderboard_gambit_low = "LOWEST GAMBIT"
+# DOUBLE HALLOWEEN
+leaderboard_doublehalloween = "SLIME STOLEN"
 leaderboard_sacrificial = "SACRIFICIAL LAMBS"
-leaderboard_lifetimekills = "LIFETIME KILLS"
-leaderboard_lifetimedeaths = "BIGGEST VICTIMS"
 
 # leaderboard entry types
 entry_type_player = "player"
 entry_type_districts = "districts"
 entry_type_relics = "relics"
+entry_type_gamestates = "gamestates"
 
 # district control channel topic text
 control_topic_killers = "Currently controlled by the killers."
@@ -3030,11 +3049,13 @@ weapon_id_slimeringcan = 'slimeringcan'
 weapon_id_fingernails = 'fingernails'
 weapon_id_roomba = 'roomba'
 
-# Goonscape stat constants. yknow. where they fucking should be. retard
+# Goonscape stat constants
 goonscape_mine_stat = "mining"
 goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
+# Double Halloween Exclusive. Won't appear after Halloween.
+goonscape_halloweening_stat = "halloween"
 
 # Database columns for goonscape stats
 col_id_mining_level = goonscape_mine_stat + "_level"
@@ -3045,18 +3066,24 @@ col_id_farming_level = goonscape_farm_stat + "_level"
 col_id_farming_xp = goonscape_farm_stat + "_xp"
 col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
+# Double Halloween
+col_id_halloweening_level = goonscape_halloweening_stat + "_level"
+col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
+
 
 gs_stat_to_level_col = {
     goonscape_mine_stat: col_id_mining_level,
     goonscape_fish_stat: col_id_fishing_level,
     goonscape_farm_stat: col_id_farming_level,
-    goonscape_eat_stat: col_id_feasting_level
+    goonscape_eat_stat: col_id_feasting_level,
+    goonscape_halloweening_stat: col_id_halloweening_level, # DH
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
     goonscape_fish_stat: col_id_fishing_xp,
     goonscape_farm_stat: col_id_farming_xp,
     goonscape_eat_stat: col_id_feasting_xp,
+    goonscape_halloweening_stat: col_id_halloweening_xp,
 }
 
 #GoonScape Stat
@@ -3144,15 +3171,15 @@ weather_icon_map = {
     weather_bicarbonaterain: "🥤"
 }
 
-# Moon phase icons TODO: Make these accurate to the more cool moon phases found @ the string names
+# Moon phase icons
 moon_phase_icon_map = {
-    moon_new: "🌑",
-    moon_waxing_start: "🌒",
-    moon_waxing_end: "🌔",
+    moon_new: emote_blank,
+    moon_waxing_start: emote_moon_waxinghorns,
+    moon_waxing_end: emote_moon_waxingmandibles,
     moon_full: emote_moon,
-    moon_waning_start: "🌖",
-    moon_waning_end: "🌘",
-    moon_special: "🟢",
+    moon_waning_start: emote_moon_waningmaw,
+    moon_waning_end: emote_moon_waningsliver,
+    moon_special: emote_moon_green,
 }
 
 # stock ids
@@ -4030,7 +4057,8 @@ enemy_attacktype_raygun = 'raygun'
 enemy_attacktype_feed = 'feed'
 enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
-
+enemy_attacktype_hellfire = 'hellfire'
+enemy_attacktype_bonemerang = 'bonemerang'
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'
@@ -4074,6 +4102,9 @@ enemy_type_ug_slimeoidtrainer = 'undergroundslimeoidtrainer'
 enemy_type_titanoslime = "titanoslime"
 enemy_type_mutated_titanoslime = "mutatedtitanoslime"
 
+enemy_type_lesserwerewolf = "lesserwerewolf"
+enemy_type_skeletonranger = "skeletonranger"
+
 # POI event enemies
 enemy_type_bandito = 'bandito'
 enemy_type_raiderunderboss = 'raiderunderboss'
@@ -4088,6 +4119,9 @@ enemy_type_sandbag = 'sandbag'
 # Double Halloween bosses. Could be brought back as enemies later on, for now will only spawn in the underworld.
 enemy_type_doubleheadlessdoublehorseman = 'doubleheadlessdoublehorseman'
 enemy_type_doublehorse = 'doublehorse'
+
+# Raid Den bosses - have special effects that occur on death
+enemy_type_alm = "almfe" # Placeholder testing boss
 
 # Enemy ai types
 enemy_ai_sandbag = 'Sandbag'
@@ -4104,13 +4138,17 @@ common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
 uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
 rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
 raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+raid_den_bosses = [enemy_type_alm]
 
 enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer]
+slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer] 
+
+# Double Halloween variant enemies
+dh_v_enemies = [enemy_type_juvie, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime, enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer, enemy_type_bandito, enemy_type_raiderunderboss, enemy_type_microgullswarm, enemy_type_spacecarp]
 
 # Enemies that spawn during specific poi events
 raider_incursion_enemies = [enemy_type_desertraider, enemy_type_bandito, enemy_type_raiderunderboss]
@@ -4178,12 +4216,13 @@ enemy_drop_tables = {
         {item_id_monsterbones: [100, 1, 3]},
     ],
     enemy_type_doubleheadlessdoublehorseman: [
+        {item_id_doublehalloweengrist: [100, 222, 222]},
         {item_id_slimepoudrin: [100, 22, 22]},
         {rarity_plebeian: [100, 22, 22]},
         {rarity_patrician: [100, 22, 22]},
         {"crop": [100, 22, 22]},
         {item_id_dinoslimemeat: [100, 22, 22]},
-        {item_id_tradingcardpack: [100, 22, 22]}
+        {item_id_tradingcardpack: [100, 22, 22]},
     ],
     enemy_type_doublehorse: [
         {item_id_slimepoudrin: [100, 22, 22]}
@@ -4312,11 +4351,30 @@ enemy_drop_tables = {
     ],
     enemy_type_microgullswarm: [
         {item_id_feather: [5, 1, 1]}
-    ]
+    ],
+    enemy_type_lesserwerewolf: [
+        {item_id_leather: [100, 1, 1]},
+        {item_id_slimepoudrin: [100, 1, 3],},
+    ],
+    enemy_type_skeletonranger: [
+        {"bone": [100, 1, 10]},
+        {item_id_slimepoudrin: [90, 1, 1]},
+    ],
+    enemy_type_alm: [
+        {item_id_doublehalloweengrist: [100, 1, 4]},
+        {weapon_id_broadsword: [100, 1, 1]},
+        {item_id_civilianscalp: [100, 1, 1]}
+    ],  
+
 }
 
 for enemy in slimeoid_trainers:
     enemy_drop_tables[enemy] = [{item_id_slimepoudrin: [100, 1, 1]}, {rarity_plebeian: [20, 1, 1]}]
+
+# DH
+if dh_active:
+    for enemy in enemy_drop_tables:
+        enemy_drop_tables[enemy].append({item_id_doublehalloweengrist: [6, 8, 10], item_id_doublehalloweengrist: [85, 1, 2], item_id_doublefaggot: [1, 1, 1], item_id_doublestuffedcrust: [2, 1, 1]})
 
 # When making a new enemy, make sure to fill out slimerange, ai, attacktype, displayname, raredisplayname, and aliases.
 # Enemy data tables. Slime is stored as a range from min to max possible slime upon spawning.
@@ -4334,8 +4392,9 @@ enemy_data_table = {
         "ai": enemy_ai_coward, "attacktype": enemy_attacktype_unarmed,
         "displayname": "Lost Juvie",
         "raredisplayname": "Shellshocked Juvie",
-        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten"],
-        "arcticvariant" : "Frostbitten Juvie"
+        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
+        "arcticvariant" : "Frostbitten Juvie",
+        "dhvariant": "Accursed Juvie"
     },
     enemy_type_dinoslime: {
         "slimerange": [250000, 500000],
@@ -4344,7 +4403,8 @@ enemy_data_table = {
         "displayname": "Dinoslime",
         "raredisplayname": "Voracious Dinoslime",
         "aliases": ["dino", "slimeasaur"],
-        "arcticvariant":"Sabertooth Tigerslime"
+        "arcticvariant":"Sabertooth Tigerslime",
+        "dhvariant": "Ravenous Dinoshambler",
     },
     enemy_type_slimeadactyl: {
         "slimerange": [500000, 750000],
@@ -4352,7 +4412,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_talons,
         "displayname": "Slimeadactyl",
         "raredisplayname": "Predatory Slimeadactyl",
-        "aliases": ["bird", "dactyl"]
+        "aliases": ["bird", "dactyl"],
+        "dhvariant": "Mutated Crow",
     },
     enemy_type_desertraider: {
         "slimerange": [250000, 750000],
@@ -4361,7 +4422,8 @@ enemy_data_table = {
         "displayname": "Desert Raider",
         "raredisplayname": "Desert Warlord",
         "aliases": ["raider", "scytheboy", "desertraider", "desert"],
-        "arcticvariant":"Tundra Graverobber"
+        "arcticvariant":"Tundra Graverobber",
+        "dhvariant": "Reaper",
     },
     enemy_type_mammoslime: {
         "slimerange": [650000, 950000],
@@ -4370,7 +4432,8 @@ enemy_data_table = {
         "displayname": "Mammoslime",
         "raredisplayname": "Territorial Mammoslime",
         "aliases": ["mammoth", "brunswick"],
-        "arcticvariant": "Mammoslime"
+        "arcticvariant": "Mammoslime",
+        "dhvariant": "Irritated Mammoshambler",
     },
     enemy_type_microslime: {
         "slimerange": [10000, 50000],
@@ -4378,7 +4441,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_body,
         "displayname": "Microslime",
         "raredisplayname": "Irridescent Microslime",
-        "aliases": ["micro", "pinky"]
+        "aliases": ["micro", "pinky"],
+        "dhvariant": "Micro Pumpkislime",
     },
     enemy_type_grey: {
         "slimerange": [250000, 750000],
@@ -4411,7 +4475,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_body,
         "displayname": "Slime Of Greed",
         "raredisplayname": "Slime Of Avarice",
-        "aliases": ["slime", "slimeofgreed", "pot", "potofgreed", "draw2cards"]
+        "aliases": ["slime", "slimeofgreed", "pot", "potofgreed", "draw2cards"],
+        "dhvariant": "Slime of Dichotomy",
     },
     enemy_type_doubleheadlessdoublehorseman: {
         "slimerange": [100000000, 150000000],
@@ -4436,7 +4501,8 @@ enemy_data_table = {
         "displayname": "Megaslime",
         "raredisplayname": "Rampaging Megaslime",
         "aliases": ["mega", "smooze", "muk"],
-        "arcticvariant":"Antifreeze Megaslime"
+        "arcticvariant":"Antifreeze Megaslime",
+        "dhvariant": "Grave Megaslime",
     },
     enemy_type_slimeasaurusrex: {
         "slimerange": [1750000, 3000000],
@@ -4445,7 +4511,8 @@ enemy_data_table = {
         "displayname": "Slimeasaurus Rex",
         "raredisplayname": "Sex Rex",
         "aliases": ["rex", "trex", "slimeasaurusrex", "slimeasaurus"],
-        "arcticvariant": "Slimeasaurus Rex"
+        "arcticvariant": "Slimeasaurus Rex",
+        "dhvariant": "Pumpkisaurus Rex",
     },
     enemy_type_greeneyesslimedragon: {
         "slimerange": [3500000, 5000000],
@@ -4454,7 +4521,8 @@ enemy_data_table = {
         "displayname": "Green Eyes Slime Dragon",
         "raredisplayname": "Green Eyes JPEG Dragon",
         "aliases": ["dragon", "greeneyes", "greeneyesslimedragon", "green"],
-        "arcticvariant": "Green Eyes Slime Dragon"
+        "arcticvariant": "Green Eyes Slime Dragon",
+        "dhvariant": "Red-Eyes Negaslime Dragon",
     },
     enemy_type_unnervingfightingoperator: {
         "slimerange": [1000000, 3000000],
@@ -4463,7 +4531,8 @@ enemy_data_table = {
         "displayname": "Unnerving Fighting Operator",
         "raredisplayname": "Unyielding Fierce Operator",
         "aliases": ["ufo", "alien", "unnervingfightingoperator", "unnerving"],
-        "arcticvariant":"Unflinching Frozen Operator"
+        "arcticvariant":"Unflinching Frozen Operator",
+        "dhvariant": "Unworldly Ferocious Owl"
     },
     enemy_type_titanoslime: {
         "slimerange": [5000000, 7000000],
@@ -4471,7 +4540,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_stomp,
         "displayname": "Titanoslime",
         "raredisplayname": "Miscreated Titanoslime",
-        "aliases": ["titano", "titanoslime", "biglizard"]
+        "aliases": ["titano", "titanoslime", "biglizard"],
+        "dhvariant": "Ghoulific Titanogreslime",
     },
     enemy_type_mutated_titanoslime: {
         "slimerange": [10000000, 10000000],
@@ -4496,7 +4566,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gnash,
         "displayname": "Space Carp",
         "raredisplayname": "Space Patriarch",
-        "aliases": ["carp", "space", "spacedad", "spacepatriarch", "ss13"]
+        "aliases": ["carp", "space", "spacedad", "spacepatriarch", "ss13"],
+        "dhvariant": "Space Gill-man",
     },
     enemy_type_mammoslimebull: {
         "slimerange": [100000, 100000],
@@ -4512,7 +4583,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_beak,
         "displayname": "Micro Gull Swarm",
         "raredisplayname": "Micro Gull Cloud",
-        "aliases": ["microgull", "smallgull", "birdswarm", "gullcloud", "gullswarm"]
+        "aliases": ["microgull", "smallgull", "birdswarm", "gullcloud", "gullswarm"],
+        "dhvariant": "MiCrow Swarm",
     },
     enemy_type_civilian: {
         "slimerange": [100001, 100001],
@@ -4536,7 +4608,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_amateur,
         "displayname": "Slimeoid Trainer",
         "raredisplayname": "Slimeoid Champion",
-        "aliases": ["slimeoidt", "st", "strainer", "champ", "trainer"]
+        "aliases": ["slimeoidt", "st", "strainer", "champ", "trainer"],
+        "dhvariant": "Costumed Slimeoid Trainer",
     },
     enemy_type_ug_slimeoidtrainer: {
         "slimerange": [10001, 10001],
@@ -4544,7 +4617,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_amateur,
         "displayname": "Suspicious Slimeoid Trainer",
         "raredisplayname": "Villainous Slimeoid Champion",
-        "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"]
+        "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"],
+        "dhvariant": "Double Costumed Slimeoid Trainer",
     },
     enemy_type_bandito: {
         "slimerange": [300000, 600000],
@@ -4552,7 +4626,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_wesson,
         "displayname": "Bandito",
         "raredisplayname": "Bandito Supreme",
-        "aliases": ["bandit", "banditosupreme"]
+        "aliases": ["bandit", "banditosupreme"],
+        "dhvariant": "Candy Bandit",
     },
     enemy_type_raiderunderboss: {
         "slimerange": [1000000, 2000000],
@@ -4560,7 +4635,8 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_wesson,
         "displayname": "Raider Underboss",
         "raredisplayname": "Raider Overboss",
-        "aliases": ["raiderboss", "underboss", "overboss"]
+        "aliases": ["raiderboss", "underboss", "overboss"],
+        "dhvariant": "Door-to-door Raider Underboss",
     },
     enemy_type_protester: {
         "slimerange": [10000, 20000],
@@ -4593,7 +4669,31 @@ enemy_data_table = {
         "displayname": "Bipedal Mutated Barrel",
         "raredisplayname": "Quadrupedal Mutated Barrel",
         "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"]
-    }, #I've got a plan to add in hostile juveniles as frequent roaming bosses during slimernalia. -Dema
+    },
+    enemy_type_lesserwerewolf: {
+        "slimerange": [100000, 2000000], # BIG range
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_gnash,
+        "displayname": "Lesser Werewolf",
+        "raredisplayname": "Greater Werewolf",
+        "aliases": ["lesserwerewolf", "greaterwerewolf", "werewolf"]
+    },
+    enemy_type_skeletonranger: {
+        "slimerange": [1000000, 2000000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_bonemerang,
+        "displayname": "Skeleton Ranger",
+        "raredisplayname": "Skeleton Warden",
+        "aliases": ["sranger", "swarden", "skeletonwarden"],
+    },
+    enemy_type_alm: {
+        "slimerange": [1000, 5000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_axe,
+        "displayname": "Alm Fire Emblem https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
+        "raredisplayname": "Alm Fire Emblem Conqueror https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
+        "aliases": ["alm", "fireemblem"]
+    },
 }
 
 # Raid boss names used to avoid raid boss reveals in ewutils.formatMessage
@@ -4702,9 +4802,12 @@ event_type_slimeunist_protest = "slimeunistprotest"
 event_type_dimensional_rift = "dimensionalrift"
 event_type_fishing_frenzy = "fishingfrenzy"
 event_type_gas_leak = "gasleak"
+# For raids
+event_type_raid_den = "raidden"
+
 
 # In list format
-poi_events = [
+random_poi_events = [
     event_type_tornado,
     event_type_meteor_shower,
     event_type_smog_warning,
@@ -4718,6 +4821,25 @@ poi_events = [
     event_type_fishing_frenzy,
     event_type_gas_leak,
 ]
+
+poi_events = random_poi_events + [event_type_raid_den] 
+
+# DH dates - cry on floor
+day_map = {
+    datetime.date(2022, 10, 28): 0,
+    datetime.date(2022, 10, 29): 1,
+    datetime.date(2022, 10, 30): 2,
+    datetime.date(2022, 10, 31): 3,
+    datetime.date(2022, 10, 1):  4,
+    datetime.date(2022, 11, 2):  5,
+    datetime.date(2022, 11, 3):  6,
+    datetime.date(2022, 11, 4):  7,
+    datetime.date(2022, 11, 5):  8,
+    datetime.date(2022, 11, 6):  9,
+    datetime.date(2022, 11, 7): 10,
+    datetime.date(2022, 11, 8): 10,
+    datetime.date(2022, 11, 9): 10,
+}
 
 # Events that need to be checked up on every time the market updates
 # All hourly_events MUST include a "time" event_prop!

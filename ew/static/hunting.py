@@ -162,6 +162,18 @@ def atf_smallclaws(ctn = None):
         ctn.slimes_damage *= 0.3
         ctn.crit = True
 
+def atf_boomerang(ctn = None):
+    ctn.slimes_damage = 0.8
+    chance = random.randrange(4)
+
+    if chance == 0:
+        ctn.miss = True
+    elif chance <= 2:
+        ctn.strikes = 1
+    else:
+        ctn.strikes = 2
+        ctn.crit = True
+
 
 # All enemy attacking types in the game.
 enemy_attack_type_list = [
@@ -287,7 +299,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} bludgeons {name_target} in the {hitzone}! At least they try to...",
         fn_effect=atf_body
     ),
-    EwAttackType(  # 11
+    EwAttackType(  # 12
         id_type="stomp",
         str_crit="**OH FUCK!** The titanoslime reels back onto its hind legs, stomping {name_target} deeper and deeper into the asphalt!",
         str_miss="**MISS!** {name_target} jumps barely out of the way of a stomp!",
@@ -298,7 +310,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} swings it's car width legs full speed into {name_target}!",
         fn_effect=atf_tusks
     ),
-    EwAttackType(  # 11
+    EwAttackType(  # 13
         id_type="stompn6",
         str_crit="**YIPPIE KI YAY MOTHER FUCKERS!!!** N6 pulls back the reins, reeling the Titanoslime up and stomping {name_target} deeper and deeper into the asphalt!",
         str_miss="**MISS!** {name_target} jumps barely out of the way of a stomp! You can hear N6 cursing from atop her steed.",
@@ -309,7 +321,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} swings it's car width legs full speed into {name_target}! N6 laughs and watches you eat shit on the pavement!",
         fn_effect=atf_tusks
     ),
-    EwAttackType(  # 12
+    EwAttackType(  # 14
         id_type="gnash",
         str_crit="**GNASH GNASH GNASH!!!** The {name_enemy} opens it's mouth as wide it can go and chomps down on {name_target}! OOF!",
         str_miss="**MISS!** {name_target} barely sidesteps the {name_enemy}'s lunging bite!",
@@ -318,7 +330,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} chomps into {name_target}! {name_target} is looking a little woozy!",
         fn_effect=atf_fangs
     ),
-    EwAttackType(  # 13
+    EwAttackType(  # 15
         id_type="beak",
         str_crit="**PECK PECK PECK!!!** The {name_enemy} rips you to shreds! {name_target} is bleeding profusely!",
         str_miss="**SWOOSH!** {name_target} barely misses {name_enemy} and swoops around for another shot!",
@@ -327,7 +339,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} pecks at {name_target}! They draw blood!",
         fn_effect=atf_talons
     ),
-    EwAttackType(  # 14
+    EwAttackType(  # 16
         id_type="graspers",
         str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of your body! {name_target} breaks several bones!",
         str_miss="**WHOA!** You barely duck out of the way of {name_enemy}'s grasp!",
@@ -336,7 +348,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
         fn_effect=atf_body
     ),
-    EwAttackType(  # 15
+    EwAttackType(  # 17
         id_type="raygun",
         str_crit="**PEWPEWPEW!!!** The {name_enemy} fires several shots right in the kisser! {name_target} is stunned and blinded!",
         str_miss="**PEW -SSSSSSS!** You barely dodge a laser blast! You hair's singed...",
@@ -345,7 +357,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} nails {name_target} with their laser pistol!",
         fn_effect=atf_gunkshot
     ),
-    EwAttackType(  # 16
+    EwAttackType(  # 18
         id_type="feed",
         str_crit="**CRUNCH!!!** The {name_enemy} clutches {name_target}'s shoulders and takes a bite from their neck! GET IT OFF GET IT OFF GET IT OFF!",
         str_miss="**WHOOSH-SMACK!** You jump out of the way of {name_enemy}'s lunge and kick them away!",
@@ -354,7 +366,7 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} bites {name_target} deep!",
         fn_effect=atf_fangs
     ),
-    EwAttackType(  #17
+    EwAttackType(  #19
         id_type="titanoslime",
         str_crit="NULL",
         str_miss="**MISS!** {name_target} barely jumps out of the way of {name_enemy}'s foot!",
@@ -366,7 +378,7 @@ enemy_attack_type_list = [
         str_groupattack="{name_enemy} tailsweeps a horde of gaiaslimeoids!",
         fn_effect=atf_tusks
     ),
-    EwAttackType(  # 18
+    EwAttackType(  # 20
         id_type="wesson",
         str_crit="**POW!!** {name_enemy} scores a clean shot! A splatter of {name_target}'s blood sprays onto the ground!",
         str_miss="**CLICK!** {name_enemy}'s Smith & Wesson jams!",
@@ -374,6 +386,24 @@ enemy_attack_type_list = [
         str_killdescriptor="pumped",
         str_damage="{name_enemy} lands a potshot on {name_target}!",
         fn_effect=atf_gunkshot
+    ),
+    EwAttackType(  # 21
+        id_type="hellfire",
+        str_crit="**SIZH!!** {name_enemy} flings spears of hellfire towards {name_target}! {name_target} is completely broiled!",
+        str_miss="**Eck!** {name_enemy} fails to act!",
+        str_kill="**WHIRR!** The  {name_target}'s hellfire traps {name_target}, roasting them alive! Their charred corpse falls to the ground.",
+        str_killdescriptor="incinerated",
+        str_damage="{name_enemy} conjures a pillar of hellfire under {name_target}!",
+        fn_effect=atf_molotovbreath
+    ),
+    EwAttackType( # 22
+        id_type="bonemerang",
+        str_crit="**KA-CRAM!!!** {name_enemy}'s bonemerang slams {name_target}'s front, then spins around and rams their back!",
+        str_miss="**MISS!** {name_target} dodges out of the way of an approaching bonemerang - twice!",
+        str_kill="**SWISH!! {name_enemy} slams {name_target} onto the ground, before whirling back and slamming their head! {name_target}'s head is reduced to a pink pile of flesh and bone fragments.",
+        str_killdescriptor="clobbered",
+        str_damage="{name_enemy} cleaves {name_target} with their bonemerang!",
+        fn_effect=atf_boomerang,
     ),
 ]
 

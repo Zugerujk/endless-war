@@ -67,6 +67,6 @@ cmd_map = {
     
     ewcfg.cmd_sow_cloth: spookycmds.sow_cloth,
 }
-if ewcfg.dh_active and ewcfg.dh_stage == 2:
+if ewcfg.dh_active and ewcfg.dh_stage == 200:
     cmd_map[ewcfg.cmd_sacrifice] = spookycmds.sacrifice
 

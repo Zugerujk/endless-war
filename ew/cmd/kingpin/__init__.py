@@ -31,5 +31,5 @@ cmd_map = {
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_exalt] = kingpincmds.exalt
-    if ewcfg.dh_stage == 4:
+    if ewcfg.dh_stage == 400:
         cmd_map[ewcfg.cmd_prefix + 'clowncar'] = kingpincmds.clowncar

@@ -547,7 +547,7 @@ poi_list = [
         id_poi="dreadford",
         alias=['dread', 'ford', 'df'],
         str_name="Dreadford",
-        str_desc="Neatly spaced colonial revival mansions and chapels are broken up by botches of thick, twisting woods. This district is largely rural and suburban, with a small town center with various necessities like Whole Foods and a cemetery. The residents of this district are very, very wealthy and meticulously maintain the gated community they've grown for themselves. Perhaps the most obvious example of this is the country club and its accompanying golf course, which comprises a large chunk of the district.\nDreadford is one of the oldest settlements of the area, being inhabited by humans as far back as 1988. The original founders were fleeing restrict criminals rights laws, and established the town of Dreadford in what was then a barren Arizonian desert. These first settlers had quite the pension of holding kangaroo courts, which often amounted to just reading the list of crimes the accused was charged with before hanging them immediately. Some nooses still hang on trees around the district, begging to be finally used.\n\n This area contains the Country Club, the Dreadford Blimp Tower, the Hang-Em Saloon, and Hang-Em Square. To the North is Jaywalker Plain. To the East is Crookline. To the Southwest is Southwest Outskirts Edge.",
+        str_desc="Neatly spaced colonial revival mansions and chapels are broken up by botches of thick, twisting woods. This district is largely rural and suburban, with a small town center with various necessities like Whole Foods and a cemetery. The residents of this district are very, very wealthy and meticulously maintain the gated community they've grown for themselves. Perhaps the most obvious example of this is the country club and its accompanying golf course, which comprises a large chunk of the district.\nDreadford is one of the oldest settlements of the area, being inhabited by humans as far back as 1988. The original founders were fleeing restrict criminals rights laws, and established the town of Dreadford in what was then a barren Arizonian desert. These first settlers had quite the pension of holding kangaroo courts, which often amounted to just reading the list of crimes the accused was charged with before hanging them immediately. Some nooses still hang on trees around the district, begging to be finally used.\n\n**Many cultists have gathered in this area, preparing for Double Halloween by worshipping the Great Comet.**\n\n This area contains the Country Club, the Dreadford Blimp Tower, the Hang-Em Saloon, and Hang-Em Square. To the North is Jaywalker Plain. To the East is Crookline. To the Southwest is Southwest Outskirts Edge.",
         coord=[10, 28],
         channel="dreadford",
         role="Dreadford",
@@ -605,13 +605,14 @@ poi_list = [
         id_poi="underworld",
         alias=['hell', 'undertale', 'underground', 'uw'],
         str_name="The Underworld, last stop of the White Line",
-        str_desc="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
+        str_desc="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.\n\nExits back to the Underworld Subway Station, as well as to The Void.",
         channel="the-underworld",
         role="Underworld",
         permissions={'the-underworld': ['read', 'send', 'connect']},
-        pvp=False,
+        pvp=True,
         is_district=True,
-        neighbors={'underworldsubwaystation': 20, 'thevoid': 20},
+        enemy_lock=True,
+        neighbors={'underworldsubwaystation': 20, 'thevoid': 180},
         topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
         wikipage="https://rfck.miraheze.org/wiki/The_Underworld",
     ),
@@ -3006,7 +3007,7 @@ poi_list = [
         vendors=[],
         is_subzone=False,
         mother_districts=["westoutskirts"],
-        neighbors={"westoutskirts": 60} if ewcfg.dh_stage == 3 else {},
+        neighbors={},
         wikipage=""
     ),
     EwPoi(
@@ -3081,6 +3082,45 @@ poi_list = [
 		neighbors = {'glocksbury': 20},
 		wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
 	),
+	EwPoi(
+		id_poi = "raiddenentryway",
+		alias = ['entrance', 'rde',],
+		str_name = "the Raid Den Entryway",
+		str_desc = "The opening stage of a great cavern. The only way out is forwards.\nContinues onward to the **Raid Den Atrium**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'raiddenatrium': 20},
+		wikipage = ""
+	),
+	EwPoi(
+		id_poi = "raiddenatrium",
+		alias = ['atrium', 'rda',],
+		str_name = "the Raid Den Atrium",
+		str_desc = "The middle of a great cavern. It smells like rotting fish. \nContinues onward to the **Raid Den Core**. Also connects to the **Raid Den Entryway**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'raiddencore': 20},
+		wikipage = ""
+	),
+	EwPoi(
+		id_poi = "raiddencore",
+		alias = ['core', 'rdc',],
+		str_name = "the Raid Den Core",
+		str_desc = "The core of a great cavern, from which intense energy flows. \nExits into the **Downtown Subway Station**. Also connects to the **Raid Den Entryway**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'downtownsubwaystation': 20},
+		wikipage = ""
+	),
 ]
 
 # if you're looking for poi_map, here it is
@@ -3100,6 +3140,7 @@ outskirts_depths = []
 streets = []
 tutorial_pois = []
 zine_mother_districts = []
+enemy_lock_districts = []
 
 for poi in poi_list:
 
@@ -3234,6 +3275,9 @@ for poi in poi_list:
     if poi.write_manuscript:
         for mother_poi in poi.mother_districts:
             zine_mother_districts.append(id_to_poi.get(mother_poi))
+
+    if poi.enemy_lock:
+        enemy_lock_districts.append(poi.id_poi)
 
     chname_to_poi[poi.channel] = poi
 
@@ -3547,7 +3591,7 @@ transport_lines = [
     ),
 ]
 
-if ewcfg.dh_active and ewcfg.dh_stage >= 1:
+if ewcfg.dh_active and ewcfg.dh_stage == 100:
     transport_lines.append(EwTransportLine(  # white subway line from downtown to juvies row
         id_line=ewcfg.transport_line_subway_white_eastbound,
         alias=[
@@ -3785,7 +3829,7 @@ world_events = [
 		event_type=ewcfg.event_type_fishing_frenzy,
 		str_name="a fishing frenzy",
 		pois=[ewcfg.poi_id_toxington_pier, ewcfg.poi_id_jaywalkerplain_pier, ewcfg.poi_id_crookline_pier, ewcfg.poi_id_assaultflatsbeach_pier, ewcfg.poi_id_slimesend_pier, ewcfg.poi_id_ferry, ewcfg.poi_id_blackpond], # Piers - JRP and Moon purposely excluded
-		length=24, #6h
+		length=48, #12h
 		buffer=8, #2h
 		str_event_start="A swarm of fish enter the area. A **FISHING FRENZY** has begun!",
 		str_event_ongoing="Fish are hopping and popping.",
@@ -3796,13 +3840,24 @@ world_events = [
 		event_type=ewcfg.event_type_gas_leak,
 		str_name="a gas leak",
 		pois=[ewcfg.poi_id_tt_mines, ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines, ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble], # Mines - JRM purposely excluded
-		length=24, #6h
+		length=48, #12h
 		buffer=8, #2h
 		str_event_start="A mine wall collapses, and a pocket of Adderall® gas opens up! A **GAS LEAK** envelops the area!",
 		str_event_ongoing="Adderall gas floods the mine.",
 		str_event_end="The gas leak disperses. Get ready for amphetamine withdrawal, kiddo!",
 		str_check_text="There's a gas leak in ",
 	),
+    EwEventDef(
+        event_type=ewcfg.event_type_raid_den,
+        str_name="a raid den entrance",
+        pois=[],
+		length=80, #20h
+        buffer=1, # 15m
+        str_event_start="A great fissure erupts in the ground. A **RAID DEN** has opened!",
+        str_event_ongoing="**There's an opening to a RAID DEN within the ground!**",
+        str_event_end="The ground crashes together, forever sealing the raid den in the earth.",
+        str_check_text="There's a raid den entrance in ",
+    ),
 ]
 
 event_type_to_def = {}
