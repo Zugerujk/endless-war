@@ -7,19 +7,18 @@ from ..backend.district import EwDistrictBase as EwDistrict
 from ..backend.market import EwMarket
 from ..backend.market import EwStock
 from ..backend.player import EwPlayer
+from ..backend.dungeons import EwGamestate
 from ..utils.frontend import EwResponseContainer
 from ..backend.dungeons import EwGamestate
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 import asyncio
-from functools import partial
-
 try:
+    from ..cmd import debug as debug
     import ew.static.rstatic as static_relic
 except:
+    from ..cmd import debug_dummy as debug
     import ew.static.rstatic_dummy as static_relic
-
-from ew.backend.dungeons import EwGamestate
 
 async def post_leaderboards(client = None, server = None):
     ewutils.logMsg("Started leaderboard calcs...")
@@ -80,9 +79,16 @@ async def post_leaderboards(client = None, server = None):
     if ewcfg.slimernalia_active:
         topfestivity = make_slimernalia_board(server = server.id, title = ewcfg.leaderboard_slimernalia)
         resp_cont.add_channel_response(leaderboard_channel, topfestivity)
-    elif ewcfg.dh_stage == 2 and ewcfg.dh_active:
-        topfavor = make_statdata_board(server=server.id, category='sacrificerate', title =ewcfg.leaderboard_sacrificial)
-        resp_cont.add_channel_response(leaderboard_channel, topfavor)
+    # elif ewcfg.dh_stage == 2 and ewcfg.dh_active:
+    #     topfavor = make_statdata_board(server=server.id, category='sacrificerate', title =ewcfg.leaderboard_sacrificial)
+    #     resp_cont.add_channel_response(leaderboard_channel, topfavor)
+    elif debug.debug40(id_server=server.id) and ewcfg.dh_active:
+        dhleaderboard = make_gamestate_leaderboard(server=server.id, gamestateids=debug.debug_leaderboard_states1, title = ewcfg.leaderboard_doublehalloween)
+        resp_cont.add_channel_response(leaderboard_channel, dhleaderboard)
+        if debug.debug44(id_server=server.id):
+            dhleaderboard2 = make_gamestate_leaderboard(server=server.id, gamestateids=debug.debug_leaderboard_states2, title = debug.leaderboard_doublehalloween2)
+            resp_cont.add_channel_response(leaderboard_channel, dhleaderboard2)
+
 
     await resp_cont.post()
 
@@ -554,6 +560,13 @@ def make_slimernalia_board(server, title):
 
     #return format_board(entries=entries, title=title)
 
+def make_gamestate_leaderboard(server, gamestateids, title):
+    gamestates = []
+    for gamestate in gamestateids: # Get Gamestates
+        gamestate_data = EwGamestate(id_server=server, id_state=gamestate)
+        gamestates.append(gamestate_data)
+
+    return format_board(entries=gamestates, title=title, entry_type=ewcfg.entry_type_gamestates)
 
 # SWILLDERMUK
 def make_gambit_leaderboard(server, title, rows = 3):
@@ -692,6 +705,10 @@ def board_header(title):
         emote = "👑"
         bar += " "
 
+    elif title == ewcfg.leaderboard_doublehalloween:
+        emote = "🎃"
+        bar += " "
+
     if emote == None and emote2 == None:
         bar += "▓▓"
         return bar + title + bar
@@ -738,6 +755,17 @@ def board_entry(entry, entry_type, divide_by):
         result = "\n{} `{:_>15} | {}`".format(
             symbol,
             type,
+            number
+        )
+
+    elif entry_type == ewcfg.entry_type_gamestates:
+        name = entry.value # Name is the value of the gamestate - watch out for that
+        number = entry.number
+        symbol = '🎆'
+
+        result = "\n{} `{:_>15} | {:,}`".format(
+            symbol,
+            name,
             number
         )
 

@@ -27,7 +27,7 @@ apt_dm_cmd_map = {
 
 }
 
-if ewcfg.dh_stage == 3 and ewcfg.dh_active:
+if ewcfg.dh_stage == 300 and ewcfg.dh_active:
     cmd_map[ewcfg.cmd_observe] = districtcmds.ufo_observe
     cmd_map[ewcfg.cmd_abduct] = districtcmds.abduct
     cmd_map[ewcfg.cmd_launch] = districtcmds.launch

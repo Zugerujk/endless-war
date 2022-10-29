@@ -733,6 +733,7 @@ item_list = [
         ],
         str_name="Double Halloween Grist",
         str_desc="A mush of finely ground candy. Perhaps it can be forged into something special?",
+        acquisition=ewcfg.acquisition_mining,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_whitelineticket,

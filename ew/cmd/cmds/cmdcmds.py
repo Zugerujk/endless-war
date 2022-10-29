@@ -62,8 +62,16 @@ from ..faction import factioncmds as faction_cmds
 from ..wep import wepcmds as wep_cmds
 try:
     from ..debug import debug24
+    from ..debug import debug43
+    from ..debug import debug47
+    from ew.utils.rutils import debug_award
+    from ..debug import halloween_rarity
 except:
     from ..debug_dummy import debug24
+    from ..debug_dummy import debug43
+    from ..debug_dummy import debug47
+    from ew.utils.rutils_dummy import debug_award
+    from ..debug_dummy import halloween_rarity
 
 """ show player's slime score """
 
@@ -1291,6 +1299,7 @@ async def transportmap(cmd):
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Map of the subway: https://cdn.discordapp.com/attachments/431237299137675297/1021140587572887653/slimemapfinal.png"))
 
 
+
 """ Check your outfit. """
 
 
@@ -2350,15 +2359,12 @@ async def slimecoin(cmd):
         response = "You have {:,} SlimeCoin.".format(coins)
 
 
-
     else:
         member = cmd.mentions[0]
         user_data = EwUser(member=member)
         coins = user_data.slimecoin
         response = "{} has {:,} SlimeCoin.".format(member.display_name, coins)
 
-
-    # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -2527,6 +2533,51 @@ async def almanac(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+# Reduce, Reuse, Recycle <3
+async def turnin(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    if user_data.poi not in [ewcfg.poi_id_dreadford, ewcfg.poi_id_themuseum]:
+        response = "You're not exactly in the right place for that, kiddo. Find somewhere where people are actually *interested* in what you're carrying."
+    elif user_data.life_state == ewcfg.life_state_kingpin:
+        response = "Lol hi ben :3"
+    else:
+        point_gain = 0
+        items_to_remove = []
+
+        # Search for items
+        inv_items = bknd_item.inventory(id_user = user_data.id_user, id_server = user_data.id_server, item_type_filter = ewcfg.it_relic)
+
+        for item in inv_items:
+            item_data = EwItem(id_item = item.get('id_item'))
+            if "scrap" in item_data.template: 
+                items_to_remove.append(item_data.id_item)
+                point_gain += 1
+
+        # Give user slime
+        if point_gain > 0:
+
+            if user_data.poi == ewcfg.poi_id_themuseum:
+                mus = True
+            else:
+                mus = False
+
+            # Get the response
+            response = debug43(id_server=cmd.guild.id, mus=mus, point_gain=point_gain)
+            
+            # Take away the items
+            for id in items_to_remove:
+                bknd_item.item_delete(id_item=id)
+
+            user_data.change_slimes(n=point_gain,source=ewcfg.source_scavenging)
+            user_data.persist()
+        
+        else:
+            response = "What exactly are you trying to turn in? You don't have any " + halloween_rarity + "s in your inventory."
+
+    return await fe_utils.send_response(response, cmd)
+
+    
 """
     DEBUG COMMANDS
 """
@@ -2557,7 +2608,7 @@ async def set_slime(cmd):
             district_data.slimes = new_slime
             district_data.persist()
             # Send message
-            response = "Set {}'s slime to {}.".format(poi.str_name, new_slime)
+            response = "Set {}'s slime to {:,}.".format(poi.str_name, new_slime)
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         target = cmd.mentions[0]
@@ -2585,7 +2636,7 @@ async def set_slime(cmd):
             response += " {}".format(levelup_response)
         target_user_data.persist()
 
-        response = "Set {}'s slime to {}.".format(target.display_name, target_user_data.slimes)
+        response = "Set {}'s slime to {:,}.".format(target.display_name, target_user_data.slimes)
     else:
         return
 
@@ -3277,7 +3328,7 @@ async def fun(cmd):
 
 async def display_goonscape_stats(cmd):
     response = "\n```ini\n"
-    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_halloweening_stat]:
 
         stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 

@@ -426,7 +426,7 @@ async def knock(cmd = None):
 async def trickortreat(cmd = None):
     user_data = EwUser(member=cmd.message.author)
 
-    if ewcfg.dh_stage < 1:
+    if ewcfg.dh_stage < 9:
         response = "Looks like it's not quite time for treating. Tricking is plenty fine, though."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

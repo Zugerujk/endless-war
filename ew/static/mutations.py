@@ -607,7 +607,7 @@ mutations = [
         str_describe_other="They've got fish to catch due to **I Chum Fast**.",
         str_acquire="Aw jeez, you just can't hold it in any longer. It's too fuckin' much mannnn!!! You explode all over, unable to contain your love for fish. You've got fish to catch. You have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
         tier=7,
-        str_transplant="Dr. Dusstrap hands you a bottle of fish oil. \"Chug.\" You comply, and god, this stuff tastes terrible. Nevertheless, you really feel yourself more connected to fish than ever before. \n\nYou have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
+        str_transplant="Dr. Dusttrap hands you a bottle of fish oil. \"Chug.\" You comply, and god, this stuff tastes terrible. Nevertheless, you really feel yourself more connected to fish than ever before. \n\nYou have developed the mutation **I Chum Fast**. While fishing, you will be @'d upon any !reel notification.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_scopicretinas,

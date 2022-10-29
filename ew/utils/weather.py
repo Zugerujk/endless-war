@@ -452,7 +452,7 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
     if pre_chosen_event != None:
         event_type = pre_chosen_event
     else:
-        event_type = random.choice(ewcfg.poi_events)
+        event_type = random.choice(ewcfg.random_poi_events)
 
     # Get the time right now
     time_now = int(time.time())    

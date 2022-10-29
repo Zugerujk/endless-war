@@ -289,6 +289,12 @@ def get_void_connections_resp(poi, id_server):
     return response
 
 
+def enemy_lock_impose_restrictions(id_user=None, poi=None):
+    poi_object = poi_static.id_to_poi.get(poi)
+    if poi_object.enemy_lock:
+        ewutils.active_restrictions[id_user] = 2
+
+
 async def one_eye_dm(id_user = None, id_server = None, poi = None):
     poi_obj = poi_static.id_to_poi.get(poi)
     client = ewutils.get_client()

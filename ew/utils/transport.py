@@ -3,6 +3,7 @@ import asyncio
 from . import core as ewutils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
+from ..backend.core import execute_sql_query
 from ..backend.transport import EwTransportBase
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
@@ -147,7 +148,7 @@ async def init_transports(id_server = None):
 def get_transports_at_stop(id_server, stop):
     result = []
     try:
-        data = bknd_core.execute_sql_query("SELECT {poi} FROM transports WHERE {id_server} = %s AND {current_stop} = %s".format(
+        data = execute_sql_query("SELECT {poi} FROM transports WHERE {id_server} = %s AND {current_stop} = %s".format(
             poi=ewcfg.col_poi,
             id_server=ewcfg.col_id_server,
             current_stop=ewcfg.col_current_stop

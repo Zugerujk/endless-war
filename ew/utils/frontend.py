@@ -1,6 +1,7 @@
 import asyncio
 import sys
 import traceback
+import random
 
 import discord
 
@@ -414,6 +415,11 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
         # The None is for send_message's vestigial client bit. I gotta put it in like this or otherwise the millions
         # of implementations that rely on client as a positional will break
         # and i do not wish to change every instance of send_message today
+
+        # Funny Double Halloween
+        if ewcfg.dh_active and random.random() < 0.001:
+            response_text = "https://media.discordapp.net/attachments/737443294153408529/820119157093564426/image0.gif"
+
         return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=allow_everyone, embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
