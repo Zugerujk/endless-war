@@ -4827,7 +4827,7 @@ poi_events = random_poi_events + [event_type_raid_den]
 # DH dates - cry on floor
 day_map = {
     datetime.date(2022, 10, 27): 0,
-    datetime.date(2022, 10, 28): 9,
+    datetime.date(2022, 10, 28): 1,
     datetime.date(2022, 10, 29): 2,
     datetime.date(2022, 10, 30): 3,
     datetime.date(2022, 10, 31): 4,
