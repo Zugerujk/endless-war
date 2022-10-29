@@ -215,8 +215,13 @@ async def crush(cmd):
 
             # Delete grist from the player's inventory
             bknd_item.item_delete(id_item=sought_id)
+            
+            responses = []
+            
+            response, responses = await debug46(user_data)
 
-            response = await debug46(user_data)
+            for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
+
 
 
     else:
