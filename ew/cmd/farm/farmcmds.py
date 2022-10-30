@@ -358,7 +358,7 @@ async def reap(cmd):
                     if was_levelup:
                         response += "\n\n" + levelup_response
 
-                    if random.random() < 0.08:
+                    if random.random() < 0.11:
                         response += debug_award(user_data)
 
                     user_data.hunger += ewcfg.hunger_perfarm

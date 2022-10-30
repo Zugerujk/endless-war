@@ -471,7 +471,7 @@ async def descend(cmd):
 
     if user_data.poi in void_connections or raid_den == True:
         # enter the void
-        if user_data.poi in void_connections:
+        if user_data.poi in void_connections and raid_den == False:
             travel_duration = int(ewcfg.travel_time_district / user_data.move_speed)
             response = "You descend down the flight of stairs and begin walking down a lengthy tunnel towards an identical set of ascending stairs. You will arrive on the other side in {} seconds.".format(travel_duration)
             descent_message = await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -507,7 +507,10 @@ async def descend(cmd):
 
         user_data = EwUser(member=cmd.message.author)
         if move_current == ewutils.moves_active[cmd.message.author.id] and user_data.life_state == life_state and faction == user_data.faction:
-            await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.message.author, new_poi=ewcfg.poi_id_thevoid)
+            if raid_den == False:
+                await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.message.author, new_poi=ewcfg.poi_id_thevoid)
+            elif raid_den == True:
+                await ewrolemgr.updateRoles(client=ewutils.get_client(), member=cmd.message.author, new_poi=ewcfg.poi_id_raiddenentryway)
             user_data.poi = destination_poi
             user_data.time_lastenter = int(time.time())
 

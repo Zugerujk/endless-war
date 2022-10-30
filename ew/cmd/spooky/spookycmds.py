@@ -309,10 +309,9 @@ async def haunt(cmd):
                 market_data.negaslime -= haunted_slimes
                 
                 if ewcfg.dh_active:
-                    xp_response = ""
                     responses = []
 
-                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, haunted_slimes*5)
+                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, haunted_slimes//2)
 
                     for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
 
