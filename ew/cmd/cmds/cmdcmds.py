@@ -43,6 +43,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import stats as ewstats
 from ew.utils import weather as weather_utils
 from ew.utils.combat import EwUser
+from ew.utils.user import add_xp
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
@@ -2537,6 +2538,9 @@ async def almanac(cmd):
 async def turnin(cmd):
     user_data = EwUser(member=cmd.message.author)
 
+    resp_cont = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
+
     if user_data.poi not in [ewcfg.poi_id_dreadford, ewcfg.poi_id_themuseum]:
         response = "You're not exactly in the right place for that, kiddo. Find somewhere where people are actually *interested* in what you're carrying."
     elif user_data.life_state == ewcfg.life_state_kingpin:
@@ -2569,13 +2573,18 @@ async def turnin(cmd):
             for id in items_to_remove:
                 bknd_item.item_delete(id_item=id)
 
-            user_data.change_slimes(n=point_gain,source=ewcfg.source_scavenging)
+            user_data.change_slimes(n=point_gain*3000000,source=ewcfg.source_scavenging)
             user_data.persist()
+            
+            xp_yield = point_gain * 300000
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_halloweening_stat, xp_yield)
+            for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
         
         else:
             response = "What exactly are you trying to turn in? You don't have any " + halloween_rarity + "s in your inventory."
 
-    return await fe_utils.send_response(response, cmd)
+    resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await resp_cont.post()
 
     
 """

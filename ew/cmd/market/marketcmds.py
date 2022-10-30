@@ -333,7 +333,7 @@ async def donate(cmd):
             response = "You hand off one of your hard-earned poudrins to the front desk receptionist, who is all too happy to collect it. Pretty uneventful, but at the very least you’re glad donating isn’t physically painful anymore."
 
     else:
-        response = "To donate slime, go to the SlimeCorp HQ in Downtown. To donate museum goods, to to the Museum in Ooze Gardens."
+        response = "To donate slime, go to the SlimeCorp HQ in Downtown. To donate museum goods, go to the Museum in Ooze Gardens."
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

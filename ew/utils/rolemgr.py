@@ -179,7 +179,7 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
         if channel is None:
             continue
 
-        if used_member in channel.overwrites and user_poi_obj.id_poi != poi.id_poi:
+        if used_member in channel.overwrites and user_poi_obj.id_poi != poi.id_poi and (user_poi_obj.enemy_lock is not True or poi.enemy_lock is not True):
             # Incorrect overwrite found for user
 
             try:
