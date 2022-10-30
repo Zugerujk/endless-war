@@ -119,6 +119,9 @@ class EwPoi:
     # if you can write zines here
     write_manuscript = False
 
+    # whether you can exit the district if there are non-player enemies within
+    enemy_lock = False
+
     # dict EwPoi -> int, that defines travel times into adjacent pois
     neighbors = None
 
@@ -171,6 +174,7 @@ class EwPoi:
             is_tutorial = False,
             has_ads = False,
             write_manuscript = False,
+            enemy_lock = False,
             neighbors = None,
             topic = "",
             wikipage = "",
@@ -216,6 +220,7 @@ class EwPoi:
         self.has_ads = has_ads
         self.write_manuscript = write_manuscript
         self.topic = topic
+        self.enemy_lock = enemy_lock
         self.wikipage = wikipage
         self.jump_dest = jump_dest
 

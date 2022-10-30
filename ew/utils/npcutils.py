@@ -611,6 +611,7 @@ def find_drinkster(user_data, isDrink):
             user_data.id_server
         ))
     for enemy in enemydata:
+        print(enemy[0])
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
             enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
@@ -618,6 +619,8 @@ def find_drinkster(user_data, isDrink):
                 enemy_obj.poi = user_data.poi
                 enemy.persist()
                 return True
+        elif isDrink and user_data.poi == poi.id_poi:
+            return True
     return False
 
 def find_drink(id_server, user_data = None, item = None):
@@ -629,7 +632,7 @@ def find_drink(id_server, user_data = None, item = None):
         inv = bknd_item.inventory(id_user=user_data.id_user, id_server=id_server, item_type_filter=ewcfg.it_food)
         for itm in inv:
             item_obj = EwItem(id_item=itm.get('id_item'))
-            if item.template in static_food.drinks:
+            if item_obj.template in static_food.drinks:
                 return item_obj.id_item
     return None
 

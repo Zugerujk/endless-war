@@ -452,7 +452,7 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
     if pre_chosen_event != None:
         event_type = pre_chosen_event
     else:
-        event_type = random.choice(ewcfg.poi_events)
+        event_type = random.choice(ewcfg.random_poi_events)
 
     # Get the time right now
     time_now = int(time.time())    
@@ -480,10 +480,15 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
     expiration_time = activation_time + (event_def.length * 60 * 15) # length x 15 minutes
 
     # Set whether or not there will be a specific alert for the poi event.
-    alert = ""
-    if random.random() > 0.5:
-        alert = "gangbase"
-    event_props['alert'] = alert
+    # alert = ""
+    # if random.random() > 0.5:
+    #     alert = "gangbase"
+    # event_props['alert'] = alert
+
+    # Always give a specific alert, as to let players know something is happening
+    alert = "gangbase"
+    event_props['alert'] = "gangbase"
+
 
     # Does configuration for dimensional rifts - creates the second rift, as well as making the 2 POIs neighbors.
     if event_type == ewcfg.event_type_dimensional_rift:

@@ -2471,6 +2471,16 @@ food_list = [
         time_expir = 43200,
     ),
     EwFood(
+        id_food="spookysandwich",
+        alias=['spokysandwich', 'spookysandwitch', 'spookwich'],
+        recover_hunger=1000,
+        str_name="Spooky Sandwich",
+        str_eat="You stuff the Spooky Sandwich down in a single bite, the eerily-good ham and swiss getting stuck in your teeth. Terrifying!",
+        str_desc="A ham and swiss sandwich, with cinnamon spider legs stuck on. Would make a 5-year-old quiver in fear.",
+        time_expir=28800,
+        acquisition="smelting",
+    ),
+    EwFood(
         id_food = "freeapple",
         alias = ["apple", "free", "poison"],
         recover_hunger = 1,

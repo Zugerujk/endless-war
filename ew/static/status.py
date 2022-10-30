@@ -412,6 +412,7 @@ trauma_list = [
         str_trauma="Their death could have come from any number of situations, mostly related to their own idiocy.",
         trauma_class=ewcfg.trauma_class_slimegain,
     ),
+    # Player weapon trauma
     EwTrauma(  # 1
         id_trauma=ewcfg.weapon_id_revolver,
         str_trauma_self="You have scarring on both temples, which occasionally bleeds.",
@@ -580,6 +581,145 @@ trauma_list = [
         str_trauma="Their throat is swollen.",
         trauma_class=ewcfg.trauma_class_sapregeneration,
     ),
+    EwTrauma(  # 29
+        id_trauma=ewcfg.weapon_id_fingernails,
+        str_trauma_self="Criscrossed slash marks cover your body.",
+        str_trauma="Criscrossed slash marks cover their body.",
+        trauma_class=ewcfg.trauma_class_hunger,
+    ),
+    EwTrauma(  # 30
+        id_trauma=ewcfg.weapon_id_spraycan,
+        str_trauma_self="Your breath smells awful, and you talk in a wheeze.",
+        str_trauma="Their breath smells awful, and they talk in a wheeze.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 31
+        id_trauma=ewcfg.weapon_id_paintroller,
+        str_trauma_self="Mishhapen welts cover the top of your head.",
+        str_trauma="Misshhapen welts cover the top of their head.",
+        trauma_class=ewcfg.trauma_class_bleeding,
+    ),
+    EwTrauma(  # 32
+        id_trauma=ewcfg.weapon_id_paintgun,
+        str_trauma_self="Your stitched-up form looks barely held together.",
+        str_trauma="Their stitched-up form looks barely held together.",
+        trauma_class=ewcfg.trauma_class_bleeding,
+    ),
+    EwTrauma(  # 33
+        id_trauma=ewcfg.weapon_id_paintbrush,
+        str_trauma_self="Your eyes are bloodshot, and splinters stick out of your torso.",
+        str_trauma="Their eyes are bloodshot, and splinters stick out of their torso.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 34
+        id_trauma=ewcfg.weapon_id_thinnerbomb,
+        str_trauma_self="Light scars run across your face, which is a disturbing blue discoloration.",
+        str_trauma="Light scars run across their face, which is a disturbing blue discoloration.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 35
+        id_trauma=ewcfg.weapon_id_watercolors,
+        str_trauma_self="You are a dumb suicidal idiot and despise watercolors as a concept.",
+        str_trauma="They are a dumb suicidal idiot and despise watercolors as a concept.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 36
+        id_trauma=ewcfg.weapon_id_roomba,
+        str_trauma_self="Your skin is stretched amd misshapen, flabby and tight in different spots.",
+        str_trauma="Their skin is stretched amd misshapen, flabby and tight in different spots.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 37
+        id_trauma=ewcfg.weapon_id_chainsaw,
+        str_trauma_self="Your body is made almost exclusively out of scar tissue.",
+        str_trauma="Their body is made almost exclusively out of scar tissue.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 38
+        id_trauma=ewcfg.weapon_id_laywaster,
+        str_trauma_self="Your body is melting and mishhapen, like your skin was made of drenched paper mache.",
+        str_trauma="Their body is melting and mishhapen, like their skin was made of drenched paper mache.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 39
+        id_trauma=ewcfg.weapon_id_diamondpickaxe,
+        str_trauma_self="There is a deep, precise indent in the crown of your skull. How embarrassing!",
+        str_trauma="There is a deep, precise indent in the crown of their skull. How embarrassing!",
+        trauma_class=ewcfg.trauma_class_hunger,
+    ),
+    EwTrauma(  # 40
+        id_trauma=ewcfg.weapon_id_awp,
+        str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
+        str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 41
+        id_trauma=ewcfg.weapon_id_huntingrifle,
+        str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
+        str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 42
+        id_trauma=ewcfg.weapon_id_monofilamentwhip,
+        str_trauma_self="Your body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
+        str_trauma="Their body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 43
+        id_trauma=ewcfg.weapon_id_slimeoidwhistle,
+        str_trauma_self="You hesitate to even acknowledge your own slimeoid.",
+        str_trauma="They hesitate to even acknowledge their own slimeoid.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 44
+        id_trauma=ewcfg.weapon_id_fists,
+        str_trauma_self="You've still got a black eye from that pummeling.",
+        str_trauma="They've still got a black eye from that pummeling.",
+        trauma_class=ewcfg.trauma_class_hunger,
+    ),
+    EwTrauma(  # 45
+        id_trauma=ewcfg.weapon_id_sledgehammer,
+        str_trauma_self="Your head is dented in with a huge crater.",
+        str_trauma="Their head is dented in with a huge crater.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 46
+        id_trauma=ewcfg.weapon_id_skateboard,
+        str_trauma_self="The sight of skate tricks makes you cower in fear.",
+        str_trauma="The sight of skate tricks makes them cower in fear.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 47
+        id_trauma=ewcfg.weapon_id_missilelauncher,
+        str_trauma_self="You still haven't found the missing body part from your last encounter.",
+        str_trauma="It looks like they are still searching for a missing body part.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 48
+        id_trauma=ewcfg.weapon_id_pistol,
+        str_trauma_self = "You have several small holes in your chest.",
+        str_trauma = "They have several small holes in their chest.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 49
+        id_trauma=ewcfg.weapon_id_combatknife,
+        str_trauma_self = "You are covered in several cut wound scars.",
+        str_trauma = "They are covered in several cut wound scars.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 50
+        id_trauma=ewcfg.weapon_id_machete,
+        str_trauma_self = "Your body has been loosely stitched back together.",
+        str_trauma = "Their body has been loosely stitched back together.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 51
+        id_trauma=ewcfg.weapon_id_boomerang,
+        str_trauma_self = "You have several long cut scars across your body.",
+        str_trauma = "They have several long cut scars across their body.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    # Enemy weapon  trauma
     EwTrauma(  # 1
         id_trauma="fangs",
         str_trauma_self="You have bite marks littered throughout your body.",
@@ -629,90 +769,6 @@ trauma_list = [
         trauma_class=ewcfg.trauma_class_hunger,
     ),
     EwTrauma(  # 10
-        id_trauma=ewcfg.weapon_id_fingernails,
-        str_trauma_self="Criscrossed slash marks cover your body.",
-        str_trauma="Criscrossed slash marks cover their body.",
-        trauma_class=ewcfg.trauma_class_hunger,
-    ),
-    EwTrauma(  # 11
-        id_trauma=ewcfg.weapon_id_spraycan,
-        str_trauma_self="Your breath smells awful, and you talk in a wheeze.",
-        str_trauma="Their breath smells awful, and they talk in a wheeze.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 12
-        id_trauma=ewcfg.weapon_id_paintroller,
-        str_trauma_self="Mishhapen welts cover the top of your head.",
-        str_trauma="Misshhapen welts cover the top of their head.",
-        trauma_class=ewcfg.trauma_class_bleeding,
-    ),
-    EwTrauma(  # 13
-        id_trauma=ewcfg.weapon_id_paintgun,
-        str_trauma_self="Your stitched-up form looks barely held together.",
-        str_trauma="Their stitched-up form looks barely held together.",
-        trauma_class=ewcfg.trauma_class_bleeding,
-    ),
-    EwTrauma(  # 14
-        id_trauma=ewcfg.weapon_id_paintbrush,
-        str_trauma_self="Your eyes are bloodshot, and splinters stick out of your torso.",
-        str_trauma="Their eyes are bloodshot, and splinters stick out of their torso.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 14
-        id_trauma=ewcfg.weapon_id_thinnerbomb,
-        str_trauma_self="Light scars run across your face, which is a disturbing blue discoloration.",
-        str_trauma="Light scars run across their face, which is a disturbing blue discoloration.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 14
-        id_trauma=ewcfg.weapon_id_watercolors,
-        str_trauma_self="You are a dumb suicidal idiot and despise watercolors as a concept.",
-        str_trauma="They are a dumb suicidal idiot and despise watercolors as a concept.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 15
-        id_trauma=ewcfg.weapon_id_roomba,
-        str_trauma_self="Your skin is stretched amd misshapen, flabby and tight in different spots.",
-        str_trauma="Their skin is stretched amd misshapen, flabby and tight in different spots.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 16
-        id_trauma=ewcfg.weapon_id_chainsaw,
-        str_trauma_self="Your body is made almost exclusively out of scar tissue.",
-        str_trauma="Their body is made almost exclusively out of scar tissue.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 17
-        id_trauma=ewcfg.weapon_id_laywaster,
-        str_trauma_self="Your body is melting and mishhapen, like your skin was made of drenched paper mache.",
-        str_trauma="Their body is melting and mishhapen, like their skin was made of drenched paper mache.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 18
-        id_trauma=ewcfg.weapon_id_diamondpickaxe,
-        str_trauma_self="There is a deep, precise indent in the crown of your skull. How embarrassing!",
-        str_trauma="There is a deep, precise indent in the crown of their skull. How embarrassing!",
-        trauma_class=ewcfg.trauma_class_hunger,
-    ),
-    EwTrauma(  # 17
-        id_trauma=ewcfg.weapon_id_awp,
-        str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
-        str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 17
-        id_trauma=ewcfg.weapon_id_huntingrifle,
-        str_trauma_self="Your head contains a hole where there should be an eye, removed with surgical precision.",
-        str_trauma="Their head contains a hole where there should be an eye, removed with surgical precision.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 17
-        id_trauma=ewcfg.weapon_id_monofilamentwhip,
-        str_trauma_self="Your body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
-        str_trauma="Their body is riddled with scars, circled around limbs which don't seem to be reattached correctly.",
-        trauma_class=ewcfg.trauma_class_accuracy,
-    ),
-    EwTrauma(  # 17
         id_trauma='amateur',
         str_trauma_self="You can still feel the circular scar inside your throat. Embarrassing...",
         str_trauma="They can still feel the circular scar inside their throat. Embarrassing...",
@@ -777,7 +833,7 @@ trauma_list = [
         str_trauma_self = "You have several long cut scars across your body.",
         str_trauma = "They have several long cut scars across their body.",
         trauma_class=ewcfg.trauma_class_sapregeneration
-    ),
+    )
 ]
 
 trauma_map = {}

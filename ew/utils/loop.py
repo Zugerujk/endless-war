@@ -4,6 +4,7 @@ import random
 import time
 import traceback
 import sys
+import datetime
 
 import discord
 
@@ -22,8 +23,14 @@ from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 try:
     from . import rutils as rutils
+    from ew.cmd.debug import debug41
+    from ew.cmd.debug import debug47
+    from ew.cmd.debug import debug48
 except:
     from . import rutils_dummy as rutils
+    from ew.cmd.debug_dummy import debug41
+    from ew.cmd.debug_dummy import debug47
+    from ew.cmd.debug_dummy import debug48
 from .combat import EwEnemy
 from .combat import EwUser
 from .district import EwDistrict
@@ -278,6 +285,9 @@ async def decaySlimes(id_server = None):
                     district_data.persist()
                     total_decayed += slimes_to_decay
 
+            if ewcfg.dh_stage < 10:
+                await debug41(id_server=id_server, slimes_to_decay=total_decayed)
+
             cursor.execute("UPDATE markets SET {decayed} = ({decayed} + %s) WHERE {server} = %s".format(
                 decayed=ewcfg.col_decayed_slimes,
                 server=ewcfg.col_id_server
@@ -431,6 +441,9 @@ async def enemyBleedSlimes(id_server):
 
             if enemy_data.slimes <= 0:
                 bknd_hunt.delete_enemy(enemy_data)
+                
+                if enemy_data.enemytype in ewcfg.raid_den_bosses:
+                    await rutils.debug45(enemy_data)
 
     await resp_cont.post()
 
@@ -625,6 +638,10 @@ async def enemyBurnSlimes(id_server):
                 ewstats.change_stat(user=killer_data, metric=ewcfg.stat_lifetime_damagedealt, n=slimes_to_burn)
 
             if enemy_data.slimes - slimes_to_burn <= 0:
+
+                if enemy_data.enemytype in ewcfg.raid_den_bosses:
+                    await rutils.debug45(enemy_data)
+                    
                 bknd_hunt.delete_enemy(enemy_data)
 
                 if used_status_id == ewcfg.status_burning_id:
@@ -752,11 +769,11 @@ async def spawn_enemies(id_server = None, debug = False):
         if market_data.weather == ewcfg.weather_bicarbonaterain:
             if random.randrange(3) < 2:
                 weathertype = ewcfg.enemy_weathertype_rainresist
-        if ewcfg.dh_stage == 3 and ewcfg.dh_active:
-            chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
-            if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
-                #chosen_POI = 'westoutskirts'
-                pass
+        # if ewcfg.dh_stage == 3 and ewcfg.dh_active:
+        #     chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
+        #     if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
+        #         #chosen_POI = 'westoutskirts'
+        #         pass
 
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
@@ -845,6 +862,41 @@ async def release_timed_prisoners_and_blockparties(id_server, day):
                 blockparty.bit = 0
                 blockparty.value = ''
                 blockparty.persist()
+
+
+# Ensure DH continues running
+async def dh_tick_loop(id_server):
+    while not ewutils.TERMINATE:
+        interval = 5
+        await asyncio.sleep(interval)
+        await dh_tick(id_server)
+
+
+async def dh_tick(id_server):
+    current_date = datetime.date.today()
+    current_date_num = ewcfg.day_map[current_date]
+    dhlevelgamestate = EwGamestate(id_server=id_server, id_state='dhlevel')
+    dhlevel = ewcfg.dh_stage
+    
+    # Make sure dh_stage is equal to the current gamestate level
+    if dhlevel != dhlevelgamestate.bit:
+        ewcfg.dh_stage = dhlevelgamestate.bit
+        print("dh_stage changed to" + str(dhlevelgamestate.bit))
+    # Figure out if the date has looped over
+    if int(current_date_num) != int(dhlevelgamestate.number):
+        # Date has looped over
+        print("spawning enemies") # :P
+        dhlevelgamestate.number = current_date_num
+
+        #deeeeeebug
+        await debug47(id_server, current_date_num)
+    
+    # Things that just really need to be done every 5 minutes
+    await debug48(id_server, current_date_num)
+
+    dhlevelgamestate.persist()
+
+    return
 
 
 async def spawn_prank_items_tick_loop(id_server):
@@ -1335,7 +1387,7 @@ async def clock_tick_loop(id_server = None, force_active = False):
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
 
-                        if random.randint(1, 11) == 1: # 1/11 chance to start a random poi event
+                        if random.randint(1, 9) == 1: # 1/9 chance to start a random poi event
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
 

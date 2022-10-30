@@ -73,8 +73,8 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
     # Manage faction roles.
     faction_role = ewutils.get_faction(user_data=user_data)
 
-    if ewcfg.dh_stage == 4 and ewcfg.dh_active:
-        faction_role = ewcfg.role_juvenile
+    # if ewcfg.dh_stage == 4 and ewcfg.dh_active:
+    #     faction_role = ewcfg.role_juvenile
 
     roles_add.add(faction_role)
 
@@ -183,7 +183,7 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
         if channel is None:
             continue
 
-        if used_member in channel.overwrites and user_poi_obj.id_poi != poi.id_poi:
+        if used_member in channel.overwrites and user_poi_obj.id_poi != poi.id_poi and (user_poi_obj.enemy_lock is not True or poi.enemy_lock is not True):
             # Incorrect overwrite found for user
 
             try:

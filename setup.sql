@@ -536,6 +536,9 @@ CREATE TABLE goonscape_stats (
 	feasting_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
 	feasting_xp INT UNSIGNED NOT NULL DEFAULT 0,
 
+	halloween_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	halloween_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
 	PRIMARY KEY (id_user, id_server)
 
 );
