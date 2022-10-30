@@ -315,6 +315,9 @@ async def on_ready():
             asyncio.ensure_future(loop_utils.spawn_prank_items_tick_loop(id_server = server.id))
             asyncio.ensure_future(loop_utils.generate_credence_tick_loop(id_server = server.id))
 
+        if ewcfg.dh_active:
+            asyncio.ensure_future(loop_utils.dh_tick_loop(id_server=server.id))
+
 
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))

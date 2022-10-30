@@ -39,6 +39,11 @@ from ..static import poi as poi_static
 from ..static import slimeoid as sl_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
+try:
+    from .rutils import debug45    
+except:
+    from .rutils_dummy import debug45
+
 
 """ Enemy data model for database persistence """
 
@@ -1104,7 +1109,10 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data):
 
     # Weapon possession
     if user_data.get_possession('weapon'):
-        damage_mod *= 1.2
+        if ewcfg.dh_stage < 8:
+            damage_mod *= 1.2
+        else:
+            damage_mod *= 2
 
     # Lone wolf
     if ewcfg.mutation_id_lonewolf in user_mutations:
@@ -1180,7 +1188,10 @@ def damage_mod_cap(user_data, market_data, user_mutations, district_data, weapon
 
     # Weapon possession
     if user_data.get_possession('weapon'):
-        damage_mod *= 1.2
+        if ewcfg.dh_stage < 8:
+            damage_mod *= 1.2
+        else:
+            damage_mod *= 2
 
     if weapon.id_weapon == ewcfg.weapon_id_thinnerbomb:
         if user_data.faction == district_data.controlling_faction:
@@ -1363,7 +1374,11 @@ def drop_enemy_loot(enemy_data, district_data):
                     item_props=item_props
                 )
 
+            if item_amount == 1:
                 response = "They dropped a {item_name}!".format(item_name=item.str_name)
+                loot_resp_cont.add_channel_response(loot_poi.channel, response)
+            elif item_amount > 1:
+                response = "They dropped **{item_number}** {item_name}!".format(item_name=item.str_name, item_number=item_amount)
                 loot_resp_cont.add_channel_response(loot_poi.channel, response)
 
         else:
@@ -1405,6 +1420,10 @@ async def enemy_perform_action(id_server):
         # If an enemy is marked for death or has been alive too long, delete it
         if enemy.life_state == ewcfg.enemy_lifestate_dead or (enemy.expiration_date < time_now):
             bknd_hunt.delete_enemy(enemy)
+
+            if enemy.enemytype in ewcfg.raid_den_bosses:
+                await debug45(enemy)
+
         else:
             # If an enemy is an activated raid boss, it has a 1/20 chance to move between districts.
             if enemy.enemytype in ewcfg.enemy_movers and enemy.life_state == ewcfg.enemy_lifestate_alive and check_raidboss_movecooldown(

@@ -22,6 +22,12 @@ from ew.utils.district import EwDistrict
 from ew.utils.slimeoid import EwSlimeoid
 from ew.utils.user import add_xp
 
+try:
+    from ew.utils.rutils import debug_award
+except:
+    from ew.utils.rutils_dummy import debug_award
+
+
 """ Sow seeds that may eventually be !reaped. """
 
 
@@ -351,6 +357,9 @@ async def reap(cmd):
                     # Tell the player their slime level increased.
                     if was_levelup:
                         response += "\n\n" + levelup_response
+
+                    if random.random() < 0.11:
+                        response += debug_award(user_data)
 
                     user_data.hunger += ewcfg.hunger_perfarm
                     user_data.persist()
