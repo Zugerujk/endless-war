@@ -2764,6 +2764,45 @@ vendor_dialogue = {
 
 }
 
+
+museum_curator_dialogue = {
+    "odditem":"The curator looks confused on why you brought *that*. He only takes relics, framed art, and fish.",
+    "smallfish":"\"SORRY, CHAP, YOUR FISH IS TOO SMALL. THERE'S A DICK JOKE IN THERE SOMEWHERE BUT I'M TWICE YOUR AGE. TOO CREEPY, I SAY.\"",
+    "cheatedfish":"\"I'M ON TO YOU, YOU {insult}! TRY AND CHEAT FISH WITH ME AGAIN, SEE WHAT HAPPENS!\"",
+    "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
+    "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
+    "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
+    "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
+    "deviantpost":'"IT\'S UP ON DEVIANT SPLAAART. GET ENOUGH LIKES AND THEN WE\'LL TALK. HOPE YOU LIKE PAYMENTS IN EXPOSURE, MY FRIEND!"',
+    "notitleart":"\"GIVE ME A TITLE FOR THIS, YOU {insult}! MY EXHIBITS ARE MORE THAN A GLORIFIED KITCHEN FRIDGE!\" "
+}
+
+amy_curator_dialogue = {
+    "odditem":"Amy looks confused on why you brought *that*. She only takes relics, framed art, and fish.",
+    "smallfish":"\"This one's too small, buddy. We're looking for record breakers here.\"",
+    "cheatedfish":"\"Oh, it's you. I guess I respect the hustle, but if you cheat you're out of the fish donating game. Can't accecpt this one.\"",
+    "caughtcheatfish":"\"This {fish}? It's fake. It's a goddamn counterfeit fish. Get out of here with this bullshit.\"",
+    "fishdonate":"Amy approvingly nods her head at your {}. Looks like we got a winner! Amy tags the new fish, then dips headfirst into the fishtank to retrieve the old one. A few minutes later she emerges with it, slam dunking the majestic creature into the trash.\"Whoa nelly. I think we gotta clean these tanks better.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"We have *a* version of this in the museum. Either you stole this real one earlier or this is fake. But either way I'm probably won't get to display this relic for long. No deal.\"",
+    "donaterelic":"Amy looks the artifact over. \"A {}, huh? This is probably the real one, so I'll pay you to get the chance to study it.\" She walks into the backroom, casually tossing {:,} slime your way. You wait for her to carefully examine it, write up a plaque, and get all the fangirling out of her system when nobody's looking, before she comes back to set up the museum display. She also hands you a meticulously constructed replica for your trouble.\n\n \"Ugh. Swap the real one for the fake all you want. It's not like we can hold you off forever.\" While she isn't looking, you do just that.",
+    "spoons":"\"You're tearing me apart, Lisa! Nah, but seriously. Don't donate the spoon picture again.\"",
+    "artnametaken":"\"Somebody else chose that name. Just add an underscore or a 2 to the end, it'll be fine.\"",
+    "colon":"\"If you put a colon in the frame like that it won't hag on the wall right. Better take that out first.",
+    "deviantpost":'"I posted it to DeviantSPLAAART. May the algoorithm have mercy on its soul."',
+    "notitleart":"\"It's gonna need a title. DeviantSPLAAART won't let me post it without one.\" "
+}
+
+
+museum_dialogue = {
+    "curator":museum_curator_dialogue,
+    "amy":amy_curator_dialogue
+
+}
+
+
 dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
 
 pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
