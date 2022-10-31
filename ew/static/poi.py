@@ -3084,7 +3084,7 @@ poi_list = [
 	),
 	EwPoi(
 		id_poi = "raiddenentryway",
-		alias = ['entrance', 'rde',],
+		alias = ['entrance', 'rde', 'raiddenentrance', 'entryway'],
 		str_name = "the Raid Den Entryway",
 		str_desc = "The opening stage of a great cavern. The only way out is forwards.\nContinues onward to the **Raid Den Atrium**.",
 		channel = "raid-den",

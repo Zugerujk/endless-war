@@ -4059,6 +4059,8 @@ enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
 enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
+enemy_attacktype_icespike = 'icespike'
+enemy_attacktype_bloodsucker = "bloodsucker"
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'
@@ -4139,6 +4141,7 @@ uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type
 rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
 raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 raid_den_bosses = [enemy_type_alm]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 
 enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 

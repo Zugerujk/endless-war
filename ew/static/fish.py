@@ -1207,6 +1207,15 @@ fish_list = [
         str_desc = "Thought to be an incarnation of one of the Lower Gods among Orthodox Slime-Jesuits.",
         slime = "moon",
     ),
+    EwFish( # TODO: Fully implement sometime in the future
+        id_fish = "lampirevamprey",
+        str_name = "Lampire Vamprey",
+        rarity = "secret", # unobtainable
+        catch_time = None, # Make only during New Moon
+        catch_weather = None,
+        str_desc = "Legally distinct from the lamprey. Frequently cooked into a stew and served with garlic.",
+        slime = None,
+    ),
 ]
 
 # A map of id_fish to EwFish objects.
