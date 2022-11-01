@@ -372,7 +372,11 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         return
 
     # catch any future @everyone exploits
-    mention_allows = discord.AllowedMentions(everyone=filter_everyone, users=False, roles=False)
+    if filter_everyone:
+        mention_allows = discord.AllowedMentions(everyone=False, users=True, roles=False)
+    else: # allow @everyone (and everything)
+        mention_allows = discord.AllowedMentions(everyone=True, users=True, roles=True)
+
     try:
         # Whitespace messages will always fail to send, don't clutter the log
         if text and not text.isspace():

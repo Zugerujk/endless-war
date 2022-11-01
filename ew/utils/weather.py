@@ -446,7 +446,7 @@ def forecast_txt(id_server=None):
     return forecast_response
 
 
-async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None, no_buffer=False): # Events are natural disasters, pop-up events, etc.
+async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None, pre_chosen_buffer=None,): # Events are natural disasters, pop-up events, etc.
     event_props = {}
     # Get a random event type from poi_events
     if pre_chosen_event != None:
@@ -473,10 +473,11 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
                 break
 
     # Set the activation time and expiration time
-    if no_buffer:
-        activation_time = time_now + 6 # The extra 6 seconds is for the event tick loop to see it as activated
-    else:
-        activation_time = time_now + (event_def.buffer * 60 * 15) + 6 # buffer x 15 minutes
+    if pre_chosen_buffer != None:
+        event_def.buffer = int(pre_chosen_buffer)
+
+    activation_time = time_now + (event_def.buffer * 60 * 15) + 6 # buffer x 15 minutes
+        
     expiration_time = activation_time + (event_def.length * 60 * 15) # length x 15 minutes
 
     # Set whether or not there will be a specific alert for the poi event.
