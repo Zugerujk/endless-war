@@ -671,7 +671,7 @@ async def mine(cmd):
             if was_levelup:
                 response += levelup_response
 
-            if random.random() < 0.0017:
+            if random.random() < 0.0009:
                 response += debug_award(user_data)
 
             #GoonScape Stat
