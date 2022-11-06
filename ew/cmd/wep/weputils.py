@@ -800,6 +800,10 @@ async def attackEnemy(cmd):
     if enemy_data.ai == ewcfg.enemy_ai_defender:
         slimes_damage *= 0.5
 
+    # Enemies that are specified to take less damage
+    if enemy_data.enemytype in ewcfg.defense_up_enemies:
+        slimes_damage *= 0.5
+
     # Bicarbonate enemies take more damage
     if enemy_data.weathertype == ewcfg.enemy_weathertype_rainresist:
         slimes_damage *= 1.5

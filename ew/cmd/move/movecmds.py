@@ -121,7 +121,9 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
     if poi == None:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Never heard of it."))
 
-    if not ewutils.DEBUG  and isDM == False and not isApt and poi_static.chname_to_poi.get(cmd.message.channel.name).id_poi != user_data.poi:
+    user_channel_poi = poi_static.chname_to_poi.get(cmd.message.channel.name) # The channel 
+
+    if not ewutils.DEBUG  and isDM == False and not isApt and user_channel_poi.id_poi != user_data.poi and user_channel_poi.enemy_lock != True:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in your current district.").format(cmd.tokens[0]))
 
     if user_data.poi == ewcfg.debugroom:
@@ -761,10 +763,6 @@ async def scout(cmd):
             if extended_range:
                 valid_pois.update(poi_static.poi_neighbors.get(neigh))
 
-        if poi.id_poi not in valid_pois:
-            response = "You can't {} that far.".format(cmd.tokens[0])
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-
         world_events_resp = ""
         world_events = bknd_worldevent.get_world_events(id_server=user_data.id_server, active_only=True)
         # For all presently-happening world events
@@ -777,8 +775,19 @@ async def scout(cmd):
 
                 # If you're in the smog district or scouting it
                 if user_data.poi == smog_poi or poi.id_poi == smog_poi:
-                    response = "You !sputter and !cough due to the noxious smog."
+                    response = "You wheeze and cry due to the noxious smog. None of your senses can break the veil."
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+            # If there's a raid den open, make it scoutable.
+            if world_events.get(id_event) == ewcfg.event_type_raid_den:
+                # Get the EVENT DATA
+                event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
+                den_opening_poi = event_data.event_props.get('poi')
+
+                # If you're in the raid district
+                if user_data.poi == den_opening_poi:
+                    valid_pois.add("raiddenentryway")
+                    
             # If there's a world event in the scouted district, give corresponding flavor text
             elif world_events.get(id_event) in ewcfg.poi_events:
                 event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
@@ -787,6 +796,10 @@ async def scout(cmd):
                     event_def = poi_static.event_type_to_def.get(event_data.event_type)
                     # Just in case there's more than 1 somehow
                     world_events_resp += event_def.str_event_ongoing + "\n"
+
+        if poi.id_poi not in valid_pois:    
+            response = "You can't {} that far.".format(cmd.tokens[0])
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         district_data = EwDistrict(district=poi.id_poi, id_server=user_data.id_server)
 

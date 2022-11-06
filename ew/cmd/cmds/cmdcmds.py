@@ -1143,7 +1143,15 @@ async def push(cmd):
                     item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
 
             elif item_object.item_props.get('adorned'):
-                bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
+                if "slimeoid" in item_object.item_props and item_object.item_props.get("slimeoid"):
+                    pass
+                else:
+                    if "adorned" in item_object.item_props:
+                        item_object.item_props["adorned"] = "false"
+                    
+
+                    item_object.persist()
+                    bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
             else:
                 item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
@@ -3143,23 +3151,25 @@ async def manual_poi_event_create(cmd):
 
     pre_chosen_event = None
     pre_chosen_poi = None
-    no_buffer = False
+    pre_chosen_buffer = None
 
     if len(cmd.tokens) > 1:
         pre_chosen_event = cmd.tokens[1]
         if pre_chosen_event == "random":
             pre_chosen_event = None
     else:
-        response = "Invalid use of command. An example is \"!createpoievent firestorm arsonbrook true\"\n\n\"firestorm\" is the desired POI event. Can be specified as \"random\".\n\"arsonbrook\" is the specified POI. Is optional.\n\"true\" is to start the worldevent immediately rather than to have the default buffer. Is optional."
+        response = "Invalid use of command. An example is \"!createpoievent firestorm arsonbrook true\"\n\n\"firestorm\" is the desired POI event. Can be specified as \"random\".\n\"arsonbrook\" is the specified POI. Is optional.\n\"true\" is to start the worldevent immediately rather than to have the default buffer. This can also be a number, which will specify the amount of in-game hours (15 irl minutes) the buffer will last. Is optional."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if len(cmd.tokens) > 2:
         pre_chosen_poi = cmd.tokens[2]
     if len(cmd.tokens) > 3:
         if cmd.tokens[3] == "true":
-            no_buffer = True
+            pre_chosen_buffer = 0
+        else:
+            pre_chosen_buffer = int(cmd.tokens[3])
 
-    await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=pre_chosen_event, pre_chosen_poi=pre_chosen_poi, no_buffer=no_buffer)
+    await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=pre_chosen_event, pre_chosen_poi=pre_chosen_poi, pre_chosen_buffer=pre_chosen_buffer)
 
     response = "POI event created."
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -3170,8 +3180,17 @@ async def list_worldevents(cmd):
     if not cmd.message.author.guild_permissions.administrator:
         return await cmd_utils.fake_failed_command(cmd)
 
+    activeonly = True
     response = "The current world events are:\n"
-    world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=True)
+
+    # Allow one to see inactive worldevents as well
+    if len(cmd.tokens) > 1:
+        inactive = cmd.tokens[1]
+        if inactive in ["inactive", "all", "1", "true"]:
+            activeonly = False
+            response = "Current time is {}.\nAll world events in the database:\n".format(int(time.time()))
+
+    world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=activeonly)
     for id_event in world_events:
         event_data = bknd_worldevent.EwWorldEvent(id_event=id_event)
         poi = ""
@@ -3179,6 +3198,12 @@ async def list_worldevents(cmd):
         if 'poi' in event_data.event_props:
             poi = ", POI is {}".format(event_data.event_props.get('poi'))
 
+        if not activeonly:
+            # Get the activation and expiry time
+            try:
+                poi += ", time_activate is {}, time_expir is {}".format(event_data.time_activate, event_data.time_expir)
+            except:
+                poi += ", error with time_activate and/or time_expir"
 
         response += "\n{}: Event type is {}{}.".format(id_event, event_data.event_type, poi)
     
