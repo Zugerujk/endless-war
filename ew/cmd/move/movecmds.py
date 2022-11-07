@@ -1353,7 +1353,7 @@ async def loop(cmd):
     dest_poi = poi_static.landlocked_destinations.get(user_data.poi)
     dest_poi_obj = poi_static.id_to_poi.get(dest_poi)
 
-    if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.get(user_data.id_user) > 0:
+    if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
         response = "You can't do that right now."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
