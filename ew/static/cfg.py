@@ -4839,9 +4839,9 @@ day_map = {
     datetime.date(2022, 11, 4):  7,
     datetime.date(2022, 11, 5):  8,
     datetime.date(2022, 11, 6):  9,
-    datetime.date(2022, 11, 7): 10,
-    datetime.date(2022, 11, 8): 10,
-    datetime.date(2022, 11, 9): 10,
+    datetime.date(2022, 11, 7):  9,
+    datetime.date(2022, 11, 8):  9,
+    datetime.date(2022, 11, 9):  9,
 }
 
 # Events that need to be checked up on every time the market updates
