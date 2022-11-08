@@ -964,9 +964,8 @@ async def attackEnemy(cmd):
         if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active and ewcfg.dh_stage >= 1:
             # horseman_deaths = market_data.horseman_deaths
 
-            # if horseman_deaths == 0:
-            defeat_response = rutils.debug49(market_data.id_server, cmd.message.author.display_name)
-
+            defeat_response = ""
+            
             market_data.horseman_deaths += 1
             market_data.horseman_timeofdeath = int(time_now)
             market_data.persist()

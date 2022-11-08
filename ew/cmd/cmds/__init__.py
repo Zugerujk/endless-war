@@ -183,8 +183,6 @@ cmd_map = {
     ewcfg.cmd_slimecoin_alt2: cmdcmds.slimecoin,
     ewcfg.cmd_slimecoin_alt3: cmdcmds.slimecoin,
 
-    ewcfg.cmd_turnin: cmdcmds.turnin,
-
     # show player's current shares in a company
     ewcfg.cmd_shares: cmdcmds.shares,
     ewcfg.cmd_shares_alt1: cmdcmds.shares,
