@@ -9,7 +9,6 @@ from ew.backend.item import EwItem
 from ew.backend.market import EwMarket
 from ew.backend.player import EwPlayer
 from ew.backend.worldevent import EwWorldEvent
-from ew.cmd.debug.debug import debug42
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import slimeoid as sl_static
@@ -25,15 +24,11 @@ try:
     from ew.utils.rutils import debug17
     from ew.utils.rutils import debug114
     from ew.utils.rutils import debug_var_1
-    from ew.cmd.debug import debug40
-    from ew.cmd.debug import debug42
 except:
     from ew.utils.rutils_dummy import debug16
     from ew.utils.rutils_dummy import debug17
     from ew.utils.rutils_dummy import debug114
     from ew.utils.rutils_dummy import debug_var_1
-    from ew.cmd.debug_dummy import debug40
-    from ew.cmd.debug_dummy import debug42
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -793,17 +788,13 @@ async def suicide(cmd):
             slimes_drained = int(slimes_total * 0.1)
             slimes_todistrict = slimes_total - slimes_drained
 
-            if debug40(cmd.guild.id) and user_data.poi == ewcfg.poi_id_downtown and ewcfg.dh_stage < 10:
-                await debug42(slimes=slimes_total, id_server=cmd.guild.id)
+            sewer_data = EwDistrict(district=ewcfg.poi_id_thesewers, id_server=user_data.id_server)
+            sewer_data.change_slimes(n=slimes_drained)
+            sewer_data.persist()
 
-            else:
-                sewer_data = EwDistrict(district=ewcfg.poi_id_thesewers, id_server=user_data.id_server)
-                sewer_data.change_slimes(n=slimes_drained)
-                sewer_data.persist()
-
-                district_data = EwDistrict(district=user_data.poi, id_server=cmd.guild.id)
-                district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
-                district_data.persist()
+            district_data = EwDistrict(district=user_data.poi, id_server=cmd.guild.id)
+            district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
+            district_data.persist()
 
             # Set the id_killer to the player himself, remove his slime and slime poudrins.
             user_data.id_killer = cmd.message.author.id

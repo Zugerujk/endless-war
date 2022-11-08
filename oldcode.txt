@@ -25107,3 +25107,56 @@ async def auction_end(id_server):
 
     # Send the FINAL auction updatez message
     await fe_utils.send_message(client, channel, embed=auctionmessage)
+
+
+# Reduce, Reuse, Recycle <3
+async def turnin(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    resp_cont = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
+    responses = []
+
+    if user_data.poi not in [ewcfg.poi_id_dreadford, ewcfg.poi_id_themuseum]:
+        response = "You're not exactly in the right place for that, kiddo. Find somewhere where people are actually *interested* in what you're carrying."
+    elif user_data.life_state == ewcfg.life_state_kingpin:
+        response = "Lol hi ben :3"
+    else:
+        point_gain = 0
+        items_to_remove = []
+
+        # Search for items
+        inv_items = bknd_item.inventory(id_user = user_data.id_user, id_server = user_data.id_server, item_type_filter = ewcfg.it_relic)
+
+        for item in inv_items:
+            item_data = EwItem(id_item = item.get('id_item'))
+            if "scrap" in item_data.template: 
+                items_to_remove.append(item_data.id_item)
+                point_gain += 1
+
+        # Give user slime
+        if point_gain > 0:
+
+            if user_data.poi == ewcfg.poi_id_themuseum:
+                mus = True
+            else:
+                mus = False
+
+            # Get the response
+            response = debug43(id_server=cmd.guild.id, mus=mus, point_gain=point_gain)
+            
+            # Take away the items
+            for id in items_to_remove:
+                bknd_item.item_delete(id_item=id)
+
+            user_data.change_slimes(n=point_gain*3000000,source=ewcfg.source_scavenging)
+            user_data.persist()
+            
+            xp_yield = point_gain * 300000
+            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_halloweening_stat, xp_yield)
+            for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
+        
+        else:
+            response = "What exactly are you trying to turn in? You don't have any " + halloween_rarity + "s in your inventory."
+
+    resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await resp_cont.post()

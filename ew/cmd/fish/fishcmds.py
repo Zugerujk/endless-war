@@ -510,9 +510,6 @@ async def reel(cmd):
                 response = ""
                 responses = await award_fish(fisher, cmd, user_data)
 
-                if random.random() < 0.04:
-                    response = rutils.debug_award(user_data)
-
             # If you're fishing with a ghost and they haven't !reeled.
             else:
                 fisher.fleshling_reeled = True
