@@ -3301,7 +3301,7 @@ async def fun(cmd):
 
 async def display_goonscape_stats(cmd):
     response = "\n```ini\n"
-    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_halloweening_stat]:
+    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
 
         stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 
