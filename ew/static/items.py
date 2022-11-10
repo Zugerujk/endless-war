@@ -729,11 +729,12 @@ item_list = [
         id_item=ewcfg.item_id_doublehalloweengrist,
         context='dhgrist',
         alias=[
-            "grist"
+            "grist",
+            "dhgrist",
         ],
         str_name="Double Halloween Grist",
         str_desc="A mush of finely ground candy. Perhaps it can be forged into something special?",
-        acquisition=ewcfg.acquisition_mining,
+        acquisition=(ewcfg.acquisition_mining if ewcfg.dh_active else False),
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_whitelineticket,

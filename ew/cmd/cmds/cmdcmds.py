@@ -1630,7 +1630,7 @@ async def help(cmd):
     # checks if user is in a college or if they have a game guide
     gameguide = bknd_item.find_item(item_search="gameguide", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
 
-    if user_data.poi == ewcfg.poi_id_neomilwaukeestate or user_data.poi == ewcfg.poi_id_nlacu or gameguide:
+    if gameguide:
         if not len(cmd.tokens) > 1:
             topic_counter = 0
             topic_total = 0
@@ -1638,40 +1638,80 @@ async def help(cmd):
             weapon_topic_total = 0
 
             # list off help topics to player at college
-            response = "(Use !help [topic] to learn about a topic. Example: '!help gangs')\n\nWhat would you like to learn about? Topics include: \n"
+            response = "(Use !help [topic] to learn about a topic. Example: \"!help basics\")\n\nWhat would you like to learn about? Topics include: \n"
 
-            # display the list of topics in order
-            topics = ewcfg.help_responses_ordered_keys
-            for topic in topics:
-                topic_counter += 1
-                topic_total += 1
-                response += "**{}**".format(topic)
-                if topic_total != len(topics):
-                    response += ", "
+            # display the list of topics in grouped format
+            groups = ewcfg.help_response_group_map
+            for group in groups:
+                # Get list of topics in group
+                group_list = groups[group].copy()
 
-                if topic_counter == 5:
-                    topic_counter = 0
-                    response += "\n"
+                # Add beginning of response and first topic, remove first topic from list.
+                response += "**{}**:  {}".format(group.upper(), group_list[0])
+                group_list.pop(0)
 
-            response += '\n\n'
+                # Add each topic after the first
+                if group_list != []:
+                    for topic in group_list:
+                        response += ", {}".format(topic)
+                
+                # New line
+                response += "\n"
 
-            weapon_topics = ewcfg.weapon_help_responses_ordered_keys
-            for weapon_topic in weapon_topics:
-                weapon_topic_counter += 1
-                weapon_topic_total += 1
-                response += "**{}**".format(weapon_topic)
-                if weapon_topic_total != len(weapon_topics):
-                    response += ", "
+            channel_topics = cmd_utils.channel_help_topics(channel=cmd.message.channel.name)
 
-                if weapon_topic_counter == 5:
-                    weapon_topic_counter = 0
-                    response += "\n"
+            if channel_topics != []:
+                response += "\n*Based on your location, you may want to read up on **{}.***\n".format(ewutils.formatNiceList(names=channel_topics, conjunction="**and**"))
+            
+            response += '\nFor the list of weapons, as well as topics for weapon types, use "!help weapons".'
+
+            # https://rfck.app/guide/
+
+            # weapon_topics = ewcfg.weapon_help_responses_ordered_keys
+            # for weapon_topic in weapon_topics:
+            #     weapon_topic_counter += 1
+            #     weapon_topic_total += 1
+            #     response += "**{}**".format(weapon_topic)
+            #     if weapon_topic_total != len(weapon_topics):
+            #         response += ", "
+
+            #     if weapon_topic_counter == 5:
+            #         weapon_topic_counter = 0
+            #         response += "\n"
 
             resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         else:
             topic = ewutils.flattenTokenListToString(cmd.tokens[1:])
-            if topic in ewcfg.help_responses:
+            
+            # List all weapons and weapon types
+            if topic in ["weapon", "weapons"]:
+                
+                # Initial response
+                response = "(Use !help [weapon] to learn about a specific weapon, or !help [weapon type] to learn about the weapon type. Example: \"!help revolver\" / \"!help normal\")\n\nWhat weapon would you like to learn about? All current weapons include:\n"
+                
+                # Display the list of topics in grouped format
+                groups = ewcfg.weapon_response_group_map
+                for group in groups:
+                    # Get list of topics in group
+                    group_list = groups[group].copy()
+
+                    # Add beginning of response and first topic, remove first topic from list.
+                    response += "**{}**:  {}".format(group.upper(), group_list[0])
+                    group_list.pop(0)
+
+                    # Add each topic after the first
+                    if group_list != []:
+                        for topic in group_list:
+                            response += ", {}".format(topic)
+                    
+                    # New line
+                    response += "\n"
+
+                resp_cont.add_channel_response(cmd.message.channel, response)
+
+            # Manage specifying any response
+            elif topic in ewcfg.help_responses:
                 response = ewcfg.help_responses[topic]
                 resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 if topic == 'mymutations':

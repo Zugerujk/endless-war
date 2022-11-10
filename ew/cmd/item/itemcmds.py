@@ -2112,13 +2112,18 @@ async def bury(cmd):
     user_data = EwUser(member = cmd.message.author)
     if user_data.weapon >= 0:
         weapon_item = EwItem(id_item=user_data.weapon)
+        # Make sure user is carrying a shovel
         if weapon_item.template != 'shovel':
             response = "You'll need a shovel to bury shit."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif cmd.tokens_count <= 2:
             response = "That's not going to work. Try !bury <coordinates> <item>"
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        coords = cmd.tokens[1]
+
+        # Flatten coords to an undercase string with no spaces or punctuation
+        coords = ewutils.flattenTokenListToString(cmd.tokens[1]).lower()
+
+        # Look for item to bury
         item_seek = ewutils.flattenTokenListToString(cmd.tokens[2:])
         item_sought = bknd_item.find_item(item_search=item_seek, id_user=cmd.message.author.id, id_server=cmd.guild.id)
         if item_sought:
@@ -2126,8 +2131,10 @@ async def bury(cmd):
                 response = "You can't bury that. It's bound to your essence, stupid."
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+            # Format the string that'll be used as the id_user for the item.
             ground_recipient = "{}-{}-{}".format('bury', user_data.poi, coords.lower())
 
+            # Set the item's id_user to the formatted string
             bknd_item.give_item(id_item=item_sought.get('id_item'), id_server=cmd.guild.id, id_user=ground_recipient)
             response = "You bury the {} at coordinates {}.".format(item_sought.get('name'), coords.upper())
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response), delete_after=10)
@@ -2141,12 +2148,19 @@ async def bury(cmd):
 
 async def unearth(cmd):
     user_data = EwUser(member = cmd.message.author)
+
+    # Flatten coords to an undercase string with no spaces or punctuation
     coords = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+
+    # Format the id_user string for poi and coords
     lookup = 'bury-{}-{}'.format(user_data.poi, coords)
+
+    # Check if there's any items with the id_user of formatted string
     burial_finding = bknd_item.inventory(id_user=lookup, id_server=cmd.guild.id)
     if len(burial_finding) == 0:
         response = "There's nothing in there."
     else:
+        # If there are any items with the id_user of formatted string, and the user has space, give them one.
         item = burial_finding[0]
         if not bknd_item.check_inv_capacity(user_data, item.get('item_type')):
             response = "There's something down there, but you don't have room for it."
