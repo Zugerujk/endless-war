@@ -352,7 +352,7 @@ async def weather_cycle(id_server = None):
             ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
 
 
-def forecast_txt(id_server=None):
+def forecast_txt(id_server=None, resp_type="long"):
     market_data = EwMarket(id_server)
 
     weather_icon_list = []
@@ -372,7 +372,10 @@ def forecast_txt(id_server=None):
     starting_position = (market_data.clock + 1) / 4
 
     while blank < starting_position:
-        weather_icon_list.append("     　") # Should be :blank:, is 5 hair spaces and an ideographic space due to character limit.
+        if resp_type == "long":
+            weather_icon_list.append("     　") # Should be :blank:, is 5 hair spaces and an ideographic space due to character limit.
+        elif resp_type == "short":
+            weather_icon_list.append("〰️" if ewutils.DEBUG else ewcfg.emote_blank)
         blank += 1
                                                                          
     # Simulate the next week, ig.
@@ -418,10 +421,15 @@ def forecast_txt(id_server=None):
     # Figure out moon phases + days
     moon = 0
     while moon < 7:
-        day_str = "Day {:,}".format(market_data.day)
+        # Format day
+        if resp_type == "long":
+            day_str = "Day {:,}".format(market_data.day)
+            day_list.append("\n`{:^11}`|".format(day_str))
+        elif resp_type == "short":
+            day_str = "{}d".format(market_data.day)
+            day_list.append("\n`{:^6}`|".format(day_str))
 
-        day_list.append("\n`{:^11}`|".format(day_str))
-
+        # Change date and figure out moon phase
         market_data.clock = 22
         moon_phase = ewutils.check_moon_phase(market_data)
         market_data.day += 1
@@ -432,17 +440,27 @@ def forecast_txt(id_server=None):
         moon += 1
 
     # Create forecast response
-    # Uggo
-    # 0-6 are day, 7-49 are weather, 49-55 are moon. {_} is replaced with 5 hair spaces and 1 ideographic space, for character limit reasons.
-    forecast_response = "{_}{_}{_}{_}     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
-                        "{0}{_}{7}{_}|{_}{8}{_}|{_}{9}{_}|{_}{10}{_}|{_}{11}{_}|{_}{12}{_}|{_}{_}{_}{49}"\
-                        "{1}{_}{13}{_}|{_}{14}{_}|{_}{15}{_}|{_}{16}{_}|{_}{17}{_}|{_}{18}{_}|{_}{_}{_}{50}"\
-                        "{2}{_}{19}{_}|{_}{20}{_}|{_}{21}{_}|{_}{22}{_}|{_}{23}{_}|{_}{24}{_}|{_}{_}{_}{51}"\
-                        "{3}{_}{25}{_}|{_}{26}{_}|{_}{27}{_}|{_}{28}{_}|{_}{29}{_}|{_}{30}{_}|{_}{_}{_}{52}"\
-                        "{4}{_}{31}{_}|{_}{32}{_}|{_}{33}{_}|{_}{34}{_}|{_}{35}{_}|{_}{36}{_}|{_}{_}{_}{53}"\
-                        "{5}{_}{37}{_}|{_}{38}{_}|{_}{39}{_}|{_}{40}{_}|{_}{41}{_}|{_}{42}{_}|{_}{_}{_}{54}"\
-                        "{6}{_}{43}{_}|{_}{44}{_}|{_}{45}{_}|{_}{46}{_}|{_}{47}{_}|{_}{48}{_}|{_}{_}{_}{55}".format(*day_list, *weather_icon_list, *moon_phase_list, _ = "     　")
-    
+    if resp_type == "long":
+        # 0-6 are day, 7-49 are weather, 49-55 are moon. {_} is replaced with 5 hair spaces and 1 ideographic space, for character limit reasons.
+        forecast_response = "{_}{_}{_}{_}     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
+                            "{0}{_}{7}{_}|{_}{8}{_}|{_}{9}{_}|{_}{10}{_}|{_}{11}{_}|{_}{12}{_}|{_}{_}{_}{49}"\
+                            "{1}{_}{13}{_}|{_}{14}{_}|{_}{15}{_}|{_}{16}{_}|{_}{17}{_}|{_}{18}{_}|{_}{_}{_}{50}"\
+                            "{2}{_}{19}{_}|{_}{20}{_}|{_}{21}{_}|{_}{22}{_}|{_}{23}{_}|{_}{24}{_}|{_}{_}{_}{51}"\
+                            "{3}{_}{25}{_}|{_}{26}{_}|{_}{27}{_}|{_}{28}{_}|{_}{29}{_}|{_}{30}{_}|{_}{_}{_}{52}"\
+                            "{4}{_}{31}{_}|{_}{32}{_}|{_}{33}{_}|{_}{34}{_}|{_}{35}{_}|{_}{36}{_}|{_}{_}{_}{53}"\
+                            "{5}{_}{37}{_}|{_}{38}{_}|{_}{39}{_}|{_}{40}{_}|{_}{41}{_}|{_}{42}{_}|{_}{_}{_}{54}"\
+                            "{6}{_}{43}{_}|{_}{44}{_}|{_}{45}{_}|{_}{46}{_}|{_}{47}{_}|{_}{48}{_}|{_}{_}{_}{55}".format(*day_list, *weather_icon_list, *moon_phase_list, _ = "     　")
+    elif resp_type == "short":
+        forecast_response = "                    12   4    8    12   4    8    Moon" \
+                            "{0}   {7} {8} {9} {10} {11} {12}{_}{49}"\
+                            "{1}   {13} {14} {15} {16} {17} {18}{_}{50}"\
+                            "{2}   {19} {20} {21} {22} {23} {24}{_}{51}"\
+                            "{3}   {25} {26} {27} {28} {29} {30}{_}{52}"\
+                            "{4}   {31} {32} {33} {34} {35} {36}{_}{53}"\
+                            "{5}   {37} {38} {39} {40} {41} {42}{_}{54}"\
+                            "{6}   {43} {44} {45} {46} {47} {48}{_}{55}".format(*day_list, *weather_icon_list, *moon_phase_list, _ = ("〰️" if ewutils.DEBUG else ewcfg.emote_blank))
+
+
     return forecast_response
 
 

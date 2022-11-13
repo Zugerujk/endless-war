@@ -412,6 +412,16 @@ async def on_member_join(member):
 
     if user_data.poi in poi_static.tutorial_pois:
         await dungeon_utils.begin_tutorial(member)
+    if user_data.poi != "thesewers":
+        # give the user a game guide
+        gameguide = static_items.item_map.get('gameguide')
+        item_props = itm_utils.gen_item_props(gameguide)
+        bknd_item.item_create(
+            id_user=member.id,
+            id_server=member.guild.id,
+            item_type=ewcfg.it_item,
+            item_props=item_props
+        )
 
 
 @client.event

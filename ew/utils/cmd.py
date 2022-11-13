@@ -315,7 +315,7 @@ def channel_help_topics(channel, poi = None):
     topics = []
 
     # Basics
-    if channel in [ewcfg.channel_downtown]:
+    if channel in [ewcfg.channel_downtown, ewcfg.channel_endlesswar]:
         topics.append("basics")
     # Mining
     elif channel in [ewcfg.channel_mines, ewcfg.channel_mines_sweeper, ewcfg.channel_mines_bubble, ewcfg.channel_cv_mines, ewcfg.channel_cv_mines_sweeper, ewcfg.channel_cv_mines_bubble, ewcfg.channel_tt_mines, ewcfg.channel_tt_mines_sweeper, ewcfg.channel_tt_mines_bubble]:

@@ -458,7 +458,7 @@ async def mutations(cmd):
             if "level" in cmd.tokens:
                 # Get the object each mutation is from.
                 mutation_obj = EwMutation(id_mutation=mutation, id_user=user_data.id_user, id_server=cmd.message.guild.id)
-
+                
                 # If a mutation is artificial on self-check, have it be labelled as grafted
                 if mutation_obj.artificial == 1:
                     response += "**LEVEL {}**:{} *Grafted*. \n".format(mutation_flavor.tier, mutation_flavor.str_describe_self)
@@ -542,10 +542,24 @@ async def weather(cmd):
 
 
 async def forecast(cmd):
-    # Get forecast from weather_utils
-    forecast_response = weather_utils.forecast_txt(id_server=cmd.guild.id)
+    # Decide whether to use the mobile-friendly squashed response, or the desktop-friendly wide response
+    resp_type = "long"
+    if str(cmd.message.author.mobile_status) != "offline":
+        resp_type = "short"
+    # If the user specified a length, use that
+    if cmd.tokens_count > 1:
+        if cmd.tokens[1].lower() in ["short", "mobile", "m", "phone", "shortened", "iphone"]:
+            resp_type = "short"
+        elif cmd.tokens[1].lower() in ["long", "pc", "computer", "com", "full", "web", "desktop"]:
+            resp_type = "long"
 
+    # Get forecast from weather_utils
+    forecast_response = weather_utils.forecast_txt(id_server=cmd.guild.id, resp_type=resp_type)
+
+    # Format response
     response = "The weather forecast is:\n{}".format(forecast_response)
+    if resp_type == "short":
+        response = "The squashed weather forecast is:\n{}".format(forecast_response)
 
     # Send response
     await fe_utils.send_response(response, cmd)
@@ -1630,13 +1644,8 @@ async def help(cmd):
     # checks if user is in a college or if they have a game guide
     gameguide = bknd_item.find_item(item_search="gameguide", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
 
-    if gameguide:
+    if user_data.poi == ewcfg.poi_id_neomilwaukeestate or user_data.poi == ewcfg.poi_id_nlacu or gameguide:
         if not len(cmd.tokens) > 1:
-            topic_counter = 0
-            topic_total = 0
-            weapon_topic_counter = 0
-            weapon_topic_total = 0
-
             # list off help topics to player at college
             response = "(Use !help [topic] to learn about a topic. Example: \"!help basics\")\n\nWhat would you like to learn about? Topics include: \n"
 
@@ -1664,20 +1673,6 @@ async def help(cmd):
                 response += "\n*Based on your location, you may want to read up on **{}.***\n".format(ewutils.formatNiceList(names=channel_topics, conjunction="**and**"))
             
             response += '\nFor the list of weapons, as well as topics for weapon types, use "!help weapons".'
-
-            # https://rfck.app/guide/
-
-            # weapon_topics = ewcfg.weapon_help_responses_ordered_keys
-            # for weapon_topic in weapon_topics:
-            #     weapon_topic_counter += 1
-            #     weapon_topic_total += 1
-            #     response += "**{}**".format(weapon_topic)
-            #     if weapon_topic_total != len(weapon_topics):
-            #         response += ", "
-
-            #     if weapon_topic_counter == 5:
-            #         weapon_topic_counter = 0
-            #         response += "\n"
 
             resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1712,8 +1707,11 @@ async def help(cmd):
 
             # Manage specifying any response
             elif topic in ewcfg.help_responses:
+                # Create and send the response
                 response = ewcfg.help_responses[topic]
                 resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                
+                # Handle Mymutations
                 if topic == 'mymutations':
                     mutations = user_data.get_mutations()
                     if len(mutations) == 0:
@@ -1721,110 +1719,34 @@ async def help(cmd):
                         resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                     else:
                         for mutation in mutations:
-                            response = "**{}**: {}".format(mutation, ewcfg.mutation_descriptions[mutation])
+                            mutation_name = static_mutations.mutations_map[mutation].str_name
+
+                            response = "**{}**: {}".format(mutation_name, ewcfg.mutation_descriptions[mutation])
                             resp_cont.add_channel_response(cmd.message.channel, response)
 
             else:
                 response = 'ENDLESS WAR questions your belief in the existence of such a topic. Try referring to the topics list again by using just !help.'
                 resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    # User doesn't have a game guide
     else:
-        # user not in college, check what help message would apply to the subzone they are in
-
-        # poi variable assignment used for checking if player is in a vendor subzone or not
-        # poi = ewmap.fetch_poi_if_coordless(cmd.message.channel.name)
-
         poi = poi_static.id_to_poi.get(user_data.poi)
 
-        dojo_topics = [
-            "dojo", "sparring", "combat", ewcfg.weapon_id_revolver,
-            ewcfg.weapon_id_dualpistols, ewcfg.weapon_id_shotgun, ewcfg.weapon_id_rifle,
-            ewcfg.weapon_id_smg, ewcfg.weapon_id_minigun, ewcfg.weapon_id_bat, ewcfg.weapon_id_brassknuckles,
-            ewcfg.weapon_id_katana, ewcfg.weapon_id_broadsword, ewcfg.weapon_id_nunchucks,
-            ewcfg.weapon_id_scythe, ewcfg.weapon_id_yoyo, ewcfg.weapon_id_bass,
-            ewcfg.weapon_id_umbrella, ewcfg.weapon_id_knives, ewcfg.weapon_id_molotov,
-            ewcfg.weapon_id_grenades, ewcfg.weapon_id_garrote,
-            "normal", "multiple-hit", "variable-damage",
-            "small-game", "heavy", "defensive",
-            "precision", "incendiary", "explosive",
-        ]
+        # Get topics associated with said channel
+        channel_topics = cmd_utils.channel_help_topics(channel=cmd.message.channel.name, poi=poi)
 
-        if poi is None or cmd.message.guild is None:
-            # catch-all response for when user isn't in a sub-zone with a help response
-            response = ewcfg.generic_help_response
+        if channel_topics != []:
+            # Choose a random topic, in case there are > 1
+            topic = random.choice(channel_topics)
 
-        elif cmd.message.channel.name in [ewcfg.channel_mines, ewcfg.channel_cv_mines, ewcfg.channel_tt_mines]:
-            # mine help
-            response = ewcfg.help_responses['mining']
-        elif (len(poi.vendors) >= 1) and not cmd.message.channel.name in [ewcfg.channel_dojo, ewcfg.channel_greencakecafe, ewcfg.channel_glocksburycomics]:
-            # food help
-            response = ewcfg.help_responses['food']
-        elif cmd.message.channel.name in [ewcfg.channel_greencakecafe, ewcfg.channel_glocksburycomics]:
-            # zines help
-            response = ewcfg.help_responses['zines']
-        elif cmd.message.channel.name in ewcfg.channel_dojo and not len(cmd.tokens) > 1:
-            # dojo help
-            response = "For general dojo information, do **'!help dojo'**. For information about the sparring and weapon rank systems, do **'!help sparring.'**. For general information about combat, do **'!help combat'**. For information about a specific weapon, do **'!help [weapon/weapon type]'**. The different weapon types are: **normal**, **multiple-hit**, **variable-damage**, **small-game**, **heavy**, **defensive**, **precision**, **incendiary**, and **explosive**."  # For information about the sap system, do **'!help sap'**.
-        elif cmd.message.channel.name in ewcfg.channel_dojo and len(cmd.tokens) > 1:
-            topic = ewutils.flattenTokenListToString(cmd.tokens[1:])
-            if topic in dojo_topics and topic in ewcfg.help_responses:
-                response = ewcfg.help_responses[topic]
-            else:
-                response = 'ENDLESS WAR questions your belief in the existence of such information regarding the dojo. Try referring to the topics list again by using just !help.'
-        elif cmd.message.channel.name in [ewcfg.channel_jr_farms, ewcfg.channel_og_farms, ewcfg.channel_ab_farms]:
-            # farming help
-            response = ewcfg.help_responses['farming']
-        elif cmd.message.channel.name in ewcfg.channel_slimeoidlab and not len(cmd.tokens) > 1:
-            # labs help
-            response = "For information on slimeoids, do **'!help slimeoids'**. To learn about your current mutations, do **'!help mymutations'**"
-        elif cmd.message.channel.name in ewcfg.channel_slimeoidlab and len(cmd.tokens) > 1:
-            topic = ewutils.flattenTokenListToString(cmd.tokens[1:])
-            if topic == 'slimeoids':
-                response = ewcfg.help_responses['slimeoids']
-            elif topic == 'mymutations':
-                response = ewcfg.help_responses['mymutations']
-                mutations = user_data.get_mutations()
-                if len(mutations) == 0:
-                    response += "\nWait... you don't have any!"
-                else:
-                    for mutation in mutations:
-                        response += "\n**{}**: {}".format(mutation, ewcfg.mutation_descriptions[mutation])
-            else:
-                response = 'ENDLESS WAR questions your belief in the existence of such information regarding the laboratory. Try referring to the topics list again by using just !help.'
-        elif cmd.message.channel.name in poi_static.transport_stops_ch:
-            # transportation help
-            response = ewcfg.help_responses['transportation']
-        elif cmd.message.channel.name in [ewcfg.channel_stockexchange, ewcfg.channel_stockexchange_p]:
-            # stock exchange help
-            response = ewcfg.help_responses['stocks']
-        elif cmd.message.channel.name in [ewcfg.channel_casino, ewcfg.channel_casino_p]:
+            # Generate the silly page number for fun
+            random.seed(topic)
+            page_number = random.randint(1, 1337)
 
-            # casino help
-            response = ewcfg.help_responses['casino']
-        elif cmd.message.channel.name in ewcfg.channel_sewers:
-            # death help
-            response = ewcfg.help_responses['death']
+            # Create a response with a part about the topic name and a reminder about game guides.
+            response = "Excerpt from the Game Guide, page {}, on **{}**:\n\n".format(page_number, topic) + ewcfg.help_responses[topic] + "\n\nDon't forget - portable, fully-featured Game Guides can be purchased at Neo Milwaukee State or NLACU for 10,000 slime!"
 
-        elif cmd.message.channel.name in ewcfg.channel_realestateagency:
-            # real estate help
-            response = ewcfg.help_responses['realestate']
-        elif cmd.message.channel.name in [
-            ewcfg.channel_tt_pier,
-            ewcfg.channel_afb_pier,
-            ewcfg.channel_jr_pier,
-            ewcfg.channel_cl_pier,
-            ewcfg.channel_se_pier,
-            ewcfg.channel_jp_pier,
-            ewcfg.channel_ferry
-        ]:
-            # fishing help
-            response = ewcfg.help_responses['fishing']
-        elif user_data.poi in poi_static.outskirts:
-            # hunting help
-            response = ewcfg.help_responses['hunting']
-        elif poi_static.id_to_poi.get(user_data.poi).is_apartment:
-            response = "This is your apartment, your home away from home. You can store items here, but if you can't pay rent they will be ejected to the curb. You can store slimeoids here, too, but eviction sends them back to the real estate agency. You can only access them once you rent another apartment. Rent is charged every two IRL days, and if you can't afford the charge, you are evicted. \n\nHere's a command list. \n!depart: Leave your apartment. !goto commands work also.\n!look: look at your apartment, including all its items.\n!inspect <item>: Examine an item in the room or in your inventory.\n!stow <item>: Place an item in the room.\n!fridge/!closet/!decorate <item>: Place an item in a specific spot.\n!snag <item>: Take an item from storage.\n!unfridge/!uncloset/!undecorate <item>: Take an item from a specific spot.\n!freeze/!unfreeze <slimeoid name>: Deposit and withdraw your slimeoids. You can have 3 created at a time.\n!aptname <new name>:Change the apartment's name.\n!aptdesc <new name>: Change the apartment's base description.\n!bootall: Kick out any unwanted visitors in your apartment.\n!shelve <zine>:Store zines on your bookshelf.\n!unshelve <zine>: Take zines out of your bookshelf"
         else:
-            # catch-all response for when user isn't in a sub-zone with a help response
             response = ewcfg.generic_help_response
 
         resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -1842,21 +1764,37 @@ async def commands(cmd):
     category = ewutils.flattenTokenListToString(tokens=cmd.tokens[1:])
 
     if cmd.tokens_count == 1:
+        response += "Look up basic commands with **!commands basic**, or a full list with **!commands categories**.\n"
+
         response += location_commands(cmd)
         response += mutation_commands(cmd)
         response += item_commands(cmd)
         response += holiday_commands()
-        if response != "":
-            response += "\n\nLook up basic commands with !commands basic, \nor a full list with !commands categories."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if "categories" in category:
-        response += "Categories are: \nbasic: basic info.\nmyitems: Commands for items you have.\nmylocation: Commands based in this area.\nmymutations: Commands for the mutations you currently have.\nmyfaction: Commands for the faction you're in.\nmyrace: The command for your current race.\ncombat: Combat-based commands.\ncapping: Capping-based commands.\nplayerinfo: Commands that tell you some of your statistics.\noutsidelinks: These display links to outside the server.\nitems: Show item-related commands.\ncosmeticsanddyes: Display information on cosmetics and dyes.\nsmelting: Smelting related commands.\ntrading: Trading related commands.\nquadrants: Quadrant related commands.\nslimeoids: Slimeoid-related commands.\njuvies: Commands for juvies.\nenlisted: Commands for enlisted players.\ncorpses:Commands for corpses.\nmisc: Miscellaneous commands.\nflavor: Other shitposty type commands.\nallitem: All item-specific commands.\nallmutation: All mutation specific commands.\nholiday: If an event is going on, display the commands for it.\nYou can also check the commands of a specific location using !commands location <district>."
-
-    if cmd.tokens_count == 1 or "basic" in category:
+        response += "Categories are: \n\n**Basic**: Bread-and-butter commands.\n"\
+                                    "**Player Info**: Commands that tell you some of your statistics.\n"\
+                                    "**Outside Links**: Links to things such as the map and wiki.\n"\
+                                    "**Items**: Show item-related commands.\n"\
+                                    "**Combat**: Combat-based commands.\n"\
+                                    "**Juvies** / **Enlisted** / **Corpses**: Commands for each life state.\n"\
+                                    "**Smelting**: Smelting-related commands.\n"\
+                                    "**Cosmetics and Dyes**: Display information on cosmetics and dyes.\n"\
+                                    "**Slimeoids**: Slimeoid-related commands.\n"\
+                                    "**Trading**: Trading-related commands.\n"\
+                                    "**Quadrants**: Quadrant related commands.\n"\
+                                    "**Misc**: Miscellaneous commands.\n"\
+                                    "**Flavor**: Other shitpost-y type commands.\n"\
+                                    "**My Items** / **My Location** / **My Mutations** / **My Faction** / **My Race**: Commands for things pertaining to you.\n"\
+                                    "**All Items** / **All Mutations**: All commands for items or mutations.\n"\
+                                    "**Holiday**: If an event is going on, display the commands for it.\n\n"\
+                                    "You can also check the commands of a specific location using !commands location <district>."
+    if "basic" in category:
         response += "\n\n" + ewcfg.basic_commands
 
-    if ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':
+    elif ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':    
         poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2])
         poi_sought = poi_static.id_to_poi.get(poi_look)
         if poi_sought:
@@ -1869,13 +1807,13 @@ async def commands(cmd):
             response = "Not a real place."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-    if "myitems" in category:
+    elif "myitems" in category:
         response += "\n\n" + item_commands(cmd)
-    if "mylocation" in category:
+    elif "mylocation" in category:
         response += "\n\n" + location_commands(cmd)
-    if "mymutations" in category:
+    elif "mymutations" in category:
         response += "\n\n" + mutation_commands(cmd)
-    if "myfaction" in category:
+    elif "myfaction" in category:
         if user_data.life_state == ewcfg.life_state_juvenile:
             response += "\n\n" + ewcfg.juvenile_commands
         elif user_data.life_state == ewcfg.life_state_corpse:
@@ -1886,57 +1824,57 @@ async def commands(cmd):
             elif user_data.faction == 'killers':
                 response += "\n\n" + "!dab: To dab on some haters.\n"
             response += ewcfg.enlisted_commands
-    if "juvies" in category:
+    elif "juvies" in category:
         response += "\n\n" + ewcfg.juvenile_commands
-    if "corpses" in category:
+    elif "corpses" in category:
         response += "\n\n" + ewcfg.corpse_commands
-    if "enlisted" in category:
+    elif "enlisted" in category:
         response += "\n\n" + ewcfg.enlisted_commands
-    if "myrace" in category:
+    elif "myrace" in category:
         race = user_data.race
         if ewcfg.race_unique_commands.get(race) is not None:
             response += "\n\n" + ewcfg.race_unique_commands.get(race)
         else:
             response += "\n\nNo racial commands found."
-    if "doublehalloween" in category:
+    elif "doublehalloween" in category:
         response += "\n\n" + ewcfg.holidaycommands.get("doublehalloween")
-    if "holiday" in category:
+    elif "holiday" in category:
         response += "\n\n" + holiday_commands(header = False)
-    if "combat" in category:
+    elif "combat" in category:
         response += "\n\n" + ewcfg.combat_commands
-    if "capping" in category:
+    elif "capping" in category:
         response += "\n\n" + ewcfg.capping_commands
-    if "playerinfo" in category:
+    elif "playerinfo" in category:
         response += "\n\n" + ewcfg.player_info_commands
-    if "outsidelinks" in category:
+    elif "outsidelinks" in category:
         response += "\n\n" + ewcfg.external_link_commands
-    if "items" in category:
+    elif "items" in category:
         response += "\n\n" + ewcfg.item_commands
-    if "cosmeticsanddyes" in category:
+    elif "cosmeticsanddyes" in category:
         response += "\n\n" + ewcfg.cosmetics_dyes_commands
-    if "slimeoids" in category:
+    elif "slimeoids" in category:
         response += "\n\n" + ewcfg.slimeoid_commands
-    if "smelting" in category:
+    elif "smelting" in category:
         response += "\n\n" + ewcfg.smelting_commands
-    if "trading" in category:
+    elif "trading" in category:
         response += "\n\n" + ewcfg.trading_commands
-    if "quadrants" in category:
+    elif "quadrants" in category:
         response += "\n\n" + ewcfg.quadrant_commands
-    if "misc" in category:
+    elif "misc" in category:
         response += "\n\n" + ewcfg.miscellaneous_commands
-    if "flavor" in category:
+    elif "flavor" in category:
         response += "\n\n" + ewcfg.flavor_commands
-    if "farming" in category:
+    elif "farming" in category:
         response += "\n\n" + ewcfg.farm_commands
-    if "allitem" in category:
+    elif "allitems" in category:
         response += "\n\n"
         for item in ewcfg.item_unique_commands.keys():
             response += "\n" + ewcfg.item_unique_commands.get(item)
-    if "allmutation" in category:
+    elif "allmutations" in category:
         response += "\n\n"
         for item in ewcfg.mutation_unique_commands.keys():
             response += "\n" + ewcfg.mutation_unique_commands.get(item)
-    if response == "" or '!' not in response:
+    elif response == "" or '!' not in response:
         response = "No commands found."
 
     messageArray = ewutils.messagesplit(stringIn=response)
@@ -3340,12 +3278,33 @@ async def fun(cmd):
 
 
 async def display_goonscape_stats(cmd):
-    response = "\n```ini\n"
-    for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_halloweening_stat]:
+    response = "\n```ini\n" # Use markdown formatting
+    normal = True
+    hidden = False
 
-        stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+    # Handle user specification
+    if cmd.tokens_count > 1:
+        if cmd.tokens[1].lower() in ["all", "a"]:
+            hidden = True
+        elif cmd.tokens[1].lower() in ["legacy", "hidden", "l", "h"]:
+            normal = False
+            hidden = True
 
-        response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
+    # List all normal stats
+    if normal:
+        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+
+            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+
+            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
+    # List hidden stats
+    if hidden:
+        for stat_name in [ewcfg.goonscape_halloweening_stat]:
+
+            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+
+            # Format usual response, with explanation of the stat's origin.
+            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp - {origin}\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp, origin=ewcfg.legacy_stat_dict[stat_name])
 
     response += "```"
 
