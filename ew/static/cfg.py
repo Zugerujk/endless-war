@@ -3,8 +3,7 @@ import datetime
 # Global configuration options.
 
 
-version = "v4.19 S4A1 DOUBLE HALLOWEEN 2022 🎃🦇"
-
+version = "v4.20 S4A1 YOSLIMERNALIA"
 
 dir_msgqueue = 'msgqueue'
 
@@ -27,13 +26,14 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = True
+dh_active = False
 #Existing Stages for Double Halloween. As the years go by we may add on to this
 
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = False
+slimernalia_active = True
+slimernalia_stage = 0
 
 #Swilldermuk Features
 swilldermuk_active = False

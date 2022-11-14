@@ -415,6 +415,20 @@ async def mine(cmd):
 
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
+
+            has_pickaxe = False
+            has_sledgehammer = False
+
+            if user_data.weapon >= 0:
+                weapon_item = EwItem(id_item=user_data.weapon)
+                weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
+                if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
+                    has_pickaxe = True
+                elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:# and user_data.life_state != ewcfg.life_state_juvenile:
+                    has_sledgehammer = True
+            
+            sledgehammer_bonus = False
+
             for id_event in world_events:
 
                 if world_events.get(id_event) == ewcfg.event_type_minecollapse:
@@ -427,8 +441,13 @@ async def mine(cmd):
 
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
-                            response = "You escape from the collapsing mineshaft."
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            if has_sledgehammer == True: #and ewcfg.slimernalia_stage >= 4: #Remove stage check post-slimernalia
+                                response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime."
+                                sledgehammer_bonus = True
+                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                            else:
+                                response = "You escape from the collapsing mineshaft."
+                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                         elif ewcfg.mutation_id_lightminer in mutations:
                             bknd_worldevent.delete_world_event(id_event=id_event)
                             response = "You nimbly step outside the collapse without even thinking about it."
@@ -476,34 +495,29 @@ async def mine(cmd):
                 else:
                     return
 
-            has_pickaxe = False
+            
+            if (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
-            if user_data.weapon >= 0:
-                weapon_item = EwItem(id_item=user_data.weapon)
-                weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
-                if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe)  and user_data.life_state != ewcfg.life_state_juvenile:
-                    has_pickaxe = True
-                elif (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
-
-                    # print(poi.mother_districts[0] + 'hole')
-                    minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
-                    added = random.randint(5, 15)
-                    checked_dict = digup_relics.get(poi.mother_districts[0])
-                    # print(checked_dict)
-                    dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
+                # print(poi.mother_districts[0] + 'hole')
+                minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
+                added = random.randint(5, 15)
+                checked_dict = digup_relics.get(poi.mother_districts[0])
+                # print(checked_dict)
+                dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
 
 
-                    if len(dug_relics) > 0:
-                        props = itm_utils.gen_item_props(relic_map.get(checked_dict.get(dug_relics[0])))
-                        bknd_item.item_create(
-                            item_type=ewcfg.it_relic,
-                            id_user=cmd.message.author.id,
-                            id_server=cmd.guild.id,
-                            item_props=props
-                        )
-                        response += "You ram your shovel back into the ground and hear a CLANK. Oh shit, we got one! You pull out a {}! ".format(relic_map.get(checked_dict.get(dug_relics[0])).str_name)
-                    minestate.value = str(int(minestate.value) + added)
-                    minestate.persist()
+                if len(dug_relics) > 0:
+                    props = itm_utils.gen_item_props(relic_map.get(checked_dict.get(dug_relics[0])))
+                    bknd_item.item_create(
+                        item_type=ewcfg.it_relic,
+                        id_user=cmd.message.author.id,
+                        id_server=cmd.guild.id,
+                        item_props=props
+                    )
+                    response += "You ram your shovel back into the ground and hear a CLANK. Oh shit, we got one! You pull out a {}! ".format(relic_map.get(checked_dict.get(dug_relics[0])).str_name)
+                minestate.value = str(int(minestate.value) + added)
+                minestate.persist()
+
             # if user_data.sidearm >= 0:
             #	sidearm_item = EwItem(id_item=user_data.sidearm)
             #	sidearm = static_weapons.weapon_map.get(sidearm_item.item_props.get("weapon_type"))
@@ -565,6 +579,10 @@ async def mine(cmd):
                     event_data = EwWorldEvent(id_event=id_event)
                     if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
                         hunger_cost_mod = int(hunger_cost_mod) / 2
+
+                if sledgehammer_bonus == True:
+                    unearthed_item_chance = 1
+                    unearthed_item_amount = math.randint(3,10)
 
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd)
@@ -646,8 +664,16 @@ async def mine(cmd):
 
             if has_pickaxe == True:
                 mining_yield *= 2
+            if has_sledgehammer and ewcfg.slimernalia_stage >=4: #effective juvie pickmining while in sledgehammer mining
+                mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2
+            if ewcfg.slimernalia_stage >= 4:
+                mining_yield *= 2
+            
+            if sledgehammer_bonus == True:
+                mining_yield += math.randint(25000,75000)
+
 
             # trauma = se_static.trauma_map.get(user_data.trauma)
             # if trauma != None and trauma.trauma_class == ewcfg.trauma_class_slimegain:
