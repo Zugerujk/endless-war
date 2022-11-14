@@ -715,7 +715,7 @@ def get_mining_yield_default(cmd):
         return 200
 
 
-def create_mining_event(cmd):
+def create_mining_event(cmd, toolused=None):
     randomn = random.random()
     time_now = int(time.time())
     user_data = EwUser(member=cmd.message.author)

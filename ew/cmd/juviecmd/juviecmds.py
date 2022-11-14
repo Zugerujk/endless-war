@@ -416,16 +416,15 @@ async def mine(cmd):
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
 
-            has_pickaxe = False
-            has_sledgehammer = False
+            toolused = "nothing"
 
             if user_data.weapon >= 0:
                 weapon_item = EwItem(id_item=user_data.weapon)
                 weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                 if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
-                    has_pickaxe = True
+                    toolused = "pickaxe"
                 elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:# and user_data.life_state != ewcfg.life_state_juvenile:
-                    has_sledgehammer = True
+                    toolused = "sledgehammer"
             
             sledgehammer_bonus = False
 
@@ -441,7 +440,7 @@ async def mine(cmd):
 
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
-                            if has_sledgehammer == True: #and ewcfg.slimernalia_stage >= 4: #Remove stage check post-slimernalia
+                            if toolused == "sledgehammer": #and ewcfg.slimernalia_stage >= 4: #Remove stage check post-slimernalia
                                 response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime."
                                 sledgehammer_bonus = True
                                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -532,7 +531,7 @@ async def mine(cmd):
             unearthed_item_chance = 1 / ewcfg.unearthed_item_rarity
             if user_data.life_state == ewcfg.life_state_juvenile:
                 unearthed_item_chance *= 2
-            if has_pickaxe == True:
+            if toolused == "pickaxe":
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.33
@@ -586,7 +585,7 @@ async def mine(cmd):
                     unearthed_item_type = "Slime Poudrin"
 
             if random.random() < 0.05:
-                id_event = create_mining_event(cmd)
+                id_event = create_mining_event(cmd, toolused)
                 event_data = EwWorldEvent(id_event=id_event)
 
                 if event_data.id_event == -1:
@@ -663,9 +662,9 @@ async def mine(cmd):
             if controlling_faction != "" and controlling_faction == user_data.faction:
                 mining_yield *= 2
 
-            if has_pickaxe == True:
+            if toolused == "pickaxe":
                 mining_yield *= 2
-            if has_sledgehammer and ewcfg.slimernalia_stage >=4: #effective juvie pickmining while in sledgehammer mining
+            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=4: #effective juvie pickmining while in sledgehammer mining
                 mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2
