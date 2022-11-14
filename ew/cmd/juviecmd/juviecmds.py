@@ -583,6 +583,7 @@ async def mine(cmd):
                 if sledgehammer_bonus == True:
                     unearthed_item_chance = 1
                     unearthed_item_amount = math.randint(3,10)
+                    unearthed_item_type = "Slime Poudrin"
 
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd)

@@ -4125,6 +4125,13 @@ enemy_type_doublehorse = 'doublehorse'
 # Raid Den bosses - have special effects that occur on death
 enemy_type_alm = "almfe" # Placeholder testing boss
 
+# Slimernalia Specific Enemies and Raid Bosses
+enemy_type_slimernaliajuvie = "slimernaliajuvie"
+enemy_type_vandal = "vandal"
+enemy_type_immigrant = "illegalimmigrant"
+
+
+
 # Enemy ai types
 enemy_ai_sandbag = 'Sandbag'
 enemy_ai_coward = 'Coward'
@@ -4136,17 +4143,23 @@ enemy_ai_defender = 'Defender'
 enemy_class_normal = 'normal'
 
 # List of enemies sorted by their spawn rarity.
-common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
-uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
-rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
-raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-raid_den_bosses = [enemy_type_alm]
-defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
+if slimernalia_stage >= 1:
+    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
+    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+    rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
+    raid_bosses = [enemy_type_vandal, enemy_type_immigrant, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+else:
+    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
+    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+    rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
+    raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+    raid_den_bosses = [enemy_type_alm]
+    defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 
-enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
+    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 
 # List of enemies that spawn in the Nuclear Beach
-pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+    pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
 slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer] 
 
@@ -4368,6 +4381,9 @@ enemy_drop_tables = {
         {weapon_id_broadsword: [100, 1, 1]},
         {item_id_civilianscalp: [100, 1, 1]}
     ],  
+    enemy_type_slimernaliajuvie: [
+
+    ]
 
 }
 
@@ -4390,14 +4406,14 @@ enemy_data_table = {
         "raredisplayname": "Durable Sand Bag",
         "aliases": ["sandbag", "bag o sand", "bag of sand"]
     },
-    enemy_type_juvie: {
-        "slimerange": [10000, 50000],
-        "ai": enemy_ai_coward, "attacktype": enemy_attacktype_unarmed,
-        "displayname": "Lost Juvie",
-        "raredisplayname": "Shellshocked Juvie",
-        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
-        "arcticvariant" : "Frostbitten Juvie",
-        "dhvariant": "Accursed Juvie"
+        enemy_type_juvie: {
+            "slimerange": [10000, 50000],
+            "ai": enemy_ai_coward, "attacktype": enemy_attacktype_unarmed,
+            "displayname": "Lost Juvie",
+            "raredisplayname": "Shellshocked Juvie",
+            "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
+            "arcticvariant" : "Frostbitten Juvie",
+            "dhvariant": "Accursed Juvie"
     },
     enemy_type_dinoslime: {
         "slimerange": [250000, 500000],
@@ -4696,6 +4712,57 @@ enemy_data_table = {
         "displayname": "Alm Fire Emblem https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
         "raredisplayname": "Alm Fire Emblem Conqueror https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
         "aliases": ["alm", "fireemblem"]
+    }, 
+    enemy_type_slimernaliajuvie: {
+            "slimerange": [50000, 250000],
+            "ai": enemy_ai_attacker_b, 
+            "attacktype": enemy_attacktype_unarmed,
+            "displayname": "Festive Juvie",
+            "raredisplayname": "Found Juvie",
+            "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
+    },
+    enemy_type_vandal: {
+        "slimerange": [600000, 800000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_gunkshot,
+        "displayname": "Rebellious Vandal",
+        "raredisplayname": "Vicious Vandal",
+        "aliases": ["vandal", "rebellious", "vicious", "rebelliousvandal"],
+    },
+    enemy_type_immigrant: {
+        "slimerange": [750000, 1200000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_bonemerang,
+        "displayname": "Illegal Immigrant",
+        "raredisplayname": "Legal Immigrant But They Are Missing Their Visa",
+        "aliases": ["illegal", "legal", "immigrant", "visa", "australian"],
+    },
+    enemy_type_greeneyesslimedragon: {
+        "slimerange": [3500000, 5000000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_molotovbreath,
+        "displayname": "Green Eyes Slime Dragon",
+        "raredisplayname": "Green Eyes JPEG Dragon",
+        "aliases": ["dragon", "greeneyes", "greeneyesslimedragon", "green"],
+    },
+    enemy_type_unnervingfightingoperator: {
+        "slimerange": [1000000, 3000000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_armcannon,
+        "displayname": "Unnerving Fighting Operator",
+        "raredisplayname": "Unyielding Fierce Operator",
+        "aliases": ["ufo", "alien", "unnervingfightingoperator", "unnerving"],
+        "arcticvariant":"Unflinching Frozen Operator",
+        "dhvariant": "Unworldly Ferocious Owl"
+    },
+    enemy_type_titanoslime: {
+        "slimerange": [5000000, 7000000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_stomp,
+        "displayname": "Titanoslime",
+        "raredisplayname": "Miscreated Titanoslime",
+        "aliases": ["titano", "titanoslime", "biglizard"],
+        "dhvariant": "Ghoulific Titanogreslime",
     },
 }
 
@@ -4717,7 +4784,7 @@ coward_responses = [
 
 # Responses given by cowardly enemies when hurt.
 coward_responses_hurt = [
-    "\nThe {} cries out in pain!: *Just wait until the Juvenile Enrichment Center hears about this!!*",
+    "\nThe {} cries out in pain!: *Just wait until Juvieman hears about this!!*",
     "\nThe {} cries out in pain!: *You MONSTER!*",
     "\nThe {} cries out in pain!: *What the H-E-double-hockey-sticks is your problem?*",
 ]
