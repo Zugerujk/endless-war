@@ -2768,17 +2768,70 @@ vendor_gumballmachine = "Gumball Machine"
 vendor_thumbnails = {
     poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/img/npc/albertalex.png"],
     "saloon":["OL' BOY RUSTLE", "https://rfck.app/img/npc/olboyrustle.png"],
-    "basedhardware":["BOMBSHELL BETTY", "https://rfck.app/img/npc/bet.png"],
+    "basedhardware":["BETTY BAMALAM", "https://rfck.app/img/npc/bet.png"],
     "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/img/npc/n2double.png"],
     "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/img/npc/albertalex.png"],
-    "themuseum":["THE CURATOR", "https://rfck.app/img/npc/CURATOR_GOOD_HEAD.png"],
-    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"]
+    #"themuseum":["THE CURATOR", "https://rfck.app/img/npc/CURATOR_GOOD_HEAD.png"],
+    "themuseum":["AMY HART", "https://rfck.app/img/npc/AMY_HART_pfp.png"],
+    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
+    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
 }
 
+
+
+
 vendor_dialogue = {
-    "speakeasy":["Ferry's 'ere, lad","*Humming the tune of his own shanty*","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr"]
+    "speakeasy":["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
+    "clinicofslimoplasty":["Nice kidney. If you think you'll die before your next !piss I might just buy it off you.", "I'll give you a discount if you let me fix you up after I've had a few drinks. I'm playing Malpractice Bingo with a heart surgeon in Poudrin Alley.", "You get the kid's discount. I don't do it because it's good for business, really. I just like hurting children.", "Sonny, do you know about any gingerbread houses deep in the woods in this town? I'm looking to retire and could use a new space.", "I'll probably wind up repeating something I said to you. That's the dementia, pay it no mind.", "Lots of slimeoid operations recently. I don't care for 'em. Too many syringes."],
+    "themuseum":["God, this is frustrating.", "Hoss isn't here. Did you need something?", "The truckers out here are kind of mental. I tried importing a crate of Takis since they're not stocked in the city and shipping cost me 260 mega.", "Hey...you don't look quite right. Guess that's normal around here, but how did you end up looking like that?", "Truthfully, I'd rather not talk history right now. It's a sore subject with you gangsters, I'll keep my research to myself.", "Hey wait, is that a...Nah, it's just an ordinary weapon. Forget I said anything.", "It'd be nice to go along with Hoss, but there's a strong possibility ENDLESS WAR might endanger us somehow if we both left at the same time. We're hedging our bets.", "I'm not an exhibit. I don't think I'm flattered that you though otherwise, heh."],
+    "neomiluakeestate":["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
+    "realestateagency":["😎", "hey. I don't really care if you buy real estate, lol. slimecoin isn't profitable  at all, we keep afloat off a government subsidy", "hope there's no hard feelings about the whole slimecorp thing, dog. I was losing them millions just by playing scribblenauts instead of doing any marketing", "hope youre not looking for magicksrampage. they signed on as a janitor with us for a few days but realized their mistake and got out", "i'll add some of my sick taste in decor to you apartment for some slime under the table.", "there's this guy on the street named bobo cuatro who will buy a mixtape from anybody. this dudes my hero i swear", "i was never a booze guy at slimecorp but i'm starting to learn a few things. lol guess the party doesn't have to stop."],
+    "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
+    "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
+    "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
+    "slimeypersuits":["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+
 }
+
+
+museum_curator_dialogue = {
+    "odditem":"The curator looks confused on why you brought *that*. He only takes relics, framed art, and fish.",
+    "smallfish":"\"SORRY, CHAP, YOUR FISH IS TOO SMALL. THERE'S A DICK JOKE IN THERE SOMEWHERE BUT I'M TWICE YOUR AGE. TOO CREEPY, I SAY.\"",
+    "cheatedfish":"\"I'M ON TO YOU, YOU {insult}! TRY AND CHEAT FISH WITH ME AGAIN, SEE WHAT HAPPENS!\"",
+    "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
+    "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
+    "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
+    "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
+    "deviantpost":'"IT\'S UP ON DEVIANT SPLAAART. GET ENOUGH LIKES AND THEN WE\'LL TALK. HOPE YOU LIKE PAYMENTS IN EXPOSURE, MY FRIEND!"',
+    "notitleart":"\"GIVE ME A TITLE FOR THIS, YOU {insult}! MY EXHIBITS ARE MORE THAN A GLORIFIED KITCHEN FRIDGE!\" "
+}
+
+amy_curator_dialogue = {
+    "odditem":"Amy looks confused on why you brought *that*. She only takes relics, framed art, and fish.",
+    "smallfish":"\"This one's too small, buddy. We're looking for record breakers here.\"",
+    "cheatedfish":"\"Oh, it's you. I guess I respect the hustle, but if you cheat you're out of the fish donating game. Can't accecpt this one.\"",
+    "caughtcheatfish":"\"This {fish}? It's fake. It's a goddamn counterfeit fish. Get out of here with this bullshit.\"",
+    "fishdonate":"Amy approvingly nods her head at your {}. Looks like we got a winner! Amy tags the new fish, then dips headfirst into the fishtank to retrieve the old one. A few minutes later she emerges with it, slam dunking the majestic creature into the trash.\"Whoa nelly. I think we gotta clean these tanks better.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"We have *a* version of this in the museum. Either you stole this real one earlier or this is fake. But either way I'm probably won't get to display this relic for long. No deal.\"",
+    "donaterelic":"Amy looks the artifact over. \"A {}, huh? This is probably the real one, so I'll pay you to get the chance to study it.\" She walks into the backroom, casually tossing {:,} slime your way. You wait for her to carefully examine it, write up a plaque, and get all the fangirling out of her system when nobody's looking, before she comes back to set up the museum display. She also hands you a meticulously constructed replica for your trouble.\n\n \"Ugh. Swap the real one for the fake all you want. It's not like we can hold you off forever.\" While she isn't looking, you do just that.",
+    "spoons":"\"You're tearing me apart, Lisa! Nah, but seriously. Don't donate the spoon picture again.\"",
+    "artnametaken":"\"Somebody else chose that name. Just add an underscore or a 2 to the end, it'll be fine.\"",
+    "colon":"\"If you put a colon in the frame like that it won't hag on the wall right. Better take that out first.",
+    "deviantpost":'"I posted it to DeviantSPLAAART. May the algoorithm have mercy on its soul."',
+    "notitleart":"\"It's gonna need a title. DeviantSPLAAART won't let me post it without one.\" "
+}
+
+
+museum_dialogue = {
+    "curator":museum_curator_dialogue,
+    "amy":amy_curator_dialogue
+
+}
+
 
 dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
 
@@ -4153,6 +4206,8 @@ enemy_attacktype_cop = 'police'
 enemy_attacktype_dojoman = 'dojoman'
 enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
+enemy_attacktype_icespike = 'icespike'
+enemy_attacktype_bloodsucker = "bloodsucker"
 
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
@@ -4237,6 +4292,7 @@ uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type
 rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
 raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 raid_den_bosses = [enemy_type_alm]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 
 enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 
@@ -4943,21 +4999,21 @@ random_poi_events = [
 
 poi_events = random_poi_events + [event_type_raid_den] 
 
-# DH dates - cry on floor
+# DH dates
 day_map = {
     datetime.date(2022, 10, 28): 0,
     datetime.date(2022, 10, 29): 1,
     datetime.date(2022, 10, 30): 2,
     datetime.date(2022, 10, 31): 3,
-    datetime.date(2022, 10, 1):  4,
+    datetime.date(2022, 11, 1):  4,
     datetime.date(2022, 11, 2):  5,
     datetime.date(2022, 11, 3):  6,
     datetime.date(2022, 11, 4):  7,
     datetime.date(2022, 11, 5):  8,
     datetime.date(2022, 11, 6):  9,
-    datetime.date(2022, 11, 7): 10,
-    datetime.date(2022, 11, 8): 10,
-    datetime.date(2022, 11, 9): 10,
+    datetime.date(2022, 11, 7):  9,
+    datetime.date(2022, 11, 8):  9,
+    datetime.date(2022, 11, 9):  9,
 }
 
 # Events that need to be checked up on every time the market updates

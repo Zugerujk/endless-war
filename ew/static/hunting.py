@@ -152,7 +152,7 @@ def atf_body(ctn = None):
 
 
 def atf_smallclaws(ctn = None):
-    chance = random.randrange(3)
+    chance = random.randrange(4)
     if chance <= 1:
         ctn.miss = True
     if chance == 2:
@@ -164,7 +164,7 @@ def atf_smallclaws(ctn = None):
         ctn.crit = True
 
 def atf_boomerang(ctn = None):
-    ctn.slimes_damage = 0.8
+    ctn.slimes_damage *= 0.8
     chance = random.randrange(4)
 
     if chance == 0:
@@ -174,6 +174,16 @@ def atf_boomerang(ctn = None):
     else:
         ctn.strikes = 2
         ctn.crit = True
+
+def atf_bigshot(ctn = None): # Disproportionally powerful
+    ctn.slimes_damage *= 3
+    chance = random.randrange(10)
+    
+    if chance == 0:
+        ctn.miss = True
+    elif chance == 9:
+        ctn.crit = True
+        ctn.slimes_damage *= 3 # *9
 
 
 # All enemy attacking types in the game.
@@ -461,6 +471,24 @@ EwAttackType(  #17
         str_killdescriptor="clobbered",
         str_damage="{name_enemy} cleaves {name_target} with their bonemerang!",
         fn_effect=atf_boomerang,
+    ),
+    EwAttackType( # 22
+        id_type="icespike",
+        str_crit="**SHHHKK!!!** {name_enemy} launches an ice spike directly into {name_target}'s stomach! {name_target} pulls it out, along with a some of their guts.",
+        str_miss="**MISS!** {name_enemy} fails to conjure any ice!",
+        str_kill="**KKKRACK!! {name_enemy} freezes {name_target} in a solid block of ice! {name_target} tips over and shatters on the ground, breaking into frozen chunks and fragments.",
+        str_killdescriptor="frozen",
+        str_damage="{name_enemy} conjures unworldly ice at {name_target}!",
+        fn_effect=atf_bigshot,
+    ),
+    EwAttackType( # 22
+        id_type="bloodsucker",
+        str_crit="**SLLUUUURP!!!** {name_target} tugs {name_enemy} off of them, but not before {name_enemy} drinks up a hefty amount their slime.",
+        str_miss="**MISS!** {name_target} dodges {name_target}'s sucker!",
+        str_kill="**SUUUUUUUUUCK!!!** {name_target}'s very life force is sucked dry by {name_enemy}! {name_target} collapses to the ground, their veins empty of slime!",
+        str_killdescriptor="sucked",
+        str_damage="{name_enemy} quickly sucks {name_target}'s slime!",
+        fn_effect=atf_smallclaws,
     ),
 ]
 
