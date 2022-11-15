@@ -176,7 +176,6 @@ async def reap(cmd):
     response, responses = "", []
     levelup_response = ""
     mutations = user_data.get_mutations()
-    cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     poi = poi_static.id_to_poi.get(user_data.poi)
 
     # check if the user has a farming tool equipped
@@ -251,10 +250,7 @@ async def reap(cmd):
                     unearthed_item_chance = 50 / ewcfg.unearthed_item_rarity  # 1 in 30 chance
 
                     if ewcfg.mutation_id_lucky in mutations:
-                        unearthed_item_chance *= 1.33   # 1 in 22.5 chance
-                    
-                    if ewcfg.cosmeticAbility_id_lucky in cosmetic_abilites:
-                        unearthed_item_chance *= 1.33   # 1 in ~17 chance with both
+                        unearthed_item_chance *= 1.777   # 1 in ~17 chance
 
                     if has_tool and weapon.id_weapon == ewcfg.weapon_id_shovel:   # 1 in 6 chance
                         unearthed_item_chance *= 5

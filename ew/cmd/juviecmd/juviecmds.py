@@ -360,7 +360,6 @@ async def mine(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     mutations = user_data.get_mutations()
-    cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     time_now = int(time.time())
     poi = poi_static.id_to_poi.get(user_data.poi)
 
@@ -506,9 +505,7 @@ async def mine(cmd):
             if has_pickaxe == True:
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
-                unearthed_item_chance *= 1.33
-            if ewcfg.cosmeticAbility_id_lucky in cosmetic_abilites:
-                unearthed_item_chance *= 1.33
+                unearthed_item_chance *= 1.777
 
             # event bonus
             for id_event in world_events:

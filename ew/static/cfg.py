@@ -3363,7 +3363,7 @@ soul_durability = 100000000  # 100 mega
 
 cosmetic_id_raincoat = "raincoat"
 
-cosmeticAbility_id_lucky = "lucky"
+cosmeticAbility_id_lucky = "lucky"  # Not in use. Mininghelmets have this ability.
 cosmeticAbility_id_boost = "boost"  # Not in use. Rollerblades have this ability.
 cosmeticAbility_id_clout = "clout"
 cosmeticAbility_id_nmsmascot = "nmsmascot" # Used to track the NMS mascot cosmetic set

@@ -3069,24 +3069,29 @@ async def manual_poi_event_create(cmd):
     pre_chosen_event = None
     pre_chosen_poi = None
     pre_chosen_buffer = None
+    pre_chosen_length = None
 
     if len(cmd.tokens) > 1:
         pre_chosen_event = cmd.tokens[1]
         if pre_chosen_event == "random":
             pre_chosen_event = None
     else:
-        response = "Invalid use of command. An example is \"!createpoievent firestorm arsonbrook true\"\n\n\"firestorm\" is the desired POI event. Can be specified as \"random\".\n\"arsonbrook\" is the specified POI. Is optional.\n\"true\" is to start the worldevent immediately rather than to have the default buffer. This can also be a number, which will specify the amount of in-game hours (15 irl minutes) the buffer will last. Is optional."
+        response = "Invalid use of command. Correct format is \"!createpoievent <event> [id_poi] [buffer] [length]\". A correct example would be *\"!createpoievent tornado downtown 24 4\"*. \nEvent can be specified as \"random\"."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if len(cmd.tokens) > 2:
         pre_chosen_poi = cmd.tokens[2]
-    if len(cmd.tokens) > 3:
-        if cmd.tokens[3] == "true":
-            pre_chosen_buffer = 0
-        else:
-            pre_chosen_buffer = int(cmd.tokens[3])
 
-    await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=pre_chosen_event, pre_chosen_poi=pre_chosen_poi, pre_chosen_buffer=pre_chosen_buffer)
+        if len(cmd.tokens) > 3:
+            if cmd.tokens[3] == "true":
+                pre_chosen_buffer = 0
+            else:
+                pre_chosen_buffer = int(cmd.tokens[3])
+        
+            if len(cmd.tokens) > 4:
+                pre_chosen_length = cmd.tokens[4]
+
+    await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=pre_chosen_event, pre_chosen_poi=pre_chosen_poi, pre_chosen_buffer=pre_chosen_buffer, pre_chosen_length=pre_chosen_length)
 
     response = "POI event created."
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

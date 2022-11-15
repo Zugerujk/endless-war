@@ -464,20 +464,26 @@ def forecast_txt(id_server=None, resp_type="long"):
     return forecast_response
 
 
-async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None, pre_chosen_buffer=None,): # Events are natural disasters, pop-up events, etc.
+async def create_poi_event(id_server, pre_chosen_event=None, # Events are natural disasters, pop-up events, etc.
+                                      pre_chosen_poi=None, 
+                                      pre_chosen_sisterpoi=None,
+                                      pre_chosen_buffer=None, 
+                                      pre_chosen_length=None, 
+                                      pre_chosen_alert=None):
+    # Create the props dict
     event_props = {}
+
     # Get a random event type from poi_events
     if pre_chosen_event != None:
         event_type = pre_chosen_event
     else:
         event_type = random.choice(ewcfg.random_poi_events)
 
-    # Get the time right now
+    # Get the time right now and the event def
     time_now = int(time.time())    
-
-    # Set the event's poi.
     event_def = poi_static.event_type_to_def.get(event_type)
 
+    # Choose the POI
     if pre_chosen_poi != None:
         event_props['poi'] = pre_chosen_poi
     elif event_def.pois != []:
@@ -490,23 +496,26 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
                 event_props['poi'] = district
                 break
 
-    # Set the activation time and expiration time
+    # Get the buffer and length
     if pre_chosen_buffer != None:
-        event_def.buffer = int(pre_chosen_buffer)
+        buffer = int(pre_chosen_buffer)
+    else:
+        buffer = event_def.buffer
+    if pre_chosen_length != None:
+        length = int(pre_chosen_length)
+    else:
+        length = event_def.length
 
-    activation_time = time_now + (event_def.buffer * 60 * 15) + 6 # buffer x 15 minutes
-        
-    expiration_time = activation_time + (event_def.length * 60 * 15) # length x 15 minutes
+    activation_time = time_now + (buffer * 60 * 15) + 6 # buffer x 15 minutes
+    expiration_time = activation_time + (length * 60 * 15) # length x 15 minutes
 
-    # Set whether or not there will be a specific alert for the poi event.
-    # alert = ""
-    # if random.random() > 0.5:
-    #     alert = "gangbase"
-    # event_props['alert'] = alert
+    # Select type of alert - "" for none, "gangbase" for gangbase
+    if pre_chosen_alert != None:
+        alert = pre_chosen_alert
+    else:
+        alert = "gangbase" # always give specifics
 
-    # Always give a specific alert, as to let players know something is happening
-    alert = "gangbase"
-    event_props['alert'] = "gangbase"
+    event_props['alert'] = alert
 
 
     # Does configuration for dimensional rifts - creates the second rift, as well as making the 2 POIs neighbors.
@@ -514,7 +523,10 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
         # Rift 1 is the original location
         rift1_poi = poi_static.id_to_poi.get(event_props['poi'])
         # Rift 2 is the sister location
-        rift2_poi_id = poi_static.landlocked_destinations.get(rift1_poi.id_poi)
+        if pre_chosen_sisterpoi != None:
+            rift2_poi_id = pre_chosen_sisterpoi
+        else:
+            rift2_poi_id = poi_static.landlocked_destinations.get(rift1_poi.id_poi)
         rift2_poi = poi_static.id_to_poi.get(rift2_poi_id)
         
         # Set both locations as neighbors
