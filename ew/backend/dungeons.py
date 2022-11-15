@@ -72,6 +72,14 @@ class EwGamestate():
                 self.number
             ))
 
+    def delete(self):
+        bknd_core.execute_sql_query(
+            "DELETE FROM gamestates WHERE {id_server} = %s AND {id_state} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_state=ewcfg.col_id_state,
+            ), (
+                self.id_server,
+                self.id_state))
 
 class EwBlurb():
     id_server = -1,

@@ -4176,6 +4176,8 @@ enemy_attacktype_cop = 'police'
 enemy_attacktype_dojoman = 'dojoman'
 enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
+enemy_attacktype_icespike = 'icespike'
+enemy_attacktype_bloodsucker = "bloodsucker"
 
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
@@ -4260,6 +4262,7 @@ uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type
 rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
 raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 raid_den_bosses = [enemy_type_alm]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 
 enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 
@@ -4966,21 +4969,21 @@ random_poi_events = [
 
 poi_events = random_poi_events + [event_type_raid_den] 
 
-# DH dates - cry on floor
+# DH dates
 day_map = {
     datetime.date(2022, 10, 28): 0,
     datetime.date(2022, 10, 29): 1,
     datetime.date(2022, 10, 30): 2,
     datetime.date(2022, 10, 31): 3,
-    datetime.date(2022, 10, 1):  4,
+    datetime.date(2022, 11, 1):  4,
     datetime.date(2022, 11, 2):  5,
     datetime.date(2022, 11, 3):  6,
     datetime.date(2022, 11, 4):  7,
     datetime.date(2022, 11, 5):  8,
     datetime.date(2022, 11, 6):  9,
-    datetime.date(2022, 11, 7): 10,
-    datetime.date(2022, 11, 8): 10,
-    datetime.date(2022, 11, 9): 10,
+    datetime.date(2022, 11, 7):  9,
+    datetime.date(2022, 11, 8):  9,
+    datetime.date(2022, 11, 9):  9,
 }
 
 # Events that need to be checked up on every time the market updates

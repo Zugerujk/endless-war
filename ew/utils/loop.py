@@ -878,23 +878,27 @@ async def dh_tick(id_server):
     dhlevelgamestate = EwGamestate(id_server=id_server, id_state='dhlevel')
     dhlevel = ewcfg.dh_stage
     
-    # Make sure dh_stage is equal to the current gamestate level
-    if dhlevel != dhlevelgamestate.bit:
-        ewcfg.dh_stage = dhlevelgamestate.bit
-        print("dh_stage changed to" + str(dhlevelgamestate.bit))
-    # Figure out if the date has looped over
-    if int(current_date_num) != int(dhlevelgamestate.number):
-        # Date has looped over
-        print("spawning enemies") # :P
-        dhlevelgamestate.number = current_date_num
+    try:
+        # Make sure dh_stage is equal to the current gamestate level
+        if dhlevel != dhlevelgamestate.bit:
+            ewcfg.dh_stage = dhlevelgamestate.bit
+            print("dh_stage changed to" + str(dhlevelgamestate.bit))
+        # Figure out if the date has looped over
+        if int(current_date_num) != int(dhlevelgamestate.number):
+            # Date has looped over
+            print("spawning enemies") # :P
+            dhlevelgamestate.number = current_date_num
 
-        #deeeeeebug
-        await debug47(id_server, current_date_num)
-    
-    # Things that just really need to be done every 5 minutes
-    await debug48(id_server, current_date_num)
+            #deeeeeebug
+            await debug47(id_server, current_date_num)
 
-    dhlevelgamestate.persist()
+        # Things that just really need to be done every 5 minutes
+        await debug48(id_server, current_date_num)
+
+        dhlevelgamestate.persist()
+
+    except:
+        ewutils.logMsg("An error occurred in the DH tick loop for server {}".format(id_server))
 
     return
 

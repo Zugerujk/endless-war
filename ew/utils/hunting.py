@@ -180,6 +180,9 @@ def spawn_enemy(
         if pre_chosen_poi == None:
             return
 
+    if ewcfg.dh_stage >= 3 and enemytype in ewcfg.dh_v_enemies:
+        variant = 2 # DH
+        
     if pre_chosen_poi != None:
         chosen_poi = pre_chosen_poi
 
@@ -187,7 +190,7 @@ def spawn_enemy(
         variant = pre_chosen_variant
 
     if enemytype != None:
-        enemy = get_enemy_data(enemytype, variant)
+        enemy = get_enemy_data(enemytype, variant, pre_chosen_rarity)
 
         # Assign enemy attributes that weren't assigned in get_enemy_data
         enemy.id_server = id_server
@@ -334,12 +337,15 @@ def level_byslime(slime):
 
 
 # Assigns enemies most of their necessary attributes based on their type.
-def get_enemy_data(enemy_type, variant = 0):
+def get_enemy_data(enemy_type, variant = 0, pre_chosen_rarity = None):
     enemy = EwEnemy()
 
-    rare_status = 0
-    if random.randrange(5) == 0 and enemy_type not in ewcfg.overkill_enemies:
-        rare_status = 1
+    if pre_chosen_rarity == None:
+        rare_status = 0
+        if random.randrange(5) == 0 and enemy_type not in ewcfg.overkill_enemies:
+            rare_status = 1
+    else:
+        rare_status = pre_chosen_rarity
 
     enemy.id_server = -1
     enemy.slimes = 0
