@@ -3948,7 +3948,7 @@ consult_responses = {
 }
 
 basic_commands = "!slime: Check your slime.\n!look: Look at your surroundings.\n!survey: Get a shortened version of !look.\n!goto <district>: Move to a new area.\n!halt: Stop moving.\n!data: Check your current status.\n!slimecoin: Check your slimecoin.\n!eat: Eat food.\n!use: Use an item.\n!scavenge <captcha>: Scavenge slime off the ground.\n!map: Pull up the map.\n!scout <district>: Check for enemies in an adjacent district."
-juvenile_commands = "!dance: Dance, monkey.\n!enlist <gang>: Enlist in the Rowdys or the Killers."
+juvenile_commands = "!dance: Dance, monkey.\n!enlist <gang>: Enlist in the Rowdys or the Killers.\n!scrub: Do a \"public service\" and wipe graffiti from capped districts, decreasing crime level."
 enlisted_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!suicide: Nah, I'm not telling you what this does.\n!vouch: If a Juvie isn't affiliated, you can !vouch for them to join your gang.\n!progress: Displays capture progress in your current district."
 corpse_commands = "!boo: Become way too scary.\n!haunt <player>: You can haunt active players to rob them of some slime and get antislime.\n!inhabit <player>: Inhabit another player.\n!letgo: Stop inhabiting someone.\n!possessweapon: Possess the weapon of someone you're inhabiting.\n!possessfishingrod: Possess someone's fishing rod in the same way.\n!unpossessfishingrod: Stop possessing the fishing rod.\n!negaslimeoid: Check on your Negaslimeoid, if you have created one.\n!crystalizenegapoudrin: Create a negapoudrin with negaslime.\n!sowcloth: Rip part of your etheral body into fabric."
 player_info_commands = "!data <player>: Check basic player info. Excluding <player> shows your own data.\n!slime <player>:Same as !data, but shows slime count.\n!slimecoin <player>: Same as the above two, but shows SlimeCoin.\n!hunger: Displays hunger.\n!mutations: Check mutations. Add 'level' to the end to display by mutation level.\n!fashion: Displays fashion info.\n!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search.\n!inv search <contents>: Display all items that contain <contents>.\n!apartment: Check your apartment.\n!mastery: Check weapon mastery."
@@ -3963,75 +3963,94 @@ trading_commands = "!trade <player>: Open a trade with a player.\n!offer <item>:
 smelting_commands = "!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item."
 quadrant_commands = "!addquadrant <quadrant> <player>: Add a player to your quadrants.\n!clearquadrant <quadrant>: Break up with someone in your quadrants.\n!quadrants: Displays a full list of quadrants.\n!sloshed, !roseate, !violacious, !policitous: Check on one of the four specific quadrants."
 
-farm_commands = "__FARMS__\n!sow <item>: Plant a poudrin or vegetable into the ground.\n!reap: Reap the crops and slime once they're ready to be harvested.\n!checkfarm: Look at the status of your crops.\n!irrigate, !weed, !fertilize, !pesticide: These commands can be used to increase farm yields, depending on the current status of the farm.\n!mill <crop>: Break down a crop into various smelting materials."
-shop_commands = "__SHOPS__\n!order <item>: Buy an item."
-pier_commands = "__PIERS__\n!cast <bait>: Cast your fishing line. While both are optional, bait increases fishing speed and fishing rods increase fish rarity.\n!reel Reel in a cast line."
-mine_commands = "__MINES__\n!mine: Use this one in the normal mines. A lot.\n!mine a1: Use coordinates when mining in Bubble Breaker and Minesweeper.\n!flag: This will flag off an area in Minesweeper."
-transport_commands = "__TRANSPORT__\n!schedule: Check the subway schedule.\n!embark: Used to board transports\n!disembark: Get off transports."
-zine_writing_places_commands = "__ZINES__\nbrowse <category>: Browse for zines. You can sort by title, author, date, length, et cetera by placing it after the command.\n!orderzine <zine>: Order a zine. Specify the name or number of the zine to pick one out.\n!read <zine ID> Begin reading a zine.\nThere are a lot of zine commands. I would recommend picking up HOW TO ZINE by Milly and learning the details there."
-universities_commands = "__UNIVERSITIES__\n!help <category>: Use this to teach yourself about various gameplay mechanics."
-apartment_commands = "__APARTMENTS__\nFor apartment-specific commands, use !help in DMs to get a list of commands. In addition to that, you can:\n!propstand <item> Turn an item into a piece of furniture.\n!aquarium <fish>: Turn a fish into an aquarium you can use as furniture.\n!pot <crop>: Turn a reaped crop into a flowerpot, same as the aquarium.\n!unpot: Remove a crop from its pot.\n!collect <collection> <item>: Add an item to a collection box.\nGo to the Bazaar to undo prop stands, aquariums, and collections."
+farm_commands = "**FARMS**\n!sow <item>: Plant a poudrin or vegetable into the ground.\n!reap: Reap the crops and slime once they're ready to be harvested.\n!checkfarm: Look at the status of your crops.\n!irrigate, !weed, !fertilize, !pesticide: These commands can be used to increase farm yields, depending on the current status of the farm.\n!mill <crop>: Break down a crop into various smelting materials."
+shop_commands = "**SHOPS**\n!order <item>: Buy an item."
+pier_commands = "**PIERS**\n!cast <bait>: Cast your fishing line. While both are optional, bait increases fishing speed and fishing rods increase fish rarity.\n!reel Reel in a cast line."
+mine_commands = "**MINES**\n!mine: Use this one in the normal mines. A lot.\n!mine a1: Use coordinates when mining in Bubble Breaker and Minesweeper.\n!flag: This will flag off an area in Minesweeper."
+transport_commands = "**TRANSPORT**\n!schedule: Check the subway schedule.\n!embark: Used to board transports\n!disembark: Get off transports."
+zine_writing_places_commands = "**ZINES**\nbrowse <category>: Browse for zines. You can sort by title, author, date, length, et cetera by placing it after the command.\n!orderzine <zine>: Order a zine. Specify the name or number of the zine to pick one out.\n!read <zine ID> Begin reading a zine.\nThere are a lot of zine commands. I would recommend picking up HOW TO ZINE by Milly and learning the details there."
+universities_commands = "**UNIVERSITIES**\n!help <category>: Use this to teach yourself about various gameplay mechanics."
+apartment_commands = "**APARTMENTS**\nFor apartment-specific commands, use !help in DMs to get a list of commands. In addition to that, you can:\n!propstand <item> Turn an item into a piece of furniture.\n!aquarium <fish>: Turn a fish into an aquarium you can use as furniture.\n!pot <crop>: Turn a reaped crop into a flowerpot, same as the aquarium.\n!unpot: Remove a crop from its pot.\n!collect <collection> <item>: Add an item to a collection box.\nGo to the Bazaar to undo prop stands, aquariums, and collections."
 
 mutation_unique_commands = {
-    "oneeyeopen": "__ONE EYE OPEN__\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
-    "aposematicstench": "__APOSEMATIC STENCH__\n!stink: Gain stink, which drives away monsters. It functions like Fuck Energy Body Spray.",
-    "bleedingheart": "__BLEEDING HEART__\n!bleedout: Purge your bleed storage onto the ground all at once.",
-    "longarms": "__LONG ARMS__\n!longdrop <location> <item>: Drop an item in an adjacent district.",
-    "rigormortis": "__RIGOR MORTIS__\n!preserve <item>: Prevent an item from dropping when you die.",
-    "ditchslap": "__DITCH SLAP__\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
-    "landlocked": "__LANDLOCKED__\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
-    "organicfursuit": "__ORGANIC FURSUIT__\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
-    "enlargedbladder": "__ENLARGED BLADDER__\n!piss: Need I say more?",
-    "quantumlegs": "__QUANTUM LEGS__\n!tp <location>: Teleport up to two areas away.",
-    "trashmouth": "__TRASH MOUTH__\n!devour item: Eat some non-food items."
+    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
+    "aposematicstench": "**APOSEMATIC STENCH**\n!stink: Gain stink, which drives away monsters. It functions like Fuck Energy Body Spray.",
+    "bleedingheart": "**BLEEDING HEART**\n!bleedout: Purge your bleed storage onto the ground all at once.",
+    "longarms": "**LONG ARMS**\n!longdrop <location> <item>: Drop an item in an adjacent district.",
+    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.",
+    "ditchslap": "**DITCH SLAP**\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
+    "landlocked": "**LANDLOCKED**\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
+    "organicfursuit": "**ORGANIC FURSUIT**\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
+    "enlargedbladder": "**ENLARGED BLADDER**\n!piss: Need I say more?",
+    "quantumlegs": "**QUANTUM LEGS**\n!tp <location>: Teleport up to two areas away.",
+    "trashmouth": "**TRASH MOUTH**\n!devour item: Eat some non-food items.",
+}
+    
+item_unique_commands = {
+    "slimepoudrin": "**SLIME POUDRIN**\n!annoint <name>: Anoint your weapon in slime and give it a name. Your weapon mastery increases, up to rank 6 master.\n!crush poudrin: Break the poudrin and get slime.", # At the top, cuz it's super important
+    "alarmclock": "**ALARM CLOCK**\n!setalarm <time> <item>: When holding an alarm clock, you can set it to an in-game time. It will DM you when it sounds if it's in your inventory. You can set it to \"OFF\" instead of a time.",
+    "brick": "**BRICK**\n!toss <player>: When near a player's apartment, you can throw bricks through their window. When near a player, you can throw it at them.\n!skullbash: With a brick, immobilize yourself for 10 minutes.",
+    "cigar": "**CIGAR**\n!smoke <cigar>: Smoke cigars.",
+    "cigarette": "**CIGARETTE**\n!smoke <cigarette>: Smoke cigarettes.",
+    "costumekit": "**COSTUME KIT**\n!makecostume \"<name>\" \"<description>\": Fashion yourself a Double Halloween costume.",
+    "gameguide": "**GAME GUIDE**\n!help: Get some in-depth help on game topics.",
+    "gellphone": "**GELLPHONE**\n!use gellphone: Turn your gellphone on/off. When on, you'll gain access to Slime-Based Social Media.",
+    "laptopcomputer": "**LAPTOP**\n!browse: Browse the web on your laptop for RFCK Discord servers if it is in your apartment.",
+    "negapoudrin": "**NEGAPOUDRIN**\n!crush negapoudrin: Break the negapoudrin and gain negaslime.",
+    "partypopper": "**PARTY POPPER**\n!use <partypopper>: Pop your party popper and spread confetti and glitter everywhere!",
+    "pheromones": "**KINKFISH PHEROMONES**\n!use <pheromones>: Spray yourself with pheromones and smell reeeeeeeeaaaaal good!",
+    "pictureframe": "**PICTURE FRAME**\n!frame <image link>: Put an image in a picture frame.\n!titleframe <title>: Add a title to a picture frame.",
+    "prankcapsule": "**PRANK CAPSULE**\n!use <prankcapsule>: Pop open a prank capsule and get a random prank item!",
+    "royaltypoudrin": "**ROYALTY POUDRIN**\n!crush royaltypoudrin: Break the royalty poudrin and gain slime.",
+    "shovel": "**SHOVEL**\n!bury <coordinates> <item>: Bury an item in the ground. For more information, try \"!help burying\".",   
+    "skateboard": "**SKATEBOARD**\n!skate: Rock some slammin' tricks on your board, dude!",
+    "television": "**TV**\n!watch: Watch TV if it's in your apartment. Stop watching by taking the TV out of your apartment.",
+    "vape": "**VAPE**\n!vape <vape pod>: Smoke vape pods in your inventory.",
+    "washingmachine": "**WASHING MACHINE**\n!wash <object>: Remove the dye from a slimeoid or a piece of clothing if it is in your apartment.",
 }
 
-item_unique_commands = {
-    "brick": "__BRICK__\n!toss <player>: When near a player's apartment, you can throw bricks through their window. When near a player, you can throw it at them.\n!skullbash: With a brick, immobilize yourself for 10 minutes.",
-    "alarmclock": "__ALARM CLOCK__\n!setalarm <time> <item>: When holding an alarm clock, you can set it to an in-game time. It will DM you when it sounds if it's in your inventory. You can set it to \"OFF\" instead of a time.",
-    "slimepoudrin": "__SLIME POUDRIN__\n!annoint <name>: Anoint your weapon in slime and give it a name. Your weapon mastery increases.\n!crush poudrin: Break the poudrin and get slime.",
-    "washingmachine": "__WASHING MACHINE__\n!wash <object>: Remove the dye from a slimeoid or a piece of clothing if it is in your apartment.",
-    "laptopcomputer": "__LAPTOP__\n!browse: Browse the web on your laptop for RFCK Discord servers if it is in your apartment.",
-    "cigarette": "__CIGARETTE__\n!smoke <cigarette>: Smoke cigarettes.",
-    "cigar": "__CIGAR__\n!smoke <cigar>: Smoke cigars.",
-    "vape": "__VAPE__\n!vape <vape pod>: Smoke vape pods in your inventory.",
-    "pictureframe": "__PICTURE FRAME__\n!frame <image link>: Put an image in a picture frame.\n!titleframe <title>: Add a title to a picture frame.",
-    "television": "__TV__\n!watch: Watch TV if it's in your apartment. Stop watching by taking the TV out of your apartment."
+item_group_commands = {
+    "bodyspray": "**FUCK ENERGY BODY SPRAY**\n!use <item>: Spray yourself down with body spray, making monsters not target you for a time.",
+    "instantuse_response_pranks": "**INSTANT-USE/RESPONSE-TYPE PRANKS**\n!use <item> <@player>: Use the prank item at player, totally making a fool out of 'em!",
+    "trap_pranks": "**TRAP-TYPE PRANKS**\n!use <item>: Lay the prank item on the floor, primed to prank an unsuspecting player who passes by.",
+    "instruments": "**INSTRUMENTS**\n!jam <instrument>: Jam out on your instrument.",
+    "tradingcards": "**TRADING CARDS**\n!unwrap <item>: Unwrap some trading cards (after crossing your fingers, of course).",
+    "wrappingpaper": "**WRAPPING PAPER**\n!wrap <@player> \"<message>\" <item>: Wrap an item for a beloved friend of yours, with merriment and cheer!",
 }
 
 holidaycommands = {
     "swildermuk": "",
-    "slimernalia": "__SLIMERNALIA__:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
-    "doublehalloween": "__DOUBLE HALLOWEEN__:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
+    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
+    "doublehalloween": "**DOUBLE HALLOWEEN**:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
 }
 
 district_unique_commands = {
-    "theslimestockexchange": "__STOCK EXCHANGE__\n!invest <amount> <stock>: Invest SlimeCoin into a stock.\nwithdraw <stock> <amount>: Remove SlimeCoin from shares of stock.\n!transfer <amount> <player>: Move your SlimeCoin to another player.\n!shares:Display your current shares.\n!rates:Display current SC:Slime exchange rates.\n!stocks: Displays currently available stocks.",
-    "realestateagency": "__REAL ESTATE__\n!consult <district>: Get information and cost for an apartment.\n!signlease <district>: Purchase an apartment in a new location.\n!breaklease: Cancel the lease you currently have.\n!aptupgrade: Upgrade your apartment, from C to S.\n!changelocks: Erase all housekeys you have in circulation.\n!addkey: Add a housekey to your apartment.",
-    "clinicofslimoplasty": "__CLINIC__\n!chemo <mutation>: Clear a mutation from yourself.\n!graft <mutation>: Attach a new mutation to yourself.\n!browse: Browse the medical zines available.\n!orderzine <zine>: Order a list of mutations to graft.",
-    "thesewers": "__SEWERS__\n!revive: Revive.",
-    "slimecorpslimeoidlaboratory": "__SLIMEOID LAB__\n!embiggen: Make a fish real big.\n!restoreslimeoid <slimeoid>: Restore a Slimeoid from a slimeoid heart.\n!instructions: Go over the many commands used to make a slimeoid.",
-    "thecasino": "__CASINO__\n!slimecraps <amount> <currency>: Gamble at the craps table. Gambling types include slimecoin, slime, and your soul.\n!slimeroulette <amount> <bet> <type>:Gamble at the roulette wheel. Types are same as above, bet options are shown by typing !slimeroulette <amount>.\n!slimeslots <type>: Bet a fixed amount in slots. Accepts Slime and SlimeCoin.\n!slimepachinko <type> Same as above, but in pachinko.\n!slimebaccarat <amount> <currency> <hand>: Bet slime, slimecoin, or souls on baccarat. The hand is either 'player' or 'dealer'.\n!slimeskat <player> <player>: Challenge two players to a game of slimeskat. You bet Slimecoin once the game has started.\n!russianroulette <player>: Challenge your opponent to russian roulette. Add 'soul' to the end of the command to gamble souls.\n!betsoul: Exchange your soul for {} SlimeCoin.\n!buysoul <player>: Buy a soul off the casino for {} SlimeCoin, if one is in stock.".format(
+    "theslimestockexchange": "**STOCK EXCHANGE**\n!invest <amount> <stock>: Invest SlimeCoin into a stock.\nwithdraw <stock> <amount>: Remove SlimeCoin from shares of stock.\n!transfer <amount> <player>: Move your SlimeCoin to another player.\n!shares:Display your current shares.\n!rates:Display current SC:Slime exchange rates.\n!stocks: Displays currently available stocks.",
+    "realestateagency": "**REAL ESTATE**\n!consult <district>: Get information and cost for an apartment.\n!signlease <district>: Purchase an apartment in a new location.\n!breaklease: Cancel the lease you currently have.\n!aptupgrade: Upgrade your apartment, from C to S.\n!changelocks: Erase all housekeys you have in circulation.\n!addkey: Add a housekey to your apartment.",
+    "clinicofslimoplasty": "**CLINIC**\n!chemo <mutation>: Clear a mutation from yourself.\n!graft <mutation>: Attach a new mutation to yourself.\n!browse: Browse the medical zines available.\n!orderzine <zine>: Order a list of mutations to graft.",
+    "thesewers": "**SEWERS**\n!revive: Revive.",
+    "slimecorpslimeoidlaboratory": "**SLIMEOID LAB**\n!embiggen: Make a fish real big.\n!restoreslimeoid <slimeoid>: Restore a Slimeoid from a slimeoid heart.\n!instructions: Go over the many commands used to make a slimeoid.",
+    "thecasino": "**CASINO**\n!slimecraps <amount> <currency>: Gamble at the craps table. Gambling types include slimecoin, slime, and your soul.\n!slimeroulette <amount> <bet> <type>:Gamble at the roulette wheel. Types are same as above, bet options are shown by typing !slimeroulette <amount>.\n!slimeslots <type>: Bet a fixed amount in slots. Accepts Slime and SlimeCoin.\n!slimepachinko <type> Same as above, but in pachinko.\n!slimebaccarat <amount> <currency> <hand>: Bet slime, slimecoin, or souls on baccarat. The hand is either 'player' or 'dealer'.\n!slimeskat <player> <player>: Challenge two players to a game of slimeskat. You bet Slimecoin once the game has started.\n!russianroulette <player>: Challenge your opponent to russian roulette. Add 'soul' to the end of the command to gamble souls.\n!betsoul: Exchange your soul for {} SlimeCoin.\n!buysoul <player>: Buy a soul off the casino for {} SlimeCoin, if one is in stock.".format(
         soulprice, soulprice),
-    "thedojo": "__DOJO__\n!spar <player>: Spar with someone to increase your weapon level.\n!marry: Marry your weapon.\n!divorce: The inevitable, after marrying your weapon.\n!object: Interrupt a marriage as it's going. ",
-    "thebattlearena": "__BATTLE ARENA__\n!slimeoidbattle <player>: Challenge a player to a slimeoid battle. They can !accept or !decline.",
-    "slimecorphq": "__SLIMECORP HQ__\n!donate <amount>: Donate slime to Slimecorp and exchange it for SlimeCoin.\n!requestverification: Acquire a verified checkmark for Slime Twitter.\n!advertise <content>: Advertise something.",
-    "slimesendcliffs": "__CLIFFS__\n!push <player>: Push a player off the cliff.\n!jump: Jump off the cliff.\n!toss <item>: Toss an item off the cliff.",
-    "sodafountain": "__SODA FOUNTAIN__\n!purify: At Level 50, you can reset slime to zero and level to 1. Mutations stick around.",
-    "speakeasy": "__SPEAKEASY__\n!barter <fish>: Barter your fish with Albert Alexander.\nbarterall: All the fish will be removed from your inventory and exchanged with slime and items you would've gotten for bartering.\n!appraise: Get the quality of a fish reviewed by Albert Alexander.",
-    "recyclingplant": "__RECYCLING PLANT__\n!recycle <item>: Recycle an item in exchange for SlimeCoin.",
-    "copkilltown": "__COP KILLTOWN__\n!renounce: Unenlist from your gang in exchange for half your slime.\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
-    "rowdyroughhouse": "__ROWDY ROUGHHOUSE__\n!renounce: Unenlist from your gang in exchange for half your slime.\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
-    "juviesrow": "__JUVIE'S ROW__\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
-    "bazaar": "__BAZAAR__\n!extract <collection item> <item>: For a fee, remove an item from a collection.\n!unstand <item>: Remove an item from its prop stand.\n!releasefish <aquarium>: Remove fish from their aquarium.",
-    "vandalpark": "__VANDAL PARK__\n!slimeball <team>: Join a game of Slimeball. Teams are purple and pink. Read about details in the Game Guide.",
-    "endlesswar": "__ENDLESS WAR__\n!pray <target>: Pray to someone.",
-    "thesummit" : "__THE SUMMIT__\n!jump: A suicidal, expedited version of snowboarding.",
-    "limecorp3f": "__LIMECORP 3F__\n!jump: Commit career suicide.",
-    "blimp": "__BLIMP__:\nGo skydiving. No parachute, but you can pretend.",
-    "themuseum": "__THE MUSEUM__\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
-    "wafflehouse": "__WAFFLE HOUSE__\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
-    "doorsofthesludgenant": "__DOOR OF THE SLUDGENANT__\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
+    "thedojo": "**DOJO**\n!spar <player>: Spar with someone to increase your weapon level.\n!marry: Marry your weapon.\n!divorce: The inevitable, after marrying your weapon.\n!object: Interrupt a marriage as it's going. ",
+    "thebattlearena": "**BATTLE ARENA**\n!slimeoidbattle <player>: Challenge a player to a slimeoid battle. They can !accept or !decline.",
+    "slimecorphq": "**SLIMECORP HQ**\n!donate <amount>: Donate slime to Slimecorp and exchange it for SlimeCoin.\n!requestverification: Acquire a verified checkmark for Slime Twitter.\n!advertise <content>: Advertise something.",
+    "slimesendcliffs": "**CLIFFS**\n!push <player>: Push a player off the cliff.\n!jump: Jump off the cliff.\n!toss <item>: Toss an item off the cliff.",
+    "sodafountain": "**SODA FOUNTAIN**\n!purify: At Level 50, you can reset slime to zero and level to 1. Mutations stick around.",
+    "speakeasy": "**SPEAKEASY**\n!barter <fish>: Barter your fish with Albert Alexander.\nbarterall: All the fish will be removed from your inventory and exchanged with slime and items you would've gotten for bartering.\n!appraise: Get the quality of a fish reviewed by Albert Alexander.",
+    "recyclingplant": "**RECYCLING PLANT**\n!recycle <item>: Recycle an item in exchange for SlimeCoin.",
+    "copkilltown": "**COP KILLTOWN**\n!renounce: Unenlist from your gang in exchange for half your slime.\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
+    "rowdyroughhouse": "**ROWDY ROUGHHOUSE**\n!renounce: Unenlist from your gang in exchange for half your slime.\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
+    "juviesrow": "**JUVIE'S ROW**\n!chest: Check the contents of the community chest.\n!snag <item>: Take items from the community chest.\n!stow <item>: Place inventory items in the community chest.",
+    "bazaar": "**BAZAAR**\n!extract <collection item> <item>: For a fee, remove an item from a collection.\n!unstand <item>: Remove an item from its prop stand.\n!releasefish <aquarium>: Remove fish from their aquarium.",
+    "vandalpark": "**VANDAL PARK**\n!slimeball <team>: Join a game of Slimeball. Teams are purple and pink. Read about details in the Game Guide.",
+    "endlesswar": "**ENDLESS WAR**\n!pray <target>: Pray to someone.",
+    "thesummit" : "**THE SUMMIT**\n!jump: A suicidal, expedited version of snowboarding.",
+    "limecorp3f": "**LIMECORP 3F**\n!jump: Commit career suicide.",
+    "blimp": "**BLIMP**:\nGo skydiving. No parachute, but you can pretend.",
+    "themuseum": "**THE MUSEUM**\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
+    "wafflehouse": "**WAFFLE HOUSE**\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
+    "doorsofthesludgenant": "**DOOR OF THE SLUDGENANT**\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
 }
 
 

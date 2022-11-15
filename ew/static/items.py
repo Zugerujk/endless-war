@@ -1999,8 +1999,11 @@ prank_items_scandalous = []  # uncommon
 prank_items_forbidden = []  # rare
 
 prank_items_instantuse = []  # instant use items
+prank_items_instantuse_names = []
 prank_items_response = []  # response items
+prank_items_response_names = []
 prank_items_trap = []  # traps
+prank_items_trap_names = []
 
 # Gather all prank items based on rarity
 for p in item_list:
@@ -2022,19 +2025,29 @@ for p in item_list:
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_instantuse:
         prank_items_instantuse.append(p)
+        prank_items_instantuse_names.append(p.id_item)
     else:
         pass
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_response:
         prank_items_response.append(p)
+        prank_items_response_names.append(p.id_item)
     else:
         pass
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_trap:
         prank_items_trap.append(p)
+        prank_items_trap_names.append(p.id_item)
     else:
         pass
 
+wrap_items_names = []
+
+for w in item_list:
+    if w.context == ewcfg.context_wrappingpaper:
+        wrap_items_names.append(w.id_item)
+    else:
+        pass
 
 
 furniture_list = [

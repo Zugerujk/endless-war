@@ -1763,19 +1763,20 @@ async def commands(cmd):
     response = ""
     category = ewutils.flattenTokenListToString(tokens=cmd.tokens[1:])
 
-    if cmd.tokens_count == 1:
-        response += "Look up basic commands with **!commands basic**, or a full list with **!commands categories**.\n"
+    # if cmd.tokens_count == 1:
+    #     response += "Look up basic commands with **!commands basic**, or a full list with **!commands categories**.\n"
 
-        response += location_commands(cmd)
-        response += mutation_commands(cmd)
-        response += item_commands(cmd)
-        response += holiday_commands()
+    #     response += location_commands(cmd)
+    #     response += mutation_commands(cmd)
+    #     response += item_commands(cmd)
+    #     response += holiday_commands()
         
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    #     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-    if "categories" in category:
+    if "categories" in category or cmd.tokens_count == 1:
         response += "Categories are: \n\n**Basic**: Bread-and-butter commands.\n"\
                                     "**Player Info**: Commands that tell you some of your statistics.\n"\
+                                    "**My Items** / **My Location** / **My Mutations** / **My Faction** / **My Race**: Commands for things pertaining to you.\n"\
                                     "**Outside Links**: Links to things such as the map and wiki.\n"\
                                     "**Items**: Show item-related commands.\n"\
                                     "**Combat**: Combat-based commands.\n"\
@@ -1787,12 +1788,14 @@ async def commands(cmd):
                                     "**Quadrants**: Quadrant related commands.\n"\
                                     "**Misc**: Miscellaneous commands.\n"\
                                     "**Flavor**: Other shitpost-y type commands.\n"\
-                                    "**My Items** / **My Location** / **My Mutations** / **My Faction** / **My Race**: Commands for things pertaining to you.\n"\
                                     "**All Items** / **All Mutations**: All commands for items or mutations.\n"\
                                     "**Holiday**: If an event is going on, display the commands for it.\n\n"\
                                     "You can also check the commands of a specific location using !commands location <district>."
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
     if "basic" in category:
-        response += "\n\n" + ewcfg.basic_commands
+        response += "Commands:\n" + ewcfg.basic_commands
 
     elif ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':    
         poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2])
@@ -1808,70 +1811,70 @@ async def commands(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif "myitems" in category:
-        response += "\n\n" + item_commands(cmd)
+        response += "" + item_commands(cmd)
     elif "mylocation" in category:
-        response += "\n\n" + location_commands(cmd)
+        response += "" + location_commands(cmd)
     elif "mymutations" in category:
-        response += "\n\n" + mutation_commands(cmd)
+        response += "" + mutation_commands(cmd)
     elif "myfaction" in category:
         if user_data.life_state == ewcfg.life_state_juvenile:
-            response += "\n\n" + ewcfg.juvenile_commands
+            response += "Commands:\n" + ewcfg.juvenile_commands
         elif user_data.life_state == ewcfg.life_state_corpse:
-            response += "\n\n" + ewcfg.corpse_commands
+            response += "Commands:\n" + ewcfg.corpse_commands
         else:
             if user_data.faction == 'rowdys':
-                response += "\n\n" + "!thrash: Thrashing is a rowdy's fucking lifeblood.\n"
+                response += "Commands:\n" + "!thrash: Thrashing is a rowdy's fucking lifeblood.\n"
             elif user_data.faction == 'killers':
-                response += "\n\n" + "!dab: To dab on some haters.\n"
+                response += "Commands:\n" + "!dab: To dab on some haters.\n"
             response += ewcfg.enlisted_commands
     elif "juvies" in category:
-        response += "\n\n" + ewcfg.juvenile_commands
+        response += "Commands:\n" + ewcfg.juvenile_commands
     elif "corpses" in category:
-        response += "\n\n" + ewcfg.corpse_commands
+        response += "Commands:\n" + ewcfg.corpse_commands
     elif "enlisted" in category:
-        response += "\n\n" + ewcfg.enlisted_commands
+        response += "Commands:\n" + ewcfg.enlisted_commands
     elif "myrace" in category:
         race = user_data.race
         if ewcfg.race_unique_commands.get(race) is not None:
-            response += "\n\n" + ewcfg.race_unique_commands.get(race)
+            response += "Commands:\n" + ewcfg.race_unique_commands.get(race)
         else:
-            response += "\n\nNo racial commands found."
+            response += "No racial commands found."
     elif "doublehalloween" in category:
-        response += "\n\n" + ewcfg.holidaycommands.get("doublehalloween")
+        response += "Commands:\n" + ewcfg.holidaycommands.get("doublehalloween")
     elif "holiday" in category:
-        response += "\n\n" + holiday_commands(header = False)
+        response += "Commands:\n" + holiday_commands(header = False)
     elif "combat" in category:
-        response += "\n\n" + ewcfg.combat_commands
+        response += "Commands:\n" + ewcfg.combat_commands
     elif "capping" in category:
-        response += "\n\n" + ewcfg.capping_commands
+        response += "Commands:\n" + ewcfg.capping_commands
     elif "playerinfo" in category:
-        response += "\n\n" + ewcfg.player_info_commands
+        response += "Commands:\n" + ewcfg.player_info_commands
     elif "outsidelinks" in category:
-        response += "\n\n" + ewcfg.external_link_commands
-    elif "items" in category:
-        response += "\n\n" + ewcfg.item_commands
+        response += "Commands:\n" + ewcfg.external_link_commands
+    elif "items" in category and "allitems" not in category:
+        response += "Commands:\n" + ewcfg.item_commands
     elif "cosmeticsanddyes" in category:
-        response += "\n\n" + ewcfg.cosmetics_dyes_commands
+        response += "Commands:\n" + ewcfg.cosmetics_dyes_commands
     elif "slimeoids" in category:
-        response += "\n\n" + ewcfg.slimeoid_commands
+        response += "Commands:\n" + ewcfg.slimeoid_commands
     elif "smelting" in category:
-        response += "\n\n" + ewcfg.smelting_commands
+        response += "Commands:\n" + ewcfg.smelting_commands
     elif "trading" in category:
-        response += "\n\n" + ewcfg.trading_commands
+        response += "Commands:\n" + ewcfg.trading_commands
     elif "quadrants" in category:
-        response += "\n\n" + ewcfg.quadrant_commands
+        response += "Commands:\n" + ewcfg.quadrant_commands
     elif "misc" in category:
-        response += "\n\n" + ewcfg.miscellaneous_commands
+        response += "Commands:\n" + ewcfg.miscellaneous_commands
     elif "flavor" in category:
-        response += "\n\n" + ewcfg.flavor_commands
+        response += "Commands:\n" + ewcfg.flavor_commands
     elif "farming" in category:
-        response += "\n\n" + ewcfg.farm_commands
+        response += "Commands:\n" + ewcfg.farm_commands
     elif "allitems" in category:
-        response += "\n\n"
+        response += "Commands:\n"
         for item in ewcfg.item_unique_commands.keys():
             response += "\n" + ewcfg.item_unique_commands.get(item)
     elif "allmutations" in category:
-        response += "\n\n"
+        response += "Commands:\n"
         for item in ewcfg.mutation_unique_commands.keys():
             response += "\n" + ewcfg.mutation_unique_commands.get(item)
     elif response == "" or '!' not in response:
