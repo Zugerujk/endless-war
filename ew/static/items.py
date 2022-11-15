@@ -1097,7 +1097,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_pranknote,
         str_name="Prank Note",
-        str_desc="A mysterious notebook. It's said that if you write someone's name down in it, they get pranked hardcore.",
+        str_desc="A mysterious notebook. It's said that if you write someone's name down in it, they get pranked hardcore." + ewcfg.prank_type_text_instantuse,
         prank_type=ewcfg.prank_type_instantuse,
         prank_desc="{} writes your name down in the Prank Note! You are almost instantly assaulted by a barrage of cream pies, water baloons, and air horns! Holy fucking shit!!",
         rarity=ewcfg.prank_rarity_forbidden,
@@ -1106,7 +1106,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_bodynotifier,
         str_name="Body Notifier",
-        str_desc="An item that notifies someone of their basic bodily functions.",
+        str_desc="An item that notifies someone of their basic bodily functions." + ewcfg.prank_type_text_instantuse,
         prank_type=ewcfg.prank_type_instantuse,
         prank_desc="{} notifies you of your basic bodily functions.",
         rarity=ewcfg.prank_rarity_heinous,
@@ -1270,7 +1270,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_fakecandy,
         str_name="Fake Candy",
-        str_desc="A bag of fake candy, disguised as candy from last year's Double Halloween",
+        str_desc="A bag of fake candy, disguised as candy from last year's Double Halloween" + ewcfg.prank_type_text_response,
         prank_type=ewcfg.prank_type_response,
         prank_desc="You see a bag of candy lying on the ground. Neaby, you can see {} cackling to themselves like a madman. Maybe it's best to **!ignorethecandy**.",
         response_desc_1="You scoop up the bag and ingest its contents instead. Yuck! These taste awful! Another bag of candy dropped close by catches your attention. **!ignorethecandy**.",
@@ -1284,7 +1284,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_crabarmy,
         str_name="Crab Army",
-        str_desc="An army of crabs, ready to be snip and snap at will.",
+        str_desc="An army of crabs, ready to be snip and snap at will." + ewcfg.prank_type_text_response,
         prank_type=ewcfg.prank_type_response,
         prank_desc="{} calls forth their Crab Army, and directs it towards you! Oh man, you better type **!jumpovercrabs** before it's too late!",
         response_desc_1="A lonesome crab snips and snaps at your leg! Ow, the pain is just brutal! Others are skittering closely behind, type **!jumpovercrabs**.",
@@ -1358,7 +1358,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_landmine,
         str_name="Land Mine",
-        str_desc="A round metal plate, charged with explosives. These are normally only reserved for tanks, but during Swilldermuk, civilians have been given clearance to use them at their personal discretion.",
+        str_desc="A round metal plate, charged with explosives. These are normally only reserved for tanks, but during Swilldermuk, civilians have been given clearance to use them at their personal discretion." + ewcfg.prank_type_text_trap,
         prank_type=ewcfg.prank_type_trap,
         prank_desc="**HOLY FUCKING SHIT!!** You just stepped on a God damn Land Mine! The blast knocks you on your ass and fractures several bones in the lower half of your body. Haha, fucking pranked, bro!!",
         trap_chance=40,
@@ -1459,7 +1459,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_alligatortoy,
         str_name="Alligator Toy",
-        str_desc="A toy alligator, where the objective is to brush its teeth without tripping its jaws. The top jaw on this one is mysteriously outfitted with razor blades instead of plastic, however.",
+        str_desc="A toy alligator, where the objective is to brush its teeth without tripping its jaws. The top jaw on this one is mysteriously outfitted with razor blades instead of plastic, however." + ewcfg.prank_type_text_trap,
         prank_type=ewcfg.prank_type_trap,
         prank_desc='Oh hey! A toy alligator! You had so much fun with these as a kid! You just gotta press on the teeth in the right combination, and...\nOH JESUS CHRIST, THE RAZOR BLADES HIDDEN INSIDE BURY THEMSELVES INTO YOUR HAND!!',
         trap_chance=35,
