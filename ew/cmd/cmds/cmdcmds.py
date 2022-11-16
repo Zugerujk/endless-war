@@ -2559,6 +2559,11 @@ async def set_slime(cmd):
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
         new_slime -= target_user_data.slimes
+
+        if len(cmd.tokens) > 3: # Give negative slime if anything after the int. lazy
+            new_slime = -ewutils.getIntToken(tokens=cmd.tokens, allow_all=True)
+            new_slime -= target_user_data.slimes
+
     else:
         return
 
