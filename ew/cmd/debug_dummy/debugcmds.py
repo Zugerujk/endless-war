@@ -49,6 +49,10 @@ async def change_gamestate(cmd):
     return
 
 
+async def delete_gamestate(cmd):
+    return
+
+
 async def display_states(cmd):
     return
 

@@ -258,8 +258,8 @@ async def craps(cmd):
             value = await collect_bet(cmd, resp, value, user_data, currency_used)
 
             if not value:
-                return
-
+                response = "You're shooed away; the dealer doesn't know how that'd even work!"
+                return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
             if currency_used == ewcfg.currency_soul:
                 if cmd.mentions_count > 0:
                     correct_soul = 0
@@ -531,7 +531,8 @@ async def roulette(cmd):
                 value = await collect_bet(cmd, resp, value, user_data, currency_used)
 
                 if not value:
-                    return
+                    response = "You're shooed away; the dealer doesn't know how that'd even work!"
+                    return await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
                 
                 if currency_used == ewcfg.currency_soul:
                     if cmd.mentions_count > 0:

@@ -281,6 +281,7 @@ async def create(cmd):
 async def exalt(cmd):
     author = cmd.message.author
     user_data = EwUser(member=author)
+    doublehalloween = False
 
     if not author.guild_permissions.administrator and user_data.life_state != ewcfg.life_state_kingpin:
         response = "You do not have the power within you worthy of !exalting another player."
@@ -288,16 +289,32 @@ async def exalt(cmd):
 
     if cmd.mentions_count > 0:
         recipient = cmd.mentions[0]
+        user_id = recipient.id
+        display_name = recipient.display_name
     else:
-        response = 'You need to specify a recipient. Usage: !exalt @[recipient].'
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        if cmd.tokens[1] == "absentee":
+            if cmd.tokens_count == 2:
+                response = 'You need to specify a recipient ID. Usage: !exalt absentee <user_id>'
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+            else:
+                user_id = int(cmd.tokens[2])
+                display_name = str(cmd.tokens[2])
+                doublehalloween = True
+        else:
+            response = 'You need to specify a recipient. Usage: !exalt @[recipient].'
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    
+    if cmd.tokens_count > 2:
+        if cmd.tokens[2] in ["halloween", "doublehalloween"]:
+            doublehalloween = True
 
-    recipient_data = EwUser(member=recipient)
+    if not doublehalloween:
+        recipient_data = EwUser(member=recipient)
 
     # 	DOUBLE HALLOWEEN
     #
     # 	# Gather the Medallion
-    if ewcfg.dh_active:
+    if ewcfg.dh_active or doublehalloween:
         medallion_results = []
         for m in cosmetics.cosmetic_items_list:
             if m.ingredients == 'HorsemanSoul':
@@ -310,7 +327,7 @@ async def exalt(cmd):
 
         medallion_id = bknd_item.item_create(
             item_type=medallion.item_type,
-            id_user=recipient.id,
+            id_user=user_id,
             id_server=cmd.guild.id,
             item_props=medallion_props
         )
@@ -319,7 +336,7 @@ async def exalt(cmd):
         # I imagine this would be something similar to how players can destroy Australium Wrenches in TF2, which broadcasts a message to everyone in the game, or something.
         itm_utils.soulbind(medallion_id)
 
-        response = "**{} has been gifted the Double Halloween Medallion!!**\n".format(recipient.display_name)
+        response = "**{} has been gifted the Double Halloween Medallion!!**\n".format(display_name)
     elif ewcfg.swilldermuk_active:
 
     # 	SWILLDERMUK

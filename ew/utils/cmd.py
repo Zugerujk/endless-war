@@ -308,3 +308,80 @@ def get_crime_level(num, forYou = 1):
             response = ewcfg.crime_status.get(level).format(they=pronounThey, them=pronounThem, their=pronounTheir)
             return response.capitalize()
     return ewcfg.crime_status.get(1000000)
+
+
+# Determine if a channel has any topics that relate to it in !help
+def channel_help_topics(channel, poi = None):
+    topics = []
+
+    # Basics
+    if channel in [ewcfg.channel_downtown, ewcfg.channel_endlesswar]:
+        topics.append("basics")
+    # Mining
+    elif channel in [ewcfg.channel_mines, ewcfg.channel_mines_sweeper, ewcfg.channel_mines_bubble, ewcfg.channel_cv_mines, ewcfg.channel_cv_mines_sweeper, ewcfg.channel_cv_mines_bubble, ewcfg.channel_tt_mines, ewcfg.channel_tt_mines_sweeper, ewcfg.channel_tt_mines_bubble]:
+        topics.append("mining")
+    # Farming
+    elif channel in [ewcfg.channel_jr_farms, ewcfg.channel_og_farms, ewcfg.channel_ab_farms]:
+        topics.append("farming")
+    # Fishing
+    elif channel in [ewcfg.channel_speakeasy]: # not piers
+        topics.append('fishing')
+    # Zines
+    elif channel in [ewcfg.channel_greencakecafe, ewcfg.channel_glocksburycomics, ewcfg.channel_neomilwaukeestate, ewcfg.channel_nlacu]:
+        topics.append("zines")
+        topics.append("manuscripts")
+    # Dojo
+    elif channel in [ewcfg.channel_dojo]:
+        topics.append("dojo")
+        topics.append("sparring")
+    # Stock Exchange
+    elif channel in [ewcfg.channel_stockexchange, ewcfg.channel_stockexchange_p]:
+        topics.append("stocks")
+    # Casino
+    elif channel in [ewcfg.channel_casino, ewcfg.channel_casino_p]:
+        topics.append("casino")
+    # Real Estate
+    elif channel in [ewcfg.channel_realestateagency]:
+        topics.append("realestate")
+        topics.append("apartments")
+    # Clinic
+    elif channel in [ewcfg.channel_clinicofslimoplasty]:
+        topics.append("mutations")
+        topics.append("mymutations")
+    # Museum
+    elif channel in [ewcfg.channel_museum]: # append any museum stuff here if museum gets more functionality
+        topics.append("relics")
+        topics.append("fishing")
+    # Slimeoids
+    elif channel in [ewcfg.channel_slimeoidlab, ewcfg.channel_arena, ewcfg.channel_wafflehouse]:
+        topics.append("slimeoids")
+    # Transport
+    elif channel in poi_static.transport_stops_ch:
+        topics.append("transportation")
+    # Death
+    elif channel in [ewcfg.channel_sewers]:
+        topics.append("death")
+    # Cosmetics
+    elif channel in [ewcfg.channel_bodega]:
+        topics.append("cosmetics")
+    # Slimeball
+    elif channel in [ewcfg.channel_vandalpark]:
+        topics.append("slimeball")
+
+    # If the user's poi is included
+    if poi != None:
+        # Vendors
+        if (len(poi.vendors) >= 1) and channel not in [ewcfg.channel_dojo, ewcfg.channel_glocksburycomics, ewcfg.channel_ab_farms, ewcfg.channel_bodega, ewcfg.channel_neomilwaukeestate, ewcfg.channel_nlacu]:
+            topics.append("food")
+        # Apartments
+        if poi.is_apartment:
+            topics.append("apartments")
+        # Outskirts
+        if poi.is_outskirts:
+            topics.append("hunting")
+        # Fishing
+        if poi.is_pier:
+            topics.append("fishing")
+
+
+    return topics

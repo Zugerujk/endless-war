@@ -20,7 +20,7 @@ cmd_map = {
 
     # Create soulbound items
     ewcfg.cmd_create: kingpincmds.create,
-    # ewcfg.cmd_exalt: cmds.exalt,
+    ewcfg.cmd_exalt: kingpincmds.exalt,
 
     # Award players for artistic contributions
     ewcfg.cmd_awardart: kingpincmds.awardart,

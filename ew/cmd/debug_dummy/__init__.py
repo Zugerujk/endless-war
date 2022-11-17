@@ -21,6 +21,7 @@ cmd_map = {
     ewcfg.cmd_prefix + cmd_debug9: debugcmds.debug9,
 
     ewcfg.cmd_changegamestate: debugcmds.change_gamestate,
+    ewcfg.cmd_deletegamestate: debugcmds.delete_gamestate,
     ewcfg.cmd_display_states: debugcmds.display_states,
     # ewcfg.cmd_press_button: cmds.elevator_press,
     # ewcfg.cmd_call_elevator: cmds.elevator_call,
