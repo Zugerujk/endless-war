@@ -303,10 +303,6 @@ async def on_ready():
             asyncio.ensure_future(loop_utils.spawn_prank_items_tick_loop(id_server = server.id))
             asyncio.ensure_future(loop_utils.generate_credence_tick_loop(id_server = server.id))
 
-        if ewcfg.dh_active:
-            asyncio.ensure_future(loop_utils.dh_tick_loop(id_server=server.id))
-
-
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))
 
@@ -416,6 +412,24 @@ async def on_member_join(member):
 
     if user_data.poi in poi_static.tutorial_pois:
         await dungeon_utils.begin_tutorial(member)
+    
+    # Assumedly first time joining
+    if user_data.poi != "thesewers":
+        # give the user a game guide
+        gameguide = static_items.item_map.get('gameguide')
+        item_props = itm_utils.gen_item_props(gameguide)
+        bknd_item.item_create(
+            id_user=member.id,
+            id_server=member.guild.id,
+            item_type=ewcfg.it_item,
+            item_props=item_props
+        )
+        # Wait a bit, send a message
+        asyncio.sleep(30)
+        if random.random() < 0.0666:
+            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
+        else:
+            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
 
 
 @client.event
