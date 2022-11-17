@@ -3,7 +3,7 @@ import datetime
 # Global configuration options.
 
 
-version = "v4.19 S4A1 DOUBLE HALLOWEEN 2022 🎃🦇"
+version = "v4.1911 🕊️2nd Plane Edition🕊️"
 
 
 dir_msgqueue = 'msgqueue'
