@@ -291,8 +291,8 @@ apt_dm_cmd_map = {
     ewcfg.cmd_news: cmdcmds.patchnotes,
     ewcfg.cmd_patchnotes: cmdcmds.patchnotes,
 
-    # gives +10Gigaslime
-    ewcfg.cmd_harvest: cmdcmds.harvest,
+    # gives +10Gigaslime - but NOT in DMs
+    # ewcfg.cmd_harvest: cmdcmds.harvest,
 
     # show what commands are currently available
     ewcfg.cmd_commands_alt1: cmdcmds.commands,

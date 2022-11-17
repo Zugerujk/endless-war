@@ -1350,6 +1350,7 @@ cmd_verification_alt = cmd_prefix + '#verify'
 
 # gamestate admin cmds
 cmd_changegamestate = cmd_prefix + 'changegamestate'
+cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
 
 # elevator cmds
@@ -3678,6 +3679,8 @@ trauma_class_bleeding = "bleeding"
 trauma_class_movespeed = "movespeed"
 trauma_class_hunger = "hunger"
 
+
+server_join_message = "You are a delinquent JUVENILE, recently busted for attempting a scandalous act of vandalism and distribution of highly coveted SLIME. Luckily for you, the juvenile detention center you’ve been assigned to is notoriously corrupt and it’s an open secret how easy escape is. All you have to do for freedom and protection is align yourself to one of the many GANG LEADERS that recruit poor, unfortunate juveniles like yourself. Too pussy to fight directly, they’ve resorted to brainwashed child soldiers to fight their proxy wars for them. Day after day, night after night, from dawn ‘till dusk and dusk ‘till dawn, these troubled youths fight without reason or purpose. Yes, it feels as though a presence pervades this city, from the most poverty-stricken slums to the most gentrified high rise apartments. It is the influence of ENDLESS WAR.\n\nNow get out of DMs and go to #detention-center, juvie. If you need help with ENDLESS WAR, try **!help** or **!commands** there. Alternatively, ask your fellow JUVENILES for help."
 
 generic_help_response = "Check out the guide for help: https://rfck.app/guide/\n\nThe guide won't cover everything though, and may even be a bit outdated in some places, so you can also visit N.L.A.C.U. (!goto uni) or Neo Milwaukee State (!goto nms) to get more in-depth descriptions about how various game mechanics work by using the !help command there. **Portable game guides** can also be bought there for 10,000 slime."
 
