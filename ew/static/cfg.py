@@ -74,11 +74,13 @@ combatant_type_enemy = "enemy"
 life_state_corpse = 0
 life_state_juvenile = 1
 life_state_enlisted = 2
+life_state_vigilante = 3
 life_state_executive = 6
 life_state_lucky = 7
 life_state_grandfoe = 8
 life_state_kingpin = 10
 life_state_observer = 20
+
 
 farm_life_state_juviethumb = 30
 farm_life_state_thumb = 31

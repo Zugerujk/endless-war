@@ -214,6 +214,7 @@ class EwEnemy(EwEnemyBase):
             target_isrowdys = target_data.life_state == ewcfg.life_state_enlisted and target_data.faction == ewcfg.faction_rowdys
             target_isslimecorp = target_data.life_state == ewcfg.life_state_enlisted and target_data.faction == ewcfg.faction_slimecorp
             target_isexecutive = target_data.life_state in [ewcfg.life_state_lucky, ewcfg.life_state_executive]
+            target_isvigilante = target_data.life_state in [ewcfg.life_state_vigilante]
             target_isjuvie = target_data.life_state == ewcfg.life_state_juvenile
             target_isnotdead = target_data.life_state != ewcfg.life_state_corpse
 
@@ -232,14 +233,14 @@ class EwEnemy(EwEnemyBase):
 
             # enemies dont fuck with ghosts, ghosts dont fuck with enemies.
             elif (
-                    target_iskillers or target_isrowdys or target_isjuvie or target_isexecutive or target_isslimecorp) and (
+                    target_iskillers or target_isrowdys or target_isjuvie or target_isexecutive or target_isslimecorp or target_isvigilante) and (
                     target_isnotdead):
                 was_killed = False
                 was_hurt = False
 
                 if target_data.life_state in [ewcfg.life_state_enlisted,
                                               ewcfg.life_state_juvenile, ewcfg.life_state_lucky,
-                                              ewcfg.life_state_executive]:
+                                              ewcfg.life_state_executive, ewcfg.life_state_vigilante]:
 
                     # If a target is being attacked by an enemy with the defender ai, check to make sure it can be hit.
                     if (enemy_data.ai == ewcfg.enemy_ai_defender) and (
