@@ -195,11 +195,12 @@ async def decaySlimes(id_server = None):
             conn = conn_info.get('conn')
             cursor = conn.cursor()
 
-            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost})".format(
+            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost} OR {life_state} = {life_state_vigilante})".format(
                 slimes=ewcfg.col_slimes,
                 life_state=ewcfg.col_life_state,
                 life_state_kingpin=ewcfg.life_state_kingpin,
-                life_state_ghost=ewcfg.life_state_corpse
+                life_state_ghost=ewcfg.life_state_corpse,
+                life_state_vigilante = ewcfg.life_state_vigilante
             ), (
                 id_server,
             ))

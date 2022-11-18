@@ -1041,7 +1041,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
             mods['dmg'] += status_flavor.dmg_mod_self
 
     # Checks if any status mod in the nocost list is in the user's statuses
-    if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0:
+    if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0 or user_data.life_state == ewcfg.life_state_vigilante:
         mods['no_cost'] = True
 
     # Signals presence of vaccine
