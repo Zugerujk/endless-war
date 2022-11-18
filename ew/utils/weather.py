@@ -375,7 +375,7 @@ def forecast_txt(id_server=None, resp_type="long"):
         if resp_type == "long":
             weather_icon_list.append("     　") # Should be :blank:, is 5 hair spaces and an ideographic space due to character limit.
         elif resp_type == "short":
-            weather_icon_list.append("〰️" if ewutils.DEBUG else ewcfg.emote_blank)
+            weather_icon_list.append("〰️")
         blank += 1
                                                                          
     # Simulate the next week, ig.
