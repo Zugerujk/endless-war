@@ -640,7 +640,6 @@ class EwEnemy(EwEnemyBase):
             ewutils.logMsg("Failed to move creature. {}".format(e))
         finally:
             self.persist()
-            print(resp_cont.channel_responses)
             return resp_cont
 
     def change_slimes(self, n = 0, source = None):
