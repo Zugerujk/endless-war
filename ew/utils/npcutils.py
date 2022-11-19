@@ -235,7 +235,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             resp_set = npc_obj.dialogue.get('talk')
         if resp_set is not None:
             response = random.choice(resp_set)
-            name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
+            name = "{}{}{}".format("**__", npc_obj.str_name.upper(), '__**')
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -262,7 +262,7 @@ async def generic_give(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('give') is not None:
         response = random.choice(npc_obj.dialogue.get('give'))
 
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -278,7 +278,8 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         else:
             response = "..."
 
-        name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
+        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+
         if response is not None:
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
@@ -405,7 +406,7 @@ async def marty_give(channel, npc_obj, enemy, item):
         response = "Thanks, but we don't need this item right now. Worthless. Disposable. *Worthless.*"
 
     if response is not None:
-        await fe_utils.talk_bubble(response=response, name="**__MARTY__**", image=npc_obj.image_profile, channel=channel)
+        await fe_utils.talk_bubble(response=response, name='**__MARTY__**', image=npc_obj.image_profile, channel=channel)
 
 
 async def candidate_give(channel, npc_obj, enemy, item):
@@ -433,7 +434,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('give') is not None:
         response = random.choice(npc_obj.dialogue.get('give'))
 
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 async def candidate_die(channel, npc_obj, enemy, item):
@@ -447,7 +448,7 @@ async def candidate_die(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('die') is not None:
         response = random.choice(npc_obj.dialogue.get('die'))
     await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -615,7 +616,6 @@ def find_drinkster(user_data, isDrink):
             user_data.id_server
         ))
     for enemy in enemydata:
-        print(enemy[0])
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
             enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)

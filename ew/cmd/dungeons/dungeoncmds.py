@@ -157,7 +157,7 @@ async def displayblurbs(cmd):
 
 
     query = "SELECT {col_id_id_blurb}, {col_id_blurb} from blurbs".format(col_id_blurb=ewcfg.col_id_blurb, col_id_id_blurb=ewcfg.col_id_id_blurb)
-    print(query)
+
 
     if context is not None:
         query += " WHERE {} = {}".format(ewcfg.col_id_context, context)
