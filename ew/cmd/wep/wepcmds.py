@@ -610,7 +610,7 @@ async def attack(cmd):
     resp_ctn.format_channel_response(cmd.message.channel, attacker_member)
     await resp_ctn.post()
     if weaponCheckDeb:
-        await debug114(cmd=cmd)
+        kf_ctn = await debug114(cmd=cmd, kf_ctn = kf_ctn)
 
     # Post to killfeed if necessary
     if kf_ctn is not None:

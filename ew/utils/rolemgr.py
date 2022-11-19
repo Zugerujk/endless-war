@@ -174,8 +174,9 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
             channels.append(fe_utils.get_channel(server, "rowdy-comms"))
             channels.append(fe_utils.get_channel(server, "rowdy-walkie-talkie"))
             for channel in channels:
-                if used_member in channel.overwrites:
-                    await channel.set_permissions(used_member, overwrite = None)
+                if channel is not None:
+                    if used_member in channel.overwrites:
+                        await channel.set_permissions(used_member, overwrite = None)
 
     # Part 1: Remove overrides the user shouldn't have
     for poi in poi_static.poi_list:

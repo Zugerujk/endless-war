@@ -59,7 +59,7 @@ async def revive(cmd, player_auto = None):
     time_now = int(time.time())
     response = ""
 
-    if cmd.message.channel.name != ewcfg.channel_endlesswar and cmd.message.channel.name != ewcfg.channel_sewers and player_auto is None:
+    if cmd.message.channel.name != ewcfg.channel_endlesswar and cmd.message.channel.name != ewcfg.channel_sewers and player_auto is None and not ewutils.DEBUG:
         response = "Come to me. I hunger. #{}.".format(ewcfg.channel_sewers)
     else:
         if player_auto:
