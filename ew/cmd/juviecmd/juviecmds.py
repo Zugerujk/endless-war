@@ -43,15 +43,11 @@ try:
     from ew.static.rstatic import digup_relics
     from ew.static.rstatic import relic_map
     from ew.static.rstatic import question_map
-    from ew.cmd.debug import debug46
-    from ew.utils.rutils import debug_award
 
 except:
     from ew.static.rstatic_dummy import digup_relics
     from ew.static.rstatic_dummy import relic_map
     from ew.static.rstatic_dummy import question_map
-    from ew.cmd.debug_dummy import debug46
-    from ew.utils.rutils_dummy import debug_award 
 
 async def crush(cmd):
     member = cmd.message.author
@@ -214,17 +210,6 @@ async def crush(cmd):
             
                 if len(levelup_response) > 0:
                     response += "\n\n" + levelup_response
-        elif item_data.item_props.get("context") == "dhgrist":
-
-            # Delete grist from the player's inventory
-            bknd_item.item_delete(id_item=sought_id)
-            
-            responses = []
-            
-            response, responses = await debug46(user_data)
-
-            for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
-
 
 
     else:
@@ -378,7 +363,6 @@ async def mine(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     mutations = user_data.get_mutations()
-    cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     time_now = int(time.time())
     poi = poi_static.id_to_poi.get(user_data.poi)
 
@@ -524,9 +508,7 @@ async def mine(cmd):
             if has_pickaxe == True:
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
-                unearthed_item_chance *= 1.33
-            if ewcfg.cosmeticAbility_id_lucky in cosmetic_abilites:
-                unearthed_item_chance *= 1.33
+                unearthed_item_chance *= 1.777
 
             # event bonus
             for id_event in world_events:
@@ -673,9 +655,6 @@ async def mine(cmd):
             # Tell the player their slime level increased and/or they unearthed an item.
             if was_levelup:
                 response += levelup_response
-
-            if random.random() < 0.0009:
-                response += debug_award(user_data)
 
             #GoonScape Stat
             xp_yield = max(1, round(mining_yield * 0.0077))

@@ -392,7 +392,7 @@ def get_faction(user_data=None, life_state=0, faction="") -> str:
 
     faction_role = ewcfg.role_corpse
 
-    if life_state == ewcfg.life_state_juvenile:
+    if life_state == ewcfg.life_state_juvenile or life_state == ewcfg.life_state_vigilante:
         faction_role = ewcfg.role_juvenile
 
     elif life_state == ewcfg.life_state_enlisted:

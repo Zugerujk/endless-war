@@ -23,14 +23,8 @@ from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 try:
     from . import rutils as rutils
-    from ew.cmd.debug import debug41
-    from ew.cmd.debug import debug47
-    from ew.cmd.debug import debug48
 except:
     from . import rutils_dummy as rutils
-    from ew.cmd.debug_dummy import debug41
-    from ew.cmd.debug_dummy import debug47
-    from ew.cmd.debug_dummy import debug48
 from .combat import EwEnemy
 from .combat import EwUser
 from .district import EwDistrict
@@ -204,11 +198,12 @@ async def decaySlimes(id_server = None):
             conn = conn_info.get('conn')
             cursor = conn.cursor()
 
-            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost})".format(
+            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost} OR {life_state} = {life_state_vigilante})".format(
                 slimes=ewcfg.col_slimes,
                 life_state=ewcfg.col_life_state,
                 life_state_kingpin=ewcfg.life_state_kingpin,
-                life_state_ghost=ewcfg.life_state_corpse
+                life_state_ghost=ewcfg.life_state_corpse,
+                life_state_vigilante = ewcfg.life_state_vigilante
             ), (
                 id_server,
             ))
@@ -284,9 +279,6 @@ async def decaySlimes(id_server = None):
 
                     district_data.persist()
                     total_decayed += slimes_to_decay
-
-            if ewcfg.dh_stage < 10:
-                await debug41(id_server=id_server, slimes_to_decay=total_decayed)
 
             cursor.execute("UPDATE markets SET {decayed} = ({decayed} + %s) WHERE {server} = %s".format(
                 decayed=ewcfg.col_decayed_slimes,
@@ -862,45 +854,6 @@ async def release_timed_prisoners_and_blockparties(id_server, day):
                 blockparty.bit = 0
                 blockparty.value = ''
                 blockparty.persist()
-
-
-# Ensure DH continues running
-async def dh_tick_loop(id_server):
-    while not ewutils.TERMINATE:
-        interval = 5
-        await asyncio.sleep(interval)
-        await dh_tick(id_server)
-
-
-async def dh_tick(id_server):
-    current_date = datetime.date.today()
-    current_date_num = ewcfg.day_map[current_date]
-    dhlevelgamestate = EwGamestate(id_server=id_server, id_state='dhlevel')
-    dhlevel = ewcfg.dh_stage
-    
-    try:
-        # Make sure dh_stage is equal to the current gamestate level
-        if dhlevel != dhlevelgamestate.bit:
-            ewcfg.dh_stage = dhlevelgamestate.bit
-            print("dh_stage changed to" + str(dhlevelgamestate.bit))
-        # Figure out if the date has looped over
-        if int(current_date_num) != int(dhlevelgamestate.number):
-            # Date has looped over
-            print("spawning enemies") # :P
-            dhlevelgamestate.number = current_date_num
-
-            #deeeeeebug
-            await debug47(id_server, current_date_num)
-
-        # Things that just really need to be done every 5 minutes
-        await debug48(id_server, current_date_num)
-
-        dhlevelgamestate.persist()
-
-    except:
-        ewutils.logMsg("An error occurred in the DH tick loop for server {}".format(id_server))
-
-    return
 
 
 async def spawn_prank_items_tick_loop(id_server):
