@@ -340,9 +340,7 @@ async def donate(cmd):
 
 
 async def museum_donate(cmd):
-    current_curator = "amy"
-
-    dialogue_set = ewcfg.museum_curator_dialogue.get(current_curator)
+    dialogue_set = ewcfg.museum_dialogue.get(ewcfg.current_curator)
 
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id)

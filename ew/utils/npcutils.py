@@ -12,8 +12,8 @@ from ew.static import weapons as static_weapons
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
-import ew.hunting as ewhunting
-import ew.backeutils.nd.item as bknd_item
+import ew.utils.hunting as ewhunting
+import ew.backend.item as bknd_item
 from ew.backend.dungeons import EwGamestate
 from ew.backend.player import EwPlayer
 from ew.backend import hunting as bknd_hunting

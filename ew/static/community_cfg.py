@@ -1,5 +1,4 @@
 from . import cfg as ewcfg
-from ew.static.weapons import weapon_list
 
 cabinets_list = [
     "This is a Zoombinis Logical Journey arcade cabinet.\nWait. This is an old PC game. Why the fuck would they port this to cabinet? Now you have to use the stick to move the mouse around. Oh well. Buyers remorse, you suppose. \nhttps://classicreload.com/win3x-logical-journey-of-the-zoombinis.html",
@@ -371,8 +370,6 @@ blurb_context_map = {
     "captcha":ewcfg.captcha_dict
 }
 
-for weapon in weapon_list:
-    blurb_context_map[weapon.id_weapon + "killtext"] = weapon.str_kill
 
 #every weapons unique kill text
 

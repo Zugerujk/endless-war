@@ -1976,6 +1976,10 @@ EwWeapon(  # 48
     ),
 ]
 
+for weapon in weapon_list:
+    comm_cfg.blurb_context_map[weapon.id_weapon + "killtext"] = weapon.str_kill
+
+
 # A map of id_weapon to EwWeapon objects.
 weapon_map = {}
 

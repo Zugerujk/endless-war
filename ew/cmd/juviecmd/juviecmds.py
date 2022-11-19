@@ -711,8 +711,8 @@ async def talk(cmd):
 
     elif user_data.poi in ewcfg.vendor_dialogue.keys() and cmd.tokens_count == 1:
         response = random.choice(ewcfg.vendor_dialogue.get(user_data.poi))
-        thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)[0]
-        rawname = ewcfg.vendor_thumbnails.get(user_data.poi)[1]
+        thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)[1]
+        rawname = ewcfg.vendor_thumbnails.get(user_data.poi)[0]
         name = "{}{}{}".format("*__", rawname, "__*")
         return await fe_utils.talk_bubble(response = response, name = name, image = thumbnail, channel = cmd.message.channel)
 
