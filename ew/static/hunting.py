@@ -433,6 +433,24 @@ enemy_attack_type_list = [
         str_damage="{name_enemy} quickly sucks {name_target}'s slime!",
         fn_effect=atf_smallclaws,
     ),
+    EwAttackType(  # 23
+        id_type="bluntweapon",
+        str_crit="**Critical hit!!** {name_target} is bludgeoned by a heavy object!",
+        str_miss="**MISS!!** {name_enemy}'s swing miss wide of the target!",
+        str_kill="**BAM!!** {name_enemy}'s swing whistles in the air, and {name_target} staggers. A moment later, {name_target}'s body collapses under their own weight. {emote_skull}",
+        str_killdescriptor="blugeoned to mush",
+        str_damage="{name_target} is thwacked in the {hitzone}!!",
+        fn_effect=atf_body
+    ),
+    EwAttackType(  # 24
+        id_type="petrifiedfood",
+        str_crit="**Critical hit!!** {name_target} is bludgeoned by a heavy object!",
+        str_miss="**MISS!!** {name_enemy}'s swing miss wide of the target!",
+        str_kill="**BAM!!** {name_enemy}'s swing whistles in the air, and {name_target} staggers. A moment later, {name_target}'s body collapses under their own weight. {emote_skull}",
+        str_killdescriptor="blugeoned to mush",
+        str_damage="{name_target} is thwacked in the {hitzone}!!",
+        fn_effect=atf_gunkshot
+    ),
 ]
 
 # A map of id_type to EwAttackType objects.

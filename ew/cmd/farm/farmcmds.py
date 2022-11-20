@@ -268,7 +268,7 @@ async def reap(cmd):
 
                     if unearthed_item == True:
                         # If there are multiple possible products, randomly select one.
-                        item = random.choice(vendors.mine_results)
+                        item = random.choice(vendors.mine_results) # inject 
 
                         item_props = itm_utils.gen_item_props(item)
 

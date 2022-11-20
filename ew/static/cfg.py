@@ -4129,6 +4129,7 @@ enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
 enemy_attacktype_icespike = 'icespike'
 enemy_attacktype_bloodsucker = "bloodsucker"
+enemy_attacktype_bluntweapon = "bluntweapon"
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'
@@ -4196,9 +4197,12 @@ enemy_type_alm = "almfe" # Placeholder testing boss
 # Slimernalia Specific Enemies and Raid Bosses
 enemy_type_slimernaliajuvie = "slimernaliajuvie"
 enemy_type_vandal = "vandal"
-enemy_type_immigrant = "illegalimmigrant"
-
-
+enemy_type_illegalimmigrant = "illegalimmigrant"
+enemy_type_arsonist = "arsonist"
+enemy_type_slimeoidtamer = "slimeoidtamer"
+enemy_type_slimernaliagangster = "slimernaliagangster"
+enemy_type_spiritofslimernaliapast = "spiritofslimernaliapast"
+enemy_type_drugdealer = "drugdealer"
 
 # Enemy ai types
 enemy_ai_sandbag = 'Sandbag'
@@ -4212,10 +4216,12 @@ enemy_class_normal = 'normal'
 
 # List of enemies sorted by their spawn rarity.
 if slimernalia_stage >= 1:
-    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+    common_enemies = [enemy_type_sandbag, enemy_type_slimernaliajuvie, enemy_type_dinoslime]
+    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidtamer]
     rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
-    raid_bosses = [enemy_type_vandal, enemy_type_immigrant, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+    raid_bosses = [enemy_type_slimernaliagangster]
+    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer]
+#elif slimernalia_stage >= 9:
 else:
     common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
     uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
@@ -4224,7 +4230,7 @@ else:
     raid_den_bosses = [enemy_type_alm]
     defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 
-    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
+    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 
 # List of enemies that spawn in the Nuclear Beach
     pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
@@ -4243,7 +4249,7 @@ radiation_storm_enemies = [enemy_type_deathclaw, enemy_type_mutatedbarrel]
 raid_boss_tiers = {
     "micro": [enemy_type_megaslime],
     "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator],
-    "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime],
+    "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime, enemy_type_slimernaliagangster],
     # This can be left empty until we get more raid boss ideas.
     # "nega": [],
 }
@@ -4450,8 +4456,25 @@ enemy_drop_tables = {
         {item_id_civilianscalp: [100, 1, 1]}
     ],  
     enemy_type_slimernaliajuvie: [
-
-    ]
+        {item_id_slimepoudrin: [100, 1, 5]},
+        {item_id_giftribbon: [25, 1, 1]},
+        {"crop": [30, 1, 3]},
+    ],
+    enemy_type_slimeoidtamer: [
+        {item_id_slimepoudrin: [100, 1, 1]},
+        {rarity_plebeian: {20, 1, 1}},
+        {item_id_giftribbon: {10, 1, 1}},
+    ],
+    enemy_type_slimernaliagangster: [
+        {item_id_slimepoudrin: [100, 1, 20]},
+        {item_id_giftribbon: {100, 1, 1}},
+    ],
+    enemy_type_spiritofslimernaliapast: [
+        {}
+    ],
+    enemy_type_drugdealer: [
+        {}
+    ],
 
 }
 
@@ -4476,7 +4499,8 @@ enemy_data_table = {
     },
         enemy_type_juvie: {
             "slimerange": [10000, 50000],
-            "ai": enemy_ai_coward, "attacktype": enemy_attacktype_unarmed,
+            "ai": enemy_ai_coward, 
+            "attacktype": enemy_attacktype_unarmed,
             "displayname": "Lost Juvie",
             "raredisplayname": "Shellshocked Juvie",
             "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
@@ -4782,9 +4806,9 @@ enemy_data_table = {
         "aliases": ["alm", "fireemblem"]
     }, 
     enemy_type_slimernaliajuvie: {
-            "slimerange": [50000, 250000],
+            "slimerange": [250000, 500000],
             "ai": enemy_ai_attacker_b, 
-            "attacktype": enemy_attacktype_unarmed,
+            "attacktype": enemy_attacktype_bluntweapon,
             "displayname": "Festive Juvie",
             "raredisplayname": "Found Juvie",
             "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
@@ -4797,7 +4821,7 @@ enemy_data_table = {
         "raredisplayname": "Vicious Vandal",
         "aliases": ["vandal", "rebellious", "vicious", "rebelliousvandal"],
     },
-    enemy_type_immigrant: {
+    enemy_type_illegalimmigrant: {
         "slimerange": [750000, 1200000],
         "ai": enemy_ai_attacker_b,
         "attacktype": enemy_attacktype_bonemerang,
@@ -4805,33 +4829,38 @@ enemy_data_table = {
         "raredisplayname": "Legal Immigrant But They Are Missing Their Visa",
         "aliases": ["illegal", "legal", "immigrant", "visa", "australian"],
     },
-    enemy_type_greeneyesslimedragon: {
-        "slimerange": [3500000, 5000000],
+    enemy_type_arsonist: {
+        "slimerange": [1000000, 3500000],
         "ai": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_molotovbreath,
-        "displayname": "Green Eyes Slime Dragon",
-        "raredisplayname": "Green Eyes JPEG Dragon",
-        "aliases": ["dragon", "greeneyes", "greeneyesslimedragon", "green"],
+        "displayname": "Agitated Arsonist",
+        "raredisplayname": "Agitated Larcenist",
+        "aliases": ["agitated", "arsonist", "agitatedarsonist", "larcenist"],
     },
-    enemy_type_unnervingfightingoperator: {
-        "slimerange": [1000000, 3000000],
-        "ai": enemy_ai_attacker_b,
-        "attacktype": enemy_attacktype_armcannon,
-        "displayname": "Unnerving Fighting Operator",
-        "raredisplayname": "Unyielding Fierce Operator",
-        "aliases": ["ufo", "alien", "unnervingfightingoperator", "unnerving"],
-        "arcticvariant":"Unflinching Frozen Operator",
-        "dhvariant": "Unworldly Ferocious Owl"
+    enemy_type_spiritofslimernaliapast: {
+        "slimerange": [100000, 900000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "Spirit of Slimernalia Past",
+        "raredisplayname": "Spirit of Slimernalia Present",
+        "aliases": ["spirit", "slimernalia", "staydead", "past", "present", "spiritofslimernaliapast"],
     },
-    enemy_type_titanoslime: {
-        "slimerange": [5000000, 7000000],
-        "ai": enemy_ai_attacker_b,
-        "attacktype": enemy_attacktype_stomp,
-        "displayname": "Titanoslime",
-        "raredisplayname": "Miscreated Titanoslime",
-        "aliases": ["titano", "titanoslime", "biglizard"],
-        "dhvariant": "Ghoulific Titanogreslime",
+    enemy_type_slimernaliagangster: {
+        "slimerange": [5000000, 10000000],
+        "ai": enemy_ai_coward,
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Enlisted Gangster",
+        "raredisplayname": "Enlisted Goon",
+        "aliases": ["idiot", "enlistedgangster", "enlisted", "gangster", "goon"],
     },
+    enemy_type_drugdealer: {
+        "slimerange": [20, 10000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Drug Dealer",
+        "raredisplayname": "Drug Dealer",
+        "aliases": ["drug", "dealer", "drugdealer"],
+    }
 }
 
 # Raid boss names used to avoid raid boss reveals in ewutils.formatMessage
@@ -4842,20 +4871,36 @@ for enemy in enemy_data_table.keys():
         raid_boss_names.append(enemy_data_table[enemy]["raredisplayname"])
 
 # Responses given by cowardly enemies when a non-ghost user is in their district.
-coward_responses = [
+if slimernalia_stage >= 1:
+    coward_responses = [
+
+
+
+
+
+    ]
+else:
+    coward_responses = [
     "The {} calls out to you: *H-Hello. Are you one of those Gangsters everyone seems to be talking about?*",
     "The {} calls out to you: *You wouldn't hurt a {}, would you?*",
     "The {} calls out to you: *Why.. uh.. hello there? What brings you to these parts, stranger?*",
     "The {} calls out to you: *L-look at how much slime I have! I'm not even worth it for you to kill me!*",
     "The {} calls out to you: *I'm just a good little {}... never hurt nobody anywhere...*",
-]
+    ]
 
 # Responses given by cowardly enemies when hurt.
-coward_responses_hurt = [
+if slimernalia_stage >= 1:
+    coward_responses_hurt = [
+
+
+
+    ]
+else:
+    coward_responses_hurt = [
     "\nThe {} cries out in pain!: *Just wait until Juvieman hears about this!!*",
     "\nThe {} cries out in pain!: *You MONSTER!*",
     "\nThe {} cries out in pain!: *What the H-E-double-hockey-sticks is your problem?*",
-]
+    ]
 
 # Letters that an enemy can identify themselves with
 identifier_letters = [

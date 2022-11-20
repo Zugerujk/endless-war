@@ -561,11 +561,6 @@ async def mine(cmd):
                     if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
                         hunger_cost_mod = int(hunger_cost_mod) / 2
 
-                if sledgehammer_bonus == True:
-                    unearthed_item_chance = 1
-                    unearthed_item_amount = math.randint(3,10)
-                    unearthed_item_type = "Slime Poudrin"
-
             if random.random() < 0.05:
                 id_event = create_mining_event(cmd, toolused)
                 event_data = EwWorldEvent(id_event=id_event)
@@ -593,6 +588,11 @@ async def mine(cmd):
 
                     if str_event_start != "":
                         response += str_event_start + "\n"
+
+            if sledgehammer_bonus == True:
+                    unearthed_item_chance = 1
+                    unearthed_item_amount = math.randint(3,10)
+                    unearthed_item_type = "Slime Poudrin"
 
             if random.random() < unearthed_item_chance:
                 unearthed_item = True

@@ -6,9 +6,11 @@ import random
 import time
 
 from ew.backend import item as bknd_item
+from ew.backend.item import EwItem
 from ew.backend import worldevent as bknd_worldevent
 from ew.backend.worldevent import EwWorldEvent
 from ew.static import cfg as ewcfg
+from ew.static import weapons as static_weapons
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils.combat import EwUser
@@ -732,6 +734,9 @@ def create_mining_event(cmd, toolused=None):
     uncommon_event_triggered = False
     rare_event_triggered = False
 
+    if user_data.weapon >= 0:
+        weapon_item = EwItem(id_item=user_data.weapon)
+        weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
 
     if randomn < rare_event_chance: # 5% chance, divided by # of players
         rare_event_triggered = True
@@ -744,8 +749,22 @@ def create_mining_event(cmd, toolused=None):
     if common_event_triggered:
         randomn = random.random()
 
+        #Forces all common events into mineshaft collapses if you have a sledgehammer
+        if weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
+            event_props = {}
+            event_props['id_user'] = cmd.message.author.id
+            event_props['poi'] = user_data.poi
+            event_props['captcha'] = ewutils.generate_captcha(length=8, user_data=user_data)
+            event_props['channel'] = cmd.message.channel.name
+            return bknd_worldevent.create_world_event(
+                id_server=cmd.guild.id,
+                event_type=ewcfg.event_type_minecollapse,
+                time_activate=time_now,
+                event_props=event_props
+            )
+            
         # 4x glob of slime
-        if randomn < 0.5:
+        elif randomn < 0.5:
             event_props = {}
             event_props['id_user'] = cmd.message.author.id
             event_props['poi'] = user_data.poi
