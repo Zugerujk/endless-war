@@ -947,7 +947,7 @@ async def item_use(cmd):
 
             elif context == 'milk':
                 response = "After struggling with the milk cap, you eventually manage to force it off with your bare hands. Now holding the open gallon jug out, you pour all of its contents onto the ground until you're left with an empty carton."
-
+            
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"
 

@@ -1950,6 +1950,32 @@ weapon_list = [
         stat=ewcfg.stat_boomerang_kills,
         str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
     ),
+    EwWeapon(  # 53
+        id_weapon=ewcfg.weapon_id_foodbasket,
+        alias=[
+            "petrifiedfoods", "basket", "petrified", "food",
+        ],
+        str_crit="**Critical hit!!** {name_player}’s boomerang nails their target several times, slicing them viciously!",
+        str_miss="**MISS!!** {name_player}’s ‘rang flies far away from its intended target!",
+        str_equip="You equip the boomerang.",
+        str_name="boomerang",
+        str_weapon="a boomerang",
+        str_weaponmaster_self="You are a rank {rank} {title} australian.",
+        str_weaponmaster="They are a rank {rank} {title} australian.",
+        # str_trauma_self = "You have several long cut scars across your body.",
+        # str_trauma = "They have several long cut scars across their body.",
+        str_kill=comm_cfg.boomerangkilltext,
+        str_killdescriptor="boomerang’d",
+        str_damage="{name_target} is sliced by a boomerang across their {hitzone}!!",
+        str_duel="{name_player} and {name_target} play catch with their deadly boomerangs. It isn’t over until someone loses a few fingers.",
+        str_description="It's a boomerang, the rims made of sharpened metal.",
+        str_scalp=" It smells of vegemite.",
+        fn_effect=get_normal_attack(weapon_type='burst_fire'),
+        price=10000,
+        vendors=[ewcfg.vendor_dojo],
+        stat=ewcfg.stat_boomerang_kills,
+        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
+    ),
 ]
 
 # A map of id_weapon to EwWeapon objects.

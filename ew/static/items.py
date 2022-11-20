@@ -1953,6 +1953,11 @@ item_list = [
         str_desc="Its a full textile at this point, Perfect material to make the grays start understanding that you're violent, language barrier be damned.",
         acquisition=ewcfg.acquisition_smelting
     ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_emptyslimebottle,
+        str_name="Empty Slime Bottle",
+        str_desc="It's the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there's a very faint recipe engraving you couldn't see until now that you've emptied the bottle.",
+    )
 
 ]
 # item_list += ewdebug.debugitem_set

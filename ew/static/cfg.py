@@ -2797,6 +2797,7 @@ item_id_monofilamentcloth = "monofilamentcloth"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
+item_id_emptyslimebottle = "emptyslimebottle"
 
 # SLIMERNALIA
 item_id_sigillaria = "sigillaria"
@@ -3036,6 +3037,7 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
+weapon_id_foodbasket = 'petrifiedfoodbasket'
 
 weapon_id_spraycan = 'spraycan'
 weapon_id_paintgun = 'paintgun'
@@ -4462,18 +4464,20 @@ enemy_drop_tables = {
     ],
     enemy_type_slimeoidtamer: [
         {item_id_slimepoudrin: [100, 1, 1]},
-        {rarity_plebeian: {20, 1, 1}},
-        {item_id_giftribbon: {10, 1, 1}},
+        {rarity_plebeian: [20, 1, 1]},
+        {item_id_giftribbon: [10, 1, 1]},
     ],
     enemy_type_slimernaliagangster: [
         {item_id_slimepoudrin: [100, 1, 20]},
-        {item_id_giftribbon: {100, 1, 1}},
+        {item_id_giftribbon: [100, 1, ]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {}
+        {weapon_id_foodbasket: [10, 1, 1]}
     ],
     enemy_type_drugdealer: [
-        {}
+        {"pileofmysteriouspowder": [25, 1, 1]},
+        {item_id_seaweedjoint: [50, 1, 4]},
+
     ],
 
 }

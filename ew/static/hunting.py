@@ -444,11 +444,11 @@ enemy_attack_type_list = [
     ),
     EwAttackType(  # 24
         id_type="petrifiedfood",
-        str_crit="**Critical hit!!** {name_target} is bludgeoned by a heavy object!",
-        str_miss="**MISS!!** {name_enemy}'s swing miss wide of the target!",
-        str_kill="**BAM!!** {name_enemy}'s swing whistles in the air, and {name_target} staggers. A moment later, {name_target}'s body collapses under their own weight. {emote_skull}",
-        str_killdescriptor="blugeoned to mush",
-        str_damage="{name_target} is thwacked in the {hitzone}!!",
+        str_crit="**Critical hit!!** {name_target} is bludgeoned by a petrified mass of food!",
+        str_miss="**MISS!!** {name_enemy}'s throw was fast enough for {name_target} to dodge!",
+        str_kill="**BAM!!** {name_enemy}'s throw flies in the air, and {name_target} gets hit straight in the face. {name_target}'s brain hemmorages and they suffer a fatal stroke. {emote_skull}",
+        str_killdescriptor="scrooge'd",
+        str_damage="{name_target} is socked right in the {hitzone}!!",
         fn_effect=atf_gunkshot
     ),
 ]

@@ -3343,6 +3343,15 @@ food_list = [
         time_expir = 43200,
         acquisition = ewcfg.acquisition_trickortreating,
     ),
+        EwFood(
+        id_food = "edibleslime",
+        recover_hunger = 2500,
+        str_name = "Bottle of Edible Slime",
+        inebriation = 5318008,
+        str_eat = "You twist off the cap and start suckling on the bottle. The taste that would have been slime has been overpowered by a unmistakable pear flavoring, hiding the fluorescent powder that may or may not actually give you cancer. It's extremely difficult to finish this whole liquor sized bottle, not only because of the fact that this is even more viscous than actual slime; but also because of your stomach crying out for mercy along with your livers shutting down simultaneously. After forcing yourself to finish the whole bottle, you figure out the hard way that this isn't a bottle of edible slime... but a bottle of slime edibles. You'd be found hours later breathing wrong in a dumpster muttering complete nonsense with half of your clothes missing or torn up like you squeezed through bundles of barbed wire, leaving you with nothing but a body that could shut down completely if someone blows air on you, and an empty bottle of your triumph of complete fucking misery and regret.",
+        str_desc = "It's a twist cap bottle of slime, plus whatever else that could be poured into it. On one of the sides, it has a gloss marking of ENDLESS WAR and the text within \"product of NEW LOS ANGELES CITY aka NEO-MILWAUKEE\". Should you really, and I mean... **really** blindly trust consumerism?",
+        time_expir = 7212022, #Date of RFCKcon 8 where Ben gave the bottles out
+    ),
 ]
 # A map of id_food to EwFood objects.
 food_map = {}

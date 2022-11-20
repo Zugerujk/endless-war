@@ -264,12 +264,18 @@ async def reap(cmd):
 
                     if random.random() < unearthed_item_chance:
                         unearthed_item = True
-                        unearthed_item_amount = 1 if random.randint(1, 3) != 1 else 2  # 33% chance of extra drop
+                        unearthed_item_amount = math.randint(1,4)
 
                     if unearthed_item == True:
                         # If there are multiple possible products, randomly select one.
-                        item = random.choice(vendors.mine_results) # inject 
-
+                        # shovel buff item table
+                        shovel_table = {
+                        ewcfg.item_id_slimepoudrin,
+                        ewcfg.item_id_stick,
+                        ewcfg.item_id_landmine,
+                        }
+                        item = random.choice(shovel_table) # inject 
+                        
                         item_props = itm_utils.gen_item_props(item)
 
                         if item is not None:
@@ -284,8 +290,8 @@ async def reap(cmd):
 
                         if unearthed_item_amount == 1:
                             response += "a {}, ".format(item.str_name)
-                        elif unearthed_item_amount == 2:
-                            response += "two {}s, ".format(item.str_name)
+                        elif unearthed_item_amount >= 2:
+                            response += "{} {}s, ".format(unearthed_item_amount, item.str_name)
 
                     #  Determine what crop is grown.
                     if farm.crop == ewcfg.item_id_evil_material:

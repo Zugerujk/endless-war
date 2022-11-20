@@ -2368,6 +2368,21 @@ EwSmeltingRecipe(
         },
         products=['futurecouch']
     ),
+    EwSmeltingRecipe(
+        id_recipe="edibleslime",
+        str_name="Bottle of Edible Slime",
+        alias=[
+            'slimeedibles',
+        ],
+        ingredients={
+            ewcfg.item_id_slimepoudrin: 50,
+            "pileofmysteriouspowder": 3,
+            "pawpaw": 5,
+            "foodbase": 1,
+            ewcfg.item_id_emptyslimebottle: 1,
+        },
+        products=['edibleslime']
+    ),
 ]
 
 
