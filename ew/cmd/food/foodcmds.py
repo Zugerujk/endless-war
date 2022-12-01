@@ -438,7 +438,8 @@ async def order(cmd):
                         item_type=ewcfg.it_item,
                         id_user=user_data.id_user,
                         id_server=cmd.guild.id,
-                         item_props={
+                        # item_props=item_props,
+                        item_props={
                             'id_item': ewcfg.item_id_emptyslimebottle,
                             'item_name': 'Empty Slime Bottle',
                             'item_desc': 'It\'s the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there\'s a very faint recipe engraving you couldn\'t see until now that you\'ve emptied the bottle.',

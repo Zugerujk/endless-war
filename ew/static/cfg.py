@@ -2597,6 +2597,7 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
+stat_foodbasket_kills = 'foodbasket_kills'
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
@@ -4877,8 +4878,8 @@ for enemy in enemy_data_table.keys():
 # Responses given by cowardly enemies when a non-ghost user is in their district.
 if slimernalia_stage >= 1:
     coward_responses = [
-
-
+    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*"
+    
 
 
 

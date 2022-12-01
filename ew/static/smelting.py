@@ -2384,10 +2384,9 @@ EwSmeltingRecipe(
         products=['edibleslime']
     ),
 ]
-
-
 if ewcfg.dh_active:
-    smelting_recipe_list.append(EwSmeltingRecipe(
+    smelting_recipe_list.append(
+        EwSmeltingRecipe(
             id_recipe = "ticket",
             str_name = "Ticket to the White Line",
             alias = [
@@ -2398,17 +2397,17 @@ if ewcfg.dh_active:
             },
             products = ['ticket']
          ))
-# Nobody fucking say anything and let this be a surprise.
+
 if ewcfg.slimernalia_active:
-    smelting_recipe_list.append(EwSmeltingRecipe(
+    smelting_recipe_list.append(
+        EwSmeltingRecipe(
             id_recipe = "wrappingpapersexywear",
             str_name = "Wrapping Paper Sexywear",
             alias = [
-                "everythingM@everwanted",
                 "itsaslimernaliadiaster"
             ],
             ingredients = {
-                'wrappingpaperhat': 10,
+                'wrappingpaperhat': 100,
                 ewcfg.item_id_giftribbon: 1,
             },
             products = ['wrappingpapersexywear']

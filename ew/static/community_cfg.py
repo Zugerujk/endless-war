@@ -650,3 +650,8 @@ diamondpickaxekilltext = [
     "{name_player}'s shiny diamond pickaxe inspires awe from passersby. {name_target} tries to diss their style, only to meet the business end of the pick. {emote_skull}",
     "{name_player} is flaunting their style! They're a block game PvP master, expertly block jumping and sprint dashing like the best of them. {name_target} stands no chance and gets blown away. {name_player} crouch spams in disrespect. {emote_skull}"
 ]
+
+foodbasketkilltext = [
+    "{name_player} opens their basket and pulls out something unintelligible! The last moments of {name_target}'s life is getting beaten to death by what was once edible long, long ago. {emote_skull}",
+    "{name_player} makes a fatal throw of inedible foodstuffs right into {name_target}'s mouth! They choke to death on the hunk of petrified food. {emote_skull}"
+]

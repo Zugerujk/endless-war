@@ -1,6 +1,7 @@
 import json
 import os
 from re import M
+import cfg as ewcfg
 
 from ..model.fish import EwFish
 
@@ -1215,8 +1216,49 @@ fish_list = [
         catch_weather = None,
         str_desc = "Legally distinct from the lamprey. Frequently cooked into a stew and served with garlic.",
         slime = None,
-    ),
+    ), 
 ]
+# Slimernalia exclusive fish
+if ewcfg.slimernalia_stage >= 6:
+    fish_list.append(
+    EwFish(
+        id_fish = "tiltedtilapia",
+        str_name = "Tilted Tilapia",
+        rarity = "promo",
+        catch_time = None,
+        catch_weather = None,
+        str_desc = "Always has a sour or bitter taste, and known to be overly aggressive towards anything in its line of sight.",
+        slime = "freshwater",
+    ),
+    EwFish(
+        id_fish = "fugueollobster",
+        str_name = "Fugue Ol' Lobster",
+        rarity = "promo",
+        catch_time = None,
+        catch_weather = None,
+        str_desc = "Invasive to both the area and your eardrums, holy fuck.",
+        slime = "saltwater",
+    ),
+    EwFish(
+        id_fish = "whoopingwahoo", 
+        str_name = "Whooping Wahoo",
+        rarity = "promo",
+        catch_time = None,
+        catch_weather = None,
+        str_desc = "Long extinct in the usual tropical seawaters, it builds up frightening amounts of speed over periods of time. Its most known feature is their perpetually open mouth, hollaring loud celebration wherever they go.",
+        slime = "moon",
+    ),
+    EwFish(
+        id_fish = "bufferpufferfish",
+        str_name = "Buffer Pufferfish",
+        rarity = "promo",
+        catch_time = None,
+        catch_weather = None,
+        str_desc = "An opportunistic predator, it waits until their prey has tired out and unable to act. Watch out for those hook shaped spines!",
+        slime = "void",
+    ),
+)
+    
 
 # A map of id_fish to EwFish objects.
 fish_map = {}

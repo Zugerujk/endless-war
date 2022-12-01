@@ -407,7 +407,7 @@ async def mine(cmd):
                 weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                 if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
                     toolused = "pickaxe"
-                elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:# and user_data.life_state != ewcfg.life_state_juvenile:
+                elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
                     toolused = "sledgehammer"
             
             sledgehammer_bonus = False
@@ -593,6 +593,7 @@ async def mine(cmd):
                     unearthed_item_chance = 1
                     unearthed_item_amount = math.randint(3,10)
                     unearthed_item_type = "Slime Poudrin"
+                    
 
             if random.random() < unearthed_item_chance:
                 unearthed_item = True
