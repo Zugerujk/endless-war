@@ -3324,3 +3324,16 @@ async def display_goonscape_stats(cmd):
     
     await fe_utils.send_response(response, cmd)
 
+
+async def clear_zero_stats(cmd):
+    """Admin command to clear redundant 0 value stats from the database."""
+    # Only allow admins to use this
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    await fe_utils.send_response("Attempting to remove all 0 value stats from the database, this may take a while...", cmd)
+
+    result = ewstats.clean_stats(cmd.guild.id)
+
+    if result is not None:
+        return await fe_utils.send_response(f"Successfully cleaned the database of {result} redundant stats. Nice!", cmd)

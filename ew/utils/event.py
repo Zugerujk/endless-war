@@ -23,7 +23,7 @@ def init_stat_function_map():
 
 
 def process_stat_change(id_server = None, id_user = None, metric = None, value = None):
-    if fns_initialized == False:
+    if not fns_initialized:
         init_stat_function_map()
 
     fn = stat_fn_map.get(metric)
@@ -66,9 +66,6 @@ def process_kills(id_server = None, id_user = None, value = None):
 def process_max_kills(id_server = None, id_user = None, value = None):
     # TODO give apropriate medal
     pass
-
-
-
 
 
 def process_max_ghostbusts(id_server = None, id_user = None, value = None):

@@ -1,7 +1,4 @@
-import json
-import os
-from re import M
-import cfg as ewcfg
+import ew.static.cfg as ewcfg
 
 from ..model.fish import EwFish
 

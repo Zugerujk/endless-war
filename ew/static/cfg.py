@@ -1370,6 +1370,8 @@ cmd_festivity = cmd_prefix + 'festivity'
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
+cmd_clean_stats = cmd_prefix + 'cleanstats'
+
 offline_cmds = [
     cmd_move,
     cmd_move_alt1,

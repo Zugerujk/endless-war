@@ -199,6 +199,9 @@ cmd_map = {
     # Testing command for retrieving members
     ewcfg.cmd_user_search: cmdcmds.user_search,
 
+    # Admin command for cleaning stats db
+    ewcfg.cmd_clean_stats: cmdcmds.clear_zero_stats,
+
     # *sigh*
     ewcfg.cmd_cockdraw: cmdcmds.cockdraw,
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
