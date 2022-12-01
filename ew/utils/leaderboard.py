@@ -1,5 +1,6 @@
 from . import core as ewutils
 from . import frontend as fe_utils
+from . import stats as stats_utils
 from .combat import EwUser
 from ..backend import core as bknd_core
 from ..backend import item as bknd_item
@@ -7,12 +8,11 @@ from ..backend.district import EwDistrictBase as EwDistrict
 from ..backend.market import EwMarket
 from ..backend.market import EwStock
 from ..backend.player import EwPlayer
-from ..backend.dungeons import EwGamestate
 from ..utils.frontend import EwResponseContainer
 from ..backend.dungeons import EwGamestate
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
-import asyncio
+
 try:
     from ..cmd import debug as debug
     import ew.static.rstatic as static_relic
@@ -487,7 +487,7 @@ def make_slimernalia_board(server, title):
         # get a list of [id, name, lifestate, faction, basefestivitysum] for all users in server
 
         data = bknd_core.execute_sql_query(
-            "select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 left join stats st2 on st1.id_user = st2.id_user inner join users u on st1.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and st2.stat_metric = 'festivity_from_slimecoin' and u.id_server = u.id_server union select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 right join stats st2 on st1.id_user = st2.id_user inner join users u on st2.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and st2.stat_metric = 'festivity_from_slimecoin' and u.id_server = %s",
+            "select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 left join stats st2 on st1.id_user = st2.id_user inner join users u on st1.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = u.id_server union select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 right join stats st2 on st1.id_user = st2.id_user inner join users u on st2.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = %s",
             (server,))
         dat = list(data)
         f_data = []
@@ -522,7 +522,7 @@ def make_slimernalia_board(server, title):
         f_data.sort(key=lambda row: row[3], reverse=True)
 
         # Grab the global festivity and yoink that shit in there
-        # TODO
+        global_festivity = stats_utils.get_stat(id_server=server, id_user=-1, metric=ewcfg.stat_festivity_global)
 
         # add the top 5 to be returned
         for i in range(5):

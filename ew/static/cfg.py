@@ -2213,8 +2213,6 @@ col_freshness = 'freshness'
 
 # SLIMERNALIA
 col_festivity = 'festivity'
-col_festivity_from_slimecoin = 'festivity_from_slimecoin'
-col_slimernalia_coin_gambled = 'slimernalia_coin_gambled'
 col_slimernalia_kingpin = 'slimernalia_kingpin'
 
 #Database columns for fishing records
@@ -2544,8 +2542,12 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+
+# Slimernalia stats
 stat_festivity = 'festivity'
-stat_festivity_from_slimecoin = 'festivity_from_slimecoin'
+stat_festivity_max = 'max_festivity'
+stat_festivity_global = 'global_festivity'
+
 
 stat_revolver_kills = 'revolver_kills'
 stat_dual_pistols_kills = 'dual_pistols_kills'

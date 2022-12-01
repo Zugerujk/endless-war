@@ -420,7 +420,7 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
         # of implementations that rely on client as a positional will break
         # and i do not wish to change every instance of send_message today
 
-        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=allow_everyone, embed=embed)
+        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=not allow_everyone, embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
         raise

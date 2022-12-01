@@ -73,6 +73,7 @@ async def score(cmd: cmd_utils.EwCmd):
     user_data = None
     member = None
     response = ""
+    print(cmd.mention_ids)
 
     slime_alias = ewutils.flattenTokenListToString(cmd.tokens[0])
     if len(cmd.mention_ids) == 0:
@@ -2155,11 +2156,21 @@ async def check_mastery(cmd):
 
 # Show a player's festivity
 async def festivity(cmd):
-    if cmd.mentions_count == 0:
+    if len(cmd.mention_ids) == 0:
+        target_type = "self"
+    else:
+        target_type = ewutils.mention_type(cmd, cmd.mention_ids[0])
+
+    if target_type == "ew":
+        global_festivity = ewstats.get_stat(id_server=cmd.guild.id, id_user=-1, metric=ewcfg.stat_festivity_global)
+        response = "ENDLESS WAR has amassed {:,} festivity. @everyone Yo, Slimernalia!".format(global_festivity)
+        return await fe_utils.send_response(response, cmd, allow_everyone=True, format_ats=False)
+
+    elif target_type == "self":
         user_data = EwUser(member=cmd.message.author)
         response = "You currently have {:,} festivity.".format(user_data.get_festivity())
 
-    else:
+    elif target_type == "other":
         member = cmd.mentions[0]
         user_data = EwUser(member=member)
         response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
