@@ -586,7 +586,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "cigar",
         str_name = "Cigar",
-        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from cuba and is thick enough to last for hours.",
+        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from Cuba and is thick enough to last for hours.",
         rarity = "Plebeian",
         durability = 2500000,
         style = "tough",

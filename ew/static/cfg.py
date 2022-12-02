@@ -4224,7 +4224,7 @@ if slimernalia_stage >= 1:
     rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
     raid_bosses = [enemy_type_slimernaliagangster]
     enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer]
-#elif slimernalia_stage >= 9:
+#elif slimernalia_stage >= 6:
 else:
     common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
     uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
@@ -4811,12 +4811,12 @@ enemy_data_table = {
         "aliases": ["alm", "fireemblem"]
     }, 
     enemy_type_slimernaliajuvie: {
-            "slimerange": [250000, 500000],
-            "ai": enemy_ai_attacker_b, 
-            "attacktype": enemy_attacktype_bluntweapon,
-            "displayname": "Festive Juvie",
-            "raredisplayname": "Found Juvie",
-            "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
+        "slimerange": [250000, 500000],
+        "ai": enemy_ai_attacker_b, 
+        "attacktype": enemy_attacktype_bluntweapon,
+        "displayname": "Festive Juvie",
+        "raredisplayname": "Found Juvie",
+        "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
     },
     enemy_type_vandal: {
         "slimerange": [600000, 800000],
@@ -4824,7 +4824,7 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gunkshot,
         "displayname": "Rebellious Vandal",
         "raredisplayname": "Vicious Vandal",
-        "aliases": ["vandal", "rebellious", "vicious", "rebelliousvandal"],
+        "aliases": ["vandal", "rebellious", "vicious", "rebelliousvandal", "viciousvandal"],
     },
     enemy_type_illegalimmigrant: {
         "slimerange": [750000, 1200000],
@@ -4832,7 +4832,7 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_bonemerang,
         "displayname": "Illegal Immigrant",
         "raredisplayname": "Legal Immigrant But They Are Missing Their Visa",
-        "aliases": ["illegal", "legal", "immigrant", "visa", "australian"],
+        "aliases": ["illegal", "legal", "immigrant", "visa", "australian", "illegalimmigrant", "legalimmigrantbuttheyaremissingtheirvisa"], 
     },
     enemy_type_arsonist: {
         "slimerange": [1000000, 3500000],
@@ -4840,7 +4840,7 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_molotovbreath,
         "displayname": "Agitated Arsonist",
         "raredisplayname": "Agitated Larcenist",
-        "aliases": ["agitated", "arsonist", "agitatedarsonist", "larcenist"],
+        "aliases": ["agitated", "arsonist", "agitatedarsonist", "larcenist", "agitatedlarcenist"],
     },
     enemy_type_spiritofslimernaliapast: {
         "slimerange": [100000, 900000],
@@ -4848,7 +4848,7 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_amateur,
         "displayname": "Spirit of Slimernalia Past",
         "raredisplayname": "Spirit of Slimernalia Present",
-        "aliases": ["spirit", "slimernalia", "staydead", "past", "present", "spiritofslimernaliapast"],
+        "aliases": ["spirit", "slimernalia", "staydead", "past", "present", "spiritofslimernaliapast", "spiritofslimernaliapresent"],
     },
     enemy_type_slimernaliagangster: {
         "slimerange": [5000000, 10000000],
@@ -4856,7 +4856,7 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_unarmed,
         "displayname": "Enlisted Gangster",
         "raredisplayname": "Enlisted Goon",
-        "aliases": ["idiot", "enlistedgangster", "enlisted", "gangster", "goon"],
+        "aliases": ["idiot", "enlistedgangster", "enlisted", "gangster", "goon", "enlistedgoon"],
     },
     enemy_type_drugdealer: {
         "slimerange": [20, 10000],
@@ -4878,8 +4878,8 @@ for enemy in enemy_data_table.keys():
 # Responses given by cowardly enemies when a non-ghost user is in their district.
 if slimernalia_stage >= 1:
     coward_responses = [
-    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*"
-    
+    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
+    "the {} calls taunts: *You're not even worth renouncing to kill, bitch.",
 
 
 
@@ -4896,7 +4896,7 @@ else:
 # Responses given by cowardly enemies when hurt.
 if slimernalia_stage >= 1:
     coward_responses_hurt = [
-
+    "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
 
 
     ]

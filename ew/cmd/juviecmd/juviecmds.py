@@ -424,7 +424,7 @@ async def mine(cmd):
 
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
-                            if toolused == "sledgehammer": #and ewcfg.slimernalia_stage >= 4: #Remove stage check post-slimernalia
+                            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >= 3: #Remove stage check post-slimernalia
                                 response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime."
                                 sledgehammer_bonus = True
                                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -647,11 +647,11 @@ async def mine(cmd):
 
             if toolused == "pickaxe":
                 mining_yield *= 2
-            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=4: #effective juvie pickmining while in sledgehammer mining
+            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=3: #Remove me post slimernalia
                 mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2
-            if ewcfg.slimernalia_stage >= 4:
+            if ewcfg.slimernalia_stage >= 3:
                 mining_yield *= 2
             
             if sledgehammer_bonus == True:

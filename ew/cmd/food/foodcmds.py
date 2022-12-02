@@ -399,6 +399,8 @@ async def order(cmd):
 
                     if item.str_name == "arcade cabinet":
                         item_props['furniture_desc'] = random.choice(comm_cfg.cabinets_list)
+                    elif item.str_name == "Slimeglobe":
+                        item_props['furniture_desc'] = random.choice(comm_cfg.slimeglobe_list)
                     elif item.item_type == ewcfg.it_furniture:
                         if "custom" in item_props.get('id_furniture'):
                             if cmd.tokens_count < 4 or cmd.tokens[2] == "" or cmd.tokens[3] == "":

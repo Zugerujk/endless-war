@@ -1219,7 +1219,7 @@ fish_list = [
     ), 
 ]
 # Slimernalia exclusive fish
-if ewcfg.slimernalia_stage >= 6:
+if ewcfg.slimernalia_stage >= 4:
     fish_list.append(
     EwFish(
         id_fish = "tiltedtilapia",

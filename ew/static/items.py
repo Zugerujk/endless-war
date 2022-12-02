@@ -3672,6 +3672,15 @@ furniture_list = [
         furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
         furn_set = "hatealiens",
     ),
+    EwFurniture(
+        id_furniture = "slimeglobe",
+        str_name = "Slimeglobe",
+        str_desc = "It's busted open, meaning someone shook it too hard.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You carefully place the slimeglobe down on your table, understanding that shaking it too hard will cause the poudrin shards to go flying everywhere.",
+        furniture_look_desc = "A slimeglobe is on your table",
+    ),
 ]
 
 furniture_map = {}
