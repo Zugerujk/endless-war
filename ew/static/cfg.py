@@ -2,7 +2,7 @@ import datetime
 
 # Global configuration options.
 
-version = "v4.20 S4A1 YOSLIMERNALIA"
+version = "v4.1999 Y2KSLIMERNALIA"
 
 
 dir_msgqueue = 'msgqueue'
@@ -33,7 +33,7 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = True
-slimernalia_stage = 0
+slimernalia_stage = 7
 
 #Swilldermuk Features
 swilldermuk_active = False
@@ -2819,6 +2819,7 @@ item_id_airhorn = "airhorn"
 item_id_banggun = "banggun"
 item_id_pranknote = "pranknote"
 item_id_bodynotifier = "bodynotifier"
+item_id_candycane = "candycane"
 # Response items
 item_id_chinesefingertrap = "chinesefingertrap"
 item_id_japanesefingertrap = "japanesefingertrap"
@@ -2855,6 +2856,7 @@ item_id_undefinedprankscrap = "undefinedprankscrap"
 item_id_janusmask = "janusmask"
 item_id_swordofseething = "swordofseething"
 item_id_usedneedle = "usedneedle"
+item_id_giftpipebomb = "giftpipebomb"
 
 prank_type_instantuse = 'instantuse'
 prank_type_response = 'response'
@@ -4202,7 +4204,7 @@ enemy_type_slimernaliajuvie = "slimernaliajuvie"
 enemy_type_vandal = "vandal"
 enemy_type_illegalimmigrant = "illegalimmigrant"
 enemy_type_arsonist = "arsonist"
-enemy_type_slimeoidtamer = "slimeoidtamer"
+enemy_type_slimeoidabuser = "slimeoidabuser"
 enemy_type_slimernaliagangster = "slimernaliagangster"
 enemy_type_spiritofslimernaliapast = "spiritofslimernaliapast"
 enemy_type_drugdealer = "drugdealer"
@@ -4217,14 +4219,16 @@ enemy_ai_defender = 'Defender'
 # Enemy classes. For now this is only used for Gankers Vs. Shamblers
 enemy_class_normal = 'normal'
 
+common_enemies = []
 # List of enemies sorted by their spawn rarity.
 if slimernalia_stage >= 1:
     common_enemies = [enemy_type_sandbag, enemy_type_slimernaliajuvie, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidtamer]
+    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
     rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
     raid_bosses = [enemy_type_slimernaliagangster]
     enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer]
-#elif slimernalia_stage >= 6:
+elif slimernalia_stage >= 6:
+    common_enemies.append(enemy_type_spiritofslimernaliapast)
 else:
     common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
     uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
@@ -4232,12 +4236,15 @@ else:
     raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
     raid_den_bosses = [enemy_type_alm]
     defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
-
     enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 
 # List of enemies that spawn in the Nuclear Beach
+if slimernalia_stage >= 1:
+    pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+    artic_enemies = [enemy_type_desertraider]
+else:
     pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+    arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
 slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer] 
 
 # Double Halloween variant enemies
@@ -4463,7 +4470,7 @@ enemy_drop_tables = {
         {item_id_giftribbon: [25, 1, 1]},
         {"crop": [30, 1, 3]},
     ],
-    enemy_type_slimeoidtamer: [
+    enemy_type_slimeoidabuser: [
         {item_id_slimepoudrin: [100, 1, 1]},
         {rarity_plebeian: [20, 1, 1]},
         {item_id_giftribbon: [10, 1, 1]},
@@ -4473,12 +4480,12 @@ enemy_drop_tables = {
         {item_id_giftribbon: [100, 1, ]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [10, 1, 1]}
+        {weapon_id_foodbasket: [25, 1, 1]}
     ],
     enemy_type_drugdealer: [
         {"pileofmysteriouspowder": [25, 1, 1]},
         {item_id_seaweedjoint: [50, 1, 4]},
-
+        {"edibleslime": [50, 1, 2]}, 
     ],
 
 }

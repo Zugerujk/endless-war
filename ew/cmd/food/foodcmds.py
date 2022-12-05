@@ -399,8 +399,6 @@ async def order(cmd):
 
                     if item.str_name == "arcade cabinet":
                         item_props['furniture_desc'] = random.choice(comm_cfg.cabinets_list)
-                    elif item.str_name == "Slimeglobe":
-                        item_props['furniture_desc'] = random.choice(comm_cfg.slimeglobe_list)
                     elif item.item_type == ewcfg.it_furniture:
                         if "custom" in item_props.get('id_furniture'):
                             if cmd.tokens_count < 4 or cmd.tokens[2] == "" or cmd.tokens[3] == "":
@@ -435,17 +433,17 @@ async def order(cmd):
                     elif item_props.get('id_food') in ["freeapple"]:
                         item_props['poisoned'] = 'yes'
                     
-                    elif item_props.get('id_food') in ["edibleslime"]:
-                        id_item = bknd_item.item_create(
-                        item_type=ewcfg.it_item,
-                        id_user=user_data.id_user,
-                        id_server=cmd.guild.id,
+                    #elif item_props.get('id_food') in ["edibleslime"]:
+                    #   id_item = bknd_item.item_create(
+                    #  item_type=ewcfg.it_item,
+                    #  id_user=user_data.id_user,
+                    #   id_server=cmd.guild.id,
                         # item_props=item_props,
-                        item_props={
-                            'id_item': ewcfg.item_id_emptyslimebottle,
-                            'item_name': 'Empty Slime Bottle',
-                            'item_desc': 'It\'s the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there\'s a very faint recipe engraving you couldn\'t see until now that you\'ve emptied the bottle.',
-                    })
+                    #   item_props={
+                    #        'id_item': ewcfg.item_id_emptyslimebottle,
+                    #       'item_name': 'Empty Slime Bottle',
+                    #       'item_desc': 'It\'s the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there\'s a very faint recipe engraving you couldn\'t see until now that you\'ve emptied the bottle.',
+                    # })
 
                     elif item_props.get('id_food') in ["gumball"]:
                         gumballrand = random.random()

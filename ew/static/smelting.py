@@ -2385,33 +2385,70 @@ EwSmeltingRecipe(
     ),
 ]
 if ewcfg.dh_active:
-    smelting_recipe_list.append(
-        EwSmeltingRecipe(
-            id_recipe = "ticket",
-            str_name = "Ticket to the White Line",
-            alias = [
-                "tickettohell",
-            ],
-            ingredients = {
-                ewcfg.item_id_doublehalloweengrist: 100,
-            },
-            products = ['ticket']
-         ))
+    smelting_recipe_list.append([ #Accepts only one addition, so if someone wants to add more: change append to extend.
+    EwSmeltingRecipe(
+        id_recipe = "ticket",
+        str_name = "Ticket to the White Line",
+        alias = [
+            "tickettohell",
+        ],
+        ingredients = {
+            ewcfg.item_id_doublehalloweengrist: 100,
+        },
+    products = ['ticket']
+    ),
+])
 
 if ewcfg.slimernalia_active:
-    smelting_recipe_list.append(
-        EwSmeltingRecipe(
-            id_recipe = "wrappingpapersexywear",
-            str_name = "Wrapping Paper Sexywear",
-            alias = [
-                "itsaslimernaliadiaster"
-            ],
-            ingredients = {
-                'wrappingpaperhat': 100,
-                ewcfg.item_id_giftribbon: 1,
-            },
-            products = ['wrappingpapersexywear']
-         ))
+    smelting_recipe_list.extend([
+    EwSmeltingRecipe(
+        id_recipe = "wrappingpapersexywear",
+        str_name = "Wrapping Paper Sexywear",
+        alias = [
+            "itsaslimernaliadiaster"
+        ],
+        ingredients = {
+            'wrappingpaperhat': 100,
+            ewcfg.item_id_giftribbon: 1,
+        },
+        products = ['wrappingpapersexywear']
+    ),
+    EwSmeltingRecipe(
+        id_recipe="hummel",
+        str_name="A Hummel",
+        ingredients={
+            ewcfg.item_id_giftribbon: 5,
+            'brick': 25,
+        },
+    products=['endlesswarhummel', 'rowdyfuckerhummel', 'copkillerhummel', 'phoeubushummel', 'doubleheadlessdoublehorsemanhummel', 'deadcopshummel', 'slimexodiahummel']
+    ),
+    EwSmeltingRecipe(
+        id_recipe = "giftpipebomb",
+        str_name = "Gift Pipebomb",
+        alias = [
+            "themysterioustickingnoise",
+            "pipebomb",
+            "fakegift",            
+        ],
+        ingredients = {
+            ewcfg.weapon_id_grenades: 1,
+            ewcfg.item_id_giftribbon: 1,
+        },
+        products = ['giftpipebomb']
+    ),
+    EwSmeltingRecipe(
+        id_recipe = "slimeglobe",
+        str_name = "Slimeglobe",
+        alias = [
+            "snowglobe"
+        ],
+        ingredients = {
+            ewcfg.item_id_slimepoudrin: 50,
+            ewcfg.item_id_giftribbon: 5,
+        },
+        products = ['slimeglobe']
+    ),
+])
 
 # smelting_recipe_list += ewdebug.debugrecipes
 

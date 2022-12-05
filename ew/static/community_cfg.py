@@ -11,8 +11,15 @@ cabinets_list = [
     "This is a World's Hardest Game arcade cabinet.\nThere were countless stories of moms getting bankrupted because their kids dumped their money into these.\nhttps://www.coolmathgames.com/0-worlds-hardest-game",
 	"This is an Endless Warcade: Endless Climber arcade cabinet.\nCreated by **Sceptrai**, countless hours have been wasted by the citizens of NLACakaNM attempting to summit ENDLESS WAR itself.\nhttps://blastedheath.itch.io/endless-warcade-endless-climber"
 ]
-slimeglobe_list = [
-    "It's a depiction of ENDLESS WAR towering high above the rest of NLACakaNM, staring longingly into the sky above."
+slimeglobe_list = [ 
+    "It's a depiction of ENDLESS WAR towering high above the rest of NLACakaNM's Downtown, staring longingly into the sky above."
+    "It's NLACakaNM's very own blimp doing another Hindenburg disaster, collapsed in Downtown. Some people will say the frequent crashes are from terrorists or from gangsters, but everybody living here long enough knows almost all of them are inside jobs to keep the tourism alive.",
+    "It's of the chaotic mess that is the Rowdy Roughhouse. Black stains around the edges detail the tragic (but hilarious) events of the old Roughhouse being blown to pieces.",
+    "It's the goth emo icon that is Cop Killtown. Lots of quarrels eminate from within daily... the real one, not this slimeglobe. Do you think there'll be a tiny Ben Saint figurine if you crack it open and tear it apart?",
+    "It's the N777 Casino, where many suckers get swindled and shots fired from russian roulette daily.",
+    "It's the South Sleezeborough's Dojo, with a bunch of asleep Rowdys stationed outside. A Killer is sneaking amongst them with a stack of pizza boxes back towards the Dojo.",
+    "It's a depiction of Slime's End Cliffs with a school of Fuck Sharks making quick work of a group of Juveniles struggling to stay above the Slime Sea's acidic waves.",
+    "Many Rowdys are gathered around an apartment block with windows broken in Toxington. Bricks lay about everywhere on the ground and an upset figure can be seen from within the apartment.",
 ]
 
 browse_list = [
