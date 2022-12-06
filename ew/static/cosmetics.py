@@ -4,7 +4,6 @@ import random
 from ..model.item import EwCosmeticItem
 
 unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'maidoutfit', 'drapeddress', 'widebrimmedhat', 'cigaretteholder', 'customfanhoodie',]
-
 # Because all profollean cosmetics are complicated, they are in the same boat as unique_smeltables. DO NOT add profollean cosmetics to unique_smeltables! 
 # Profollean cosmetics and unique_smeltables are not smeltable in the slimepoudrin + stylecosmeticitem recipe. (Example: 4 slimepoudrin + 1 coolbeans will NOT give you a programmer socks or a cool profollean cosmetic! ) 
 cosmetic_items_list = [
@@ -586,7 +585,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "cigar",
         str_name = "Cigar",
-        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from cuba and is thick enough to last for hours.",
+        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from Cuba and is thick enough to last for hours.",
         rarity = "Plebeian",
         durability = 2500000,
         style = "tough",
@@ -2213,17 +2212,6 @@ cosmetic_items_list = [
         freshness = 6,
         price = 50000,
     ),
-    #    EwCosmeticItem( I'll come back to this for wave 3 or 4, or if someone codes this in for me.
-#        id_cosmetic = "newyearsglasses",
-#        str_name = "New Years Glasses From {yearint}",
-#        str_desc = "These gaudish eyewear are almost always outdated by at least a year. Because of that, the fuckheads that made these a thing should burn in hell. These glasses are from {yearint}!",
-#        rarity = "Plebeian",
-#       durability = 2500000,
-#        style = "cute",
-#        freshness = 5,
-#        price = 100000,
-#        vendors = ['bazaar'],
-#   ),
         EwCosmeticItem( 
      id_cosmetic = "customfanhoodie",
      str_name = "{customfanhoodie} Fan Hoodie",

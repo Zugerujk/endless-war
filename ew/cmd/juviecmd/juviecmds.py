@@ -424,9 +424,10 @@ async def mine(cmd):
 
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
-                            if toolused == "sledgehammer": #and ewcfg.slimernalia_stage >= 4: #Remove stage check post-slimernalia
+                            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >= 3: #Remove stage check post-slimernalia
                                 response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime."
                                 sledgehammer_bonus = True
+                                print("The sledgehammer bonus flag has been set to true.")
                                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                             else:
                                 response = "You escape from the collapsing mineshaft."
@@ -510,7 +511,7 @@ async def mine(cmd):
             # Determine if an item is found.
             unearthed_item = False
             unearthed_item_amount = (random.randrange(3) + 5)  # anywhere from 5-7 drops
-
+                    
             # juvies get items 4 times as often as enlisted players
             unearthed_item_chance = 1 / ewcfg.unearthed_item_rarity
             if user_data.life_state == ewcfg.life_state_juvenile:
@@ -519,6 +520,14 @@ async def mine(cmd):
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
+            if sledgehammer_bonus == True:
+                print("sledgehammer bonus success?")
+                unearthed_item_chance = 1
+                unearthed_item_amount = random.randint(3,10)
+                unearthed_item_type = "Slime Poudrin"
+                sledge_yield = random.randint(50000,100000)
+                mining_yield += sledge_yield
+                response += "\nYour reckless mining has gotten you {} slime and {} Slime Poudrins!".format(sledge_yield, unearthed_item_amount)
 
             # event bonus
             for id_event in world_events:
@@ -589,12 +598,7 @@ async def mine(cmd):
                     if str_event_start != "":
                         response += str_event_start + "\n"
 
-            if sledgehammer_bonus == True:
-                    unearthed_item_chance = 1
-                    unearthed_item_amount = math.randint(3,10)
-                    unearthed_item_type = "Slime Poudrin"
-                    
-
+            
             if random.random() < unearthed_item_chance:
                 unearthed_item = True
 
@@ -647,16 +651,12 @@ async def mine(cmd):
 
             if toolused == "pickaxe":
                 mining_yield *= 2
-            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=4: #effective juvie pickmining while in sledgehammer mining
+            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=3: #Remove me post slimernalia
                 mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2
-            if ewcfg.slimernalia_stage >= 4:
+            if ewcfg.slimernalia_stage >= 3:
                 mining_yield *= 2
-            
-            if sledgehammer_bonus == True:
-                mining_yield += math.randint(25000,75000)
-
 
             # trauma = se_static.trauma_map.get(user_data.trauma)
             # if trauma != None and trauma.trauma_class == ewcfg.trauma_class_slimegain:

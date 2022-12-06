@@ -610,6 +610,23 @@ async def update_slimernalia_kingpin(client, server):
 
         await send_message(client, channel, embed=announce)
     
+async def announce_slimernalia_stage_increase(client, server):
+    #return
+    shits_fucked = True #causes bot to re-announce all announcements if it is restarted, allowing for patchnotes to be updated on the fly
+    if shits_fucked:
+        slimernalia_stage_1_announced = False
+        slimernalia_stage_2_announced = False
+        slimernalia_stage_3_announced = False
+        slimernalia_stage_4_announced = False
+        slimernalia_stage_5_announced = False
+        slimernalia_stage_6_announced = False
+        slimernalia_stage_7_announced = False
+        shits_fucked = False
+    #if not slimernalia_stage_1_announced and ewcfg.global_festivity >= 1000000 and not shits_fucked:
+        #announce the fucking announcement
+        channel = get_channel(server=server, channel_name="auditorium")
+        await send_message(client, channel, "Stage 1 is reached.")
+        slimernalia_stage_1_announced = True
 
 def check_user_has_role(server, member, checked_role_name):
     checked_role = discord.utils.get(server.roles, name=checked_role_name)

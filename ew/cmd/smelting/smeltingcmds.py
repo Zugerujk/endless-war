@@ -14,7 +14,6 @@ from ew.utils import item as itm_utils
 from ew.utils.combat import EwUser
 from .smeltingutils import smeltsoul
 
-
 # Smelting command. It's like other games call "crafting"... but BETTER and for FREE!!
 async def smelt(cmd):
     user_data = EwUser(member=cmd.message.author)

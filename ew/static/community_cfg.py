@@ -11,6 +11,16 @@ cabinets_list = [
     "This is a World's Hardest Game arcade cabinet.\nThere were countless stories of moms getting bankrupted because their kids dumped their money into these.\nhttps://www.coolmathgames.com/0-worlds-hardest-game",
 	"This is an Endless Warcade: Endless Climber arcade cabinet.\nCreated by **Sceptrai**, countless hours have been wasted by the citizens of NLACakaNM attempting to summit ENDLESS WAR itself.\nhttps://blastedheath.itch.io/endless-warcade-endless-climber"
 ]
+slimeglobe_list = [ 
+    "It's a depiction of ENDLESS WAR towering high above the rest of NLACakaNM's Downtown, staring longingly into the sky above."
+    "It's NLACakaNM's very own blimp doing another Hindenburg disaster, collapsed in Downtown. Some people will say the frequent crashes are from terrorists or from gangsters, but everybody living here long enough knows almost all of them are inside jobs to keep the tourism alive.",
+    "It's of the chaotic mess that is the Rowdy Roughhouse. Black stains around the edges detail the tragic (but hilarious) events of the old Roughhouse being blown to pieces.",
+    "It's the goth emo icon that is Cop Killtown. Lots of quarrels eminate from within daily... the real one, not this slimeglobe. Do you think there'll be a tiny Ben Saint figurine if you crack it open and tear it apart?",
+    "It's the N777 Casino, where many suckers get swindled and shots fired from russian roulette daily.",
+    "It's the South Sleezeborough's Dojo, with a bunch of asleep Rowdys stationed outside. A Killer is sneaking amongst them with a stack of pizza boxes back towards the Dojo.",
+    "It's a depiction of Slime's End Cliffs with a school of Fuck Sharks making quick work of a group of Juveniles struggling to stay above the Slime Sea's acidic waves.",
+    "Many Rowdys are gathered around an apartment block with windows broken in Toxington. Bricks lay about everywhere on the ground and an upset figure can be seen from within the apartment.",
+]
 
 browse_list = [
     "You found a server slightly out of city limits. Looks like they don't care so much about slime or gang warfare, they just make art about other stuff. Unthinkable, but nonetheless fascinating.\nhttps://discord.gg/TAQukUe",
@@ -439,7 +449,7 @@ monowhipkilltext = [
 ]
 
 broadswordkilltext = [
-    "{name_player} raises their sword overhead and violently slams it down on {name_target}. {name_target} gets messily chopped into two pieces, blood and guts spurting everywhere. {name_target}",
+    "{name_player} raises their sword overhead and violently slams it down on {name_target}. {name_target} gets messily chopped into two pieces, blood and guts spurting everywhere. {emote_skull}",
     "{name_player} skewers {name_target} through the back to the hilt of their sword before kicking them off in a gruesome fashion. {name_player} then points downward several times out of disrespect. {emote_skull}",
     "{name_player} embeds their broadsword in the side of {name_target}'s chest. Oop. Shit. It's really stuck in there. It takes a few minutes but {name_player} manages to pry it out of {name_target}'s corpse. {emote_skull}"
 ]
@@ -465,7 +475,7 @@ shotgunkilltext = [
 sledgehammerkilltext = [
     "{name_player} brings their sledge to one of {name_target}'s kneecaps, bending their leg backwards with a sickly crunch. As {name_target} yelps in pain they get their skull caved in by an overhead swing. {emote_skull}",
     "{name_player} starts to spin around, sledge in hand. As they let go it goes flying directly into {name_target}'s chest, shattering most of their rib bones upon impact and fracturing their lungs. {emote_skull}",
-    "{name_player} hits {name_target} on the side of the head with their sledge, bringing {name_target} to the ground. Winding up a finishing swing, {name_target}'s head is messily crushed like a watermelon."
+    "{name_player} hits {name_target} on the side of the head with their sledge, bringing {name_target} to the ground. Winding up a finishing swing, {name_target}'s head is messily crushed like a watermelon. {emote_skull}"
 ]
 
 katanakilltext = [
@@ -476,7 +486,7 @@ katanakilltext = [
 
 huntingriflekilltext = [
     "{name_player} hops off the hood of a car and performs a full 720 noscope! The shot connects, causing {name_target}’s head to explode into meaty chunks. Log off, n00b. {emote_skull}",
-    "{name_player} snipes {name_target] in the thigh, knocking them off their feet. {name_player} takes out their trusty hunting knife and carves out a {name_target} pelt. Ahh, the thrill of the hunt. {emote_skull}",
+    "{name_player} snipes {name_target} in the thigh, knocking them off their feet. {name_player} takes out their trusty hunting knife and carves out a {name_target} pelt. Ahh, the thrill of the hunt. {emote_skull}",
     "{name_player} waits in the bushes for a potential target. {name_target} walks into {name_player}’s line of sights, quickly receiving a bullet in the skull. {emote_skull}"
 ]
 
@@ -489,7 +499,7 @@ sniperkilltext = [
 grenadekilltext = [
     "{name_player} casually strides by an unaware {name_target}, slipping a live grenade in their pocket. By the time {name_target} has realized it's there, it’s far too late. {emote_skull}",
     "{name_player} tosses a grenade towards {name_target}. {name_target} tries their best to run away, but can’t get out of the blast radius in time. {emote_skull}",
-    "{name_player} throws a grenade underneath a conveniently placed car, causing it to explode in violent fury. {name_target}, some nearby civilians, and an entire building are blasted away."
+    "{name_player} throws a grenade underneath a conveniently placed car, causing it to explode in violent fury. {name_target}, some nearby civilians, and an entire building are blasted away. {emote_skull}"
 ]
 
 molotovkilltext = [
@@ -597,8 +607,8 @@ paintbrushkilltext = [
 ]
 
 watercolorskilltext = [
-    "```{name_player} is trying to make something with their watercolors but gets so irrationally angry while painting. To vent their frustrations, they beat the everloving shit out of {name_target} who was just passing by. {emote_skull}```",
-    "```{name_player} is busy painting with watercolors. {name_target} approaches the unaware gangster, but in a bright flash of light they suddenly drop dead, covered in a thousand splashes of color. {name_player} keeps painting. {emote_skull}```"
+    "```{name_player} is trying to make something with their watercolors but gets so irrationally angry while painting. To vent their frustrations, they beat the everloving shit out of {name_target} who was just passing by.```{emote_skull}",
+    "```{name_player} is busy painting with watercolors. {name_target} approaches the unaware gangster, but in a bright flash of light they suddenly drop dead, covered in a thousand splashes of color. {name_player} keeps painting.```{emote_skull}"
 ]
 
 thinnerbombskilltext = [

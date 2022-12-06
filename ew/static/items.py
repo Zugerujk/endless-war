@@ -7,6 +7,8 @@ from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
 from ..model.item import EwPrankItem
 from ..model.slimeoid import EwSlimeoidFood
+from ew.static.community_cfg import slimeglobe_list
+import random
 
 """
     The list of item definitions. Instances of items are always based on these
@@ -1475,6 +1477,25 @@ item_list = [
         rarity=ewcfg.prank_rarity_scandalous,
         gambit=30,
         side_effect="usedneedle_effect",
+    ),
+    EwPrankItem(
+        id_item=ewcfg.item_id_candycane,
+        str_name="Candy Cane?",
+        str_desc="" + ewcfg.prank_type_text_instantuse,
+        prank_type=ewcfg.prank_type_instantuse,
+        prank_desc="{} holds out a candy cane! You happily snatch it straight from their hands and immediately chomp down on the festive, cavity-inducing delight! The supposed delight, however, is absent from your tastebuds, as you feel shards of broken penne shells crunch in between your teeth. You turn towards them, spitting as much of the disgusting uncooked pasta shards as you can onto their face! Bitch. You then swallow the rest with a disgusted shudder.",
+        rarity=ewcfg.prank_rarity_heinous,
+        gambit=5,
+    ),
+    EwPrankItem(
+        id_item=ewcfg.item_id_giftpipebomb,
+        str_name="Gift Pipebomb",
+        str_desc="It's a tube-shaped gift, intended to be laid in the streets for some other unsuspecting poor soul to discover." + ewcfg.prank_type_text_trap,
+        prank_type=ewcfg.prank_type_trap,
+        prank_desc="Oh shit, someone left a free gift around! Lets just open this up and OH GOD GLITTER IS EVERYWHERE.",
+        trap_chance=100,
+        rarity=ewcfg.prank_rarity_forbidden,
+        gambit=15,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_swordofseething,
@@ -3672,7 +3693,85 @@ furniture_list = [
         furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
         furn_set = "hatealiens",
     ),
+    EwFurniture(
+        id_furniture = "slimeglobe",
+        str_name = "Slimeglobe",
+        str_desc = random.choice(slimeglobe_list),
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You carefully place the slimeglobe down on your table, understanding that shaking it too hard will cause the poudrin shards to go flying everywhere.",
+        furniture_look_desc = "A slimeglobe is on your table",
+    ),
+    EwFurniture(
+        id_furniture = "endlesswarhummel",
+        str_name = "ENDLESS WAR Hummel",
+        str_desc = "It's a Hummel of ENDLESS WAR, having a nondescript look of distain to the fact that someone made something as stupid as a Hummel, and not in fact: killing people.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "An ENDLESS WAR Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "rowdyfuckerhummel",
+        str_name = "Rowdy Fucker Hummel",
+        str_desc = "It's a hummel of the Rowdy Fucker, stuck behind a door. Some rumor this is his fate even to this very day.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Rowdy Fucker Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "copkillerhummel",
+        str_name = "Cop Killer Hummel",
+        str_desc = "It's a hummel of the Cop Killer, peering down from his gay little ivory tower.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Cop Killer Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "phoebushummel",
+        str_name = "Phoebus Hummel",
+        str_desc = "It's a hummel of Phoebus, with radiant light shining down upon them.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Phoebus Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "doubleheadlessdoublehorsemanhummel",
+        str_name = "Double Headless Double Horseman Hummel",
+        str_desc = "It's a hummel of the Double Headless Double Horseman. Sadly, the Double Headless Double Horseman Hummel does not include the Double Headless Double Horseman's Double Headless Double Horses.",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Double Headless Double Horseman Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "deadcopshummel",
+        str_name = "Dead Cops Hummel",
+        str_desc = "It's a hummel of some dead cops, lying dead on the street with both Rowdys and Killers watching over them.",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A hummel of dead cops is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "slimexodiahummel",
+        str_name = "Slimexodia Hummel",
+        str_desc = "It's a hummel of Slimexodia... Well, actually it's five hummels making up his chest, arms, and legs put together into one whole hummel.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Slimexodia Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
 ]
+
 
 furniture_map = {}
 furniture_names = []
@@ -3691,6 +3790,7 @@ furniture_NMS = []
 furniture_specialhue = []
 furniture_collection = []
 furniture_hatealiens = []
+furniture_hummels = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture

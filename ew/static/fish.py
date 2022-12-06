@@ -1,5 +1,8 @@
-import ew.static.cfg as ewcfg
+import json
+import os
+from re import M
 
+from .cfg import slimernalia_stage
 from ..model.fish import EwFish
 
 # All the fish, baby!
@@ -1216,8 +1219,8 @@ fish_list = [
     ), 
 ]
 # Slimernalia exclusive fish
-if ewcfg.slimernalia_stage >= 6:
-    fish_list.append(
+if slimernalia_stage >= 4:
+    fish_list.extend([
     EwFish(
         id_fish = "tiltedtilapia",
         str_name = "Tilted Tilapia",
@@ -1254,7 +1257,7 @@ if ewcfg.slimernalia_stage >= 6:
         str_desc = "An opportunistic predator, it waits until their prey has tired out and unable to act. Watch out for those hook shaped spines!",
         slime = "void",
     ),
-)
+])
     
 
 # A map of id_fish to EwFish objects.
