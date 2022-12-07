@@ -2437,6 +2437,18 @@ if ewcfg.slimernalia_active:
         products = ['giftpipebomb']
     ),
     EwSmeltingRecipe(
+        id_recipe = "candycane",
+        str_name = "Candy Cane?",
+        alias = [
+            "pennecandycane",
+            "defectivecandycane",            
+        ],
+        ingredients = {
+            ewcfg.item_id_foodbase: 1,
+        },
+        products = ['giftpipebomb']
+    ),
+    EwSmeltingRecipe(
         id_recipe = "slimeglobe",
         str_name = "Slimeglobe",
         alias = [
@@ -2448,6 +2460,32 @@ if ewcfg.slimernalia_active:
         },
         products = ['slimeglobe']
     ),
+    EwSmeltingRecipe(
+        id_recipe = "furrobe",
+        str_name = "Fur Robe",
+        alias = [
+            "santacoat"
+        ],
+        ingredients = {
+            ewcfg.item_id_giftribbon: 3,
+            ewcfg.item_id_textiles: 1,
+        },
+        products = ['furrobe']
+    ),
+    EwSmeltingRecipe(
+        id_recipe = "wearablelights",
+        str_name = "Wearable Lights",
+        alias = [
+            "thatmomentinachristmasfilmwherethedadgetsstuckinchristmaslightsanditssupposedtobefunnyithinkjimcarrywasinit",
+            "wearablefestivelights"
+        ],
+        ingredients = {
+            ewcfg.item_id_giftribbon: 3,
+            ewcfg.item_id_textiles: 1,
+        },
+        products = ['wearablelights']
+    ),
+    
 ])
 
 # smelting_recipe_list += ewdebug.debugrecipes

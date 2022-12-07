@@ -313,7 +313,7 @@ async def reap(cmd):
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             metallic_crop_ammount *= 2
                         elif has_tool and weapon.id_weapon == ewcfg.weapon_id_slimeringcan:
-                            metallic_crop_ammount *= 0
+                            metallic_crop_ammount = 0
 
                         
                         crop_gain = metallic_crop_ammount * 3
@@ -327,22 +327,21 @@ async def reap(cmd):
                                     item_type=vegetable.item_type,
                                     item_props=item_props
                                 )
+                            if metallic_crop_ammount == 1:
+                                response += "and a single {}!".format(vegetable.str_name)
+                            else:
+                                response += "and a bushel or two of {} {}!".format(metallic_crop_ammount,vegetable.str_name)
                         else:
-                            for vcreate in range(math.randint(5,8)):
+                            poudrin_gain = random.randint(5,8)
+                            for vcreate in range(poudrin_gain):
                                 bknd_item.item_create(
                                     id_user=cmd.message.author.id,
                                     id_server=cmd.guild.id,
                                     item_type=ewcfg.item_id_slimepoudrin,
                                     item_props=item_props
                                 )
-                            
-
-                        if metallic_crop_ammount == 1:
-                            response += "and a single {}!".format(vegetable.str_name)
-                        elif metallic_crop_ammount == 0:
-                            response += "And the {} coagulates on the ground, having no structural support to even call it anything more than gunk.".format(vegetable.str_name)
-                        else:
-                            response += "and a bushel or two of {} {}!".format(metallic_crop_ammount,vegetable.str_name)
+                            response += "And the {} coagulates on the ground, having no structural support to even call it anything more than gunk.\n You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
+                    
                     # if random.randrange(10) == 0:
                     # 	for vcreate in range(6):
                     # 		bknd_item.item_create(
@@ -360,9 +359,10 @@ async def reap(cmd):
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             unearthed_vegetable_amount *= 2
                         elif has_tool and weapon.id_weapon == ewcfg.weapon_id_slimeringcan:
-                            unearthed_vegetable_amount *= 0
+                            unearthed_vegetable_amount = 0
                         crop_gain = unearthed_vegetable_amount
 
+                        
                         if unearthed_vegetable_amount > 0:
                             for vcreate in range(unearthed_vegetable_amount):
                                 bknd_item.item_create(
@@ -371,19 +371,20 @@ async def reap(cmd):
                                     item_type=vegetable.item_type,
                                     item_props=item_props
                                 )
+                            if unearthed_vegetable_amount == 1:
+                                response += "and a single {}!".format(vegetable.str_name)
+                            else:
+                                response += "and a bushel or two of {} {}!".format(unearthed_vegetable_amount,vegetable.str_name)
                         else:
-                            for vcreate in range(math.randint(5,8)):
+                            poudrin_gain = random.randint(5,8)
+                            for vcreate in range(poudrin_gain):
                                 bknd_item.item_create(
                                     id_user=cmd.message.author.id,
                                     id_server=cmd.guild.id,
                                     item_type=ewcfg.item_id_slimepoudrin,
                                     item_props=item_props
                                 )
-                        
-                    if unearthed_vegetable_amount == 0:
-                        response += "And the {} coagulates on the ground, having no structural support to even call it anything more than gunk.".format(vegetable.str_name)
-                    else:
-                        response += "and a bushel of {} {}!".format(unearthed_vegetable_amount,vegetable.str_name)
+                            response += "And the {} coagulates on the ground, having no structural support to even call it anything more than gunk.\n You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
 
                     levelup_response = user_data.change_slimes(n=slime_gain, source=ewcfg.source_farming)
 
