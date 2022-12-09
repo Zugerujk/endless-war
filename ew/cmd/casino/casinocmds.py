@@ -14,6 +14,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
+from ew.static.cfg import slimernalia_stage
 from .casinoutils import check_skat_bid
 from .casinoutils import check_skat_call
 from .casinoutils import checkiflegal
@@ -206,7 +207,12 @@ async def pachinko(cmd):
         if winnings > 0:
             response += "\n\n**You won {:,} {currency}!**".format(winnings, currency=currency_used)
         else:
-            response += "\n\nYou lost your {}.".format(currency_used)
+            secondchance = random.randint(1,5)
+            if secondchance == 5 and slimernalia_stage >= 5:
+                winnings = value
+                response += "You pour a sizeable amount of nuts into the top of the pachinko game. In some sort of cosmic fluke, this didn't backfire and burn the building down. You got your {} back!".format(currency_used)
+            else:
+                response += "\n\nYou lost your {}.".format(currency_used)
         
         response += payout(winnings, value, user_data, currency_used)
 
@@ -308,9 +314,14 @@ async def craps(cmd):
                         response += "\n\nThe dealer hands you the soul, but you're holding too many cosmetics and you drop it on the floor."
                 response += "\n\n**You rolled a 7! It's your lucky day. You won {:,} {currency}.**".format(winnings, currency=currency_used)
             else:
-                response += "\n\nYou didn't roll 7. You lost your {}.".format(currency_used)
-                if currency_used == ewcfg.currency_soul:
-                    bknd_item.give_item(id_item=soul_id, id_user="casinosouls", id_server=cmd.guild.id)
+                secondchance = random.randint(1,5)
+                if secondchance == 5 and slimernalia_stage >= 5:
+                    winnings = value
+                    response += "Some hotshot prick slams their fist right onto the craps table while the dice was still settling, resulting in both dice flinging off across the room and wasting everyone's fucking time."
+                else:
+                    response += "\n\nYou didn't roll 7. You lost your {}.".format(currency_used)
+                    if currency_used == ewcfg.currency_soul:
+                        bknd_item.give_item(id_item=soul_id, id_user="casinosouls", id_server=cmd.guild.id)
 
             response += payout(winnings, value, user_data, currency_used)
 
@@ -452,7 +463,12 @@ async def slots(cmd):
             response += "\n\n**JACKPOT!! The machine spews forth {:,} {currency}!**".format(winnings, currency=currency_used)
 
         else:
-            response += "\n\n*Nothing happens...*"
+            secondchance = random.randint(1,5)
+            if secondchance == 5 and slimernalia_stage >= 5:
+                winnings = value
+                response += "Out of nowhere, the slot machine bricks itself. After much gentle complaining and pleading, you get an employee to refund your bet."
+            else:
+                response += "\n\n*Nothing happens...*"
 
         # Significant time has passed since the user issued this command. We can't trust that their data hasn't changed.
         user_data = EwUser(member=cmd.message.author)
@@ -615,7 +631,12 @@ async def roulette(cmd):
                 elif bet == "green" and roll in green:
                     winnings = (value * 18)
                 else:
-                    winnings = 0
+                    secondchance = random.randint(1,5)
+                    if secondchance == 5 and slimernalia_stage >= 5:
+                        winnings = value
+                        response += "Huh? In the celebration and chaos, the dealer gets distracted by a loud commotion. Seizing on the moment, you snatch up all the chips you would have lost and make yourself like bananas after dark and split."
+                    else:
+                        winnings = 0
 
                 response = "The ball landed on {}!\n".format(roll)
                 if currency_used == ewcfg.currency_soul and winnings > 0:
@@ -1240,7 +1261,12 @@ async def baccarat(cmd):
 
                     response += "\n\n**You won {:,} {currency}!**".format(winnings, currency=currency_used)
                 else:
-                    response += "\n\n*You lost your bet.*"
+                    secondchance = random.randint(1,5)
+                    if secondchance == 5 and slimernalia_stage >= 5:
+                        winnings = value
+                        response += "WHO THE FUCK PLAYS THIS GAME? Even your dealer has fallen asleep trying to deal your obviously losing cards. You take your chips and go to play a less excruciating game."
+                    else:
+                        response += "\n\n*You lost your bet.*"
 
                     if currency_used == ewcfg.currency_soul:
                         bknd_item.give_item(id_item=soul_id, id_user="casinosouls", id_server=user_data.id_server)
