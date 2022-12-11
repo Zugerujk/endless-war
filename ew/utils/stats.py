@@ -58,7 +58,7 @@ def set_stat(id_server = None, id_user = None, user = None, metric = None, value
     if value == 0:
         # Delete them instead
         bknd_core.execute_sql_query(
-            "DELETE FROM stats WHERE {id_server} = %s AND {id_user} = %s AND {metric} = %s)".format(
+            "DELETE FROM stats WHERE {id_server} = %s AND {id_user} = %s AND {metric} = %s".format(
                 id_server=ewcfg.col_id_server,
                 id_user=ewcfg.col_id_user,
                 metric=ewcfg.col_stat_metric,
