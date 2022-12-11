@@ -425,10 +425,9 @@ async def mine(cmd):
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
                             if toolused == "sledgehammer" and ewcfg.slimernalia_stage >= 3: #Remove stage check post-slimernalia
-                                response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime."
+                                response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime.\n"
                                 sledgehammer_bonus = True
-                                print("The sledgehammer bonus flag has been set to true.")
-                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response,))
                             else:
                                 response = "You escape from the collapsing mineshaft."
                                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -520,14 +519,15 @@ async def mine(cmd):
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
+
+            
             if sledgehammer_bonus == True:
-                print("sledgehammer bonus success?")
                 unearthed_item_chance = 1
                 unearthed_item_amount = random.randint(3,10)
                 unearthed_item_type = "Slime Poudrin"
                 sledge_yield = random.randint(50000,100000)
                 mining_yield += sledge_yield
-                response += "\nYour reckless mining has gotten you {} slime and {} Slime Poudrins!".format(sledge_yield, unearthed_item_amount)
+                response = "Your reckless mining has gotten you {} slime and {} Slime Poudrins! ".format(sledge_yield, unearthed_item_amount)
 
             # event bonus
             for id_event in world_events:
@@ -622,13 +622,13 @@ async def mine(cmd):
                             id_server=cmd.guild.id,
                             item_props=item_props
                         )
-
-                    if unearthed_item_type != "":
-                        response += "You {} one {} out of the {}!".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), item.str_name, unearthed_item_type)
-                    elif unearthed_item_amount == 1:
-                        response += "You unearthed a {}! ".format(item.str_name)
-                    else:
-                        response += "You unearthed {} {}s! ".format(unearthed_item_amount, item.str_name)
+                    if not sledgehammer_bonus:
+                        if unearthed_item_type != "":
+                            response += "You {} one {} out of the {}!".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), item.str_name, unearthed_item_type)
+                        elif unearthed_item_amount == 1:
+                            response += "You unearthed a {}! ".format(item.str_name)
+                        else:
+                            response += "You unearthed {} {}s! ".format(unearthed_item_amount, item.str_name)
 
                     ewstats.change_stat(user=user_data, metric=ewcfg.stat_lifetime_poudrins, n=unearthed_item_amount)
 
