@@ -20,6 +20,7 @@ slimeglobe_list = [
     "It's the South Sleezeborough's Dojo, with a bunch of asleep Rowdys stationed outside. A Killer is sneaking amongst them with a stack of pizza boxes back towards the Dojo.",
     "It's a depiction of Slime's End Cliffs with a school of Fuck Sharks making quick work of a group of Juveniles struggling to stay above the Slime Sea's acidic waves.",
     "Many Rowdys are gathered around an apartment block with windows broken in Toxington. Bricks lay about everywhere on the ground and an upset figure can be seen from within the apartment.",
+    "The scene is set it's a lovely Slimernalia morning a juvie has awoken to none other than Phoebus ransacking their apartment. It's difficult to tell if their face is expressing joy or fear nevertheless such a lovely sight."
 ]
 
 browse_list = [
