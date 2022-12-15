@@ -28,7 +28,6 @@ territory_time_gain = 10
 #Double Halloween Features
 dh_active = False
 #Existing Stages for Double Halloween. As the years go by we may add on to this
-
 dh_stage = 0
 
 #Slimernalia Features
@@ -4212,6 +4211,7 @@ enemy_type_slimeoidabuser = "slimeoidabuser"
 enemy_type_slimernaliagangster = "slimernaliagangster"
 enemy_type_spiritofslimernaliapast = "spiritofslimernaliapast"
 enemy_type_drugdealer = "drugdealer"
+enemy_type_miserablemiser = "miserablemiser"
 
 # Enemy ai types
 enemy_ai_sandbag = 'Sandbag'
@@ -4226,22 +4226,22 @@ enemy_class_normal = 'normal'
 common_enemies = []
 # List of enemies sorted by their spawn rarity.
 if slimernalia_stage >= 1:
-    common_enemies = [enemy_type_sandbag, enemy_type_slimernaliajuvie, enemy_type_dinoslime]
+    common_enemies = [enemy_type_sandbag, enemy_type_dinoslime]
     uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
     rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
-    raid_bosses = [enemy_type_slimernaliagangster]
-    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer]
-elif slimernalia_stage >= 6:
-    common_enemies.append(enemy_type_spiritofslimernaliapast)
+    raid_bosses = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
+    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
+    defense_up_enemies = [enemy_type_miserablemiser]
+    if slimernalia_stage >= 6:
+        common_enemies.append(enemy_type_spiritofslimernaliapast)
 else:
     common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
     uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
     rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
     raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-    raid_den_bosses = [enemy_type_alm]
-    defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
     enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-
+raid_den_bosses = [enemy_type_alm]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 # List of enemies that spawn in the Nuclear Beach
 if slimernalia_stage >= 1:
     pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
@@ -4261,8 +4261,8 @@ radiation_storm_enemies = [enemy_type_deathclaw, enemy_type_mutatedbarrel]
 
 # List of raid bosses sorted by their spawn rarity.
 raid_boss_tiers = {
-    "micro": [enemy_type_megaslime],
-    "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator],
+    "micro": [enemy_type_megaslime, enemy_type_slimernaliajuvie],
+    "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator, enemy_type_miserablemiser],
     "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime, enemy_type_slimernaliagangster],
     # This can be left empty until we get more raid boss ideas.
     # "nega": [],
@@ -4467,29 +4467,58 @@ enemy_drop_tables = {
     enemy_type_alm: [
         {item_id_doublehalloweengrist: [100, 1, 4]},
         {weapon_id_broadsword: [100, 1, 1]},
-        {item_id_civilianscalp: [100, 1, 1]}
+        {item_id_civilianscalp: [100, 1, 1]},
     ],  
     enemy_type_slimernaliajuvie: [
-        {item_id_slimepoudrin: [100, 1, 5]},
+        {item_id_slimepoudrin: [100, 1, 15]},
         {item_id_giftribbon: [25, 1, 1]},
         {"crop": [30, 1, 3]},
+        {item_id_candycane: [75, 1, 1]},
     ],
     enemy_type_slimeoidabuser: [
-        {item_id_slimepoudrin: [100, 1, 1]},
+        {item_id_slimepoudrin: [100, 1, 12]},
         {rarity_plebeian: [20, 1, 1]},
-        {item_id_giftribbon: [10, 1, 1]},
+        {item_id_giftribbon: [10, 1, 3]},
     ],
     enemy_type_slimernaliagangster: [
         {item_id_slimepoudrin: [100, 1, 20]},
-        {item_id_giftribbon: [100, 1, ]},
+        {item_id_giftribbon: [100, 1, 2]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [25, 1, 1]}
+        {weapon_id_foodbasket: [25, 1, 1]},
+        {rarity_patrician: [50, 1, 1]},
+        {item_id_slimepoudrin: [10, 10, 25]},
     ],
     enemy_type_drugdealer: [
         {"pileofmysteriouspowder": [25, 1, 1]},
         {item_id_seaweedjoint: [50, 1, 4]},
-        {"edibleslime": [50, 1, 2]}, 
+        {"edibleslime": [50, 1, 2]},
+        {item_id_giftribbon: [10, 1, 3]}, 
+    ],
+    enemy_type_arsonist: [
+        {weapon_id_molotov: [100, 1, 1]},
+        {item_id_slimepoudrin: [50, 3, 7]},
+        {item_id_giftpipebomb: [100, 1, 2]},
+        {item_id_giftribbon: [5, 3, 6]},
+    ],
+    enemy_type_vandal: [
+        {weapon_id_spraycan: [100, 1, 1]},
+        {item_id_slimepoudrin: [100, 2, 5]},
+        {item_id_giftribbon: [25, 1, 1]},
+    ],
+    enemy_type_miserablemiser: [
+        {item_id_slimepoudrin: [15, 10, 10]},
+        {item_id_giftribbon: [30, 1, 3]},
+        {"cigar": [30, 3, 12]},
+    ],
+    enemy_type_illegalimmigrant: [
+        {weapon_id_boomerang: [10, 1, 1]},
+        {item_id_bustedrifle: [15, 1, 1]},
+        {item_id_repairkit: [15, 1, 1]},
+        {"sloshhat": [25, 1, 1]},
+        {item_id_prankcapsule: [100, 6, 10]},
+        {weapon_id_harpoon: [100, 0, 0]},
+        {item_id_slimepoudrin: [10, 10, 10]},
     ],
 
 }
@@ -4822,7 +4851,7 @@ enemy_data_table = {
         "aliases": ["alm", "fireemblem"]
     }, 
     enemy_type_slimernaliajuvie: {
-        "slimerange": [250000, 500000],
+        "slimerange": [1000000, 3000000],
         "ai": enemy_ai_attacker_b, 
         "attacktype": enemy_attacktype_bluntweapon,
         "displayname": "Festive Juvie",
@@ -4830,7 +4859,7 @@ enemy_data_table = {
         "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
     },
     enemy_type_vandal: {
-        "slimerange": [600000, 800000],
+        "slimerange": [600000, 1200000],
         "ai": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_gunkshot,
         "displayname": "Rebellious Vandal",
@@ -4846,7 +4875,7 @@ enemy_data_table = {
         "aliases": ["illegal", "legal", "immigrant", "visa", "australian", "illegalimmigrant", "legalimmigrantbuttheyaremissingtheirvisa"], 
     },
     enemy_type_arsonist: {
-        "slimerange": [1000000, 3500000],
+        "slimerange": [250000, 750000],
         "ai": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_molotovbreath,
         "displayname": "Agitated Arsonist",
@@ -4862,7 +4891,7 @@ enemy_data_table = {
         "aliases": ["spirit", "slimernalia", "staydead", "past", "present", "spiritofslimernaliapast", "spiritofslimernaliapresent"],
     },
     enemy_type_slimernaliagangster: {
-        "slimerange": [5000000, 10000000],
+        "slimerange": [5000000, 8000000],
         "ai": enemy_ai_coward,
         "attacktype": enemy_attacktype_unarmed,
         "displayname": "Enlisted Gangster",
@@ -4870,13 +4899,29 @@ enemy_data_table = {
         "aliases": ["idiot", "enlistedgangster", "enlisted", "gangster", "goon", "enlistedgoon"],
     },
     enemy_type_drugdealer: {
-        "slimerange": [20, 10000],
+        "slimerange": [40000, 100000],
         "ai": enemy_ai_defender,
         "attacktype": enemy_attacktype_unarmed,
         "displayname": "Drug Dealer",
-        "raredisplayname": "Drug Dealer",
-        "aliases": ["drug", "dealer", "drugdealer"],
-    }
+        "raredisplayname": "Drug Stealer",
+        "aliases": ["drug", "dealer", "drugdealer", "stealer", "drugstealer"],
+    },
+    enemy_type_slimeoidabuser: {
+        "slimerange": [3000000, 5000000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_raiderscythe,
+        "displayname": "Slimeoid Abuser",
+        "raredisplayname": "Negaslimeoid Abuser",
+        "aliases": ["abuser", "slimeoid", "negaslimeoid", "slimeoidabuser", "negaslimeoidabuser"],
+    },
+    enemy_type_miserablemiser: {
+        "slimerange": [4000000, 6000000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_wesson,
+        "displayname": "Miserable Miser",
+        "raredisplayname": "Miserable Scrooge",
+        "aliases": ["miser", "miserable", "scrooge", "miserablemiser", "miserablescrooge"],
+    },
 }
 
 # Raid boss names used to avoid raid boss reveals in ewutils.formatMessage
@@ -4890,10 +4935,10 @@ for enemy in enemy_data_table.keys():
 if slimernalia_stage >= 1:
     coward_responses = [
     "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
-    "the {} calls taunts: *You're not even worth renouncing to kill, bitch.",
-
-
-
+    "the {} taunts: *You're not even worth renouncing to kill, bitch.*",
+    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*"
+    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*"
+    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*"
     ]
 else:
     coward_responses = [
@@ -4908,8 +4953,8 @@ else:
 if slimernalia_stage >= 1:
     coward_responses_hurt = [
     "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
-
-
+    "\nThe {} rages out: *DUDE, FUCK OFF!!*"
+    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*"
     ]
 else:
     coward_responses_hurt = [

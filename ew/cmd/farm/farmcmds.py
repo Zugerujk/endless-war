@@ -129,7 +129,7 @@ async def sow(cmd):
                     growth_time /= 2
                 if ewcfg.mutation_id_greenfingers in mutations:
                     growth_time /= 1.5
-
+              
                 hours = int(growth_time / 60)
                 minutes = int(growth_time % 60)
 
@@ -264,19 +264,20 @@ async def reap(cmd):
 
                     if random.random() < unearthed_item_chance:
                         unearthed_item = True
-                        unearthed_item_amount = math.randint(1,4)
+                        unearthed_item_amount = random.randint(1,4)
 
                     if unearthed_item == True:
-                        # If there are multiple possible products, randomly select one.
-                        # shovel buff item table
-                        shovel_table = {
-                        ewcfg.item_id_stick,
-                        ewcfg.item_id_landmine,
-                        ewcfg.item_id_oldboot,
-                        ewcfg.item_id_tincan,
-                        }
-                        item = random.choice(shovel_table) # inject 
-                        
+                        item = random.choice(vendors.mine_results)
+                        if has_tool and weapon.id_weapon == ewcfg.weapon_id_shovel:
+                            # If there are multiple possible products, randomly select one.
+                            # shovel buff item table
+                            shovel_table = [
+                            ewcfg.item_id_stick,
+                            ewcfg.item_id_landmine,
+                            ewcfg.item_id_oldboot,
+                            ewcfg.item_id_tincan,]
+                            item = static_items.item_map.get(random.choice(shovel_table))
+
                         item_props = itm_utils.gen_item_props(item)
 
                         if item is not None:
@@ -333,14 +334,16 @@ async def reap(cmd):
                                 response += "and a bushel of {} {}!".format(metallic_crop_ammount,vegetable.str_name)
                         else:
                             poudrin_gain = random.randint(5,8)
+                            item = random.choice(vendors.mine_results)
+                            item_props = itm_utils.gen_item_props(item)
                             for vcreate in range(poudrin_gain):
                                 bknd_item.item_create(
                                     id_user=cmd.message.author.id,
                                     id_server=cmd.guild.id,
-                                    item_type='slimepoudrin',
+                                    item_type=item.item_type,
                                     item_props=item_props
                                 )
-                            response += "and the {} coagulates on the ground, having no structural support to even call it anything more than gunk.\nYou got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
+                            response += "\nThe {} collapses on the ground, having no structural support to even call it anything more than gunk. You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
                     
                     # if random.randrange(10) == 0:
                     # 	for vcreate in range(6):
@@ -353,6 +356,7 @@ async def reap(cmd):
                     #
                     # 	response += "and a bushel of {}!".format(vegetable.str_name)
                     # else:
+
                     # 	response += "and a bushel of... hey, what the hell! You didn't reap anything! Must've been some odd seeds..."
                     else:
                         unearthed_vegetable_amount = 3
@@ -377,14 +381,16 @@ async def reap(cmd):
                                 response += "and a bushel of {} {}!".format(unearthed_vegetable_amount,vegetable.str_name)
                         else:
                             poudrin_gain = random.randint(5,8)
+                            item = random.choice(vendors.mine_results)
+                            item_props = itm_utils.gen_item_props(item)
                             for vcreate in range(poudrin_gain):
                                 bknd_item.item_create(
                                     id_user=cmd.message.author.id,
                                     id_server=cmd.guild.id,
-                                    item_type='slimepoudrin',
+                                    item_type=item.item_type,
                                     item_props=item_props
                                 )
-                            response += "and the {} coagulates on the ground, having no structural support to even call it anything more than gunk.\nYou got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
+                            response += "\nThe {} collapses on the ground, having no structural support to even call it anything more than gunk. You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
 
                     levelup_response = user_data.change_slimes(n=slime_gain, source=ewcfg.source_farming)
 

@@ -611,7 +611,7 @@ class EwEnemy(EwEnemyBase):
                 old_ch_name = old_poi_def.channel
                 resp_cont.add_channel_response(old_ch_name, old_district_response)
 
-                if new_poi not in poi_static.outskirts:
+                if new_poi not in poi_static.outskirts and self.enemytype in ewcfg.raid_bosses:
                     gang_base_response = "There are reports of a powerful enemy roaming around {}.".format(
                         new_poi_def.str_name)
                     channels = ewcfg.hideout_channels
@@ -1546,7 +1546,7 @@ def find_enemy(enemy_search = None, user_data = None):
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
-    if enemy_data.enemytype in ewcfg.raid_bosses:
+    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers:
         if enemy_data.time_lastenter <= time_now - ewcfg.time_raidboss_movecooldown:
             # Raid boss can move
             return True
