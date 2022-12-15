@@ -580,17 +580,22 @@ async def update_slimernalia_kingpin(client, server):
     # Update the new kingpin of slimernalia
 
     new_kingpin_id = ewutils.get_most_festive(server)
+    # Quit out if there wasn't anybody suitable for crowning
+    if new_kingpin_id == 1 or new_kingpin_id is None:
+        return ewutils.logMsg("Skipped crowning new kingpin: No suitable candidates.")
+
     kingpin_state.value = str(new_kingpin_id)
 
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
     ewstats.set_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity, value=0)
 
+    new_kingpin_member = None
     try:
-        new_kingpin_member = server.get_member(new_kingpin_id)
+        new_kingpin_member = await get_member(server, new_kingpin_id)
         await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
-    except:
-        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin_id, server.id))
+    except Exception as e:
+        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}: {}".format(new_kingpin_id, server.id, e))
 
     if new_kingpin_member:
         # Format and release a message from Phoebus about how who just won and how much slime they got

@@ -98,6 +98,13 @@ def change_stat(id_server = None, id_user = None, user = None, metric = None, n 
         total = 9223372036854775807
     else:
         total = old_value + n
+
+    # I'll rewrite stats later but for now we're going a little jank
+    # Usually this would be in evt_utils but because of how it's been coded
+    # global festivity tracking needs to go here instead
+    if metric == ewcfg.stat_festivity:
+        change_stat(id_server, -1, metric=ewcfg.stat_festivity_global, n=n)
+
     set_stat(id_server=id_server, id_user=id_user, metric=metric, value=total)
 
 
@@ -112,20 +119,9 @@ def track_maximum(id_server = None, id_user = None, user = None, metric = None, 
             id_server = user.id_server
             id_user = user.id_user
 
-    try:
-        conn_info = bknd_core.databaseConnect()
-        conn = conn_info.get('conn')
-        cursor = conn.cursor()
-
-        old_value = get_stat(id_server=id_server, id_user=id_user, metric=metric)
-        if old_value < value:
-            set_stat(id_server=id_server, id_user=id_user, metric=metric, value=value)
-
-        conn.commit()
-    finally:
-        # Clean up the database handles.
-        cursor.close()
-        bknd_core.databaseClose(conn_info)
+    old_value = get_stat(id_server=id_server, id_user=id_user, metric=metric)
+    if old_value < value:
+        set_stat(id_server=id_server, id_user=id_user, metric=metric, value=value)
 
 
 def clear_on_death(id_server = None, id_user = None):
