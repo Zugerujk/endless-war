@@ -82,6 +82,6 @@ def process_poudrins_looted(id_server = None, id_user = None, value = None):
 def process_festivity(id_server, id_user, value):
     """ Slimernalia 2022 advanced festivity tracking """
     # Check against max festivity
-    ewstats.track_maximum(id_server=id_server, id_user=id_user, metric=ewcfg.stat_max_festivity, value=value)
+    ewstats.track_maximum(id_server=id_server, id_user=id_user, metric=ewcfg.stat_festivity_max, value=value)
     # Add to global festivity
     ewstats.change_stat(id_user=-1, id_server=id_server, metric=ewcfg.stat_festivity_global, n=value)
