@@ -1893,7 +1893,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "diamondleggings",
         str_name = "Diamond Leggings",
-        str_desc = "Ill-fitting. Desirable. A symbol of an illustrious gangster. These pants are all the slosh appeal you will ever goddamn need. You're never going to slosh though, you're a goon.",
+        str_desc = "Ill-fitting. Desirable. A symbol of an illustrious gangster. These pants are all the slosh appeal you will ever need. You're never going to slosh though, you're a goon.",
         rarity = "Profollean",
         durability = 49500000,
         style = "beautiful",
@@ -2287,7 +2287,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "starearrings",
         str_name = "Star Earrings",
@@ -2298,7 +2297,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "moonearrings",
         str_name = "Moon Earrings",
@@ -2309,7 +2307,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "invertedpentacleearrings",
         str_name = "Inverted Pentacle Earrings",

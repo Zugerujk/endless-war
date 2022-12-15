@@ -1977,7 +1977,11 @@ item_list = [
     EwGeneralItem(
         id_item=ewcfg.item_id_emptyslimebottle,
         str_name="Empty Slime Bottle",
-        str_desc="It's the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there's a very faint recipe engraving you couldn't see until now that you've emptied the bottle.",
+        str_desc="It's an empty slime bottle that some poor sap must have left behind. Upon giving it a very close eye, there's a very faint recipe engraving on the bottom of the bottle.",
+        #I couldn't get the empty slime bottle to generate when you ate a full slime edibles bottle on time, so at least temporarily it will live on as something you can order at the bazaar
+        #str_desc="It's the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there's a very faint recipe engraving you couldn't see until now that you've emptied the bottle.",
+        price=15000,
+        vendors=[ewcfg.vendor_bazaar],
     ),
 
 ]
@@ -3696,7 +3700,7 @@ furniture_list = [
     EwFurniture(
         id_furniture = "slimeglobe",
         str_name = "Slimeglobe",
-        str_desc = random.choice(slimeglobe_list),
+        str_desc = "It's broken, probably because you or someone else shook it too hard.",
         rarity = "Plebeian",
         acquisition = "smelting",
         furniture_place_desc = "You carefully place the slimeglobe down on your table, understanding that shaking it too hard will cause the poudrin shards to go flying everywhere.",
