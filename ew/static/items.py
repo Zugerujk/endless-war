@@ -567,7 +567,7 @@ item_list = [
         ],
         str_name="Mastectomy Mango Vape Pod",
         str_desc="A mango-flavored vape pod. Specially-engineered to cause cancer within frequent users.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -580,7 +580,7 @@ item_list = [
         ],
         str_name="Menthol Mint Vape Pod",
         str_desc="A mint-flavored vape pod. This one is SO COOL, you're gonna feel ice-cold after taking a sick vape on this juice.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -593,7 +593,7 @@ item_list = [
         ],
         str_name="Striking Strawberry Vape Pod",
         str_desc="A strawberry-flavored vape pod. Even though they're bitty, they can do big things!.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -606,7 +606,7 @@ item_list = [
         ],
         str_name="Ten-Story Tobacco Vape Pod",
         str_desc="A tobacco-flavored vape pod. It's designed to evoke the feeling of \"jumping off of a building\". You can attest that it's nothing like the real deal.",
-        price=249999,
+        price=49999,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -619,7 +619,7 @@ item_list = [
         ],
         str_name="Cop Killer Cotton Candy Vape Pod",
         str_desc="A cotton candy-flavored vape pod. Poorly-named, considering cotton candy could be considered rowdycore. !DAB though amirite? !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB ",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -632,7 +632,7 @@ item_list = [
         ],
         str_name="Mustard Gas Vape Pod",
         str_desc="A mustard gas-flavored vape pod. Vape just doesn't hit the same way these days. You could huff in the same old dusty vape but you've just too resistant. In order to make it hit the same way it use to you would have to chemically shred your lungs just to absorb more. Luckily mustard gas vape pods are being mass-produced and shipped to stores near you.",
-        price=700000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar]
     ),

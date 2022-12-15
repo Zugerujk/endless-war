@@ -2056,7 +2056,7 @@ festivity_name_bonus = 100 # Bonus for naming a weapon gift
 festivity_smelt_bonus = 500 # Bonus for gifting something handmade
 festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
-festivity_othr_bonus = 300 # Bonus for any other tier gifts
+festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
 festivity_sigil_bonus = 1000 # The amount of festivity you gain per sigillaria
 
@@ -4518,6 +4518,14 @@ enemy_drop_tables = {
         {weapon_id_spraycan: [100, 1, 1]},
         {item_id_slimepoudrin: [100, 2, 5]},
         {item_id_giftribbon: [25, 1, 1]},
+        {"vape": [10, 1, 1]},
+        {item_id_mustard_gas_pod: [30, 1, 3]},
+        {item_id_cop_killer_cotton_candy_pod: [30, 1, 3]},
+        {item_id_mastectomy_mango_pod: [30, 1, 3]},
+        {item_id_menthol_mint_pod: [30, 1, 3]},
+        {item_id_striking_strawberry_pod: [30, 1, 3]},
+        {item_id_ten_story_tobacco_pod: [30, 1, 3]},
+        {item_id_moon_dust_pod: [1, 1, 1]},
     ],
     enemy_type_miserablemiser: [
         {item_id_slimepoudrin: [15, 10, 10]},
@@ -4949,9 +4957,9 @@ if slimernalia_stage >= 1:
     coward_responses = [
     "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
     "the {} taunts: *You're not even worth renouncing to kill, bitch.*",
-    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*"
-    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*"
-    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*"
+    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*",
+    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*",
+    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*",
     ]
 else:
     coward_responses = [
@@ -4966,8 +4974,8 @@ else:
 if slimernalia_stage >= 1:
     coward_responses_hurt = [
     "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
-    "\nThe {} rages out: *DUDE, FUCK OFF!!*"
-    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*"
+    "\nThe {} rages out: *DUDE, FUCK OFF!!*",
+    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*",
     ]
 else:
     coward_responses_hurt = [

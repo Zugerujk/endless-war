@@ -2022,7 +2022,7 @@ cosmetic_items_list = [
         durability = 2500000,
         style = "cool",
         freshness = 7,
-        price = 30000,
+        price = 300000,
         vendors = ['bazaar', 'Slimy Persuits'],
     ),
     EwCosmeticItem( # Make available later in the future somehow, change from promotional to plebeian.
