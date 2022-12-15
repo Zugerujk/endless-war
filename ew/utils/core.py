@@ -654,7 +654,6 @@ def get_most_festive(server):
             id_user = ewcfg.col_id_user,
             value = ewcfg.col_value,
             id_server = ewcfg.col_id_server,
-            festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
             metric = ewcfg.col_stat_metric
         ), (
         server.id,
@@ -696,7 +695,6 @@ def get_most_festive(server):
             id_user=ewcfg.col_id_user,
             id_server=ewcfg.col_id_server,
             festivity=ewcfg.col_festivity,
-            festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
             name=ewcfg.col_name,
             value=ewcfg.col_value,
             id_item=ewcfg.col_id_item,

@@ -1004,6 +1004,9 @@ cmd_flushstreets = cmd_prefix + 'flushstreets'
 cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
+cmd_festivitystage = cmd_prefix + 'festivitystage'
+cmd_setfestivitystage = cmd_prefix + 'setfestivitystage'
+cmd_announcefestivitystage = cmd_prefix + 'announcefestivitystage'
 cmd_rejuvenate = cmd_prefix + 'rejuvenate'
 cmd_goonscape_stats = cmd_prefix + 'stats'
 
@@ -1368,6 +1371,8 @@ cmd_festivity = cmd_prefix + 'festivity'
 
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
+
+cmd_clean_stats = cmd_prefix + 'cleanstats'
 
 offline_cmds = [
     cmd_move,
@@ -2064,6 +2069,17 @@ phoebus_bet_floor = 1000000 # How high a slime bet needs to be to get the Phoebu
 
 slimernalia_kingpin_announcement = "**HARK!** I, Phoebus do hereby crown <{player}> as today's Kingpin of Slimernalia! <{player}> gained a total of **{festivity}** festivity!"
 
+# TODO: For Dema, put your announcements here
+slimernalia_stage_announcements = [
+    "a",  # stage 1
+    "b",  # stage 2
+    "c",  # stage 3
+    "d",  # stage 4
+    "e",  # stage 5
+    "f",  # stage 6
+    "g",  # stage 7
+]
+
 # Common strings.
 str_casino_closed = "The Casino only operates at night."
 str_casino_negaslime_dealer = "\"We don't deal with negaslime around here.\", says the dealer disdainfully."
@@ -2210,8 +2226,6 @@ col_freshness = 'freshness'
 
 # SLIMERNALIA
 col_festivity = 'festivity'
-col_festivity_from_slimecoin = 'festivity_from_slimecoin'
-col_slimernalia_coin_gambled = 'slimernalia_coin_gambled'
 col_slimernalia_kingpin = 'slimernalia_kingpin'
 
 #Database columns for fishing records
@@ -2541,8 +2555,12 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+
+# Slimernalia stats
 stat_festivity = 'festivity'
-stat_festivity_from_slimecoin = 'festivity_from_slimecoin'
+stat_festivity_max = 'max_festivity'
+stat_festivity_global = 'global_festivity'
+
 
 stat_revolver_kills = 'revolver_kills'
 stat_dual_pistols_kills = 'dual_pistols_kills'

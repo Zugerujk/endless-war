@@ -2498,19 +2498,17 @@ class EwUser(EwUserBase):
 
             # return the sum of festivity props and 1000 per sigil
             festivity = ewstats.get_stat(id_server=self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity)
-            festivity_sc = ewstats.get_stat(id_server=self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity_from_slimecoin)
 
-            return festivity + festivity_sc + (len(sigils)*1000)
+            return festivity + (len(sigils)*1000)
 
 
         data = bknd_core.execute_sql_query(
-            "SELECT {festivity} + COALESCE(sigillaria, 0) + {festivity_from_slimecoin} FROM users " \
+            "SELECT {festivity} + COALESCE(sigillaria, 0) " \
             "LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} " \
             "WHERE {type} = %s AND {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} WHERE users.{id_user} = %s AND users.{id_server} = %s".format(
                 id_user=ewcfg.col_id_user,
                 id_server=ewcfg.col_id_server,
                 festivity=ewcfg.col_festivity,
-                festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
                 type=ewcfg.col_item_type,
                 name=ewcfg.col_name,
                 value=ewcfg.col_value,

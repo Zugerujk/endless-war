@@ -39,8 +39,6 @@ class EwUserBase:
     race = ""
 
     # SLIMERNALIA
-    festivity = 0
-    festivity_from_slimecoin = 0
     slimernalia_kingpin = False
 
     manuscript = -1

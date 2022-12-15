@@ -420,7 +420,7 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
         # of implementations that rely on client as a positional will break
         # and i do not wish to change every instance of send_message today
 
-        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=allow_everyone, embed=embed)
+        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=not allow_everyone, embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
         raise
@@ -582,13 +582,9 @@ async def update_slimernalia_kingpin(client, server):
     new_kingpin_id = ewutils.get_most_festive(server)
     kingpin_state.value = str(new_kingpin_id)
 
-
-
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
     ewstats.set_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity, value=0)
-    #new_kingpin.festivity = 0
-    #new_kingpin.persist()
 
     try:
         new_kingpin_member = server.get_member(new_kingpin_id)
@@ -609,24 +605,20 @@ async def update_slimernalia_kingpin(client, server):
         channel = get_channel(server=server, channel_name="auditorium")
 
         await send_message(client, channel, embed=announce)
-    
-async def announce_slimernalia_stage_increase(client, server):
-    #return
-    shits_fucked = True #causes bot to re-announce all announcements if it is restarted, allowing for patchnotes to be updated on the fly
-    if shits_fucked:
-        slimernalia_stage_1_announced = False
-        slimernalia_stage_2_announced = False
-        slimernalia_stage_3_announced = False
-        slimernalia_stage_4_announced = False
-        slimernalia_stage_5_announced = False
-        slimernalia_stage_6_announced = False
-        slimernalia_stage_7_announced = False
-        shits_fucked = False
-    #if not slimernalia_stage_1_announced and ewcfg.global_festivity >= 1000000 and not shits_fucked:
-        #announce the fucking announcement
-        channel = get_channel(server=server, channel_name="auditorium")
-        await send_message(client, channel, "Stage 1 is reached.")
-        slimernalia_stage_1_announced = True
+
+
+async def announce_slimernalia_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
+    channel_obj = get_channel(server=server, channel_name="auditorium")
+    announce_obj = EwResponseContainer(client=client, id_server=server.id)
+    if send_all:
+        for stage in ewcfg.slimernalia_stage_announcements[:ewcfg.slimernalia_stage - 1]:
+            announce_obj.add_channel_response(channel_obj, stage)
+    else:
+        if ewcfg.slimernalia_stage >= 0:
+            announce_obj.add_channel_response(channel_obj, ewcfg.slimernalia_stage_announcements[ewcfg.slimernalia_stage - 1])
+
+    return await announce_obj.post()
+
 
 def check_user_has_role(server, member, checked_role_name):
     checked_role = discord.utils.get(server.roles, name=checked_role_name)
