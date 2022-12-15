@@ -2174,7 +2174,11 @@ async def festivity(cmd: EwCmd):
     elif target_type == "other":
         member = cmd.mentions[0]
         user_data = EwUser(member=member)
-        response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
+        if user_data.id_user == 177731019322032128: #Ben Saint's discord id
+            global_festivity = ewstats.get_stat(id_server=cmd.guild.id, id_user=-1, metric=ewcfg.stat_festivity_global)
+            response = "Deep in the catacombs beneath Cop Killtown, {}'s holiday hostility grows as he observes the party taking place in the city above. He is filled with {} festivity.".format(member.display_name, -global_festivity)
+        else:
+            response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
 
     else:
         response = "Your ceaseless Slimernalia cheer has confused ENDLESS WAR. Try again."
