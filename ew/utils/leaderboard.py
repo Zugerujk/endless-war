@@ -521,13 +521,12 @@ def make_slimernalia_board(server, title):
         # Sort the rows by the 4th value in the list (which is the festivity, after removing the id), highest first
         f_data.sort(key=lambda row: row[3], reverse=True)
 
-        # Grab the global festivity and yoink that shit in there
-        global_festivity = stats_utils.get_stat(id_server=server, id_user=-1, metric=ewcfg.stat_festivity_global)
-
         # add the top 5 to be returned
         for i in range(5):
             if len(f_data) > i:
                 entries.append(f_data[i])
+
+        return format_board(entries, title=title)
 
     else:
         return ""

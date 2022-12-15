@@ -1004,6 +1004,9 @@ cmd_flushstreets = cmd_prefix + 'flushstreets'
 cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
+cmd_festivitystage = cmd_prefix + 'festivitystage'
+cmd_setfestivitystage = cmd_prefix + 'setfestivitystage'
+cmd_announcefestivitystage = cmd_prefix + 'announcefestivitystage'
 cmd_rejuvenate = cmd_prefix + 'rejuvenate'
 cmd_goonscape_stats = cmd_prefix + 'stats'
 
@@ -2065,6 +2068,17 @@ festivity_generic_penality = 500 # Penality if the item is something generic
 phoebus_bet_floor = 1000000 # How high a slime bet needs to be to get the Phoebus' Blessing bonus
 
 slimernalia_kingpin_announcement = "**HARK!** I, Phoebus do hereby crown <{player}> as today's Kingpin of Slimernalia! <{player}> gained a total of **{festivity}** festivity!"
+
+# TODO: For Dema, put your announcements here
+slimernalia_stage_announcements = [
+    "a",  # stage 1
+    "b",  # stage 2
+    "c",  # stage 3
+    "d",  # stage 4
+    "e",  # stage 5
+    "f",  # stage 6
+    "g",  # stage 7
+]
 
 # Common strings.
 str_casino_closed = "The Casino only operates at night."
