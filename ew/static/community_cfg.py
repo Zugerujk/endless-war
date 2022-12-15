@@ -24,6 +24,8 @@ slimeglobe_list = [
     "It's the god-awful visualization of the negapause. Maybe 97% of all of us haven't experienced it, but we all know being a staydead by force is something worse than actual death.",
     "It's the NEGASLIME, the ultimate evil made by the ex-mayor Lord of Ghosts by combining two endless rocks and ascending. That was a long time ago, but ENDLESS WAR doesn't forget.",
     "It's the interior of the food court, where there's always spoiled food left out on at least a third of the lunchtables and the food is more grease than calories.",
+    "You can barely see jackshit in this slimeglobe. Looking closer at the globe from above, you can see some tiny lights within that all appear to be staring back at you. You're almost positive they seem to be surrounding something.",
+    "What a find! It's a globe celebrating the 1000th DAILY ANIMAL FACTS. It depicts a hologram of the Ethiopian Wolf until you shake it, then depicts a typical looking Seagull doing some sort of funny dance. The globe depicts a different animal every shake, but good luck if you want a specific animal." ,
 ]
 
 browse_list = [
