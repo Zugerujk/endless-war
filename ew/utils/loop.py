@@ -1327,10 +1327,15 @@ async def clock_tick_loop(id_server = None, force_active = False):
                         
                         await leaderboard_utils.post_leaderboards(client=client, server=server)
 
+                        # Yeah the slimernalia
+                        if ewcfg.slimernalia_active:
+                            ewutils.logMsg("Started Slimernalia kingpin election...")
+                            await fe_utils.update_slimernalia_kingpin(client, server)
+                            ewutils.logMsg("...finished kingpin election.")
+
                         ewutils.logMsg("Releasing timed prisoners...")
                         await release_timed_prisoners_and_blockparties(id_server=id_server, day=market_data.day)
                         ewutils.logMsg("Released timed prisoners.")
-
 
                         if market_data.day % 8 == 0 or force_active:
                             ewutils.logMsg("Started rent calc...")
@@ -1345,7 +1350,6 @@ async def clock_tick_loop(id_server = None, force_active = False):
                         ewutils.logMsg('Regulating Slime Sea items...')
                         number = itm_utils.cull_slime_sea(id_server=id_server)
                         ewutils.logMsg('...Slime Sea culled. {} items deleted.'.format(number))
-
 
                     elif market_data.clock == 20:
                         response = ' The SlimeCorp Stock Exchange has closed for the night.'

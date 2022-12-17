@@ -432,7 +432,7 @@ async def order(cmd):
 
                     elif item_props.get('id_food') in ["freeapple"]:
                         item_props['poisoned'] = 'yes'
-
+                    
                     elif item_props.get('id_food') in ["gumball"]:
                         gumballrand = random.random()
                         if gumballrand < 0.6:  # 60%

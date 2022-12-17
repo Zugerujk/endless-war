@@ -652,9 +652,8 @@ def get_most_festive(server):
         # get a list of [id, festivitysum] for all users in server
         data = bknd_core.execute_sql_query("SELECT {id_user}, FLOOR({value}) FROM stats WHERE {id_server} = %s AND FLOOR({value}) >= 1 AND {metric} = %s".format(
             id_user = ewcfg.col_id_user,
-            value = ewcfg.col_value,
+            value = ewcfg.col_stat_value,
             id_server = ewcfg.col_id_server,
-            festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
             metric = ewcfg.col_stat_metric
         ), (
         server.id,
@@ -696,7 +695,6 @@ def get_most_festive(server):
             id_user=ewcfg.col_id_user,
             id_server=ewcfg.col_id_server,
             festivity=ewcfg.col_festivity,
-            festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
             name=ewcfg.col_name,
             value=ewcfg.col_value,
             id_item=ewcfg.col_id_item,
@@ -706,7 +704,6 @@ def get_most_festive(server):
             ewcfg.item_id_sigillaria,
             server.id,
         ))
-
     return data[0][0]
 
 

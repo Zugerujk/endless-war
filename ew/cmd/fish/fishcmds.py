@@ -379,6 +379,8 @@ async def cast(cmd):
                     return
 
                 # If damp is greater than 10, a fish won't bite. If it's less than or equal to 10, a fish will bite.
+                if ewcfg.slimernalia_stage >= 4:
+                    damp /= 2
                 if damp > 10:
                     # Send fishing flavor text
                     if fisher.pier.pier_type == ewcfg.fish_slime_void:

@@ -410,7 +410,7 @@ enemy_attack_type_list = [
         id_type="bonemerang",
         str_crit="**KA-CRAM!!!** {name_enemy}'s bonemerang slams {name_target}'s front, then spins around and rams their back!",
         str_miss="**MISS!** {name_target} dodges out of the way of an approaching bonemerang - twice!",
-        str_kill="**SWISH!! {name_enemy} slams {name_target} onto the ground, before whirling back and slamming their head! {name_target}'s head is reduced to a pink pile of flesh and bone fragments.",
+        str_kill="**SWISH!!** {name_enemy} slams {name_target} onto the ground, before whirling back and slamming their head! {name_target}'s head is reduced to a pink pile of flesh and bone fragments.",
         str_killdescriptor="clobbered",
         str_damage="{name_enemy} cleaves {name_target} with their bonemerang!",
         fn_effect=atf_boomerang,
@@ -419,7 +419,7 @@ enemy_attack_type_list = [
         id_type="icespike",
         str_crit="**SHHHKK!!!** {name_enemy} launches an ice spike directly into {name_target}'s stomach! {name_target} pulls it out, along with a some of their guts.",
         str_miss="**MISS!** {name_enemy} fails to conjure any ice!",
-        str_kill="**KKKRACK!! {name_enemy} freezes {name_target} in a solid block of ice! {name_target} tips over and shatters on the ground, breaking into frozen chunks and fragments.",
+        str_kill="**KKKRACK!!** {name_enemy} freezes {name_target} in a solid block of ice! {name_target} tips over and shatters on the ground, breaking into frozen chunks and fragments.",
         str_killdescriptor="frozen",
         str_damage="{name_enemy} conjures unworldly ice at {name_target}!",
         fn_effect=atf_bigshot,
@@ -432,6 +432,24 @@ enemy_attack_type_list = [
         str_killdescriptor="sucked",
         str_damage="{name_enemy} quickly sucks {name_target}'s slime!",
         fn_effect=atf_smallclaws,
+    ),
+    EwAttackType(  # 23
+        id_type="bluntweapon",
+        str_crit="**Critical hit!!** {name_target} is bludgeoned by a heavy object!",
+        str_miss="**MISS!!** {name_enemy}'s swing miss wide of the target!",
+        str_kill="**BAM!!** {name_enemy}'s swing whistles in the air, and {name_target} staggers. A moment later, {name_target}'s body collapses under their own weight. {emote_skull}",
+        str_killdescriptor="blugeoned to mush",
+        str_damage="{name_target} is thwacked in the {hitzone}!!",
+        fn_effect=atf_body
+    ),
+    EwAttackType(  # 24
+        id_type="petrifiedfood",
+        str_crit="**Critical hit!!** {name_target} is bludgeoned by a petrified mass of food!",
+        str_miss="**MISS!!** {name_enemy}'s throw was fast enough for {name_target} to dodge!",
+        str_kill="**BAM!!** {name_enemy}'s throw flies in the air, and {name_target} gets hit straight in the face. {name_target}'s brain hemmorages and they suffer a fatal stroke. {emote_skull}",
+        str_killdescriptor="scrooge'd",
+        str_damage="{name_target} is socked right in the {hitzone}!!",
+        fn_effect=atf_gunkshot
     ),
 ]
 

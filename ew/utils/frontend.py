@@ -420,7 +420,7 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
         # of implementations that rely on client as a positional will break
         # and i do not wish to change every instance of send_message today
 
-        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=allow_everyone, embed=embed)
+        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=not allow_everyone, embed=embed)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
         raise
@@ -564,7 +564,7 @@ def create_death_report(cause=None, user_data=None, deathmessage = ""):
 
 
 async def update_slimernalia_kingpin(client, server):
-    return
+    
     # Depose current slimernalia kingpin
     kingpin_state = EwGamestate(id_server=server.id, id_state='slimernaliakingpin')
     old_kingpin_id = int(kingpin_state.value)
@@ -580,21 +580,22 @@ async def update_slimernalia_kingpin(client, server):
     # Update the new kingpin of slimernalia
 
     new_kingpin_id = ewutils.get_most_festive(server)
+    # Quit out if there wasn't anybody suitable for crowning
+    if new_kingpin_id == 1 or new_kingpin_id is None:
+        return ewutils.logMsg("Skipped crowning new kingpin: No suitable candidates.")
+
     kingpin_state.value = str(new_kingpin_id)
-
-
 
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
     ewstats.set_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity, value=0)
-    #new_kingpin.festivity = 0
-    #new_kingpin.persist()
 
+    new_kingpin_member = None
     try:
-        new_kingpin_member = server.get_member(new_kingpin_id)
+        new_kingpin_member = await get_member(server, new_kingpin_id)
         await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
-    except:
-        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin_id, server.id))
+    except Exception as e:
+        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}: {}".format(new_kingpin_id, server.id, e))
 
     if new_kingpin_member:
         # Format and release a message from Phoebus about how who just won and how much slime they got
@@ -609,7 +610,20 @@ async def update_slimernalia_kingpin(client, server):
         channel = get_channel(server=server, channel_name="auditorium")
 
         await send_message(client, channel, embed=announce)
-    
+
+
+async def announce_slimernalia_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
+    channel_obj = get_channel(server=server, channel_name="auditorium")
+    announce_obj = EwResponseContainer(client=client, id_server=server.id)
+    if send_all:
+        for stage in ewcfg.slimernalia_stage_announcements[:ewcfg.slimernalia_stage - 1]:
+            announce_obj.add_channel_response(channel_obj, stage)
+    else:
+        if ewcfg.slimernalia_stage >= 0:
+            announce_obj.add_channel_response(channel_obj, ewcfg.slimernalia_stage_announcements[ewcfg.slimernalia_stage - 1])
+
+    return await announce_obj.post()
+
 
 def check_user_has_role(server, member, checked_role_name):
     checked_role = discord.utils.get(server.roles, name=checked_role_name)
