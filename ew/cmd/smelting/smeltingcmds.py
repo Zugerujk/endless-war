@@ -161,7 +161,7 @@ async def smelt(cmd):
 
                     item_props = itm_utils.gen_item_props(item)
 
-                    if item.id_furniture == 'slimeglobe':
+                    if item.item_type == ewcfg.it_furniture and item.id_furniture == 'slimeglobe':
                         item_props['furniture_desc'] = random.choice(slimeglobe_list)
 
                     newitem_id = bknd_item.item_create(
