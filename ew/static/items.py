@@ -1485,6 +1485,7 @@ item_list = [
         prank_type=ewcfg.prank_type_instantuse,
         prank_desc="{} holds out a candy cane! You happily snatch it straight from their hands and immediately chomp down on the festive, cavity-inducing delight! The supposed delight, however, is absent from your tastebuds, as you feel shards of broken penne shells crunch in between your teeth. You turn towards them, spitting as much of the disgusting uncooked pasta shards as you can onto their face! Bitch. You then swallow the rest with a disgusted shudder.",
         rarity=ewcfg.prank_rarity_heinous,
+        acquisition=ewcfg.acquisition_smelting,
         gambit=5,
     ),
     EwPrankItem(
@@ -1495,6 +1496,7 @@ item_list = [
         prank_desc="Oh shit, someone left a free gift around! Lets just open this up and OH GOD GLITTER IS EVERYWHERE.",
         trap_chance=100,
         rarity=ewcfg.prank_rarity_forbidden,
+        acquisition=ewcfg.acquisition_smelting,
         gambit=15,
     ),
     EwGeneralItem(
