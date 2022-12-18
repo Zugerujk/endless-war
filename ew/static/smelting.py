@@ -2446,7 +2446,7 @@ if ewcfg.slimernalia_active:
         ingredients = {
             ewcfg.item_id_foodbase: 1,
         },
-        products = ['giftpipebomb']
+        products = ['candycane']
     ),
     EwSmeltingRecipe(
         id_recipe = "slimeglobe",
