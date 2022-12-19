@@ -107,7 +107,7 @@ async def menu(cmd):
                     value = item_item.price
 
                 if food_item:
-                    value = food_item.price
+                    value = food_item.price if not ewcfg.slimernalia_active else 0
 
                 if cosmetic_item:
                     value = cosmetic_item.price
@@ -333,6 +333,9 @@ async def order(cmd):
                     value *= 1.5
 
                 if current_vendor == ewcfg.vendor_breakroom and user_data.faction == ewcfg.faction_slimecorp:
+                    value = 0
+                
+                if ewcfg.slimernalia_active and item_type == ewcfg.it_food:
                     value = 0
 
                 value = int(value)
