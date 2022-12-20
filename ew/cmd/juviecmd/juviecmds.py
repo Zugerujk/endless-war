@@ -407,8 +407,10 @@ async def mine(cmd):
                 weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                 if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
                     toolused = "pickaxe"
+                elif (weapon.id_weapon == ewcfg.weapon_id_shovel):
+                    toolused = ewcfg.weapon_id_shovel
                 elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
-                    toolused = "sledgehammer"
+                    toolused = ewcfg.weapon_id_sledgehammer
             
             sledgehammer_bonus = False
 
@@ -479,8 +481,7 @@ async def mine(cmd):
                     return
 
             
-            if (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
-
+            if (toolused == ewcfg.weapon_id_shovel) and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
                 # print(poi.mother_districts[0] + 'hole')
                 minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
                 added = random.randint(5, 15)

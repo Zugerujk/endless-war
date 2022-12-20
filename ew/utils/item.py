@@ -765,6 +765,8 @@ def item_drop(
 
         if item_data.item_type == ewcfg.it_cosmetic:
             item_data.item_props["adorned"] = "false"
+            if item_data.item_props.get("slimeoid") is not None:
+                item_data.item_props["slimeoid"] = "false"
         item_data.persist()
         bknd_item.give_item(id_user=dest, id_server=item_data.id_server, id_item=item_data.id_item)
     except Exception as e:
