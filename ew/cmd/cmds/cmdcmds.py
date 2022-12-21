@@ -2349,6 +2349,7 @@ async def wrap(cmd: EwCmd):
 
 async def yoslimernalia(cmd: EwCmd):
     """ Yo, Slimernalia! """
+    ewstats.increment_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_festivity)
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
 
