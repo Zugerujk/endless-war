@@ -567,7 +567,10 @@ async def update_slimernalia_kingpin(client, server):
     
     # Depose current slimernalia kingpin
     kingpin_state = EwGamestate(id_server=server.id, id_state='slimernaliakingpin')
-    old_kingpin_id = int(kingpin_state.value)
+    if not kingpin_state.value:
+        old_kingpin_id = -1
+    else:
+        old_kingpin_id = int(kingpin_state.value)
 
     if old_kingpin_id != None and old_kingpin_id > 0:
         kingpin_state.value = '-1'
@@ -585,6 +588,9 @@ async def update_slimernalia_kingpin(client, server):
         return ewutils.logMsg("Skipped crowning new kingpin: No suitable candidates.")
 
     kingpin_state.value = str(new_kingpin_id)
+    # Needs to be something or otherwise it breaks
+    kingpin_state.bit = 0
+    kingpin_state.persist()
 
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
