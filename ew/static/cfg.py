@@ -4259,7 +4259,7 @@ raid_den_bosses = [enemy_type_alm]
 # List of enemies that spawn in the Nuclear Beach
 if slimernalia_stage >= 1:
     pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    artic_enemies = [enemy_type_desertraider]
+    arctic_enemies = [enemy_type_desertraider]
 else:
     pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
     arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
