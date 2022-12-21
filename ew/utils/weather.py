@@ -320,36 +320,36 @@ async def weather_tick(id_server = None):
         except:
             ewutils.logMsg("Error occurred in weather tick for server {}".format(id_server))
 
-async def weather_cycle(id_server = None):
-    market_data = EwMarket(id_server)
-    valid_weather = False
+async def weather_cycle(id_server):
+    try:
+        market_data = EwMarket(id_server)
+        valid_weather = False
 
-    # In case the weather is somehow set to something un-weatherable
-    for weather in weather_static.weather_list:
-        if weather.name == market_data.weather:
-            valid_weather = True
+        # In case the weather is somehow set to something un-weatherable
+        for weather in weather_static.weather_list:
+            if weather.name == market_data.weather:
+                valid_weather = True
 
-    # Seed the randomness based on day, clock, and a random unknown consistent stat 
-    seed = (market_data.day * 24) + market_data.clock + (market_data.donated_poudrins + 1) 
-    random.seed(seed)
+        # Seed the randomness based on day, clock, and a random unknown consistent stat 
+        seed = (market_data.day * 24) + market_data.clock + (market_data.donated_poudrins + 1) 
+        random.seed(seed)
 
-    # Potentially change the weather
-    if random.randrange(3) == 0 or valid_weather == False:
-            pattern_count = len(weather_static.weather_list)
+        # Potentially change the weather
+        if random.randrange(3) == 0 or valid_weather == False:
+                pattern_count = len(weather_static.weather_list)
 
-            if pattern_count > 1:
-                weather_old = market_data.weather
+                if pattern_count > 1:
+                    weather_old = market_data.weather
 
-                # if random.random() < 0.4:
-                # 	market_data.weather = ewcfg.weather_bicarbonaterain
-
-                # Randomly select a new weather pattern. Try again if we get the same one we currently have.
-                while market_data.weather == weather_old:
-                    pick = random.randrange(len(weather_static.weather_list))
-                    market_data.weather = weather_static.weather_list[pick].name
-                market_data.persist()
-            # Log message for statistics tracking.
-            ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
+                    # Randomly select a new weather pattern. Try again if we get the same one we currently have.
+                    while market_data.weather == weather_old:
+                        pick = random.randrange(len(weather_static.weather_list))
+                        market_data.weather = weather_static.weather_list[pick].name
+                    market_data.persist()
+                # Log message for statistics tracking.
+                ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
+    except Exception as e:
+        ewutils.logMsg(f"Failed to cycle weather in server {id_server}: {e}")
 
 
 def forecast_txt(id_server=None, resp_type="long"):

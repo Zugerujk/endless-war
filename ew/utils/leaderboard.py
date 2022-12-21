@@ -21,7 +21,6 @@ except:
     import ew.static.rstatic_dummy as static_relic
 
 async def post_leaderboards(client = None, server = None):
-    ewutils.logMsg("Started leaderboard calcs...")
     leaderboard_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_leaderboard)
     resp_cont = EwResponseContainer(client, id_server = server.id)
 
@@ -85,8 +84,6 @@ async def post_leaderboards(client = None, server = None):
 
 
     await resp_cont.post()
-
-    ewutils.logMsg("...finished leaderboard calcs.")
 
 def make_stocks_top_board(server = None):
     entries = []
