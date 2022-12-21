@@ -478,55 +478,22 @@ def make_relics_found_board(id_server, title):
 
 def make_slimernalia_board(server, title):
     entries = []
-    # Use the cache if it is enabled
-    item_cache = bknd_core.get_cache(obj_type = "EwItem")
-    if item_cache is not False:
-        # get a list of [id, name, lifestate, faction, basefestivitysum] for all users in server
+    # get a list of [id, name, lifestate, faction, basefestivitysum] for all users in server
 
-        data = bknd_core.execute_sql_query(
-            "select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 left join stats st2 on st1.id_user = st2.id_user inner join users u on st1.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = u.id_server union select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 right join stats st2 on st1.id_user = st2.id_user inner join users u on st2.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = %s",
-            (server,))
-        dat = list(data)
-        f_data = []
+    data = bknd_core.execute_sql_query(
+        "select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 left join stats st2 on st1.id_user = st2.id_user inner join users u on st1.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = u.id_server union select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 right join stats st2 on st1.id_user = st2.id_user inner join users u on st2.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and u.id_server = %s",
+        (server,))
+    f_data = []
 
-        # Retrieve all sigillarias
-        all_sigs = item_cache.find_entries(
-            criteria={
-                "item_type": ewcfg.it_furniture,
-                "id_server": server,
-                "item_props": {"id_furniture": ewcfg.item_id_sigillaria}
-            }
-        )
+    # Sort the rows by the 4th value in the list (which is the festivity, after removing the id), highest first
+    f_data.sort(key=lambda row: row[3], reverse=True)
 
-        # iterate through all users, add sigillaria festivity to the base
-        for row in dat:
-            row = list(row)
+    # add the top 5 to be returned
+    for i in range(5):
+        if len(f_data) > i:
+            entries.append(f_data[i])
 
-            # Get all user sigs
-            user_sigs = []
-            for sig in all_sigs:
-                if sig.get("id_owner") == row[0]:
-                    user_sigs.append(sig)
-
-            # Add 1000 to total festivity per sig
-            row[4] += len(user_sigs) * 1000
-
-            # remove id to match return format
-            row.pop(0)
-            f_data.append(row)
-
-        # Sort the rows by the 4th value in the list (which is the festivity, after removing the id), highest first
-        f_data.sort(key=lambda row: row[3], reverse=True)
-
-        # add the top 5 to be returned
-        for i in range(5):
-            if len(f_data) > i:
-                entries.append(f_data[i])
-
-        return format_board(entries, title=title)
-
-    else:
-        return ""
+    return format_board(entries, title=title)
 
 def make_gamestate_leaderboard(server, gamestateids, title):
     gamestates = []
