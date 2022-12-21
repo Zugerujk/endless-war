@@ -574,7 +574,9 @@ async def update_slimernalia_kingpin(client, server):
 
     if old_kingpin_id != None and old_kingpin_id > 0:
         kingpin_state.value = '-1'
+        kingpin_state.persist()
         try:
+            ewutils.logMsg(f"Attempted to dethrone {old_kingpin_id} from slimernalia kingpin...")
             old_kingpin_member = server.get_member(old_kingpin_id)
             await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
         except:
