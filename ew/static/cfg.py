@@ -2058,9 +2058,7 @@ festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
 festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
-festivity_sigil_bonus = 1000 # The amount of festivity you gain per sigillaria
-
-festivity_kill_bonus = 500 # The  amount of festivity you gain upon killing someone
+festivity_kill_bonus = 1500 # The  amount of festivity you gain upon killing someone
 
 festivity_expired_penalty = 2500 # Penalty if the food item you are giving has already expired
 festivity_generic_penality = 500 # Penality if the item is something generic
