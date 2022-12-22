@@ -687,23 +687,20 @@ def get_most_festive(server):
             return f_data[0][0]
         else:
             return 1
-
+    
+    # New coolness
     data = bknd_core.execute_sql_query(
-        "SELECT users.{id_user}, FLOOR({value}) as total_festivity FROM stats " \
-        "LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on stats.{id_user} = f.{id_user} AND stats.{id_server} = f.{id_server} " \
-        "WHERE users.{id_server} = %s AND {metric} = %s ORDER BY total_festivity DESC LIMIT 1".format(
+        "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s".format(
             id_user=ewcfg.col_id_user,
-            id_server=ewcfg.col_id_server,
-            festivity=ewcfg.col_festivity,
-            name=ewcfg.col_name,
-            value=ewcfg.col_value,
-            id_item=ewcfg.col_id_item,
-            metric=ewcfg.col_stat_metric
+            stat_value=ewcfg.col_stat_value,
+            stat_metric=ewcfg.col_stat_metric,
+            id_server=ewcfg.col_id_server
         ), (
-            "id_furniture",
-            ewcfg.item_id_sigillaria,
-            server.id,
-        ))
+            ewcfg.stat_festivity,
+            server.id
+        )
+    )
+    
     return data[0][0]
 
 
