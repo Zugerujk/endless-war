@@ -605,13 +605,14 @@ poi_list = [
         id_poi="underworld",
         alias=['hell', 'undertale', 'underground', 'uw'],
         str_name="The Underworld, last stop of the White Line",
-        str_desc="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
+        str_desc="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.\n\nExits back to the Underworld Subway Station, as well as to The Void.",
         channel="the-underworld",
         role="Underworld",
         permissions={'the-underworld': ['read', 'send', 'connect']},
-        pvp=False,
+        pvp=True,
         is_district=True,
-        neighbors={'underworldsubwaystation': 20, 'thevoid': 20},
+        enemy_lock=True,
+        neighbors={'underworldsubwaystation': 20, 'thevoid': 180},
         topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
         wikipage="https://rfck.miraheze.org/wiki/The_Underworld",
     ),
@@ -645,7 +646,7 @@ poi_list = [
         id_poi="draintrench",
         alias=['trench'],
         str_name="Drain Trench",
-        str_desc="This long, skinny sewer grate runs the length of one of Poudrin Alley's longest alleyways. It's supposed to act as the central node of the district's drainage system, but it's really fucking bad at it so this whole area smells terrible. Hope you like firefights down narrow hallways. Maybe if you can't find your way out of Poudrin Alley, you can take a shortcut and just flush yourself down to the Sewers here. This street connects back into Poudrin Alley. This street is connected to 24 Karat Shopping, Skewer Road, and The Caldera.",
+        str_desc="This long, skinny sewer grate runs the length of one of Poudrin Alley's longest alleyways. It's supposed to act as the central node of the district's drainage system, but it's really fucking bad at it so this whole area smells terrible. This place used to see regular foot traffic from the nearby 24 Karat Shopping, Skewer Road, and The Caldera, but the stench has just been *so bad* lately. Hope you like firefights down narrow hallways. Maybe if you can't find your way out of Poudrin Alley, you can take a shortcut and just flush yourself down to the Sewers here. \n\nExits into Poudrin Alley and the Sewers.",
         channel="drain-trench",
         permissions={'drain-trench': ['read', 'send', 'connect']},
         property_class="b",
@@ -1054,7 +1055,7 @@ poi_list = [
         role="7-11",
         permissions={'outside-the-7-11': ['read', 'send', 'connect']},
         pvp=False,
-        vendors=['vending machine'],
+        vendors=['vending machine', 'Gumball Machine'],
         is_subzone=True,
         mother_districts=['poudrinalley'],
         neighbors={'poudrinalley': 20},
@@ -3006,7 +3007,7 @@ poi_list = [
         vendors=[],
         is_subzone=False,
         mother_districts=["westoutskirts"],
-        neighbors={"westoutskirts": 60} if ewcfg.dh_stage == 3 else {},
+        neighbors={},
         wikipage=""
     ),
     EwPoi(
@@ -3019,6 +3020,7 @@ poi_list = [
         property_class="",
         vendors=['saloon'],
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=False,
         neighbors={"hangemsquare": 20, "dreadford": 20}
     ),
@@ -3031,6 +3033,7 @@ poi_list = [
         permissions={'hang-em-square': ['read', 'send', 'connect']},
         property_class="",
         is_subzone=True,
+        mother_districts=["dreadford"],
         pvp=True,
         neighbors={"saloon": 20, "dreadford": 20}
     ),
@@ -3079,6 +3082,45 @@ poi_list = [
 		neighbors = {'glocksbury': 20},
 		wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
 	),
+	EwPoi(
+		id_poi = "raiddenentryway",
+		alias = ['entrance', 'rde', 'raiddenentrance', 'entryway'],
+		str_name = "the Raid Den Entryway",
+		str_desc = "The opening stage of a great cavern. The only way out is forwards.\nContinues onward to the **Raid Den Atrium**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'raiddenatrium': 20},
+		wikipage = ""
+	),
+	EwPoi(
+		id_poi = "raiddenatrium",
+		alias = ['atrium', 'rda',],
+		str_name = "the Raid Den Atrium",
+		str_desc = "The middle of a great cavern. It smells like rotting fish. \nContinues onward to the **Raid Den Core**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'raiddencore': 20},
+		wikipage = ""
+	),
+	EwPoi(
+		id_poi = "raiddencore",
+		alias = ['core', 'rdc',],
+		str_name = "the Raid Den Core",
+		str_desc = "The core of a great cavern, from which intense energy flows. \nExits into the **Downtown Subway Station**.",
+		channel = "raid-den",
+		permissions = {'raid-den': ['read', 'send', 'connect']},
+		pvp = True,
+        enemy_lock = True,
+		mother_districts = ['downtownsubwaystation'],
+		neighbors = {'downtownsubwaystation': 20},
+		wikipage = ""
+	),
 ]
 
 # if you're looking for poi_map, here it is
@@ -3098,6 +3140,7 @@ outskirts_depths = []
 streets = []
 tutorial_pois = []
 zine_mother_districts = []
+enemy_lock_districts = []
 
 for poi in poi_list:
 
@@ -3232,6 +3275,9 @@ for poi in poi_list:
     if poi.write_manuscript:
         for mother_poi in poi.mother_districts:
             zine_mother_districts.append(id_to_poi.get(mother_poi))
+
+    if poi.enemy_lock:
+        enemy_lock_districts.append(poi.id_poi)
 
     chname_to_poi[poi.channel] = poi
 
@@ -3545,7 +3591,7 @@ transport_lines = [
     ),
 ]
 
-if ewcfg.dh_active:
+if ewcfg.dh_active: #and ewcfg.dh_stage == 100:
     transport_lines.append(EwTransportLine(  # white subway line from downtown to juvies row
         id_line=ewcfg.transport_line_subway_white_eastbound,
         alias=[
@@ -3702,105 +3748,119 @@ world_events = [
         str_event_end="The radiation cloud subsides, spreading across the city. Back to the normal skin-searing levels!",
         str_check_text="There's a radiation storm enveloping ",
     ),
-	EwEventDef(
-		event_type=ewcfg.event_type_poudrin_hail,
-		str_name="poudrin hail",
-		pois=[ewcfg.poi_id_poudrinalley],
-		length=48, # 12h
-		buffer=8, # 2h
-		str_event_start="Poudrins begin falling from the heavens onto the city streets. **POUDRIN HAIL** has begun!",
-		str_event_ongoing="There's small chunks of crystallized slime falling across the pavement.",
-		str_event_end="The rain of poudrins abruptly stops.",
-		str_check_text="There's poudrin hail buffeting ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_meteor_shower,
-		str_name="a meteor shower",
-		pois=[ewcfg.poi_id_thesummit],
-		length=9, # 2h15m
-		buffer=14, # 3h30m
-		str_event_start="Streaks of light begin illuminating the night sky. A **METEOR SHOWER** has begun!",
-		str_event_ongoing="There's a meteor shower occurring overhead.",
-		str_event_end="The meteors finish their full-on-assault of the stars, leaving the morning to wake.",
-		str_check_text="There's a meteor shower gracing ",
-	),
-	EwEventDef(
-		event_type= ewcfg.event_type_raider_incursion,
-		str_name="a raider incursion",
-		pois=[ewcfg.poi_id_westglocksbury, ewcfg.poi_id_jaywalkerplain, ewcfg.poi_id_dreadford],
-		length=72, # 18h
-		buffer=4, #1h
-		str_event_start="A fucking raider appears, holy shit. It's like Mad Max up in here! A **RAIDER INCURSION** has begun!",
-		str_event_ongoing="There's a raider incursion incursioning.",
-		str_event_end="The raiders leave, clearly done with whatever their shitty goal was.",
-		str_check_text="There's a raider incursion incursioning ",
-	),
-	EwEventDef(
-		event_type= ewcfg.event_type_slimeunist_protest,
-		str_name="a slimeunist protest",
-		pois=[ewcfg.poi_id_gatlingsdale, ewcfg.poi_id_northsleezeborough], # College districts
-		length=72, # 18h
-		buffer=4, #1h
-		str_event_start="A bunch of college students wielding angrily-written signs begin marching down the street! A **SLIMEUNIST PROTEST** has begun!",
-		str_event_ongoing="There's a slimeunist protest occurring.",
-		str_event_end="The slimeunist protest disperses, probably due to the protester's curfews.",
-		str_check_text="There's a slimeunist protest occurring in ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_smog_warning,
-		str_name="a smog warning",
-		pois=[ewcfg.poi_id_smogsburg, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict],
-		length=48, #12h
-		buffer=2, # 30m
-		str_event_start="The air becomes too thick to breathe in. A **SMOG WARNING** has been issued!",
-		str_event_ongoing="The air is too thick to see or breathe through.",
-		str_event_end="The smog lifts, leaving the air mostly-breathable.",
-		str_check_text="There's a smog warning placed upon ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_dimensional_rift,
-		str_name="a dimensional rift",
-		pois=landlocked_destinations.keys(),
-		length=95, #23h45m
-		buffer=0,
-		str_event_start="A rift in space tears across the air. A **DIMENSIONAL RIFT** across the city has formed!",
-		str_event_ongoing="A dimensional rift is present.",
-		str_event_end="The dimensional rift closes, like a crab being sucked into an underwater pipe.",
-		str_check_text="There's a dimensional rift tearing apart ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_jape_storm,
-		str_name="a japestorm",
-		pois=[],
-		length=24, #6h
-		buffer=4, #1h
-		str_event_start="Mousetraps fall from the sky and clowns appear around every streetcorner. A **JAPESTORM** has begun!",
-		str_event_ongoing="A japestorm is joking.",
-		str_event_end="The **FUN POLICE** arrive. Clowns are clubbed to the pavement and japes of all sizes are murdered and detained.",
-		str_check_text="There's a japestorm jesting around ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_fishing_frenzy,
-		str_name="a fishing frenzy",
-		pois=[ewcfg.poi_id_toxington_pier, ewcfg.poi_id_jaywalkerplain_pier, ewcfg.poi_id_crookline_pier, ewcfg.poi_id_assaultflatsbeach_pier, ewcfg.poi_id_slimesend_pier, ewcfg.poi_id_ferry, ewcfg.poi_id_blackpond], # Piers - JRP and Moon purposely excluded
-		length=24, #6h
-		buffer=8, #2h
-		str_event_start="A swarm of fish enter the area. A **FISHING FRENZY** has begun!",
-		str_event_ongoing="Fish are hopping and popping.",
-		str_event_end="So many fish have been !reeled up that the fishing frenzy disperses.",
-		str_check_text="There's a fishing frenzy in ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_gas_leak,
-		str_name="a gas leak",
-		pois=[ewcfg.poi_id_tt_mines, ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines, ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble], # Mines - JRM purposely excluded
-		length=24, #6h
-		buffer=8, #2h
-		str_event_start="A mine wall collapses, and a pocket of Adderall® gas opens up! A **GAS LEAK** envelops the area!",
-		str_event_ongoing="Adderall gas floods the mine.",
-		str_event_end="The gas leak disperses. Get ready for amphetamine withdrawal, kiddo!",
-		str_check_text="There's a gas leak in ",
-	),
+    EwEventDef(
+        event_type=ewcfg.event_type_poudrin_hail,
+        str_name="poudrin hail",
+        pois=[ewcfg.poi_id_poudrinalley],
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="Poudrins begin falling from the heavens onto the city streets. **POUDRIN HAIL** has begun!",
+        str_event_ongoing="There's small chunks of crystallized slime falling across the pavement.",
+        str_event_end="The rain of poudrins abruptly stops.",
+        str_check_text="There's poudrin hail buffeting ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_meteor_shower,
+        str_name="a meteor shower",
+        pois=[ewcfg.poi_id_thesummit],
+        length=9,  # 2h15m
+        buffer=14,  # 3h30m
+        str_event_start="Streaks of light begin illuminating the night sky. A **METEOR SHOWER** has begun!",
+        str_event_ongoing="There's a meteor shower occurring overhead.",
+        str_event_end="The meteors finish their full-on-assault of the stars, leaving the morning to wake.",
+        str_check_text="There's a meteor shower gracing ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_raider_incursion,
+        str_name="a raider incursion",
+        pois=[ewcfg.poi_id_westglocksbury, ewcfg.poi_id_jaywalkerplain, ewcfg.poi_id_dreadford],
+        length=72,  # 18h
+        buffer=4,  # 1h
+        str_event_start="A fucking raider appears, holy shit. It's like Mad Max up in here! A **RAIDER INCURSION** has begun!",
+        str_event_ongoing="There's a raider incursion incursioning.",
+        str_event_end="The raiders leave, clearly done with whatever their shitty goal was.",
+        str_check_text="There's a raider incursion incursioning ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_slimeunist_protest,
+        str_name="a slimeunist protest",
+        pois=[ewcfg.poi_id_gatlingsdale, ewcfg.poi_id_northsleezeborough],  # College districts
+        length=72,  # 18h
+        buffer=4,  # 1h
+        str_event_start="A bunch of college students wielding angrily-written signs begin marching down the street! A **SLIMEUNIST PROTEST** has begun!",
+        str_event_ongoing="There's a slimeunist protest occurring.",
+        str_event_end="The slimeunist protest disperses, probably due to the protester's curfews.",
+        str_check_text="There's a slimeunist protest occurring in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_smog_warning,
+        str_name="a smog warning",
+        pois=[ewcfg.poi_id_smogsburg, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict],
+        length=48,  # 12h
+        buffer=2,  # 30m
+        str_event_start="The air becomes too thick to breathe in. A **SMOG WARNING** has been issued!",
+        str_event_ongoing="The air is too thick to see or breathe through.",
+        str_event_end="The smog lifts, leaving the air mostly-breathable.",
+        str_check_text="There's a smog warning placed upon ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_dimensional_rift,
+        str_name="a dimensional rift",
+        pois=landlocked_destinations.keys(),
+        length=95,  # 23h45m
+        buffer=0,
+        str_event_start="A rift in space tears across the air. A **DIMENSIONAL RIFT** across the city has formed!",
+        str_event_ongoing="A dimensional rift is present.",
+        str_event_end="The dimensional rift closes, like a crab being sucked into an underwater pipe.",
+        str_check_text="There's a dimensional rift tearing apart ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_jape_storm,
+        str_name="a japestorm",
+        pois=[],
+        length=24,  # 6h
+        buffer=4,  # 1h
+        str_event_start="Mousetraps fall from the sky and clowns appear around every streetcorner. A **JAPESTORM** has begun!",
+        str_event_ongoing="A japestorm is joking.",
+        str_event_end="The **FUN POLICE** arrive. Clowns are clubbed to the pavement and japes of all sizes are murdered and detained.",
+        str_check_text="There's a japestorm jesting around ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_fishing_frenzy,
+        str_name="a fishing frenzy",
+        pois=[ewcfg.poi_id_toxington_pier, ewcfg.poi_id_jaywalkerplain_pier, ewcfg.poi_id_crookline_pier,
+              ewcfg.poi_id_assaultflatsbeach_pier, ewcfg.poi_id_slimesend_pier, ewcfg.poi_id_ferry,
+              ewcfg.poi_id_blackpond],  # Piers - JRP and Moon purposely excluded
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="A swarm of fish enter the area. A **FISHING FRENZY** has begun!",
+        str_event_ongoing="Fish are hopping and popping.",
+        str_event_end="So many fish have been !reeled up that the fishing frenzy disperses.",
+        str_check_text="There's a fishing frenzy in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_gas_leak,
+        str_name="a gas leak",
+        pois=[ewcfg.poi_id_tt_mines, ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
+              ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble],  # Mines - JRM purposely excluded
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="A mine wall collapses, and a pocket of Adderall® gas opens up! A **GAS LEAK** envelops the area!",
+        str_event_ongoing="Adderall gas floods the mine.",
+        str_event_end="The gas leak disperses. Get ready for amphetamine withdrawal, kiddo!",
+        str_check_text="There's a gas leak in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_raid_den,
+        str_name="a raid den entrance",
+        pois=[],
+        length=44,  # 11h
+        buffer=52,  # 13h
+        str_event_start="A great fissure erupts in the ground. A **RAID DEN** has opened!",
+        str_event_ongoing="**There's an opening to a RAID DEN within the ground!**",
+        str_event_end="The ground crashes together, forever sealing the raid den in the earth.",
+        str_check_text="There's a raid den entrance in ",
+    ),
 ]
 
 event_type_to_def = {}

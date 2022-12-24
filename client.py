@@ -46,6 +46,8 @@ import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
+from ew.cmd.race.racecmds import ree as racecmdsree
+
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
 import ew.backend.item as bknd_item
@@ -143,6 +145,7 @@ re_awoo_g = re.compile('.*![a]+[w]+o[o]+.*') #taking these out of on_message so 
 re_moan_g = re.compile('.*![b]+[r]+[a]+[i]+[n]+[z]+.*')
 re_measure_g = re.compile('!measure.*')
 re_yoslimernalia_g = re.compile('.*![y]+[o]+[s]+[l]+[i]+[m]+[e]+[r]+[n]+[a]+[l]+[i]+[a]+.*')
+re_ree_g = re.compile('.*![r]+[e]+[e]+.*')
 
 
 @client.event
@@ -300,7 +303,6 @@ async def on_ready():
             asyncio.ensure_future(loop_utils.spawn_prank_items_tick_loop(id_server = server.id))
             asyncio.ensure_future(loop_utils.generate_credence_tick_loop(id_server = server.id))
 
-
         # Enemies do spawn randomly
         asyncio.ensure_future(loop_utils.spawn_enemies_tick_loop(id_server=server.id))
 
@@ -400,12 +402,34 @@ async def on_member_join(member):
         server=member.guild
     )
     user_data = EwUser(member=member)
+    if member.joined_at.timestamp() - member.created_at.timestamp() < 604800:
+        user_data.poi = 'altlock'
+        user_data.persist()
+
 
     # attempt to force discord.py to cache the user
     await member.guild.query_members(user_ids=[member.id], presences=True)
 
     if user_data.poi in poi_static.tutorial_pois:
         await dungeon_utils.begin_tutorial(member)
+    
+    # Assumedly first time joining
+    if user_data.poi != "thesewers":
+        # give the user a game guide
+        gameguide = static_items.item_map.get('gameguide')
+        item_props = itm_utils.gen_item_props(gameguide)
+        bknd_item.item_create(
+            id_user=member.id,
+            id_server=member.guild.id,
+            item_type=ewcfg.it_item,
+            item_props=item_props
+        )
+        # Wait a bit, send a message
+        await asyncio.sleep(30)
+        if random.random() < 0.0666:
+            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
+        else:
+            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
 
 
 @client.event
@@ -428,13 +452,14 @@ async def debugHandling(message, cmd, cmd_obj):
         await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
-        if cmd.mentions_count == 1 and cmd.tokens_count == 3:
+        print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
+        """if cmd.mentions_count == 1 and cmd.tokens_count == 3:
             member = cmd.mentions[0]
             user = EwUser(member = member)
             cmd_fnc =  cmd_map.get('!revive')
             await cmd_fnc(cmd=cmd_obj, player_auto = member.id)
             cmd_fnc =  cmd_map.get('!tpp')
-            await cmd_fnc(cmd=cmd_obj)
+            await cmd_fnc(cmd=cmd_obj)"""
 
 
     elif cmd ==  (ewcfg.cmd_prefix + 'moverelics'):
@@ -814,6 +839,9 @@ async def debugHandling(message, cmd, cmd_obj):
             response += "\nIt's a full moon!"
 
         market_data.persist()
+
+        await bknd_weather.weather_cycle(id_server=message.guild.id)
+
         await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
 
     elif cmd == (ewcfg.cmd_prefix + 'postleaderboard'):
@@ -877,6 +905,7 @@ async def on_message(message):
     re_moan = re_moan_g
     re_measure = re_measure_g
     re_yoslimernalia = re_yoslimernalia_g
+    re_ree = re_ree_g
 
     playermodel = EwPlayer(id_user=message.author.id)
     usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
@@ -1029,6 +1058,9 @@ async def on_message(message):
         if usermodel.arrested > 0:
             return
 
+        if usermodel.poi == 'altlock':
+            response = 'You\'re locked from the game because your account was created too close to your join date. Dirty little sneak. Talk to a mod if there\'s some good reason to get it unlocked.'
+            return await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
         mutations = usermodel.get_mutations()
         # Scold/ignore offline players.
         if message.author.status == discord.Status.offline:
@@ -1075,6 +1107,8 @@ async def on_message(message):
             return await ewcmd.cmdcmds.yoslimernalia(cmd_obj)
         elif re_measure.match(cmd):
             return await ewcmd.cmdcmds.cockdraw(cmd_obj)
+        elif re_ree.match(cmd):
+            return await racecmdsree(cmd_obj)
         elif debug and cmd in ewcfg.client_debug_commands:
             return await debugHandling(message=message, cmd=cmd, cmd_obj=cmd_obj)
 
@@ -1113,6 +1147,12 @@ async def on_message(message):
             ))
         else:
             return
+    elif content_tolower.find(ewcfg.cmd_ree) >= 0 or re_ree.match(content_tolower):
+        return await racecmdsree(cmd_utils.EwCmd(
+            message=message,
+            client=client,
+            guild=message.guild
+        ))
 
 
 @client.event

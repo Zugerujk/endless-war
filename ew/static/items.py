@@ -7,6 +7,8 @@ from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
 from ..model.item import EwPrankItem
 from ..model.slimeoid import EwSlimeoidFood
+from ew.static.community_cfg import slimeglobe_list
+import random
 
 """
     The list of item definitions. Instances of items are always based on these
@@ -565,7 +567,7 @@ item_list = [
         ],
         str_name="Mastectomy Mango Vape Pod",
         str_desc="A mango-flavored vape pod. Specially-engineered to cause cancer within frequent users.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -578,7 +580,7 @@ item_list = [
         ],
         str_name="Menthol Mint Vape Pod",
         str_desc="A mint-flavored vape pod. This one is SO COOL, you're gonna feel ice-cold after taking a sick vape on this juice.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -591,7 +593,7 @@ item_list = [
         ],
         str_name="Striking Strawberry Vape Pod",
         str_desc="A strawberry-flavored vape pod. Even though they're bitty, they can do big things!.",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -604,7 +606,7 @@ item_list = [
         ],
         str_name="Ten-Story Tobacco Vape Pod",
         str_desc="A tobacco-flavored vape pod. It's designed to evoke the feeling of \"jumping off of a building\". You can attest that it's nothing like the real deal.",
-        price=249999,
+        price=49999,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -617,7 +619,7 @@ item_list = [
         ],
         str_name="Cop Killer Cotton Candy Vape Pod",
         str_desc="A cotton candy-flavored vape pod. Poorly-named, considering cotton candy could be considered rowdycore. !DAB though amirite? !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB !DAB ",
-        price=250000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar, ewcfg.vendor_slimypersuits]
     ),
@@ -630,7 +632,7 @@ item_list = [
         ],
         str_name="Mustard Gas Vape Pod",
         str_desc="A mustard gas-flavored vape pod. Vape just doesn't hit the same way these days. You could huff in the same old dusty vape but you've just too resistant. In order to make it hit the same way it use to you would have to chemically shred your lungs just to absorb more. Luckily mustard gas vape pods are being mass-produced and shipped to stores near you.",
-        price=700000,
+        price=50000,
         context = "vapepod",
         vendors=[ewcfg.vendor_bazaar]
     ),
@@ -652,8 +654,8 @@ item_list = [
             "gameguide",
             "gamergate",
         ],
-        str_name="The official nonofficial ENDLESS WAR Game Guide, Version IV",
-        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/##/2022. Use the !help command to crack it open.",
+        str_name="The official unofficial ENDLESS WAR Game Guide, Version IV",
+        str_desc="A guide on all the game mechanics found in ENDLESS WAR, accurate as of 9/24/2022. Use the !help command to crack it open.",
         vendors=[ewcfg.vendor_college],
         price=10000,
     ),
@@ -729,10 +731,12 @@ item_list = [
         id_item=ewcfg.item_id_doublehalloweengrist,
         context='dhgrist',
         alias=[
-            "grist"
+            "grist",
+            "dhgrist",
         ],
         str_name="Double Halloween Grist",
         str_desc="A mush of finely ground candy. Perhaps it can be forged into something special?",
+        acquisition=(ewcfg.acquisition_mining if ewcfg.dh_active else False),
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_whitelineticket,
@@ -1095,7 +1099,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_pranknote,
         str_name="Prank Note",
-        str_desc="A mysterious notebook. It's said that if you write someone's name down in it, they get pranked hardcore.",
+        str_desc="A mysterious notebook. It's said that if you write someone's name down in it, they get pranked hardcore." + ewcfg.prank_type_text_instantuse,
         prank_type=ewcfg.prank_type_instantuse,
         prank_desc="{} writes your name down in the Prank Note! You are almost instantly assaulted by a barrage of cream pies, water baloons, and air horns! Holy fucking shit!!",
         rarity=ewcfg.prank_rarity_forbidden,
@@ -1104,7 +1108,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_bodynotifier,
         str_name="Body Notifier",
-        str_desc="An item that notifies someone of their basic bodily functions.",
+        str_desc="An item that notifies someone of their basic bodily functions." + ewcfg.prank_type_text_instantuse,
         prank_type=ewcfg.prank_type_instantuse,
         prank_desc="{} notifies you of your basic bodily functions.",
         rarity=ewcfg.prank_rarity_heinous,
@@ -1268,7 +1272,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_fakecandy,
         str_name="Fake Candy",
-        str_desc="A bag of fake candy, disguised as candy from last year's Double Halloween",
+        str_desc="A bag of fake candy, disguised as candy from last year's Double Halloween" + ewcfg.prank_type_text_response,
         prank_type=ewcfg.prank_type_response,
         prank_desc="You see a bag of candy lying on the ground. Neaby, you can see {} cackling to themselves like a madman. Maybe it's best to **!ignorethecandy**.",
         response_desc_1="You scoop up the bag and ingest its contents instead. Yuck! These taste awful! Another bag of candy dropped close by catches your attention. **!ignorethecandy**.",
@@ -1282,7 +1286,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_crabarmy,
         str_name="Crab Army",
-        str_desc="An army of crabs, ready to be snip and snap at will.",
+        str_desc="An army of crabs, ready to be snip and snap at will." + ewcfg.prank_type_text_response,
         prank_type=ewcfg.prank_type_response,
         prank_desc="{} calls forth their Crab Army, and directs it towards you! Oh man, you better type **!jumpovercrabs** before it's too late!",
         response_desc_1="A lonesome crab snips and snaps at your leg! Ow, the pain is just brutal! Others are skittering closely behind, type **!jumpovercrabs**.",
@@ -1356,7 +1360,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_landmine,
         str_name="Land Mine",
-        str_desc="A round metal plate, charged with explosives. These are normally only reserved for tanks, but during Swilldermuk, civilians have been given clearance to use them at their personal discretion.",
+        str_desc="A round metal plate, charged with explosives. These are normally only reserved for tanks, but during Swilldermuk, civilians have been given clearance to use them at their personal discretion." + ewcfg.prank_type_text_trap,
         prank_type=ewcfg.prank_type_trap,
         prank_desc="**HOLY FUCKING SHIT!!** You just stepped on a God damn Land Mine! The blast knocks you on your ass and fractures several bones in the lower half of your body. Haha, fucking pranked, bro!!",
         trap_chance=40,
@@ -1457,7 +1461,7 @@ item_list = [
     EwPrankItem(
         id_item=ewcfg.item_id_alligatortoy,
         str_name="Alligator Toy",
-        str_desc="A toy alligator, where the objective is to brush its teeth without tripping its jaws. The top jaw on this one is mysteriously outfitted with razor blades instead of plastic, however.",
+        str_desc="A toy alligator, where the objective is to brush its teeth without tripping its jaws. The top jaw on this one is mysteriously outfitted with razor blades instead of plastic, however." + ewcfg.prank_type_text_trap,
         prank_type=ewcfg.prank_type_trap,
         prank_desc='Oh hey! A toy alligator! You had so much fun with these as a kid! You just gotta press on the teeth in the right combination, and...\nOH JESUS CHRIST, THE RAZOR BLADES HIDDEN INSIDE BURY THEMSELVES INTO YOUR HAND!!',
         trap_chance=35,
@@ -1473,6 +1477,27 @@ item_list = [
         rarity=ewcfg.prank_rarity_scandalous,
         gambit=30,
         side_effect="usedneedle_effect",
+    ),
+    EwPrankItem(
+        id_item=ewcfg.item_id_candycane,
+        str_name="Candy Cane?",
+        str_desc="It's a pseudo candy cane made out of rock hard penne pasta shells, covered in food coloring." + ewcfg.prank_type_text_instantuse,
+        prank_type=ewcfg.prank_type_instantuse,
+        prank_desc="{} holds out a candy cane! You happily snatch it straight from their hands and immediately chomp down on the festive, cavity-inducing delight! The supposed delight, however, is absent from your tastebuds, as you feel shards of broken penne shells crunch in between your teeth. You turn towards them, spitting as much of the disgusting uncooked pasta shards as you can onto their face! Bitch. You then swallow the rest with a disgusted shudder.",
+        rarity=ewcfg.prank_rarity_heinous,
+        acquisition=ewcfg.acquisition_smelting,
+        gambit=5,
+    ),
+    EwPrankItem(
+        id_item=ewcfg.item_id_giftpipebomb,
+        str_name="Gift Pipebomb",
+        str_desc="It's a tube-shaped gift, intended to be laid in the streets for some other unsuspecting poor soul to discover." + ewcfg.prank_type_text_trap,
+        prank_type=ewcfg.prank_type_trap,
+        prank_desc="Oh shit, someone left a free gift around! Lets just open this up and OH GOD GLITTER IS EVERYWHERE.",
+        trap_chance=100,
+        rarity=ewcfg.prank_rarity_forbidden,
+        acquisition=ewcfg.acquisition_smelting,
+        gambit=15,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_swordofseething,
@@ -1929,7 +1954,7 @@ item_list = [
     EwGeneralItem(
         id_item=ewcfg.item_id_giftribbon,
         str_name="Gift Ribbon",
-        str_desc="A spool of ribbon meant to use to make some festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
+        str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_gallonofmilk,
@@ -1950,6 +1975,15 @@ item_list = [
         str_name="Monofilament Cloth",
         str_desc="Its a full textile at this point, Perfect material to make the grays start understanding that you're violent, language barrier be damned.",
         acquisition=ewcfg.acquisition_smelting
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_emptyslimebottle,
+        str_name="Empty Slime Bottle",
+        str_desc="It's an empty slime bottle that some poor sap must have left behind. Upon giving it a very close eye, there's a very faint recipe engraving on the bottom of the bottle.",
+        #I couldn't get the empty slime bottle to generate when you ate a full slime edibles bottle on time, so at least temporarily it will live on as something you can order at the bazaar
+        #str_desc="It's the keepsake that still makes your body uncontrollably convulse when holding it. Upon giving it a very close eye, there's a very faint recipe engraving you couldn't see until now that you've emptied the bottle.",
+        price=15000,
+        vendors=[ewcfg.vendor_bazaar],
     ),
 
 ]
@@ -1997,8 +2031,11 @@ prank_items_scandalous = []  # uncommon
 prank_items_forbidden = []  # rare
 
 prank_items_instantuse = []  # instant use items
+prank_items_instantuse_names = []
 prank_items_response = []  # response items
+prank_items_response_names = []
 prank_items_trap = []  # traps
+prank_items_trap_names = []
 
 # Gather all prank items based on rarity
 for p in item_list:
@@ -2020,19 +2057,29 @@ for p in item_list:
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_instantuse:
         prank_items_instantuse.append(p)
+        prank_items_instantuse_names.append(p.id_item)
     else:
         pass
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_response:
         prank_items_response.append(p)
+        prank_items_response_names.append(p.id_item)
     else:
         pass
 for p in item_list:
     if p.context == ewcfg.context_prankitem and p.prank_type == ewcfg.prank_type_trap:
         prank_items_trap.append(p)
+        prank_items_trap_names.append(p.id_item)
     else:
         pass
 
+wrap_items_names = []
+
+for w in item_list:
+    if w.context == ewcfg.context_wrappingpaper:
+        wrap_items_names.append(w.id_item)
+    else:
+        pass
 
 
 furniture_list = [
@@ -3652,7 +3699,85 @@ furniture_list = [
         furniture_look_desc = "A futuristic couch is stuck on the wall in your living room, making you irrationally mad.",
         furn_set = "hatealiens",
     ),
+    EwFurniture(
+        id_furniture = "slimeglobe",
+        str_name = "Slimeglobe",
+        str_desc = "It's broken, probably because you or someone else shook it too hard.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You carefully place the slimeglobe down on your table, understanding that shaking it too hard will cause the poudrin shards to go flying everywhere.",
+        furniture_look_desc = "A slimeglobe is on your table",
+    ),
+    EwFurniture(
+        id_furniture = "endlesswarhummel",
+        str_name = "ENDLESS WAR Hummel",
+        str_desc = "It's a Hummel of ENDLESS WAR, having a nondescript look of distain to the fact that someone made something as stupid as a Hummel, and not in fact: killing people.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "An ENDLESS WAR Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "rowdyfuckerhummel",
+        str_name = "Rowdy Fucker Hummel",
+        str_desc = "It's a hummel of the Rowdy Fucker, stuck behind a door. Some rumor this is his fate even to this very day.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Rowdy Fucker Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "copkillerhummel",
+        str_name = "Cop Killer Hummel",
+        str_desc = "It's a hummel of the Cop Killer, peering down from his gay little ivory tower.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Cop Killer Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "phoebushummel",
+        str_name = "Phoebus Hummel",
+        str_desc = "It's a hummel of Phoebus, with radiant light shining down upon them.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Phoebus Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "doubleheadlessdoublehorsemanhummel",
+        str_name = "Double Headless Double Horseman Hummel",
+        str_desc = "It's a hummel of the Double Headless Double Horseman. Sadly, the Double Headless Double Horseman Hummel does not include the Double Headless Double Horseman's Double Headless Double Horses.",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Double Headless Double Horseman Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "deadcopshummel",
+        str_name = "Dead Cops Hummel",
+        str_desc = "It's a hummel of some dead cops, lying dead on the street with both Rowdys and Killers watching over them.",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A hummel of dead cops is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
+    EwFurniture(
+        id_furniture = "slimexodiahummel",
+        str_name = "Slimexodia Hummel",
+        str_desc = "It's a hummel of Slimexodia... Well, actually it's five hummels making up his chest, arms, and legs put together into one whole hummel.",
+        rarity = "Plebeian",
+        acquisition = "smelting",
+        furniture_place_desc = "You slide the Hummel on the shelf.",
+        furniture_look_desc = "A Slimexodia Hummel is propped up on your shelf.",
+        furn_set = "hummels",
+    ),
 ]
+
 
 furniture_map = {}
 furniture_names = []
@@ -3671,6 +3796,7 @@ furniture_NMS = []
 furniture_specialhue = []
 furniture_collection = []
 furniture_hatealiens = []
+furniture_hummels = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture

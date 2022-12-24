@@ -1,5 +1,6 @@
 import random
 import time
+import math
 
 from ew.backend import item as bknd_item
 from ew.backend.farm import EwFarm
@@ -21,6 +22,8 @@ from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.slimeoid import EwSlimeoid
 from ew.utils.user import add_xp
+
+
 
 """ Sow seeds that may eventually be !reaped. """
 
@@ -126,7 +129,7 @@ async def sow(cmd):
                     growth_time /= 2
                 if ewcfg.mutation_id_greenfingers in mutations:
                     growth_time /= 1.5
-
+              
                 hours = int(growth_time / 60)
                 minutes = int(growth_time % 60)
 
@@ -174,7 +177,6 @@ async def reap(cmd):
     response, responses = "", []
     levelup_response = ""
     mutations = user_data.get_mutations()
-    cosmetic_abilites = itm_utils.get_cosmetic_abilities(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     poi = poi_static.id_to_poi.get(user_data.poi)
 
     # check if the user has a farming tool equipped
@@ -232,8 +234,14 @@ async def reap(cmd):
                     if has_tool and weapon.id_weapon == ewcfg.weapon_id_hoe:
                         slime_gain *= 1.5
 
+                    if has_tool and weapon.id_weapon == ewcfg.weapon_id_slimeringcan:
+                        slime_gain *= 0.5
+
                     if ewcfg.mutation_id_greenfingers in mutations:
                         slime_gain *= 1.2
+
+                    if ewcfg.slimernalia_stage >= 2:
+                        slime_gain *= 2
 
                     if user_data.poi == ewcfg.poi_id_jr_farms:
                         slime_gain = int(slime_gain / 4)
@@ -249,21 +257,26 @@ async def reap(cmd):
                     unearthed_item_chance = 50 / ewcfg.unearthed_item_rarity  # 1 in 30 chance
 
                     if ewcfg.mutation_id_lucky in mutations:
-                        unearthed_item_chance *= 1.33   # 1 in 22.5 chance
-                    
-                    if ewcfg.cosmeticAbility_id_lucky in cosmetic_abilites:
-                        unearthed_item_chance *= 1.33   # 1 in ~17 chance with both
+                        unearthed_item_chance *= 1.777   # 1 in ~17 chance
 
                     if has_tool and weapon.id_weapon == ewcfg.weapon_id_shovel:   # 1 in 6 chance
                         unearthed_item_chance *= 5
 
                     if random.random() < unearthed_item_chance:
                         unearthed_item = True
-                        unearthed_item_amount = 1 if random.randint(1, 3) != 1 else 2  # 33% chance of extra drop
+                        unearthed_item_amount = random.randint(1,4)
 
                     if unearthed_item == True:
-                        # If there are multiple possible products, randomly select one.
                         item = random.choice(vendors.mine_results)
+                        if has_tool and weapon.id_weapon == ewcfg.weapon_id_shovel:
+                            # If there are multiple possible products, randomly select one.
+                            # shovel buff item table
+                            shovel_table = [
+                            ewcfg.item_id_stick,
+                            ewcfg.item_id_landmine,
+                            ewcfg.item_id_oldboot,
+                            ewcfg.item_id_tincan,]
+                            item = static_items.item_map.get(random.choice(shovel_table))
 
                         item_props = itm_utils.gen_item_props(item)
 
@@ -279,8 +292,8 @@ async def reap(cmd):
 
                         if unearthed_item_amount == 1:
                             response += "a {}, ".format(item.str_name)
-                        elif unearthed_item_amount == 2:
-                            response += "two {}s, ".format(item.str_name)
+                        elif unearthed_item_amount >= 2:
+                            response += "{} {}s, ".format(unearthed_item_amount, item.str_name)
 
                     #  Determine what crop is grown.
                     if farm.crop == ewcfg.item_id_evil_material:
@@ -301,21 +314,37 @@ async def reap(cmd):
 
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             metallic_crop_ammount *= 2
+                        elif has_tool and weapon.id_weapon == ewcfg.weapon_id_slimeringcan:
+                            metallic_crop_ammount = 0 
 
                         crop_gain = metallic_crop_ammount * 3
 
-                        for vcreate in range(metallic_crop_ammount):
-                            bknd_item.item_create(
-                                id_user=cmd.message.author.id,
-                                id_server=cmd.guild.id,
-                                item_type=vegetable.item_type,
-                                item_props=item_props
-                            )
-
-                        if metallic_crop_ammount == 1:
-                            response += "and a single {}!".format(vegetable.str_name)
+                        if metallic_crop_ammount > 0:
+                            
+                            for vcreate in range(metallic_crop_ammount):
+                                bknd_item.item_create(
+                                    id_user=cmd.message.author.id,
+                                    id_server=cmd.guild.id,
+                                    item_type=vegetable.item_type,
+                                    item_props=item_props
+                                )
+                            if metallic_crop_ammount == 1:
+                                response += "and a single {}!".format(vegetable.str_name)
+                            else:
+                                response += "and a bushel of {} {}!".format(metallic_crop_ammount,vegetable.str_name)
                         else:
-                            response += "and a bushel or two of {}!".format(vegetable.str_name)
+                            poudrin_gain = random.randint(5,8)
+                            item = random.choice(vendors.mine_results)
+                            item_props = itm_utils.gen_item_props(item)
+                            for vcreate in range(poudrin_gain):
+                                bknd_item.item_create(
+                                    id_user=cmd.message.author.id,
+                                    id_server=cmd.guild.id,
+                                    item_type=item.item_type,
+                                    item_props=item_props
+                                )
+                            response += "\nThe {} collapses on the ground, having no structural support to even call it anything more than gunk. You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
+                    
                     # if random.randrange(10) == 0:
                     # 	for vcreate in range(6):
                     # 		bknd_item.item_create(
@@ -327,22 +356,41 @@ async def reap(cmd):
                     #
                     # 	response += "and a bushel of {}!".format(vegetable.str_name)
                     # else:
+
                     # 	response += "and a bushel of... hey, what the hell! You didn't reap anything! Must've been some odd seeds..."
                     else:
                         unearthed_vegetable_amount = 3
                         if has_tool and weapon.id_weapon == ewcfg.weapon_id_pitchfork:
                             unearthed_vegetable_amount *= 2
+                        elif has_tool and weapon.id_weapon == ewcfg.weapon_id_slimeringcan:
+                            unearthed_vegetable_amount = 0
+
                         crop_gain = unearthed_vegetable_amount
 
-                        for vcreate in range(unearthed_vegetable_amount):
-                            bknd_item.item_create(
-                                id_user=cmd.message.author.id,
-                                id_server=cmd.guild.id,
-                                item_type=vegetable.item_type,
-                                item_props=item_props
-                            )
-
-                        response += "and a bushel of {}!".format(vegetable.str_name)
+                        if unearthed_vegetable_amount > 0:
+                            for vcreate in range(unearthed_vegetable_amount):
+                                bknd_item.item_create(
+                                    id_user=cmd.message.author.id,
+                                    id_server=cmd.guild.id,
+                                    item_type=vegetable.item_type,
+                                    item_props=item_props
+                                )
+                            if unearthed_vegetable_amount == 1:
+                                response += "and a single {}!".format(vegetable.str_name)
+                            else:
+                                response += "and a bushel of {} {}!".format(unearthed_vegetable_amount,vegetable.str_name)
+                        else:
+                            poudrin_gain = random.randint(5,8)
+                            item = random.choice(vendors.mine_results)
+                            item_props = itm_utils.gen_item_props(item)
+                            for vcreate in range(poudrin_gain):
+                                bknd_item.item_create(
+                                    id_user=cmd.message.author.id,
+                                    id_server=cmd.guild.id,
+                                    item_type=item.item_type,
+                                    item_props=item_props
+                                )
+                            response += "\nThe {} collapses on the ground, having no structural support to even call it anything more than gunk. You got {} Slime Poudrins in trying, though.".format(vegetable.str_name, poudrin_gain)
 
                     levelup_response = user_data.change_slimes(n=slime_gain, source=ewcfg.source_farming)
 

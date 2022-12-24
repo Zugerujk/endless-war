@@ -29,6 +29,7 @@ def spawn_enemy(
         pre_chosen_rarity = None,
         pre_chosen_props = None,
         manual_spawn = False,
+        pre_chosen_variant = None,
 ):
     time_now = int(time.time())
     response = ""
@@ -38,7 +39,7 @@ def spawn_enemy(
     potential_chosen_poi = ""
     threat_level = ""
     boss_choices = []
-    arctic = 0
+    variant = 0
 
     enemies_count = ewcfg.max_enemies
     try_count = 0
@@ -120,18 +121,28 @@ def spawn_enemy(
                 enemytype = random.choice(ewcfg.pre_historic_enemies)
         elif potential_chosen_poi in [ewcfg.poi_id_thesummit, ewcfg.poi_id_colloidsprings, ewcfg.poi_id_skilodges]:
             enemytype = random.choice(ewcfg.arctic_enemies)
-            arctic = 1
+            variant = 1
             if enemytype in ewcfg.raid_bosses:
                 enemytype = random.choice(ewcfg.arctic_enemies)
+
+        if ewcfg.dh_stage >= 3 and enemytype in ewcfg.dh_v_enemies:
+            variant = 2 # DH
+
     else:
         if pre_chosen_poi == None:
             return
 
+    if ewcfg.dh_stage >= 3 and enemytype in ewcfg.dh_v_enemies:
+        variant = 2 # DH
+        
     if pre_chosen_poi != None:
         chosen_poi = pre_chosen_poi
 
+    if pre_chosen_variant != None:
+        variant = pre_chosen_variant
+
     if enemytype != None:
-        enemy = get_enemy_data(enemytype, arctic)
+        enemy = get_enemy_data(enemytype, variant, pre_chosen_rarity)
 
         # Assign enemy attributes that weren't assigned in get_enemy_data
         enemy.id_server = id_server
@@ -155,9 +166,9 @@ def spawn_enemy(
                 enemy.slimes *= 2
 
         market_data = EwMarket(id_server=id_server)
-        if (
-                enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman or enemytype == ewcfg.enemy_type_doublehorse) and market_data.horseman_deaths >= 1:
-            enemy.slimes *= 1.5
+        # if (
+        #         enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman or enemytype == ewcfg.enemy_type_doublehorse) and market_data.horseman_deaths >= 1:
+        #     enemy.slimes *= 1.5
 
         props = None
         try:
@@ -239,12 +250,15 @@ def level_byslime(slime):
 
 
 # Assigns enemies most of their necessary attributes based on their type.
-def get_enemy_data(enemy_type, arctic = 0):
+def get_enemy_data(enemy_type, variant = 0, pre_chosen_rarity = None):
     enemy = EwEnemy()
 
-    rare_status = 0
-    if random.randrange(5) == 0 and enemy_type not in ewcfg.overkill_enemies:
-        rare_status = 1
+    if pre_chosen_rarity == None:
+        rare_status = 0
+        if random.randrange(5) == 0 and enemy_type not in ewcfg.overkill_enemies:
+            rare_status = 1
+    else:
+        rare_status = pre_chosen_rarity
 
     enemy.id_server = -1
     enemy.slimes = 0
@@ -279,8 +293,10 @@ def get_enemy_data(enemy_type, arctic = 0):
     except:
         enemy.enemyclass = ewcfg.enemy_class_normal
 
-    if arctic == 1:
+    if variant == 1: # arctic
         enemy.display_name = ewcfg.enemy_data_table[enemy_type]["arcticvariant"]
+    elif variant == 2: # dh
+        enemy.display_name = ewcfg.enemy_data_table[enemy_type]["dhvariant"]
 
     if rare_status == 1:
         enemy.display_name = ewcfg.enemy_data_table[enemy_type]["raredisplayname"]

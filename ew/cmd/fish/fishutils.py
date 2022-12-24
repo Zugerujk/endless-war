@@ -382,12 +382,17 @@ async def award_fish(fisher, cmd, user_data):
         
         # If "seaitem" is specified, get a sea item.
         else:
-            item = random.choice(slimesea_inventory)
+            # If the sea is empty
+            if len(slimesea_inventory) == 0:
+                response = "You reel in... nothing! The Slime Sea seems to be empty of fishable litter."
 
-            if bknd_item.give_item(id_item=item.get('id_item'), member=cmd.message.author):
-                response = "You reel in a {}!".format(item.get('name'))
             else:
-                response = "You woulda reeled in a {}, but your back gave out under the weight of the rest of your {}s.".format(item.str_name, item.item_type)
+                item = random.choice(slimesea_inventory)
+
+                if bknd_item.give_item(id_item=item.get('id_item'), member=cmd.message.author):
+                    response = "You reel in a {}!".format(item.get('name'))
+                else:
+                    response = "You woulda reeled in a {}, but your back gave out under the weight of the rest of your {}s.".format(item.str_name, item.item_type)
 
         fisher.stop()
         user_data.persist()
@@ -521,7 +526,7 @@ async def award_fish(fisher, cmd, user_data):
             xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
             xp_yield /= 2
             responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
-            responses += await add_xp(inhabitant_id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
+            responses += await add_xp(fisher.inhabitant_id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)
         else: 
             xp_yield = ewcfg.gs_fish_xp_map.get(xp_type, 16000)
             responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_fish_stat, xp_yield)

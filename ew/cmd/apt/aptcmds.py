@@ -1,14 +1,12 @@
 import asyncio
 import random
 import time
-from copy import deepcopy
 
 from ew.backend import item as bknd_item
 from ew.backend import worldevent as bknd_event
 from ew.backend import core as bknd_core
 from ew.backend.apt import EwApartment
 from ew.backend.item import EwItem
-from ew.backend.market import EwMarket
 from ew.backend.player import EwPlayer
 from ew.backend.worldevent import EwWorldEvent
 from ew.static import cfg as ewcfg
@@ -28,10 +26,9 @@ from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils import slimeoid as slimeoid_utils
 from ew.utils.combat import EwUser
-from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
-from ew.utils.slimeoid import EwSlimeoid, get_slimeoid_look_string
-from .aptutils import getPriceBase, usekey
+from ew.utils.slimeoid import EwSlimeoid
+from .aptutils import getPriceBase, usekey, apt_decorate_look_str, apt_closet_look_str, apt_fridge_look_str, apt_bookshelf_look_str, apt_slimeoid_look_str, apt_max_compartment_capacity
 
 
 async def nothing(cmd):  # for an accept, refuse, sign or rip
@@ -238,17 +235,8 @@ async def signlease(cmd):
 
         user_data.change_slimecoin(n=-base_cost * 4, coinsource=ewcfg.coinsource_spending)
 
-
         user_data.persist()
 
-        # if user_apt.key_1 != 0:
-        # bknd_item.item_delete(user_apt.key_1)
-        # user_apt.key_1 = 0
-        # user_apt.rent = user_apt.rent/1.5
-        # if user_apt.key_2 != 0:
-        # bknd_item.item_delete(user_apt.key_2)
-        # user_apt.key_2 = 0
-        # user_apt.rent = user_apt.rent / 1.5
         user_apt.num_keys = 0
 
         user_apt.name = "{}'s Apartment".format(cmd.message.author.display_name)
@@ -437,6 +425,10 @@ async def knock(cmd = None):
 
 async def trickortreat(cmd = None):
     user_data = EwUser(member=cmd.message.author)
+
+    if ewcfg.dh_stage < 10:
+        response = "Looks like it's not quite time for treating. Tricking is plenty fine, though."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     if cmd.message.guild is None or not ewutils.channel_name_is_poi(cmd.message.channel.name):
         response = "There will be neither trick nor treat found in these parts."
@@ -717,12 +709,10 @@ async def cancel(cmd):
             aptmodel = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
             response = "You cancel your {} apartment for {:,} SlimeCoin.".format(poi.str_name, aptmodel.rent * 4)
-            inv_toss_closet = bknd_item.inventory(id_user=str(usermodel.id_user) + ewcfg.compartment_id_closet, id_server=playermodel.id_server)
 
             apt_utils.toss_items(id_user=str(usermodel.id_user) + ewcfg.compartment_id_closet, id_server=playermodel.id_server, poi=poi)
             apt_utils.toss_items(id_user=str(usermodel.id_user) + ewcfg.compartment_id_fridge, id_server=playermodel.id_server, poi=poi)
             apt_utils.toss_items(id_user=str(usermodel.id_user) + ewcfg.compartment_id_decorate, id_server=playermodel.id_server, poi=poi)
-
 
             usermodel.change_slimecoin(n=aptmodel.rent * -4, coinsource=ewcfg.coinsource_spending)
             aptmodel.rent = 0
@@ -987,14 +977,12 @@ async def apt_look(cmd):
     usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
     apt_model = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
     poi = poi_static.id_to_poi.get(apt_model.poi)
-    lookObject = str(cmd.message.author.id)
     isVisiting = False
     resp_cont = EwResponseContainer(id_server=playermodel.id_server)
 
     if usermodel.visiting != ewcfg.location_id_empty:
         apt_model = EwApartment(id_user=usermodel.visiting, id_server=playermodel.id_server)
         poi = poi_static.id_to_poi.get(apt_model.poi)
-        lookObject = str(usermodel.visiting)
         isVisiting = True
 
     response = "You stand in {}, your flat in {}.\n\n{}\n\n".format(apt_model.name, poi.str_name, apt_model.description)
@@ -1004,168 +992,26 @@ async def apt_look(cmd):
 
     resp_cont.add_channel_response(cmd.message.channel, response)
 
-    furns = bknd_item.inventory(id_user=lookObject + ewcfg.compartment_id_decorate, id_server=playermodel.id_server, item_type_filter=ewcfg.it_furniture)
+    # Decorate Compartment AKA Furniture
+    decorate_resp = apt_decorate_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    resp_cont.add_channel_response(cmd.message.channel, decorate_resp)
 
-    has_hat_stand = False
+    # Fridge Compartment
+    fridge_response = "\n\n" + apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    resp_cont.add_channel_response(cmd.message.channel, fridge_response)
 
-    furniture_id_list = []
-    furn_response = ""
-    for furn in furns:
-        i = EwItem(furn.get('id_item'))
+    # Closet Compartment
+    closet_response = "\n\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    resp_cont.add_channel_response(cmd.message.channel, closet_response)
 
-        furn_response += "{} ".format(i.item_props['furniture_look_desc'])
+    # Bookshelf Compartment
+    shelf_response = "\n\n" + apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    resp_cont.add_channel_response(cmd.message.channel, shelf_response)
 
-        furniture_id_list.append(i.item_props['id_furniture'])
-        if i.item_props.get('id_furniture') == "hatstand":
-            has_hat_stand = True
+    # Freezer Compartment
+    freeze_response = "\n\n" + apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    resp_cont.add_channel_response(cmd.message.channel, freeze_response)
 
-        hue = hue_static.hue_map.get(i.item_props.get('hue'))
-        if hue != None and i.item_props.get('id_furniture') not in static_items.furniture_specialhue:
-            furn_response += " It's {}. ".format(hue.str_name)
-        elif i.item_props.get('id_furniture') in static_items.furniture_specialhue:
-            if hue != None:
-                furn_response = furn_response.replace("-*HUE*-", hue.str_name)
-            else:
-                furn_response = furn_response.replace("-*HUE*-", "white")
-
-    furn_response += "\n\n"
-
-    if all(elem in furniture_id_list for elem in static_items.furniture_lgbt):
-        furn_response += "This is the most homosexual room you could possibly imagine. Everything is painted rainbow. A sign on your bedroom door reads \"FORNICATION ZONE\". There's so much love in the air that some dust mites set up a gay bar in your closet. It's amazing.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_haunted):
-        furn_response += "One day, on a whim, you decided to say \"Levy Jevy\" 3 times into the mirror. Big mistake. Not only did it summon several staydeads, but they're so enamored with your decoration that they've been squatting here ever since.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_highclass):
-        furn_response += "This place is loaded. Marble fountains, fully stocked champagne fridges, complementary expensive meats made of bizarre unethical ingredients, it's a treat for the senses. You wonder if there's any higher this place can go. Kind of depressing, really.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_leather):
-        furn_response += "34 innocent lives. 34 lives were taken to build the feng shui in this one room. Are you remorseful about that? Obsessed? Nobody has the base antipathy needed to peer into your mind and pick at your decisions. The leather finish admittedly does look fantastic, however. Nice work.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_church):
-        furn_response += random.choice(ewcfg.bible_verses) + "\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_pony):
-        furn_response += "When the Mane 6 combine their powers, kindness, generosity, loyalty, honesty, magic, and the other one, they combine to form the most powerful force known to creation: friendship. Except for slime. That's still stronger.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_blackvelvet):
-        furn_response += "Looking around just makes you want to loosen your tie a bit and pull out an expensive cigar. Nobody in this city of drowned rats and slimeless rubes can stop you now. You commit homicide...in style. Dark, velvety smooth style.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_seventies):
-        furn_response += "Look at all this vintage furniture. Didn't the counterculture that created all this shit advocate for 'peace and love'? Yuck. I hope you didn't theme your bachelor pad around that kind of shit and just bought everything for its retro aesthetic.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_shitty):
-        furn_response += "You're never gonna make it. Look at all this furniture you messed up, do you think someday you can escape this? You're never gonna have sculptures like Stradivarius, or paintings as good as that one German guy. You're deluded and sitting on splinters. Grow up. \n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_instrument):
-        furn_response += "You assembled the instruments. Now all you have to do is form a soopa groop and play loudly over other people acts next Slimechella. It's high time the garage bands of this city take over, with fresh homemade shredding and murders most foul. The world's your oyster. As soon as you can trust them with all this expensive equipment.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_slimecorp):
-        furn_response += "SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_NMS):
-        furn_response += "This room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie.\n\n"
-    if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
-        furn_response += "Whoa, your flat is so futuristic! You;ve got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
-
-
-    market_data = EwMarket(id_server=playermodel.id_server)
-    clock_data = ewutils.weather_txt(market_data)
-    clock_data = clock_data[16:20]
-    furn_response = furn_response.format(time=clock_data)
-    resp_cont.add_channel_response(cmd.message.channel, furn_response)
-
-    response = ""
-    frids = bknd_item.inventory(id_user=lookObject + ewcfg.compartment_id_fridge, id_server=playermodel.id_server)
-    closets = bknd_item.inventory(id_user=lookObject + ewcfg.compartment_id_closet, id_server=playermodel.id_server)
-
-    #if (len(frids) > 0):
-    #
-    #    fridge_pile = []
-    #    for frid in frids:
-    #        fridge_pile.append(frid.get('name'))
-    #    response += ewutils.formatNiceList(fridge_pile)
-    #    response = response + '.'
-
-
-    resp_cont.add_channel_response(cmd.message.channel, response)
-    response = ""
-    if (len(frids) > 0):
-        fridge_resp = ""
-        response += "\n\nThe fridge contains: "
-
-        stacked_fridge_map = {}
-        for frid in frids:
-            if frid.get("name") in stacked_fridge_map:
-                stacked_item = stacked_fridge_map.get(frid.get("name"))
-                stacked_item["quantity"] += frid.get("quantity")
-            else:
-                stacked_fridge_map[frid.get("name")] = deepcopy(frid)
-        item_names = stacked_fridge_map.keys()
-        for item_name in item_names:
-            # Get the stack's item data
-            item = stacked_fridge_map.get(item_name)
-            item_obj = EwItem(id_item=item.get('id_item'))
-
-            # Generate the stack's line in the response
-            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
-                name=item.get('name'),
-                soulbound_style=("**" if item.get('soulbound') else ""),
-                quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
-            )
-            fridge_resp += response_part
-
-        response += fridge_resp + '.'
-
-    if (len(closets) > 0):
-        closet_resp = ""
-        hatstand_resp = ""
-        #
-        stacked_closet_map = {}
-        for closet in closets:
-            if closet.get("name") in stacked_closet_map:
-                stacked_item = stacked_closet_map.get(closet.get("name"))
-                stacked_item["quantity"] += closet.get("quantity")
-            else:
-                stacked_closet_map[closet.get("name")] = deepcopy(closet)
-        item_names = stacked_closet_map.keys()
-        for item_name in item_names:
-            # Get the stack's item data
-            item = stacked_closet_map.get(item_name)
-            item_obj = EwItem(id_item=item.get('id_item'))
-            map_obj = cosmetics.cosmetic_map.get(item_obj.item_props.get('id_cosmetic'))
-            # Generate the stack's line in the response
-            response_part = "{soulbound_style}{name}{soulbound_style}{quantity}, ".format(
-                name=item.get('name'),
-                soulbound_style=("**" if item.get('soulbound') else ""),
-                quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
-            )
-            if map_obj is not None and map_obj.is_hat == True:
-                hatstand_resp += response_part
-            else:
-                closet_resp += response_part
-
-        #for closet in closets:
-        #    closet_obj = EwItem(id_item=closet.get('id_item'))
-        #    map_obj = cosmetics.cosmetic_map.get(closet_obj.item_props.get('id_cosmetic'))
-        #    if has_hat_stand and map_obj and map_obj.is_hat == True:
-        #        hatstand_pile.append(closet.get('name'))
-        #    else:
-        #        closet_pile.append(closet.get('name'))
-        if len(closet_resp) > 0:
-            response += "\n\nThe closet contains: "
-            response += closet_resp + '.'
-            resp_cont.add_channel_response(cmd.message.channel, response)
-        if len(hatstand_resp) > 0:
-            response = "\n\nThe hat stand holds: "
-            response += hatstand_resp + '.'
-            resp_cont.add_channel_response(cmd.message.channel, response)
-
-    shelves = bknd_item.inventory(id_user=lookObject + ewcfg.compartment_id_bookshelf, id_server=playermodel.id_server)
-
-    response = ""
-    if (len(shelves) > 0):
-        response += "\n\nThe bookshelf holds: "
-        shelf_pile = []
-        for shelf in shelves:
-            shelf_pile.append(shelf.get('name'))
-        response += ewutils.formatNiceList(shelf_pile)
-        response = response + '.'
-
-    resp_cont.add_channel_response(cmd.message.channel, response)
-
-    freezeList = get_slimeoid_look_string(user_id=lookObject + 'freeze', server_id=playermodel.id_server)
-
-    resp_cont.add_channel_response(cmd.message.channel, freezeList)
     return await resp_cont.post(channel=cmd.message.channel)
 
 
@@ -1234,23 +1080,32 @@ async def browse(cmd):
 
 
 async def store_item(cmd):
-    if len(cmd.tokens) < 2:
-        response = "{} what?".format(cmd.tokens[0])
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-
     cmd_text = cmd.tokens[0].lower() if len(cmd.tokens) >= 1 else ""
 
-    # Consider moving this map to ewcfg, though its inconsequential
-    text_to_dest = {
-        ewcfg.cmd_fridge: ewcfg.compartment_id_fridge,
-        ewcfg.cmd_store: "store",
-        ewcfg.cmd_closet: ewcfg.compartment_id_closet,
-        ewcfg.cmd_decorate: ewcfg.compartment_id_decorate,
-        ewcfg.cmd_shelve: ewcfg.compartment_id_bookshelf,
-        ewcfg.cmd_shelve_alt_1: ewcfg.compartment_id_bookshelf
-    }
+    dest = ewcfg.cmd_to_apt_dest[cmd_text]
 
-    dest = text_to_dest[cmd_text]
+    # This is whoever originally wrote the function's fault for not splitting !closet, !fridge, etc. into different commands
+    # But basically if you do just the compartment like !closet with not tokens afterwards, it just spits out that specific compartment
+    if len(cmd.tokens) < 2:
+        if dest == "store":
+            response = "{} what?".format(cmd.tokens[0])
+            return await fe_utils.send_response(response, cmd)
+        elif dest == ewcfg.compartment_id_closet:
+            # Grab just the closet compartment look text
+            response = apt_closet_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            return await fe_utils.send_response(response, cmd)
+        elif dest == ewcfg.compartment_id_fridge:
+            # Grab just the fridge compartment look text
+            response = apt_fridge_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            return await fe_utils.send_response(response, cmd)
+        elif dest == ewcfg.compartment_id_bookshelf:
+            # Grab just the bookshelf compartment look text
+            response = apt_bookshelf_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            return await fe_utils.send_response(response, cmd)
+        elif dest == ewcfg.compartment_id_decorate:
+            # Grab just the decoration compartment look text
+            response = apt_decorate_look_str(id_server=cmd.guild.id, id_user=cmd.message.author.id, show_capacity=True)
+            return await fe_utils.send_response(response, cmd)
 
     destination = dest  # used to separate the compartment keyword from the string displayed to the user.
     playermodel = EwPlayer(id_user=cmd.message.author.id)
@@ -1266,8 +1121,6 @@ async def store_item(cmd):
         multistow = int(cmd.tokens[1])
         if multistow > 100:
             multistow = 100
-
-
 
     check_poi = poi_static.id_to_poi.get(usermodel.poi)
     if not (check_poi.is_apartment and (cmd.message.guild is None or check_poi.channel == cmd.message.channel.name)):
@@ -1292,9 +1145,6 @@ async def store_item(cmd):
             response = "You can't just put away soulbound items. You have to keep them in your pants at least until the Rapture hits."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-        #elif item_sought.get('item_type') == ewcfg.it_furniture and (dest != ewcfg.compartment_id_decorate and dest != "store"):
-            #response = "The fridge and closet don't have huge spaces for furniture storage. Try !decorate or !stow instead."
-            #return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         elif item_sought.get('item_type') != ewcfg.it_furniture and (dest == ewcfg.compartment_id_decorate):
             response = "Are you going to just drop items on the ground like a ruffian? Store them in your fridge or closet instead."
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -1312,19 +1162,6 @@ async def store_item(cmd):
             else:
                 destination = ewcfg.compartment_id_closet
 
-        storage_limit_base = 4
-        if apt_model.apt_class == ewcfg.property_class_b:
-            storage_limit_base *= 2
-
-        elif apt_model.apt_class == ewcfg.property_class_a:
-            storage_limit_base *= 4
-
-        elif apt_model.apt_class == ewcfg.property_class_s:
-            storage_limit_base *= 8
-
-        if ewcfg.mutation_id_packrat in user_mutations:
-            storage_limit_base *= 2
-
         name_string = item_sought.get('name')
 
         items_stored = bknd_item.inventory(id_user=recipient + destination, id_server=playermodel.id_server)
@@ -1332,39 +1169,39 @@ async def store_item(cmd):
         poud_offset = 0
 
         if destination == ewcfg.compartment_id_closet:
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_closet)
             for item_cnt in items_stored:
                 if item_cnt.get('name') == "Slime Poudrin" and item_cnt.get('item_type') == ewcfg.it_item:
-                    poud_offset += 1 #poudrins don't count toward closet totals
-            #print("{}, {}, {}".format(poud_offset, len(items_stored), storage_limit_base * 2))
-            if len(items_stored) - poud_offset >= storage_limit_base * 2 and not(item_sought.get('name') == 'Slime Poudrin' and item_sought.get('item_type') == ewcfg.it_item):
+                    poud_offset += 1  # poudrins don't count toward closet totals
+            if len(items_stored) - poud_offset >= storage_capacity and not(item_sought.get('name') == 'Slime Poudrin' and item_sought.get('item_type') == ewcfg.it_item):
                 response = "The closet is bursting at the seams. Fearing the consequences of opening the door, you decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * 2 - (len(items_stored)-poud_offset) < multistow and (item_sought.get('name') != 'Slime Poudrin' or item.item_type != ewcfg.it_item):
-                multistow = storage_limit_base * 2 - (len(items_stored)-poud_offset)
+            elif storage_capacity - (len(items_stored)-poud_offset) < multistow and (item_sought.get('name') != 'Slime Poudrin' or item.item_type != ewcfg.it_item):
+                multistow = storage_capacity - (len(items_stored)-poud_offset)
 
         elif destination == ewcfg.compartment_id_fridge:
-            if len(items_stored) >= storage_limit_base:
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_fridge)
+            if len(items_stored) >= storage_capacity:
                 response = "The fridge is so full it's half open, leaking 80's era CFCs into the flat. You decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base - len(items_stored) < multistow:
-                multistow = storage_limit_base - len(items_stored)
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         elif destination == ewcfg.compartment_id_decorate:
-            if len(items_stored) >= int(storage_limit_base * .75):
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_decorate)
+            if len(items_stored) >= storage_capacity:
                 response = "You have a lot of furniture here already. Hoarding is unladylike, so you decide to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * .75 - len(items_stored) < multistow:
-                multistow = storage_limit_base * .75 - len(items_stored)
-
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         elif destination == ewcfg.compartment_id_bookshelf:
-            if len(items_stored) >= int(storage_limit_base * 3):
+            storage_capacity = apt_max_compartment_capacity(usermodel, apt_model, ewcfg.compartment_id_bookshelf)
+            if len(items_stored) >= storage_capacity:
                 response = "Quite frankly, you doubt you wield the physical ability to cram another zine onto your bookshelf, so you decided to hold on to the {}.".format(name_string)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-            elif storage_limit_base * 3 - len(items_stored) < multistow:
-                multistow = storage_limit_base * 3 - len(items_stored)
-
-
+            elif storage_capacity - len(items_stored) < multistow:
+                multistow = storage_capacity - len(items_stored)
 
         items_had = 0
         loop_sought = item_sought.copy()
@@ -1401,17 +1238,14 @@ async def store_item(cmd):
             cache_item.update({'id_owner': recipient + destination})
             item_cache.set_entry(data=cache_item)
 
-            #bknd_item.give_item(id_item=item.id_item, id_server=playermodel.id_server, id_user=recipient + destination)
             loop_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
-
-
 
         if items_had > 1:
             name_string = "{}(x{})".format(name_string, items_had)
 
         bknd_item.give_item_multi(id_list=item_list, destination=recipient + destination)
 
-        if (destination == ewcfg.compartment_id_decorate):
+        if destination == ewcfg.compartment_id_decorate:
             response = item.item_props['furniture_place_desc']
             if items_had > 1:
                 response += "(x{})".format(items_had)

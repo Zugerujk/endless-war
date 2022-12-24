@@ -320,48 +320,170 @@ async def weather_tick(id_server = None):
         except:
             ewutils.logMsg("Error occurred in weather tick for server {}".format(id_server))
 
-async def weather_cycle(id_server = None):
+async def weather_cycle(id_server):
+    try:
+        market_data = EwMarket(id_server)
+        valid_weather = False
+
+        # In case the weather is somehow set to something un-weatherable
+        for weather in weather_static.weather_list:
+            if weather.name == market_data.weather:
+                valid_weather = True
+
+        # Seed the randomness based on day, clock, and a random unknown consistent stat 
+        seed = (market_data.day * 24) + market_data.clock + (market_data.donated_poudrins + 1) 
+        random.seed(seed)
+
+        # Potentially change the weather
+        if random.randrange(3) == 0 or valid_weather == False:
+                pattern_count = len(weather_static.weather_list)
+
+                if pattern_count > 1:
+                    weather_old = market_data.weather
+
+                    # Randomly select a new weather pattern. Try again if we get the same one we currently have.
+                    while market_data.weather == weather_old:
+                        pick = random.randrange(len(weather_static.weather_list))
+                        market_data.weather = weather_static.weather_list[pick].name
+                    market_data.persist()
+                # Log message for statistics tracking.
+                ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
+    except Exception as e:
+        ewutils.logMsg(f"Failed to cycle weather in server {id_server}: {e}")
+
+
+def forecast_txt(id_server=None, resp_type="long"):
     market_data = EwMarket(id_server)
-    valid_weather = False
 
-    # In case the weather is somehow set to something un-weatherable
-    for weather in weather_static.weather_list:
-        if weather.name == market_data.weather:
-            valid_weather = True
+    weather_icon_list = []
+    moon_phase_list = []
+    day_list = []
+    blank = 0
+    weather_icon = ewcfg.weather_icon_map.get(market_data.weather)
 
-    # Potentially change the weather
-    if random.randrange(3) == 0 or valid_weather == False:
+    current_weather = market_data.weather
+    current_day = market_data.day
+    current_clock = market_data.clock + 1
+    if current_clock >= 24:
+        current_day += 1
+        current_clock = 0
+
+
+    starting_position = (market_data.clock + 1) / 4
+
+    while blank < starting_position:
+        if resp_type == "long":
+            weather_icon_list.append("     　") # Should be :blank:, is 5 hair spaces and an ideographic space due to character limit.
+        elif resp_type == "short":
+            weather_icon_list.append("〰️" if ewutils.DEBUG else ewcfg.emote_blank)
+        blank += 1
+                                                                         
+    # Simulate the next week, ig.
+    while len(weather_icon_list) < 42:
+
+        # Simulate weather
+        seed = (current_day * 24) + current_clock + (market_data.donated_poudrins + 1) 
+        random.seed(seed)
+
+        if random.randrange(3) == 0:
             pattern_count = len(weather_static.weather_list)
 
             if pattern_count > 1:
-                weather_old = market_data.weather
-
-                # if random.random() < 0.4:
-                # 	market_data.weather = ewcfg.weather_bicarbonaterain
+                weather_old = current_weather
 
                 # Randomly select a new weather pattern. Try again if we get the same one we currently have.
-                while market_data.weather == weather_old:
+                while current_weather == weather_old:
                     pick = random.randrange(len(weather_static.weather_list))
-                    market_data.weather = weather_static.weather_list[pick].name
-                    market_data.persist()
-            # Log message for statistics tracking.
-            ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))
+                    current_weather = weather_static.weather_list[pick].name
+                weather_icon = ewcfg.weather_icon_map.get(current_weather)
+
+        # Place icon
+        if current_clock % 4 == 0:
+            chance = 1
+            if (24 >= len(weather_icon_list) > 18) and random.randrange(2) != 0:
+                chance = 2
+            elif (30 >= len(weather_icon_list) > 24) and random.randrange(3) != 0:
+                chance = 3
+            elif len(weather_icon_list) > 30 and random.randrange(4) != 0:
+                chance = 5
+
+            if random.randrange(chance) != 0:
+                weather_icon_list.append("❓")
+            else:
+                weather_icon_list.append(weather_icon)
+
+        # Tick up clock
+        current_clock += 1
+        if current_clock >= 24:
+            current_clock = 0
+            current_day += 1
+
+    # Figure out moon phases + days
+    moon = 0
+    while moon < 7:
+        # Format day
+        if resp_type == "long":
+            day_str = "Day {:,}".format(market_data.day)
+            day_list.append("\n`{:^11}`|".format(day_str))
+        elif resp_type == "short":
+            day_str = "{}d".format(market_data.day)
+            day_list.append("\n`{:^6}`|".format(day_str))
+
+        # Change date and figure out moon phase
+        market_data.clock = 22
+        moon_phase = ewutils.check_moon_phase(market_data)
+        market_data.day += 1
+
+        moon_phase_icon = ewcfg.moon_phase_icon_map.get(moon_phase)
+        moon_phase_list.append(moon_phase_icon)
+
+        moon += 1
+
+    # Create forecast response
+    if resp_type == "long":
+        # 0-6 are day, 7-49 are weather, 49-55 are moon. {_} is replaced with 5 hair spaces and 1 ideographic space, for character limit reasons.
+        forecast_response = "{_}{_}{_}{_}     12AM         4AM          8AM         12PM          4PM              8PM                           Moon" \
+                            "{0}{_}{7}{_}|{_}{8}{_}|{_}{9}{_}|{_}{10}{_}|{_}{11}{_}|{_}{12}{_}|{_}{_}{_}{49}"\
+                            "{1}{_}{13}{_}|{_}{14}{_}|{_}{15}{_}|{_}{16}{_}|{_}{17}{_}|{_}{18}{_}|{_}{_}{_}{50}"\
+                            "{2}{_}{19}{_}|{_}{20}{_}|{_}{21}{_}|{_}{22}{_}|{_}{23}{_}|{_}{24}{_}|{_}{_}{_}{51}"\
+                            "{3}{_}{25}{_}|{_}{26}{_}|{_}{27}{_}|{_}{28}{_}|{_}{29}{_}|{_}{30}{_}|{_}{_}{_}{52}"\
+                            "{4}{_}{31}{_}|{_}{32}{_}|{_}{33}{_}|{_}{34}{_}|{_}{35}{_}|{_}{36}{_}|{_}{_}{_}{53}"\
+                            "{5}{_}{37}{_}|{_}{38}{_}|{_}{39}{_}|{_}{40}{_}|{_}{41}{_}|{_}{42}{_}|{_}{_}{_}{54}"\
+                            "{6}{_}{43}{_}|{_}{44}{_}|{_}{45}{_}|{_}{46}{_}|{_}{47}{_}|{_}{48}{_}|{_}{_}{_}{55}".format(*day_list, *weather_icon_list, *moon_phase_list, _ = "     　")
+    elif resp_type == "short":
+        forecast_response = "                    12   4    8    12   4    8    Moon" \
+                            "{0}   {7} {8} {9} {10} {11} {12}{_}{49}"\
+                            "{1}   {13} {14} {15} {16} {17} {18}{_}{50}"\
+                            "{2}   {19} {20} {21} {22} {23} {24}{_}{51}"\
+                            "{3}   {25} {26} {27} {28} {29} {30}{_}{52}"\
+                            "{4}   {31} {32} {33} {34} {35} {36}{_}{53}"\
+                            "{5}   {37} {38} {39} {40} {41} {42}{_}{54}"\
+                            "{6}   {43} {44} {45} {46} {47} {48}{_}{55}".format(*day_list, *weather_icon_list, *moon_phase_list, _ = ("〰️" if ewutils.DEBUG else ewcfg.emote_blank))
 
 
-async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None, no_buffer=False): # Events are natural disasters, pop-up events, etc.
+    return forecast_response
+
+
+async def create_poi_event(id_server, pre_chosen_event=None, # Events are natural disasters, pop-up events, etc.
+                                      pre_chosen_poi=None, 
+                                      pre_chosen_sisterpoi=None,
+                                      pre_chosen_buffer=None, 
+                                      pre_chosen_length=None, 
+                                      pre_chosen_alert=None):
+    # Create the props dict
     event_props = {}
+
     # Get a random event type from poi_events
     if pre_chosen_event != None:
         event_type = pre_chosen_event
     else:
-        event_type = random.choice(ewcfg.poi_events)
+        event_type = random.choice(ewcfg.random_poi_events)
 
-    # Get the time right now
+    # Get the time right now and the event def
     time_now = int(time.time())    
-
-    # Set the event's poi.
     event_def = poi_static.event_type_to_def.get(event_type)
 
+    # Choose the POI
     if pre_chosen_poi != None:
         event_props['poi'] = pre_chosen_poi
     elif event_def.pois != []:
@@ -374,25 +496,37 @@ async def create_poi_event(id_server, pre_chosen_event=None, pre_chosen_poi=None
                 event_props['poi'] = district
                 break
 
-    # Set the activation time and expiration time
-    if no_buffer:
-        activation_time = time_now + 6 # The extra 6 seconds is for the event tick loop to see it as activated
+    # Get the buffer and length
+    if pre_chosen_buffer != None:
+        buffer = int(pre_chosen_buffer)
     else:
-        activation_time = time_now + (event_def.buffer * 60 * 15) + 6 # buffer x 15 minutes
-    expiration_time = activation_time + (event_def.length * 60 * 15) # length x 15 minutes
+        buffer = event_def.buffer
+    if pre_chosen_length != None:
+        length = int(pre_chosen_length)
+    else:
+        length = event_def.length
 
-    # Set whether or not there will be a specific alert for the poi event.
-    alert = ""
-    if random.random() > 0.5:
-        alert = "gangbase"
+    activation_time = time_now + (buffer * 60 * 15) + 6 # buffer x 15 minutes
+    expiration_time = activation_time + (length * 60 * 15) # length x 15 minutes
+
+    # Select type of alert - "" for none, "gangbase" for gangbase
+    if pre_chosen_alert != None:
+        alert = pre_chosen_alert
+    else:
+        alert = "gangbase" # always give specifics
+
     event_props['alert'] = alert
+
 
     # Does configuration for dimensional rifts - creates the second rift, as well as making the 2 POIs neighbors.
     if event_type == ewcfg.event_type_dimensional_rift:
         # Rift 1 is the original location
         rift1_poi = poi_static.id_to_poi.get(event_props['poi'])
         # Rift 2 is the sister location
-        rift2_poi_id = poi_static.landlocked_destinations.get(rift1_poi.id_poi)
+        if pre_chosen_sisterpoi != None:
+            rift2_poi_id = pre_chosen_sisterpoi
+        else:
+            rift2_poi_id = poi_static.landlocked_destinations.get(rift1_poi.id_poi)
         rift2_poi = poi_static.id_to_poi.get(rift2_poi_id)
         
         # Set both locations as neighbors

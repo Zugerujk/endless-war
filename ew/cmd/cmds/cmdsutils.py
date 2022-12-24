@@ -6,6 +6,7 @@ from ew.backend.market import EwStock
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 import ew.static.items as static_items
+from ew.static import weapons as wep_static
 from ew.utils import frontend as fe_utils
 from ew.utils import market as market_utils
 from ew.utils.combat import EwUser
@@ -91,66 +92,108 @@ async def exec_mutations(cmd):
 
 def location_commands(cmd, search_poi = None):
     user_data = EwUser(member=cmd.message.author)
+    response = "**CURRENT LOCATION**:"
+
+    # Get either location searched or user location
     if search_poi is not None:
         poi = search_poi
     else:
         poi = user_data.poi
     poi_obj = poi_static.id_to_poi.get(poi)
-    response = "\n**THIS LOCATION:**\n"
+
+    # Unique-ish commands first
+    if poi in [ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate]:
+        response += "\n" + ewcfg.universities_commands
+    if ewcfg.district_unique_commands.get(poi) is not None:
+        response += "\n" + ewcfg.district_unique_commands.get(poi)
+
+    # Generic commands second
     if poi in [ewcfg.poi_id_mine, ewcfg.poi_id_mine_sweeper, ewcfg.poi_id_mine_bubble, ewcfg.poi_id_tt_mines,
                ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
                ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble]:
-        response += ewcfg.mine_commands
-    if poi_obj.is_pier == True:
-        response += ewcfg.pier_commands
-    if poi_obj.is_transport_stop == True or poi_obj.is_transport == True:
-        response += ewcfg.transport_commands
-    if poi_obj.is_apartment:
-        response += ewcfg.apartment_commands
-    if poi in [ewcfg.poi_id_greencakecafe, ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate,
+        response += "\n" + ewcfg.mine_commands
+    elif poi_obj.is_pier == True:
+        response += "\n" + ewcfg.pier_commands
+    elif poi_obj.is_transport_stop == True or poi_obj.is_transport == True:
+        response += "\n" + ewcfg.transport_commands
+    elif poi_obj.is_apartment:
+        response += "\n" + ewcfg.apartment_commands
+    elif poi in [ewcfg.poi_id_greencakecafe, ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate,
                ewcfg.poi_id_glocksburycomics]:
-        response += ewcfg.zine_writing_places_commands
-    if poi in [ewcfg.poi_id_ab_farms, ewcfg.poi_id_og_farms, ewcfg.poi_id_jr_farms]:
-        response += ewcfg.farm_commands
-    if poi in [ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate]:
-        response += "\n" + ewcfg.universities_commands
+        response += "\n" + ewcfg.zine_writing_places_commands
+    elif poi in [ewcfg.poi_id_ab_farms, ewcfg.poi_id_og_farms, ewcfg.poi_id_jr_farms]:
+        response += "\n" + ewcfg.farm_commands
+
+    # Shops last
     if len(poi_obj.vendors) != 0:
         response += "\n" + ewcfg.shop_commands
-    if ewcfg.district_unique_commands.get(poi) is not None:
-        response += "\n" + ewcfg.district_unique_commands.get(poi)
-    if response != "\n**THIS LOCATION:**\n":
-        return response
+
+    if response == "**CURRENT LOCATION**:":
+        return (response + "\n")
     else:
-        return ""
+        return "No special commands for your current location. Try \"!commands basic\" or \"!help\"."
 
 
 def mutation_commands(cmd):
-    response = "\n**CURRENT MUTATIONS:**"
+    response = "**CURRENT MUTATIONS:**"
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
     for mutation in mutations:
         if ewcfg.mutation_unique_commands.get(mutation) is not None:
             response += "\n" + ewcfg.mutation_unique_commands.get(mutation)
 
-    if response != "\n**CURRENT MUTATIONS:**":
-        return response
+    if response != "**CURRENT MUTATIONS:**":
+        return (response + "\n")
     else:
-        return ""
+        return "No special commands found for your mutations. Try \"!help mymutations\" or \"!commands allmutations\"."
 
 
 def item_commands(cmd):
-    response = "\n**IN YOUR INVENTORY:**"
+    response = "**IN YOUR INVENTORY:**"
     items_to_find = ewcfg.item_unique_commands.keys()
-    user_data = EwUser(member=cmd.message.author)
+    items = bknd_item.inventory(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+    
+    items_template_list = []
+    
+    items = list(map(lambda dat: {
+        "template": dat.get("template"),
+    }, items))    
 
+    for item in items:
+        items_template_list.append(item["template"])
+
+    del items
+
+    # Unique items
     for lookup in items_to_find:
-        item_sought = bknd_item.find_item(item_search=lookup, id_user=user_data.id_user, id_server=user_data.id_server)
-        if item_sought:
+        if lookup in items_template_list:
             response += "\n" + ewcfg.item_unique_commands.get(lookup)
-    if response != "\n**IN YOUR INVENTORY:**":
-        return response
+
+    # yuck
+    # Response and Instant-Use
+    if any(item in (static_items.prank_items_instantuse_names + static_items.prank_items_response_names) for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("instantuse_response_pranks")
+    # Trap pranks
+    if any(item in static_items.prank_items_trap_names for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("trap_pranks")
+    # Instruments
+    if any(item in (static_items.furniture_instrument + ["whistle", "bass"]) for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("instruments")
+    # Body spray
+    if any(item in ["juviegradefuckenergybodyspray", "superduperfuckenergybodyspray", "gmaxfuckenergybodyspray"] for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("bodyspray")
+    # Trading cards
+    if any(item in ["tradingcardpack", "promotradingcardpack", "tcgboosterbox"] for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("tradingcards")
+    # Wrapping Paper
+    if any(item in static_items.wrap_items_names for item in items_template_list):
+        response += "\n" + ewcfg.item_group_commands.get("wrappingpaper")
+    
+
+    if response != "**IN YOUR INVENTORY:**":
+        return (response + "\n")
     else:
-        return ""
+        return "No special commands found for items in your inventory. Try \"!commands allitems\"."
 
 
 def holiday_commands(header = True):

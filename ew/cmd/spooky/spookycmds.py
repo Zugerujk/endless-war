@@ -24,6 +24,7 @@ from ew.utils.item import EwItem
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
+from ew.utils.user import add_xp
 from ew.model.spooky import chefs
 from ew.model.spooky import EwChef
 try:
@@ -295,6 +296,9 @@ async def haunt(cmd):
                 haunted_slimes = int((haunted_data.slimes / ewcfg.slimes_hauntratio) * haunt_power_multiplier)
                 slimes_lost = int(haunted_slimes / 5)  # hauntee only loses 1/5th of what the ghost gets as antislime
 
+                if ewcfg.dh_stage >= 8:
+                    haunted_slimes *= 10
+
                 if ewcfg.mutation_id_coleblooded in target_mutations:
                     haunted_slimes = -10000
                     if user_data.slimes > haunted_slimes:
@@ -303,6 +307,13 @@ async def haunt(cmd):
                 haunted_data.change_slimes(n=-slimes_lost, source=ewcfg.source_haunted)
                 user_data.change_slimes(n=-haunted_slimes, source=ewcfg.source_haunter)
                 market_data.negaslime -= haunted_slimes
+                
+                if ewcfg.dh_active:
+                    responses = []
+
+                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, haunted_slimes//2)
+
+                    for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
 
                 user_data.time_lasthaunt = time_now
                 user_data.clear_status(id_status=ewcfg.status_busted_id)
@@ -587,7 +598,7 @@ async def sacrifice(cmd):
     item_property = ''
 
 
-    if ewcfg.dh_active:
+    if ewcfg.dh_active and ewcfg.dh_stage >= 100:
         if user_data.poi != 'endlesswar':
             response = 'The altars are next to ENDLESS WAR. Sacrifice your worldly possessions over there.'
         elif not item_sought:
@@ -626,7 +637,7 @@ async def sacrifice(cmd):
 async def favor(cmd):
     user_data = EwUser(member=cmd.message.author)
     await debug13(cmd, user_data)
-    if ewcfg.dh_active and ewcfg.dh_stage >= 2:
+    if ewcfg.dh_active and ewcfg.dh_stage >= 100:
         favor = ewstats.get_stat(user=user_data, metric='sacrificerate')
         response = "You have {} favor with the ancient eldritch gods.".format(favor)
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

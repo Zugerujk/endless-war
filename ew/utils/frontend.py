@@ -1,6 +1,7 @@
 import asyncio
 import sys
 import traceback
+import random
 
 import discord
 
@@ -350,7 +351,7 @@ async def post_in_hideouts(id_server, message):
         channels=[ewcfg.channel_copkilltown, ewcfg.channel_rowdyroughhouse]
     )
 
-
+# FIXME remove client from this and a bunch of other front end commands, it's completely useless
 async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True):
     """
         Proxy to discord.py channel.send with exception handling
@@ -363,18 +364,23 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         if len(split_list) >= 3:
             ewutils.logMsg(f"Tried to send oversize message with {len(split_list)} parts - John Discord (rate limit) doesn't like this.")
         for blurb in split_list:
-            await send_message(client=client, channel=channel, text=blurb, delete_after=delete_after, embed=embed)
+            try:
+                await send_message(client=client, channel=channel, text=blurb, delete_after=delete_after, embed=embed)
+            except Exception as e:
+                ewutils.logMsg(f"Failed to send message to channel {channel}, reason was: {e}")
             embed = None
         return
 
     # catch any future @everyone exploits
-    if filter_everyone and text is not None:
-        text = text.replace("@everyone", "{at}everyone")
+    if filter_everyone:
+        mention_allows = discord.AllowedMentions(everyone=False, users=True, roles=False)
+    else: # allow @everyone (and everything)
+        mention_allows = discord.AllowedMentions(everyone=True, users=True, roles=True)
 
     try:
         # Whitespace messages will always fail to send, don't clutter the log
         if text and not text.isspace():
-            return await channel.send(content=text, delete_after=delete_after)
+            return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows, embed=embed)
         if embed is not None:
             return await channel.send(embed=embed)
     except discord.errors.Forbidden:
@@ -384,11 +390,8 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         ewutils.logMsg('Send message failed to send message to channel: {}\n{}: {}'.format(channel, text, e))
 
 
-""" Simpler to use version of send_message that formats message by default """
-
-
-async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False):
-    
+async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False, embed = None):
+    """ Simpler to use wrapper for send_message that formats message by default """
 
     if cmd is None and channel is None:
         raise Exception("No channel to send message to")
@@ -412,13 +415,14 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
     if format_ats:
         response_text = response_text.replace("@", "{at}")
 
-    allowed_mentions = discord.AllowedMentions(everyone=allow_everyone, users=False, roles=False)
-
     try:
-        # TODO: experiment with allow_mentions argument. Might get rid of the need to filter "@"s
-        return await channel.send(content=response_text, delete_after=delete_after, allowed_mentions=allowed_mentions)
+        # The None is for send_message's vestigial client bit. I gotta put it in like this or otherwise the millions
+        # of implementations that rely on client as a positional will break
+        # and i do not wish to change every instance of send_message today
+
+        return await send_message(None, channel=channel, text=response_text, delete_after=delete_after, filter_everyone=not allow_everyone, embed=embed)
     except discord.errors.Forbidden:
-        ewutils.logMsg('Could not message user: {}\n{}'.format(channel, response_text))
+        ewutils.logMsg('Could not respond to user: {}\n{}'.format(channel, response_text))
         raise
     except Exception as e:
         ewutils.logMsg('Send response failed to send message to channel: {}\n{}:\n{}'.format(channel, response_text, e))
@@ -560,14 +564,19 @@ def create_death_report(cause=None, user_data=None, deathmessage = ""):
 
 
 async def update_slimernalia_kingpin(client, server):
-    return
+    
     # Depose current slimernalia kingpin
     kingpin_state = EwGamestate(id_server=server.id, id_state='slimernaliakingpin')
-    old_kingpin_id = int(kingpin_state.value)
+    if not kingpin_state.value:
+        old_kingpin_id = -1
+    else:
+        old_kingpin_id = int(kingpin_state.value)
 
     if old_kingpin_id != None and old_kingpin_id > 0:
         kingpin_state.value = '-1'
+        kingpin_state.persist()
         try:
+            ewutils.logMsg(f"Attempted to dethrone {old_kingpin_id} from slimernalia kingpin...")
             old_kingpin_member = server.get_member(old_kingpin_id)
             await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
         except:
@@ -576,21 +585,25 @@ async def update_slimernalia_kingpin(client, server):
     # Update the new kingpin of slimernalia
 
     new_kingpin_id = ewutils.get_most_festive(server)
+    # Quit out if there wasn't anybody suitable for crowning
+    if new_kingpin_id == 1 or new_kingpin_id is None:
+        return ewutils.logMsg("Skipped crowning new kingpin: No suitable candidates.")
+
     kingpin_state.value = str(new_kingpin_id)
-
-
+    # Needs to be something or otherwise it breaks
+    kingpin_state.bit = 0
+    kingpin_state.persist()
 
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
     ewstats.set_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity, value=0)
-    #new_kingpin.festivity = 0
-    #new_kingpin.persist()
 
+    new_kingpin_member = None
     try:
-        new_kingpin_member = server.get_member(new_kingpin_id)
+        new_kingpin_member = await get_member(server, new_kingpin_id)
         await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
-    except:
-        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin_id, server.id))
+    except Exception as e:
+        ewutils.logMsg("Error adding kingpin of slimernalia role to user {} in server {}: {}".format(new_kingpin_id, server.id, e))
 
     if new_kingpin_member:
         # Format and release a message from Phoebus about how who just won and how much slime they got
@@ -605,7 +618,20 @@ async def update_slimernalia_kingpin(client, server):
         channel = get_channel(server=server, channel_name="auditorium")
 
         await send_message(client, channel, embed=announce)
-    
+
+
+async def announce_slimernalia_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
+    channel_obj = get_channel(server=server, channel_name="auditorium")
+    announce_obj = EwResponseContainer(client=client, id_server=server.id)
+    if send_all:
+        for stage in ewcfg.slimernalia_stage_announcements[:ewcfg.slimernalia_stage - 1]:
+            announce_obj.add_channel_response(channel_obj, stage)
+    else:
+        if ewcfg.slimernalia_stage >= 0:
+            announce_obj.add_channel_response(channel_obj, ewcfg.slimernalia_stage_announcements[ewcfg.slimernalia_stage - 1])
+
+    return await announce_obj.post()
+
 
 def check_user_has_role(server, member, checked_role_name):
     checked_role = discord.utils.get(server.roles, name=checked_role_name)

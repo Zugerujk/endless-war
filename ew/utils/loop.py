@@ -4,6 +4,7 @@ import random
 import time
 import traceback
 import sys
+import datetime
 
 import discord
 
@@ -428,6 +429,9 @@ async def enemyBleedSlimes(id_server):
 
             if enemy_data.slimes <= 0:
                 bknd_hunt.delete_enemy(enemy_data)
+                
+                if enemy_data.enemytype in ewcfg.raid_den_bosses:
+                    await rutils.debug45(enemy_data)
 
     await resp_cont.post()
 
@@ -622,6 +626,10 @@ async def enemyBurnSlimes(id_server):
                 ewstats.change_stat(user=killer_data, metric=ewcfg.stat_lifetime_damagedealt, n=slimes_to_burn)
 
             if enemy_data.slimes - slimes_to_burn <= 0:
+
+                if enemy_data.enemytype in ewcfg.raid_den_bosses:
+                    await rutils.debug45(enemy_data)
+                    
                 bknd_hunt.delete_enemy(enemy_data)
 
                 if used_status_id == ewcfg.status_burning_id:
@@ -749,11 +757,11 @@ async def spawn_enemies(id_server = None, debug = False):
         if market_data.weather == ewcfg.weather_bicarbonaterain:
             if random.randrange(3) < 2:
                 weathertype = ewcfg.enemy_weathertype_rainresist
-        if ewcfg.dh_stage == 3 and ewcfg.dh_active:
-            chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
-            if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
-                #chosen_POI = 'westoutskirts'
-                pass
+        # if ewcfg.dh_stage == 3 and ewcfg.dh_active:
+        #     chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
+        #     if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
+        #         #chosen_POI = 'westoutskirts'
+        #         pass
 
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
@@ -791,7 +799,7 @@ async def spawn_enemies(id_server = None, debug = False):
 
 
 
-    if ewcfg.dh_active:
+    if ewcfg.dh_active and ewcfg.dh_stage >= 1:
         dhspawn = EwGamestate(id_server = id_server, id_state='dhorsemankills')
         count = int(dhspawn.value)
         if count < 2:
@@ -822,25 +830,24 @@ async def enemy_action_tick_loop(id_server):
 
 
 async def release_timed_prisoners_and_blockparties(id_server, day):
-    if id_server != None:
-        users = bknd_core.execute_sql_query("SELECT id_user FROM users WHERE {arrests} <= %s and {arrests} > 0".format(arrests = ewcfg.col_arrested), (day,))
+    users = bknd_core.execute_sql_query("SELECT id_user FROM users WHERE {arrests} <= %s and {arrests} > 0".format(arrests = ewcfg.col_arrested), (day,))
 
-        for user in users:
-            user_data = EwUser(id_server=id_server, id_user=user)
-            user_data.arrested = 0
-            user_data.poi = ewcfg.poi_id_juviesrow
-            user_data.persist()
+    for user in users:
+        user_data = EwUser(id_server=id_server, id_user=user)
+        user_data.arrested = 0
+        user_data.poi = ewcfg.poi_id_juviesrow
+        user_data.persist()
 
-        blockparty = EwGamestate(id_server=id_server, id_state='blockparty')
-        pre_name = blockparty.value.replace(ewcfg.poi_id_711, '')
-        time_str = ''.join([i for i in pre_name if i.isdigit()])
-        if time_str != '':
-            time_int = int(time_str)
-            time_now = int(time.time())
-            if time_now > time_int:
-                blockparty.bit = 0
-                blockparty.value = ''
-                blockparty.persist()
+    blockparty = EwGamestate(id_server=id_server, id_state='blockparty')
+    pre_name = blockparty.value.replace(ewcfg.poi_id_711, '')
+    time_str = ''.join([i for i in pre_name if i.isdigit()])
+    if time_str != '':
+        time_int = int(time_str)
+        time_now = int(time.time())
+        if time_now > time_int:
+            blockparty.bit = 0
+            blockparty.value = ''
+            blockparty.persist()
 
 
 async def spawn_prank_items_tick_loop(id_server):
@@ -1242,109 +1249,147 @@ async def give_kingpins_slime_and_decay_capture_points(id_server):
 
     return await resp_cont_decay_loop.post()
 
-""" Good ol' Clock Tick Loop. Handles everything that has to occur on an in-game hour. (15 minutes)"""
 
-async def clock_tick_loop(id_server = None, force_active = False):
-    try:
-        if id_server:
-            while not ewutils.TERMINATE:
-                time_now = int(time.time())
-                # Load the market from the database
-                market_data = EwMarket(id_server)
-                client = ewcfg.get_client()
-                server = ewcfg.server_list[id_server]
+async def clock_tick_loop(id_server, force_active = False):
+    """ Good ol' Clock Tick Loop. Handles everything that has to occur on an in-game hour. (15 minutes)"""
+    while not ewutils.TERMINATE:
+        try:
+            time_now = int(time.time())
+            # Load the market from the database
+            market_data = EwMarket(id_server)
+            client = ewcfg.get_client()
+            server = ewcfg.server_list[id_server]
 
-                # Check when the last recorded tick was in the database, just to make sure we don't double up when the bot restarts.
-                if market_data.time_lasttick + ewcfg.update_market <= time_now or force_active:
+            # Check when the last recorded tick was in the database, just to make sure we don't double up when the bot restarts.
+            if market_data.time_lasttick + ewcfg.update_market <= time_now or force_active:
 
-                    # Advance the time and potentially change weather.
-                    market_data.clock += 1
+                # Advance the time and potentially change weather.
+                market_data.clock += 1
 
-                    if market_data.clock >= 24 or market_data.clock < 0:
-                        market_data.clock = 0
-                        market_data.day += 1
+                if market_data.clock >= 24 or market_data.clock < 0:
+                    market_data.clock = 0
+                    market_data.day += 1
 
-                    market_data.time_lasttick = time_now
+                market_data.time_lasttick = time_now
 
-                    ewutils.logMsg('The time is now {}.'.format(market_data.clock))
+                ewutils.logMsg('The time is now {}.'.format(market_data.clock))
 
-                    ewutils.logMsg("Updating stocks...")
-                    await market_utils.update_stocks(id_server=id_server, time_lasttick=time_now)
-                    market_data.persist()
+                ewutils.logMsg("Updating stocks...")
+                await market_utils.update_stocks(id_server=id_server, time_lasttick=time_now)
+                market_data.persist()
 
-                    ewutils.logMsg("Handling weather cycle...")
-                    await weather_utils.weather_cycle(id_server)
+                ewutils.logMsg("Handling weather cycle...")
+                await weather_utils.weather_cycle(id_server)
 
-                    if ewutils.check_moon_phase(market_data) != ewcfg.moon_full and not ewcfg.dh_active: # I don't see why costumes should be dedorned automatically so, like, just removing this. It's dumb.
-                         await cosmetic_utils.dedorn_all_costumes()
+                if ewutils.check_moon_phase(market_data) != ewcfg.moon_full and not ewcfg.dh_active: # I don't see why costumes should be dedorned automatically so, like, just removing this. It's dumb.
+                        await cosmetic_utils.dedorn_all_costumes()
 
-                    ewutils.logMsg('Setting off alarms...')
-                    await apt_utils.handle_hourly_events(id_server)
+                ewutils.logMsg('Setting off alarms...')
+                await apt_utils.handle_hourly_events(id_server)
 
-                    # Decay slime totals
-                    ewutils.logMsg("Decaying slimes...")
-                    await decaySlimes(id_server)
+                # Decay slime totals
+                ewutils.logMsg("Decaying slimes...")
+                await decaySlimes(id_server)
 
-                    # Decrease inebriation for all players above min (0).
-                    ewutils.logMsg("Handling inebriation...")
-                    await pushdownServerInebriation(id_server)
+                # Decrease inebriation for all players above min (0).
+                ewutils.logMsg("Handling inebriation...")
+                await pushdownServerInebriation(id_server)
 
-                    ewutils.logMsg("Killing offers...")
-                    # Remove fish offers which have timed out
-                    bknd_fish.kill_dead_offers(id_server)
+                ewutils.logMsg("Killing offers...")
+                # Remove fish offers which have timed out
+                bknd_fish.kill_dead_offers(id_server)
 
-                    ewutils.logMsg("Deleting old ads...")
-                    # kill advertisements that have timed out
-                    bknd_ads.delete_expired_ads(id_server)
+                ewutils.logMsg("Deleting old ads...")
+                # kill advertisements that have timed out
+                bknd_ads.delete_expired_ads(id_server)
 
-                    ewutils.logMsg("Handling capture points...")
-                    await give_kingpins_slime_and_decay_capture_points(id_server)
+                ewutils.logMsg("Handling capture points...")
+                await give_kingpins_slime_and_decay_capture_points(id_server)
+                
+                ewutils.logMsg("Sending gangbase messages...")
+                await move_utils.send_gangbase_messages(id_server, market_data.clock)
+                
+                ewutils.logMsg("Kicking AFK players...")
+                await move_utils.kick(id_server)  
+
+                sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
+
+                if market_data.clock == 6 or force_active:
+                    response = ' The SlimeCorp Stock Exchange is now open for business.'
                     
-                    ewutils.logMsg("Sending gangbase messages...")
-                    await move_utils.send_gangbase_messages(id_server, market_data.clock)
+                    await fe_utils.send_message(client, sex_channel, response)
                     
-                    ewutils.logMsg("Kicking AFK players...")
-                    await move_utils.kick(id_server)  
-
-                    sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
-
-                    if market_data.clock == 6 or force_active:
-                        response = ' The SlimeCorp Stock Exchange is now open for business.'
-                        
-                        await fe_utils.send_message(client, sex_channel, response)
+                    # Bazaar Refresh
+                    try:
                         ewutils.logMsg("Started bazaar refresh...")
-                        
                         await market_utils.refresh_bazaar(id_server)
                         ewutils.logMsg("...finished bazaar refresh.")
-                        
+                    except Exception as e:
+                        ewutils.logMsg(f"Bazaar refresh failed in server {id_server}: {e}")
+
+                    # Leaderboard Refresh
+                    try:
+                        ewutils.logMsg("Started leaderboard calcs...")
                         await leaderboard_utils.post_leaderboards(client=client, server=server)
+                        ewutils.logMsg("...finished leaderboard calcs.")
+                    except Exception as e:
+                        ewutils.logMsg(f"Failed to process leaderboards for server {id_server}: {e}")
 
-                        ewutils.logMsg("Releasing timed prisoners...")
+                    # Yeah the slimernalia
+                    if ewcfg.slimernalia_active:
+                        try:
+                            ewutils.logMsg("Started Slimernalia kingpin election...")
+                            await fe_utils.update_slimernalia_kingpin(client, server)
+                            ewutils.logMsg("...finished kingpin election.")
+                        except Exception as e:
+                            ewutils.logMsg(f"Failed to elect slimernalia kingpin in server {id_server}: {e}")
+                    
+                    # Prisoner Releases
+                    try:
+                        ewutils.logMsg("Releasing time prisoners...")
                         await release_timed_prisoners_and_blockparties(id_server=id_server, day=market_data.day)
-                        ewutils.logMsg("Released timed prisoners.")
+                        ewutils.logMsg("...finished releasing prisoners.")
+                    except Exception as e:
+                        ewutils.logMsg(f"Failed to release prisoners in server {id_server}: {e}")
+                    
+                    # Blockparty expiries
+                    try:
+                        ewutils.logMsg("Expiring blockparties...")
+                        await release_timed_prisoners_and_blockparties(id_server=id_server, day=market_data.day)
+                        ewutils.logMsg("Expired blockparties.")
+                    except Exception as e:
+                        ewutils.logMsg(f"Failed to expire blockparties in server {id_server}: {e}")
 
-
-                        if market_data.day % 8 == 0 or force_active:
+                    if market_data.day % 8 == 0 or force_active:
+                        # Rent processing
+                        try:
                             ewutils.logMsg("Started rent calc...")
                             await apt_utils.rent_time(id_server)
                             ewutils.logMsg("...finished rent calc.")
+                        except Exception as e:
+                            ewutils.logMsg(f"Failed to process rent in server {id_server}: {e}")
 
-                        if random.randint(1, 11) == 1: # 1/11 chance to start a random poi event
+
+                    if random.randint(1, 9) == 1 or force_active: # 1/9 chance to start a random poi event
+                        # POI Events
+                        try:
                             ewutils.logMsg("Creating POI event...")
                             await weather_utils.create_poi_event(id_server)
+                            ewutils.logMsg("...finished POI event creation.")
+                        except Exception as e:
+                            ewutils.logMsg(f"Failed to create POI event in server {id_server}: {e}")
 
-                    elif market_data.clock == 13 and market_data.day % 28 == 0: #regulate slimesea items every week
-                        ewutils.logMsg('Regulating Slime Sea items...')
-                        number = itm_utils.cull_slime_sea(id_server=id_server)
-                        ewutils.logMsg('...Slime Sea culled. {} items deleted.'.format(number))
+                elif market_data.clock == 13 and market_data.day % 28 == 0 or force_active: #regulate slimesea items every week
+                    ewutils.logMsg('Regulating Slime Sea items...')
+                    number = itm_utils.cull_slime_sea(id_server=id_server)
+                    ewutils.logMsg('...Slime Sea culled. {} items deleted.'.format(number))
 
-
-                    elif market_data.clock == 20:
-                        response = ' The SlimeCorp Stock Exchange has closed for the night.'
-                        await fe_utils.send_message(client, sex_channel, response)
-                  
-                    ewutils.logMsg("Finished clock tick.")
-                await asyncio.sleep(60)
-    except Exception as e:
-        traceback.print_exc(file=sys.stdout)
-        ewutils.logMsg('An error occurred in the scheduled slime market update task: {}. Fix that.'.format(e))
+                elif market_data.clock == 20 or force_active:
+                    response = ' The SlimeCorp Stock Exchange has closed for the night.'
+                    await fe_utils.send_message(client, sex_channel, response)
+                
+                ewutils.logMsg("Finished clock tick.")
+            await asyncio.sleep(60)
+        except Exception as e:
+            traceback.print_exc(file=sys.stdout)
+            ewutils.logMsg('An error occurred in the scheduled slime market update task: {}. Fix that.'.format(e))

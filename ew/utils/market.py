@@ -31,10 +31,9 @@ try:
 except:
     from ew.utils import rutils_dummy as relic_utils
 
-""" update stock values according to market activity """
-
 
 async def stock_market_tick(stock_data, id_server):
+    """ Update stock values according to market activity """
     market_data = EwMarket(id_server=id_server)
     company_data = EwCompany(id_server=id_server, stock=stock_data.id_stock, only_latest=False)
     crashstate = EwGamestate(id_server=id_server, id_state='stockcrashdive').bit
@@ -179,10 +178,8 @@ async def stock_market_tick(stock_data, id_server):
     return response
 
 
-"""" returns the total number of shares a player has in a certain stock """
-
-
 def getUserTotalShares(id_server, stock, id_user):
+    """" Returns the total number of shares a player has in a certain stock """
     values = 0
 
     try:
@@ -208,10 +205,8 @@ def getUserTotalShares(id_server, stock, id_user):
         return values
 
 
-"""" updates the total number of shares a player has in a certain stock """
-
-
 def updateUserTotalShares(id_server = None, stock = None, id_user = None, shares = 0):
+    """" Updates the total number of shares a player has in a certain stock """
     if id_server != None and stock != None and id_user != None:
 
         try:
@@ -231,10 +226,45 @@ def updateUserTotalShares(id_server = None, stock = None, id_user = None, shares
             pass
 
 
-""" get user ID of player with most shares in a stock """
+def getRecentTotalShares(id_server=None, stock=None, count=2):
+    """ Returns an array of the most recent counts of all invested slime coin, from newest at 0 to oldest. """
+    if id_server != None and stock != None:
+
+        values = []
+
+        try:
+
+            count = round(count)
+            data = bknd_core.execute_sql_query("SELECT {total_shares} FROM stocks WHERE {id_server} = %s AND {stock} = %s ORDER BY {timestamp} DESC LIMIT %s".format(
+                stock = ewcfg.col_stock,
+                total_shares = ewcfg.col_total_shares,
+                id_server = ewcfg.col_id_server,
+                timestamp = ewcfg.col_timestamp,
+            ), (
+                id_server,
+                stock,
+                (count if (count > 0) else 2)
+            ))
+
+            for row in data:
+                values.append(row[0])
+
+            # Make sure we return at least one value.
+            if len(values) == 0:
+                values.append(0)
+
+            # If we don't have enough data, pad out to count with the last value in the array.
+            value_last = values[-1]
+            while len(values) < count:
+                values.append(value_last)
+        except:
+            pass
+        finally:
+            return values
 
 
 def get_majority_shareholder(id_server = None, stock = None):
+    """ Get user ID of player with most shares in a stock """
     result = None
     if id_server is not None and stock is not None:
         try:
@@ -258,13 +288,12 @@ def get_majority_shareholder(id_server = None, stock = None):
         finally:
             return result
 
-""" Update all the stocks currently available in the Stock Exchange """
 
 async def update_stocks(id_server = None, time_lasttick = None):
-    if id_server and time_lasttick:
-        exchange_data = EwDistrict(district=ewcfg.poi_id_stockexchange, id_server=id_server)
-        resp_cont = EwResponseContainer(ewcfg.get_client(), id_server=id_server)
-        for stock in ewcfg.stocks:
+    """ Update all the stocks currently available in the Stock Exchange """
+    resp_cont = EwResponseContainer(ewcfg.get_client(), id_server=id_server)
+    for stock in ewcfg.stocks:
+        try:
             s = EwStock(id_server, stock)
             # we don't update stocks when they were just added
             if s.timestamp != 0:
@@ -272,91 +301,90 @@ async def update_stocks(id_server = None, time_lasttick = None):
                 market_response = await stock_market_tick(s, id_server)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange, market_response)
                 resp_cont.add_channel_response(ewcfg.channel_stockexchange_p, market_response)
+        except Exception as e:
+            ewutils.logMsg(f"Failed to update stock {stock} in {id_server}: {e}")
 
-        await resp_cont.post()
+    await resp_cont.post()
                 
 
-
-""" Clear the bazaar and then refresh stock. """
-
 async def refresh_bazaar(id_server = None):
-    if id_server:
-        # Update the list of available bazaar items by clearing the current list and adding the new items
-        market_data = EwMarket(id_server)
-        market_data.bazaar_wares.clear()
+    """ Clear the bazaar and then refresh stock. """
+    # Update the list of available bazaar items by clearing the current list and adding the new items
+    market_data = EwMarket(id_server)
+    market_data.bazaar_wares.clear()
 
-        bazaar_foods = []
-        bazaar_cosmetics = []
-        bazaar_general_items = []
-        bazaar_furniture = []
-        bazaar_relics = []
-
-
-        for item in vendors.vendor_inv.get(ewcfg.vendor_bazaar):
-            if item in static_items.item_names:
-                bazaar_general_items.append(item)
-
-            elif item in static_food.food_names:
-                bazaar_foods.append(item)
-
-            elif item in cosmetics.cosmetic_names:
-                bazaar_cosmetics.append(item)
-
-            elif item in static_items.furniture_names:
-                bazaar_furniture.append(item)
+    bazaar_foods = []
+    bazaar_cosmetics = []
+    bazaar_general_items = []
+    bazaar_furniture = []
+    bazaar_relics = []
 
 
-            elif item in static_relic.relic_names and relic_utils.canCreateRelic(item=item, id_server=id_server) is not None:
-                bazaar_relics.append(item)
+    for item in vendors.vendor_inv.get(ewcfg.vendor_bazaar):
+        if item in static_items.item_names:
+            bazaar_general_items.append(item)
 
-        if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
-            market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
+        elif item in static_food.food_names:
+            bazaar_foods.append(item)
 
-        market_data.bazaar_wares['slimecorp1'] = ewcfg.weapon_id_umbrella
-        market_data.bazaar_wares['slimecorp2'] = ewcfg.cosmetic_id_raincoat
+        elif item in cosmetics.cosmetic_names:
+            bazaar_cosmetics.append(item)
 
-        market_data.bazaar_wares['generalitem'] = random.choice(bazaar_general_items)
+        elif item in static_items.furniture_names:
+            bazaar_furniture.append(item)
 
-        market_data.bazaar_wares['food1'] = random.choice(bazaar_foods)
-        # Don't add repeated foods
-        bw_food2 = None
-        while bw_food2 is None or bw_food2 in market_data.bazaar_wares.values():
-            bw_food2 = random.choice(bazaar_foods)
 
-        market_data.bazaar_wares['food2'] = bw_food2
+        elif item in static_relic.relic_names and relic_utils.canCreateRelic(item=item, id_server=id_server) is not None:
+            bazaar_relics.append(item)
 
-        market_data.bazaar_wares['cosmetic1'] = random.choice(bazaar_cosmetics)
-        # Don't add repeated cosmetics
-        bw_cosmetic2 = None
-        while bw_cosmetic2 is None or bw_cosmetic2 in market_data.bazaar_wares.values():
-            bw_cosmetic2 = random.choice(bazaar_cosmetics)
+    if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
+        market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
 
-        market_data.bazaar_wares['cosmetic2'] = bw_cosmetic2
+    market_data.bazaar_wares['slimecorp1'] = ewcfg.weapon_id_umbrella
+    market_data.bazaar_wares['slimecorp2'] = ewcfg.cosmetic_id_raincoat
 
-        bw_cosmetic3 = None
-        while bw_cosmetic3 is None or bw_cosmetic3 in market_data.bazaar_wares.values():
-            bw_cosmetic3 = random.choice(bazaar_cosmetics)
+    market_data.bazaar_wares['generalitem'] = random.choice(bazaar_general_items)
 
-        market_data.bazaar_wares['cosmetic3'] = bw_cosmetic3
+    market_data.bazaar_wares['food1'] = random.choice(bazaar_foods)
+    # Don't add repeated foods
+    bw_food2 = None
+    while bw_food2 is None or bw_food2 in market_data.bazaar_wares.values():
+        bw_food2 = random.choice(bazaar_foods)
 
-        market_data.bazaar_wares['furniture1'] = random.choice(bazaar_furniture)
+    market_data.bazaar_wares['food2'] = bw_food2
 
-        bw_furniture2 = None
-        while bw_furniture2 is None or bw_furniture2 in market_data.bazaar_wares.values():
-            bw_furniture2 = random.choice(bazaar_furniture)
+    market_data.bazaar_wares['cosmetic1'] = random.choice(bazaar_cosmetics)
+    # Don't add repeated cosmetics
+    bw_cosmetic2 = None
+    while bw_cosmetic2 is None or bw_cosmetic2 in market_data.bazaar_wares.values():
+        bw_cosmetic2 = random.choice(bazaar_cosmetics)
 
-        market_data.bazaar_wares['furniture2'] = bw_furniture2
+    market_data.bazaar_wares['cosmetic2'] = bw_cosmetic2
 
-        bw_furniture3 = None
-        while bw_furniture3 is None or bw_furniture3 in market_data.bazaar_wares.values():
-            bw_furniture3 = random.choice(bazaar_furniture)
+    bw_cosmetic3 = None
+    while bw_cosmetic3 is None or bw_cosmetic3 in market_data.bazaar_wares.values():
+        bw_cosmetic3 = random.choice(bazaar_cosmetics)
 
-        market_data.bazaar_wares['furniture3'] = bw_furniture3
+    market_data.bazaar_wares['cosmetic3'] = bw_cosmetic3
 
-        if random.random() < 0.05:  # 1 / 20
-            market_data.bazaar_wares['minigun'] = ewcfg.weapon_id_minigun
+    market_data.bazaar_wares['furniture1'] = random.choice(bazaar_furniture)
 
-        if random.random() < 0.05:  # 1 / 20
-            market_data.bazaar_wares['bustedrifle'] = ewcfg.item_id_bustedrifle
-        
-        market_data.persist()
+    bw_furniture2 = None
+    while bw_furniture2 is None or bw_furniture2 in market_data.bazaar_wares.values():
+        bw_furniture2 = random.choice(bazaar_furniture)
+
+    market_data.bazaar_wares['furniture2'] = bw_furniture2
+
+    bw_furniture3 = None
+    while bw_furniture3 is None or bw_furniture3 in market_data.bazaar_wares.values():
+        bw_furniture3 = random.choice(bazaar_furniture)
+
+    market_data.bazaar_wares['furniture3'] = bw_furniture3
+
+    if random.random() < 0.05:  # 1 / 20
+        market_data.bazaar_wares['minigun'] = ewcfg.weapon_id_minigun
+
+    if random.random() < 0.05:  # 1 / 20
+        market_data.bazaar_wares['bustedrifle'] = ewcfg.item_id_bustedrifle
+    
+    market_data.persist()

@@ -646,67 +646,19 @@ def check_moon_phase(market_data):
 
 # Get the player with the most festivity
 def get_most_festive(server):
-    # Use the cache if it is enabled
-    item_cache = bknd_core.get_cache(obj_type = "EwItem")
-    if item_cache is not False:
-        # get a list of [id, festivitysum] for all users in server
-        data = bknd_core.execute_sql_query("SELECT {id_user}, FLOOR({value}) FROM stats WHERE {id_server} = %s AND FLOOR({value}) >= 1 AND {metric} = %s".format(
-            id_user = ewcfg.col_id_user,
-            value = ewcfg.col_value,
-            id_server = ewcfg.col_id_server,
-            festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
-            metric = ewcfg.col_stat_metric
-        ), (
-        server.id,
-        'festivity'
-        ))
-
-        dat = list(data)
-        f_data = []
-
-        all_sigils = item_cache.find_entries(criteria={
-            "id_server": server.id,
-            "template": ewcfg.item_id_sigillaria
-        })
-
-        # iterate through all users in the server
-        for row in dat:
-            row = list(row)
-
-            # get all sigils belonging to the user
-            user_sigils = []
-            for sigil_data in all_sigils:
-                if sigil_data.get("id_owner") == row[0]:
-                    user_sigils.append(sigil_data)
-
-            # add festivity to the user's sum per sigil
-            row[1] += (len(user_sigils) * ewcfg.festivity_sigil_bonus)
-            f_data.append(row)
-        # Sort the rows by the second index in each row, highest first
-        f_data.sort(key=lambda row: row[1], reverse=True)
-        if f_data:
-            return f_data[0][0]
-        else:
-            return 1
-
+    # New coolness
     data = bknd_core.execute_sql_query(
-        "SELECT users.{id_user}, FLOOR({value}) as total_festivity FROM stats " \
-        "LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on stats.{id_user} = f.{id_user} AND stats.{id_server} = f.{id_server} " \
-        "WHERE users.{id_server} = %s AND {metric} = %s ORDER BY total_festivity DESC LIMIT 1".format(
+        "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s".format(
             id_user=ewcfg.col_id_user,
-            id_server=ewcfg.col_id_server,
-            festivity=ewcfg.col_festivity,
-            festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
-            name=ewcfg.col_name,
-            value=ewcfg.col_value,
-            id_item=ewcfg.col_id_item,
-            metric=ewcfg.col_stat_metric
+            stat_value=ewcfg.col_stat_value,
+            stat_metric=ewcfg.col_stat_metric,
+            id_server=ewcfg.col_id_server
         ), (
-            "id_furniture",
-            ewcfg.item_id_sigillaria,
-            server.id,
-        ))
-
+            ewcfg.stat_festivity,
+            server.id
+        )
+    )
+    
     return data[0][0]
 
 

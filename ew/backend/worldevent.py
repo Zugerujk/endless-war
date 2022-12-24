@@ -203,6 +203,7 @@ def create_void_connection(id_server):
                                         and poi.id_poi != ewcfg.poi_id_thevoid
                                         and poi.id_poi != ewcfg.poi_id_underworld
                                         and poi.id_poi != ewcfg.poi_id_themoon
+                                        and poi.enemy_lock != True
                                         and poi.id_poi not in existing_connections
                                         ])
 

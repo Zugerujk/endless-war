@@ -233,7 +233,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage_target - slimes_tobleed
                 slimes_splatter = slimes_damage_target - slimes_toboss - slimes_tobleed - slimes_drained
 
-                if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -338,7 +338,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
                 slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-                if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -368,6 +368,9 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
 
                     district_data.change_slimes(n=int(target_enemy_data.slimes / 2), source=ewcfg.source_killing)  # give district 1/2 of target's remaining slime
                     levelup_resp = user_data.change_slimes(n=int(target_enemy_data.slimes / 2), source=ewcfg.source_killing)  # give attacker 1/2 of target's remaining slime
+
+                    if target_enemy_data.enemytype in ewcfg.raid_den_bosses:
+                        await rutils.debug45(target_enemy_data)
 
                     bknd_hunt.delete_enemy(target_enemy_data)
 
@@ -436,7 +439,7 @@ def canAttack(cmd):
     # 	response = "You must go elsewhere to commit gang violence."
     elif rutils.eg_check1(time_now, user_data):
         response = "you must go elsewhere to commit gang violence."
-    elif channel_poi.id_poi != user_data.poi and user_data.poi not in channel_poi.mother_districts:
+    elif channel_poi.id_poi != user_data.poi and user_data.poi not in channel_poi.mother_districts and channel_poi.enemy_lock == False:
         # Only way to do this right now is by using the gellphone
         response = "Alas, you still can't shoot people through your phone."
 
@@ -797,6 +800,10 @@ async def attackEnemy(cmd):
     if enemy_data.ai == ewcfg.enemy_ai_defender:
         slimes_damage *= 0.5
 
+    # Enemies that are specified to take less damage
+    if enemy_data.enemytype in ewcfg.defense_up_enemies:
+        slimes_damage *= 0.5
+
     # Bicarbonate enemies take more damage
     if enemy_data.weathertype == ewcfg.enemy_weathertype_rainresist:
         slimes_damage *= 1.5
@@ -832,7 +839,7 @@ async def attackEnemy(cmd):
         # slimes_directdamage = 0
         slimes_splatter = 0
 
-    if ewcfg.mutation_id_nosferatu in user_mutations and (market_data.clock < 6 or market_data.clock >= 20):
+    if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
         slimes_splatter *= .4
     
@@ -898,7 +905,7 @@ async def attackEnemy(cmd):
         # Enemy was killed.
         bknd_hunt.delete_enemy(enemy_data)
 
-        kill_descriptor = "beaten to death"
+        chosen_kill_str = "beaten to death"
         if weapon != None:
             response = weapon.str_damage.format(
                 name_player=cmd.message.author.display_name,
@@ -907,7 +914,6 @@ async def attackEnemy(cmd):
                 slimeoid_name=slimeoid_name,
                 slimeoid_dmg=slimeoid_dmg
             )
-            kill_descriptor = weapon.str_killdescriptor
             if crit:
                 response += " {}".format(weapon.str_crit.format(
                     name_player=cmd.message.author.display_name,
@@ -916,8 +922,8 @@ async def attackEnemy(cmd):
                     slimeoid_name=slimeoid_name,
                     slimeoid_crit=slimeoid_crit
                 ))
-
-            response += "\n\n{}".format(weapon.str_kill.format(
+            chosen_kill_str = random.choice(weapon.str_kill)
+            response += "\n\n{}".format(chosen_kill_str.format(
                 name_player=cmd.message.author.display_name,
                 name_target=enemy_data.display_name,
                 emote_skull=ewcfg.emote_slimeskull,
@@ -955,14 +961,11 @@ async def attackEnemy(cmd):
         user_data.persist()
         resp_cont.add_channel_response(cmd.message.channel, response)
 
-        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active:
-            horseman_deaths = market_data.horseman_deaths
+        if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active and ewcfg.dh_stage >= 1:
+            # horseman_deaths = market_data.horseman_deaths
 
-            if horseman_deaths == 0:
-                defeat_response = "***AHA... AHAHAHAHA...***\n*COUGH*... *HACK*...\nVERY GOOD. YOUR BLADES HAVEN'T DULLED OVER THE YEARS.\nMY CORPSE IS STILL BOUNTIFUL. TAKE FROM IT YOUR SPOILS AND STAIN YOUR HANDS WITH MY BLOOD. \nAND {}. FOR DEALING THE FINAL BLOW YOU SHALL FIND A REWARD MUCH MORE GREAT WHEN I RETURN. ENJOY YOUR ANTICIPATION.\n".format(cmd.message.author.display_name)
-            else:
-                defeat_response = "***GAHAHAH... AHAHA...***\n*WHEEZE*... *PUKE*...\nLIKE CLOCKWORK...\nA HARBINGER OF DEATH... REDUCED TO THIS.\nTO THOSE WHO HAVE SLAIN ME, YOU HAVE TRULY REAPED A DARK REWARD, ONE WELL EARNED.\nWATCH ENDLESS WAR. THE ALTARS WILL COME.\nNOW IF YOU'LL EXCUSE ME, I HAVE A DATE WITH OBLIVION.\nUNTIL WE MEET AGAIN AT NEXT DOUBLE HOLLOW'S EVE, ***MORTALS!!!***\n"
-
+            defeat_response = ""
+            
             market_data.horseman_deaths += 1
             market_data.horseman_timeofdeath = int(time_now)
             market_data.persist()
@@ -1074,6 +1077,9 @@ async def attackEnemy(cmd):
         resp_cont.format_channel_response(cmd.message.channel.name, cmd.message.author)
 
         await resp_cont.post()
+
+        if enemy_data.enemytype in ewcfg.raid_den_bosses and was_killed:
+            await rutils.debug45(enemy_data)
 
     return
 

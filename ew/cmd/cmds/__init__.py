@@ -26,6 +26,10 @@ cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
+
     # check goonscape stats
     ewcfg.cmd_goonscape_stats: cmdcmds.display_goonscape_stats,
 
@@ -195,11 +199,16 @@ cmd_map = {
     # Testing command for retrieving members
     ewcfg.cmd_user_search: cmdcmds.user_search,
 
+    # Admin command for cleaning stats db
+    ewcfg.cmd_clean_stats: cmdcmds.clear_zero_stats,
+
     # *sigh*
     ewcfg.cmd_cockdraw: cmdcmds.cockdraw,
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
     ewcfg.cmd_dual_key_ban:cmdcmds.dual_key_ban,
+    ewcfg.cmd_dual_key_ban_alt1: cmdcmds.dual_key_ban,
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
+    ewcfg.cmd_dual_key_release_alt1: cmdcmds.dual_key_release,
     ewcfg.cmd_setslime: cmdcmds.set_slime,
 
     # Debug for world events
@@ -214,9 +223,12 @@ if ewcfg.dh_active:
 
 if ewcfg.slimernalia_active:
     # Slimernalia -- Moved unwrap to item cmds. Please move wrap upon reimplementation
-    cmd_map[ewcfg.cmd_festivity]= cmdcmds.festivity
+    cmd_map[ewcfg.cmd_festivity] = cmdcmds.festivity
     cmd_map[ewcfg.cmd_wrap] = cmdcmds.wrap
-    #cmd_map[ewcfg.cmd_yoslimernalia]= cmdcmds.yoslimernalia
+    cmd_map[ewcfg.cmd_festivitystage] = cmdcmds.slimernaliastage
+    cmd_map[ewcfg.cmd_setfestivitystage] = cmdcmds.setslimernaliastage
+    cmd_map[ewcfg.cmd_announcefestivitystage] = cmdcmds.announceslimernaliastage
+
 
 
 dm_cmd_map = {
@@ -277,12 +289,16 @@ apt_dm_cmd_map = {
     ewcfg.cmd_clock: cmdcmds.weather,
     ewcfg.cmd_weather: cmdcmds.weather,
 
+    # check the weather forecast
+    ewcfg.cmd_forecast: cmdcmds.forecast,
+    ewcfg.cmd_forecast_alt1: cmdcmds.forecast,
+
     # Check patchnotes
     ewcfg.cmd_news: cmdcmds.patchnotes,
     ewcfg.cmd_patchnotes: cmdcmds.patchnotes,
 
-    # gives +10Gigaslime
-    ewcfg.cmd_harvest: cmdcmds.harvest,
+    # gives +10Gigaslime - but NOT in DMs
+    # ewcfg.cmd_harvest: cmdcmds.harvest,
 
     # show what commands are currently available
     ewcfg.cmd_commands_alt1: cmdcmds.commands,
