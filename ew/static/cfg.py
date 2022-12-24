@@ -14,7 +14,7 @@ discord_message_length_limit = 2000
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
-update_market = 15  # 15 min = 900
+update_market = 900  # 15 min = 900
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
 suppress_missing_channel = False
@@ -32,7 +32,7 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = True
-slimernalia_stage = 1
+slimernalia_stage = 4
 
 #Swilldermuk Features
 swilldermuk_active = False
