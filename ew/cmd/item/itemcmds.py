@@ -952,6 +952,17 @@ async def item_use(cmd):
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"
 
+            elif context == "slimernaliadroplet":
+                if ewcfg.slimernalia_active == False and ewcfg.slimernalia_stage == 7:
+                    ewcfg.slimernalia_active == True
+                    response = "You just turned on Slimernalia, redeeming yourself and learning humility!"
+                elif ewcfg.slimernalia_active == True:
+                    ewcfg.slimernalia_active == False
+                    response = "You stole Slimernalia, you scrooge! What do you have to say for yourself?"
+                else:
+                    response = "Oh no you don't! It's not even in season, so don't get tricked into doing such things again, Ben! Do you need to be reminded what !fun did?"
+
+
             elif ewcfg.item_id_key in context and context != 'housekey':
                 if user_data.poi == "room102" and context == 'reelkey':
                     response = ewdebug.reel_code

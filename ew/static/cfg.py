@@ -14,7 +14,7 @@ discord_message_length_limit = 2000
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
-update_market = 900  # 15 min
+update_market = 15  # 15 min # 900
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
 suppress_missing_channel = False
@@ -32,11 +32,10 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = True
-slimernalia_stage = 1
+slimernalia_stage = 6
 
-#Swilldermuk Features
+#Swilldermuk Features (Pronounced Swindle-muk)
 swilldermuk_active = False
-
 
 """
 1: Normal
@@ -3858,16 +3857,16 @@ help_response_group_map = {
 weapon_response_group_map = {
     "Normal": ["Revolver", "Dual Pistols", "Yo-Yo", "Pistol", "Combat Knife",],
     "Precision": ["Katana", "Hunting Rifle", "Sniper Rifle",],
-    "Small-Game": ["Knives", "Bow", "Monofilament Whip",],
+    "Small-Game": ["Knives", "Bow", "Monofilament Whip", "Food Basket"],
     "Variable-Damage": ["Bat", "Brass Knuckles", "Bass Guitar", "Skateboard", "Machete",],
     "Heavy": ["Shotgun", "Broadsword", "Scythe", "Chainsaw", "Sledgehammer",],
     "Defensive": ["Umbrella",],
     "Multiple-Hit": ["Assault Rifle", "SMG", "Nunchucks", "Boomerang",],
     "Incendiary": ["Molotov", "Dragon Claw",],
     "Explosive": ["Grenades",],
-    "Tool": ["Pickaxe", "Fishing Rod", "Hoe", "Pitchfork", "Shovel", "Diamond Pickaxe",],
+    "Tool": ["Pickaxe", "Fishing Rod", "Hoe", "Pitchfork", "Shovel", "Diamond Pickaxe", "Slimering Can",],
     "Unique": ["Minigun", "Garrote", "Eldritch Staff", "Slimeoid Whistle", "Missile Launcher",],
-    "Deprecated": ["Spray Can", "Paint Gun", "Paint Roller", "Paintbrush", "Watercolors", "Thinner Bomb", "Roomba", "Slimering Can",],
+    "Deprecated": ["Spray Can", "Paint Gun", "Paint Roller", "Paintbrush", "Watercolors", "Thinner Bomb", "Roomba",],
     # "Other": ["Fingernails", "Laywaster", "Harpoon", "Model397", "Fists"] # Probs shouldn't be visible
 }
 
@@ -4041,8 +4040,8 @@ item_group_commands = {
 }
 
 holidaycommands = {
-    "swildermuk": "",
-    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
+    "swilldermuk": "**SWILLDERMUK**:\n!prank <@player>: Use the Janus Mask to pluck a prank item from the ether! Can also be done without <@player> to use trap prank on the spot.\nOf course, the Janus Mask is lost to time so you'll never have the opportunity, chump!",
+    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your or someone else's current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
     "doublehalloween": "**DOUBLE HALLOWEEN**:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
 }
 

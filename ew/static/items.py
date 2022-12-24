@@ -1739,6 +1739,13 @@ item_list = [
         context="droppable"
     ),
     EwGeneralItem(
+        id_item="slimernaliaendlessrock",
+        str_name="Endless Rock: Citrine", 
+        str_desc="It's the ENDLESS ROCK that Phoebus uses to send ENDLESS WAR into a half-month long trip, making Slimernalia possible. The magic is kind of ruined now that the truth is out.",
+        #soulbound=True,
+        context="slimernaliadroplet"
+    ),
+    EwGeneralItem(
         id_item=ewcfg.item_id_trophy_juvie,
         str_name="Juvie Hunting Trophy",
         str_desc="A hunting trophy flayed from the flesh of a still-living Juvenile. Ahhh, the thrill of the hunt...",
