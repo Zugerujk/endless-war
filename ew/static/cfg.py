@@ -14,7 +14,7 @@ discord_message_length_limit = 2000
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
-update_market = 900  # 15 min
+update_market = 15  # 15 min = 900
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
 suppress_missing_channel = False
@@ -4483,21 +4483,21 @@ enemy_drop_tables = {
     ],  
     enemy_type_slimernaliajuvie: [
         {item_id_slimepoudrin: [100, 1, 15]},
-        {item_id_giftribbon: [25, 1, 1]},
+        {item_id_giftribbon: [80, 1, 6]},
         {"crop": [30, 1, 3]},
-        {item_id_candycane: [75, 1, 1]},
+        {item_id_candycane: [100, 1, 10]},
     ],
     enemy_type_slimeoidabuser: [
         {item_id_slimepoudrin: [100, 1, 12]},
         {rarity_plebeian: [20, 1, 1]},
-        {item_id_giftribbon: [10, 1, 3]},
+        {item_id_giftribbon: [40, 1, 3]},
     ],
     enemy_type_slimernaliagangster: [
         {item_id_slimepoudrin: [100, 1, 20]},
-        {item_id_giftribbon: [100, 1, 2]},
+        {item_id_giftribbon: [100, 2, 5]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [25, 1, 1]},
+        {weapon_id_foodbasket: [100, 1, 1]},
         {rarity_patrician: [50, 1, 1]},
         {item_id_slimepoudrin: [10, 10, 25]},
     ],
@@ -4511,12 +4511,12 @@ enemy_drop_tables = {
         {weapon_id_molotov: [100, 1, 1]},
         {item_id_slimepoudrin: [50, 3, 7]},
         {item_id_giftpipebomb: [100, 1, 2]},
-        {item_id_giftribbon: [5, 3, 6]},
+        {item_id_giftribbon: [25, 3, 6]},
     ],
     enemy_type_vandal: [
         {weapon_id_spraycan: [100, 1, 1]},
         {item_id_slimepoudrin: [100, 2, 5]},
-        {item_id_giftribbon: [25, 1, 1]},
+        {item_id_giftribbon: [60, 1, 2]},
         {"vape": [10, 1, 1]},
         {item_id_mustard_gas_pod: [30, 1, 3]},
         {item_id_cop_killer_cotton_candy_pod: [30, 1, 3]},
@@ -4528,7 +4528,7 @@ enemy_drop_tables = {
     ],
     enemy_type_miserablemiser: [
         {item_id_slimepoudrin: [15, 10, 10]},
-        {item_id_giftribbon: [30, 1, 3]},
+        {item_id_giftribbon: [90, 1, 9]},
         {"cigar": [30, 3, 12]},
     ],
     enemy_type_illegalimmigrant: [
@@ -4539,6 +4539,7 @@ enemy_drop_tables = {
         {item_id_prankcapsule: [100, 6, 10]},
         {weapon_id_harpoon: [100, 0, 0]},
         {item_id_slimepoudrin: [10, 10, 10]},
+        {item_id_giftribbon: [60, 1, 5]},
     ],
 
 }
