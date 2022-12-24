@@ -2058,9 +2058,7 @@ festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
 festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
-festivity_sigil_bonus = 1000 # The amount of festivity you gain per sigillaria
-
-festivity_kill_bonus = 500 # The  amount of festivity you gain upon killing someone
+festivity_kill_bonus = 1500 # The  amount of festivity you gain upon killing someone
 
 festivity_expired_penalty = 2500 # Penalty if the food item you are giving has already expired
 festivity_generic_penality = 500 # Penality if the item is something generic
@@ -4259,7 +4257,7 @@ raid_den_bosses = [enemy_type_alm]
 # List of enemies that spawn in the Nuclear Beach
 if slimernalia_stage >= 1:
     pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    artic_enemies = [enemy_type_desertraider]
+    arctic_enemies = [enemy_type_desertraider]
 else:
     pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
     arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]

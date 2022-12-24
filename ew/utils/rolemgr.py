@@ -96,7 +96,6 @@ async def updateRoles(client, member, server_default=None, refresh_perms=True, n
 
     currentkingpin = EwGamestate(id_server=id_server, id_state='slimernaliakingpin').value
     if currentkingpin == str(user_data.id_user):
-
         roles_add.add(ewcfg.role_slimernalia)
 
     roles_remove = set()
