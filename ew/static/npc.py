@@ -17,7 +17,7 @@ npc_list = [
                     "give":["Thanks, buddy! I'll take it, but honestly I'd rather have something to drink."],
                     "loop":["...", "Feeling kind of thirsty..."]},  # list of dialogue an npc can use
         func_ai = npcutils.drinkster_npc_action,  # function the enemy's AI uses
-        image_profile = "https://rfck.app/img/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
+        image_profile = "https://rfck.app/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
         defaultslime = 2036231,
         defaultlevel = 22,
         slimeoid_name = "Orange Crush",
@@ -151,7 +151,7 @@ EwNpc(
                 "give":["What a morsel..."]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/img/npc/pork.png",
+    image_profile = "https://rfck.app/npc/pork.png",
     defaultslime = 6911000,
     defaultlevel = 50,
     rarity=7,
@@ -178,7 +178,7 @@ EwNpc(
                 "give":["GIMME THAT!"]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/img/npc/riot.png",
+    image_profile = "https://rfck.app/npc/riot.png",
     defaultslime = 4911000,
     defaultlevel = 50,
     rarity=7,
@@ -207,7 +207,7 @@ EwNpc(
                 "give":["What, this some sorta clue?"]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/img/npc/sleuth.png",
+    image_profile = "https://rfck.app/npc/sleuth.png",
     defaultslime = 5911000,
     defaultlevel = 50,
     rarity=7,
@@ -234,7 +234,7 @@ EwNpc(
                 "give":["We'll have our officers look over this."]
                 },
     func_ai = npcutils.police_chief_npc_action,
-    image_profile = "https://rfck.app/img/npc/mrc.png",
+    image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
     rarity=3,
@@ -286,7 +286,7 @@ EwNpc(
                 "die":["*It looks like RF really wasn't cut out to be a Rowdy.* {}".format(ewcfg.emote_slimeskull)]
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://rfck.app/img/npc/rf1.png",
+    image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
     defaultlevel = 47,
     rewards = [
@@ -458,7 +458,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "herb",
-    active = True,
+    active = False,
     str_name = "Herb",
     description = "He's your typical politician. Can't even take a good bullet to the face.",
     poi_list = [ewcfg.poi_id_downtown, ewcfg.poi_id_krakbay, ewcfg.poi_id_smogsburg, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_charcoalpark, ewcfg.poi_id_oozegardens],
@@ -469,7 +469,7 @@ EwNpc(
                 "give":["Thanks for the donation! I assure you it won't go to waste!"]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "https://rfck.app/img/npc/herb_placeholder.jpg",
+    image_profile = "https://rfck.app/npc/herb_placeholder.jpg",
     defaultslime = 20,
     defaultlevel = 1,
     rarity=3,
@@ -493,7 +493,7 @@ EwNpc(
                 "give":["Ey, buddy. Dat means a lot."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "https://rfck.app/img/npc/n11reformed.png",
+    image_profile = "https://rfck.app/npc/n11reformed.png",
     defaultslime = 4000000,
     defaultlevel = 55,
     rarity=3,
@@ -518,7 +518,7 @@ EwNpc(
                 "give":["()Mozz takes your spoiled food and runs away with it!"]
                 },
     func_ai = npcutils.mozz_action,
-    image_profile = "https://rfck.app/img/npc/mozz.png",
+    image_profile = "https://rfck.app/npc/mozz.png",
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
@@ -543,7 +543,7 @@ EwNpc(
                 "give":["()The slox takes your gift and brings it back to their resting place to share it with their friend."]
                 },
     func_ai = npcutils.slox_action,
-    image_profile = "https://rfck.app/img/npc/sloxes_f.png",
+    image_profile = "https://rfck.app/npc/sloxes_f.png",
     defaultslime = 300,
     attacktype = 'slox',
     defaultlevel = 1,
@@ -566,7 +566,7 @@ EwNpc(
                 "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
                 },
     func_ai = npcutils.dojomaster_action,
-    image_profile = "https://rfck.app/img/npc/dojomaster.png",
+    image_profile = "https://rfck.app/npc/dojomaster.png",
     defaultslime = 15000000,
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
@@ -596,7 +596,7 @@ EwNpc(
                 "loop":["Cash?", "Can I have some cash?", "Hi, hey! Cash!", "Do you speak British?", "Cash, please?", "I want 100 po- I mean slime.", "Ca-ca-cash?", "May I have another poudrin?", "Alms for the poor?", "Alms for the pudgy?", "I'm not the Queen, I'm different. I need some cash for the train.", "Cash!", "Cash??", "CASH.", "Cash...", "Cash... 🥺", "I need some cash, good sir...🧐🧐🧐"],
                 },
     func_ai = npcutils.needy_npc_action,
-    image_profile = "https://rfck.app/img/npc/slimequeen.png",
+    image_profile = "https://rfck.app/npc/slimequeen.png",
     defaultslime = 15,
     defaultlevel = 1,
     str_juviemode = "You decide to just kill the Queen to get her off your back, but you decide the only thing more annoying than her is causing an international incident. Christ alive, she's just gonna spend it on alcohol anyway.",
