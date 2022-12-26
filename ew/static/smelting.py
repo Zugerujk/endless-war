@@ -2143,8 +2143,8 @@ EwSmeltingRecipe(
         products=['rabbitsuit']
     ),
     EwSmeltingRecipe(
-        id_recipe="hellys",
-        str_name="Hellys",
+        id_recipe="heelys",
+        str_name="Heelys",
         alias=[
             'heel wheels',
         ],
@@ -2183,7 +2183,7 @@ EwSmeltingRecipe(
         products=['witchoutfit']
     ),
     EwSmeltingRecipe(
-        id_recipe="heartstrings",
+        id_recipe="heartearrings",
         str_name="Heart Earrings",
         alias=[
             'heartear',

@@ -6,6 +6,9 @@ from ew.static import poi as poi_static
 from ew.static import cfg as ewcfg
 from ew.static import items as static_items
 from ew.static import food as static_food
+from ew.static import cosmetics as static_cosmetics
+from ew.static import weapons as static_weapons
+
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
@@ -18,6 +21,7 @@ import time
 import ew.utils.combat as util_combat
 from ew.backend.status import EwEnemyStatusEffect
 import ew.utils.core as ewutils
+import ew.utils.item as itm_utils
 
 #from ew.utils.combat import EwEnemy
 #move: enemy move action
@@ -231,7 +235,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             resp_set = npc_obj.dialogue.get('talk')
         if resp_set is not None:
             response = random.choice(resp_set)
-            name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
+            name = "{}{}{}".format("**__", npc_obj.str_name.upper(), '__**')
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -258,7 +262,7 @@ async def generic_give(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('give') is not None:
         response = random.choice(npc_obj.dialogue.get('give'))
 
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -274,7 +278,8 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         else:
             response = "..."
 
-        name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*"),
+        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+
         if response is not None:
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
@@ -401,7 +406,7 @@ async def marty_give(channel, npc_obj, enemy, item):
         response = "Thanks, but we don't need this item right now. Worthless. Disposable. *Worthless.*"
 
     if response is not None:
-        await fe_utils.talk_bubble(response=response, name="**__MARTY__**", image=npc_obj.image_profile, channel=channel)
+        await fe_utils.talk_bubble(response=response, name='**__MARTY__**', image=npc_obj.image_profile, channel=channel)
 
 
 async def candidate_give(channel, npc_obj, enemy, item):
@@ -429,7 +434,7 @@ async def candidate_give(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('give') is not None:
         response = random.choice(npc_obj.dialogue.get('give'))
 
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 async def candidate_die(channel, npc_obj, enemy, item):
@@ -443,7 +448,7 @@ async def candidate_die(channel, npc_obj, enemy, item):
     if npc_obj.dialogue.get('die') is not None:
         response = random.choice(npc_obj.dialogue.get('die'))
     await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
-    name = "{}{}{}".format("*__", npc_obj.str_name.upper(), "__*")
+    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -611,7 +616,6 @@ def find_drinkster(user_data, isDrink):
             user_data.id_server
         ))
     for enemy in enemydata:
-        print(enemy[0])
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
             enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
@@ -637,6 +641,72 @@ def find_drink(id_server, user_data = None, item = None):
     return None
 
 async def crush_drink(channel = None, id_item = None):
-    response = "https://rfck.app/img/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
+    response = "https://rfck.app/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
     bknd_item.item_delete(id_item)
     return await fe_utils.send_message(None, channel, response)
+
+
+async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc trade system
+    if item is not None:
+        item_obj = EwItem(id_item=item.get('id_item'))
+        id_user = item_obj.id_owner
+        dialogue = npc_obj.dialogue
+        direct = dialogue.get('trade' + item_obj.template)
+        if direct == None:
+            direct = dialogue.get('trade' + item_obj.item_type)
+            if direct == None:
+                direct = dialogue.get('traderandom')
+
+        if direct is not None:
+            item_received = random.choice(direct)
+            if item_received != 'nothing':
+                item = static_items.item_map.get(item_received)
+
+                item_type = ewcfg.it_item
+                if item != None:
+                    item_id = item.id_item
+                    name = item.str_name
+
+                # Finds the item if it's an EwFood item.
+                if item == None:
+                    item = static_food.food_map.get(item_received)
+                    item_type = ewcfg.it_food
+                    if item != None:
+                        item_id = item.id_food
+                        name = item.str_name
+
+                # Finds the item if it's an EwCosmeticItem.
+                if item == None:
+                    item = static_cosmetics.cosmetic_map.get(item_received)
+                    item_type = ewcfg.it_cosmetic
+                    if item != None:
+                        item_id = item.id_cosmetic
+                        name = item.str_name
+
+                if item == None:
+                    item = static_items.furniture_map.get(item_received)
+                    item_type = ewcfg.it_furniture
+                    if item != None:
+                        item_id = item.id_furniture
+                        name = item.str_name
+                        if item_id in static_items.furniture_pony:
+                            item.vendors = [ewcfg.vendor_bazaar]
+
+                if item == None:
+                    item = static_weapons.weapon_map.get(item_received)
+                    item_type = ewcfg.it_weapon
+                    if item != None:
+                        item_id = item.id_weapon
+                        name = item.str_weapon
+
+                item_props = itm_utils.gen_item_props(item)
+
+                bknd_item.item_create(
+                    item_type=item_type,
+                    id_user=id_user,
+                    id_server=item_obj.id_server,
+                    item_props=item_props
+                )
+
+        bknd_item.item_delete(item_obj.id_item)
+        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')

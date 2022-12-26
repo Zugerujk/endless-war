@@ -86,12 +86,6 @@ async def post_leaderboards(client = None, server = None):
     # elif ewcfg.dh_stage == 2 and ewcfg.dh_active:
     #     topfavor = make_statdata_board(server=server.id, category='sacrificerate', title =ewcfg.leaderboard_sacrificial)
     #     resp_cont.add_channel_response(leaderboard_channel, topfavor)
-    elif debug.debug40(id_server=server.id) and ewcfg.dh_active:
-        dhleaderboard = make_gamestate_leaderboard(server=server.id, gamestateids=debug.debug_leaderboard_states1, title = ewcfg.leaderboard_doublehalloween)
-        resp_cont.add_channel_response(leaderboard_channel, dhleaderboard)
-        if debug.debug44(id_server=server.id):
-            dhleaderboard2 = make_gamestate_leaderboard(server=server.id, gamestateids=debug.debug_leaderboard_states2, title = debug.leaderboard_doublehalloween2)
-            resp_cont.add_channel_response(leaderboard_channel, dhleaderboard2)
 
 
     await resp_cont.post()

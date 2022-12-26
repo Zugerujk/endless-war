@@ -110,8 +110,6 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
     if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
         district = EwDistrict(id_server=user_data.id_server, district=user_data.poi)
-        print(user_data.poi)
-        print(district.get_enemies_in_district())
 
         if user_data.poi in poi_static.enemy_lock_districts and district.get_enemies_in_district() == []:
             ewutils.active_restrictions[user_data.id_user] = 0

@@ -183,8 +183,6 @@ cmd_map = {
     ewcfg.cmd_slimecoin_alt2: cmdcmds.slimecoin,
     ewcfg.cmd_slimecoin_alt3: cmdcmds.slimecoin,
 
-    ewcfg.cmd_turnin: cmdcmds.turnin,
-
     # show player's current shares in a company
     ewcfg.cmd_shares: cmdcmds.shares,
     ewcfg.cmd_shares_alt1: cmdcmds.shares,
@@ -293,8 +291,8 @@ apt_dm_cmd_map = {
     ewcfg.cmd_news: cmdcmds.patchnotes,
     ewcfg.cmd_patchnotes: cmdcmds.patchnotes,
 
-    # gives +10Gigaslime
-    ewcfg.cmd_harvest: cmdcmds.harvest,
+    # gives +10Gigaslime - but NOT in DMs
+    # ewcfg.cmd_harvest: cmdcmds.harvest,
 
     # show what commands are currently available
     ewcfg.cmd_commands_alt1: cmdcmds.commands,

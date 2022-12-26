@@ -530,6 +530,7 @@ def canAttack(cmd):
         user_isrowdys = user_data.life_state == ewcfg.life_state_enlisted and user_data.faction == ewcfg.faction_rowdys
         user_isslimecorp = user_data.life_state == ewcfg.life_state_enlisted and user_data.faction == ewcfg.faction_slimecorp
         user_isexecutive = user_data.life_state in [ewcfg.life_state_lucky, ewcfg.life_state_executive]
+        user_isvigilante = user_data.life_state in [ewcfg.life_state_vigilante]
 
         possession_data = user_data.get_possession()
 
@@ -556,7 +557,7 @@ def canAttack(cmd):
         elif rutils.eg_check2(time_now, shootee_data):
             response = "{} is not mired in the ENDLESS WAR right now.".format(member.display_name)
 
-        elif user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False and not ewcfg.slimernalia_active:
+        elif user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False and user_isvigilante == False and not ewcfg.slimernalia_active:
             # Only killers, rowdys, the cop killer, and rowdy fucker can shoot people.
             if user_data.life_state == ewcfg.life_state_juvenile:
                 response = "Juveniles lack the moral fiber necessary for violence."
@@ -587,7 +588,7 @@ def canAttack(cmd):
             # User is targeting themselves
             response = "Try {}.".format(ewcfg.cmd_suicide)
 
-        elif shootee_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_lucky, ewcfg.life_state_executive]:
+        elif shootee_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_lucky, ewcfg.life_state_executive, ewcfg.life_state_vigilante]:
             if shootee_data.life_state == ewcfg.life_state_corpse and (ewcfg.status_ghostbust_id in user_data.getStatusEffects() or ewcfg.mutation_id_coleblooded in mutations):
                 response = ewcfg.ghost_busting_string
             else:
@@ -972,9 +973,8 @@ async def attackEnemy(cmd):
         if enemy_data.enemytype == ewcfg.enemy_type_doubleheadlessdoublehorseman and ewcfg.dh_active and ewcfg.dh_stage >= 1:
             # horseman_deaths = market_data.horseman_deaths
 
-            # if horseman_deaths == 0:
-            defeat_response = rutils.debug49(market_data.id_server, cmd.message.author.display_name)
-
+            defeat_response = ""
+            
             market_data.horseman_deaths += 1
             market_data.horseman_timeofdeath = int(time_now)
             market_data.persist()
