@@ -10,7 +10,7 @@ poi_list = [
         id_poi="downtown",
         alias=['central', 'dt'],
         str_name="Downtown NLACakaNM",
-        str_desc="Skyscrapers and high-rise apartments tower above the jam-packed, bustling city streets below for as far as the eye can see. In this dense concrete jungle, your attention is constantly being divided among a thousand different things. Neon, fluorescent signs flash advertisements for all manner of amenities and businesses. The streets rumble with the sound of engines and metal scraping from the subway system deep underground. Hordes of men and women from every imaginable background walk these cruel streets, trying desperately to eke out a pitiful existence for themselves. This district never unwinds from its constant 24/7 slime-induced mania for even a moment, let alone sleep.\nDowntown is the beating heart of New Los Angeles City, aka Neo Milwaukee. With settlements in the area predating the emergence of slime, its prime location along the newly formed coastline naturally grew it into the cultural, economic, and literal center of the city. Due to its symbolic and strategic importance, it's home to the most intense gang violence of the city. Gunshots and screams followed by police sirens are background noises for this district. Some say that this propensity for violence is result of the sinister influence from an old obelisk in the center of town, ominously called ENDLESS WAR. You aren't sure if you believe that, though.\n\nThere\'s a pile-up of cars at a nearby intersection, with a milky purple orb hovering on top. It seems to be drawing moisture from the air, sucking dry all those who pass. You probably shouldn't get near it. ***If you !suicided, though...***\n\nThis area contains ENDLESS WAR, SlimeCorp HQ, the Slime Stock Exchange, the Downtown Subway Station, and the Limecorp Building. To the north is Smogsburg. To the East is the Green Light District. To the South is the Rowdy Roughhouse. To the Southwest is Poudrin Alley. To the West is Krak Bay. To the Northwest is Cop Killtown. ",
+        str_desc="Skyscrapers and high-rise apartments tower above the jam-packed, bustling city streets below for as far as the eye can see. In this dense concrete jungle, your attention is constantly being divided among a thousand different things. Neon, fluorescent signs flash advertisements for all manner of amenities and businesses. The streets rumble with the sound of engines and metal scraping from the subway system deep underground. Hordes of men and women from every imaginable background walk these cruel streets, trying desperately to eke out a pitiful existence for themselves. This district never unwinds from its constant 24/7 slime-induced mania for even a moment, let alone sleep.\nDowntown is the beating heart of New Los Angeles City, aka Neo Milwaukee. With settlements in the area predating the emergence of slime, its prime location along the newly formed coastline naturally grew it into the cultural, economic, and literal center of the city. Due to its symbolic and strategic importance, it's home to the most intense gang violence of the city. Gunshots and screams followed by police sirens are background noises for this district. Some say that this propensity for violence is result of the sinister influence from an old obelisk in the center of town, ominously called ENDLESS WAR. You aren't sure if you believe that, though.\n\nThis area contains ENDLESS WAR, SlimeCorp HQ, the Slime Stock Exchange, the Downtown Subway Station, and the Limecorp Building. To the north is Smogsburg. To the East is the Green Light District. To the South is the Rowdy Roughhouse. To the Southwest is Poudrin Alley. To the West is Krak Bay. To the Northwest is Cop Killtown. ",
         coord=[28, 21],
         coord_alias=[[29, 21], [30, 21], [30, 22], [30, 23]],
         channel="downtown",
@@ -547,7 +547,7 @@ poi_list = [
         id_poi="dreadford",
         alias=['dread', 'ford', 'df'],
         str_name="Dreadford",
-        str_desc="Neatly spaced colonial revival mansions and chapels are broken up by botches of thick, twisting woods. This district is largely rural and suburban, with a small town center with various necessities like Whole Foods and a cemetery. The residents of this district are very, very wealthy and meticulously maintain the gated community they've grown for themselves. Perhaps the most obvious example of this is the country club and its accompanying golf course, which comprises a large chunk of the district.\nDreadford is one of the oldest settlements of the area, being inhabited by humans as far back as 1988. The original founders were fleeing restrict criminals rights laws, and established the town of Dreadford in what was then a barren Arizonian desert. These first settlers had quite the pension of holding kangaroo courts, which often amounted to just reading the list of crimes the accused was charged with before hanging them immediately. Some nooses still hang on trees around the district, begging to be finally used.\n\n**Many cultists have gathered in this area, preparing for Double Halloween by worshipping the Great Comet.**\n\n This area contains the Country Club, the Dreadford Blimp Tower, the Hang-Em Saloon, and Hang-Em Square. To the North is Jaywalker Plain. To the East is Crookline. To the Southwest is Southwest Outskirts Edge.",
+        str_desc="Neatly spaced colonial revival mansions and chapels are broken up by botches of thick, twisting woods. This district is largely rural and suburban, with a small town center with various necessities like Whole Foods and a cemetery. The residents of this district are very, very wealthy and meticulously maintain the gated community they've grown for themselves. Perhaps the most obvious example of this is the country club and its accompanying golf course, which comprises a large chunk of the district.\nDreadford is one of the oldest settlements of the area, being inhabited by humans as far back as 1988. The original founders were fleeing restrict criminals rights laws, and established the town of Dreadford in what was then a barren Arizonian desert. These first settlers had quite the pension of holding kangaroo courts, which often amounted to just reading the list of crimes the accused was charged with before hanging them immediately. Some nooses still hang on trees around the district, begging to be finally used.\n\n This area contains the Country Club, the Dreadford Blimp Tower, the Hang-Em Saloon, and Hang-Em Square. To the North is Jaywalker Plain. To the East is Crookline. To the Southwest is Southwest Outskirts Edge.",
         coord=[10, 28],
         channel="dreadford",
         role="Dreadford",
@@ -3748,111 +3748,114 @@ world_events = [
         str_event_end="The radiation cloud subsides, spreading across the city. Back to the normal skin-searing levels!",
         str_check_text="There's a radiation storm enveloping ",
     ),
-	EwEventDef(
-		event_type=ewcfg.event_type_poudrin_hail,
-		str_name="poudrin hail",
-		pois=[ewcfg.poi_id_poudrinalley],
-		length=48, # 12h
-		buffer=8, # 2h
-		str_event_start="Poudrins begin falling from the heavens onto the city streets. **POUDRIN HAIL** has begun!",
-		str_event_ongoing="There's small chunks of crystallized slime falling across the pavement.",
-		str_event_end="The rain of poudrins abruptly stops.",
-		str_check_text="There's poudrin hail buffeting ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_meteor_shower,
-		str_name="a meteor shower",
-		pois=[ewcfg.poi_id_thesummit],
-		length=9, # 2h15m
-		buffer=14, # 3h30m
-		str_event_start="Streaks of light begin illuminating the night sky. A **METEOR SHOWER** has begun!",
-		str_event_ongoing="There's a meteor shower occurring overhead.",
-		str_event_end="The meteors finish their full-on-assault of the stars, leaving the morning to wake.",
-		str_check_text="There's a meteor shower gracing ",
-	),
-	EwEventDef(
-		event_type= ewcfg.event_type_raider_incursion,
-		str_name="a raider incursion",
-		pois=[ewcfg.poi_id_westglocksbury, ewcfg.poi_id_jaywalkerplain, ewcfg.poi_id_dreadford],
-		length=72, # 18h
-		buffer=4, #1h
-		str_event_start="A fucking raider appears, holy shit. It's like Mad Max up in here! A **RAIDER INCURSION** has begun!",
-		str_event_ongoing="There's a raider incursion incursioning.",
-		str_event_end="The raiders leave, clearly done with whatever their shitty goal was.",
-		str_check_text="There's a raider incursion incursioning ",
-	),
-	EwEventDef(
-		event_type= ewcfg.event_type_slimeunist_protest,
-		str_name="a slimeunist protest",
-		pois=[ewcfg.poi_id_gatlingsdale, ewcfg.poi_id_northsleezeborough], # College districts
-		length=72, # 18h
-		buffer=4, #1h
-		str_event_start="A bunch of college students wielding angrily-written signs begin marching down the street! A **SLIMEUNIST PROTEST** has begun!",
-		str_event_ongoing="There's a slimeunist protest occurring.",
-		str_event_end="The slimeunist protest disperses, probably due to the protester's curfews.",
-		str_check_text="There's a slimeunist protest occurring in ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_smog_warning,
-		str_name="a smog warning",
-		pois=[ewcfg.poi_id_smogsburg, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict],
-		length=48, #12h
-		buffer=2, # 30m
-		str_event_start="The air becomes too thick to breathe in. A **SMOG WARNING** has been issued!",
-		str_event_ongoing="The air is too thick to see or breathe through.",
-		str_event_end="The smog lifts, leaving the air mostly-breathable.",
-		str_check_text="There's a smog warning placed upon ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_dimensional_rift,
-		str_name="a dimensional rift",
-		pois=landlocked_destinations.keys(),
-		length=95, #23h45m
-		buffer=0,
-		str_event_start="A rift in space tears across the air. A **DIMENSIONAL RIFT** across the city has formed!",
-		str_event_ongoing="A dimensional rift is present.",
-		str_event_end="The dimensional rift closes, like a crab being sucked into an underwater pipe.",
-		str_check_text="There's a dimensional rift tearing apart ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_jape_storm,
-		str_name="a japestorm",
-		pois=[],
-		length=24, #6h
-		buffer=4, #1h
-		str_event_start="Mousetraps fall from the sky and clowns appear around every streetcorner. A **JAPESTORM** has begun!",
-		str_event_ongoing="A japestorm is joking.",
-		str_event_end="The **FUN POLICE** arrive. Clowns are clubbed to the pavement and japes of all sizes are murdered and detained.",
-		str_check_text="There's a japestorm jesting around ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_fishing_frenzy,
-		str_name="a fishing frenzy",
-		pois=[ewcfg.poi_id_toxington_pier, ewcfg.poi_id_jaywalkerplain_pier, ewcfg.poi_id_crookline_pier, ewcfg.poi_id_assaultflatsbeach_pier, ewcfg.poi_id_slimesend_pier, ewcfg.poi_id_ferry, ewcfg.poi_id_blackpond], # Piers - JRP and Moon purposely excluded
-		length=48, #12h
-		buffer=8, #2h
-		str_event_start="A swarm of fish enter the area. A **FISHING FRENZY** has begun!",
-		str_event_ongoing="Fish are hopping and popping.",
-		str_event_end="So many fish have been !reeled up that the fishing frenzy disperses.",
-		str_check_text="There's a fishing frenzy in ",
-	),
-	EwEventDef(
-		event_type=ewcfg.event_type_gas_leak,
-		str_name="a gas leak",
-		pois=[ewcfg.poi_id_tt_mines, ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines, ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble], # Mines - JRM purposely excluded
-		length=48, #12h
-		buffer=8, #2h
-		str_event_start="A mine wall collapses, and a pocket of Adderall® gas opens up! A **GAS LEAK** envelops the area!",
-		str_event_ongoing="Adderall gas floods the mine.",
-		str_event_end="The gas leak disperses. Get ready for amphetamine withdrawal, kiddo!",
-		str_check_text="There's a gas leak in ",
-	),
+    EwEventDef(
+        event_type=ewcfg.event_type_poudrin_hail,
+        str_name="poudrin hail",
+        pois=[ewcfg.poi_id_poudrinalley],
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="Poudrins begin falling from the heavens onto the city streets. **POUDRIN HAIL** has begun!",
+        str_event_ongoing="There's small chunks of crystallized slime falling across the pavement.",
+        str_event_end="The rain of poudrins abruptly stops.",
+        str_check_text="There's poudrin hail buffeting ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_meteor_shower,
+        str_name="a meteor shower",
+        pois=[ewcfg.poi_id_thesummit],
+        length=9,  # 2h15m
+        buffer=14,  # 3h30m
+        str_event_start="Streaks of light begin illuminating the night sky. A **METEOR SHOWER** has begun!",
+        str_event_ongoing="There's a meteor shower occurring overhead.",
+        str_event_end="The meteors finish their full-on-assault of the stars, leaving the morning to wake.",
+        str_check_text="There's a meteor shower gracing ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_raider_incursion,
+        str_name="a raider incursion",
+        pois=[ewcfg.poi_id_westglocksbury, ewcfg.poi_id_jaywalkerplain, ewcfg.poi_id_dreadford],
+        length=72,  # 18h
+        buffer=4,  # 1h
+        str_event_start="A fucking raider appears, holy shit. It's like Mad Max up in here! A **RAIDER INCURSION** has begun!",
+        str_event_ongoing="There's a raider incursion incursioning.",
+        str_event_end="The raiders leave, clearly done with whatever their shitty goal was.",
+        str_check_text="There's a raider incursion incursioning ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_slimeunist_protest,
+        str_name="a slimeunist protest",
+        pois=[ewcfg.poi_id_gatlingsdale, ewcfg.poi_id_northsleezeborough],  # College districts
+        length=72,  # 18h
+        buffer=4,  # 1h
+        str_event_start="A bunch of college students wielding angrily-written signs begin marching down the street! A **SLIMEUNIST PROTEST** has begun!",
+        str_event_ongoing="There's a slimeunist protest occurring.",
+        str_event_end="The slimeunist protest disperses, probably due to the protester's curfews.",
+        str_check_text="There's a slimeunist protest occurring in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_smog_warning,
+        str_name="a smog warning",
+        pois=[ewcfg.poi_id_smogsburg, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict],
+        length=48,  # 12h
+        buffer=2,  # 30m
+        str_event_start="The air becomes too thick to breathe in. A **SMOG WARNING** has been issued!",
+        str_event_ongoing="The air is too thick to see or breathe through.",
+        str_event_end="The smog lifts, leaving the air mostly-breathable.",
+        str_check_text="There's a smog warning placed upon ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_dimensional_rift,
+        str_name="a dimensional rift",
+        pois=landlocked_destinations.keys(),
+        length=95,  # 23h45m
+        buffer=0,
+        str_event_start="A rift in space tears across the air. A **DIMENSIONAL RIFT** across the city has formed!",
+        str_event_ongoing="A dimensional rift is present.",
+        str_event_end="The dimensional rift closes, like a crab being sucked into an underwater pipe.",
+        str_check_text="There's a dimensional rift tearing apart ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_jape_storm,
+        str_name="a japestorm",
+        pois=[],
+        length=24,  # 6h
+        buffer=4,  # 1h
+        str_event_start="Mousetraps fall from the sky and clowns appear around every streetcorner. A **JAPESTORM** has begun!",
+        str_event_ongoing="A japestorm is joking.",
+        str_event_end="The **FUN POLICE** arrive. Clowns are clubbed to the pavement and japes of all sizes are murdered and detained.",
+        str_check_text="There's a japestorm jesting around ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_fishing_frenzy,
+        str_name="a fishing frenzy",
+        pois=[ewcfg.poi_id_toxington_pier, ewcfg.poi_id_jaywalkerplain_pier, ewcfg.poi_id_crookline_pier,
+              ewcfg.poi_id_assaultflatsbeach_pier, ewcfg.poi_id_slimesend_pier, ewcfg.poi_id_ferry,
+              ewcfg.poi_id_blackpond],  # Piers - JRP and Moon purposely excluded
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="A swarm of fish enter the area. A **FISHING FRENZY** has begun!",
+        str_event_ongoing="Fish are hopping and popping.",
+        str_event_end="So many fish have been !reeled up that the fishing frenzy disperses.",
+        str_check_text="There's a fishing frenzy in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_gas_leak,
+        str_name="a gas leak",
+        pois=[ewcfg.poi_id_tt_mines, ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
+              ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble],  # Mines - JRM purposely excluded
+        length=48,  # 12h
+        buffer=8,  # 2h
+        str_event_start="A mine wall collapses, and a pocket of Adderall® gas opens up! A **GAS LEAK** envelops the area!",
+        str_event_ongoing="Adderall gas floods the mine.",
+        str_event_end="The gas leak disperses. Get ready for amphetamine withdrawal, kiddo!",
+        str_check_text="There's a gas leak in ",
+    ),
     EwEventDef(
         event_type=ewcfg.event_type_raid_den,
         str_name="a raid den entrance",
         pois=[],
-		length=44, #11h
-        buffer=52, #13h
+        length=44,  # 11h
+        buffer=52,  # 13h
         str_event_start="A great fissure erupts in the ground. A **RAID DEN** has opened!",
         str_event_ongoing="**There's an opening to a RAID DEN within the ground!**",
         str_event_end="The ground crashes together, forever sealing the raid den in the earth.",

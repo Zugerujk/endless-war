@@ -8,12 +8,12 @@ from ew.static import cosmetics
 from ew.static import cosmetics as static_cosmetics
 from ew.static import smelting
 from ew.static import vendors
+from ew.static.community_cfg import slimeglobe_list
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
 from ew.utils import item as itm_utils
 from ew.utils.combat import EwUser
 from .smeltingutils import smeltsoul
-
 
 # Smelting command. It's like other games call "crafting"... but BETTER and for FREE!!
 async def smelt(cmd):
@@ -106,7 +106,7 @@ async def smelt(cmd):
                             items.append(cosmetic)
                         elif not patrician and cosmetic.rarity == ewcfg.rarity_plebeian:
                             items.append(cosmetic)
-
+                    
                     item = items[random.randint(0, len(items) - 1)]
 
                     item_props = itm_utils.gen_item_props(item)
@@ -147,7 +147,6 @@ async def smelt(cmd):
 
                     # If there are multiple possible products, randomly select one.
                     item = random.choice(possible_results)
-
                     if not bknd_item.check_inv_capacity(user_data=user_data, item_type=item.item_type):
                         # Check for ingredients of the same type as the target item
                         same_type_count = 0
@@ -161,6 +160,9 @@ async def smelt(cmd):
                             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     item_props = itm_utils.gen_item_props(item)
+
+                    if item.item_type == ewcfg.it_furniture and item.id_furniture == 'slimeglobe':
+                        item_props['furniture_desc'] = random.choice(slimeglobe_list)
 
                     newitem_id = bknd_item.item_create(
                         item_type=item.item_type,

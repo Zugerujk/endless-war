@@ -16,14 +16,15 @@ def init_stat_function_map():
         ewcfg.stat_kills: process_kills,
         ewcfg.stat_max_kills: process_max_kills,
         ewcfg.stat_slimesfarmed: process_slimesfarmed,
-        ewcfg.stat_slimesscavenged: process_slimesscavenged
+        ewcfg.stat_slimesscavenged: process_slimesscavenged,
+        ewcfg.stat_festivity: process_festivity,
     }
     global fns_initialized
     fns_initialized = True
 
 
 def process_stat_change(id_server = None, id_user = None, metric = None, value = None):
-    if fns_initialized == False:
+    if not fns_initialized:
         init_stat_function_map()
 
     fn = stat_fn_map.get(metric)
@@ -68,9 +69,6 @@ def process_max_kills(id_server = None, id_user = None, value = None):
     pass
 
 
-
-
-
 def process_max_ghostbusts(id_server = None, id_user = None, value = None):
     # TODO give apropriate medal
     pass
@@ -79,3 +77,9 @@ def process_max_ghostbusts(id_server = None, id_user = None, value = None):
 def process_poudrins_looted(id_server = None, id_user = None, value = None):
 
     ewstats.change_stat(id_user=id_user, id_server=id_server, metric=ewcfg.stat_lifetime_poudrins, n=value)
+
+
+def process_festivity(id_server, id_user, value):
+    """ Slimernalia 2022 advanced festivity tracking """
+    # Check against max festivity
+    ewstats.track_maximum(id_server=id_server, id_user=id_user, metric=ewcfg.stat_festivity_max, value=value)

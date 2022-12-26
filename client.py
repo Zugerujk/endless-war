@@ -437,7 +437,7 @@ async def on_member_join(member):
             item_props=item_props
         )
         # Wait a bit, send a message
-        asyncio.sleep(30)
+        await asyncio.sleep(30)
         if random.random() < 0.0666:
             await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
         else:

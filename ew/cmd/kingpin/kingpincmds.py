@@ -122,8 +122,7 @@ async def defect(cmd):
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     try:
-        message = await cmd.client.wait_for('message', timeout=30, check=lambda message: 0 < ewrolemgr.check_clearance(member=message.author) <= 4 and
-                                                                                         message.content.lower() in [ewcfg.cmd_yes, ewcfg.cmd_no])
+        message = await cmd.client.wait_for('message', timeout=30, check=lambda msg: (msg.content.lower() in [ewcfg.cmd_yes, ewcfg.cmd_no]) and (0 < ewrolemgr.check_clearance(member=msg.author) <= 4))
 
         if message != None:
             if message.content.lower() == ewcfg.cmd_yes:

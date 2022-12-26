@@ -2,8 +2,7 @@ import datetime
 
 # Global configuration options.
 
-
-version = "v4.1911 🕊️2nd Plane Edition🕊️"
+version = "v4.1999 Y2KSLIMERNALIA"
 
 
 dir_msgqueue = 'msgqueue'
@@ -15,7 +14,7 @@ discord_message_length_limit = 2000
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
-update_market = 900  # 15 min
+update_market = 900  # 15 min = 900
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
 suppress_missing_channel = False
@@ -29,11 +28,11 @@ territory_time_gain = 10
 #Double Halloween Features
 dh_active = False
 #Existing Stages for Double Halloween. As the years go by we may add on to this
-
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = False
+slimernalia_active = True
+slimernalia_stage = 4
 
 #Swilldermuk Features
 swilldermuk_active = False
@@ -1014,6 +1013,9 @@ cmd_flush = cmd_prefix + 'flush'
 cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
+cmd_festivitystage = cmd_prefix + 'festivitystage'
+cmd_setfestivitystage = cmd_prefix + 'setfestivitystage'
+cmd_announcefestivitystage = cmd_prefix + 'announcefestivitystage'
 cmd_rejuvenate = cmd_prefix + 'rejuvenate'
 cmd_goonscape_stats = cmd_prefix + 'stats'
 
@@ -1388,6 +1390,7 @@ cmd_festivity = cmd_prefix + 'festivity'
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
+
 cmd_talk = cmd_prefix + 'talk'
 
 
@@ -1395,6 +1398,10 @@ cmd_talk = cmd_prefix + 'talk'
 cmd_avast = cmd_prefix + 'avast'
 cmd_setsail = cmd_prefix + 'setsail'
 cmd_rentyacht = cmd_prefix + 'rentyacht'
+
+cmd_clean_stats = cmd_prefix + 'cleanstats'
+
+
 
 offline_cmds = [
     cmd_move,
@@ -2086,11 +2093,9 @@ festivity_name_bonus = 100 # Bonus for naming a weapon gift
 festivity_smelt_bonus = 500 # Bonus for gifting something handmade
 festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
-festivity_othr_bonus = 300 # Bonus for any other tier gifts
+festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
-festivity_sigil_bonus = 1000 # The amount of festivity you gain per sigillaria
-
-festivity_kill_bonus = 500 # The  amount of festivity you gain upon killing someone
+festivity_kill_bonus = 1500 # The  amount of festivity you gain upon killing someone
 
 festivity_expired_penalty = 2500 # Penalty if the food item you are giving has already expired
 festivity_generic_penality = 500 # Penality if the item is something generic
@@ -2098,6 +2103,16 @@ festivity_generic_penality = 500 # Penality if the item is something generic
 phoebus_bet_floor = 1000000 # How high a slime bet needs to be to get the Phoebus' Blessing bonus
 
 slimernalia_kingpin_announcement = "**HARK!** I, Phoebus do hereby crown <{player}> as today's Kingpin of Slimernalia! <{player}> gained a total of **{festivity}** festivity!"
+
+slimernalia_stage_announcements = [
+    "The Slimernalia holiday spirit invigorates the city! Juveniles, and even some of the shadier side of the city feel invigorated, and are now roaming enemies throughout the city. If you want to stay safe, use a body spray!\nDetailed patchnotes spoiled below.\n||-Enemies that can move that aren't raid bosses won't be announced in the Gang Bases now. You're welcome for the avoidance of the crazy amounts of spam that would have been.\n-Culls the monsters of the outskirts down to what is just required to keep errors at bay, replaces that missing monster pool with Juvenile counterparts, 3 raid bosses included in the midst.\n-Gift Ribbons can be dropped from these mobs, and is used in the new Slimernalia exclusive smelting recipes. You won't be able to use the item to smelt them after Slimernalia is over!\n-The Immigrants have a 100% chance to drop harpoon. Yep, that's right! 100% chance to drop harpoon. :)||\n||-(A 100% chance to drop zero harpoons.)||",  # stage 1
+    "Yo Slimernalia! Festive icebergs have grown over the farms, slid over the soils slowly, and fucked off shortly after into the slime sea (or something... dude, you don't have enough attention span to fish most the times, let alone watch a farm). As a result, the slime gained from reaping has doubled! In addition, Shovels and Slimering Cans are no longer as useless as they are now.\nDetailed patchnotes spoiled below.\n||-Slimering Can is now a farming tool again. For half the slime gain, and for 0 crop gain, you can get slime poudrins directly for farming, and doesn't need to be cared for.\n-The Shovel now pulls from a table of items when you get an item, said table of items can be improved in a future update quite easily.\n-As stated before, all reaping slime has doubled from farming until Slimernalia is over.||",  # stage 2
+    "The city's holiday cheer has made the made the mines twice as juicy! (Well, either that or the festive icebergs are at it again, so take your pick.) Slime gained from mining has doubled. Sledgehammers are now considered a tool, meaning juveniles can equip it no matter what-- maintains its heavy weapon stats, but juveniles still can't swing it for the sake of violence... except for right now, because it's Slimernalia. You should probably be careful with mining with big heavy sledgehammers, as it's gonna cause the cave walls to shift much harder than a pickaxe would.\nDetailed patchnotes spoiled below.\n||-The sledgehammer is now a mining tool. Use it to enable some sort of \"Captcha mining\". Completely optional, but is entirely worth it compared to that cringe AHK mining, trust me, trust me.\n-Slimegain from mining has doubled, as stated previously.||\n||To be more specific about the Sledgehammer, it replaces all common mine events with mine collapses, and gives you a reward IF AND ONLY IF you clear it with the captcha. Enjoy!||",  # stage 3
+    "Phoebus has blessed the piers with holiday cheer! A new fish is now obtainable from now until the end of Slimernalia, one at each kind of pier! Oh, and the fish hate these newcomers, and are twice as desperate to get on your hook as before.\nDetailed patchnotes spoiled below.\n||-The chance for a fish to bite your hook has doubled. Specifically, fish bites should happen sooner than most times so you won't be stuck with those long waits with no fish bites. It's better than doubling the slime from reeling, because we all know you want to catch that 0.01 inch sized fish, you monster\n-A new fish can now be gained at the saltwater pier, the freshwater pier, black pond, and moon respectively.||",  # stage 4
+    "Everyone's feeling so festive, you just feel lucky too! You know what that means? Increased chance of gambling. Only problem here is that everyone's now gambling, and it's causing the casino a bit of trouble keeping track of the packed business. So make it an even worse problem and gamble till you're flat broke!\nDetailed patchnotes spoiled below.\n||The casino now has a 20% chance to let you recoup your bet **only** when you lose. Only affects the singleplayer games.||",  # stage 5
+    "It's difficult to tell if the dumb staydeads creeping out of the sewers these days are from your time, or from another time way before your own. But it seems as if they too are festive, trying to give you gifts of... food? You don't think whatever they're offering is food anymore.\nDetailed patchnotes spoiled below.\n||-Spirits of Slimernalia Past are trying to give you gifts of food, but it's completely petrified. This new enemy has a chance to drop this new small-game weapon available exclusively during this small timeframe. Probably never to resurface again...||",  # stage 6
+    "The Cop Killer has been watching all of you baby juveniles partying, having fun, and even make a mockery of his status as a kingpin. It's safe to say that our Ben Saint is brewing with negative energy.",  # Prevents code goons from completely spoiling themselves. Fuck you. :)
+]
 
 # Common strings.
 str_casino_closed = "The Casino only operates at night."
@@ -2245,8 +2260,6 @@ col_freshness = 'freshness'
 
 # SLIMERNALIA
 col_festivity = 'festivity'
-col_festivity_from_slimecoin = 'festivity_from_slimecoin'
-col_slimernalia_coin_gambled = 'slimernalia_coin_gambled'
 col_slimernalia_kingpin = 'slimernalia_kingpin'
 
 #Database columns for fishing records
@@ -2605,8 +2618,12 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+
+# Slimernalia stats
 stat_festivity = 'festivity'
-stat_festivity_from_slimecoin = 'festivity_from_slimecoin'
+stat_festivity_max = 'max_festivity'
+stat_festivity_global = 'global_festivity'
+
 
 stat_revolver_kills = 'revolver_kills'
 stat_dual_pistols_kills = 'dual_pistols_kills'
@@ -2661,6 +2678,7 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
+stat_foodbasket_kills = 'foodbasket_kills'
 
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
@@ -2943,6 +2961,7 @@ item_id_monofilamentcloth = "monofilamentcloth"
 item_id_civilianscalp = "civilianscalp"
 item_id_modelovaccine = "modelovirusvaccine"
 item_id_key = "key"
+item_id_emptyslimebottle = "emptyslimebottle"
 
 # SLIMERNALIA
 item_id_sigillaria = "sigillaria"
@@ -2963,6 +2982,7 @@ item_id_airhorn = "airhorn"
 item_id_banggun = "banggun"
 item_id_pranknote = "pranknote"
 item_id_bodynotifier = "bodynotifier"
+item_id_candycane = "candycane"
 # Response items
 item_id_chinesefingertrap = "chinesefingertrap"
 item_id_japanesefingertrap = "japanesefingertrap"
@@ -2999,6 +3019,7 @@ item_id_undefinedprankscrap = "undefinedprankscrap"
 item_id_janusmask = "janusmask"
 item_id_swordofseething = "swordofseething"
 item_id_usedneedle = "usedneedle"
+item_id_giftpipebomb = "giftpipebomb"
 
 prank_type_instantuse = 'instantuse'
 prank_type_response = 'response'
@@ -3183,6 +3204,7 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
+weapon_id_foodbasket = 'petrifiedfoodbasket'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -4289,6 +4311,7 @@ enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
 enemy_attacktype_icespike = 'icespike'
 enemy_attacktype_bloodsucker = "bloodsucker"
+enemy_attacktype_bluntweapon = "bluntweapon"
 
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
@@ -4357,6 +4380,17 @@ enemy_type_doublehorse = 'doublehorse'
 # Raid Den bosses - have special effects that occur on death
 enemy_type_alm = "almfe" # Placeholder testing boss
 
+# Slimernalia Specific Enemies and Raid Bosses
+enemy_type_slimernaliajuvie = "slimernaliajuvie"
+enemy_type_vandal = "vandal"
+enemy_type_illegalimmigrant = "illegalimmigrant"
+enemy_type_arsonist = "arsonist"
+enemy_type_slimeoidabuser = "slimeoidabuser"
+enemy_type_slimernaliagangster = "slimernaliagangster"
+enemy_type_spiritofslimernaliapast = "spiritofslimernaliapast"
+enemy_type_drugdealer = "drugdealer"
+enemy_type_miserablemiser = "miserablemiser"
+
 # Enemy ai types
 enemy_ai_sandbag = 'Sandbag'
 enemy_ai_coward = 'Coward'
@@ -4367,21 +4401,36 @@ enemy_ai_defender = 'Defender'
 # Enemy classes. For now this is only used for Gankers Vs. Shamblers
 enemy_class_normal = 'normal'
 
+common_enemies = []
 # List of enemies sorted by their spawn rarity.
-common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
-uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
-rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
-raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+if slimernalia_stage >= 1:
+    common_enemies = [enemy_type_sandbag, enemy_type_dinoslime]
+    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
+    rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
+    raid_bosses = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
+    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
+    defense_up_enemies = [enemy_type_miserablemiser]
+    if slimernalia_stage >= 6:
+        common_enemies.append(enemy_type_spiritofslimernaliapast)
+else:
+    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
+    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+    rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
+    raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+    defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 raid_den_bosses = [enemy_type_alm]
-defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
-
-enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator]
 
 # List of enemies that spawn in the Nuclear Beach
-pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+if slimernalia_stage >= 1:
+    pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+    arctic_enemies = [enemy_type_desertraider]
+    slimeoid_trainers = [enemy_type_npc]
+else:
+    pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+    arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+    slimeoid_trainers = [enemy_type_npc]
 
-slimeoid_trainers = [enemy_type_npc]
 
 # Double Halloween variant enemies
 dh_v_enemies = [enemy_type_juvie, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime, enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer, enemy_type_bandito, enemy_type_raiderunderboss, enemy_type_microgullswarm, enemy_type_spacecarp]
@@ -4394,9 +4443,9 @@ radiation_storm_enemies = [enemy_type_deathclaw, enemy_type_mutatedbarrel]
 
 # List of raid bosses sorted by their spawn rarity.
 raid_boss_tiers = {
-    "micro": [enemy_type_megaslime],
-    "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator],
-    "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime],
+    "micro": [enemy_type_megaslime, enemy_type_slimernaliajuvie],
+    "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator, enemy_type_miserablemiser],
+    "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime, enemy_type_slimernaliagangster],
     # This can be left empty until we get more raid boss ideas.
     # "nega": [],
 }
@@ -4603,8 +4652,68 @@ enemy_drop_tables = {
     enemy_type_alm: [
         {item_id_doublehalloweengrist: [100, 1, 4]},
         {weapon_id_broadsword: [100, 1, 1]},
-        {item_id_civilianscalp: [100, 1, 1]}
+        {item_id_civilianscalp: [100, 1, 1]},
     ],  
+    enemy_type_slimernaliajuvie: [
+        {item_id_slimepoudrin: [100, 1, 15]},
+        {item_id_giftribbon: [80, 1, 6]},
+        {"crop": [30, 1, 3]},
+        {item_id_candycane: [100, 1, 10]},
+    ],
+    enemy_type_slimeoidabuser: [
+        {item_id_slimepoudrin: [100, 1, 12]},
+        {rarity_plebeian: [20, 1, 1]},
+        {item_id_giftribbon: [40, 1, 3]},
+    ],
+    enemy_type_slimernaliagangster: [
+        {item_id_slimepoudrin: [100, 1, 20]},
+        {item_id_giftribbon: [100, 2, 5]},
+    ],
+    enemy_type_spiritofslimernaliapast: [
+        {weapon_id_foodbasket: [100, 1, 1]},
+        {rarity_patrician: [50, 1, 1]},
+        {item_id_slimepoudrin: [10, 10, 25]},
+    ],
+    enemy_type_drugdealer: [
+        {"pileofmysteriouspowder": [25, 1, 1]},
+        {item_id_seaweedjoint: [50, 1, 4]},
+        {"edibleslime": [50, 1, 2]},
+        {item_id_giftribbon: [10, 1, 3]}, 
+    ],
+    enemy_type_arsonist: [
+        {weapon_id_molotov: [100, 1, 1]},
+        {item_id_slimepoudrin: [50, 3, 7]},
+        {item_id_giftpipebomb: [100, 1, 2]},
+        {item_id_giftribbon: [25, 3, 6]},
+    ],
+    enemy_type_vandal: [
+        {weapon_id_spraycan: [100, 1, 1]},
+        {item_id_slimepoudrin: [100, 2, 5]},
+        {item_id_giftribbon: [60, 1, 2]},
+        {"vape": [10, 1, 1]},
+        {item_id_mustard_gas_pod: [30, 1, 3]},
+        {item_id_cop_killer_cotton_candy_pod: [30, 1, 3]},
+        {item_id_mastectomy_mango_pod: [30, 1, 3]},
+        {item_id_menthol_mint_pod: [30, 1, 3]},
+        {item_id_striking_strawberry_pod: [30, 1, 3]},
+        {item_id_ten_story_tobacco_pod: [30, 1, 3]},
+        {item_id_moon_dust_pod: [1, 1, 1]},
+    ],
+    enemy_type_miserablemiser: [
+        {item_id_slimepoudrin: [15, 10, 10]},
+        {item_id_giftribbon: [90, 1, 9]},
+        {"cigar": [30, 3, 12]},
+    ],
+    enemy_type_illegalimmigrant: [
+        {weapon_id_boomerang: [10, 1, 1]},
+        {item_id_bustedrifle: [15, 1, 1]},
+        {item_id_repairkit: [15, 1, 1]},
+        {"sloshhat": [25, 1, 1]},
+        {item_id_prankcapsule: [100, 6, 10]},
+        {weapon_id_harpoon: [100, 0, 0]},
+        {item_id_slimepoudrin: [10, 10, 10]},
+        {item_id_giftribbon: [60, 1, 5]},
+    ],
 
 }
 
@@ -4627,14 +4736,15 @@ enemy_data_table = {
         "raredisplayname": "Durable Sand Bag",
         "aliases": ["sandbag", "bag o sand", "bag of sand"]
     },
-    enemy_type_juvie: {
-        "slimerange": [10000, 50000],
-        "ai": enemy_ai_coward, "attacktype": enemy_attacktype_unarmed,
-        "displayname": "Lost Juvie",
-        "raredisplayname": "Shellshocked Juvie",
-        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
-        "arcticvariant" : "Frostbitten Juvie",
-        "dhvariant": "Accursed Juvie"
+        enemy_type_juvie: {
+            "slimerange": [10000, 50000],
+            "ai": enemy_ai_coward, 
+            "attacktype": enemy_attacktype_unarmed,
+            "displayname": "Lost Juvie",
+            "raredisplayname": "Shellshocked Juvie",
+            "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
+            "arcticvariant" : "Frostbitten Juvie",
+            "dhvariant": "Accursed Juvie"
     },
     enemy_type_dinoslime: {
         "slimerange": [250000, 500000],
@@ -4949,6 +5059,78 @@ enemy_data_table = {
         "displayname": "Alm Fire Emblem https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
         "raredisplayname": "Alm Fire Emblem Conqueror https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
         "aliases": ["alm", "fireemblem"]
+    }, 
+    enemy_type_slimernaliajuvie: {
+        "slimerange": [1000000, 3000000],
+        "ai": enemy_ai_attacker_b, 
+        "attacktype": enemy_attacktype_bluntweapon,
+        "displayname": "Festive Juvie",
+        "raredisplayname": "Found Juvie",
+        "aliases": ["juvie", "greenman", "foundjuvie", "found", "festive", "festivejuvie"],
+    },
+    enemy_type_vandal: {
+        "slimerange": [600000, 1200000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_gunkshot,
+        "displayname": "Rebellious Vandal",
+        "raredisplayname": "Vicious Vandal",
+        "aliases": ["vandal", "rebellious", "vicious", "rebelliousvandal", "viciousvandal"],
+    },
+    enemy_type_illegalimmigrant: {
+        "slimerange": [750000, 1200000],
+        "ai": enemy_ai_attacker_b,
+        "attacktype": enemy_attacktype_bonemerang,
+        "displayname": "Illegal Immigrant",
+        "raredisplayname": "Legal Immigrant But They Are Missing Their Visa",
+        "aliases": ["illegal", "legal", "immigrant", "visa", "australian", "illegalimmigrant", "legalimmigrantbuttheyaremissingtheirvisa"], 
+    },
+    enemy_type_arsonist: {
+        "slimerange": [250000, 750000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_molotovbreath,
+        "displayname": "Agitated Arsonist",
+        "raredisplayname": "Agitated Larcenist",
+        "aliases": ["agitated", "arsonist", "agitatedarsonist", "larcenist", "agitatedlarcenist"],
+    },
+    enemy_type_spiritofslimernaliapast: {
+        "slimerange": [100000, 900000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "Spirit of Slimernalia Past",
+        "raredisplayname": "Spirit of Slimernalia Present",
+        "aliases": ["spirit", "slimernalia", "staydead", "past", "present", "spiritofslimernaliapast", "spiritofslimernaliapresent"],
+    },
+    enemy_type_slimernaliagangster: {
+        "slimerange": [5000000, 8000000],
+        "ai": enemy_ai_coward,
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Enlisted Gangster",
+        "raredisplayname": "Enlisted Goon",
+        "aliases": ["idiot", "enlistedgangster", "enlisted", "gangster", "goon", "enlistedgoon"],
+    },
+    enemy_type_drugdealer: {
+        "slimerange": [40000, 100000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Drug Dealer",
+        "raredisplayname": "Drug Stealer",
+        "aliases": ["drug", "dealer", "drugdealer", "stealer", "drugstealer"],
+    },
+    enemy_type_slimeoidabuser: {
+        "slimerange": [3000000, 5000000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_raiderscythe,
+        "displayname": "Slimeoid Abuser",
+        "raredisplayname": "Negaslimeoid Abuser",
+        "aliases": ["abuser", "slimeoid", "negaslimeoid", "slimeoidabuser", "negaslimeoidabuser"],
+    },
+    enemy_type_miserablemiser: {
+        "slimerange": [4000000, 6000000],
+        "ai": enemy_ai_defender,
+        "attacktype": enemy_attacktype_wesson,
+        "displayname": "Miserable Miser",
+        "raredisplayname": "Miserable Scrooge",
+        "aliases": ["miser", "miserable", "scrooge", "miserablemiser", "miserablescrooge"],
     },
 }
 
@@ -4960,20 +5142,36 @@ for enemy in enemy_data_table.keys():
         raid_boss_names.append(enemy_data_table[enemy]["raredisplayname"])
 
 # Responses given by cowardly enemies when a non-ghost user is in their district.
-coward_responses = [
+if slimernalia_stage >= 1:
+    coward_responses = [
+    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
+    "the {} taunts: *You're not even worth renouncing to kill, bitch.*",
+    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*",
+    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*",
+    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*",
+    ]
+else:
+    coward_responses = [
     "The {} calls out to you: *H-Hello. Are you one of those Gangsters everyone seems to be talking about?*",
     "The {} calls out to you: *You wouldn't hurt a {}, would you?*",
     "The {} calls out to you: *Why.. uh.. hello there? What brings you to these parts, stranger?*",
     "The {} calls out to you: *L-look at how much slime I have! I'm not even worth it for you to kill me!*",
     "The {} calls out to you: *I'm just a good little {}... never hurt nobody anywhere...*",
-]
+    ]
 
 # Responses given by cowardly enemies when hurt.
-coward_responses_hurt = [
-    "\nThe {} cries out in pain!: *Just wait until the Juvenile Enrichment Center hears about this!!*",
+if slimernalia_stage >= 1:
+    coward_responses_hurt = [
+    "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
+    "\nThe {} rages out: *DUDE, FUCK OFF!!*",
+    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*",
+    ]
+else:
+    coward_responses_hurt = [
+    "\nThe {} cries out in pain!: *Just wait until Juvieman hears about this!!*",
     "\nThe {} cries out in pain!: *You MONSTER!*",
     "\nThe {} cries out in pain!: *What the H-E-double-hockey-sticks is your problem?*",
-]
+    ]
 
 # Letters that an enemy can identify themselves with
 identifier_letters = [
