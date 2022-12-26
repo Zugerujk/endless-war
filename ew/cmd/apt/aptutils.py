@@ -167,7 +167,9 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
     if all(elem in furniture_id_list for elem in static_items.furniture_NMS):
         furn_response += "This room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie.\n\n"
     if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
-        furn_response += "Whoa, your flat is so futuristic! You;ve got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
+        furn_response += "Whoa, your flat is so futuristic! You've got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
+    if all(elem in furniture_id_list for elem in static_items.furniture_hummels):
+        furn_response += "Your apartment has severe elderly vibes, like a thick fog.\n\n"
 
     market_data = EwMarket(id_server=id_server)
     clock_data = ewutils.weather_txt(market_data)

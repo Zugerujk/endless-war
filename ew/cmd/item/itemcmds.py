@@ -330,38 +330,39 @@ async def inventory_print(cmd):
         if 'book' in lower_token_list or 'books' in lower_token_list or 'zines' in lower_token_list:
             item_type = ewcfg.it_book
 
-        #Filter to relic items
+        # Filter to relic items
         if 'relic' in lower_token_list or 'relics' in lower_token_list:
             item_type = ewcfg.it_relic
         
-        #Filter to preserved items (rigor mortis)
+        # Filter to preserved items (rigor mortis)
         if "preserved" in lower_token_list:
             prop_hunt["preserved"] = str(cmd.message.author.id)
 
-        #Less tokens exist than colours or weapons. Search each token instea dof each colour/weapon
-        if(len(lower_token_list) < 20): #anything above that is just gonna make this loop run long
+        # Less tokens exist than colours or weapons. Search each token instead of each colour/weapon
+        if len(lower_token_list) < 20: # anything above that is just gonna make this loop run long
             i = 1
             while i < len(lower_token_list):
                 token = lower_token_list[i]
 
-                #Filter by colour
-                hue_prop = hue_static.hue_map.get(token)
-                if(hue_prop):
-                    prop_hunt["hue"] = hue_prop.id_hue
+                # Only cosmetics and furnitures can be dyed
+                if item_type in [ewcfg.it_cosmetic, ewcfg.it_furniture]:
+                    #Filter by colour
+                    hue_prop = hue_static.hue_map.get(token)
+                    if(hue_prop):
+                        prop_hunt["hue"] = hue_prop.id_hue
+                        i += 1 # this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
+                        continue
 
-                    i += 1 #this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
-                    if i >= len(lower_token_list):
-                        break
-                    token = lower_token_list[i]
+                # Only weapons have weapon types
+                if item_type == ewcfg.it_weapon:
+                    #Filter by weapon
+                    weapon_prop = static_weapons.weapon_map.get(token)
+                    if(weapon_prop):
+                        prop_hunt["weapon_type"] = weapon_prop.id_weapon
+                        i += 1
+                        continue
 
-                #Filter by weapon
-                weapon_prop = static_weapons.weapon_map.get(token)
-                if(weapon_prop):
-                    prop_hunt["weapon_type"] = weapon_prop.id_weapon
-                    i += 1
-
-                if not (hue_prop or weapon_prop):
-                    i += 1
+                i += 1
         
         if(not prop_hunt):
             prop_hunt = None
@@ -947,7 +948,7 @@ async def item_use(cmd):
 
             elif context == 'milk':
                 response = "After struggling with the milk cap, you eventually manage to force it off with your bare hands. Now holding the open gallon jug out, you pour all of its contents onto the ground until you're left with an empty carton."
-
+            
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"
 

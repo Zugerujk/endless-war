@@ -612,7 +612,7 @@ class EwEnemy(EwEnemyBase):
                 old_ch_name = old_poi_def.channel
                 resp_cont.add_channel_response(old_ch_name, old_district_response)
 
-                if new_poi not in poi_static.outskirts:
+                if new_poi not in poi_static.outskirts and self.enemytype in ewcfg.raid_bosses:
                     gang_base_response = "There are reports of a powerful enemy roaming around {}.".format(
                         new_poi_def.str_name)
                     channels = ewcfg.hideout_channels
@@ -1547,7 +1547,7 @@ def find_enemy(enemy_search = None, user_data = None):
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
-    if enemy_data.enemytype in ewcfg.raid_bosses:
+    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers:
         if enemy_data.time_lastenter <= time_now - ewcfg.time_raidboss_movecooldown:
             # Raid boss can move
             return True
@@ -2486,49 +2486,8 @@ class EwUser(EwUserBase):
         return bknd_item.get_freshness(self)
 
     def get_festivity(self):
-        # Use cache if available
-        item_cache = bknd_core.get_cache(obj_type = "EwItem")
-        if item_cache is not False:
-            # Get all user furniture id'd as a sigil
-            sigils = item_cache.find_entries(criteria={
-                "id_owner": self.id_user,
-                "item_type": ewcfg.it_furniture,
-                "id_server": self.id_server,
-                "item_props": {"id_furniture": ewcfg.item_id_sigillaria},
-            })
-
-            # return the sum of festivity props and 1000 per sigil
-            festivity = ewstats.get_stat(id_server=self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity)
-            festivity_sc = ewstats.get_stat(id_server=self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity_from_slimecoin)
-
-            return festivity + festivity_sc + (len(sigils)*1000)
-
-
-        data = bknd_core.execute_sql_query(
-            "SELECT {festivity} + COALESCE(sigillaria, 0) + {festivity_from_slimecoin} FROM users " \
-            "LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} " \
-            "WHERE {type} = %s AND {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} WHERE users.{id_user} = %s AND users.{id_server} = %s".format(
-                id_user=ewcfg.col_id_user,
-                id_server=ewcfg.col_id_server,
-                festivity=ewcfg.col_festivity,
-                festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
-                type=ewcfg.col_item_type,
-                name=ewcfg.col_name,
-                value=ewcfg.col_value,
-                id_item=ewcfg.col_id_item,
-            ), (
-                ewcfg.it_furniture,
-                "id_furniture",
-                ewcfg.item_id_sigillaria,
-                self.id_user,
-                self.id_server
-            ))
-        res = 0
-
-        for row in data:
-            res = row[0]
-
-        return res
+        festivity = ewstats.get_stat(self.id_server, id_user=self.id_user, metric=ewcfg.stat_festivity)
+        return festivity
 
     # Returns EwItem of the weapon they would use in combat
     def get_weapon_item(self):

@@ -54,7 +54,7 @@ async def collect_bet(cmd, resp, value, user_data, currency_used):
             await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, ewcfg.str_casino_negaslime_dealer))
             return
 
-        if user_data.poi != ewcfg.poi_id_thecasino:
+        if user_data.poi != ewcfg.poi_id_thecasino and not ewcfg.slimernalia_active:
             response = "You try to shove the slime through your phone into the casino, but it just bounces off the screen. Better use a digital currency. Or your soul."
             await fe_utils.edit_message(cmd.client, resp, fe_utils.formatMessage(cmd.message.author, response))
             return

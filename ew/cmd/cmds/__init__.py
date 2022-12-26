@@ -199,6 +199,9 @@ cmd_map = {
     # Testing command for retrieving members
     ewcfg.cmd_user_search: cmdcmds.user_search,
 
+    # Admin command for cleaning stats db
+    ewcfg.cmd_clean_stats: cmdcmds.clear_zero_stats,
+
     # *sigh*
     ewcfg.cmd_cockdraw: cmdcmds.cockdraw,
     ewcfg.cmd_measurecock: cmdcmds.cockdraw,
@@ -220,9 +223,12 @@ if ewcfg.dh_active:
 
 if ewcfg.slimernalia_active:
     # Slimernalia -- Moved unwrap to item cmds. Please move wrap upon reimplementation
-    cmd_map[ewcfg.cmd_festivity]= cmdcmds.festivity
+    cmd_map[ewcfg.cmd_festivity] = cmdcmds.festivity
     cmd_map[ewcfg.cmd_wrap] = cmdcmds.wrap
-    #cmd_map[ewcfg.cmd_yoslimernalia]= cmdcmds.yoslimernalia
+    cmd_map[ewcfg.cmd_festivitystage] = cmdcmds.slimernaliastage
+    cmd_map[ewcfg.cmd_setfestivitystage] = cmdcmds.setslimernaliastage
+    cmd_map[ewcfg.cmd_announcefestivitystage] = cmdcmds.announceslimernaliastage
+
 
 
 dm_cmd_map = {
