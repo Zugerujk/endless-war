@@ -4,7 +4,6 @@ import random
 from ..model.item import EwCosmeticItem
 
 unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'maidoutfit', 'drapeddress', 'widebrimmedhat', 'cigaretteholder', 'customfanhoodie',]
-
 # Because all profollean cosmetics are complicated, they are in the same boat as unique_smeltables. DO NOT add profollean cosmetics to unique_smeltables! 
 # Profollean cosmetics and unique_smeltables are not smeltable in the slimepoudrin + stylecosmeticitem recipe. (Example: 4 slimepoudrin + 1 coolbeans will NOT give you a programmer socks or a cool profollean cosmetic! ) 
 cosmetic_items_list = [
@@ -140,7 +139,7 @@ cosmetic_items_list = [
         freshness = 6,
         acquisition = "smelting",
         price = 50000,
-        vendors = ['bazaar'],
+        vendors = ['bazaar', "Smoker's Cough"],
     ),
     EwCosmeticItem(
         id_cosmetic = "headband",
@@ -597,7 +596,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "cigar",
         str_name = "Cigar",
-        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from cuba and is thick enough to last for hours.",
+        str_desc = "Much more manly then a puny cigarette. This cigar has been freshly imported from Cuba and is thick enough to last for hours.",
         rarity = "Plebeian",
         durability = 2500000,
         style = "tough",
@@ -1905,7 +1904,7 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "diamondleggings",
         str_name = "Diamond Leggings",
-        str_desc = "Ill-fitting. Desirable. A symbol of an illustrious gangster. These pants are all the slosh appeal you will ever goddamn need. You're never going to slosh though, you're a goon.",
+        str_desc = "Ill-fitting. Desirable. A symbol of an illustrious gangster. These pants are all the slosh appeal you will ever need. You're never going to slosh though, you're a goon.",
         rarity = "Profollean",
         durability = 49500000,
         style = "beautiful",
@@ -2034,7 +2033,7 @@ cosmetic_items_list = [
         durability = 2500000,
         style = "cool",
         freshness = 7,
-        price = 30000,
+        price = 300000,
         vendors = ['bazaar', 'Slimy Persuits'],
     ),
     EwCosmeticItem( # Make available later in the future somehow, change from promotional to plebeian.
@@ -2223,11 +2222,11 @@ cosmetic_items_list = [
         id_cosmetic = "wrappingpapersexywear",
         str_name = "Wrapping Paper Sexywear",
         str_desc = "This awful collection of wrapping paper is what you're going to wrap parts of yourself to present yourself as a present. You think this is funny? Even if you wear this during slimernalia, nobody will like you.",
-        str_onadorn = "You wrap yourself up in wrapping paper to do the century old reinterpretation of \"I am your present!\"... you do realize that this is gross and wrong, right?", 
+        str_onadorn = "You wrap yourself up in wrapping paper to do the century old reinterpretation of \"I am your present!\" You are the problem with RFCK.", 
         str_unadorn = "You rip off the awful, awful \"clothing\". Of course, this will be your lowest point in your whole life.",
-        durability = 4,
+        durability = 1,
         style = "evil",
-        freshness = -1,
+        freshness = -10,
         acquisition = "smelting",
         price = 100,
     ),
@@ -2242,17 +2241,6 @@ cosmetic_items_list = [
         freshness = 6,
         price = 50000,
     ),
-    #    EwCosmeticItem( I'll come back to this for wave 3 or 4, or if someone codes this in for me.
-#        id_cosmetic = "newyearsglasses",
-#        str_name = "New Years Glasses From {yearint}",
-#        str_desc = "These gaudish eyewear are almost always outdated by at least a year. Because of that, the fuckheads that made these a thing should burn in hell. These glasses are from {yearint}!",
-#        rarity = "Plebeian",
-#       durability = 2500000,
-#        style = "cute",
-#        freshness = 5,
-#        price = 100000,
-#        vendors = ['bazaar'],
-#   ),
         EwCosmeticItem( 
      id_cosmetic = "customfanhoodie",
      str_name = "{customfanhoodie} Fan Hoodie",
@@ -2328,7 +2316,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "starearrings",
         str_name = "Star Earrings",
@@ -2339,7 +2326,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "moonearrings",
         str_name = "Moon Earrings",
@@ -2350,7 +2336,6 @@ EwCosmeticItem(
         freshness = 8,
         acquisition = "smelting",
     ),
-
 EwCosmeticItem(
         id_cosmetic = "invertedpentacleearrings",
         str_name = "Inverted Pentacle Earrings",
@@ -2556,6 +2541,26 @@ EwCosmeticItem(
         durability = 250000,
         style = "beautiful",
         freshness = 10,
+        acquisition = "smelting",
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "furrobe",
+        str_name = "Fur Robe",
+        str_desc = "Even though it makes you look lazy, too comfortable to give it up. Some say some magical fat fuck wears this and pajamas to swindle the hopes of children across the world.",
+        rarity = "Profollean",
+        durability = 250000,
+        style = "cool",
+        freshness = 9,
+        acquisition = "smelting",
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "wearablelights",
+        str_name = "Wearable Lights",
+        str_desc = "It's so many strings of lights strung along atop of your clothes, you're probably going to be in serious trouble if you trip and everything tangles.",
+        rarity = "Profollean",
+        durability = 250000,
+        style = "cute",
+        freshness = 9,
         acquisition = "smelting",
     ),
 ]

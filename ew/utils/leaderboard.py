@@ -1,5 +1,6 @@
 from . import core as ewutils
 from . import frontend as fe_utils
+from . import stats as stats_utils
 from .combat import EwUser
 from ..backend import core as bknd_core
 from ..backend import item as bknd_item
@@ -7,14 +8,11 @@ from ..backend.district import EwDistrictBase as EwDistrict
 from ..backend.market import EwMarket
 from ..backend.market import EwStock
 from ..backend.player import EwPlayer
-from ..backend.dungeons import EwGamestate
 from ..utils.frontend import EwResponseContainer
 from ..backend.dungeons import EwGamestate
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
-import asyncio
-from functools import partial
-import itertools as iter
+
 
 
 try:
@@ -25,7 +23,6 @@ except:
     import ew.static.rstatic_dummy as static_relic
 
 async def post_leaderboards(client = None, server = None):
-    ewutils.logMsg("Started leaderboard calcs...")
     leaderboard_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_leaderboard)
     resp_cont = EwResponseContainer(client, id_server = server.id)
 
@@ -89,8 +86,6 @@ async def post_leaderboards(client = None, server = None):
 
 
     await resp_cont.post()
-
-    ewutils.logMsg("...finished leaderboard calcs.")
 
 def make_stocks_top_board(server = None):
     entries = []
@@ -500,78 +495,17 @@ def make_gamestate_board(id_server, gamestates, headers ,title, useValues = Fals
 
 def make_slimernalia_board(server, title):
     entries = []
-    # Use the cache if it is enabled
-    item_cache = bknd_core.get_cache(obj_type = "EwItem")
-    if item_cache is not False:
-        # get a list of [id, name, lifestate, faction, basefestivitysum] for all users in server
+    # get a list of [id, name, lifestate, faction, basefestivitysum] for all users in server
+    query = """SELECT players.display_name, users.life_state, users.faction, stats.stat_value
+            FROM stats
+            INNER JOIN users on users.id_user = stats.id_user AND users.id_server = stats.id_server
+            INNER JOIN players on players.id_user = stats.id_user AND players.id_server = stats.id_server
+            WHERE stats.stat_metric = %s AND stats.id_server = %s ORDER BY stats.stat_value DESC LIMIT 5"""
+    data = bknd_core.execute_sql_query(query, (ewcfg.stat_festivity, server))
 
+    entries = data
 
-        data = bknd_core.execute_sql_query("select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 left join stats st2 on st1.id_user = st2.id_user inner join users u on st1.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and st2.stat_metric = 'festivity_from_slimecoin' and u.id_server = u.id_server union select u.id_user, p.display_name, u.life_state, u.faction, ifnull(st1.stat_value, 0) + ifnull(st2.stat_value, 0) as total from stats st1 right join stats st2 on st1.id_user = st2.id_user inner join users u on st2.id_user = u.id_user and u.id_server = st1.id_server inner join players p on u.id_user = p.id_user where st1.stat_metric = 'festivity' and st2.stat_metric = 'festivity_from_slimecoin' and u.id_server = %s",
-    (server,))
-        dat = list(data)
-        f_data = []
-
-        # Retrieve all sigillarias
-        all_sigs = item_cache.find_entries(
-            criteria={
-                "item_type": ewcfg.it_furniture,
-                "id_server": server,
-                "item_props": {"id_furniture": ewcfg.item_id_sigillaria}
-            }
-        )
-
-        # iterate through all users, add sigillaria festivity to the base
-        for row in dat:
-            row = list(row)
-
-            # Get all user sigs
-            user_sigs = []
-            for sig in all_sigs:
-                if sig.get("id_owner") == row[0]:
-                    user_sigs.append(sig)
-
-            # Add 1000 to total festivity per sig
-            row[4] += len(user_sigs) * 1000
-
-            # remove id to match return format
-            row.pop(0)
-            f_data.append(row)
-
-        # Sort the rows by the 4th value in the list (which is the festivity, after removing the id), highest first
-        f_data.sort(key=lambda row: row[3], reverse=True)
-
-        # add the top 5 to be returned
-        for i in range(5):
-            if len(f_data) > i:
-                entries.append(f_data[i])
-
-    else:
-        return "" #whose idea was it to separate festivity into 3 different stats? idk, but fuck it, we're not running slimernalia without the cache.
-        #data = bknd_core.execute_sql_query(
-        #    "SELECT {display_name}, {state}, {faction}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users " \
-        #    "LEFT JOIN (SELECT id_user, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}) f on users.{id_user} = f.{id_user}, players " \
-        #    "WHERE users.{id_server} = %s AND users.{id_user} = players.{id_user} ORDER BY total_festivity DESC LIMIT 5".format(
-        #        id_user=ewcfg.col_id_user,
-        #        id_server=ewcfg.col_id_server,
-        #        id_item=ewcfg.col_id_item,
-        #        festivity=ewcfg.col_festivity,
-        #        festivity_from_slimecoin=ewcfg.col_festivity_from_slimecoin,
-        #        name=ewcfg.col_name,
-        #        display_name=ewcfg.col_display_name,
-        #        value=ewcfg.col_value,
-        #        state=ewcfg.col_life_state,
-        #        faction=ewcfg.col_faction
-        #    ), (
-        #        "id_furniture",
-        #        ewcfg.item_id_sigillaria,
-        #        server
-        #    )
-        #)
-
-        #for row in data:
-        #    entries.append(row)
-
-    #return format_board(entries=entries, title=title)
+    return format_board(entries, title=title)
 
 def make_gamestate_leaderboard(server, gamestateids, title):
     gamestates = []
@@ -735,6 +669,7 @@ def board_entry(entry, entry_type, divide_by):
     result = ""
 
     if entry_type == ewcfg.entry_type_player:
+        # [name, life_state, faction, number]
         faction = ewutils.get_faction(life_state=entry[1], faction=entry[2])
         faction_symbol = ewutils.get_faction_symbol(faction_role=faction, lifestate=entry[1])
         number = int(entry[3] / divide_by)

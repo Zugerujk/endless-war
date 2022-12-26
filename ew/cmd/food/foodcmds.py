@@ -107,7 +107,7 @@ async def menu(cmd):
                     value = item_item.price
 
                 if food_item:
-                    value = food_item.price
+                    value = food_item.price if not ewcfg.slimernalia_active else 0
 
                 if cosmetic_item:
                     value = cosmetic_item.price
@@ -334,6 +334,9 @@ async def order(cmd):
 
                 if current_vendor == ewcfg.vendor_breakroom and user_data.faction == ewcfg.faction_slimecorp:
                     value = 0
+                
+                if ewcfg.slimernalia_active and item_type == ewcfg.it_food:
+                    value = 0
 
                 value = int(value)
 
@@ -432,7 +435,7 @@ async def order(cmd):
 
                     elif item_props.get('id_food') in ["freeapple"]:
                         item_props['poisoned'] = 'yes'
-
+                    
                     elif item_props.get('id_food') in ["gumball"]:
                         gumballrand = random.random()
                         if gumballrand < 0.6:  # 60%

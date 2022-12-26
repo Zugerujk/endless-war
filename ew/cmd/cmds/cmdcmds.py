@@ -43,7 +43,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import stats as ewstats
 from ew.utils import weather as weather_utils
 from ew.utils.combat import EwUser
-from ew.utils.user import add_xp
+from ew.utils.cmd import EwCmd
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
@@ -73,6 +73,7 @@ async def score(cmd: cmd_utils.EwCmd):
     user_data = None
     member = None
     response = ""
+    print(cmd.mention_ids)
 
     slime_alias = ewutils.flattenTokenListToString(cmd.tokens[0])
     if len(cmd.mention_ids) == 0:
@@ -2180,22 +2181,41 @@ async def check_mastery(cmd):
 """
 
 
-# Show a player's festivity
-async def festivity(cmd):
-    if cmd.mentions_count == 0:
+async def festivity(cmd: EwCmd):
+    """ Show a player's festivity """
+    if len(cmd.mention_ids) == 0:
+        target_type = "self"
+    else:
+        target_type = ewutils.mention_type(cmd, cmd.mention_ids[0])
+
+    if target_type == "ew":
+        global_festivity = ewstats.get_stat(id_server=cmd.guild.id, id_user=-1, metric=ewcfg.stat_festivity_global)
+        response = "ENDLESS WAR has amassed {:,} festivity. @everyone Yo, Slimernalia!".format(global_festivity)
+        # This one has to exit early because it specifically allows @s
+        return await fe_utils.send_response(response, cmd, allow_everyone=True, format_ats=False)
+
+    elif target_type == "self":
         user_data = EwUser(member=cmd.message.author)
         response = "You currently have {:,} festivity.".format(user_data.get_festivity())
 
-    else:
+    elif target_type == "other":
         member = cmd.mentions[0]
         user_data = EwUser(member=member)
-        response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
+        if user_data.id_user == 177731019322032128: #Ben Saint's discord id
+            global_festivity = ewstats.get_stat(id_server=cmd.guild.id, id_user=-1, metric=ewcfg.stat_festivity_global)
+            response = "Deep in the catacombs beneath Cop Killtown, {}'s holiday hostility grows as he observes the party taking place in the city above. He is filled with {} festivity.".format(member.display_name, -global_festivity)
+        else:
+            response = "{} currently has {:,} festivity.".format(member.display_name, user_data.get_festivity())
+
+    else:
+        response = "Your ceaseless Slimernalia cheer has confused ENDLESS WAR. Try again."
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
-async def wrap(cmd):
+async def wrap(cmd: EwCmd):
+    """ Wrap a gift for another player. """
     if cmd.tokens_count != 4:
         response = 'To !wrap a gift, you need to specify a recipient, message, and item, like so:\n```!wrap @munchy#6443 "Sample text." chickenbucket```'
         return await fe_utils.send_message(cmd.client, cmd.message.channel, response)
@@ -2354,14 +2374,54 @@ async def wrap(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
-async def yoslimernalia(cmd):
+async def yoslimernalia(cmd: EwCmd):
+    """ Yo, Slimernalia! """
+    ewstats.increment_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_festivity)
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
 
-""" show player's slimecoin balance """
+async def slimernaliastage(cmd: EwCmd):
+    """ Returns the current slimernalia event stage. """
+    return await fe_utils.send_response(f"Slimernalia is currently at Stage {ewcfg.slimernalia_stage}.", cmd)
+
+
+# Admin commands
+async def announceslimernaliastage(cmd: EwCmd):
+    """ Announces the patch notes for the current/past slimernalia event stages. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    # Unpack tokens, if 'all' is anywhere after the main commad print everything up to where we are currently at
+    # e.g. !announcefestivestage when you're at stage 4 will just announce stage 4
+    # ! announcefestivestage all when you're at stage 4 will announce stages 1, 2, 3 & 4
+    print_all = False
+    if "all" in cmd.tokens:
+        print_all = True
+
+    await fe_utils.announce_slimernalia_stage_increase(cmd.client, cmd.guild, print_all)
+
+    return await fe_utils.send_response("Announced them there stages for ya, sonny!", cmd)
+
+
+async def setslimernaliastage(cmd):
+    """ Allows an admin to set the slimernalia event stage manually. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    # Verify what the user sent
+    if len(cmd.tokens) > 1 and str.isnumeric(cmd.tokens[1]):
+        if int(cmd.tokens[1]) <= len(ewcfg.slimernalia_stage_announcements):
+            ewcfg.slimernalia_stage = int(cmd.tokens[1])
+            response = f"Set festivity stage to {ewcfg.slimernalia_stage}"
+        else:
+            response = f"Wuh? There's only {len(ewcfg.slimernalia_stage_announcements)} stages."
+    else:
+        response = "It's !setfestivitystage <int>."
+
+    return await fe_utils.send_response(response, cmd)
 
 
 async def slimecoin(cmd):
+    """ Show player's slimecoin balance """
     if cmd.mentions_count == 0:
         user_data = EwUser(member=cmd.message.author)
         coins = user_data.slimecoin
@@ -3354,3 +3414,16 @@ async def display_goonscape_stats(cmd):
     
     await fe_utils.send_response(response, cmd)
 
+
+async def clear_zero_stats(cmd):
+    """Admin command to clear redundant 0 value stats from the database."""
+    # Only allow admins to use this
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    await fe_utils.send_response("Attempting to remove all 0 value stats from the database, this may take a while...", cmd)
+
+    result = ewstats.clean_stats(cmd.guild.id)
+
+    if result is not None:
+        return await fe_utils.send_response(f"Successfully cleaned the database of {result} redundant stats. Nice!", cmd)
