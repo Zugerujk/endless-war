@@ -14,7 +14,7 @@ discord_message_length_limit = 2000
 # Update intervals
 update_hookstillactive = 60 * 60 * 1
 update_pvp = 60
-update_market = 15  # 15 min # 900
+update_market = 900  # 15 min = 900
 
 # Whether or not to suppress missing channel warnings, for your sanity. Probably shouldn't use live
 suppress_missing_channel = False
@@ -32,10 +32,11 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = True
-slimernalia_stage = 6
+slimernalia_stage = 4
 
-#Swilldermuk Features (Pronounced Swindle-muk)
+#Swilldermuk Features
 swilldermuk_active = False
+
 
 """
 1: Normal
@@ -72,11 +73,13 @@ combatant_type_enemy = "enemy"
 life_state_corpse = 0
 life_state_juvenile = 1
 life_state_enlisted = 2
+life_state_vigilante = 3
 life_state_executive = 6
 life_state_lucky = 7
 life_state_grandfoe = 8
 life_state_kingpin = 10
 life_state_observer = 20
+
 
 farm_life_state_juviethumb = 30
 farm_life_state_thumb = 31
@@ -3857,16 +3860,16 @@ help_response_group_map = {
 weapon_response_group_map = {
     "Normal": ["Revolver", "Dual Pistols", "Yo-Yo", "Pistol", "Combat Knife",],
     "Precision": ["Katana", "Hunting Rifle", "Sniper Rifle",],
-    "Small-Game": ["Knives", "Bow", "Monofilament Whip", "Food Basket"],
+    "Small-Game": ["Knives", "Bow", "Monofilament Whip",],
     "Variable-Damage": ["Bat", "Brass Knuckles", "Bass Guitar", "Skateboard", "Machete",],
     "Heavy": ["Shotgun", "Broadsword", "Scythe", "Chainsaw", "Sledgehammer",],
     "Defensive": ["Umbrella",],
     "Multiple-Hit": ["Assault Rifle", "SMG", "Nunchucks", "Boomerang",],
     "Incendiary": ["Molotov", "Dragon Claw",],
     "Explosive": ["Grenades",],
-    "Tool": ["Pickaxe", "Fishing Rod", "Hoe", "Pitchfork", "Shovel", "Diamond Pickaxe", "Slimering Can",],
+    "Tool": ["Pickaxe", "Fishing Rod", "Hoe", "Pitchfork", "Shovel", "Diamond Pickaxe",],
     "Unique": ["Minigun", "Garrote", "Eldritch Staff", "Slimeoid Whistle", "Missile Launcher",],
-    "Deprecated": ["Spray Can", "Paint Gun", "Paint Roller", "Paintbrush", "Watercolors", "Thinner Bomb", "Roomba",],
+    "Deprecated": ["Spray Can", "Paint Gun", "Paint Roller", "Paintbrush", "Watercolors", "Thinner Bomb", "Roomba", "Slimering Can",],
     # "Other": ["Fingernails", "Laywaster", "Harpoon", "Model397", "Fists"] # Probs shouldn't be visible
 }
 
@@ -4040,8 +4043,8 @@ item_group_commands = {
 }
 
 holidaycommands = {
-    "swilldermuk": "**SWILLDERMUK**:\n!prank <@player>: Use the Janus Mask to pluck a prank item from the ether! Can also be done without <@player> to use trap prank on the spot.\nOf course, the Janus Mask is lost to time so you'll never have the opportunity, chump!",
-    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your or someone else's current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
+    "swildermuk": "",
+    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
     "doublehalloween": "**DOUBLE HALLOWEEN**:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
 }
 
@@ -4482,21 +4485,21 @@ enemy_drop_tables = {
     ],  
     enemy_type_slimernaliajuvie: [
         {item_id_slimepoudrin: [100, 1, 15]},
-        {item_id_giftribbon: [25, 1, 1]},
+        {item_id_giftribbon: [80, 1, 6]},
         {"crop": [30, 1, 3]},
-        {item_id_candycane: [75, 1, 1]},
+        {item_id_candycane: [100, 1, 10]},
     ],
     enemy_type_slimeoidabuser: [
         {item_id_slimepoudrin: [100, 1, 12]},
         {rarity_plebeian: [20, 1, 1]},
-        {item_id_giftribbon: [10, 1, 3]},
+        {item_id_giftribbon: [40, 1, 3]},
     ],
     enemy_type_slimernaliagangster: [
         {item_id_slimepoudrin: [100, 1, 20]},
-        {item_id_giftribbon: [100, 1, 2]},
+        {item_id_giftribbon: [100, 2, 5]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [25, 1, 1]},
+        {weapon_id_foodbasket: [100, 1, 1]},
         {rarity_patrician: [50, 1, 1]},
         {item_id_slimepoudrin: [10, 10, 25]},
     ],
@@ -4510,12 +4513,12 @@ enemy_drop_tables = {
         {weapon_id_molotov: [100, 1, 1]},
         {item_id_slimepoudrin: [50, 3, 7]},
         {item_id_giftpipebomb: [100, 1, 2]},
-        {item_id_giftribbon: [5, 3, 6]},
+        {item_id_giftribbon: [25, 3, 6]},
     ],
     enemy_type_vandal: [
         {weapon_id_spraycan: [100, 1, 1]},
         {item_id_slimepoudrin: [100, 2, 5]},
-        {item_id_giftribbon: [25, 1, 1]},
+        {item_id_giftribbon: [60, 1, 2]},
         {"vape": [10, 1, 1]},
         {item_id_mustard_gas_pod: [30, 1, 3]},
         {item_id_cop_killer_cotton_candy_pod: [30, 1, 3]},
@@ -4527,7 +4530,7 @@ enemy_drop_tables = {
     ],
     enemy_type_miserablemiser: [
         {item_id_slimepoudrin: [15, 10, 10]},
-        {item_id_giftribbon: [30, 1, 3]},
+        {item_id_giftribbon: [90, 1, 9]},
         {"cigar": [30, 3, 12]},
     ],
     enemy_type_illegalimmigrant: [
@@ -4538,6 +4541,7 @@ enemy_drop_tables = {
         {item_id_prankcapsule: [100, 6, 10]},
         {weapon_id_harpoon: [100, 0, 0]},
         {item_id_slimepoudrin: [10, 10, 10]},
+        {item_id_giftribbon: [60, 1, 5]},
     ],
 
 }

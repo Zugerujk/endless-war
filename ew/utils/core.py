@@ -386,7 +386,7 @@ def get_faction(user_data=None, life_state=0, faction="") -> str:
 
     faction_role = ewcfg.role_corpse
 
-    if life_state == ewcfg.life_state_juvenile:
+    if life_state == ewcfg.life_state_juvenile or life_state == ewcfg.life_state_vigilante:
         faction_role = ewcfg.role_juvenile
 
     elif life_state == ewcfg.life_state_enlisted:
@@ -648,7 +648,7 @@ def check_moon_phase(market_data):
 def get_most_festive(server):
     # New coolness
     data = bknd_core.execute_sql_query(
-        "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s".format(
+        "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s ORDER BY {stat_value} DESC LIMIT 1".format(
             id_user=ewcfg.col_id_user,
             stat_value=ewcfg.col_stat_value,
             stat_metric=ewcfg.col_stat_metric,
@@ -658,7 +658,6 @@ def get_most_festive(server):
             server.id
         )
     )
-    
     return data[0][0]
 
 
