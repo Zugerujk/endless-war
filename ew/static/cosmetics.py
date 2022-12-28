@@ -128,7 +128,7 @@ cosmetic_items_list = [
         freshness = 6,
         acquisition = "smelting",
         price = 50000,
-        vendors = ['bazaar'],
+        vendors = ['bazaar', "Smoker's Cough"],
     ),
     EwCosmeticItem(
         id_cosmetic = "headband",

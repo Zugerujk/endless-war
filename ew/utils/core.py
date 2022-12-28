@@ -646,7 +646,7 @@ def check_moon_phase(market_data):
 
 # Get the player with the most festivity
 def get_most_festive(server):
-    # New Coolness
+    # New coolness
     data = bknd_core.execute_sql_query(
         "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s".format(
             id_user=ewcfg.col_id_user,
@@ -658,7 +658,7 @@ def get_most_festive(server):
             server.id
         )
     )
-    data.sort(key=lambda row: row[0], reverse=True)
+    
     return data[0][0]
 
 
