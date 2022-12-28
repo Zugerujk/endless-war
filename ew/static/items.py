@@ -1739,11 +1739,10 @@ item_list = [
         context="droppable"
     ),
     EwGeneralItem(
-        id_item="slimernaliaendlessrock",
-        str_name="Endless Rock: Citrine", 
-        str_desc="It's the ENDLESS ROCK that Phoebus uses to send ENDLESS WAR into a half-month long trip, making Slimernalia possible. The magic is kind of ruined now that the truth is out.",
-        #soulbound=True,
-        context="slimernaliadroplet"
+        id_item="thedroplet",
+        str_name="The Droplet", 
+        str_desc="It's The Droplet, a yellow mass of Citrine that slightly resembles a droplet of liquid. People that swear up and down that the lore is the most important thing will try and call it Endless Rock: Citrine, but to the rest of us it's clearly that thing that keeps ENDLESS WAR running.",
+        context="thedroplet"
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_trophy_juvie,
