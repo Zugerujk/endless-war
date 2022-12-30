@@ -1463,62 +1463,8 @@ async def releaseprop(cmd):
 
 
 async def aquarium(cmd):
-
+    # Removed
     response = "You can plop fish in an aquarium with !collect. You can purchase aquariums at the Museum."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    
-    playermodel = EwPlayer(id_user=cmd.message.author.id)
-    usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
-
-    check_poi = poi_static.id_to_poi.get(usermodel.poi)
-    if not (check_poi.is_apartment and (cmd.message.guild is None or check_poi.channel == cmd.message.channel.name)):
-        return await apt_utils.lobbywarning(cmd)
-
-    item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
-    item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
-
-    if not bknd_item.check_inv_capacity(user_data=usermodel, item_type=ewcfg.it_furniture):
-        response = "You don't have room for any more furniture items."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-
-    if item_sought:
-        item = EwItem(id_item=item_sought.get('id_item'))
-        if item.item_props.get('acquisition') == ewcfg.acquisition_fishing:
-
-            if float(item.item_props.get('time_expir')) < time.time():
-                response = "Uh oh. This thing's been rotting for awhile. You give the fish mouth to mouth in order to revive it. Somehow this works, and a few minutes later it's swimming happily in a tank."
-            else:
-                response = "You gently pull the flailing, sopping fish from your back pocket, dropping it into an aquarium. It looks a little less than alive after being deprived of oxygen for so long, so you squirt a bit of your slime in the tank to pep it up."
-
-            fname = "{}'s aquarium".format(item.item_props.get('food_name'))
-            fdesc = "You look into the tank to admire your {}. {}".format(item.item_props.get('food_name'), item.item_props.get('food_desc'))
-            lookdesc = "A {} tank sits on a shelf.".format(item.item_props.get('food_name'))
-            placedesc = "You carefully place the aquarium on your shelf. The {} inside silently heckles you each time your clumsy ass nearly drops it.".format(item.item_props.get('food_name'))
-            bknd_item.item_create(
-                id_user=cmd.message.author.id,
-                id_server=cmd.guild.id,
-                item_type=ewcfg.it_furniture,
-                item_props={
-                    'furniture_name': fname,
-                    'id_furniture': "aquarium",
-                    'furniture_desc': fdesc,
-                    'rarity': ewcfg.rarity_plebeian,
-                    'acquisition': "{}".format(item_sought.get('id_item')),
-                    'furniture_place_desc': placedesc,
-                    'furniture_look_desc': lookdesc
-                }
-            )
-
-            bknd_item.give_item(id_item=item_sought.get('id_item'), id_user=str(cmd.message.author.id) + "aqu", id_server=cmd.guild.id)
-        # bknd_item.item_delete(id_item=item_sought.get('id_item'))
-
-        else:
-            response = "That's not a fish. You're not going to find a fancy tank with filters and all that just to drop a damn {} in it.".format(item_sought.get('name'))
-    else:
-        if item_search == "" or item_search == None:
-            response = "Specify a fish. You're not allowed to put yourself into an aquarium."
-        else:
-            response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
