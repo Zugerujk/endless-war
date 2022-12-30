@@ -121,14 +121,55 @@ def prepare_compartment_capacity(id_user, id_server, compartment) -> int:
     return max_capacity
 
 
+def apt_collection_look_str(id_server: int, id_item: int, show_capacity: bool = False) -> str:
+    item = EwItem(id_item=id_item)
+    collection_inv_id = "{}collection".format(id_item)
+
+    # General collections will have italicized names
+    if item.item_props.get('id_furniture') == "generalcollection":
+        collection_name = "*{}*".format(item.item_props.get('furniture_name'))
+        max_capacity = 10
+    else:
+        collection_name = item.item_props.get('furniture_name')
+        max_capacity = 50
+
+    response = "\n**The {} holds:\n**".format(collection_name)
+
+    # Get the collection's inventory
+    collection = bknd_item.inventory(id_server=id_server, id_user=collection_inv_id)
+
+    # Get all the item names
+    if collection:
+        hammerspace = []
+        for thing in collection:
+            hammerspace.append(thing.get('name'))
+        
+        if hammerspace == []:
+            response += "Nothing!"
+        else:
+            response += ewutils.formatNiceList(hammerspace)
+            response = response + '.'
+
+    # Specify capacity if requested
+    if show_capacity:
+        response += f"\n\n{collection_name} Capacity: ({len(collection)}/{max_capacity})"
+
+    return response
+
+
 def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     furn_response = ""
     furns = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_decorate, id_server=id_server, item_type_filter=ewcfg.it_furniture)
     furniture_id_list = []
+    collections_id_list = []
     for furn in furns:
         i = EwItem(furn.get('id_item'))
-        furn_response += "{} ".format(i.item_props['furniture_look_desc'])
-        furniture_id_list.append(i.item_props['id_furniture'])
+        # Collections are collected and handled in a separate area
+        if i.item_props.get('id_furniture') in static_items.furniture_collection:
+            collections_id_list.append(furn.get('id_item'))
+        else:
+            furn_response += "{} ".format(i.item_props['furniture_look_desc'])
+            furniture_id_list.append(i.item_props['id_furniture'])
 
         hue = hue_static.hue_map.get(i.item_props.get('hue'))
         if hue is not None and i.item_props.get('id_furniture') not in static_items.furniture_specialhue:
@@ -180,6 +221,11 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_decorate)
         furn_response += f"\n\nFurniture Capacity ({len(furns)}/{max_capacity})"
 
+    # Handle collections
+    for collection_id in collections_id_list:
+        collection_response = apt_collection_look_str(id_server=id_server, id_item=collection_id, show_capacity=show_capacity)
+        furn_response += "\n" + collection_response
+
     return furn_response
 
 
@@ -221,8 +267,6 @@ def apt_fridge_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
 
 def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     closet_resp = "**The closet contains:**\n"
-    hatstand_resp = "\n\n**The hat stand holds:**\n"
-    hatstand_contents = []
     closet_contents = []
     poud_stack = 0
 
@@ -242,18 +286,13 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
             item_obj = EwItem(id_item=item.get('id_item'))
             if item_obj.id_item == ewcfg.item_id_slimepoudrin:
                 poud_stack += 1
-            map_obj = cosmetics.cosmetic_map.get(item_obj.item_props.get('id_cosmetic'))
             # Generate the stack's line in the response
             response_part = "{soulbound_style}{name}{soulbound_style}{quantity}".format(
                 name=item.get('name'),
                 soulbound_style=("**" if item.get('soulbound') else ""),
                 quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
             )
-            if map_obj is not None and map_obj.is_hat:
-                hatstand_contents.append(response_part)
-            else:
-                closet_contents.append(response_part)
-        # Because of the doubled up nature, closet can be empty while the hatstand has stuff
+            closet_contents.append(response_part)
         if not closet_resp:
             closet_resp = "Nothing."
         else:
@@ -263,9 +302,6 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
 
     response = ""
     response += closet_resp
-    if hatstand_contents:
-        hatstand_resp += ewutils.formatNiceList(hatstand_contents)
-        response += hatstand_resp
 
     if show_capacity:
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_closet)

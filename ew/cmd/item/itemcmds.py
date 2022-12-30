@@ -596,7 +596,8 @@ async def item_look(cmd):
 
 
         for collected in collection_inv:
-            if collected.get('name') in ['large aquarium', 'soul cylinder', 'weapon chest', 'scalp collection', 'general collection'] and collected.get('item_type') == ewcfg.it_furniture:
+
+            if collected.get('template') in ['largeaquarium', 'soulcylinder', 'weaponchest', 'scalpcollection', 'generalcollection'] and collected.get('item_type') == ewcfg.it_furniture:
                 item_sought_collection = bknd_item.find_item(item_search=item_search, id_user='{}collection'.format(collected.get('id_item')), id_server=server)
                 item_dest.append(item_sought_collection)
 
@@ -1073,6 +1074,7 @@ async def give(cmd):
         if item_sought.get('item_type') == ewcfg.it_cosmetic:
             item_data = EwItem(id_item=item_sought.get('id_item'))
             item_data.item_props["adorned"] = 'false'
+            item_data.item_props["slimeoid"] = 'false'
             item_data.persist()
 
         if item_sought.get('soulbound') and EwItem(id_item=item_sought.get('id_item')).item_props.get("context") != "housekey":
@@ -1461,6 +1463,10 @@ async def releaseprop(cmd):
 
 
 async def aquarium(cmd):
+
+    response = "You can plop fish in an aquarium with !collect. You can purchase aquariums at the Museum."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    
     playermodel = EwPlayer(id_user=cmd.message.author.id)
     usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 
@@ -2013,6 +2019,7 @@ async def manual_transfer(cmd):
         response = "Can't move that. It's !moveitem <item id> <destination>"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
 async def collect(cmd):
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
@@ -2022,13 +2029,16 @@ async def collect(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     collection_seek = cmd.tokens[1]
+    # Check for collection in apartment's decorate inventory
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
+    # If user has packrat, check their actual inventory
     if item_sought_col is None and ewcfg.mutation_id_packrat in user_data.get_mutations():
         item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
 
     item_seek = cmd.tokens[2]
     item_sought_item = bknd_item.find_item(item_search=item_seek, id_user=user_data.id_user, id_server=user_data.id_server)
 
+    # Stop the command if a variety of things
     if not poi.is_apartment or user_data.visiting != ewcfg.location_id_empty and ewcfg.mutation_id_packrat not in user_data.get_mutations():
         response = "Nobody can know about your shameful hoarding habits. Add to your collections in your apartment."
     elif not item_sought_col:
@@ -2048,20 +2058,44 @@ async def collect(cmd):
 
         collection_inventory = bknd_item.inventory(id_user='{}collection'.format(item_sought_col.get('id_item')), id_server=cmd.guild.id)
 
-
+        # Make sure collection is the corresponding type of item.
         if collect_map is None or collect_map.furn_set != 'collection':
             response = "You can't just shove anything into anything. A {} isn't gonna fit in a {}.".format(item_sought_item.get('name'), item_sought_col.get('name'))
-        elif (collectiontype == 'weaponchest' and item.item_type != ewcfg.it_weapon) or (collectiontype == 'soulcylinder' and item.item_props.get('id_cosmetic') != 'soul') or (collectiontype == 'scalpcollection' and item.item_props.get('id_cosmetic') != 'scalp') or (collectiontype == 'largeaquarium' and item.item_props.get('acquisition') != ewcfg.acquisition_fishing or item.item_props.get('id_furniture') in static_items.furniture_collection):
+        elif ((collectiontype == 'weaponchest' and item.item_type != ewcfg.it_weapon) or 
+              (collectiontype == 'soulcylinder' and item.item_props.get('id_cosmetic') != 'soul') or 
+              (collectiontype == 'scalpcollection' and item.item_props.get('id_cosmetic') != 'scalp') or 
+              (collectiontype == 'largeaquarium' and item.item_props.get('acquisition') != ewcfg.acquisition_fishing) or 
+              (item.item_props.get('id_furniture') in static_items.furniture_collection)):
+
             response = "You've got the wrong item type. It's a {}, try and guess what it's for.".format(item_sought_col.get('name'))
+
+        # Make sure collection isn't full
         elif len(collection_inventory) >= 50 or (len(collection_inventory) >= 10 and collectiontype=='generalcollection'):
             response= "You collection's full. You really stuffed that sucker, goddamn."
         elif item.soulbound:
             response = "If you try to collect a soulbound item you'll basically be collecting yourself. You decide not to trap yourself in the {}.".format(item.item_props.get('str_name'))
         else:
+            # Unequip weapons
+            if item.item_type == ewcfg.it_weapon:
+                if user_data.weapon == item.id_item:
+                    if user_data.weaponmarried:
+                        response = "If only it were that easy. But you can't just shove your lover in a {}.".format()
+                        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                    user_data.weapon = -1
+                    user_data.persist()
+                elif user_data.sidearm == item.id_item:
+                    user_data.sidearm = -1
+                    user_data.persist()
+            # Dedorn cosmetics
+            elif item.item_type == ewcfg.it_cosmetic:
+                item.item_props["adorned"] = 'false'
+                item.item_props["slimeoid"] = 'false'
+                item.persist()
 
             response = "You drop the {} into the {}.".format(item_sought_item.get('name'), item_sought_col.get('name'))
             bknd_item.give_item(id_user="{}collection".format(collection.id_item), id_server=item.id_server, id_item=item.id_item)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 async def remove_from_collection(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -2105,6 +2139,34 @@ async def remove_from_collection(cmd):
         user_data.change_slimes(n=-price, source=ewcfg.source_spending)
         user_data.persist()
         response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over 100,000 slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), random.choice(comm_cfg.bazaar_distractions))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def rename_collection(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    # Requires at least 3 tokens
+    if cmd.tokens_count < 3:
+        response = "You need to specify a collection to rename and the name you wish to ascribe to it."
+    else:
+        item_sought = cmd.tokens[1]
+        collection_sought = bknd_item.find_item(item_search=item_sought, id_user=user_data.id_user, id_server=user_data.id_server)
+
+        if not collection_sought:
+            response = "You don't have that collection in your inventory."
+        else:
+            # Get the collection name, max 32 characters
+            collection_name_draft = ' '.join(word for word in cmd.tokens[2:])
+            if len(collection_name_draft) > 32:
+                collection_name_draft = collection_name_draft[:32]
+
+            collection = EwItem(id_item=collection_sought.get('id_item'))
+
+            collection.item_props['furniture_name'] = collection_name_draft
+            collection.persist()
+
+            response = "With a stray marker, you write on the collection. It is now known as a \"{}\"!".format(collection_name_draft)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

@@ -1087,6 +1087,7 @@ cmd_releaseprop = cmd_prefix + 'unstand'
 cmd_releasefish = cmd_prefix + 'releasefish'
 cmd_collect = cmd_prefix + 'collect'
 cmd_extract = cmd_prefix + 'extract'
+cmd_renamecollection = cmd_prefix + 'renamecollection'
 cmd_unpot = cmd_prefix + 'unpot'
 cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
@@ -3906,7 +3907,7 @@ mutation_descriptions = {
 
     mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",
-    mutation_id_packrat: "You can hoard items in collections inside your inventory.",
+    mutation_id_packrat: "You gain 2x apartment capacity. In addition, you are able to !collect into collections in your inventory while outside your apartment.",
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",

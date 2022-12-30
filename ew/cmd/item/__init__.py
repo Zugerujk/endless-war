@@ -69,6 +69,7 @@ cmd_map = {
     ewcfg.cmd_manualsoulbind: itemcmds.manual_soulbind,
     ewcfg.cmd_collect: itemcmds.collect,
     ewcfg.cmd_extract: itemcmds.remove_from_collection,
+    ewcfg.cmd_renamecollection: itemcmds.rename_collection,
 
     # SLIMERNALIA
     ewcfg.cmd_unwrap: itemcmds.unwrap,
@@ -117,6 +118,7 @@ apt_dm_cmd_map = {
     ewcfg.cmd_releaseprop: itemcmds.releaseprop,
     ewcfg.cmd_aquarium: itemcmds.aquarium,
     ewcfg.cmd_releasefish: itemcmds.releasefish,
-    ewcfg.cmd_collect:itemcmds.collect,
+    ewcfg.cmd_collect: itemcmds.collect,
+    ewcfg.cmd_renamecollection: itemcmds.rename_collection,
 
 }
