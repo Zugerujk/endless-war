@@ -406,9 +406,11 @@ async def mine(cmd):
                 weapon_item = EwItem(id_item=user_data.weapon)
                 weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
                 if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
-                    toolused = "pickaxe"
+                    toolused = ewcfg.weapon_id_pickaxe
                 elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
-                    toolused = "sledgehammer"
+                    toolused = ewcfg.weapon_id_sledgehammer
+                elif weapon.id_weapon == ewcfg.weapon_id_shovel:
+                    toolused = ewcfg.weapon_id_shovel
             
             sledgehammer_bonus = False
 
@@ -424,7 +426,7 @@ async def mine(cmd):
 
                         if captcha in tokens_lower:
                             bknd_worldevent.delete_world_event(id_event=id_event)
-                            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >= 3: #Remove stage check post-slimernalia
+                            if toolused == ewcfg.weapon_id_sledgehammer:
                                 response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime.\n"
                                 sledgehammer_bonus = True
                                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response,))
@@ -479,7 +481,7 @@ async def mine(cmd):
                     return
 
             
-            if (weapon.id_weapon == ewcfg.weapon_id_shovel)  and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
+            if toolused == ewcfg.weapon_id_shovel and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
                 # print(poi.mother_districts[0] + 'hole')
                 minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
@@ -515,7 +517,7 @@ async def mine(cmd):
             unearthed_item_chance = 1 / ewcfg.unearthed_item_rarity
             if user_data.life_state == ewcfg.life_state_juvenile:
                 unearthed_item_chance *= 2
-            if toolused == "pickaxe":
+            if toolused == ewcfg.weapon_id_pickaxe:
                 unearthed_item_chance *= 1.5
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
@@ -649,9 +651,9 @@ async def mine(cmd):
             if controlling_faction != "" and controlling_faction == user_data.faction:
                 mining_yield *= 2
 
-            if toolused == "pickaxe":
+            if toolused == ewcfg.weapon_id_pickaxe:
                 mining_yield *= 2
-            if toolused == "sledgehammer" and ewcfg.slimernalia_stage >=3: #Remove me post slimernalia
+            if toolused == ewcfg.weapon_id_sledgehammer and user_data.life_state != ewcfg.life_state_juvenile:
                 mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2

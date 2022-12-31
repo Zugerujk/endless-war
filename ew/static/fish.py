@@ -2,7 +2,7 @@ import json
 import os
 from re import M
 
-from .cfg import slimernalia_stage
+from .cfg import slimernalia_active
 from ..model.fish import EwFish
 
 # All the fish, baby!
@@ -1219,7 +1219,7 @@ fish_list = [
     ), 
 ]
 # Slimernalia exclusive fish
-if slimernalia_stage >= 4:
+if slimernalia_active == True:
     fish_list.extend([
     EwFish(
         id_fish = "tiltedtilapia",

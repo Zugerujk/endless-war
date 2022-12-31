@@ -953,6 +953,9 @@ async def item_use(cmd):
             elif context == "revive":
                 response = "You try to \"revive\" your fallen Slimeoid. Too bad this ain't a video game, or it might have worked!"
 
+            elif context == "thedroplet":
+                response = "You stole Slimernalia, you scrooge! What do you have to say for yourself?"
+
             elif ewcfg.item_id_key in context and context != 'housekey':
                 if user_data.poi == "room102" and context == 'reelkey':
                     response = ewdebug.reel_code
