@@ -1739,6 +1739,12 @@ item_list = [
         context="droppable"
     ),
     EwGeneralItem(
+        id_item="thedroplet",
+        str_name="The Droplet", 
+        str_desc="It's The Droplet, a yellow mass of Citrine that slightly resembles a droplet of liquid. People that swear up and down that the lore is the most important thing will try and call it Endless Rock: Citrine, but to the rest of us it's clearly that thing that keeps ENDLESS WAR running.",
+        context="thedroplet"
+    ),
+    EwGeneralItem(
         id_item=ewcfg.item_id_trophy_juvie,
         str_name="Juvie Hunting Trophy",
         str_desc="A hunting trophy flayed from the flesh of a still-living Juvenile. Ahhh, the thrill of the hunt...",
