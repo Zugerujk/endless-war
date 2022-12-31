@@ -2,7 +2,7 @@ import datetime
 
 # Global configuration options.
 
-version = "v4.1999 Y2KSLIMERNALIA"
+version = "v4.1999 more like NOSLIMERNALIA"
 
 
 dir_msgqueue = 'msgqueue'
@@ -31,8 +31,8 @@ dh_active = False
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = True
-slimernalia_stage = 7
+slimernalia_active = False
+slimernalia_stage = 0
 
 #Swilldermuk Features
 swilldermuk_active = False
