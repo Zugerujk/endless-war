@@ -423,6 +423,7 @@ async def inventory_print(cmd):
         "item_type": dat.get("item_type"),
         "hue": dat.get("item_props").get("hue"),
         "weapon_type": dat.get("item_props").get("weapon_type"),
+        "id_furniture": dat.get("item_props").get("id_furniture"),
     }, items))
     
     # sort by name if requested
@@ -454,13 +455,14 @@ async def inventory_print(cmd):
 
             if not stacking:
                 # Generate the item's line in the response based on the specified formatting
-                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}{tag}".format(
                     id_item=item.get('id_item'),
                     name=item.get('name'),
                     hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
                     weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if (display_weapon_type and item.get("weapon_type")) else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
-                    quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else "")
+                    quantity=(" x{:,}".format(item.get("quantity")) if (item.get("quantity") > 1) else ""),
+                    tag=(" [📦]" if (item.get("id_furniture") in static_items.furniture_collection) else ""), 
                 )
 
                 # Print item type labels if sorting by type and showing a new type of items
@@ -513,13 +515,14 @@ async def inventory_print(cmd):
                 item = stacked_item_map.get(item_name)
 
                 # Generate the stack's line in the response
-                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}".format(
+                response_part = "\n{id_item}: {soulbound_style}{hue}{name}{weapon_type_name}{soulbound_style}{quantity}{tag}".format(
+                    id_item=item.get('id_item'),
                     name=item.get('name'),
                     hue=(item.get('hue') +" " if (item.get('hue') and display_hue) else "").capitalize(),
                     weapon_type_name=(", "+ static_weapons.weapon_map.get(item.get("weapon_type")).str_weapon if display_weapon_type and item.get("weapon_type") else ""),
                     soulbound_style=("**" if item.get('soulbound') else ""),
                     quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else ""),
-                    id_item=item.get('id_item')
+                    tag=(" [📦]" if (item.get("id_furniture") in static_items.furniture_collection) else ""),
                 )
 
                 # Print item type labels if sorting by type and showing a different type of items
