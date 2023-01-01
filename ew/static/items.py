@@ -1961,7 +1961,6 @@ item_list = [
         id_item=ewcfg.item_id_giftribbon,
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
-        acquisition=ewcfg.acquisition_mining,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_gallonofmilk,
@@ -3786,6 +3785,7 @@ furniture_list = [
 ]
 
 
+# Remember to actually append to these lists when adding new furniture sets. 
 furniture_map = {}
 furniture_names = []
 furniture_lgbt = []
@@ -3837,4 +3837,6 @@ for furniture in furniture_list:
     elif furniture.furn_set == "collection":
         furniture_collection.append(furniture.id_furniture)
     elif furniture.furn_set == "hatealiens":
+        furniture_hatealiens.append(furniture.id_furniture)
+    elif furniture.furn_set == "hummels":
         furniture_hatealiens.append(furniture.id_furniture)

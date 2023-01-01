@@ -1252,12 +1252,6 @@ async def store_item(cmd):
 
         else:
             response = "You store the {} in the {}.".format(name_string, destination)
-            hatrack = bknd_item.find_item(id_server=playermodel.id_server, id_user=str(playermodel.id_user) + "decorate", item_search="hatstand")
-            if destination == "closet" and item_sought.get('item_type') == ewcfg.it_cosmetic:
-                map_obj = cosmetics.cosmetic_map.get(item.item_props.get('id_cosmetic'))
-                if map_obj != None:
-                    if map_obj.is_hat == True and hatrack:
-                        response = "You hang the {} on the rack.".format(name_string)
     else:
         response = "Are you sure you have that item?"
 
@@ -1318,7 +1312,6 @@ async def remove_item(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     items_snagged = 0
-    hatrack = False
     item_list = []
     item_cache = bknd_core.get_cache(obj_type="EwItem")
     while multisnag > 0:
@@ -1367,13 +1360,6 @@ async def remove_item(cmd):
                 inv_response = bknd_item.check_inv_capacity(user_data=usermodel, item_type=item_sought.get('item_type'), return_strings=True, pronoun="You")
                 if inv_response != "":
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
-
-                if destination == "closet" and item_sought.get('item_type') == ewcfg.it_cosmetic:
-                    hatrack_obj = bknd_item.find_item(id_server=playermodel.id_server, id_user=str(playermodel.id_user) + "decorate", item_search="hatstand")
-                    map_obj = cosmetics.cosmetic_map.get(item.item_props.get('id_cosmetic'))
-                    if map_obj != None:
-                        if map_obj.is_hat == True and hatrack_obj:
-                            hatrack = True
 
                 if item_sought.get('item_type') == ewcfg.it_food:
                     food_items = bknd_item.inventory(
@@ -1430,8 +1416,6 @@ async def remove_item(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     response = "You take the {} from the {}.".format(name_string, destination)
-    if hatrack:
-        response = "You take the {} off the rack.".format(name_string)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
