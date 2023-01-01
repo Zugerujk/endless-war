@@ -71,3 +71,6 @@ async def contentCheck():
 
 async def debug24():
     return
+
+async def debug434(cmd):
+    return

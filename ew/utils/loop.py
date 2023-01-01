@@ -711,7 +711,6 @@ def enemyRemoveExpiredStatuses(id_server = None):
             id_server,
             time_now
         ))
-
         for row in statuses:
             status = row[0]
             id_enemy = row[1]
