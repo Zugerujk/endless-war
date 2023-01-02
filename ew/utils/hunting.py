@@ -5,11 +5,57 @@ from . import slimeoid as slimeoid_utils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from ..backend.hunting import EwEnemyBase as EwEnemy
+#from ew.utils.combat import EwEnemy as EwEnemyWrapper
 from ..backend.market import EwMarket
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+from ..static import hunting as hunting_static
+from ..static.npc import active_npcs_map, spawn_probability_list
+from ..static import status as se_static
+import ew.backend.core as bknd_core
+from ..backend.status import EwEnemyStatusEffect
+import ew.utils.core as ewutils
+from ew.utils import frontend as fe_utils
 
+def gen_npc(enemy, pre_selected_npc = None, pre_selected_poi = None):
 
+    loop_count = 0
+    chosen_npc = None
+
+    if pre_selected_npc is not None:
+        chosen_npc = active_npcs_map.get(pre_selected_npc)
+
+    if pre_selected_npc is None or chosen_npc is None:
+        while loop_count < 1000:
+            npcname = random.choice(spawn_probability_list)
+            chosen_npc = active_npcs_map.get(npcname)
+            enemydata = bknd_core.execute_sql_query(
+                    "SELECT {id_enemy} FROM enemies WHERE {display_name} = %s AND {life_state} = 1 AND {id_server} = %s".format(
+                        id_enemy=ewcfg.col_id_enemy,
+                        display_name=ewcfg.col_enemy_class,
+                        life_state=ewcfg.col_enemy_life_state,
+                        id_server=ewcfg.col_id_server
+                    ), (
+                        chosen_npc.id_npc,
+                        enemy.id_server
+                    ))
+            if len(enemydata) == 0:
+                break
+            else:
+                loop_count += 1
+
+    if chosen_npc != None:
+
+        enemy.display_name = chosen_npc.str_name
+        enemy.slimes = chosen_npc.defaultslime
+        enemy.level = chosen_npc.defaultlevel
+        enemy.poi = pre_selected_poi if pre_selected_poi is not None else random.choice(chosen_npc.poi_list)
+        enemy.enemyclass = chosen_npc.id_npc
+        enemy.attacktype = chosen_npc.attacktype
+
+        return enemy
+    else:
+        return enemy
 
 
 # Spawns an enemy in a randomized outskirt district. If a district is full, it will try again, up to 5 times.
@@ -28,8 +74,10 @@ def spawn_enemy(
         pre_chosen_owner = None,
         pre_chosen_rarity = None,
         pre_chosen_props = None,
+        pre_chosen_npc = None,
         manual_spawn = False,
-        pre_chosen_variant = None,
+        is_buddy = False,
+        pre_chosen_variant = None
 ):
     time_now = int(time.time())
     response = ""
@@ -160,6 +208,10 @@ def spawn_enemy(
         enemy.owner = -1 if pre_chosen_owner is None else pre_chosen_owner
         enemy.rare_status = enemy.rare_status if pre_chosen_rarity is None else pre_chosen_rarity
 
+        if enemy.enemytype == ewcfg.enemy_type_npc:
+            enemy = gen_npc(enemy=enemy, pre_selected_npc=pre_chosen_npc, pre_selected_poi=pre_chosen_poi)
+
+
         if pre_chosen_weather != ewcfg.enemy_weathertype_normal:
             if pre_chosen_weather == ewcfg.enemy_weathertype_rainresist:
                 enemy.display_name = "Bicarbonate {}".format(enemy.display_name)
@@ -179,6 +231,46 @@ def spawn_enemy(
         enemy.enemy_props = props if pre_chosen_props is None else pre_chosen_props
 
         enemy.persist()
+        buddies = []
+        if enemy.enemytype == 'npc':
+            chosen_npc = active_npcs_map.get(enemy.enemyclass)
+            for status in chosen_npc.starting_statuses:
+                status_obj = se_static.status_effects_def_map.get(status)
+                if status_obj != None:
+                    time_expire = status_obj.time_expire
+                    status_effect = EwEnemyStatusEffect(id_status=status, enemy_data=enemy, time_expire=time_expire, value=0, source="", id_target=-1)
+                    status_effect.persist()
+                if 'buddy' in status:
+                    buddies.append(status[5:])
+
+            if ewcfg.status_enemy_trainer_id in chosen_npc.starting_statuses:
+                sl_level = 1
+                if not enemy.rare_status:
+                    sl_level = random.randint(1, 6)
+                else:
+                    sl_level = random.randint(7, 10)
+
+                for status in chosen_npc.starting_statuses:
+                    if 'leveltrainer' in status:
+                        sl_level = int(status[0])
+
+
+
+                name = chosen_npc.slimeoid_name if len(chosen_npc.slimeoid_name) > 0 else None
+
+                slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True, name=name)
+
+
+            #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+            #client = ewutils.get_client()
+            #server = client.get_guild(id_server)
+            #channel = fe_utils.get_channel(server=server, channel_name=ch_name)
+            #try:
+            #    await chosen_npc.func_ai(keyword='spawn', channel=channel, enemy=enemy)
+            #except Exception as e:
+            #    ewutils.logMsg("Unable to find awaitable NPC function. Error:{}".format(e))
+
+
 
         # Recursively spawn enemies that belong to groups.
         if enemytype in ewcfg.enemy_group_leaders:
@@ -199,15 +291,10 @@ def spawn_enemy(
                                                 pre_chosen_poi=chosen_poi, manual_spawn=True)
 
                     resp_cont.add_response_container(sub_resp_cont)
-
-        if enemytype in ewcfg.slimeoid_trainers:
-            sl_level = 1
-            spawn_hue = False
-            if enemy.rare_status:
-                sl_level = random.randint(7, 10)
-            else:
-                sl_level = random.randint(1, 6)
-            new_sl = slimeoid_utils.generate_slimeoid(id_owner=enemy.id_enemy, id_server=id_server, level=sl_level, persist=True)
+        if len(buddies) > 0 and not is_buddy:
+            for buddy in buddies:
+                sub_resp_cont = spawn_enemy(id_server=id_server, pre_chosen_type='npc', pre_chosen_poi=chosen_poi, manual_spawn=True, is_buddy=True, pre_chosen_npc=buddy)
+                resp_cont.add_response_container(sub_resp_cont)
 
         if enemytype not in ewcfg.raid_bosses:
 
@@ -226,9 +313,9 @@ def spawn_enemy(
                     response = "A new {} just got sent in. It's level {}, and has {} slime.\n*'Don't hold back!'*, the Dojo Master cries out from afar.".format(
                         enemy.display_name, enemy.level, enemy.slimes)
             
-            elif enemytype in ewcfg.slimeoid_trainers:
-                response = "A {} is looking for a challenge! They are accompanied by {}, a {}-foot tall {}Slimeoid.".format(
-                    enemy.display_name, new_sl.name, new_sl.level, "" if new_sl.hue == "" else new_sl.hue + " ")
+            #elif enemytype in ewcfg.slimeoid_trainers:
+                #response = "A {} is looking for a challenge! They are accompanied by {}, a {}-foot tall {}Slimeoid.".format(
+                    #enemy.display_name, new_sl.name, new_sl.level, "" if new_sl.hue == "" else new_sl.hue + " ")
             else:
 
                 response = "**An enemy draws near!!** It's a level {} {}, and has {} slime.".format(enemy.level,
@@ -236,7 +323,7 @@ def spawn_enemy(
                                                                                                     enemy.slimes)
                 
 
-        ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+        #ch_name = poi_static.id_to_poi.get(enemy.poi).channel
 
     if len(response) > 0 and len(ch_name) > 0:
         resp_cont.add_channel_response(ch_name, response)
@@ -309,7 +396,6 @@ def get_enemy_data(enemy_type, variant = 0, pre_chosen_rarity = None):
 def set_identifier(poi, id_server):
     district = EwDistrict(district=poi, id_server=id_server)
     enemies_list = district.get_enemies_in_district()
-
     # A list of identifiers from enemies in a district
     enemy_identifiers = []
 

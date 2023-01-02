@@ -28,7 +28,7 @@ from ew.static import poi as poi_static
 from ew.static import status as se_static
 from ew.static import vendors
 from ew.static import cosmetics as static_cosmetics
-
+from ew.static import npc as npcutils
 from ew.backend.player import EwPlayer
 
 from ew.static import weapons as static_weapons
@@ -154,11 +154,14 @@ async def data(cmd):
     # enemy data check
     if len(cmd.tokens) > 1 and cmd.mentions_count == 0 and len(cmd.mention_ids) == 0:
         user_data = EwUser(member=cmd.message.author)
-
         soughtenemy = " ".join(cmd.tokens[1:]).lower()
         enemy = cmbt_utils.find_enemy(soughtenemy, user_data)
         if enemy != None:
-            if enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
+
+            if enemy.enemytype == 'npc':
+                npc_obj = npcutils.active_npcs_map.get(enemy.enemyclass)
+                response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.image_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
+            elif enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
                 response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. ".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype)
             else:
                 response = "{} is a level {} enemy. They have {:,} slime".format(enemy.display_name, enemy.level, enemy.slimes)  # , enemy.hardened_sap)
@@ -191,8 +194,8 @@ async def data(cmd):
 
             if enemy.enemytype in ewcfg.slimeoid_trainers:
                 enemy_slimeoid = EwSlimeoid(id_user=enemy.id_enemy, id_server=cmd.message.guild.id)
-
-                response += "\n\nThey are accompanied by {}, a {}-foot-tall Slimeoid. ".format(enemy_slimeoid.name, str(enemy_slimeoid.level))
+                if enemy_slimeoid.level > 0:
+                    response += "\n\nThey are accompanied by {}, a {}-foot-tall Slimeoid. ".format(enemy_slimeoid.name, str(enemy_slimeoid.level))
 
         else:
             response = "ENDLESS WAR didn't understand that name."
@@ -1570,12 +1573,17 @@ async def recycle(cmd):
                     response = "Woah, wow, hold on there! Domestic violence is one thing, but how could you just throw your faithful {} into a glorified incinerator? Look, we all have bad days, but that's no way to treat a weapon. At least get a proper divorce first, you animal.".format(weapon.str_weapon)
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 else:
-                    user_data.weapon = -1
-                    user_data.persist()
-            elif item.item_type == ewcfg.it_weapon and user_data.sidearm >= 0 and item.id_item == user_data.sidearm:
-                user_data.sidearm = -1
-                user_data.persist()
+                    #user_data.weapon = -1
+                    #user_data.persist()
+                    response = "Your hard-bitten criminal instincts prevent you from loosening grip on your weapon. Unequip it before trying to recycle it."
+                    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+            elif item.item_type == ewcfg.it_weapon and user_data.sidearm >= 0 and item.id_item == user_data.sidearm:
+                #user_data.sidearm = -1
+                #user_data.persist()
+                weapon = static_weapons.weapon_map.get(item.item_props.get("weapon_type"))
+                response = "Your hard-bitten criminal instincts prevent you from relaxing your ass cheeks, and you can't get {} out of your back pocket. Get it out of your sidearm slot!".format(weapon.str_weapon)
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             #elif item.item_type == ewcfg.it_relic: i need to learn to let things go and adapt.
             #    relic_mapped = rstatic.relic_map.get(item.item_props.get('id_relic'))
@@ -1639,6 +1647,25 @@ async def help(cmd):
     topic = None
     user_data = EwUser(member=cmd.message.author)
     resp_cont = EwResponseContainer(id_server=cmd.guild.id)
+
+    if cmd.tokens[1] == 'juvieman':
+        poi = poi_static.id_to_poi.get(user_data.poi)
+        if user_data.life_state != ewcfg.life_state_juvenile:
+            response = "No answer. Guess he only responds to juvies."
+        elif poi.pvp == False:
+            response = "You're not in danger, dumbass."
+        else:
+            enemy = cmbt_utils.find_npc(npcsearch='juvieman', id_server=user_data.id_server)
+            if not enemy:
+                response = "But nobody came. Guess Juvieman's busy."
+            else:
+                enemy.poi = user_data.poi
+                enemy.applyStatus(id_status=ewcfg.status_enemy_hostile_id)
+                enemy.persist()
+                response = "DID SOMEBODY SAY... JUVIEMAN!?"
+                name = "{}{}{}".format('**__', "JUVIEMAN", '__**')
+                return await fe_utils.talk_bubble(response=response, name=name, image="https://cdn.discordapp.com/attachments/982703096616599602/996615981407408249/unknown.png", channel=cmd.message.channel)
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # help only checks for districts while in game channels
 
@@ -2804,7 +2831,7 @@ async def arrest(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Arrested {}{}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name, time_done))
+        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Arrested {}{}.".format(cmd.message.author.id, member.display_name, time_done), filter_everyone=False)
 
 
 
@@ -2830,7 +2857,7 @@ async def release(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel, "{} ({}): Released {}.".format(cmd.message.author.display_name, cmd.message.author.id, member.display_name))
+        await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Released {}.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
 
 
 async def dual_key_ban(cmd):
@@ -2876,12 +2903,13 @@ async def dual_key_ban(cmd):
                     except:
                         response = "Ban failed. Were they out of the server? Either way, your key's in."
                         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
+
                         await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}, but they left the server already.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
 
                         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                     leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                    await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}. They are now banned.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
+                    await fe_utils.send_message(cmd.client, leak_channel, "<@!{}> has turned their key to ban {}. They are now banned.".format(cmd.message.author.id, member.display_name, final_ban_text), filter_everyone=False)
 
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         if bannedalready:
@@ -2892,6 +2920,7 @@ async def dual_key_ban(cmd):
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
         await fe_utils.send_message(cmd.client, leak_channel, "{} has turned their key to ban {}.".format(cmd.message.author.display_name, member.display_name, final_ban_text))
+
 
         response = "You turn your key. {} is just one step away from banishment...".format(member.display_name)
         return await fe_utils.send_response(response, cmd)
@@ -2949,6 +2978,7 @@ async def dual_key_release(cmd):
 
         if "You never banned them to begin with." not in response:
             leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
+
             await fe_utils.send_message(cmd.client, leak_channel, "{} has undone their key to ban {}.{}".format(cmd.message.author.display_name, member.display_name, final_unban_text))
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))

@@ -15,6 +15,7 @@ from ew.backend.player import EwPlayer
 from ew.backend import worldevent as bknd_worldevent
 from ew.cmd import apt as ewapt
 from ew.static import cfg as ewcfg
+from ew.static import community_cfg as commcfg
 from ew.static import poi as poi_static
 try:
     from ew.cmd.debug import zone_bonus_flavor
@@ -109,8 +110,6 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
     if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
         district = EwDistrict(id_server=user_data.id_server, district=user_data.poi)
-        print(user_data.poi)
-        print(district.get_enemies_in_district())
 
         if user_data.poi in poi_static.enemy_lock_districts and district.get_enemies_in_district() == []:
             ewutils.active_restrictions[user_data.id_user] = 0
@@ -280,7 +279,8 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
             return
 
-        await rutils.movement_checker(user_data, poi_current, poi, cmd=cmd)
+        await rutils.movement_checker(user_data, poi_current, poi, cmd)
+
 
         await ewrolemgr.updateRoles(client=cmd.client, member=member_object, new_poi=poi.id_poi)
         user_data.poi = poi.id_poi
@@ -567,6 +567,8 @@ async def look(cmd):
     bonus_flavor_list = zone_bonus_flavor.get(poi.id_poi)
     if bonus_flavor_list is not None:
         str_desc = poi.str_desc.format(bonusflavor = random.choice(bonus_flavor_list))
+    elif ewcfg.status_thinned_id in user_data.getStatusEffects():
+        str_desc = random.choice(commcfg.district_blurbs.get(poi.id_poi))
     else:
         str_desc = poi.str_desc
 

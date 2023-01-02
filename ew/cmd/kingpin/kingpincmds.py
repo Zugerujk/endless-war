@@ -166,7 +166,7 @@ async def defect(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel,  "{}: Let {} defect.".format(modauth.display_name, member.display_name))
+        await fe_utils.send_message(client=cmd.client, channel=leak_channel,  text="<@!{}>: Let {} defect.".format(mod_data.id_user, member.display_name), filter_everyone=False)
 
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -484,7 +484,7 @@ async def hogtie(cmd):
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}:Released {} from eternal bondage.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>:Released {} from eternal bondage.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
             else:
                 target_data.hogtied = 1
                 target_data.persist()
@@ -492,7 +492,7 @@ async def hogtie(cmd):
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}: Hogtied {}.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Hogtied {}.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
 
 
 async def clowncar(cmd):#shoves everyone not there into JR or the sewers

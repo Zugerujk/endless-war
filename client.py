@@ -117,12 +117,20 @@ while sys.argv:
     elif arg_lower.startswith(db_prefix):
         ewcfg.database = arg_lower[len(db_prefix):]
 
+    for arg in sys.argv:
+        if arg[2:].lower() in ewutils.DEBUG_OPTIONS.keys() and arg[:2] == "--":
+            ewutils.DEBUG_OPTIONS[arg[2:]] = True
+            ewutils.logMsg('Enabled the {} debug option.'.format(arg[2:]))
+
+
     sys.argv = sys.argv[1:]
 
 # When debug is enabled, additional commands are turned on.
 if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
+
+
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 
@@ -243,6 +251,8 @@ async def on_ready():
 
     # Channels in the connected discord servers to send stock market updates to. Map of server ID to channel.
     channels_stockmarket = {}
+    dungeon_utils.load_npc_blurbs()
+    dungeon_utils.load_other_blurbs()
 
     for server in client.guilds:
         # Force discord to send all users, even offline ones
@@ -264,6 +274,8 @@ async def on_ready():
         fe_utils.map_channels(server)
 
         ewdebug.initialize_gamestate(id_server=server.id)
+
+
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
@@ -1009,11 +1021,12 @@ async def on_message(message):
             Punish the user for swearing.
             The swear_jar attribute has been repurposed for SlimeCorp security officers
         """
-        if ewdebug.debug_content_1 in content_tolower and False:
-            usermodel.persist()
-            await ewdebug.contentCheck(cmd=cmd_obj, line=content_tolower)
 
-            usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
+
+        usermodel.persist()
+        if await ewdebug.contentCheck(cmd=cmd_obj, line=content_tolower) == True:
+            return
+        usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
 
         # if the message wasn't a command, we can stop here
         if not message.content.startswith(ewcfg.cmd_prefix):

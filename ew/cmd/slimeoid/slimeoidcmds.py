@@ -779,11 +779,10 @@ async def slimeoidbattle(cmd):
 
         
         if not pvp_battle and not isinstance(winner, EwEnemy):
-            # Fucking delete 'em if they lose!
-            response = "{name} is out of useable Slimeoids! {name} blacked out!".format(name=challengee.display_name)
+            response = "{name} is out of useable Slimeoids!".format(name=challengee.display_name)
             await fe_utils.send_message(cmd.client, cmd.message.channel, response)
             
-            bknd_hunting.delete_enemy(challengee)
+            #bknd_hunting.delete_enemy(challengee)
 
     else:
         response = "{} was too cowardly to accept your challenge.".format(member.display_name).replace("@", "\{at\}")

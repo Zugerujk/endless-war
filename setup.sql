@@ -497,7 +497,25 @@ create table records(
     PRIMARY KEY(id_server, record_type)
 );
 
+CREATE TABLE blurbs(
+    id_blurb BIGINT NOT NULL AUTO_INCREMENT,
+    id_server BIGINT NOT NULL DEFAULT -1,
+    blurb VARCHAR(2000) NOT NULL DEFAULT '',
+    context VARCHAR(50) NOT NULL DEFAULT '',
+    subcontext VARCHAR(50) NOT NULL DEFAULT '',
+    subsubcontext VARCHAR(50) NOT NULL DEFAULT '',
+    dateadded DATE NOT NULL DEFAULT (CURRENT_DATE),
 
+    PRIMARY KEY(id_blurb, id_server)
+);
+
+CREATE TABLE votes(
+    id_user BIGINT NOT NULL DEFAULT -1,
+    id_server BIGINT NOT NULL DEFAULT -1,
+    poi VARCHAR(50) NOT NULL DEFAULT '',
+    target VARCHAR(50) NOT NULL DEFAULT '',
+    PRIMARY KEY(id_user, id_server)
+);
 
 CREATE TABLE goonscape_stats (
 

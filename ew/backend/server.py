@@ -67,4 +67,5 @@ def server_update(server = None):
     dbserver.name = server.name
     dbserver.icon = server.icon.url if server.icon is not None else ""
 
+
     dbserver.persist()

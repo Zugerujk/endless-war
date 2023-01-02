@@ -190,6 +190,7 @@ class EwEnemyStatusEffect:
                     self.time_expire = result[0]
                     self.value = result[1]
                     self.source = result[2]
+                    self.id_target = result[3]
 
                 else:
                     # Save the object.

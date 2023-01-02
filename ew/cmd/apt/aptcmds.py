@@ -14,6 +14,7 @@ from ew.static import community_cfg as comm_cfg
 from ew.static import cosmetics
 from ew.static import food as static_food
 from ew.static import hue as hue_static
+from ew.static import weapons as static_weapons
 from ew.static import items as static_items
 from ew.static import poi as poi_static
 from ew.utils import apt as apt_utils
@@ -27,6 +28,8 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import slimeoid as slimeoid_utils
 from ew.utils.combat import EwUser
 from ew.utils.frontend import EwResponseContainer
+import ew.cmd.cmds.cmdsutils as cmdutils
+
 from ew.utils.slimeoid import EwSlimeoid
 from .aptutils import getPriceBase, usekey, apt_decorate_look_str, apt_closet_look_str, apt_fridge_look_str, apt_bookshelf_look_str, apt_slimeoid_look_str, apt_max_compartment_capacity
 
@@ -1658,4 +1661,35 @@ async def bootall(cmd):
     await apt_utils.toss_squatters(user_id=usermodel.id_user, server_id=usermodel.id_server, keepKeys=True)
 
     response = "You throw a furious tantrum and shoo all the undesirables out. It's only you and your roommates now."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def flush(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
+    item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=user_data.id_server)
+    item_obj = EwItem(id_item=item_sought.get('id_item'))
+    apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
+
+    if item_obj.soulbound == True:
+        response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
+    elif apartment.apt_class == 'c':
+        response = "Your apartment's toilet isn't good enough to just go cramming items down there."
+    elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
+        if user_data.weaponmarried:
+            weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
+            response = "You remember when your mother used to try flushing you down the toilet, and all the trauma that brought. Nobody should have to live what you did, especially not your beloved {}.".format(
+                weapon.str_weapon)
+            return await fe_utils.send_message(cmd.client, cmd.message.channel,
+                                               fe_utils.formatMessage(cmd.message.author, response))
+
+        else:
+            response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed=True)
+            user_data.change_crime(n=ewcfg.cr_littering_points)
+            user_data.persist()
+        return await fe_utils.send_message(cmd.client, cmd.message.channel,
+                                           fe_utils.formatMessage(cmd.message.author, response))
+    else:
+        response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed= True)
+        user_data.change_crime(n=ewcfg.cr_littering_points)
+        user_data.persist()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

@@ -59,6 +59,12 @@ async def embark(cmd):
         if target_name == None or len(target_name) == 0:
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "Which transport line?"))
 
+        if target_name in ['green', 'blue', 'red', 'yellow', 'white']:
+            for transport in transport_ids:
+                if target_name in transport:
+                    transport_data = EwTransport(id_server=user_data.id_server, poi=transport)
+                    target_name = transport_data.current_line
+
         transport_line = poi_static.id_to_transport_line.get(target_name)
 
         # report failure, if an invalid argument was given

@@ -13,6 +13,8 @@ from ..backend.dungeons import EwGamestate
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 
+
+
 try:
     from ..cmd import debug as debug
     import ew.static.rstatic as static_relic
@@ -472,6 +474,21 @@ def make_relics_found_board(id_server, title):
         entry_type=ewcfg.entry_type_relics
     )
 
+def make_gamestate_board(id_server, gamestates, headers ,title, useValues = False):
+    entries = []
+    for (state, header) in zip(gamestates, headers):
+        state_obj = EwGamestate(id_server=id_server, id_state=state)
+        if useValues:
+            entries.append([header, int(state_obj.value)])
+        else:
+            entries.append([header, state_obj.number])
+
+        return format_board(
+            entries=entries,
+            title=title,
+            entry_type=ewcfg.entry_type_relics
+        )
+
 
 
 # SLIMERNALIA
@@ -688,16 +705,14 @@ def board_entry(entry, entry_type, divide_by):
             type,
             number
         )
-
     elif entry_type == ewcfg.entry_type_gamestates:
         name = entry.value # Name is the value of the gamestate - watch out for that
         number = entry.number
-        symbol = '🎆'
+        symbol = ewcfg.gamestate_leaderboard_markers.get(entry.value, ewcfg.emote_slime3)
 
         result = "\n{} `{:_>15} | {:,}`".format(
             symbol,
             name,
             number
         )
-
     return result
