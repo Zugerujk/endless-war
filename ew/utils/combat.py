@@ -1652,12 +1652,12 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                 ))
             if condition is not None:
                 for user in users:
-                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server, data_level=1)
+                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server)
                     if condition(user_data, enemy_data):
                         target_data = user_data
                         break
             elif len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
 
 
         elif enemy_data.ai == ewcfg.enemy_ai_attacker_b:
