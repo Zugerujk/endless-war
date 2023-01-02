@@ -220,7 +220,9 @@ async def generic_move(enemy = None, npc_obj = None): #moves within boundaries e
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()
-    if ewcfg.status_enemy_hostile_id in enemy_statuses:
+    poi = poi_static.id_to_poi.get(enemy.poi)
+
+    if ewcfg.status_enemy_hostile_id in enemy_statuses and poi.pvp:
         if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
             resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
         else:
@@ -283,9 +285,9 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         if response is not None:
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
-
-
-    resp_cont = await enemy.kill(condition = npc_obj.condition)
+    poi = poi_static.id_to_poi.get(enemy.poi)
+    if poi.pvp:
+        resp_cont = await enemy.kill(condition = npc_obj.condition)
 
     if resp_cont is not None:
         await resp_cont.post()
