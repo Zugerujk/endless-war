@@ -2,7 +2,9 @@ import datetime
 
 # Global configuration options.
 
-version = "v4.1999 more like NOSLIMERNALIA"
+
+version = "v4.19999 End of Act 1?"
+
 
 
 dir_msgqueue = 'msgqueue'
