@@ -3,7 +3,7 @@ import datetime
 # Global configuration options.
 
 
-version = "v4.19999 End of Act 1?"
+version = "v4.2 SEASON 4 ACT 2"
 
 
 
