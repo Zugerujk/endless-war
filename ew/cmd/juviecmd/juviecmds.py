@@ -414,6 +414,7 @@ async def mine(cmd):
                     toolused = ewcfg.weapon_id_sledgehammer
                 elif weapon.id_weapon == ewcfg.weapon_id_shovel:
                     toolused = ewcfg.weapon_id_shovel
+
             
             sledgehammer_bonus = False
 
@@ -484,6 +485,7 @@ async def mine(cmd):
                     return
 
             
+
             if toolused == ewcfg.weapon_id_shovel and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
                 # print(poi.mother_districts[0] + 'hole')

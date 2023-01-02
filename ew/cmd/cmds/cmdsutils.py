@@ -216,6 +216,7 @@ def holiday_commands(header = True):
         return "{}{}".format(response, ewcfg.holidaycommands.get('slimernalia'))
     elif ewcfg.swilldermuk_active:
         return "{}{}".format(response, ewcfg.holidaycommands.get('swilldermuk'))
+
     else:
         return ''
 
