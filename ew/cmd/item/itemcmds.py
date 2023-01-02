@@ -2231,7 +2231,7 @@ async def huff(cmd):
             bknd_item.item_delete(id_item=item.id_item)
             user_data.applyStatus(id_status=ewcfg.status_thinned_id)
     else:
-        response = "Are you gonna "
+        response = "You can't get high on your own farts, at least not yet. Get a thinnerbomb and we'll talk."
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
