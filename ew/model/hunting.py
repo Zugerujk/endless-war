@@ -125,15 +125,15 @@ class EwNpc:
 
     defaultlevel = "" #default level
 
-    rewards = [], #what you get for killing them
+    rewards = [] #what you get for killing them
 
     starting_statuses = [] #initial enemy status conditions
 
     condition = lambda user_data: True #lambda function to find a target for some attackers
 
-    attacktype = 'amateur', # the weapon the enemy uses
+    attacktype = 'amateur' # the weapon the enemy uses
 
-    description = '', #a description of the npc fpr !data
+    description = '' #a description of the npc fpr !data
 
     rarity = 5 #relative spawn frequency
 
@@ -176,5 +176,5 @@ class EwNpc:
         self.attacktype=attacktype
         self.description = description
         self.rarity = rarity
-        self.slimeoid_name = slimeoid_name,
+        self.slimeoid_name = slimeoid_name
         self.str_juviemode = str_juviemode
