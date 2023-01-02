@@ -16,7 +16,7 @@ from ew.static import npc as static_npc
 from ew.utils import combat as cmbt_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
-#from ew.utils import move as move_utils
+from ew.utils import move as move_utils
 from ew.utils import stats as ewstats
 try:
     from ew.utils import rutils as rutils
@@ -505,6 +505,9 @@ def canAttack(cmd):
                 response = "Juveniles lack the moral fiber necessary for violence."
             else:
                 response = "You lack the moral fiber necessary for violence."
+
+        elif move_utils.poi_is_pvp(user_data.poi) == False:
+            response = "You must go elsewhere to commit gang violence."
 
         elif enemy_data != None:
             if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
