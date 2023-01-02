@@ -1784,6 +1784,7 @@ async def commands(cmd):
                                     "**Juvies** / **Enlisted** / **Corpses**: Commands for each life state.\n"\
                                     "**Smelting**: Smelting-related commands.\n"\
                                     "**Cosmetics and Dyes**: Display information on cosmetics and dyes.\n"\
+                                    "**Apartments**: Commands for apartments and commands for collections.\n"\
                                     "**Slimeoids**: Slimeoid-related commands.\n"\
                                     "**Trading**: Trading-related commands.\n"\
                                     "**Quadrants**: Quadrant related commands.\n"\
@@ -1870,6 +1871,8 @@ async def commands(cmd):
         response += "Commands:\n" + ewcfg.flavor_commands
     elif "farming" in category:
         response += "Commands:\n" + ewcfg.farm_commands
+    elif "apartments" in category:
+        response += "Commands:\n" + ewcfg.apartment_commands
     elif "allitems" in category:
         response += "Commands:\n"
         for item in ewcfg.item_unique_commands.keys():

@@ -211,7 +211,7 @@ async def inventory_print(cmd):
     # Setup basic variables
     target_channel = cmd.message.channel
     target_inventory = cmd.message.author.id
-    is_player_inventory = True
+    inventory_type = "player"
     targeting_dms = False
 
     # Retrieve indirect data
@@ -241,8 +241,44 @@ async def inventory_print(cmd):
                 return await fe_utils.send_message(cmd.client, target_channel, response)
 
         # Mark as search for chest
-        is_player_inventory = False
+        inventory_type = "chest"
         target_inventory = poi_data.community_chest
+
+    elif cmd.tokens[0].lower() == ewcfg.cmd_collectioninventory:
+
+        # Must specify a collection
+        if len(cmd.tokens) < 2:
+            response = "You have to specify a collection to check the contents of."
+            response = fe_utils.formatMessage(cmd.message.author, response) if not targeting_dms else response
+            return await fe_utils.send_message(cmd.client, target_channel, response)
+
+        else:
+            # Search for collection
+            collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+            
+            # Check the user's inventory
+            collection = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
+            # Check the current apt if not in inventory
+            if collection is None and poi_data.is_apartment:
+                if user_data.visiting == ewcfg.location_id_empty:
+                    collection = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
+                else:
+                    collection = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.visiting, "decorate"),id_server=user_data.id_server)
+
+            if collection is None:
+                response = "You don't seem to have that collection."
+                response = fe_utils.formatMessage(cmd.message.author, response) if not targeting_dms else response
+                return await fe_utils.send_message(cmd.client, target_channel, response)
+
+            # Make sure this is in DMs or the poi channel
+            if (not targeting_dms) and target_channel.name != poi_data.channel:
+                response = "You can't look at the contents of that collection here."
+                response = fe_utils.formatMessage(cmd.message.author, response) if not targeting_dms else response
+                return await fe_utils.send_message(cmd.client, target_channel, response)
+
+            # Mark as search for collection
+            inventory_type = "collection"
+            target_inventory = "{}collection".format(collection.get("id_item"))
 
     else:
         # Ensure the inventory response in sent in dms, in case they requested it from in-server
@@ -263,7 +299,7 @@ async def inventory_print(cmd):
     # Check if the user has the bot blocked from dms, by dming them of course
     if targeting_dms:
         try:
-            resp_txt = "__You are holding:__" if is_player_inventory else "__The community chest contains:__"
+            resp_txt = "__You are holding:__" if inventory_type == "player" else "__The community chest contains:__" if inventory_type == "chest" else "__The collection contains:__"
             await fe_utils.send_message(cmd.client, target_channel, resp_txt)
         except:
             # you can only tell them to unblock you if the channel they sent it through isn't their dms
@@ -435,11 +471,14 @@ async def inventory_print(cmd):
 
     # Chests get to have the special empty response if they arent checked in dms, invs just cant be checked elsewhere
     if not targeting_dms:
+        # Change string based on inventory type used
+        inventory_string = "community chest" if inventory_type == "chest" else "item collection"    
+
         # Generate first message
         if len(items) == 0:
-            response = fe_utils.formatMessage(cmd.message.author, "The community chest is empty.")
+            response = fe_utils.formatMessage(cmd.message.author, f"The {inventory_string} is empty.")
         else:
-            response = fe_utils.formatMessage(cmd.message.author, "__The community chest contains:__")
+            response = fe_utils.formatMessage(cmd.message.author, f"__The {inventory_string} contains:__")
 
         # set it to be sent
         resp_ctn.add_channel_response(target_channel, response)
@@ -783,9 +822,9 @@ async def item_look(cmd):
 
                 if furn_obj is not None and furn_obj.furn_set == 'collection':
 
-
-                    if 'contents' in cmd.tokens[0] and 'general_collection' not in response:
-                        response = response.format(scalp_inspect = '{general_collection}', aquarium_inspect = '{general_collection}', soul_cylinder = '{general_collection}', weapon_chest = '{general_collection}')
+                    # Replaced with inventory_print
+                    # if 'contents' in cmd.tokens[0] and 'general_collection' not in response:
+                    #     response = response.format(scalp_inspect = '{general_collection}', aquarium_inspect = '{general_collection}', soul_cylinder = '{general_collection}', weapon_chest = '{general_collection}')
                     if 'scalp_inspect' in response:
                         response = response.format(scalp_inspect=itm_u.get_scalp_collection(id_item=item.id_item, id_server=item.id_server))
                     elif 'aquarium_inspect' in response:

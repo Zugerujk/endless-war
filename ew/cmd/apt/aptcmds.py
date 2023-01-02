@@ -1001,15 +1001,15 @@ async def apt_look(cmd):
     resp_cont.add_channel_response(cmd.message.channel, fridge_response)
 
     # Closet Compartment
-    closet_response = "\n\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    closet_response = "\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, closet_response)
 
     # Bookshelf Compartment
-    shelf_response = "\n\n" + apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    shelf_response = "\n" + apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, shelf_response)
 
     # Freezer Compartment
-    freeze_response = "\n\n" + apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    freeze_response = "\n" + apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, freeze_response)
 
     return await resp_cont.post(channel=cmd.message.channel)

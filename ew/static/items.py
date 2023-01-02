@@ -3839,4 +3839,4 @@ for furniture in furniture_list:
     elif furniture.furn_set == "hatealiens":
         furniture_hatealiens.append(furniture.id_furniture)
     elif furniture.furn_set == "hummels":
-        furniture_hatealiens.append(furniture.id_furniture)
+        furniture_hummels.append(furniture.id_furniture)

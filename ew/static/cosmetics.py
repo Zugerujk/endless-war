@@ -1325,7 +1325,7 @@ cosmetic_items_list = [
         str_onadorn = "You adorn the Dog Tag and get flashbacks to the trenches. If you die with these on, they aren't coming with you to the sewers.",
         durability = 1500,
         style = "tough",
-        vendors = ['Waffle House', 'bazaar'],
+        vendors = ['Waffle House', 'bazaar', 'Lab'],
         price = 2000,
         freshness = 2,
     ),
