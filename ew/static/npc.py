@@ -482,7 +482,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "n11",
-    active = True,
+    active = False,
     str_name = "Mr. Musset, Formerly N11",
     description = "A former Slimecorp employee. Are you gonna put aside your differences here? Personally, I'd fawgeddabowdhit.",
     poi_list = [ewcfg.poi_id_brawlden, ewcfg.poi_id_wreckington, ewcfg.poi_id_cratersville, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_toxington, ewcfg.poi_id_charcoalpark],
