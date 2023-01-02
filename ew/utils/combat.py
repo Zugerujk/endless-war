@@ -1681,7 +1681,7 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                     enemy_data.id_server
                 ))
             if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
 
         # If an enemy is a raidboss, don't let it attack until some time has passed when entering a new district.
         if enemy_data.enemytype in ewcfg.raid_bosses and enemy_data.time_lastenter > raidbossaggrotimer:
