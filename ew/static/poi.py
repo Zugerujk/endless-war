@@ -2659,8 +2659,8 @@ poi_list = [
     EwPoi(
         id_poi="northoutskirtsedge",
         alias=['noedge', 'noe'],
-        str_name="North Outskirts Edge",
-        str_desc="It's a small patch of desert on the edge of town. Go any further and you're just asking for trouble. Fuck the police. This outskirt is connected to Northwest Outskirts Edge, Northwest Outskirts, Nuclear Beach Edge, Arsonbrook, Brawlden and New New Yonkers.",
+        str_name="North Outskirts Edge - Cinder State Forest",
+        str_desc=" This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimifed version that's called something supremely retarded like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fries, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This outskirt is connected to Northwest Outskirts Edge, Northwest Outskirts, Nuclear Beach Edge, Arsonbrook, Brawlden and New New Yonkers.",
         channel="north-outskirts-edge",
         permissions={'north-outskirts-edge': ['read', 'send', 'connect']},
         is_outskirts=True,

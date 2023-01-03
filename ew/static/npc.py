@@ -237,7 +237,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
-    rarity=3,
+    rarity=1,
     rewards = [
     {
      "officercopbadge":[100, 1, 1]}

@@ -1669,6 +1669,7 @@ cr_murder_points = 500
 cr_assault_points = 75
 cr_vandalism_points = 100
 cr_arson_points = 600
+cr_cop_kill = 650
 cr_larceny_points = 1
 cr_underage_drinking_points = 1
 cr_littering_points = 1
@@ -2589,6 +2590,8 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+stat_lifetime_cops_killed = 'lifetime_cops_killed'
+
 
 # Slimernalia stats
 stat_festivity = 'festivity'
