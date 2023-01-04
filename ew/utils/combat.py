@@ -624,7 +624,8 @@ class EwEnemy(EwEnemyBase):
                         self.display_name
                     )
 
-                resp_cont.add_channel_response(new_ch_name, new_district_response)
+                if self.enemytype != ewcfg.enemy_type_npc or not ewutils.is_district_empty(new_poi_def.id_poi):
+                    resp_cont.add_channel_response(new_ch_name, new_district_response)
 
                 old_district_response = "{} has moved to {}!".format(self.display_name, new_poi_def.str_name)
                 old_poi_def = poi_static.id_to_poi.get(old_poi)
