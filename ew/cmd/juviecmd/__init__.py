@@ -32,5 +32,6 @@ cmd_map = {
 
     ewcfg.cmd_talk: juviecmds.talk,
     ewcfg.cmd_answer: juviecmds.hall_answer,
-    ewcfg.cmd_question: juviecmds.hall_question
+    ewcfg.cmd_question: juviecmds.hall_question,
+    ewcfg.cmd_claim:juviecmds.claim,
 }

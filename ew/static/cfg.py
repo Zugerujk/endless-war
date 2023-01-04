@@ -1335,6 +1335,8 @@ cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
 cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
+cmd_claim = cmd_prefix + 'claim'
+
 # race
 cmd_set_race = cmd_prefix + 'setrace'
 cmd_set_race_alt1 = cmd_prefix + 'identifyas'
@@ -1370,6 +1372,7 @@ cmd_verification_alt = cmd_prefix + '#verify'
 cmd_changegamestate = cmd_prefix + 'changegamestate'
 cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
+cmd_create_rally = cmd_prefix + 'createrally'
 
 # elevator cmds
 cmd_press_button = cmd_prefix + 'press'
@@ -5233,6 +5236,9 @@ event_type_gas_leak = "gasleak"
 # For raids
 event_type_raid_den = "raidden"
 
+event_type_rally = "rally"
+event_type_rally_end = "rallyend"
+
 
 # In list format
 random_poi_events = [
@@ -5250,7 +5256,7 @@ random_poi_events = [
     event_type_gas_leak,
 ]
 
-poi_events = random_poi_events + [event_type_raid_den] 
+poi_events = random_poi_events + [event_type_raid_den, event_type_rally, event_type_rally_end]
 
 # DH dates
 day_map = {

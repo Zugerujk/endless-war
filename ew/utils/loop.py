@@ -177,6 +177,13 @@ async def event_tick(id_server):
                     for channel in ewcfg.hideout_channels:
                         resp_cont.add_channel_response(channel, gangbase_alert)
 
+                    if event_data.event_type == ewcfg.event_type_rally_end:
+                        target_district = EwDistrict(id_server=id_server, district=poi.id_poi)
+                        if target_district.controlling_faction != 'rabble':
+                            target_district.capture_points = ewcfg.max_capture_points_s
+                            target_district.capturing_faction = 'rabble'
+                            target_district.persist()
+
 
             except Exception as e:
                 ewutils.logMsg("Error in event tick for server {}:{}".format(id_server, e))

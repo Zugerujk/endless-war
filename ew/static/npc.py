@@ -10,7 +10,7 @@ from . import poi as poi_static
 npc_list = [
     EwNpc(
         id_npc="thedrinkster",  # unique id for each npc
-        active = True,  # whether an npc spawns
+        active = False,  # whether an npc spawns
         str_name = "The Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_oozegardens, ewcfg.poi_id_wreckington, ewcfg.poi_id_glocksbury, ewcfg.poi_id_krakbay, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_smogsburg],  # list of locations an NPC roams in
         dialogue = {"talk":["...", "Feeling kind of thirsty..."],

@@ -1,5 +1,5 @@
 """
-	Commands and utilities related to Juveniles.
+    Commands and utilities related to Juveniles.
 """
 import math
 import random
@@ -40,11 +40,13 @@ from .juviecmdutils import print_grid
 from ew.backend.dungeons import EwGamestate
 
 try:
+    import ew.cmd.debug as ewdebug
     from ew.static.rstatic import digup_relics
     from ew.static.rstatic import relic_map
     from ew.static.rstatic import question_map
 
 except:
+    import ew.cmd.debug_dummy as ewdebug
     from ew.static.rstatic_dummy import digup_relics
     from ew.static.rstatic_dummy import relic_map
     from ew.static.rstatic_dummy import question_map
@@ -173,7 +175,7 @@ async def crush(cmd):
             
                 if len(levelup_response) > 0:
                     response += "\n\n" + levelup_response
-                    	
+
         # If the item is a negaslimeoidheart
         elif item_data.item_props.get("context") == ewcfg.context_negaslimeoidheart:
             
@@ -1152,3 +1154,49 @@ async def hall_answer(cmd):
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+#2 rallies can't go on at once with this design, maybe revise if that idea materializes
+async def claim(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    world_events = bknd_worldevent.get_world_events(id_server=user_data.id_server, active_only=True)
+    response = ""
+    for id_event in world_events:
+        if world_events.get(id_event) == ewcfg.event_type_rally:
+            event = bknd_worldevent.EwWorldEvent(id_event=id_event)
+            if event.event_props.get('poi') == user_data.poi and event.event_props.get(str(user_data.id_user)) is None:
+                event.event_props[str(user_data.id_user)] = '1'
+                response = "You checked into the rally as security. Be the last one standing to claim your prize..."
+                event.persist()
+            elif event.event_props.get('poi') == user_data.poi:
+                response = "You already did that."
+            else:
+                response = "Wrong place, dumpass."
+            break
+        elif world_events.get(id_event) == ewcfg.event_type_rally_end:
+            event = bknd_worldevent.EwWorldEvent(id_event=id_event)
+            district = EwDistrict(id_server=cmd.guild.id, district=event.event_props.get('poi'))
+            if district is not None:
+                if district.name != user_data.poi:
+                    response = "There's no rally here."
+                elif district.controlling_faction == 'rabble' and len(district.get_players_in_district()) + (
+                district.get_enemies_in_district()) == 0:
+                    response = "You're not done, there are violent people and/or subhumans around here that are still alive."
+                elif event.event_props.get(str(user_data.id_user)) is None:
+                    response = "You're just pretending like you're part of security. Get outta here."
+                elif event.event_props.get('relic') == 'claimed':
+                    response = 'Too late, bud. Someone already took payment.'
+                else:
+                    relic_id = event.event_props.get('relic')
+                    map_entry = relic_map.get(relic_id)
+                    event.event_props['relic'] = 'claimed'
+                    event.persist()
+                    await ewdebug.award_item(cmd, itemname=relic_id, on_give='')
+                    response = "You outlasted them all. Yes, paydirt! You get the {}!".format(map_entry.str_name)
+            else:
+                response = ""
+            break
+        else:
+            response = "There's no rally here."
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
