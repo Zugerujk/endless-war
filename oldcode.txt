@@ -25160,3 +25160,21 @@ async def turnin(cmd):
 
     resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     return await resp_cont.post()
+
+
+
+    async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants. for characters who don't talk and are narrated instead.
+    rare_keyword = "rare{}".format(keyword_override)
+    location_keyword = '{}{}'.format(enemy.poi, keyword_override)
+
+    if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
+        keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
+
+    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+
+    if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
+        potential_dialogue += npc_obj.dialogue.get(location_keyword)
+
+    response = random.choice(potential_dialogue)
+    if response is not None:
+        await fe_utils.send_message(None, channel, response)

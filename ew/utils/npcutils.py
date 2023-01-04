@@ -177,7 +177,14 @@ async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
 
+
+
+
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
+
+    if ewutils.is_district_empty(poi=enemy.poi):
+        return
+
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
 
@@ -231,7 +238,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
         if resp_cont is not None:
             await resp_cont.post()
 
-    elif random.randrange(25) == 0:
+    elif random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi):
         resp_set = npc_obj.dialogue.get('loop')
         if resp_set is None:
             resp_set = npc_obj.dialogue.get('talk')
@@ -272,7 +279,7 @@ async def generic_give(channel, npc_obj, enemy, item):
 async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()
 
-    if random.randrange(25) == 0: #one in 25 chance to talk in addition to attacking. attacks are based on a condition
+    if random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi): #one in 25 chance to talk in addition to attacking. attacks are based on a condition
         if npc_obj.dialogue.get('loop') is not None:
             response = random.choice(npc_obj.dialogue.get('loop'))
         elif npc_obj.dialogue.get('talk') is not None:
@@ -344,22 +351,6 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     response = "Oh shit, cop car! There's {} of those bitches in there!\n\nWait...Oh no...".format(numcops + 3)
     await fe_utils.send_message(None, channel, response)
 
-
-async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants. for characters who don't talk and are narrated instead.
-    rare_keyword = "rare{}".format(keyword_override)
-    location_keyword = '{}{}'.format(enemy.poi, keyword_override)
-
-    if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
-        keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
-
-    potential_dialogue = npc_obj.dialogue.get(keyword_override)
-
-    if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
-        potential_dialogue += npc_obj.dialogue.get(location_keyword)
-
-    response = random.choice(potential_dialogue)
-    if response is not None:
-        await fe_utils.send_message(None, channel, response)
 
 
 def drop_held_items(enemy):
@@ -492,7 +483,6 @@ async def mozz_move(channel, npc_obj, enemy):
                 item_has_expired = float(getattr(item, "time_expir", 0)) < time.time()
                 if item_has_expired:
                     max_food_items -= 1
-                    print('Deleting {}.'.format(item.template))
                     bknd_item.item_delete(item_thing.get('id_item'))
 
                     if random.randrange(5) == 0:
