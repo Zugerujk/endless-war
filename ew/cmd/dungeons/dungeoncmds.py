@@ -160,20 +160,23 @@ async def displayblurbs(cmd):
 
 
     if context is not None:
-        query += " WHERE {} = {}".format(ewcfg.col_id_context, context)
+        query += " WHERE {} = '{}'".format(ewcfg.col_id_context, context)
     if subcontext is not None:
-        query += " AND {} = {}".format(ewcfg.col_id_subcontext, subcontext)
+        query += " AND {} = '{}'".format(ewcfg.col_id_subcontext, subcontext)
     if subsubcontext is not None:
-        query += " AND {} = {}".format(ewcfg.col_id_subsubcontext, subsubcontext)
+        query += " AND {} = '{}'".format(ewcfg.col_id_subsubcontext, subsubcontext)
 
     data_chunk = bknd_core.execute_sql_query(query)
 
+    resp_cont = fe_utils.EwResponseContainer(id_server=cmd.guild.id)
 
     response = "\n"
     for data in data_chunk:
-        response += "Blurb {}: starting in {}\n".format(data[0], data[1][0:15])
+        response += "Blurb {}: {}\n".format(data[0], data[1][0:50])
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    resp_cont.add_channel_response(cmd.message.channel, response)
+    await resp_cont.post()
+    #await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
