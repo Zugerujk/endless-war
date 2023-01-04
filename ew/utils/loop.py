@@ -758,10 +758,11 @@ async def spawn_enemies(id_server = None, debug = False):
     resp_list = []
     chosen_type = None
     chosen_POI = None
-
+    npc_enemies_count = len(bknd_core.execute_sql_query("SELECT id_enemy FROM enemies where {life_state} = %s and {enemytype} = %s and {id_server} = %s".format(life_state=ewcfg.col_life_state, enemytype=ewcfg.col_enemy_type, id_server=ewcfg.col_id_server), (1, 'npc', id_server)))
+    all_enemies_count = len(bknd_core.execute_sql_query("SELECT id_enemy FROM enemies where {life_state} = %s and {id_server} = %s".format(life_state=ewcfg.col_life_state, id_server=ewcfg.col_id_server), (1, id_server)))
     # One in 3 chance of spawning a regular enemy in the outskirts
 
-    if random.randrange(3) == 0 or debug:
+    if (random.randrange(3) == 0 or debug) and all_enemies_count-npc_enemies_count <= ewcfg.max_normal_enemies:
         weathertype = ewcfg.enemy_weathertype_normal
         # If it's raining, an enemy has  2/3 chance to spawn as a bicarbonate enemy, which doesn't take rain damage
         if market_data.weather == ewcfg.weather_bicarbonaterain:
@@ -776,14 +777,14 @@ async def spawn_enemies(id_server = None, debug = False):
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
     # Why did I make this into incredibly hacky code? Because.
-    if random.randrange(4) == 0:
+    if random.randrange(4) == 0 and npc_enemies_count <= ewcfg.max_npcs:
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_npc))
             #if random.randrange(2) == 0:
                 #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
             #else:
                 #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
 
-    # Chance to spawn enemies that correspond to POI Events.
+    # Chance to spawn enemies that correspond to POI Events. Unaffected by enemy spawn cap
     if random.randrange(4) == 0:
         for id_event in world_events:
             # Only if the event corresponds to a type of event that spawns enemies

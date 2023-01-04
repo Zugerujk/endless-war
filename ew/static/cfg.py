@@ -1714,6 +1714,9 @@ moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
+#enemy count limits
+max_npcs = 20
+max_normal_enemies = 30
 # strength of the burn applied every weather tick by firestorms
 firestorm_slime_burn = 100000
 

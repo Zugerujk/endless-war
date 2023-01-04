@@ -524,8 +524,8 @@ async def weather(cmd):
     response = ewutils.weather_txt(market_data)
 
     time_current = market_data.clock
-    if 3 <= time_current <= 10:
-        response += "\n\nThe police are probably all asleep, the lazy fucks. It's a good time for painting the town!"
+    #if 3 <= time_current <= 10:
+        #response += "\n\nThe police are probably all asleep, the lazy fucks. It's a good time for painting the town!"
 
     world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=True)
     for id_event in world_events:

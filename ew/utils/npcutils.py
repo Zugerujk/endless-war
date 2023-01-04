@@ -293,6 +293,7 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
     poi = poi_static.id_to_poi.get(enemy.poi)
+    resp_cont = None
     if poi.pvp:
         resp_cont = await enemy.kill(condition = npc_obj.condition)
 
