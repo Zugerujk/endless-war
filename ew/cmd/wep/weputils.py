@@ -506,7 +506,7 @@ def canAttack(cmd):
             else:
                 response = "You lack the moral fiber necessary for violence."
 
-        elif move_utils.poi_is_pvp(user_data.poi) == False and enemy_data.enemytype not in ewcfg.enemy_type_sandbag and enemy_data.enemyclass != 'dojomaster':
+        elif move_utils.poi_is_pvp(user_data.poi) == False and enemy_data.enemytype not in [ewcfg.enemy_type_sandbag] and enemy_data.enemyclass != 'dojomaster':
             response = "You must go elsewhere to commit gang violence."
 
         elif enemy_data != None:
