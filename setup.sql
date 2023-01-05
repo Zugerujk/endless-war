@@ -559,18 +559,36 @@ CREATE TABLE quest_records (
 
 
 CREATE TABLE yachts(
+    id_yacht BIGINT NOT NULL AUTO_INCREMENT,
+    name_yacht varchar(64) NOT NULL,
+    thread_id varchar(32) NOT NULL,
+    id_user BIGINT NOT NULL DEFAULT = -1,
+    id_server BIGINT NOT NULL DEFAULT = -1,
+    flood DECIMAL(9, 2) NOT NULL DEFAULT 0.0,
+    filth DECIMAL(9, 2) NOT NULL DEFAULT 0.0,
+    helm BIGINT NOT NULL DEFAULT = -1,
+    cannon BIGINT NOT NULL DEFAULT = -1,
+    storehouse BIGINT NOT NULL DEFAULT = -1,
+    poopdeck BIGINT NOT NULL DEFAULT = -1,
+    x_coord INT NOT NULL DEFAULT = 27,
+    y_coord INT NOT NULL DEFAULT = 5,
 
-
+    PRIMARY KEY (id_yacht, id_server)
 );
-/*ewcfg.col_name_yacht,
-                        ewcfg.col_thread_id,
-                        ewcfg.col_id_user,
-                        ewcfg.col_flood,
-                        ewcfg.col_filth,
-                        ewcfg.col_helm,
-                        ewcfg.col_cannon,
-                        ewcfg.col_storehouse,
-                        ewcfg.col_poopdeck,
-                        ewcfg.col_xcoord,
-                        ewcfg.col_ycoord,
-                        ewcfg.col_speed*/
+
+
+CREATE TABLE yacht_stats(
+    id_yacht BIGINT NOT NULL DEFAULT =  -1,
+    id_stat BIGINT NOT NULL AUTO_INCREMENT,
+    type_stat VARCHAR(25) NOT NULL DEFAULT = '',
+    id_server BIGINT NOT NULL DEFAULT = -1,
+    target BIGINT NOT NULL DEFAULT = -1,
+    quantity BIGINT NOT NULL DEFAULT = -1,
+
+
+    FOREIGN KEY (id_yacht)
+		REFERENCES yachts(id_yacht)
+		ON DELETE CASCADE
+);
+
+

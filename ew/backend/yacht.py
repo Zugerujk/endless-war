@@ -142,9 +142,10 @@ class EwYacht():
 
 class EwYachtStat():
     id_yacht = -1 #Name of the affected yacht
-    id_stat = "" #The stat in question
+    id_stat = -1 #Unique value for the stat
+    type_stat = "" #The stat in question
     target = 0 #Targeted yacht or player
-    quantity = "" #Necessary quantity value
+    quantity = 0 #Necessary quantity value
     id_server = -1 # server id
 
     def __init__(self, id_stat, id_server):
@@ -160,9 +161,10 @@ class EwYachtStat():
             # Retrieve object
 
             cursor.execute(
-                "SELECT {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and id_yacht = %s".format(
+                "SELECT {}, {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and id_yacht = %s".format(
                     ewcfg.col_status_target,
-                    ewcfg.col_quantity
+                    ewcfg.col_quantity,
+                    ewcfg.col_type_stat
                 ), (
                     self.id_stat,
                     self.id_server,
@@ -172,6 +174,7 @@ class EwYachtStat():
 
             self.target = result[0]
             self.quantity = result[1]
+            self.type_stat = result[2]
 
         finally:
             cursor.close()
@@ -186,18 +189,20 @@ class EwYachtStat():
 
             # Save the object.
             cursor.execute(
-                "REPLACE INTO yacht_stats({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
+                "REPLACE INTO yacht_stats({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
                     ewcfg.col_id_yacht,
                     ewcfg.col_id_stat,
                     ewcfg.col_status_target,
-                    ewcfg.col_quantity
+                    ewcfg.col_quantity,
+                    ewcfg.col_type_stat
                 ), (
                     self.id_server,
                     self.id_yacht,
                     self.id_stat,
                     self.target,
-                    self.quantity
+                    self.quantity,
+                    self.type_stat
 
                 ))
         finally:
@@ -206,7 +211,7 @@ class EwYachtStat():
             bknd_core.databaseClose(conn_info)
 
     def __eq__(self, other): #shout out to operator overloading dawg school was useful once
-        if other == self.id_stat:
+        if other == self.type_stat:
             return True
         else:
             return False

@@ -2497,6 +2497,7 @@ col_ycoord = "y_coord"
 
 col_id_stat = "stat" #ID of the yacht stat
 col_quantity = "quantity" #amount of stat
+col_type_stat = "type_stat"
 
 # Item type names
 it_item = "item"
