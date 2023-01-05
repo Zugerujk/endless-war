@@ -1314,69 +1314,24 @@ async def makecostume(cmd):
 
 
 async def flowerpot(cmd):
-    playermodel = EwPlayer(id_user=cmd.message.author.id)
-    usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
-    item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
-    item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
+    # Now just a command to weed out
+    rand1 = random.randrange(100)
+    rand2 = random.randrange(5)
+    response = ""
+    if rand1 > 80:
+        response = "**"
+    for x in range(rand2 + 1):
+        response += "Y"
+    for x in range(rand2 + 1):
+        response += "E"
+    for x in range(rand2 + 1):
+        response += "A"
+    for x in range(rand2 + 1):
+        response += "H"
+    response += " BRO!"
+    if rand1 > 80:
+        response += "**"
 
-    if not bknd_item.check_inv_capacity(user_data=usermodel, item_type=ewcfg.it_furniture):
-        response = "You don't have room for any more furniture items."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-
-    if item_sought:
-        item = EwItem(id_item=item_sought.get('id_item'))
-        vegetable = static_food.food_map.get(item.item_props.get('id_food'))
-        if vegetable and ewcfg.vendor_farm in vegetable.vendors:
-
-            if float(item.item_props.get('time_expir')) < time.time():
-                response = "Whoops. The stink lines on these {} have developed sentience and are screaming in agony. Must've kept them in your pocket too long. Well, whatever. It'll air out with enough slime. You shove the {} into a pot.".format(item_sought.get('name'), item_sought.get('name'))
-            else:
-                response = "You remove the freshly picked {} from your inventory and shove them into some nearby earthenware. Ah, the circle of life. Maybe with enough time you'll be able to !harvest them after they fully grow. LOL, just kidding. We all know that doesn't work.".format(item_sought.get('name'))
-
-            fname = "Pot of {}".format(item.item_props.get('food_name'))
-            fdesc = "You gaze at your well-tended {}. {}".format(item.item_props.get('food_name'), item.item_props.get('food_desc'))
-            lookdesc = "A pot of {} sits on a shelf.".format(item.item_props.get('food_name'))
-            placedesc = "You take your flowerpot full of {} and place it on the windowsill.".format(item.item_props.get('food_name'))
-            bknd_item.item_create(
-                id_user=cmd.message.author.id,
-                id_server=cmd.guild.id,
-                item_type=ewcfg.it_furniture,
-                item_props={
-                    'furniture_name': fname,
-                    'id_furniture': "flowerpot",
-                    'furniture_desc': fdesc,
-                    'rarity': ewcfg.rarity_plebeian,
-                    'acquisition': "{}".format(item_sought.get('id_item')),
-                    'furniture_place_desc': placedesc,
-                    'furniture_look_desc': lookdesc
-                }
-            )
-
-            bknd_item.give_item(id_item=item_sought.get('id_item'), id_user=str(cmd.message.author.id) + "flo", id_server=cmd.guild.id)
-        # bknd_item.item_delete(id_item=item_sought.get('id_item'))
-
-        else:
-            response = "You put a {} in the flowerpot. You then senselessly break the pot, dropping it on the ground, because {} is not a real plant and you're a knuckledragging retard.".format(item_sought.get('name'), item_sought.get('name'))
-    else:
-        if item_search == "" or item_search == None:
-            rand1 = random.randrange(100)
-            rand2 = random.randrange(5)
-            response = ""
-            if rand1 > 80:
-                response = "**"
-            for x in range(rand2 + 1):
-                response += "Y"
-            for x in range(rand2 + 1):
-                response += "E"
-            for x in range(rand2 + 1):
-                response += "A"
-            for x in range(rand2 + 1):
-                response += "H"
-            response += " BRO!"
-            if rand1 > 80:
-                response += "**"
-        else:
-            response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
