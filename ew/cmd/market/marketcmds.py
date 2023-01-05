@@ -346,8 +346,10 @@ async def museum_donate(cmd):
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id)
     if item_sought:
         item_obj = EwItem(id_item=item_sought.get("id_item"))
-        if (item_obj.item_type == ewcfg.it_relic or item_obj.template in relic_static.alt_relics) and "scrap" not in item_obj.item_props.get('id_relic'):
+
+        if (item_obj.item_type == ewcfg.it_relic or item_obj.template in relic_static.alt_relics):
             response = await relic_donate(item_obj.id_item, cmd, dialogue_set)
+
         elif item_obj.item_props.get('acquisition') == ewcfg.acquisition_fishing:
             response = await fish_donate(item_obj.id_item, cmd, dialogue_set)
         elif item_obj.item_props.get('id_furniture') == 'pictureframe':

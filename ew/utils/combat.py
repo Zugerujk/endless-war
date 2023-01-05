@@ -624,7 +624,8 @@ class EwEnemy(EwEnemyBase):
                         self.display_name
                     )
 
-                resp_cont.add_channel_response(new_ch_name, new_district_response)
+                if self.enemytype != ewcfg.enemy_type_npc or not ewutils.is_district_empty(new_poi_def.id_poi):
+                    resp_cont.add_channel_response(new_ch_name, new_district_response)
 
                 old_district_response = "{} has moved to {}!".format(self.display_name, new_poi_def.str_name)
                 old_poi_def = poi_static.id_to_poi.get(old_poi)
@@ -1652,12 +1653,12 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                 ))
             if condition is not None:
                 for user in users:
-                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server, data_level=1)
+                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server)
                     if condition(user_data, enemy_data):
                         target_data = user_data
                         break
             elif len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
 
 
         elif enemy_data.ai == ewcfg.enemy_ai_attacker_b:
@@ -1681,7 +1682,7 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                     enemy_data.id_server
                 ))
             if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
 
         # If an enemy is a raidboss, don't let it attack until some time has passed when entering a new district.
         if enemy_data.enemytype in ewcfg.raid_bosses and enemy_data.time_lastenter > raidbossaggrotimer:

@@ -10,7 +10,7 @@ from . import poi as poi_static
 npc_list = [
     EwNpc(
         id_npc="thedrinkster",  # unique id for each npc
-        active = True,  # whether an npc spawns
+        active = False,  # whether an npc spawns
         str_name = "The Drinkster",  # Name of the NPC
         poi_list = [ewcfg.poi_id_711, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_oozegardens, ewcfg.poi_id_wreckington, ewcfg.poi_id_glocksbury, ewcfg.poi_id_krakbay, ewcfg.poi_id_downtown, ewcfg.poi_id_greenlightdistrict, ewcfg.poi_id_smogsburg],  # list of locations an NPC roams in
         dialogue = {"talk":["...", "Feeling kind of thirsty..."],
@@ -237,7 +237,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
-    rarity=3,
+    rarity=1,
     rewards = [
     {
      "officercopbadge":[100, 1, 1]}
@@ -482,7 +482,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "n11",
-    active = True,
+    active = False,
     str_name = "Mr. Musset, Formerly N11",
     description = "A former Slimecorp employee. Are you gonna put aside your differences here? Personally, I'd fawgeddabowdhit.",
     poi_list = [ewcfg.poi_id_brawlden, ewcfg.poi_id_wreckington, ewcfg.poi_id_cratersville, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_toxington, ewcfg.poi_id_charcoalpark],

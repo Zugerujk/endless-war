@@ -137,7 +137,7 @@ def location_commands(cmd, search_poi = None):
     if len(poi_obj.vendors) != 0:
         response += "\n" + ewcfg.shop_commands
 
-    if response == "**CURRENT LOCATION**:":
+    if response != "**CURRENT LOCATION**:":
         return (response + "\n")
     else:
         return "No special commands for your current location. Try \"!commands basic\" or \"!help\"."
@@ -212,6 +212,11 @@ def holiday_commands(header = True):
         response = ""
     if ewcfg.dh_active:
         return "{}{}".format(response, ewcfg.holidaycommands.get('doublehalloween'))
+    elif ewcfg.slimernalia_active:
+        return "{}{}".format(response, ewcfg.holidaycommands.get('slimernalia'))
+    elif ewcfg.swilldermuk_active:
+        return "{}{}".format(response, ewcfg.holidaycommands.get('swilldermuk'))
+
     else:
         return ''
 

@@ -177,7 +177,14 @@ async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
 
+
+
+
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
+
+    if ewutils.is_district_empty(poi=enemy.poi):
+        return
+
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
 
@@ -191,14 +198,18 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+    if potential_dialogue is not None:
+        response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+    else:
+        response = None
 
-    if response[:2] == '()': #for exposition that doesn't use a talk bubble
-        response = response[2:]
-        return await fe_utils.send_message(None, channel, response)
 
-    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
+        if response[:2] == '()':  # for exposition that doesn't use a talk bubble
+            response = response[2:]
+            return await fe_utils.send_message(None, channel, response)
+
+        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -220,7 +231,9 @@ async def generic_move(enemy = None, npc_obj = None): #moves within boundaries e
 
 async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()
-    if ewcfg.status_enemy_hostile_id in enemy_statuses:
+    poi = poi_static.id_to_poi.get(enemy.poi)
+
+    if ewcfg.status_enemy_hostile_id in enemy_statuses and poi.pvp:
         if any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
             resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
         else:
@@ -229,7 +242,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
         if resp_cont is not None:
             await resp_cont.post()
 
-    elif random.randrange(25) == 0:
+    elif random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi):
         resp_set = npc_obj.dialogue.get('loop')
         if resp_set is None:
             resp_set = npc_obj.dialogue.get('talk')
@@ -270,7 +283,7 @@ async def generic_give(channel, npc_obj, enemy, item):
 async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. otherwise, if act or talk dialogue is available, the NPC will use it every so often.
     enemy_statuses = enemy.getStatusEffects()
 
-    if random.randrange(25) == 0: #one in 25 chance to talk in addition to attacking. attacks are based on a condition
+    if random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi): #one in 25 chance to talk in addition to attacking. attacks are based on a condition
         if npc_obj.dialogue.get('loop') is not None:
             response = random.choice(npc_obj.dialogue.get('loop'))
         elif npc_obj.dialogue.get('talk') is not None:
@@ -283,9 +296,10 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         if response is not None:
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
-
-
-    resp_cont = await enemy.kill(condition = npc_obj.condition)
+    poi = poi_static.id_to_poi.get(enemy.poi)
+    resp_cont = None
+    if poi.pvp:
+        resp_cont = await enemy.kill(condition = npc_obj.condition)
 
     if resp_cont is not None:
         await resp_cont.post()
@@ -342,22 +356,6 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     response = "Oh shit, cop car! There's {} of those bitches in there!\n\nWait...Oh no...".format(numcops + 3)
     await fe_utils.send_message(None, channel, response)
 
-
-async def narrate_talk(channel, npc_obj, keyword_override = 'talk', enemy = None): #sends npc dialogue, including context specific and rare variants. for characters who don't talk and are narrated instead.
-    rare_keyword = "rare{}".format(keyword_override)
-    location_keyword = '{}{}'.format(enemy.poi, keyword_override)
-
-    if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
-        keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
-
-    potential_dialogue = npc_obj.dialogue.get(keyword_override)
-
-    if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
-        potential_dialogue += npc_obj.dialogue.get(location_keyword)
-
-    response = random.choice(potential_dialogue)
-    if response is not None:
-        await fe_utils.send_message(None, channel, response)
 
 
 def drop_held_items(enemy):
@@ -490,7 +488,6 @@ async def mozz_move(channel, npc_obj, enemy):
                 item_has_expired = float(getattr(item, "time_expir", 0)) < time.time()
                 if item_has_expired:
                     max_food_items -= 1
-                    print('Deleting {}.'.format(item.template))
                     bknd_item.item_delete(item_thing.get('id_item'))
 
                     if random.randrange(5) == 0:
@@ -618,7 +615,7 @@ def find_drinkster(user_data, isDrink):
     for enemy in enemydata:
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
-            enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
+            enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=user_data.id_server)
             if isDrink and user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_thesewers]:
                 enemy_obj.poi = user_data.poi
                 enemy.persist()

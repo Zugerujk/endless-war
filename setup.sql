@@ -505,7 +505,7 @@ CREATE TABLE blurbs(
     context VARCHAR(50) NOT NULL DEFAULT '',
     subcontext VARCHAR(50) NOT NULL DEFAULT '',
     subsubcontext VARCHAR(50) NOT NULL DEFAULT '',
-    dateadded DATE NOT NULL DEFAULT (CURRENT_DATE),
+    dateadded BIGINT NOT NULL DEFAULT (CURRENT_DATE),
 
     PRIMARY KEY(id_blurb, id_server)
 );

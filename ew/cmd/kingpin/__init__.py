@@ -27,7 +27,8 @@ cmd_map = {
 
     # Stop a player from speaking out of game
     ewcfg.cmd_hogtie: kingpincmds.hogtie,
-    ewcfg.cmd_defect: kingpincmds.defect
+    ewcfg.cmd_defect: kingpincmds.defect,
+    ewcfg.cmd_create_rally: kingpincmds.create_rally,
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_exalt] = kingpincmds.exalt

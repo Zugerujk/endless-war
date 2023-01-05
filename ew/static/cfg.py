@@ -2,7 +2,9 @@ import datetime
 
 # Global configuration options.
 
-version = "v4.1999 Y2KSLIMERNALIA"
+
+version = "v4.2 SEASON 4 ACT 2"
+
 
 
 dir_msgqueue = 'msgqueue'
@@ -31,8 +33,8 @@ dh_active = False
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = True
-slimernalia_stage = 4
+slimernalia_active = False
+slimernalia_stage = 0
 
 #Swilldermuk Features
 swilldermuk_active = False
@@ -1337,6 +1339,8 @@ cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
 cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
+cmd_claim = cmd_prefix + 'claim'
+
 # race
 cmd_set_race = cmd_prefix + 'setrace'
 cmd_set_race_alt1 = cmd_prefix + 'identifyas'
@@ -1372,6 +1376,7 @@ cmd_verification_alt = cmd_prefix + '#verify'
 cmd_changegamestate = cmd_prefix + 'changegamestate'
 cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
+cmd_create_rally = cmd_prefix + 'createrally'
 
 # elevator cmds
 cmd_press_button = cmd_prefix + 'press'
@@ -1681,6 +1686,7 @@ cr_murder_points = 500
 cr_assault_points = 75
 cr_vandalism_points = 100
 cr_arson_points = 600
+cr_cop_kill = 650
 cr_larceny_points = 1
 cr_underage_drinking_points = 1
 cr_littering_points = 1
@@ -1722,6 +1728,9 @@ moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
+#enemy count limits
+max_npcs = 20
+max_normal_enemies = 30
 # strength of the burn applied every weather tick by firestorms
 firestorm_slime_burn = 100000
 
@@ -2618,6 +2627,8 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+stat_lifetime_cops_killed = 'lifetime_cops_killed'
+
 
 # Slimernalia stats
 stat_festivity = 'festivity'
@@ -4203,7 +4214,7 @@ item_group_commands = {
 
 holidaycommands = {
     "swildermuk": "",
-    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
+    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!unwrap <item>: Open another's gift for you.\n!give @player: Show your festivity by giving gifts.",
     "doublehalloween": "**DOUBLE HALLOWEEN**:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
 }
 
@@ -5259,6 +5270,9 @@ event_type_gas_leak = "gasleak"
 # For raids
 event_type_raid_den = "raidden"
 
+event_type_rally = "rally"
+event_type_rally_end = "rallyend"
+
 
 # In list format
 random_poi_events = [
@@ -5276,7 +5290,7 @@ random_poi_events = [
     event_type_gas_leak,
 ]
 
-poi_events = random_poi_events + [event_type_raid_den] 
+poi_events = random_poi_events + [event_type_raid_den, event_type_rally, event_type_rally_end]
 
 # DH dates
 day_map = {

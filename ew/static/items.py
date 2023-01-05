@@ -495,8 +495,8 @@ item_list = [
         str_name="Old CD",
         str_desc="OH GOD IT'S A FUCKING CD!",
         acquisition=ewcfg.acquisition_bartering,
-        ingredients="generic",
-        context=random.choice(community_cfg.mixtapes),
+        ingredients="generic", #figure out how to embed mixtapes into this
+        context=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_leather,
@@ -1746,6 +1746,12 @@ item_list = [
         str_name="Coordinates",
         str_desc="It's a small slip of paper that reads: \"36.174435, -112.043243, N. Beach Depths\"",
         context="droppable"
+    ),
+    EwGeneralItem(
+        id_item="thedroplet",
+        str_name="The Droplet", 
+        str_desc="It's The Droplet, a yellow mass of Citrine that slightly resembles a droplet of liquid. People that swear up and down that the lore is the most important thing will try and call it Endless Rock: Citrine, but to the rest of us it's clearly that thing that keeps ENDLESS WAR running.",
+        context="thedroplet"
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_trophy_juvie,

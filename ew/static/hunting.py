@@ -396,7 +396,7 @@ EwAttackType(  #17
         # str_trauma_self = "NULL",
         # str_trauma = "NULL,
         str_kill="**HE'S GOT A WEAPON!** {name_enemy} empties a whole clip into {name_target}'s soft juvenile head, absolutely shocked that they managed to not die this time. Guess we know what'll be on the news in a few days...",
-        str_killdescriptor="vored",
+        str_killdescriptor="massacred",
         str_damage="{name_enemy} fires a warning shot into {name_target}'s {hitzone}!",
         fn_effect=atf_fangs #a pistol reskin of fangs which are a reskin of a pistol
 ),

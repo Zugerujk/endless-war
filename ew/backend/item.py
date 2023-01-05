@@ -873,7 +873,7 @@ def inventory(
                                     print('Item {} lacks an id_cosmetic attribute. Formatting now...'.format(id_item))
                                     placeholder_id = 'oldcosmetic'
                                 else:
-                                    print('Item {} has an invlaid id_cosmetic of {}. Formatting now...'.format(item_data.item_props, item_data.item_props.get('id_cosmetic')))
+                                    print('Item {} has an invalid id_cosmetic of {}. Formatting now...'.format(item_data.item_props, item_data.item_props.get('id_cosmetic')))
                                     placeholder_id = item_data.item_props.get('id_cosmetic')
 
                                 item_data.item_props = {

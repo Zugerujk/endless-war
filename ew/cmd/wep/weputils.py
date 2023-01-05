@@ -16,7 +16,7 @@ from ew.static import npc as static_npc
 from ew.utils import combat as cmbt_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
-#from ew.utils import move as move_utils
+from ew.utils import move as move_utils
 from ew.utils import stats as ewstats
 try:
     from ew.utils import rutils as rutils
@@ -506,6 +506,9 @@ def canAttack(cmd):
             else:
                 response = "You lack the moral fiber necessary for violence."
 
+        elif move_utils.poi_is_pvp(user_data.poi) == False and enemy_data.enemytype not in [ewcfg.enemy_type_sandbag] and enemy_data.enemyclass != 'dojomaster':
+            response = "You must go elsewhere to commit gang violence."
+
         elif enemy_data != None:
             if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
                 npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
@@ -841,7 +844,7 @@ async def attackEnemy(cmd):
     slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
     slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-    if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects():
+    if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects() or enemy_data.enemytype == ewcfg.enemy_type_policeofficer:
         slimes_drained = 0
         slimes_tobleed = 0
         # slimes_directdamage = 0
@@ -889,6 +892,10 @@ async def attackEnemy(cmd):
             ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_pve_ganks)
         elif user_data.slimelevel < enemy_data.level:
             ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_pve_takedowns)
+
+        if enemy_data.enemytype == ewcfg.enemy_type_policeofficer or enemy_data.enemyclass in['riot', 'pork', 'sleuth', 'mrc']:
+            ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_cops_killed)
+            user_data.change_crime(n=ewcfg.cr_cop_kill)
 
         if weapon != None:
             weapon_item.item_props["kills"] = (int(weapon_item.item_props.get("kills")) if weapon_item.item_props.get("kills") != None else 0) + 1
