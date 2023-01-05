@@ -63,8 +63,10 @@ from ..faction import factioncmds as faction_cmds
 from ..wep import wepcmds as wep_cmds
 try:
     from ..debug import debug24
+    from ew.static import rstatic as relic_static
 except:
     from ..debug_dummy import debug24
+    from ew.static import rstatic as relic_static
 
 """ show player's slime score """
 
@@ -1878,8 +1880,8 @@ async def commands(cmd):
         response += "Commands:\n" + holiday_commands(header = False)
     elif "combat" in category:
         response += "Commands:\n" + ewcfg.combat_commands
-    elif "capping" in category:
-        response += "Commands:\n" + ewcfg.capping_commands
+    #elif "capping" in category:
+        #response += "Commands:\n" + ewcfg.capping_commands
     elif "playerinfo" in category:
         response += "Commands:\n" + ewcfg.player_info_commands
     elif "outsidelinks" in category:
@@ -1905,7 +1907,8 @@ async def commands(cmd):
     elif "allitems" in category:
         response += "Commands:\n"
         for item in ewcfg.item_unique_commands.keys():
-            response += "\n" + ewcfg.item_unique_commands.get(item)
+            if item not in relic_static.relic_map.keys():
+                response += "\n" + ewcfg.item_unique_commands.get(item)
     elif "allmutations" in category:
         response += "Commands:\n"
         for item in ewcfg.mutation_unique_commands.keys():
