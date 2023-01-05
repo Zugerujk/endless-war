@@ -1,7 +1,10 @@
 from ew.utils.combat import EwUser
-from ew.utils import frontend as fe_utils
+
 import ew.static.cfg as ewcfg
 from ew.backend.yacht import EwYacht
+from ew.utils import frontend as fe_utils
+
+
 
 async def rentyacht(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -19,7 +22,7 @@ async def rentyacht(cmd):
         response = "Ay, laddy. You'll need more coin than that to rob me of this ere girl."
         return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image = "https://rfck.app/img/npc/albertalex.png")
     else:
-        accepted = await fe_utils.prompt(cmd=cmd, target = cmd.message.author, question = "", wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False)
+        accepted = await fe_utils.prompt(cmd=cmd, target = cmd.message.author, question = question, wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False)
 
         if accepted:
             user_data.change_slimecoin(n=-ewcfg.yachtprice, coinsource=ewcfg.coinsource_spending)
@@ -34,4 +37,9 @@ async def rentyacht(cmd):
             yacht.thread_id = thread_id
             yacht.persist()
             response = "I christen ye: The S.S. {}!".format(name)
-            return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/img/npc/albertalex.png")
+            return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/npc/albertalex.png")
+        else:
+            response = "Oh, pooer soul. Go whale around with the rest of the urchins, lad."
+            return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/npc/albertalex.png")
+
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

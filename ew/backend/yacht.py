@@ -186,7 +186,7 @@ class EwYachtStat():
 
             # Save the object.
             cursor.execute(
-                "REPLACE INTO yachts({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
+                "REPLACE INTO yacht_stats({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
                     ewcfg.col_id_yacht,
                     ewcfg.col_id_stat,

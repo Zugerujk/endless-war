@@ -1201,7 +1201,8 @@ apartment_classes = [*apartment_class_map.keys()]
 
 soulprice = 500000000
 
-yachtprice = 1000000000000000
+
+yachtprice = 100#0000000000000
 
 tv_set_slime = 5000000
 tv_set_level = 100
