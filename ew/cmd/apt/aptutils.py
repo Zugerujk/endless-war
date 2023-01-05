@@ -152,7 +152,7 @@ def apt_collection_look_str(id_server: int, id_item: int, show_capacity: bool = 
 
     # Specify capacity if requested
     if show_capacity:
-        response += f"\n{collection_name} Capacity: ({len(collection)}/{max_capacity})"
+        response += f"\n{collection_name} capacity: ({len(collection)}/{max_capacity})"
 
     return response
 

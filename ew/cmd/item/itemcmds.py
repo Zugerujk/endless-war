@@ -254,7 +254,7 @@ async def inventory_print(cmd):
 
         else:
             # Search for collection
-            collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+            collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1]).lower()
             
             # Check the user's inventory
             collection = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
