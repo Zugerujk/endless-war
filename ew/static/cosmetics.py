@@ -2178,8 +2178,8 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "widebrimmedhat",
         str_name = "Wide Brimmed Hat",
-        str_desc = "This hat cost you so many hours, you might as well be the lord of this city! Better not let the patrons see you in it though, They keep asking you to... kill them...",
-        str_onadorn = "You place the wide brimmed hat on your head, the edge flopping over one eye. Oh yeah, lets get this ~~blood~~ bread.",
+        str_desc = "This hat cost you so many hours, you might as well be the lord of this city! Better not let the patrons see you in it though... They keep asking you to... Crush them...",
+        str_onadorn = "You place the wide brimmed hat on your head, the edge flopping over one eye sexily. Oh yeah, lets get this ~~blood~~ bread.",
         str_unadorn = "You remove the wide brimmed hat, setting it down. You feel shorter now.",
         durability = 2500000,
         style = "beautiful",
@@ -2191,8 +2191,9 @@ cosmetic_items_list = [
     EwCosmeticItem(
         id_cosmetic = "drapeddress",
         str_name = "Draped Evening Dress",
-        str_desc = "A long gown, with ample room for large bosoms and tall stature. It is fitted for someone of height 9'6\". If you are shorter than that, it's gonna be pooling around your feet.",
+        str_desc = "A long gown, with ample room for large bosoms and tall stature. It is fitted for someone of height 289.56 cm. If you are shorter than that, it's gonna be pooling around your feet.",        str_onadorn = "You slide into the beautiful dress... you are now absolutely breathtaking. Men (and women) bow before you, almost trying to throw themselves under your feet. It is rather annoying.",
         str_onadorn = "You slide into the beautiful dress... you are now absolutely breathtaking. Men (and women) bow before you, almost trying to throw themselves under your feet. It is rather annoying.",
+        str_unadorn = "Your huge body rips out of the dress, tearing it to shreds! It was no match for your impressive figure! (Don't worry though it still is in your inventory.)", #sus
         durability = 2500000,
         style = "beautiful",
         freshness = 10,
