@@ -2099,6 +2099,22 @@ EwSmeltingRecipe(
         products = ['drapeddress']
     ),
     EwSmeltingRecipe(
+        id_recipe="bulletnecklace",
+        str_name="a bullet necklace",
+        alias=[
+            'bulletneck',
+            'bnecklace',
+            'pinkerton',
+            'weezer',
+        ],
+        ingredients={
+            ewcfg.item_id_454casullround: 1,
+            ewcfg.item_id_leather: 1,
+            ewcfg.item_id_ironingot: 2,
+        },
+        products=["bulletnecklace"]
+),
+EwSmeltingRecipe(
         id_recipe="moonshoes",
         str_name="Moon Shoes",
         alias=[

@@ -1,7 +1,8 @@
 import json
 import os
-
+import random
 from . import cfg as ewcfg
+from . import community_cfg
 from ..model.item import EwFurniture
 from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
@@ -487,6 +488,14 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING TIN CAN!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
+        context=10,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_oldcd,
+        str_name="Old CD",
+        str_desc="OH GOD IT'S A FUCKING CD!",
+        acquisition=ewcfg.acquisition_bartering,
+        ingredients="generic", #figure out how to embed mixtapes into this
         context=10,
     ),
     EwGeneralItem(
@@ -1963,6 +1972,21 @@ item_list = [
         str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
     ),
     EwGeneralItem(
+        id_item='rfconsortmarble',
+        str_name="RF's Consort Marble",
+        str_desc="It's a consort marble from Recalcitrant Fawn. They're supposed to give these away when you complete their big quest or whatever, but you just took it off his corpse."
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_454casullround,
+        str_name=".454 Casull round",
+        str_desc="A singular unspent .454 Casull cartridge. Seems like a waste to just toss, but you can't exactly use it for anything."
+    ),
+    EwGeneralItem(
+        id_item='packofluckyslimes',
+        str_name="Pack of Lucky Slimes",
+        str_desc="A pack of Lucky Slimes. Pilfered from Tips, these don't seem to be much use to you."
+    ),
+EwGeneralItem(
         id_item=ewcfg.item_id_gallonofmilk,
         str_name="Gallon of Milk",
         context = 'milk',
@@ -1991,7 +2015,6 @@ item_list = [
         price=15000,
         vendors=[ewcfg.vendor_bazaar],
     ),
-
 ]
 # item_list += ewdebug.debugitem_set
 
@@ -2100,6 +2123,7 @@ furniture_list = [
         furniture_place_desc = "You place the chair in the middle of the room, trying not to think about police.",
         furniture_look_desc = "There's an interrogation chair here for some reason.",
     ),
+
     EwFurniture(
         id_furniture = "brokenclock",
         str_name = "broken clock",
@@ -3659,6 +3683,15 @@ furniture_list = [
         furniture_look_desc = "Your apartment has a luxury chimney fireplace, giving your entire apartment supercilious aura.",
     ),
     EwFurniture(
+        id_furniture = "autographedshorts",
+        str_name = "autographed shorts",
+        str_desc = "A simple pair of shorts. The only thing that distinguishes then from any old pair is an autograph by the shorts *master* Youngster Ben. This means they are now a collectible, rather than a simple wardrobe piece!",
+        rarity = "Plebeian",
+        price = 100,
+        furniture_place_desc = "You delicately hang the shorts on your window, the streaming light illuminating the permanent-marker autograph.",
+        furniture_look_desc = "There's a pair of shorts hanging from the window.",
+    ),
+EwFurniture(
         id_furniture = "sandbag",
         str_name = "Sandbag",
         str_desc = "Thanks to the dojo's shitty architectual integrity, sometimes you can manage to get the support beams holding these sandbags up to snap and break. Thanks to how infrequently this happens however, the Dojo Master is probably never going to notice.",

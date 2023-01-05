@@ -26,7 +26,11 @@ DEBUG = False
 
 DEBUG_OPTIONS = {
     'no_race_cooldown': False,
+    'duperelics': False,
+    'speed2x': False,
+    'lightspeed': False,
     'verbose_burn': False,
+    'alternate_talk':False,
     'transport': False,
 }
 
@@ -59,6 +63,8 @@ active_televisions = {}
 
 tv_counter = 0
 
+
+conversations = {}
 
 class EwVector2D:
     vector = [0, 0]
@@ -648,7 +654,9 @@ def check_moon_phase(market_data):
 def get_most_festive(server):
     # New coolness
     data = bknd_core.execute_sql_query(
+
         "SELECT {id_user}, {stat_value} from stats where {stat_metric} = %s AND {id_server} = %s ORDER BY {stat_value} DESC LIMIT 1".format(
+
             id_user=ewcfg.col_id_user,
             stat_value=ewcfg.col_stat_value,
             stat_metric=ewcfg.col_stat_metric,
@@ -832,3 +840,10 @@ def total_size(o, verbose=False):
 
     return sizeof(o)
 
+#quick function to check presence in a district
+def is_district_empty(poi = ''):
+    data = bknd_core.execute_sql_query('SELECT {id_user} FROM USERS WHERE {poi} = %s LIMIT 1'.format(poi=ewcfg.col_poi, id_user=ewcfg.col_id_user), (poi,))
+    if len(data) > 0:
+        return False
+    else:
+        return True

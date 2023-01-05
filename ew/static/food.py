@@ -2458,8 +2458,18 @@ food_list = [
         str_name = "Chi\'King",
         str_eat = "Everything you thought you knew about the game is dead because of this sandwhich. This is a mere simulcarum of what it felt like for Ben Saint to eat the ch'king.",
         str_desc = "a ch\'king. smells like natural gas.",
-        time_expir=1000000000,
-        perishable = False,
+        time_expir = 1000000000,
+    ),
+    EwFood(
+        id_food = "bitchenergy",
+        alias = ['bitch'],
+        recover_hunger = 1000,
+        price = 12000,
+        str_name = "BITCH ENERGY Drink",
+        str_eat = "You crack open a cold, refreshing can of BITCH ENERGY. You chug it and feel your BITCH LEVELS RISING. You feel your fists getting fistier, your eyes going bloodshot, your heart pumping harder than it's ever pumped before. This shit makes you FEEL like a bitch. A stone-cold baby kicker. Damn, that's smooth.",
+        inebriation = 1000,
+        str_desc = "A cold, refreshing can of BITCH ENERGY. Not sold anywhere in town, this can of BITCH had to have imported by a knockoff-savvy tourist. You look at the blurb on the back:\n\n*Make no mistake - BITCH ENERGY is not your dad's run-of-the-mill SHIT SEX CUM PISS DRINK. This is BITCH ENERGY, made for all the moms out there who are TIRED of everyone's shit. One drop will steer your life off a cliff, into the JAWS of VAGINAL SEX. Not gay? Sorry, BITCH ENERGY'll do that for you. Gay? Sorry, BITCH ENERGY will have you so straight you'll be praying to BITCH JESUS. Get ready, loser. For BITCH stands for only one thing - pure, unadulterated, blood-curdling ENERGY.*\n\nKinda lame compared to FUCK ENERGY. Thank god Yum! Brands has a chokehold on NLACakaNM.",
+        time_expir = 43200,
     ),
     EwFood(
         id_food="spookysandwich",
@@ -3376,6 +3386,7 @@ food_map = {}
 # A list of food names
 food_names = []
 swilldermuk_food = []
+drinks = []
 
 # Populate food map, including all aliases.
 for food in food_list:
@@ -3416,6 +3427,8 @@ vegetable_ids_list = []
 # map of vegetables to their associated cosmetic material
 vegetable_to_cosmetic_material = {}
 
+
+
 # seperate the crops from the normal foods
 for v in food_list:
 
@@ -3432,6 +3445,7 @@ for v in food_list:
             vegetable_to_cosmetic_material[v.id_food] = ewcfg.item_id_smart_material
         elif v.id_food in [ewcfg.item_id_sourpotatoes, ewcfg.item_id_bloodcabbages, ewcfg.item_id_pulpgourds, ewcfg.item_id_metallicaps]:
             vegetable_to_cosmetic_material[v.id_food] = ewcfg.item_id_tough_material
+
 
         vegetable_list.append(v)
         vegetable_ids_list.append(v.id_food)
@@ -3455,3 +3469,9 @@ plebe_bait = []
 for bait in food_list:
     if bait.price == None or bait.price <= 1000:
         plebe_bait.append(bait.id_food)
+
+drink_keywords = ['tea', 'drink', 'water', 'milk', 'juice', 'chromaccino', 'champagne']
+
+for v in food_list:
+    if v.id_food[-6:] == 'energy' or 'bar' in v.vendors or 'Mtn Dew Fountain' in v.vendors or any(x in v.id_food for x in drink_keywords):
+        drinks.append(v.id_food)

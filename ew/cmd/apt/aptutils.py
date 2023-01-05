@@ -286,8 +286,9 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
             # Get the stack's item data
             item = stacked_closet_map.get(item_name)
             item_obj = EwItem(id_item=item.get('id_item'))
-            if item_obj.id_item == ewcfg.item_id_slimepoudrin:
-                poud_stack += 1
+            if item_obj.template == ewcfg.item_id_slimepoudrin:
+                poud_stack += item.get("quantity")
+            map_obj = cosmetics.cosmetic_map.get(item_obj.item_props.get('id_cosmetic'))
             # Generate the stack's line in the response
             response_part = "{soulbound_style}{name}{soulbound_style}{quantity}".format(
                 name=item.get('name'),

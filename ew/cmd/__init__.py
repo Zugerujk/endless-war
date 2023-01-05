@@ -78,8 +78,8 @@ cmd_modules = [
     smelting,
     sports,
     debugr,
-    prank
-
+    prank,
+    dungeons
 ]
 
 cmd_map = {

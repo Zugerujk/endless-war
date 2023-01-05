@@ -4,6 +4,7 @@ from . import cfg as ewcfg
 from ..model.hunting import EwAttackType
 
 
+
 # Attacking type effects
 def atf_fangs(ctn = None):
     # Reskin of dual pistols
@@ -300,13 +301,13 @@ enemy_attack_type_list = [
     ),
     EwAttackType(  # 11
         id_type="amateur",
-        str_crit="**AIIIIEEE!!** {name_enemy} screams in abject fear, lunging at {name_target}'s with a {civ_weapon} in hand! Fuck, they actually got you!",
-        str_miss="**MISS!** {name_enemy} trips and falls facefirst on the ground. {name_target} is holding back their laughter at how goddamn stupid this all is.",
+        str_crit="{name_enemy} lunges in a fit of anger, striking {name_target} directly! Fuck, they got you!",
+        str_miss="**MISS!** {name_enemy} whiffs their shot! {name_target} steps back to face them.",
         # str_trauma_self = "Your have deep bruising on your torso.",
         # str_trauma = "They have deep bruising on their torso.",
-        str_kill="{name_enemy} is thrown into an adrenaline rush! They brandish their {civ_weapon} and throw it in a perfect spiral, directly through {name_target}'s skull. {emote_skull}",
+        str_kill="{name_enemy} is thrown into an adrenaline rush! They brandish their weapon and charge {name_target}, landing the hit directly through their skull. {emote_skull}",
         str_killdescriptor="felled",
-        str_damage="{name_enemy} bludgeons {name_target} in the {hitzone}! At least they try to...",
+        str_damage="{name_enemy} bludgeons {name_target} in the {hitzone}!",
         fn_effect=atf_body
     ),
     EwAttackType(  # 12
@@ -388,7 +389,18 @@ enemy_attack_type_list = [
         str_groupattack="{name_enemy} tailsweeps a horde of gaiaslimeoids!",
         fn_effect=atf_tusks
     ),
-    EwAttackType(  # 20
+EwAttackType(  #17
+        id_type="police",
+        str_crit="**POLICE BRUTALITY!** {name_enemy} knees {name_target} to the ground and fires 3 shots right to the head! ",
+        str_miss="**WHOOSH** {name_target} ducks out of the way of {name_enemy}'s nightstick!",
+        # str_trauma_self = "NULL",
+        # str_trauma = "NULL,
+        str_kill="**HE'S GOT A WEAPON!** {name_enemy} empties a whole clip into {name_target}'s soft juvenile head, absolutely shocked that they managed to not die this time. Guess we know what'll be on the news in a few days...",
+        str_killdescriptor="massacred",
+        str_damage="{name_enemy} fires a warning shot into {name_target}'s {hitzone}!",
+        fn_effect=atf_fangs #a pistol reskin of fangs which are a reskin of a pistol
+),
+    EwAttackType(  # 18
         id_type="wesson",
         str_crit="**POW!!** {name_enemy} scores a clean shot! A splatter of {name_target}'s blood sprays onto the ground!",
         str_miss="**CLICK!** {name_enemy}'s Smith & Wesson jams!",
@@ -396,6 +408,51 @@ enemy_attack_type_list = [
         str_killdescriptor="pumped",
         str_damage="{name_enemy} lands a potshot on {name_target}!",
         fn_effect=atf_gunkshot
+    ),
+    EwAttackType(  # 14
+        id_type="pizzagraspers",
+        str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of {name_target}'s body! {name_target} breaks several bones!",
+        str_miss="**WHOA!** You barely duck out of the way of {name_enemy}'s grasp!",
+        str_kill="**RRRRRRIPPPP!!!** The {name_enemy} tears {name_target} in half! Actually it looks disappointed, {name_target} was too fresh to eat. {emote_skull}",
+        str_killdescriptor="strangled",
+        str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
+        fn_effect=atf_body
+    ),
+    EwAttackType(  # 8
+        id_type=ewcfg.weapon_id_brassknuckles,
+        str_crit="***SKY UPPERCUT!!*** {name_enemy} executes an artificially difficult combo, rocketing their fist into the bottom of {name_target}’s jaw so hard that {name_target}’s colliding teeth brutally sever an inch off their own tongue!!",
+        str_miss="**MISS!** {name_player} couldn't land a single blow!!",
+        str_kill="{name_enemy} slugs {name_target} right between the eyes! *POW! THWACK!!* **CRUNCH.** Shit. May have gotten carried away there. Oh, well. {emote_skull}",
+        str_killdescriptor="pummeled to death",
+        str_damage="{name_target} is socked in the {hitzone}!!",
+        fn_effect=atf_tusks,
+    ),
+    EwAttackType(  # 8
+        id_type='juvieman',
+        str_crit="**CCCRRRRUUUNNCH!!!** Juvieman throws his Gardening Gut Gatling right into {name_target}'s stomach! Ooh, that one's gonna hurt in the morning!",
+        str_miss="**BIFF!!** {name_enemy} whiffs a punch! Will our hero succumb to the peacefulness of Juviehood?",
+        str_kill="**POWBANG!!! WHOOSH!!** Juvieman hits {name_target} with a powerful uppercut! {name_target} goes flying into the great beyond! Once again, the day is saved. {emote_skull}",
+        str_killdescriptor="sent flying into space",
+        str_damage="**BANG!**{name_target} takes a punch to the {hitzone}!!",
+        fn_effect=atf_tusks,
+    ),
+    EwAttackType(  # 8
+        id_type='dojoman',
+        str_crit="{name_enemy} cleaves right through {name_target} with his broadsword! {name_target} gets spooked as he says some Japanese you can't understand!",
+        str_miss="{name_enemy} uses the garrote, just to try and give {name_target} a chance! Predictably, his attack fails.",
+        str_kill="**SHING!!!** The Dojo Master, with one final katana slice, bisects {name_target} so quickly {name_target} can't even see it. It is done only with years of trained skill. {name_target} was no match.{emote_skull}",
+        str_killdescriptor="bested by a great man",
+        str_damage="**HYAAA!** With perfect form, the Dojo Master runs you through with their {dojo_weapons}!",
+        fn_effect=atf_tusks,
+    ),
+    EwAttackType(  # 8
+        id_type='slox',
+        str_crit="{name_enemy} scratches {name_target}'s face to ribbons! {name_target} staggers back as blood starts flowing into their eyes!",
+        str_miss="{name_enemy} winces, remembering its murdered slox friend! It near-misses {name_target}'s face!",
+        str_kill="**WIIIEEEEE!!!** The slox got its revenge on {name_target}. They have paid for their cruelty in blood. {emote_skull}",
+        str_killdescriptor="come-upped",
+        str_damage="**RRRIIIIPPP!** The grieving Slox gnaws at {name_target}'s face!",
+        fn_effect=atf_talons,
     ),
     EwAttackType(  # 21
         id_type="hellfire",
@@ -453,9 +510,18 @@ enemy_attack_type_list = [
     ),
 ]
 
+
+
+
+
+
+
 # A map of id_type to EwAttackType objects.
 attack_type_map = {}
 
 # Populate attack type map.
 for attack_type in enemy_attack_type_list:
     attack_type_map[attack_type.id_type] = attack_type
+
+
+

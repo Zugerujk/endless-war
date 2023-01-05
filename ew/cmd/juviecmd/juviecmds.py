@@ -1,5 +1,5 @@
 """
-	Commands and utilities related to Juveniles.
+    Commands and utilities related to Juveniles.
 """
 import math
 import random
@@ -16,8 +16,11 @@ from ew.static import items as static_items
 from ew.static import poi as poi_static
 from ew.static import vendors
 from ew.static import weapons as static_weapons
+from ew.static import hunting as static_hunt
+from ew.static import npc as static_npc
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
+from ew.utils import combat as cmbt_utils
 from ew.utils import item as itm_utils
 from ew.utils import poi as poi_utils
 from ew.utils import rolemgr as ewrolemgr
@@ -37,11 +40,13 @@ from .juviecmdutils import print_grid
 from ew.backend.dungeons import EwGamestate
 
 try:
+    import ew.cmd.debug as ewdebug
     from ew.static.rstatic import digup_relics
     from ew.static.rstatic import relic_map
     from ew.static.rstatic import question_map
 
 except:
+    import ew.cmd.debug_dummy as ewdebug
     from ew.static.rstatic_dummy import digup_relics
     from ew.static.rstatic_dummy import relic_map
     from ew.static.rstatic_dummy import question_map
@@ -170,7 +175,7 @@ async def crush(cmd):
             
                 if len(levelup_response) > 0:
                     response += "\n\n" + levelup_response
-                    	
+
         # If the item is a negaslimeoidheart
         elif item_data.item_props.get("context") == ewcfg.context_negaslimeoidheart:
             
@@ -411,6 +416,7 @@ async def mine(cmd):
                     toolused = ewcfg.weapon_id_sledgehammer
                 elif weapon.id_weapon == ewcfg.weapon_id_shovel:
                     toolused = ewcfg.weapon_id_shovel
+
             
             sledgehammer_bonus = False
 
@@ -481,6 +487,7 @@ async def mine(cmd):
                     return
 
             
+
             if toolused == ewcfg.weapon_id_shovel and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
 
                 # print(poi.mother_districts[0] + 'hole')
@@ -700,6 +707,43 @@ async def mine(cmd):
         for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
         return await resp_ctn.post()
 
+
+"""Talk with someone. Oh god, somebody answer."""
+
+async def talk(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    if cmd.mentions_count > 0:
+        target_data = EwUser(member = cmd.mentions[0])
+        if target_data.poi == user_data.poi:
+            response = random.choice(ewcfg.pvp_dialogue).format(cmd.mentions[0].display_name)
+        else:
+            response = "You strike up a conversation with- oh. They're not here. You miss {}...".format(cmd.mentions[0].display_name)
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    elif user_data.poi in ewcfg.vendor_dialogue.keys() and cmd.tokens_count == 1:
+        response = random.choice(ewcfg.vendor_dialogue.get(user_data.poi))
+        thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)[1]
+        rawname = ewcfg.vendor_thumbnails.get(user_data.poi)[0]
+        name = "{}{}{}".format("*__", rawname, "__*")
+        return await fe_utils.talk_bubble(response = response, name = name, image = thumbnail, channel = cmd.message.channel)
+
+    elif cmd.tokens_count > 1:
+        huntedenemy = " ".join(cmd.tokens[1:]).lower()
+        checked_npc = cmbt_utils.find_enemy(enemy_search = huntedenemy, user_data=user_data)
+
+        if checked_npc is None:
+            response = "You can't seem to find them here. They're just a figment of your imagination."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        elif checked_npc.enemytype != ewcfg.enemy_type_npc:
+            response = "What is this, Endless Kiss and Make Up? Stop talking to battle fodder and stab that fucker!" #get some generic enemy dialogue at some point
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        elif ewutils.DEBUG_OPTIONS.get('alternate_talk'):
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
+            await npc_obj.func_ai(keyword='move', enemy=checked_npc, channel=cmd.message.channel)
+        else:
+            npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
+            await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel, user_data=user_data)
 
 """ mine for slime (or endless rocks) """
 
@@ -1110,3 +1154,49 @@ async def hall_answer(cmd):
             response = "**WRYYYYYYYYY!!!** The stone head reels back and fires a bone hurting beam! Ouch, right in the {hitzone}! {player} {dealt_string}".format(hitzone = random.choice(cmbt_utils.get_hitzone().aliases), player = cmd.message.author.display_name, dealt_string=dealt_string)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+#2 rallies can't go on at once with this design, maybe revise if that idea materializes
+async def claim(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    world_events = bknd_worldevent.get_world_events(id_server=user_data.id_server, active_only=True)
+    response = ""
+    for id_event in world_events:
+        if world_events.get(id_event) == ewcfg.event_type_rally:
+            event = bknd_worldevent.EwWorldEvent(id_event=id_event)
+            if event.event_props.get('poi') == user_data.poi and event.event_props.get(str(user_data.id_user)) is None:
+                event.event_props[str(user_data.id_user)] = '1'
+                response = "You checked into the rally as security. Be the last one standing to claim your prize..."
+                event.persist()
+            elif event.event_props.get('poi') == user_data.poi:
+                response = "You already did that."
+            else:
+                response = "Wrong place, dumpass."
+            break
+        elif world_events.get(id_event) == ewcfg.event_type_rally_end:
+            event = bknd_worldevent.EwWorldEvent(id_event=id_event)
+            district = EwDistrict(id_server=cmd.guild.id, district=event.event_props.get('poi'))
+            if district is not None:
+                if district.name != user_data.poi:
+                    response = "There's no rally here."
+                elif district.controlling_faction == 'rabble' and len(district.get_players_in_district()) + (
+                district.get_enemies_in_district()) == 0:
+                    response = "You're not done, there are violent people and/or subhumans around here that are still alive."
+                elif event.event_props.get(str(user_data.id_user)) is None:
+                    response = "You're just pretending like you're part of security. Get outta here."
+                elif event.event_props.get('relic') == 'claimed':
+                    response = 'Too late, bud. Someone already took payment.'
+                else:
+                    relic_id = event.event_props.get('relic')
+                    map_entry = relic_map.get(relic_id)
+                    event.event_props['relic'] = 'claimed'
+                    event.persist()
+                    await ewdebug.award_item(cmd, itemname=relic_id, on_give='')
+                    response = "You outlasted them all. Yes, paydirt! You get the {}!".format(map_entry.str_name)
+            else:
+                response = ""
+            break
+        else:
+            response = "There's no rally here."
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+

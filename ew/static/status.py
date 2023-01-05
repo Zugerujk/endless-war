@@ -86,6 +86,12 @@ status_effect_list = [
         str_describe_self="You are as high as a kite."
     ),
     EwStatusEffectDef(
+        id_status=ewcfg.status_thinned_id,
+        time_expire=ewcfg.time_expire_high,
+        str_describe="They are gassed up on paint thinner.",
+        str_describe_self="You are gassed up on paint thinner."
+    ),
+    EwStatusEffectDef(
         id_status=ewcfg.status_evasive_id,
         time_expire=10,
         str_describe="They have assumed an evasive stance.",
@@ -252,7 +258,65 @@ status_effect_list = [
         str_acquire="You spray yourself with Kinkfish pheromones.",
         str_describe="They smell horrible, but strangely... alluring?",
         str_describe_self="You smell horrible, but strangely... alluring?"
-    )
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_barren_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They don't have slime on them.",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_juviemode_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They're under the legal limit for slime. Guess they sucked the government's dick or something.",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_hostile_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Oh shit, they're hostile!",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_trainer_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They've got a slimeoid. Looks ready for a battle...",
+        str_describe_self=""
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_tanky_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They look exceedingly difficult to kill.",
+        str_describe_self="",
+        dmg_mod=-.8,
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_dodgy_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="Their movements are erratic, they're incredibly difficult to hit.'",
+        str_describe_self="",
+        hit_chance_mod=-.8
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_dueling,
+        time_expire=300,
+        str_acquire="",
+        str_describe="They're squared up for a duel...",
+        str_describe_self="You're squared up for a duel..."
+    ),
+    EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_following_id,
+        time_expire=86400,
+        str_acquire="",
+        str_describe="They're a little too attached to someone right now.",
+        str_describe_self="",
+    ),
 ]
 
 status_effects_def_map = {}
@@ -710,6 +774,66 @@ trauma_list = [
         str_trauma="They can still feel the circular scar inside their throat. Embarrassing...",
         trauma_class=ewcfg.trauma_class_accuracy,
     ),
+    EwTrauma(  # 17
+        id_trauma='whistle',
+        str_trauma_self="You hesitate to even acknowledge your own slimeoid.",
+        str_trauma="They hesitate to even acknowledge their own slimeoid.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 40
+        id_trauma=ewcfg.weapon_id_fists,
+        str_trauma_self="You've still got a black eye from that pummeling.",
+        str_trauma="They've still got a black eye from that pummeling.",
+        trauma_class=ewcfg.trauma_class_hunger,
+    ),
+    EwTrauma(  # 17
+        id_trauma=ewcfg.weapon_id_sledgehammer,
+        str_trauma_self="Your head is dented in with a huge crater.",
+        str_trauma="Their head is dented in with a huge crater.",
+        trauma_class=ewcfg.trauma_class_accuracy,
+    ),
+    EwTrauma(  # 18
+        id_trauma=ewcfg.weapon_id_skateboard,
+        str_trauma_self="The sight of skate tricks makes you cower in fear.",
+        str_trauma="The sight of skate tricks makes them cower in fear.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 19
+        id_trauma=ewcfg.weapon_id_juvierang,
+        str_trauma_self="Your head is cleaved in with an L-shaped imprint. Loser!",
+        str_trauma="Their head is cleaved in with an L-shaped imprint. Loser!",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 48
+        id_trauma=ewcfg.weapon_id_missilelauncher,
+        str_trauma_self="You still haven't found the missing body part from your last encounter.",
+        str_trauma="It looks like they are still searching for a missing body part.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 20
+        id_trauma=ewcfg.weapon_id_pistol,
+        str_trauma_self = "You have several small holes in your chest.",
+        str_trauma = "They have several small holes in their chest.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 21
+        id_trauma=ewcfg.weapon_id_combatknife,
+        str_trauma_self = "You are covered in several cut wound scars.",
+        str_trauma = "They are covered in several cut wound scars.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 22
+        id_trauma=ewcfg.weapon_id_machete,
+        str_trauma_self = "Your body has been loosely stitched back together.",
+        str_trauma = "Their body has been loosely stitched back together.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    ),
+    EwTrauma(  # 23
+        id_trauma=ewcfg.weapon_id_boomerang,
+        str_trauma_self = "You have several long cut scars across your body.",
+        str_trauma = "They have several long cut scars across their body.",
+        trauma_class=ewcfg.trauma_class_sapregeneration
+    )
 ]
 
 trauma_map = {}

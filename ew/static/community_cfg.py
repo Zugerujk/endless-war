@@ -1,3 +1,5 @@
+from . import cfg as ewcfg
+
 cabinets_list = [
     "This is a Zoombinis Logical Journey arcade cabinet.\nWait. This is an old PC game. Why the fuck would they port this to cabinet? Now you have to use the stick to move the mouse around. Oh well. Buyers remorse, you suppose. \nhttps://classicreload.com/win3x-logical-journey-of-the-zoombinis.html",
     "This is a Cookie Clicker arcade cabinet.\n The huge cookie button on the front is pretty neat, but running it forever seems like it would crank your electricity bill. You know, if you had one.\nhttps://orteil.dashnet.org/cookieclicker/",
@@ -49,6 +51,7 @@ browse_list = [
     "Y'arrr. \nhttps://discord.gg/VFcUmgc",
     "A bunch of people with horrible ideas are trying to bloat the item pool by adding in new items for people to spend their useless slime and items on. The horror! \nhttps://discord.gg/Xn44yMDRjz",
 ]
+
 
 
 tv_lines = [
@@ -343,6 +346,46 @@ dance_responses = [
     "{} revives the dancing plague! A certified hood classic!",
     "{} does the 2 step! Such a complicated process!"
 ]
+
+
+mixtapes = ['', '']
+
+
+context_guide = ""
+
+district_blurbs = {}
+
+
+
+blurb_context_map = {
+    "danceresponses":dance_responses,
+    "browse":browse_list,
+    "skatetricks":skatetricks,
+    "tvlines":tv_lines,
+    "prayresponses":pray_responses_list,
+    "cabinetslist":cabinets_list,
+    "meteorshowerresponses":meteor_shower_responses,
+    "saxophonejams":jams_saxophone,
+    "trombonejams":jams_trombone,
+    "vuvuzelajams":jams_vuvuzela,
+    "whistlejams":jams_whistle,
+    "xylophonejams":jams_xylophone,
+    "otamatonejams":jams_otamatone,
+    "maracasjams":jams_maracas,
+    "cornetjams":jams_cornet,
+    "drumjams":jams_drums,
+    "clarinetjams":jams_clarinet,
+    "bassjams":jams_bass,
+    "genericfishingtext":generic_fishing_text,
+    "normalfishingtext":normal_fishing_text,
+    "moonfishingtext":moon_fishing_text,
+    "voidfishingtext":void_fishing_text,
+    "curatorinsults":curator_insults,
+    "actualstds":actual_stds,
+    "bazaardistractions":bazaar_distractions,
+    "captcha":ewcfg.captcha_dict
+}
+
 
 #every weapons unique kill text
 

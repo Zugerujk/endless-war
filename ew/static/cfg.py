@@ -2,7 +2,9 @@ import datetime
 
 # Global configuration options.
 
-version = "v4.1999 more like NOSLIMERNALIA"
+
+version = "v4.2 SEASON 4 ACT 2"
+
 
 
 dir_msgqueue = 'msgqueue'
@@ -169,8 +171,10 @@ poi_id_clinicofslimoplasty = "clinicofslimoplasty"
 poi_id_thebreakroom = "thebreakroom"
 poi_id_underworld = "underworld"
 poi_id_themuseum = "themuseum"
+poi_id_greenroom = "greenroom"
 poi_id_ghostcafe = "ghostmaidcafe"
 poi_id_coalitionsurplus = "coalitionsurplus"
+
 
 poi_id_raiddenentryway = "raiddenentryway"
 poi_id_raiddenatrium = "raiddenatrium"
@@ -415,6 +419,7 @@ role_gellphone = "gellphone"
 role_brimstoneprog = "brimstoneprogrammer"
 role_bpadmin = "bpadmin"
 role_bdadmin = "bdadmin"
+role_blasting = "blasting"
 role_brimstonedesperados = "brimstonedesperados"
 role_null_major_role = "nullmajorrole"
 role_null_minor_role = "nullminorrole"
@@ -869,6 +874,7 @@ cmd_defect = cmd_prefix + 'defect'
 cmd_banish = cmd_prefix + 'banish'
 cmd_moveitem = cmd_prefix + 'moveitem'
 cmd_vouch = cmd_prefix + 'vouch'
+cmd_vote = cmd_prefix + 'vote'
 cmd_writhe = cmd_prefix + 'writhe'
 cmd_use = cmd_prefix + 'use'
 cmd_eat = cmd_prefix + 'eat'
@@ -1004,6 +1010,7 @@ cmd_cancel = cmd_prefix + 'cancel'
 cmd_pray = cmd_prefix + 'pray'
 cmd_flushsubzones = cmd_prefix + 'flushsubzones'
 cmd_flushstreets = cmd_prefix + 'flushstreets'
+cmd_flush = cmd_prefix + 'flush'
 cmd_wrap = cmd_prefix + 'wrap'
 cmd_unwrap = cmd_prefix + 'unwrap'
 cmd_yoslimernalia = cmd_prefix + 'yoslimernalia'
@@ -1094,6 +1101,7 @@ cmd_unpot = cmd_prefix + 'unpot'
 cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
 cmd_smoke = cmd_prefix + 'smoke'
+cmd_huff = cmd_prefix + 'huff'
 cmd_vape = cmd_prefix + 'vape'
 cmd_vapealt1 = cmd_prefix + 'oop'
 cmd_frame = cmd_prefix + 'frame'
@@ -1171,6 +1179,12 @@ cmd_trick = cmd_prefix + 'trick'
 cmd_pacommand = cmd_prefix + 'pacommand'
 
 cmd_surveil = cmd_prefix + 'surveil'
+
+
+cmd_addblurb = cmd_prefix + 'addblurb'
+cmd_displayblurbs = cmd_prefix + 'displayblurbs'
+cmd_deleteblurb = cmd_prefix + 'deleteblurb'
+cmd_blurbcontext = cmd_prefix + 'blurbcontext'
 
 apartment_b_multiplier = 1500
 apartment_a_multiplier = 2000000
@@ -1324,6 +1338,8 @@ cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
 cmd_dual_key_release_alt1 = cmd_prefix + 'dkr'
 
+cmd_claim = cmd_prefix + 'claim'
+
 # race
 cmd_set_race = cmd_prefix + 'setrace'
 cmd_set_race_alt1 = cmd_prefix + 'identifyas'
@@ -1359,6 +1375,7 @@ cmd_verification_alt = cmd_prefix + '#verify'
 cmd_changegamestate = cmd_prefix + 'changegamestate'
 cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
+cmd_create_rally = cmd_prefix + 'createrally'
 
 # elevator cmds
 cmd_press_button = cmd_prefix + 'press'
@@ -1377,7 +1394,11 @@ cmd_festivity = cmd_prefix + 'festivity'
 cmd_scrawl = cmd_prefix + 'scrawl'
 cmd_strip = cmd_prefix + 'strip'
 
+
+cmd_talk = cmd_prefix + 'talk'
+
 cmd_clean_stats = cmd_prefix + 'cleanstats'
+
 
 offline_cmds = [
     cmd_move,
@@ -1556,10 +1577,10 @@ max_capture_points_a = 6553  # 2 hours
 max_capture_points_b = 3277  # 1 hour
 max_capture_points_c = 1638  # 30 minutes
 
-crime_yield_s = 500
-crime_yield_a = 200
-crime_yield_b = 100
-crime_yield_c = 50
+crime_yield_s = 1000
+crime_yield_a = 500
+crime_yield_b = 200
+crime_yield_c = 100
 
 min_garotte = 2000
 
@@ -1654,6 +1675,7 @@ cr_murder_points = 500
 cr_assault_points = 75
 cr_vandalism_points = 100
 cr_arson_points = 600
+cr_cop_kill = 650
 cr_larceny_points = 1
 cr_underage_drinking_points = 1
 cr_littering_points = 1
@@ -1680,6 +1702,8 @@ crime_status = {
 1000000:"Not even {their} fellow gangsters can tolerate the sight of {them} now. {their} voice is spun of poison and {their} footsteps leave destruction in {their} wake. Fucking goons."
 }
 
+#if a profile image is absent, this is used
+default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"
 
 # how often to apply weather effects
 weather_tick_length = 10
@@ -1693,6 +1717,9 @@ moon_waning_start = "waningmaw" # ((
 moon_waning_end = "waningsliver" #      (
 moon_special = "green" #               glows
 
+#enemy count limits
+max_npcs = 20
+max_normal_enemies = 30
 # strength of the burn applied every weather tick by firestorms
 firestorm_slime_burn = 100000
 
@@ -1774,6 +1801,9 @@ time_raidboss_movecooldown = 2.5 * 60
 
 # maximum amount of enemies a district can hold before it stops spawning them
 max_enemies = 5
+
+#The current curator
+current_curator = "amy"
 
 # response string used to let attack function in ewwep know that an enemy is being attacked
 enemy_targeted_string = "ENEMY-TARGETED"
@@ -2425,6 +2455,15 @@ col_bit = "state_bit"
 col_id_state = "id_state"
 col_number = "number"
 
+#Blurb columns
+col_id_blurb = "blurb"
+col_id_active = "active"
+col_id_id_blurb = "id_blurb"
+col_id_context = "context"
+col_id_subcontext = "subcontext"
+col_id_subsubcontext = "subsubcontext"
+col_id_dateadded = "dateadded"
+
 # SWILLDERMUK
 col_id_user_pranker = 'id_user_pranker'
 col_id_user_pranked = 'id_user_pranked'
@@ -2478,6 +2517,9 @@ entry_type_player = "player"
 entry_type_districts = "districts"
 entry_type_relics = "relics"
 entry_type_gamestates = "gamestates"
+
+gamestate_leaderboard_markers = {}
+
 
 # district control channel topic text
 control_topic_killers = "Currently controlled by the killers."
@@ -2557,6 +2599,8 @@ stat_lifetime_kingpin_slimes = 'lifetime_kingpin_slimes'
 stat_credence = 'credence'
 stat_credence_used = 'credenceused'
 stat_gambit = 'gambit'
+stat_lifetime_cops_killed = 'lifetime_cops_killed'
+
 
 # Slimernalia stats
 stat_festivity = 'festivity'
@@ -2611,12 +2655,14 @@ stat_harpoon_kills = 'harpoon_kills'
 stat_sniper_kills = 'sniper_kills'
 stat_sledgehammer_kills = 'sledgehammer_kills'
 stat_skateboard_kills = 'skateboard_kills'
+stat_juvierang_kills = 'juvierang_kills'
 stat_missilelauncher_kills = 'missilelauncher_kills'
 stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
 stat_foodbasket_kills = 'foodbasket_kills'
+
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
 
@@ -2728,6 +2774,86 @@ vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
 vendor_gumballmachine = "Gumball Machine"
 
 
+museum_thumbnails = {
+    "amy":["AMY HART", "https://rfck.app/npc/AMY_HART_pfp.png"],
+    "curator":["THE CURATOR", "https://rfck.app/npc/CURATOR_GOOD_HEAD.png"]
+}
+
+vendor_thumbnails = {
+    poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/npc/albertalex.png"],
+    "saloon":["OL' BOY RUSTLE", "https://rfck.app/npc/olboyrustle.png"],
+    "basedhardware":["BETTY BAMALAM", "https://rfck.app/npc/bet.png"],
+    "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
+    "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
+    "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
+    "themuseum":museum_thumbnails.get(current_curator),
+    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
+    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
+}
+
+
+museum_dialogue = {
+    "amy":["God, this is frustrating.", "Hoss isn't here. Did you need something?", "The truckers out here are kind of mental. I tried importing a crate of Takis since they're not stocked in the city and shipping cost me 260 mega.", "Hey...you don't look quite right. Guess that's normal around here, but how did you end up looking like that?", "Truthfully, I'd rather not talk history right now. It's a sore subject with you gangsters, I'll keep my research to myself.", "Hey wait, is that a...Nah, it's just an ordinary weapon. Forget I said anything.", "It'd be nice to go along with Hoss, but there's a strong possibility ENDLESS WAR might endanger us somehow if we both left at the same time. We're hedging our bets.", "I'm not an exhibit. I don't think I'm flattered that you thought otherwise, heh."],
+    "curator":[""]
+}
+
+
+vendor_dialogue = {
+    "speakeasy":["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
+    "clinicofslimoplasty":["Nice kidney. If you think you'll die before your next !piss I might just buy it off you.", "I'll give you a discount if you let me fix you up after I've had a few drinks. I'm playing Malpractice Bingo with a heart surgeon in Poudrin Alley.", "You get the kid's discount. I don't do it because it's good for business, really. I just like hurting children.", "Sonny, do you know about any gingerbread houses deep in the woods in this town? I'm looking to retire and could use a new space.", "I'll probably wind up repeating something I said to you. That's the dementia, pay it no mind.", "Lots of slimeoid operations recently. I don't care for 'em. Too many syringes."],
+    "themuseum":museum_dialogue.get(current_curator),
+    "neomiluakeestate":["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
+    "realestateagency":["😎", "hey. I don't really care if you buy real estate, lol. slimecoin isn't profitable  at all, we keep afloat off a government subsidy", "hope there's no hard feelings about the whole slimecorp thing, dog. I was losing them millions just by playing scribblenauts instead of doing any marketing", "hope youre not looking for magicksrampage. they signed on as a janitor with us for a few days but realized their mistake and got out", "i'll add some of my sick taste in decor to you apartment for some slime under the table.", "there's this guy on the street named bobo cuatro who will buy a mixtape from anybody. this dudes my hero i swear", "i was never a booze guy at slimecorp but i'm starting to learn a few things. lol guess the party doesn't have to stop."],
+    "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it.", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
+    "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
+    "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
+    "slimeypersuits":["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+
+}
+
+
+museum_curator_dialogue = {
+    "odditem":"The curator looks confused on why you brought *that*. He only takes relics, framed art, and fish.",
+    "smallfish":"\"SORRY, CHAP, YOUR FISH IS TOO SMALL. THERE'S A DICK JOKE IN THERE SOMEWHERE BUT I'M TWICE YOUR AGE. TOO CREEPY, I SAY.\"",
+    "cheatedfish":"\"I'M ON TO YOU, YOU {insult}! TRY AND CHEAT FISH WITH ME AGAIN, SEE WHAT HAPPENS!\"",
+    "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
+    "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
+    "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
+    "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
+    "deviantpost":'"IT\'S UP ON DEVIANT SPLAAART. GET ENOUGH LIKES AND THEN WE\'LL TALK. HOPE YOU LIKE PAYMENTS IN EXPOSURE, MY FRIEND!"',
+    "notitleart":"\"GIVE ME A TITLE FOR THIS, YOU {insult}! MY EXHIBITS ARE MORE THAN A GLORIFIED KITCHEN FRIDGE!\" "
+}
+
+amy_curator_dialogue = {
+    "odditem":"Amy looks confused on why you brought *that*. She only takes relics, framed art, and fish.",
+    "smallfish":"\"This one's too small, buddy. We're looking for record breakers here.\"",
+    "cheatedfish":"\"Oh, it's you. I guess I respect the hustle, but if you cheat you're out of the fish donating game. Can't accecpt this one.\"",
+    "caughtcheatfish":"\"This {fish}? It's fake. It's a goddamn counterfeit fish. Get out of here with this bullshit.\"",
+    "fishdonate":"Amy approvingly nods her head at your {}. Looks like we got a winner! Amy tags the new fish, then dips headfirst into the fishtank to retrieve the old one. A few minutes later she emerges with it, slam dunking the majestic creature into the trash.\"Whoa nelly. I think we gotta clean these tanks better.\"\n\nYou got {} slime!",
+    "redonaterelic":"\"We have *a* version of this in the museum. Either you stole this real one earlier or this is fake. But either way I'm probably won't get to display this relic for long. No deal.\"",
+    "donaterelic":"Amy looks the artifact over. \"A {}, huh? This is probably the real one, so I'll pay you to get the chance to study it.\" She walks into the backroom, casually tossing {:,} slime your way. You wait for her to carefully examine it, write up a plaque, and get all the fangirling out of her system when nobody's looking, before she comes back to set up the museum display. She also hands you a meticulously constructed replica for your trouble.\n\n \"Ugh. Swap the real one for the fake all you want. It's not like we can hold you off forever.\" While she isn't looking, you do just that.",
+    "spoons":"\"You're tearing me apart, Lisa! Nah, but seriously. Don't donate the spoon picture again.\"",
+    "artnametaken":"\"Somebody else chose that name. Just add an underscore or a 2 to the end, it'll be fine.\"",
+    "colon":"\"If you put a colon in the frame like that it won't hag on the wall right. Better take that out first.",
+    "deviantpost":'"I posted it to DeviantSPLAAART. May the algoorithm have mercy on its soul."',
+    "notitleart":"\"It's gonna need a title. DeviantSPLAAART won't let me post it without one.\" "
+}
+
+
+museum_dialogue = {
+    "curator":museum_curator_dialogue,
+    "amy":amy_curator_dialogue
+
+}
+
+
+dojo_weapons = ['molotovs', 'knives', 'yo-yo', 'scythe', 'nun-chucks', 'baseball bat', 'brass knuckles']
+
+pvp_dialogue = ['You talk to {}. They don\'t seem much for conversation.', 'You verbally abuse {}, hoping maybe you\'ll feel less small that way.']
+
 item_id_slimepoudrin = 'slimepoudrin'
 item_id_negapoudrin = 'negapoudrin'
 item_id_ghostlycloth = 'ghostlycloth'
@@ -2782,6 +2908,7 @@ item_id_doublefaggot = "doublefaggot"
 item_id_seaweed = "seaweed"
 item_id_string = "string"
 item_id_tincan = "tincan"
+item_id_oldcd = "oldcd"
 item_id_oldboot = "oldboot"
 item_id_leather = "leather"
 item_id_ectoplasm = "ectoplasm"
@@ -2913,7 +3040,7 @@ item_id_strauberryshortcakes = "strauberryshortcakes"
 item_id_chutzpahcherries = "chutzpahcherries"
 item_id_n3crunch = "n3crunch"
 item_id_slimesours = "slimesours"
-
+item_id_454casullround = ".454casullround"
 # slimeoid food
 item_id_fragilecandy = "fragilecandy"  # +chutzpah -grit
 item_id_rigidcandy = "rigidcandy"  # +grit -chutzpah
@@ -3054,12 +3181,14 @@ weapon_id_monofilamentwhip = 'monowhip'
 weapon_id_fists = 'fists'
 weapon_id_sledgehammer = 'sledgehammer'
 weapon_id_skateboard = 'skateboard'
+weapon_id_juvierang = 'juvierang'
 weapon_id_missilelauncher = 'missilelauncher'
 weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
 weapon_id_foodbasket = 'petrifiedfoodbasket'
+
 
 weapon_id_spraycan = 'spraycan'
 weapon_id_paintgun = 'paintgun'
@@ -3631,10 +3760,19 @@ status_aiming_id = "aiming"
 status_sapfatigue_id = "sapfatigue"
 status_rerollfatigue_id = "rerollfatigue"
 status_high_id = "high"
+status_thinned_id = "thinned"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
-# status_juviemode_id = "juviemode"
+
+status_enemy_hostile_id = "hostile"
+status_enemy_barren_id = "barren"
+status_enemy_juviemode_id = "juviemode"
+status_enemy_trainer_id = 'slimeoidtrainer'
+status_enemy_tanky_id = 'tanky'
+status_enemy_dodgy_id = 'dodgy'
+status_enemy_following_id = 'following'
+
 
 status_n1 = "n1"
 status_n2 = "n2"
@@ -3657,6 +3795,7 @@ status_kevlarattire_id = "kevlarattire"
 status_hogtied_id = "hogtied"
 
 status_pheromones_id = "pheromones"
+status_dueling = "dueling"
 
 time_expire_burn = 12
 time_expire_high = 30 * 60  # 30 minutes
@@ -4048,7 +4187,7 @@ item_group_commands = {
 
 holidaycommands = {
     "swildermuk": "",
-    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!give @player: Show your festivity by giving gifts.",
+    "slimernalia": "**SLIMERNALIA**:\n!yoslimernalia: Yo, Slimernalia!\n!festivity:Check your current festivity.\n!wrap <player> \"Message\" <item>: Wrap a gift with a message attached.\n!unwrap <item>: Open another's gift for you.\n!give @player: Show your festivity by giving gifts.",
     "doublehalloween": "**DOUBLE HALLOWEEN**:\n!makecostume \"<Name>\" \"<<Description\" Create a Double Halloween costume using a costume kit.\n!crush <candy> Crush candy to get Double Halloween Grist.\n!trickortreat <player> Get candy in a district, or from a player's apartment if you @ them.\n!sacrifice <item>: In ENDLESS WAR, sacrifice an item to appease...someone. Probably an elder god.",
 }
 
@@ -4150,11 +4289,14 @@ enemy_attacktype_raygun = 'raygun'
 enemy_attacktype_feed = 'feed'
 enemy_attacktype_wesson = 'wesson'
 enemy_attacktype_amateur = 'amateur'
+enemy_attacktype_cop = 'police'
+enemy_attacktype_dojoman = 'dojoman'
 enemy_attacktype_hellfire = 'hellfire'
 enemy_attacktype_bonemerang = 'bonemerang'
 enemy_attacktype_icespike = 'icespike'
 enemy_attacktype_bloodsucker = "bloodsucker"
 enemy_attacktype_bluntweapon = "bluntweapon"
+
 
 # Enemy weather types. In the future enemies will make use of this in tandem with the current weather, but for now they can just resist the rain.
 enemy_weathertype_normal = 'normal'
@@ -4178,12 +4320,15 @@ enemy_type_microslime = 'microslime'
 enemy_type_grey = 'grey'
 enemy_type_tangeloid = 'tangeloid'
 enemy_type_alienscum = 'alienscum'
+enemy_type_npc = 'npc'
 
 enemy_type_mammoslimebull = 'mammoslimebull'
 enemy_type_slimeofgreed = 'slimeofgreed'
 enemy_type_microgullswarm = 'microgullswarm'
+enemy_type_policeofficer = 'policeofficer'
 # Raid bosses
 enemy_type_megaslime = 'megaslime'
+
 enemy_type_slimeasaurusrex = 'slimeasaurusrex'
 enemy_type_greeneyesslimedragon = 'greeneyesslimedragon'
 enemy_type_unnervingfightingoperator = 'unnervingfightingoperator'
@@ -4264,13 +4409,16 @@ raid_den_bosses = [enemy_type_alm]
 if slimernalia_stage >= 1:
     pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
     arctic_enemies = [enemy_type_desertraider]
+    slimeoid_trainers = [enemy_type_npc]
 else:
     pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
     arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-slimeoid_trainers = [enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer] 
+    slimeoid_trainers = [enemy_type_npc]
+
 
 # Double Halloween variant enemies
 dh_v_enemies = [enemy_type_juvie, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime, enemy_type_slimeoidtrainer, enemy_type_ug_slimeoidtrainer, enemy_type_bandito, enemy_type_raiderunderboss, enemy_type_microgullswarm, enemy_type_spacecarp]
+
 
 # Enemies that spawn during specific poi events
 raider_incursion_enemies = [enemy_type_desertraider, enemy_type_bandito, enemy_type_raiderunderboss]
@@ -4473,6 +4621,9 @@ enemy_drop_tables = {
     ],
     enemy_type_microgullswarm: [
         {item_id_feather: [5, 1, 1]}
+    ],
+    enemy_type_policeofficer: [
+        {"copbadge":[100, 1, 1]}
     ],
     enemy_type_lesserwerewolf: [
         {item_id_leather: [100, 1, 1]},
@@ -4803,6 +4954,22 @@ enemy_data_table = {
         "aliases": ["slimeoidt", "sst", "sstrainer", "champ", "sustrainer", "villain"],
         "dhvariant": "Double Costumed Slimeoid Trainer",
     },
+    enemy_type_npc: {
+        "slimerange": [100000, 100000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_amateur,
+        "displayname": "NPC",
+        "raredisplayname": "NPC Template",
+        "aliases": []
+    },
+    enemy_type_policeofficer: {
+        "slimerange": [100000, 500000],
+        "ai": enemy_ai_attacker_a,
+        "attacktype": enemy_attacktype_cop,
+        "displayname": "Police Officer",
+        "raredisplayname": "Crazed Police Officer",
+        "aliases": ["cop", "police", "policeofficer", "officer", "pig"]
+    },
     enemy_type_bandito: {
         "slimerange": [300000, 600000],
         "ai": enemy_ai_attacker_b,
@@ -5100,6 +5267,9 @@ event_type_gas_leak = "gasleak"
 # For raids
 event_type_raid_den = "raidden"
 
+event_type_rally = "rally"
+event_type_rally_end = "rallyend"
+
 
 # In list format
 random_poi_events = [
@@ -5117,7 +5287,7 @@ random_poi_events = [
     event_type_gas_leak,
 ]
 
-poi_events = random_poi_events + [event_type_raid_den] 
+poi_events = random_poi_events + [event_type_raid_den, event_type_rally, event_type_rally_end]
 
 # DH dates
 day_map = {
@@ -5276,6 +5446,8 @@ region_lock_states = {
     "slimecorptunnel": ["lobbylock1", "lobbylock2"],
     "slimecorphotel": ["hotelfound"]
 }
+
+
 
 curse_words = {  # words that the player should be punished for saying via swear jar deduction. the higher number, the more the player gets punished.
     "fag": 20,

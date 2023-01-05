@@ -4,7 +4,9 @@ from ew.static import cfg as ewcfg
 from ew.utils.combat import EwUser
 import ew.utils.frontend as ewutils
 from ew.utils import stats as ewstats
-
+import ew.backend.item as bknd_item
+import asyncio
+import ew.utils.rolemgr as ewrolemgr
 
 async def gambit(cmd):
     if cmd.mentions_count == 0:
@@ -126,3 +128,13 @@ async def point_and_laugh(cmd):
         response = "You point and laugh at... who, exactly?"
 
     return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+
+
+
+
+
+
+
+
+
+

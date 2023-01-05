@@ -75,7 +75,8 @@ cmd_map = {
     # SLIMERNALIA
     ewcfg.cmd_unwrap: itemcmds.unwrap,
     ewcfg.cmd_unearth:itemcmds.unearth,
-    ewcfg.cmd_bury:itemcmds.bury
+    ewcfg.cmd_bury:itemcmds.bury,
+    ewcfg.cmd_huff:itemcmds.huff,
 
 }
 

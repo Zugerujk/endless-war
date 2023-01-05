@@ -732,3 +732,59 @@ async def get_member(guild, member_id):
         member = mem_list[0] if len(mem_list) == 1 else None
 
     return member
+
+
+async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None):
+    bubble = discord.Embed()
+    client = ewutils.get_client()
+    if name != "" and channel is not None:
+        if npc_obj == None:
+            bubble.description = name
+            if image == "":
+                bubble.set_thumbnail(url=ewcfg.default_thumbnail)
+            else:
+                bubble.set_thumbnail(url=image)
+        elif npc_obj != None:
+            bubble.description = npc_obj.str_name
+            bubble.set_thumbnail(url=npc_obj.image_profile)
+
+        if color != "":
+            bubble.color = discord.Colour(int(color, 16))
+
+        else:
+            bubble.color = discord.Colour(int("33cc4a", 16))
+        bubble.add_field(name='\u200b', value=response)
+        await send_message(client, channel, embed=bubble)
+
+
+async def prompt(cmd = None, target = None, question = "", wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False):
+
+    if cmd is not None:
+        if accept_command[0] == ewcfg.cmd_prefix:
+            final_accept = accept_command
+        else:
+            final_accept = ewcfg.cmd_prefix + accept_command
+
+        if decline_command[0] == ewcfg.cmd_prefix:
+            final_decline = decline_command
+        else:
+            final_decline = ewcfg.cmd_prefix + decline_command
+
+        await send_message(cmd.client, cmd.message.channel, text=question)
+
+        try:
+            message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == (target if checktarget else cmd.message.author) and message.content.lower() in [final_accept, final_decline])
+
+            if message != None:
+                if message.content.lower() == final_accept:
+                    accepted = True
+                if message.content.lower() == final_decline:
+                    accepted = False
+
+        except Exception as e:
+            print(e)
+            accepted = False
+    else:
+        accepted = False
+
+    return accepted

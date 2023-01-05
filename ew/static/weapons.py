@@ -384,7 +384,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_revolver_kills,
-        str_brandish="{name} spins {weapon} around on their finger, blowing smoke off the barrel like a Texas gunman."
+        str_brandish=["{name} spins {weapon} around on their finger, blowing smoke off the barrel like a Texas gunman."]
     ),
     EwWeapon(  # 2
         id_weapon=ewcfg.weapon_id_dualpistols,
@@ -415,7 +415,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_dual_pistols_kills,
-        str_brandish="{name} cocks {weapon} back, aiming them at the nearest passersby. *Bang.*"
+        str_brandish=["{name} cocks {weapon} back, aiming them at the nearest passersby. *Bang.*"]
     ),
     EwWeapon(  # 3
         id_weapon=ewcfg.weapon_id_shotgun,
@@ -448,7 +448,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_shotgun_kills,
-        str_brandish="**ChkCHK.** {name} takes {weapon} and pumps back a couple rounds, listening to the shells clink onto the ground."
+        str_brandish=["**ChkCHK.** {name} takes {weapon} and pumps back a couple rounds, listening to the shells clink onto the ground."]
     ),
     EwWeapon(  # 4
         id_weapon=ewcfg.weapon_id_rifle,
@@ -480,7 +480,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_rifle_kills,
-        str_brandish="**BAM BAM!** {name} takes {weapon} and fires some warning rounds into the air."
+        str_brandish=["**BAM BAM!** {name} takes {weapon} and fires some warning rounds into the air."]
     ),
     EwWeapon(  # 5
         id_weapon=ewcfg.weapon_id_smg,
@@ -513,7 +513,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_coalitionsurplus, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_smg_kills,
-        str_brandish="**RATTATTATTAT!** {name} takes {weapon} and fires a line of bullets along the ground. *You're next.*"
+        str_brandish=["**RATTATTATTAT!** {name} takes {weapon} and fires a line of bullets along the ground. *You're next.*"]
     ),
     EwWeapon(  # 6
         id_weapon=ewcfg.weapon_id_minigun,
@@ -544,7 +544,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_minigun_kills,
         captcha_length=6,
-        str_brandish="{name} laughs to themselves as they spin {weapon}'s barrel. These suckers won't know what hit 'em."
+        str_brandish=["{name} laughs to themselves as they spin {weapon}'s barrel. These suckers won't know what hit 'em."]
     ),
     EwWeapon(  # 7
         id_weapon=ewcfg.weapon_id_bat,
@@ -573,7 +573,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_bat_kills,
-        str_brandish="{name} winds up a swing with {weapon}. Time to knock some heads."
+        str_brandish=["{name} winds up a swing with {weapon}. Time to knock some heads."]
     ),
     EwWeapon(  # 8
         id_weapon=ewcfg.weapon_id_brassknuckles,
@@ -601,7 +601,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_brassknuckles_kills,
-        str_brandish="{name} takes off {weapon} and flips the bird. Get fucked."
+        str_brandish=["{name} takes off {weapon} and flips the bird. Get fucked."]
     ),
     EwWeapon(  # 9
         id_weapon=ewcfg.weapon_id_katana,
@@ -632,7 +632,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_katana_kills,
         captcha_length=4,
-        str_brandish="{name} pulls {weapon} halfway out of its scabbard. It shines menacingly..."
+        str_brandish=["{name} pulls {weapon} halfway out of its scabbard. It shines menacingly..."]
     ),
     EwWeapon(  # 10
         id_weapon=ewcfg.weapon_id_broadsword,
@@ -665,7 +665,7 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='heavy'),
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_broadsword_kills,
-        str_brandish = "{name} raises {weapon} and lets out a hearty battlecry! **AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA**"
+        str_brandish = ["{name} raises {weapon} and lets out a hearty battlecry! **AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA**"]
     ),
     EwWeapon(  # 11
         id_weapon=ewcfg.weapon_id_nunchucks,
@@ -696,7 +696,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_nunchucks_kills,
-        str_brandish="**WA-TWAAAAH!** {name} swings {weapon} so fast that it becomes a blur in their hands!"
+        str_brandish=["**WA-TWAAAAH!** {name} swings {weapon} so fast that it becomes a blur in their hands!"]
     ),
     EwWeapon(  # 12
         id_weapon=ewcfg.weapon_id_scythe,
@@ -722,7 +722,7 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='heavy'),
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_scythe_kills,
-        str_brandish="{name} takes a couple swings with {weapon}. Bell tolls for thee, motherfucker."
+        str_brandish=["{name} takes a couple swings with {weapon}. Bell tolls for thee, motherfucker."]
     ),
     EwWeapon(  # 13
         id_weapon=ewcfg.weapon_id_yoyo,
@@ -750,7 +750,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_yoyo_kills,
-        str_brandish="Oh shit! {name} has {weapon}! Son of a bitch, they're doing a Houdini Mount! This is terrifying!!"
+        str_brandish=["Oh shit! {name} has {weapon}! Son of a bitch, they're doing a Houdini Mount! This is terrifying!!"]
     ),
     EwWeapon(  # 14
         id_weapon=ewcfg.weapon_id_knives,
@@ -779,7 +779,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_knives_kills,
-        str_brandish="{name} stares down the world, licking the blade of {weapon} like some kind of sick freak!"
+        str_brandish=["{name} stares down the world, licking the blade of {weapon} like some kind of sick freak!"]
     ),
     EwWeapon(  # 15
         id_weapon=ewcfg.weapon_id_molotov,
@@ -820,7 +820,8 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        str_brandish="{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."
+        captcha_length=4,
+        str_brandish=["{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."]
     ),
     EwWeapon(  # 16
         id_weapon=ewcfg.weapon_id_grenades,
@@ -849,7 +850,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_exploding, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_grenade_kills,
         captcha_length=4,
-        str_brandish="{name} spins {weapon} on their finger like an anarchist Harlem Globetrotter."
+        str_brandish=["{name} spins {weapon} on their finger like an anarchist Harlem Globetrotter."]
     ),
     EwWeapon(  # 17
         id_weapon=ewcfg.weapon_id_garrote,
@@ -877,7 +878,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         stat=ewcfg.stat_garrote_kills,
-        str_brandish="{name} wraps {weapon} around their own neck and feigns getting decapitated. Eh, who are they kidding, that thing never kills anybody."
+        str_brandish=["{name} wraps {weapon} around their own neck and feigns getting decapitated. Eh, who are they kidding, that thing never kills anybody."]
     ),
     EwWeapon(  # 18
         id_weapon=ewcfg.weapon_id_pickaxe,
@@ -905,7 +906,7 @@ weapon_list = [
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_pickaxe_kills,
         is_tool=1,
-        str_brandish="{name} starts ramming {weapon} into the ground, whistling a little tune as they work!"
+        str_brandish=["{name} starts ramming {weapon} into the ground, whistling a little tune as they work!"]
     ),
     EwWeapon(  # 19
         id_weapon=ewcfg.weapon_id_fishingrod,
@@ -937,7 +938,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_fishingrod_kills,
         is_tool=1,
-        str_brandish="{name} recklessly swings {weapon} around, and starts exaggerating about the largest fish they ever caught! Nobody believes them, though."
+        str_brandish=["{name} recklessly swings {weapon} around, and starts exaggerating about the largest fish they ever caught! Nobody believes them, though."]
     ),
     EwWeapon(  # 20
         id_weapon=ewcfg.weapon_id_bass,
@@ -962,7 +963,7 @@ weapon_list = [
         str_description="It's a bass guitar. All of its strings are completely out of tune and rusted.",
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_bass_kills,
-        str_brandish="{name} takes {weapon} out and belts out an insane bassline!"
+        str_brandish=["{name} takes {weapon} out and belts out an insane bassline!"]
     ),
     EwWeapon(  # 21
         id_weapon=ewcfg.weapon_id_umbrella,
@@ -992,7 +993,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_defensive, ewcfg.weapon_class_captcha],
         stat=ewcfg.stat_umbrella_kills,
         captcha_length=4,
-        str_brandish="{name} takes {weapon} and daintily drapes it over their shoulder, batting their eyes for good measure."
+        str_brandish=["{name} takes {weapon} and daintily drapes it over their shoulder, batting their eyes for good measure."]
     ),
     EwWeapon(  # 22
         id_weapon=ewcfg.weapon_id_bow,
@@ -1017,7 +1018,7 @@ weapon_list = [
         str_description="It's a newly crafted minecraft bow, complete with a set of minecraft arrows",
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_bow_kills,
-        str_brandish="{name} mashes shift, crouching rapidly and pointing {weapon} to the heavens!"
+        str_brandish=["{name} mashes shift, crouching rapidly and pointing {weapon} to the heavens!"]
     ),
     EwWeapon(  # 23
         id_weapon=ewcfg.weapon_id_dclaw,
@@ -1044,7 +1045,7 @@ weapon_list = [
         stat=ewcfg.stat_dclaw_kills,
         classes=[ewcfg.weapon_class_burning, ewcfg.weapon_class_captcha],
         captcha_length=4,
-        str_brandish="{name} does a Praise the Sun, {weapon} in hand!"
+        str_brandish=["{name} does a Praise the Sun, {weapon} in hand!"]
     ),
 
     EwWeapon(  # 24
@@ -1083,7 +1084,7 @@ weapon_list = [
             'miss_spray': "**Miss!** Your can seems to be low on spray. You fill it up and give it a good shake. Good as new!",
             'crit_spray': "**Critical hit!** You dual wield spray cans, painting an urban masterpiece in one hand and shooting toxic chemicals into a cop's mouth with the other!",
             'equip_spray': "You get your trusty spray paint at the ready."},
-        str_brandish="**PSSSSSSHHHHHT!** {name} takes out {weapon} and sprays down a nearby wall!\n{tag}"
+        str_brandish=["**PSSSSSSHHHHHT!** {name} takes out {weapon} and sprays down a nearby wall!\n{tag}"]
     ),
     EwWeapon(  # 25
         id_weapon=ewcfg.weapon_id_paintgun,
@@ -1125,7 +1126,7 @@ weapon_list = [
             'crit_spray': "**Critical hit!** The paint bullet skids a wall, spreading your paint across the whole thing!",
             'equip_spray': "You load a clip of paint into the gun and throw it onto your back, kinda like Rambo if he were an art major."
         },
-    str_brandish="**SPLAAART!** {name} takes out {weapon} and inks the fuck out of a nearby splat zone!\n{tag}"
+    str_brandish=["**SPLAAART!** {name} takes out {weapon} and inks the fuck out of a nearby splat zone!\n{tag}"]
     ),
     EwWeapon(  # 26
         id_weapon=ewcfg.weapon_id_paintroller,
@@ -1164,7 +1165,7 @@ weapon_list = [
             'miss_spray': "**Miss!** The sponge on your roller snaps off and it takes too long for you to notice. What a waste!",
             'crit_spray': "**Critical hit!** Your mind goes blank in a painting-induced rage. When you wake up, all your surroundings are {color}. You should do that more often!",
             'equip_spray': "You grab your paint roller and strap it on your back."},
-        str_brandish="{name} takes out {weapon} and paints up the town!\n{tag}"
+        str_brandish=["{name} takes out {weapon} and paints up the town!\n{tag}"]
     ),
     EwWeapon(  # 27
         id_weapon=ewcfg.weapon_id_paintbrush,
@@ -1203,7 +1204,7 @@ weapon_list = [
             'miss_spray': "**Miss!** You finish with a paint can and have to switch! You waste too much time getting the can open.",
             'crit_spray': "**Critical hit!**  You hold the paint can in your mouth and start crab walking, throwing paint along the wall as you do it! Somehow, this is more efficient!",
             'equip_spray': "You get your brushes at the ready."},
-        str_brandish="{name} grips {weapon} tightly, pensive look on their face.\n{tag}"
+        str_brandish=["{name} grips {weapon} tightly, pensive look on their face.\n{tag}"]
     ),
     EwWeapon(  # 28
         id_weapon=ewcfg.weapon_id_watercolors,
@@ -1241,7 +1242,7 @@ weapon_list = [
             'crit_spray': "After the thousandth failed watercolor gesamtkunstwerk you decide enough is enough. Fuck this. Fuck the gangs, fuck the violence, fuck the perpetually rotting lets player that compels you to rigor mortis yourself more frequently than you eat breakfast. The spite is so concentrated that it compels you to turn your life around. You get a fake ID, join the PTA, and rope them into cleaning every last inch of this district until the homeless population smell like citrus and give out free, non-tainted lollipops. However, your newfound peaceful life is interrupted by the night terrors ENDLESS WAR now gives you on a daily basis, and you decide to go back to being a gangster. You suppose some things never change.",
             'equip_spray': "You get out your 12 pack of watercolors. Can't believe you have to use one of these."
         },
-        str_brandish="{name} prances around and sings a gay little song! **\"I'M A GIRL, I HAVE TITS, I HAVE PUSSY AND A CLIT, I'M A GIRL, I HAVE TITS, I HAVE PUSSY AND A CLIT!\"**"
+        str_brandish=["{name} prances around and sings a gay little song! **\"I'M A GIRL, I HAVE TITS, I HAVE PUSSY AND A CLIT, I'M A GIRL, I HAVE TITS, I HAVE PUSSY AND A CLIT!\"**"]
     ),
     EwWeapon(  # 29
         id_weapon=ewcfg.weapon_id_thinnerbomb,
@@ -1280,7 +1281,7 @@ weapon_list = [
             'crit_spray': "**Critical hit!** You take out a paint bomb and throw it at a particularly fragile looking building. The chemicals you used were so caustic that they burned a hole through the whole wall, preventing anyone from painting it for all of time!",
             'equip_spray': "You get your glass thinner bombs out you you can throw them in a moment's notice."
         },
-        str_brandish="{name} takes a huge whiff from {weapon}! They let out a confused battlecry and start tripping around!"
+        str_brandish=["{name} takes a huge whiff from {weapon}! They let out a confused battlecry and start tripping around!"]
     ),
     EwWeapon(  # 30
         id_weapon=ewcfg.weapon_id_staff,
@@ -1315,7 +1316,7 @@ weapon_list = [
         stat=ewcfg.stat_staff_kills,
         # sap_cost = 2,
         captcha_length=10,
-        str_brandish="{name} lifts {weapon} and begins to chant unholy incantations! Small rocks slowly rise from the ground around them... \n\nWhoops, they forgot the last bit. The spell collapses."
+        str_brandish=["{name} lifts {weapon} and begins to chant unholy incantations! Small rocks slowly rise from the ground around them... \n\nWhoops, they forgot the last bit. The spell collapses."]
     ),
     EwWeapon(  # 31
         id_weapon=ewcfg.weapon_id_hoe,
@@ -1340,7 +1341,7 @@ weapon_list = [
         # sap_cost = 2,
         captcha_length=2,
         is_tool=1,
-        str_brandish="{name} takes the piece of hay out of their mouth and spits chewing tobacco onto the ground! Varmints round here get {weapon} to the face."
+        str_brandish=["{name} takes the piece of hay out of their mouth and spits chewing tobacco onto the ground! Varmints round here get {weapon} to the face."]
     ),
     EwWeapon(  # 32
         id_weapon=ewcfg.weapon_id_pitchfork,
@@ -1365,7 +1366,7 @@ weapon_list = [
         # sap_cost = 2,
         captcha_length=2,
         is_tool=1,
-        str_brandish="{name} raises {weapon} into the air. Kill them! Kill them all!"
+        str_brandish=["{name} raises {weapon} into the air. Kill them! Kill them all!"]
     ),
     EwWeapon(  # 33
         id_weapon=ewcfg.weapon_id_shovel,
@@ -1390,7 +1391,7 @@ weapon_list = [
         # sap_cost = 2,
         captcha_length=2,
         is_tool=1,
-        str_brandish="{name} rams {weapon} into the ground. Time to strike the earth!"
+        str_brandish=["{name} rams {weapon} into the ground. Time to strike the earth!"]
     ),
     EwWeapon(  # 34
         id_weapon=ewcfg.weapon_id_slimeringcan,
@@ -1415,7 +1416,7 @@ weapon_list = [
         # sap_cost = 2,
         captcha_length=2,
         is_tool=1,
-        str_brandish="OK, {name}. I get that you're trying to be scary with {weapon} and all. It's a fucking watering can. Get real, garden boy."
+        str_brandish=["OK, {name}. I get that you're trying to be scary with {weapon} and all. It's a fucking watering can. Get real, garden boy."]
     ),
     EwWeapon(  # 35
         id_weapon=ewcfg.weapon_id_fingernails,
@@ -1443,7 +1444,7 @@ weapon_list = [
         stat=ewcfg.stat_fingernails_kills,
         # sap_cost = 3,
         captcha_length=8,
-        str_brandish=""
+        str_brandish=[""]
     ),
     EwWeapon(  # 35
         id_weapon=ewcfg.weapon_id_roomba,
@@ -1480,7 +1481,7 @@ weapon_list = [
             'crit_spray': "**Critical hit!** A bystander walking by kicks your roomba as it's moving, which inadvertently overclocks its processor!! It speeds around the area with reckless abandon. Go go go!",
             'equip_spray': "You pull out your roomba and set it on the ground."
         },
-        str_brandish="{name} can't find {weapon} anywhere! It's off vaccuming the sewer rats somewhere. They flip the bird instead."
+        str_brandish=["{name} can't find {weapon} anywhere! It's off vaccuming the sewer rats somewhere. They flip the bird instead."]
     ),
     EwWeapon(  # 36
         id_weapon=ewcfg.weapon_id_laywaster,
@@ -1510,7 +1511,7 @@ weapon_list = [
         vendors=[],
         classes=[],
         stat=ewcfg.stat_megachainsaw_kills,
-        str_brandish="{name} revs their Laywaster against a street sign! Sparks are flying!"
+        str_brandish=["{name} revs their Laywaster against a street sign! Sparks are flying!"]
     ),
     EwWeapon(  # 37
         id_weapon=ewcfg.weapon_id_chainsaw,
@@ -1540,7 +1541,7 @@ weapon_list = [
         vendors=[ewcfg.vendor_basedhardware],
         classes=[],
         stat=ewcfg.stat_chainsaw_kills,
-        str_brandish="{name} revs {weapon} against a street sign! Sparks are flying!"
+        str_brandish=["{name} revs {weapon} against a street sign! Sparks are flying!"]
     ),
     EwWeapon(  # 38
         id_weapon=ewcfg.weapon_id_huntingrifle,
@@ -1570,7 +1571,7 @@ weapon_list = [
         clip_size=6,
         acquisition=ewcfg.acquisition_smelting,
         captcha_length=4,
-        str_brandish="{name} uses {weapon} to poach a nearby elephant! How'd they find an elephant?"
+        str_brandish=["{name} uses {weapon} to poach a nearby elephant! How'd they find an elephant?"]
     ),
     EwWeapon(  # 39 Unused, untested afaik -K1P
         id_weapon=ewcfg.weapon_id_harpoon,
@@ -1600,7 +1601,7 @@ weapon_list = [
         price=1000000000,
         # YOU EITHER KILL 'EM OR YOU DON'T, BROTHERRRR
         clip_size=1,
-        str_brandish="{name} takes out {weapon} and racks their brain for a quote from Moby Dick. They can't think of a quote from Moby Dick."
+        str_brandish=["{name} takes out {weapon} and racks their brain for a quote from Moby Dick. They can't think of a quote from Moby Dick."]
     ),
     EwWeapon(  # 40
         id_weapon=ewcfg.weapon_id_model397,
@@ -1628,7 +1629,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_ammo],
         stat=ewcfg.stat_rifle_kills,
         clip_size=1000,
-        str_brandish="{name} uses {weapon} to poach a nearby white elephant! How'd they find a white elephant?"
+        str_brandish=["{name} uses {weapon} to poach a nearby white elephant! How'd they find a white elephant?"]
     ),
     EwWeapon(  # 41
         id_weapon=ewcfg.weapon_id_slimeoidwhistle,
@@ -1654,7 +1655,7 @@ weapon_list = [
         classes=[],
         stat=ewcfg.stat_whistle_kills,
         acquisition=ewcfg.acquisition_smelting,
-        str_brandish="{name} shakes {weapon}, but most people can't see it from this distance. It just looks like they're shaking their fist at them."
+        str_brandish=["{name} shakes {weapon}, but most people can't see it from this distance. It just looks like they're shaking their fist at them."]
     ),
     EwWeapon(  # 42 AWP
         id_weapon=ewcfg.weapon_id_awp, #need to make
@@ -1684,7 +1685,7 @@ weapon_list = [
         stat=ewcfg.stat_sniper_kills,
         clip_size=6,
         captcha_length=4,
-        str_brandish="{name} realizes brandishing {weapon} is a daft idea. They're trying to take targets out from a distance, they're not supposed to know about that."
+        str_brandish=["{name} realizes brandishing {weapon} is a daft idea. They're trying to take targets out from a distance, they're not supposed to know about that."]
     ),
     EwWeapon(  # 43 DPick
         id_weapon=ewcfg.weapon_id_diamondpickaxe,
@@ -1712,7 +1713,7 @@ weapon_list = [
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_diamond_pickaxe_kills,
         is_tool=1,
-        str_brandish="{name} starts ramming {weapon} into the ground, whistling Minecraft parodies as they work!"
+        str_brandish=["{name} starts ramming {weapon} into the ground, whistling Minecraft parodies as they work!"]
     ),
     EwWeapon(  # 44
         id_weapon=ewcfg.weapon_id_monofilamentwhip,
@@ -1739,7 +1740,7 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='small_game'),
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_monowhip_kills,
-        str_brandish="{name} cracks {weapon} in the air! The sparks almost burn off their eyebrow!"
+        str_brandish=["{name} cracks {weapon} in the air! The sparks almost burn off their eyebrow!"]
     ),
     EwWeapon(  # 45
         id_weapon=ewcfg.weapon_id_fists,
@@ -1760,7 +1761,7 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='unarmed'),
         price=0,
         stat=ewcfg.stat_unarmed_kills,
-        str_brandish=""
+        str_brandish=[""]
     ),
     EwWeapon(  # 46
         id_weapon=ewcfg.weapon_id_sledgehammer,
@@ -1785,7 +1786,7 @@ weapon_list = [
         price=1000000,
         vendors=[ewcfg.vendor_basedhardware],
         stat=ewcfg.stat_sledgehammer_kills,
-        str_brandish="{name} finds the closest thing to destroy and hurls {weapon} into it!"
+        str_brandish=["{name} finds the closest thing to destroy and hurls {weapon} into it!"]
     ),
     EwWeapon(  # 47
         id_weapon=ewcfg.weapon_id_skateboard,
@@ -1810,7 +1811,30 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='variable_damage'),
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_skateboard_kills,
-        str_brandish="Try !stunt."
+        str_brandish=["Try !stunt."]
+    ),
+EwWeapon(  # 48
+        id_weapon=ewcfg.weapon_id_juvierang,
+        alias=[
+            "boomerang",
+            "juverang"
+        ],
+        str_crit="**Critical hit!!** {name_player}'s juvierang collides with its target!",
+        str_miss="**MISS!!** {name_player}'s juvierang flies away!",
+        str_equip="You equip the juvierang.",
+        str_name="juvierang",
+        str_weapon="a juvierang",
+        str_weaponmaster_self="You are a rank {rank} {title} 'rang-er.",
+        str_weaponmaster="They are a rank {rank} {title} 'rang-er.",
+        str_kill="**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}",
+        str_killdescriptor="'rang'd",
+        str_damage="{name_target} is knocked by a 'rang in the {hitzone}!!",
+        str_duel="**WHIP! WHAP!!** {name_player} and {name_target} throw juvierangs at eachother like they're playing tower defense.",
+        str_description="It's a run-of-the-mill 'rang.",
+        str_scalp=" It's got an L-shaped impression on it. Loser!",
+        fn_effect=get_normal_attack(weapon_type='small_game'),
+        stat=ewcfg.stat_juvierang_kills,
+        str_brandish=["{name} does an overdramatic spin and tosses {weapon} into the air. It returns to them, just like you'd expect."]
     ),
     EwWeapon(  # 48
         id_weapon=ewcfg.weapon_id_missilelauncher,
@@ -1973,6 +1997,10 @@ weapon_list = [
         str_brandish="{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing.",
     ),
 ]
+
+for weapon in weapon_list:
+    comm_cfg.blurb_context_map[weapon.id_weapon + "killtext"] = weapon.str_kill
+
 
 # A map of id_weapon to EwWeapon objects.
 weapon_map = {}

@@ -8,6 +8,7 @@ from ..static import hue as hue_static
 from ..static import items as static_items
 from ..static import weapons as static_weapons
 from ..utils import core as ewutils
+from ew.backend.dungeons import EwGamestate
 try:
     from ..utils import rutils as ewrelicutils
 except:
@@ -347,7 +348,7 @@ def item_create(
     else:
         template_id = "-1"
 
-    if (item_type == ewcfg.it_relic or item_props.get('acquisition') == 'relic') and ewrelicutils.canCreateRelic(template_id, id_server, 0 if ewutils.DEBUG else 1) != 1:
+    if (item_type == ewcfg.it_relic or item_props.get('acquisition') == 'relic') and ewrelicutils.canCreateRelic(template_id, id_server, 0 if ewutils.DEBUG_OPTIONS.get('duperelics') else 1) != 1:
         badRelic = 1
 
     if badRelic == 0:
@@ -385,12 +386,15 @@ def item_create(
                 if item_props != None or item_def.item_props != None:
                     item_inst = EwItem(id_item = item_id)
 
+                    if item_inst.item_type == ewcfg.it_relic:
+                        gamestate = EwGamestate(id_state=template_id, id_server=id_server)
+                        gamestate.number = item_id
+                        gamestate.persist()
                     if item_def.item_props != None:
                         item_inst.item_props.update(item_def.item_props)
 
                     if item_props != None:
                         item_inst.item_props.update(item_props)
-
                     item_inst.persist()
 
                 conn.commit()
@@ -869,7 +873,7 @@ def inventory(
                                     print('Item {} lacks an id_cosmetic attribute. Formatting now...'.format(id_item))
                                     placeholder_id = 'oldcosmetic'
                                 else:
-                                    print('Item {} has an invlaid id_cosmetic of {}. Formatting now...'.format(item_data.item_props, item_data.item_props.get('id_cosmetic')))
+                                    print('Item {} has an invalid id_cosmetic of {}. Formatting now...'.format(item_data.item_props, item_data.item_props.get('id_cosmetic')))
                                     placeholder_id = item_data.item_props.get('id_cosmetic')
 
                                 item_data.item_props = {
