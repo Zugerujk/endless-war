@@ -3411,6 +3411,7 @@ for g in food_list:
 
 # list of crops you're able to !reap
 vegetable_list = []
+vegetable_ids_list = []
 
 # map of vegetables to their associated cosmetic material
 vegetable_to_cosmetic_material = {}
@@ -3433,6 +3434,7 @@ for v in food_list:
             vegetable_to_cosmetic_material[v.id_food] = ewcfg.item_id_tough_material
 
         vegetable_list.append(v)
+        vegetable_ids_list.append(v.id_food)
 
 candy_ids_list = []
 for c in food_list:

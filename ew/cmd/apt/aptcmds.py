@@ -985,10 +985,10 @@ async def apt_look(cmd):
         poi = poi_static.id_to_poi.get(apt_model.poi)
         isVisiting = True
 
-    response = "You stand in {}, your flat in {}.\n\n{}\n\n".format(apt_model.name, poi.str_name, apt_model.description)
-
+    response = "You stand in {}, your flat in {}.\n\n{}\n".format(apt_model.name, poi.str_name, apt_model.description)
+    
     if isVisiting:
-        response = response.replace("your", "a")
+        response = response.replace("your flat", "a flat")
 
     resp_cont.add_channel_response(cmd.message.channel, response)
 
@@ -996,21 +996,28 @@ async def apt_look(cmd):
     decorate_resp = apt_decorate_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, decorate_resp)
 
+    # Add an extra line break between furniture and storage
+    resp_cont.add_channel_response(cmd.message.channel, "") # Response container will add extra line itself
+
     # Fridge Compartment
-    fridge_response = "\n\n" + apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, fridge_response)
+    fridge_response = apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if fridge_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + fridge_response)
 
     # Closet Compartment
-    closet_response = "\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, closet_response)
+    closet_response = apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if closet_response != "":  # currently always returns actual text
+        resp_cont.add_channel_response(cmd.message.channel, "" + closet_response)
 
     # Bookshelf Compartment
-    shelf_response = "\n" + apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, shelf_response)
+    shelf_response = apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if shelf_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + shelf_response)
 
     # Freezer Compartment
-    freeze_response = "\n" + apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, freeze_response)
+    freeze_response = apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if freeze_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + freeze_response)
 
     return await resp_cont.post(channel=cmd.message.channel)
 

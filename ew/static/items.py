@@ -3582,6 +3582,17 @@ furniture_list = [
         furn_set='collection'
     ),
     EwFurniture(
+        id_furniture="portablegreenhouse",
+        str_name="portable greenhouse",
+        str_desc="{greenhouse_inspect}",
+        rarity = 'Plebeian',
+        price=1000000,
+        vendors=[ewcfg.vendor_giftshop],
+        furniture_place_desc = "You set up the portable greenhouse near the window.",
+        furniture_look_desc = "A portable greenhouse is put near the window.",
+        furn_set='collection'
+    ),
+    EwFurniture(
         id_furniture="generalcollection",
         str_name="general collection",
         str_desc="{general_collection}",

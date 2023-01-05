@@ -133,7 +133,7 @@ def apt_collection_look_str(id_server: int, id_item: int, show_capacity: bool = 
         collection_name = item.item_props.get('furniture_name')
         max_capacity = 50
 
-    response = "\n**The {} holds:\n**".format(collection_name)
+    response = "**The {} holds:\n**".format(collection_name)
 
     # Get the collection's inventory
     collection = bknd_item.inventory(id_server=id_server, id_user=collection_inv_id)
@@ -152,13 +152,14 @@ def apt_collection_look_str(id_server: int, id_item: int, show_capacity: bool = 
 
     # Specify capacity if requested
     if show_capacity:
-        response += f"\n\n{collection_name} Capacity: ({len(collection)}/{max_capacity})"
+        response += f"\n{collection_name} Capacity: ({len(collection)}/{max_capacity})"
 
     return response
 
 
 def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     furn_response = ""
+    collections_placed = False
     furns = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_decorate, id_server=id_server, item_type_filter=ewcfg.it_furniture)
     furniture_id_list = []
     collections_id_list = []
@@ -167,6 +168,7 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
         # Collections are collected and handled in a separate area
         if i.item_props.get('id_furniture') in static_items.furniture_collection:
             collections_id_list.append(furn.get('id_item'))
+            collections_placed = True
         else:
             furn_response += "{} ".format(i.item_props['furniture_look_desc'])
             furniture_id_list.append(i.item_props['id_furniture'])
@@ -223,6 +225,8 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
     for collection_id in collections_id_list:
         collection_response = apt_collection_look_str(id_server=id_server, id_item=collection_id, show_capacity=show_capacity)
         furn_response += "\n" + collection_response
+    if collections_placed is True:
+        furn_response += "\n*('!inspect' collections for more info)*"
 
     return furn_response
 
@@ -309,9 +313,10 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
 
 
 def apt_bookshelf_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
-    response = "**The bookshelf contains:**\n"
+    response = ""
     shelves = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_bookshelf, id_server=id_server)
     if shelves:
+        response += "**The bookshelf contains:**\n"
         shelf_pile = []
         for shelf in shelves:
             shelf_pile.append(shelf.get('name'))

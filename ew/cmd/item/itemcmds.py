@@ -833,6 +833,8 @@ async def item_look(cmd):
                         response = response.format(soul_cylinder=itm_u.get_soul_collection(id_item=item.id_item, id_server=item.id_server))
                     elif 'weapon_chest' in response:
                         response = response.format(weapon_chest = itm_u.get_weapon_collection(id_item=item.id_item, id_server=item.id_server))
+                    elif 'greenhouse_inspect' in response:
+                        response = response.format(greenhouse_inspect = itm_u.get_crop_collection(id_item=item.id_item, id_server=item.id_server))
                     elif 'general_collection' in response:
                         response = response.format(general_collection = itm_u.get_general_collection(id_item=item.id_item, id_server=item.id_server))
 
@@ -2056,7 +2058,9 @@ async def collect(cmd):
               (collectiontype == 'soulcylinder' and item.item_props.get('id_cosmetic') != 'soul') or 
               (collectiontype == 'scalpcollection' and item.item_props.get('id_cosmetic') != 'scalp') or 
               (collectiontype == 'largeaquarium' and item.item_props.get('acquisition') != ewcfg.acquisition_fishing) or 
-              (item.item_props.get('id_furniture') in static_items.furniture_collection)):
+              (collectiontype == 'portablegreenhouse' and item.item_props.get('id_food') not in static_food.vegetable_ids_list) or
+              (item.item_props.get('id_furniture') in static_items.furniture_collection) 
+              ):
 
             response = "You've got the wrong item type. It's a {}, try and guess what it's for.".format(item_sought_col.get('name'))
 
@@ -2136,6 +2140,7 @@ async def remove_from_collection(cmd):
 
 async def rename_collection(cmd):
     user_data = EwUser(member=cmd.message.author)
+    poi = poi_static.id_to_poi.get(user_data.poi)
 
     # Requires at least 3 tokens
     if cmd.tokens_count < 3:
@@ -2143,6 +2148,9 @@ async def rename_collection(cmd):
     else:
         item_sought = cmd.tokens[1]
         collection_sought = bknd_item.find_item(item_search=item_sought, id_user=user_data.id_user, id_server=user_data.id_server)
+
+        if collection_sought is None and poi.is_apartment and user_data.visiting == "empty":
+            collection_sought = bknd_item.find_item(item_search=item_sought, id_user="{}decorate".format(user_data.id_user), id_server=user_data.id_server)
 
         if not collection_sought:
             response = "You don't have that collection in your inventory."
@@ -2157,7 +2165,7 @@ async def rename_collection(cmd):
             collection.item_props['furniture_name'] = collection_name_draft
             collection.persist()
 
-            response = "With a stray marker, you write on the collection. It is now known as a \"{}\"!".format(collection_name_draft)
+            response = "You write on the collection with a stray marker. It is now known as a \"{}\"!".format(collection_name_draft)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

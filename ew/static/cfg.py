@@ -5047,6 +5047,30 @@ rain_protection = [
     weapon_id_umbrella
 ]
 
+crop_icon_map = {
+item_id_poketubers: emote_poketubers,
+item_id_pulpgourds: emote_pulpgourds,
+item_id_sourpotatoes: emote_sourpotatoes,
+item_id_bloodcabbages: emote_bloodcabbages,
+item_id_joybeans: emote_joybeans,
+item_id_purplekilliflower: emote_killiflower,
+item_id_razornuts: emote_razornuts,
+item_id_pawpaw: emote_pawpaw,
+item_id_sludgeberries: emote_sludgeberries,
+item_id_suganmanuts: emote_suganmanuts,
+item_id_pinkrowddishes: emote_pinkrowddishes,
+item_id_dankwheat: emote_dankwheat,
+item_id_brightshade: emote_brightshade,
+item_id_blacklimes: emote_blacklimes,    
+item_id_phosphorpoppies: emote_phosphorpoppies,
+item_id_direapples: emote_direapples,
+item_id_rustealeaves: emote_rustealeaves,
+item_id_metallicaps: emote_metallicaps,
+item_id_steelbeans: emote_steelbeans,
+item_id_aushucks: emote_aushucks,
+item_id_partypoppeppers: emote_partypoppeppers,
+}
+
 event_type_slimeglob = "slimeglob"
 event_type_slimefrenzy = "slimefrenzy"
 event_type_poudrinfrenzy = "poudrinfrenzy"
