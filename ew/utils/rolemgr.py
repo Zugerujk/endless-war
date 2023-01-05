@@ -224,19 +224,19 @@ async def remove_user_overwrites(cmd):
 
         channel = fe_utils.get_channel(server, searched_channel)
 
-        if channel == None:
+        if channel is None:
             # Second try
             channel = fe_utils.get_channel(server, searched_channel)
-            if channel == None:
+            if channel is None:
                 continue
 
         # print('{} overwrites: {}'.format(poi.id_poi, channel.overwrites))
-        for tuple in channel.overwrites:
+        for tuples in channel.overwrites:
             # print('tuplevar: {}'.format(tuple) + '\n\n')
-            if tuple not in server.roles:
-                member = tuple
+            if tuples not in server.roles:
+                member = tuples
 
-                print('removed overwrite in {} for {}'.format(channel, member))
+                ewutils.logMsg('Removed overwrite in {} for {}'.format(channel, member))
 
                 for i in range(ewcfg.permissions_tries):
                     await channel.set_permissions(member, overwrite=None)
