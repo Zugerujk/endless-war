@@ -1831,7 +1831,7 @@ async def commands(cmd):
         response += "Commands:\n" + ewcfg.basic_commands
 
     elif ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':
-        poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2]) if cmd.tokens_count >= 3 else ""
+        poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2:]) if cmd.tokens_count >= 3 else ""
         poi_sought = poi_static.id_to_poi.get(poi_look, None)
         if poi_sought:
             command_output = location_commands(cmd=cmd, search_poi=poi_sought.id_poi)
