@@ -66,7 +66,7 @@ def bazaarTurnout():
 
 
 async def contentCheck():
-    return
+    return False
 
 
 async def debug24():
