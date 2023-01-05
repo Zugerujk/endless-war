@@ -1979,15 +1979,15 @@ async def collect(cmd):
     collection_seek = cmd.tokens[1]
     # Check for collection in apartment's decorate inventory
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
-    # If user has packrat, check their actual inventory
-    if item_sought_col is None and ewcfg.mutation_id_packrat in user_data.get_mutations():
+    # If user has packrat or is in their apartment, check their actual inventory
+    if item_sought_col is None and ((ewcfg.mutation_id_packrat in user_data.get_mutations()) or (poi.is_apartment and user_data.visiting == ewcfg.location_id_empty)):
         item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
 
     item_seek = cmd.tokens[2]
     item_sought_item = bknd_item.find_item(item_search=item_seek, id_user=user_data.id_user, id_server=user_data.id_server)
 
     # Stop the command if a variety of things
-    if not poi.is_apartment or user_data.visiting != ewcfg.location_id_empty and ewcfg.mutation_id_packrat not in user_data.get_mutations():
+    if (user_data.visiting != ewcfg.location_id_empty or not poi.is_apartment) and ewcfg.mutation_id_packrat not in user_data.get_mutations():
         response = "Nobody can know about your shameful hoarding habits. Add to your collections in your apartment."
     elif not item_sought_col:
         response = "You need a collection stowed in your apartment."
