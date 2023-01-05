@@ -750,14 +750,17 @@ async def scout(cmd):
             extended_range = True
 
         # Create a list of all valid pois
-        valid_pois = set()    
+        valid_pois = set()
         valid_pois.add(user_data.poi)
-        neighbors = poi_static.poi_neighbors.get(user_data.poi)
+        neighbors = []
+        neighbors.extend(poi_static.poi_neighbors.get(user_data.poi))
+        if user_poi.is_apartment:
+            neighbors.extend(user_poi.mother_districts)
 
         # If the user is on any transport, the current stop is treated as a neighbor
         if user_poi.is_transport:
             transport_data = EwTransport(id_server=user_data.id_server, poi=user_poi.id_poi)
-            neighbors.add(transport_data.current_stop)
+            neighbors.append(transport_data.current_stop)
 
         # Add neighbors to list, plus their neighbors if extended range
         for neigh in neighbors:

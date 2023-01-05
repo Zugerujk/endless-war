@@ -362,9 +362,9 @@ mutations = [
         alias=['pack', 'rat', 'pr'],
         str_describe_self="Your constant hoarding has sabotaged your whole life due to **Packrat**.",
         str_describe_other="Their constant hoarding has sabotaged their whole life due to **Packrat**.",
-        str_acquire="Your posture suddenly begins to contort, and you hunch forward. A hairless tail worms its way out of your backend and onto the floor. Paranoia washes over you, and you dart your eyes across your surroundings, looking for any sign of thieves of Freemasons. You remember the milk carton you threw away in the food court the other day and can't forgive yourself. That was the key to everything. You have developed the mutation **Packrat**. You can store twice as much in your apartment.",
+        str_acquire="Your posture suddenly begins to contort, and you hunch forward. A hairless tail worms its way out of your backend and onto the floor. Paranoia washes over you, and you dart your eyes across your surroundings, looking for any sign of thieves of Freemasons. You remember the milk carton you threw away in the food court the other day and can't forgive yourself. That was the key to everything. You have developed the mutation **Packrat**. You can store twice as much in your apartment, as well as !collect into collections while outside your apartment.",
         tier=1,
-        str_transplant="Dr. Dusttrap gives you a session of what she calls \"reverse therapy\". She pries into your life story, untangling every shred of vice you posess until you're unable to handle reality anymore. To cope, you now have a terrible hoarding issue.\n\nYou have developed the mutation **Packrat**. You can store twice as much in your apartment.",
+        str_transplant="Dr. Dusttrap gives you a session of what she calls \"reverse therapy\". She pries into your life story, untangling every shred of vice you posess until you're unable to handle reality anymore. To cope, you now have a terrible hoarding issue.\n\nYou have developed the mutation **Packrat**. You can store twice as much in your apartment, as well as !collect into collections while outside your apartment.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_landlocked,
