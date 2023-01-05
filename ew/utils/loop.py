@@ -1404,7 +1404,7 @@ async def clock_tick_loop(id_server, force_active = False):
                     await fe_utils.send_message(client, sex_channel, response)
 
                 ewutils.logMsg("Finished clock tick.")
-                await asyncio.sleep(60)
+            await asyncio.sleep(60)
 
         except Exception as e:
             traceback.print_exc(file=sys.stdout)

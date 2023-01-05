@@ -558,5 +558,19 @@ CREATE TABLE quest_records (
 );
 
 
+CREATE TABLE yachts(
 
 
+);
+/*ewcfg.col_name_yacht,
+                        ewcfg.col_thread_id,
+                        ewcfg.col_id_user,
+                        ewcfg.col_flood,
+                        ewcfg.col_filth,
+                        ewcfg.col_helm,
+                        ewcfg.col_cannon,
+                        ewcfg.col_storehouse,
+                        ewcfg.col_poopdeck,
+                        ewcfg.col_xcoord,
+                        ewcfg.col_ycoord,
+                        ewcfg.col_speed*/
