@@ -65,7 +65,7 @@ def bazaarTurnout():
     return 1
 
 
-async def contentCheck():
+async def contentCheck(cmd='', line= ''):
     return False
 
 
