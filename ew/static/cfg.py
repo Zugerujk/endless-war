@@ -1716,7 +1716,7 @@ moon_special = "green" #               glows
 
 #enemy count limits
 max_npcs = 20
-max_normal_enemies = 30
+max_normal_enemies = 50
 # strength of the burn applied every weather tick by firestorms
 firestorm_slime_burn = 100000
 
