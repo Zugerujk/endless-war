@@ -1412,6 +1412,8 @@ async def propstand(cmd):
 
         if item.soulbound:
             response = "Cool idea, but no. If you tried to mount a soulbound item above the fireplace you'd be stuck there too."
+        elif item.item_type == ewcfg.it_relic:
+            response = "Hey, can't help but notice that you don't run a museum. Only people that run a museum are allowed to stick priceless artifacts on pedestals. Think you can handle that, bitch?"
         else:
             if item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
                 if usermodel.weaponmarried:

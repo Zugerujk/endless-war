@@ -128,61 +128,61 @@ generic_fishing_text = [
     "Fish...",
 ]
 normal_fishing_text = [
-                          "You watch your hook bob...",
-                          "You see a fish about to bite your hook, but you shout in elation, scaring it away...",
-                          "You make direct eye contact with a fish, only to quickly look away...",
-                          "♪ Fishing for Fishies! ♪",
-                          "♪ That Captain Albert Alexander! ♪",
-                          "Still better than Minesweeper...",
-                          "Man... Why were you excited for this shit?",
-                          "You begin to daydream about fish sex... Gross...",
-                          "You begin to daydream about fish sex... Hot...",
-                          "You get the urge to jump in and try to grab a fish, before remembering that you can't swim...",
-                          "You jitter as other seamen catch fish before you. Fuck fishing...",
-                          "You shake your head as a young seaman baits a perfectly good slice of pizza on his hook... What a cretin...",
-                          "Wouldn't it be funny if you just reached into the sea and grabbed one? Haha, yeah, that'd be funny...",
-                          "You see a bird carry off a Plebefish in the distance... Good riddance...",
-                          "You spot a stray bullet in the distance...",
-                          "You see a dead body float up to the surface of the Slime...",
-                          "You let out a deep sigh, scaring away a fish...",
-                          "♪ Don't worry, stay slimey... ♪",
-                      ] + generic_fishing_text
+    "You watch your hook bob...",
+    "You see a fish about to bite your hook, but you shout in elation, scaring it away...",
+    "You make direct eye contact with a fish, only to quickly look away...",
+    "♪ Fishing for Fishies! ♪",
+    "♪ That Captain Albert Alexander! ♪",
+    "Still better than Minesweeper...",
+    "Man... Why were you excited for this shit?",
+    "You begin to daydream about fish sex... Gross...",
+    "You begin to daydream about fish sex... Hot...",
+    "You get the urge to jump in and try to grab a fish, before remembering that you can't swim...",
+    "You jitter as other seamen catch fish before you. Fuck fishing...",
+    "You shake your head as a young seaman baits a perfectly good slice of pizza on his hook... What a cretin...",
+    "Wouldn't it be funny if you just reached into the sea and grabbed one? Haha, yeah, that'd be funny...",
+    "You see a bird carry off a Plebefish in the distance... Good riddance...",
+    "You spot a stray bullet in the distance...",
+    "You see a dead body float up to the surface of the Slime...",
+    "You let out a deep sigh, scaring away a fish...",
+    "♪ Don't worry, stay slimey... ♪",
+] + generic_fishing_text
 void_fishing_text = [
-                        "You get the urge to jump in and try to grab a fish, before the voice reminds you that you can't swim...",
-                        "Did the water just wink at you?",
-                        "That guy in the water looks so handsome... You should give him your number.",
-                        "Your mother motions you to join her in the water; it's nice and warm!",
-                        "HAHAHAHA OH WOW",
-                        "Hmmm?",
-                        "Man, the water looks fucking delicious. You should take a sip.",
-                        "Wait, why did you come here again?",
-                        "God, what a beautiful smile. So many of them, too.",
-                        "Go on, take a nap. The fish will wait for you.",
-                        "What is _that_?",
-                        "The girl across the pond has such a nice voice... Please keep singing...",
-                    ] + generic_fishing_text
+    "You get the urge to jump in and try to grab a fish, before the voice reminds you that you can't swim...",
+    "Did the water just wink at you?",
+    "That guy in the water looks so handsome... You should give him your number.",
+    "Your mother motions you to join her in the water; it's nice and warm!",
+    "HAHAHAHA OH WOW",
+    "Hmmm?",
+    "Man, the water looks fucking delicious. You should take a sip.",
+    "Wait, why did you come here again?",
+    "God, what a beautiful smile. So many of them, too.",
+    "Go on, take a nap. The fish will wait for you.",
+    "What is _that_?",
+    "The girl across the pond has such a nice voice... Please keep singing...",
+] + generic_fishing_text
 moon_fishing_text = [
-                        "You see your line floating through space. How long is this thing anyway?",
-                        "A little asteroid flies by, colliding with another. Quite beautiful, really.",
-                        "There's an astronaut in the distance floating by. You should give them your number.",
-                        "How are you breathing, again?",
-                        "ARHGHGHHHHGHH!!!",
-                        "What?",
-                        "Hold on...",
-                        "https://cdn.discordapp.com/attachments/748116009470132274/841975359888293898/video0.mov",
-                        "Guh?",
-                        "It's a lovely night, isn't it? At least you think. There's not exactly a day-night cycle on the moon.  ",
-                        "Wait, how did you get here again?",
-                        "You see a Space Carp fly by. What pricks.",
-                        "You take a bite of a moon rock. Cheesy!",
-                        "You think of almond sex...",
-                        "Your mom is so fat, you can see her from all the way up here!",
-                        "You whistle a tune...",
-                        "♪ Singing in the Rain! ♪",
-                        "♪ I'm so freaky fishy fishy, I'm so freaky fishy fishy. ♪",
-                        "You spot your pals waving from below!",
-                        "You think of all your favorite Dreamworks films..."
-                    ]
+    "You see your line floating through space. How long is this thing anyway?",
+    "A little asteroid flies by, colliding with another. Quite beautiful, really.",
+    "There's an astronaut in the distance floating by. You should give them your number.",
+    "How are you breathing, again?",
+    "ARHGHGHHHHGHH!!!",
+    "What?",
+    "Hold on...",
+    "https://cdn.discordapp.com/attachments/748116009470132274/841975359888293898/video0.mov",
+    "Guh?",
+    "It's a lovely night, isn't it? At least you think. There's not exactly a day-night cycle on the moon.  ",
+    "Wait, how did you get here again?",
+    "You see a Space Carp fly by. What pricks.",
+    "You take a bite of a moon rock. Cheesy!",
+    "You think of almond sex...",
+    "Your mom is so fat, you can see her from all the way up here!",
+    "You whistle a tune...",
+    "♪ Singing in the Rain! ♪",
+    "♪ I'm so freaky fishy fishy, I'm so freaky fishy fishy. ♪",
+    "You spot your pals waving from below!",
+    "You think of all your favorite Dreamworks films..."
+]
 
 
 bazaar_distractions = [
@@ -265,7 +265,6 @@ curator_insults = [
     "MUPPET BABY",
     "PLACEMAT",
     "MILE-HIGH SHITSTACK"
-
 ]
 
 #skateboard responses
@@ -354,7 +353,6 @@ mixtapes = ['', '']
 context_guide = ""
 
 district_blurbs = {}
-
 
 
 blurb_context_map = {
@@ -495,6 +493,15 @@ monowhipkilltext = [
     "{name_player} repeatedly lashes {name_target} with their monowhip. {name_target} stumbles backwards before eventually falling into tiny meat slices. {emote_skull}",
     "{name_player} tosses out their monowhip, snagging it around {name_target}'s chest. With one tug, {name_target} is reduced to nothing but a bleeding torso. {emote_skull}",
     "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a messy pile of body parts. {emote_skull}"
+]
+
+juvierangkilltext = [
+    "**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}",
+]
+
+foodbasketkilltext = [
+    "{name_player} opens their basket and pulls out something unintelligible! The last moments of {name_target}'s life is getting beaten to death by what was once edible long, long ago. {emote_skull}",
+    "{name_player} makes a fatal throw of inedible foodstuffs right into {name_target}'s mouth! They choke to death on the hunk of petrified food. {emote_skull}"
 ]
 
 broadswordkilltext = [
@@ -708,9 +715,4 @@ unarmedkilltext = [
 diamondpickaxekilltext = [
     "{name_player}'s shiny diamond pickaxe inspires awe from passersby. {name_target} tries to diss their style, only to meet the business end of the pick. {emote_skull}",
     "{name_player} is flaunting their style! They're a block game PvP master, expertly block jumping and sprint dashing like the best of them. {name_target} stands no chance and gets blown away. {name_player} crouch spams in disrespect. {emote_skull}"
-]
-
-foodbasketkilltext = [
-    "{name_player} opens their basket and pulls out something unintelligible! The last moments of {name_target}'s life is getting beaten to death by what was once edible long, long ago. {emote_skull}",
-    "{name_player} makes a fatal throw of inedible foodstuffs right into {name_target}'s mouth! They choke to death on the hunk of petrified food. {emote_skull}"
 ]

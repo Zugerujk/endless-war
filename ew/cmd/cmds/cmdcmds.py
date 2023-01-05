@@ -2384,47 +2384,7 @@ async def yoslimernalia(cmd: EwCmd):
     ewstats.increment_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_festivity)
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
-
-async def slimernaliastage(cmd: EwCmd):
-    """ Returns the current slimernalia event stage. """
-    return await fe_utils.send_response(f"Slimernalia is currently at Stage {ewcfg.slimernalia_stage}.", cmd)
-
-
 # Admin commands
-async def announceslimernaliastage(cmd: EwCmd):
-    """ Announces the patch notes for the current/past slimernalia event stages. """
-    if not cmd.message.author.guild_permissions.administrator:
-        return
-    # Unpack tokens, if 'all' is anywhere after the main commad print everything up to where we are currently at
-    # e.g. !announcefestivestage when you're at stage 4 will just announce stage 4
-    # ! announcefestivestage all when you're at stage 4 will announce stages 1, 2, 3 & 4
-    print_all = False
-    if "all" in cmd.tokens:
-        print_all = True
-
-    await fe_utils.announce_slimernalia_stage_increase(cmd.client, cmd.guild, print_all)
-
-    return await fe_utils.send_response("Announced them there stages for ya, sonny!", cmd)
-
-
-async def setslimernaliastage(cmd):
-    """ Allows an admin to set the slimernalia event stage manually. """
-    if not cmd.message.author.guild_permissions.administrator:
-        return
-
-    # Verify what the user sent
-    if len(cmd.tokens) > 1 and str.isnumeric(cmd.tokens[1]):
-        if int(cmd.tokens[1]) <= len(ewcfg.slimernalia_stage_announcements):
-            ewcfg.slimernalia_stage = int(cmd.tokens[1])
-            response = f"Set festivity stage to {ewcfg.slimernalia_stage}"
-        else:
-            response = f"Wuh? There's only {len(ewcfg.slimernalia_stage_announcements)} stages."
-    else:
-        response = "It's !setfestivitystage <int>."
-
-    return await fe_utils.send_response(response, cmd)
-
-
 async def slimecoin(cmd):
     """ Show player's slimecoin balance """
     if cmd.mentions_count == 0:
