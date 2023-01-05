@@ -121,14 +121,57 @@ def prepare_compartment_capacity(id_user, id_server, compartment) -> int:
     return max_capacity
 
 
+def apt_collection_look_str(id_server: int, id_item: int, show_capacity: bool = False) -> str:
+    item = EwItem(id_item=id_item)
+    collection_inv_id = "{}collection".format(id_item)
+
+    # General collections will have italicized names
+    if item.item_props.get('id_furniture') == "generalcollection":
+        collection_name = "*{}*".format(item.item_props.get('furniture_name'))
+        max_capacity = 10
+    else:
+        collection_name = item.item_props.get('furniture_name')
+        max_capacity = 50
+
+    response = "**The {} holds:\n**".format(collection_name)
+
+    # Get the collection's inventory
+    collection = bknd_item.inventory(id_server=id_server, id_user=collection_inv_id)
+
+    # Get all the item names
+    if collection:
+        hammerspace = []
+        for thing in collection:
+            hammerspace.append(thing.get('name'))
+        
+        if hammerspace == []:
+            response += "Nothing!"
+        else:
+            response += ewutils.formatNiceList(hammerspace)
+            response = response + '.'
+
+    # Specify capacity if requested
+    if show_capacity:
+        response += f"\n{collection_name} capacity: ({len(collection)}/{max_capacity})"
+
+    return response
+
+
 def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     furn_response = ""
+    collections_placed = False
     furns = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_decorate, id_server=id_server, item_type_filter=ewcfg.it_furniture)
     furniture_id_list = []
+    collections_id_list = []
     for furn in furns:
         i = EwItem(furn.get('id_item'))
-        furn_response += "{} ".format(i.item_props['furniture_look_desc'])
-        furniture_id_list.append(i.item_props['id_furniture'])
+        # Collections are collected and handled in a separate area
+        if i.item_props.get('id_furniture') in static_items.furniture_collection:
+            collections_id_list.append(furn.get('id_item'))
+            collections_placed = True
+        else:
+            furn_response += "{} ".format(i.item_props['furniture_look_desc'])
+            furniture_id_list.append(i.item_props['id_furniture'])
 
         hue = hue_static.hue_map.get(i.item_props.get('hue'))
         if hue is not None and i.item_props.get('id_furniture') not in static_items.furniture_specialhue:
@@ -139,37 +182,35 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
             else:
                 furn_response = furn_response.replace("-*HUE*-", "white")
 
-    furn_response += "\n\n"
-
     # FIXME Refactor this for the love of god
     if all(elem in furniture_id_list for elem in static_items.furniture_lgbt):
-        furn_response += "This is the most homosexual room you could possibly imagine. Everything is painted rainbow. A sign on your bedroom door reads \"FORNICATION ZONE\". There's so much love in the air that some dust mites set up a gay bar in your closet. It's amazing.\n\n"
+        furn_response += "\nThis is the most homosexual room you could possibly imagine. Everything is painted rainbow. A sign on your bedroom door reads \"FORNICATION ZONE\". There's so much love in the air that some dust mites set up a gay bar in your closet. It's amazing."
     if all(elem in furniture_id_list for elem in static_items.furniture_haunted):
-        furn_response += "One day, on a whim, you decided to say \"Levy Jevy\" 3 times into the mirror. Big mistake. Not only did it summon several staydeads, but they're so enamored with your decoration that they've been squatting here ever since.\n\n"
+        furn_response += "\nOne day, on a whim, you decided to say \"Levy Jevy\" 3 times into the mirror. Big mistake. Not only did it summon several staydeads, but they're so enamored with your decoration that they've been squatting here ever since."
     if all(elem in furniture_id_list for elem in static_items.furniture_highclass):
-        furn_response += "This place is loaded. Marble fountains, fully stocked champagne fridges, complementary expensive meats made of bizarre unethical ingredients, it's a treat for the senses. You wonder if there's any higher this place can go. Kind of depressing, really.\n\n"
+        furn_response += "\nThis place is loaded. Marble fountains, fully stocked champagne fridges, complementary expensive meats made of bizarre unethical ingredients, it's a treat for the senses. You wonder if there's any higher this place can go. Kind of depressing, really."
     if all(elem in furniture_id_list for elem in static_items.furniture_leather):
-        furn_response += "34 innocent lives. 34 lives were taken to build the feng shui in this one room. Are you remorseful about that? Obsessed? Nobody has the base antipathy needed to peer into your mind and pick at your decisions. The leather finish admittedly does look fantastic, however. Nice work.\n\n"
+        furn_response += "\n34 innocent lives. 34 lives were taken to build the feng shui in this one room. Are you remorseful about that? Obsessed? Nobody has the base antipathy needed to peer into your mind and pick at your decisions. The leather finish admittedly does look fantastic, however. Nice work."
     if all(elem in furniture_id_list for elem in static_items.furniture_church):
-        furn_response += random.choice(ewcfg.bible_verses) + "\n\n"
+        furn_response += "\n" + random.choice(ewcfg.bible_verses)
     if all(elem in furniture_id_list for elem in static_items.furniture_pony):
-        furn_response += "When the Mane 6 combine their powers, kindness, generosity, loyalty, honesty, magic, and the other one, they combine to form the most powerful force known to creation: friendship. Except for slime. That's still stronger.\n\n"
+        furn_response += "\nWhen the Mane 6 combine their powers, kindness, generosity, loyalty, honesty, magic, and the other one, they combine to form the most powerful force known to creation: friendship. Except for slime. That's still stronger."
     if all(elem in furniture_id_list for elem in static_items.furniture_blackvelvet):
-        furn_response += "Looking around just makes you want to loosen your tie a bit and pull out an expensive cigar. Nobody in this city of drowned rats and slimeless rubes can stop you now. You commit homicide...in style. Dark, velvety smooth style.\n\n"
+        furn_response += "\nLooking around just makes you want to loosen your tie a bit and pull out an expensive cigar. Nobody in this city of drowned rats and slimeless rubes can stop you now. You commit homicide...in style. Dark, velvety smooth style."
     if all(elem in furniture_id_list for elem in static_items.furniture_seventies):
-        furn_response += "Look at all this vintage furniture. Didn't the counterculture that created all this shit advocate for 'peace and love'? Yuck. I hope you didn't theme your bachelor pad around that kind of shit and just bought everything for its retro aesthetic.\n\n"
+        furn_response += "\nLook at all this vintage furniture. Didn't the counterculture that created all this shit advocate for 'peace and love'? Yuck. I hope you didn't theme your bachelor pad around that kind of shit and just bought everything for its retro aesthetic."
     if all(elem in furniture_id_list for elem in static_items.furniture_shitty):
-        furn_response += "You're never gonna make it. Look at all this furniture you messed up, do you think someday you can escape this? You're never gonna have sculptures like Stradivarius, or paintings as good as that one German guy. You're deluded and sitting on splinters. Grow up. \n\n"
+        furn_response += "\nYou're never gonna make it. Look at all this furniture you messed up, do you think someday you can escape this? You're never gonna have sculptures like Stradivarius, or paintings as good as that one German guy. You're deluded and sitting on splinters. Grow up."
     if all(elem in furniture_id_list for elem in static_items.furniture_instrument):
-        furn_response += "You assembled the instruments. Now all you have to do is form a soopa groop and play loudly over other people acts next Slimechella. It's high time the garage bands of this city take over, with fresh homemade shredding and murders most foul. The world's your oyster. As soon as you can trust them with all this expensive equipment.\n\n"
+        furn_response += "\nYou assembled the instruments. Now all you have to do is form a soopa groop and play loudly over other people acts next Slimechella. It's high time the garage bands of this city take over, with fresh homemade shredding and murders most foul. The world's your oyster. As soon as you can trust them with all this expensive equipment."
     if all(elem in furniture_id_list for elem in static_items.furniture_slimecorp):
-        furn_response += "SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP.\n\n"
+        furn_response += "\nSUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP. SUBMIT TO SLIMECORP."
     if all(elem in furniture_id_list for elem in static_items.furniture_NMS):
-        furn_response += "This room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie.\n\n"
+        furn_response += "\nThis room just reeks of dorm energy. You've clearly pilfered some poor Neo Milwaukee State student's room just to make a hollow imitation of your college days. Unless you haven't had those yet, in which case, Good Luck Charlie."
     if all(elem in furniture_id_list for elem in static_items.furniture_hatealiens):
-        furn_response += "Whoa, your flat is so futuristic! You've got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it.\n\n"
+        furn_response += "\nWhoa, your flat is so futuristic! You've got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it."
     if all(elem in furniture_id_list for elem in static_items.furniture_hummels):
-        furn_response += "Your apartment has severe elderly vibes, like a thick fog.\n\n"
+        furn_response += "\nYour apartment has severe elderly vibes, like a thick fog."
 
     market_data = EwMarket(id_server=id_server)
     clock_data = ewutils.weather_txt(market_data)
@@ -178,7 +219,14 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
 
     if show_capacity:
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_decorate)
-        furn_response += f"\n\nFurniture Capacity ({len(furns)}/{max_capacity})"
+        furn_response += f"\nFurniture Capacity ({len(furns)}/{max_capacity})"
+
+    # Handle collections
+    for collection_id in collections_id_list:
+        collection_response = apt_collection_look_str(id_server=id_server, id_item=collection_id, show_capacity=show_capacity)
+        furn_response += "\n" + collection_response
+    if collections_placed is True:
+        furn_response += "\n*('!inspect' collections for more info)*"
 
     return furn_response
 
@@ -214,15 +262,13 @@ def apt_fridge_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
 
     if show_capacity:
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_fridge)
-        response += f"\n\nFridge Capacity: ({len(frids)}/{max_capacity})"
+        response += f"\nFridge Capacity: ({len(frids)}/{max_capacity})"
 
     return response
 
 
 def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
     closet_resp = "**The closet contains:**\n"
-    hatstand_resp = "\n\n**The hat stand holds:**\n"
-    hatstand_contents = []
     closet_contents = []
     poud_stack = 0
 
@@ -249,11 +295,7 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
                 soulbound_style=("**" if item.get('soulbound') else ""),
                 quantity=(" **x{:,}**".format(item.get("quantity")) if (item.get("quantity") > 0) else "")
             )
-            if map_obj is not None and map_obj.is_hat:
-                hatstand_contents.append(response_part)
-            else:
-                closet_contents.append(response_part)
-        # Because of the doubled up nature, closet can be empty while the hatstand has stuff
+            closet_contents.append(response_part)
         if not closet_resp:
             closet_resp = "Nothing."
         else:
@@ -263,21 +305,19 @@ def apt_closet_look_str(id_server: int, id_user: int, show_capacity: bool = Fals
 
     response = ""
     response += closet_resp
-    if hatstand_contents:
-        hatstand_resp += ewutils.formatNiceList(hatstand_contents)
-        response += hatstand_resp
 
     if show_capacity:
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_closet)
-        response += f"\n\nCloset Capacity: ({len(closets) - poud_stack}/{max_capacity})"
+        response += f"\nCloset Capacity: ({len(closets) - poud_stack}/{max_capacity})"
 
     return response
 
 
 def apt_bookshelf_look_str(id_server: int, id_user: int, show_capacity: bool = False) -> str:
-    response = "**The bookshelf holds:**\n"
+    response = ""
     shelves = bknd_item.inventory(id_user=str(id_user) + ewcfg.compartment_id_bookshelf, id_server=id_server)
     if shelves:
+        response += "**The bookshelf contains:**\n"
         shelf_pile = []
         for shelf in shelves:
             shelf_pile.append(shelf.get('name'))
@@ -287,7 +327,7 @@ def apt_bookshelf_look_str(id_server: int, id_user: int, show_capacity: bool = F
     # This is only done for the compartment-specific commands, so loading apt_model and user_model is relatively efficient
     if show_capacity:
         max_capacity = prepare_compartment_capacity(id_user, id_server, compartment=ewcfg.compartment_id_bookshelf)
-        response += f"\n\nBookshelf Capacity: ({len(shelves)}/{max_capacity})"
+        response += f"\nBookshelf Capacity: ({len(shelves)}/{max_capacity})"
 
     return response
 
@@ -315,6 +355,6 @@ def apt_slimeoid_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
             response += " cooing to themselves."
 
     if show_capacity:
-        response += f"\n\nFreezer Capacity: ({len(data)}/???)"
+        response += f"\nFreezer Capacity: ({len(data)}/???)"
 
     return response

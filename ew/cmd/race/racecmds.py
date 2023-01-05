@@ -142,6 +142,8 @@ async def bonejenga(cmd): #blame ebola
     
     if user_data.race == ewcfg.race_skeleton:
         
+        if cmd.mentions_count == 0:
+            response = "Bone Jenga is a sacred art, designed for two to battle. You must !bonejenga <@player>."
         if cmd.mentions_count > 1:
             response = "Bone Jenga is a sacred art, far too complex for any but the highest of scholars to play with more than two people involved."
             
