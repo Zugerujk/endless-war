@@ -198,14 +198,18 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+    if potential_dialogue is not None:
+        response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+    else:
+        response = None
 
-    if response[:2] == '()': #for exposition that doesn't use a talk bubble
-        response = response[2:]
-        return await fe_utils.send_message(None, channel, response)
 
-    name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     if response is not None:
+        if response[:2] == '()':  # for exposition that doesn't use a talk bubble
+            response = response[2:]
+            return await fe_utils.send_message(None, channel, response)
+
+        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
         return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
 
@@ -611,7 +615,7 @@ def find_drinkster(user_data, isDrink):
     for enemy in enemydata:
         poi = poi_static.id_to_poi.get(enemy[1])
         if user_data.poi in poi.neighbors.keys():
-            enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=enemy.id_server)
+            enemy_obj = ewcombat.EwEnemy(id_enemy=enemy[0], id_server=user_data.id_server)
             if isDrink and user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_thesewers]:
                 enemy_obj.poi = user_data.poi
                 enemy.persist()

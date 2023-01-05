@@ -73,7 +73,7 @@ async def score(cmd: cmd_utils.EwCmd):
     user_data = None
     member = None
     response = ""
-    print(cmd.mention_ids)
+
 
     slime_alias = ewutils.flattenTokenListToString(cmd.tokens[0])
     if len(cmd.mention_ids) == 0:

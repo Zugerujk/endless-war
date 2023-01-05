@@ -495,8 +495,8 @@ item_list = [
         str_name="Old CD",
         str_desc="OH GOD IT'S A FUCKING CD!",
         acquisition=ewcfg.acquisition_bartering,
-        ingredients="generic",
-        context=random.choice(community_cfg.mixtapes),
+        ingredients="generic", #figure out how to embed mixtapes into this
+        context=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_leather,
