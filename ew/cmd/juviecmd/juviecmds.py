@@ -1177,14 +1177,14 @@ async def claim(cmd):
                 if district is not None:
                     if district.name != user_data.poi:
                         response = "There's no rally here."
-                    elif district.controlling_faction == 'rabble' and len(district.get_players_in_district()) + (
-                    district.get_enemies_in_district()) == 0:
+                    elif district.controlling_faction == 'rabble' or len(district.get_players_in_district()) + len(district.get_enemies_in_district()) > 1:
                         response = "You're not done, there are violent people and/or subhumans around here that are still alive."
                     elif event.event_props.get(str(user_data.id_user)) is None:
                         response = "You're just pretending like you're part of security. Get outta here."
                     elif event.event_props.get('relic') == 'claimed':
                         response = 'Too late, bud. Someone already took payment.'
                     else:
+
                         relic_id = event.event_props.get('relic')
                         map_entry = relic_map.get(relic_id)
                         event.event_props['relic'] = 'claimed'
