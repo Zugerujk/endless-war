@@ -2384,20 +2384,17 @@ async def wrap(cmd: EwCmd):
             response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+async def eventstage(cmd: EwCmd):
+    """ Returns the current event stage. """
+    return await fe_utils.send_response(f"Event is currently at Stage {ewcfg.event_stage}.", cmd)
 
 async def yoslimernalia(cmd: EwCmd):
     """ Yo, Slimernalia! """
     ewstats.increment_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_festivity)
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
-
-async def slimernaliastage(cmd: EwCmd):
-    """ Returns the current slimernalia event stage. """
-    return await fe_utils.send_response(f"Slimernalia is currently at Stage {ewcfg.slimernalia_stage}.", cmd)
-
-
 # Admin commands
-async def announceslimernaliastage(cmd: EwCmd):
+async def announceeventstage(cmd: EwCmd):
     """ Announces the patch notes for the current/past slimernalia event stages. """
     if not cmd.message.author.guild_permissions.administrator:
         return
@@ -2408,25 +2405,25 @@ async def announceslimernaliastage(cmd: EwCmd):
     if "all" in cmd.tokens:
         print_all = True
 
-    await fe_utils.announce_slimernalia_stage_increase(cmd.client, cmd.guild, print_all)
+    await fe_utils.announce_event_stage_increase(cmd.client, cmd.guild, print_all)
 
     return await fe_utils.send_response("Announced them there stages for ya, sonny!", cmd)
 
 
-async def setslimernaliastage(cmd):
-    """ Allows an admin to set the slimernalia event stage manually. """
+async def seteventstage(cmd):
+    """ Allows an admin to set the event stage manually. """
     if not cmd.message.author.guild_permissions.administrator:
         return
 
     # Verify what the user sent
     if len(cmd.tokens) > 1 and str.isnumeric(cmd.tokens[1]):
-        if int(cmd.tokens[1]) <= len(ewcfg.slimernalia_stage_announcements):
-            ewcfg.slimernalia_stage = int(cmd.tokens[1])
-            response = f"Set festivity stage to {ewcfg.slimernalia_stage}"
+        if int(cmd.tokens[1]) <= len(ewcfg.event_stage_announcements):
+            ewcfg.event_stage = int(cmd.tokens[1])
+            response = f"Set event stage to {ewcfg.event_stage}"
         else:
-            response = f"Wuh? There's only {len(ewcfg.slimernalia_stage_announcements)} stages."
+            response = f"Wuh? There's only {len(ewcfg.event_stage_announcements)} stages."
     else:
-        response = "It's !setfestivitystage <int>."
+        response = "It's !seteventstage <int>."
 
     return await fe_utils.send_response(response, cmd)
 

@@ -389,7 +389,7 @@ enemy_attack_type_list = [
         str_groupattack="{name_enemy} tailsweeps a horde of gaiaslimeoids!",
         fn_effect=atf_tusks
     ),
-EwAttackType(  #17
+    EwAttackType(  #20
         id_type="police",
         str_crit="**POLICE BRUTALITY!** {name_enemy} knees {name_target} to the ground and fires 3 shots right to the head! ",
         str_miss="**WHOOSH** {name_target} ducks out of the way of {name_enemy}'s nightstick!",
@@ -400,7 +400,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} fires a warning shot into {name_target}'s {hitzone}!",
         fn_effect=atf_fangs #a pistol reskin of fangs which are a reskin of a pistol
 ),
-    EwAttackType(  # 18
+    EwAttackType(  # 21
         id_type="wesson",
         str_crit="**POW!!** {name_enemy} scores a clean shot! A splatter of {name_target}'s blood sprays onto the ground!",
         str_miss="**CLICK!** {name_enemy}'s Smith & Wesson jams!",
@@ -409,7 +409,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} lands a potshot on {name_target}!",
         fn_effect=atf_gunkshot
     ),
-    EwAttackType(  # 14
+    EwAttackType(  # 22
         id_type="pizzagraspers",
         str_crit="**AAAAAHHHHHHH!!!** The {name_enemy} starts to wail as it twists and wrings slime out of {name_target}'s body! {name_target} breaks several bones!",
         str_miss="**WHOA!** You barely duck out of the way of {name_enemy}'s grasp!",
@@ -418,7 +418,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} constricts their graspers all over {name_target}! Creepy!",
         fn_effect=atf_body
     ),
-    EwAttackType(  # 8
+    EwAttackType(  # 23
         id_type=ewcfg.weapon_id_brassknuckles,
         str_crit="***SKY UPPERCUT!!*** {name_enemy} executes an artificially difficult combo, rocketing their fist into the bottom of {name_target}’s jaw so hard that {name_target}’s colliding teeth brutally sever an inch off their own tongue!!",
         str_miss="**MISS!** {name_player} couldn't land a single blow!!",
@@ -427,7 +427,7 @@ EwAttackType(  #17
         str_damage="{name_target} is socked in the {hitzone}!!",
         fn_effect=atf_tusks,
     ),
-    EwAttackType(  # 8
+    EwAttackType(  # 24
         id_type='juvieman',
         str_crit="**CCCRRRRUUUNNCH!!!** Juvieman throws his Gardening Gut Gatling right into {name_target}'s stomach! Ooh, that one's gonna hurt in the morning!",
         str_miss="**BIFF!!** {name_enemy} whiffs a punch! Will our hero succumb to the peacefulness of Juviehood?",
@@ -436,7 +436,7 @@ EwAttackType(  #17
         str_damage="**BANG!**{name_target} takes a punch to the {hitzone}!!",
         fn_effect=atf_tusks,
     ),
-    EwAttackType(  # 8
+    EwAttackType(  # 25
         id_type='dojoman',
         str_crit="{name_enemy} cleaves right through {name_target} with his broadsword! {name_target} gets spooked as he says some Japanese you can't understand!",
         str_miss="{name_enemy} uses the garrote, just to try and give {name_target} a chance! Predictably, his attack fails.",
@@ -445,7 +445,7 @@ EwAttackType(  #17
         str_damage="**HYAAA!** With perfect form, the Dojo Master runs you through with their {dojo_weapons}!",
         fn_effect=atf_tusks,
     ),
-    EwAttackType(  # 8
+    EwAttackType(  # 26
         id_type='slox',
         str_crit="{name_enemy} scratches {name_target}'s face to ribbons! {name_target} staggers back as blood starts flowing into their eyes!",
         str_miss="{name_enemy} winces, remembering its murdered slox friend! It near-misses {name_target}'s face!",
@@ -454,7 +454,7 @@ EwAttackType(  #17
         str_damage="**RRRIIIIPPP!** The grieving Slox gnaws at {name_target}'s face!",
         fn_effect=atf_talons,
     ),
-    EwAttackType(  # 21
+    EwAttackType(  # 27
         id_type="hellfire",
         str_crit="**SIZH!!** {name_enemy} flings spears of hellfire towards {name_target}! {name_target} is completely broiled!",
         str_miss="**Eck!** {name_enemy} fails to act!",
@@ -463,7 +463,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} conjures a pillar of hellfire under {name_target}!",
         fn_effect=atf_molotovbreath
     ),
-    EwAttackType( # 22
+    EwAttackType( # 28
         id_type="bonemerang",
         str_crit="**KA-CRAM!!!** {name_enemy}'s bonemerang slams {name_target}'s front, then spins around and rams their back!",
         str_miss="**MISS!** {name_target} dodges out of the way of an approaching bonemerang - twice!",
@@ -472,7 +472,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} cleaves {name_target} with their bonemerang!",
         fn_effect=atf_boomerang,
     ),
-    EwAttackType( # 22
+    EwAttackType( # 29
         id_type="icespike",
         str_crit="**SHHHKK!!!** {name_enemy} launches an ice spike directly into {name_target}'s stomach! {name_target} pulls it out, along with a some of their guts.",
         str_miss="**MISS!** {name_enemy} fails to conjure any ice!",
@@ -481,7 +481,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} conjures unworldly ice at {name_target}!",
         fn_effect=atf_bigshot,
     ),
-    EwAttackType( # 22
+    EwAttackType( # 30
         id_type="bloodsucker",
         str_crit="**SLLUUUURP!!!** {name_target} tugs {name_enemy} off of them, but not before {name_enemy} drinks up a hefty amount their slime.",
         str_miss="**MISS!** {name_target} dodges {name_target}'s sucker!",
@@ -490,7 +490,7 @@ EwAttackType(  #17
         str_damage="{name_enemy} quickly sucks {name_target}'s slime!",
         fn_effect=atf_smallclaws,
     ),
-    EwAttackType(  # 23
+    EwAttackType(  # 31
         id_type="bluntweapon",
         str_crit="**Critical hit!!** {name_target} is bludgeoned by a heavy object!",
         str_miss="**MISS!!** {name_enemy}'s swing miss wide of the target!",
@@ -499,7 +499,7 @@ EwAttackType(  #17
         str_damage="{name_target} is thwacked in the {hitzone}!!",
         fn_effect=atf_body
     ),
-    EwAttackType(  # 24
+    EwAttackType(  # 32
         id_type="petrifiedfood",
         str_crit="**Critical hit!!** {name_target} is bludgeoned by a petrified mass of food!",
         str_miss="**MISS!!** {name_enemy}'s throw was fast enough for {name_target} to dodge!",
