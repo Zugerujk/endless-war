@@ -2384,6 +2384,9 @@ async def wrap(cmd: EwCmd):
             response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+async def eventstage(cmd: EwCmd):
+    """ Returns the current event stage. """
+    return await fe_utils.send_response(f"Event is currently at Stage {ewcfg.event_stage}.", cmd)
 
 async def yoslimernalia(cmd: EwCmd):
     """ Yo, Slimernalia! """
@@ -2391,6 +2394,40 @@ async def yoslimernalia(cmd: EwCmd):
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
 # Admin commands
+async def announceeventstage(cmd: EwCmd):
+    """ Announces the patch notes for the current/past slimernalia event stages. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    # Unpack tokens, if 'all' is anywhere after the main commad print everything up to where we are currently at
+    # e.g. !announcefestivestage when you're at stage 4 will just announce stage 4
+    # ! announcefestivestage all when you're at stage 4 will announce stages 1, 2, 3 & 4
+    print_all = False
+    if "all" in cmd.tokens:
+        print_all = True
+
+    await fe_utils.announce_event_stage_increase(cmd.client, cmd.guild, print_all)
+
+    return await fe_utils.send_response("Announced them there stages for ya, sonny!", cmd)
+
+
+async def seteventstage(cmd):
+    """ Allows an admin to set the event stage manually. """
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    # Verify what the user sent
+    if len(cmd.tokens) > 1 and str.isnumeric(cmd.tokens[1]):
+        if int(cmd.tokens[1]) <= len(ewcfg.event_stage_announcements):
+            ewcfg.event_stage = int(cmd.tokens[1])
+            response = f"Set event stage to {ewcfg.event_stage}"
+        else:
+            response = f"Wuh? There's only {len(ewcfg.event_stage_announcements)} stages."
+    else:
+        response = "It's !seteventstage <int>."
+
+    return await fe_utils.send_response(response, cmd)
+
+
 async def slimecoin(cmd):
     """ Show player's slimecoin balance """
     if cmd.mentions_count == 0:
