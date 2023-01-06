@@ -34,10 +34,12 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = False
-slimernalia_stage = 0
 
 #Swilldermuk Features
 swilldermuk_active = False
+
+#Event stages. Import them to the file you want by doing from ew.static.cfg import event_stage, then reference it with ewcfg.event_stage. Go wild.
+event_stage = 0
 
 
 """
@@ -2102,15 +2104,11 @@ phoebus_bet_floor = 1000000 # How high a slime bet needs to be to get the Phoebu
 
 slimernalia_kingpin_announcement = "**HARK!** I, Phoebus do hereby crown <{player}> as today's Kingpin of Slimernalia! <{player}> gained a total of **{festivity}** festivity!"
 
-slimernalia_stage_announcements = [
-    "The Slimernalia holiday spirit invigorates the city! Juveniles, and even some of the shadier side of the city feel invigorated, and are now roaming enemies throughout the city. If you want to stay safe, use a body spray!\nDetailed patchnotes spoiled below.\n||-Enemies that can move that aren't raid bosses won't be announced in the Gang Bases now. You're welcome for the avoidance of the crazy amounts of spam that would have been.\n-Culls the monsters of the outskirts down to what is just required to keep errors at bay, replaces that missing monster pool with Juvenile counterparts, 3 raid bosses included in the midst.\n-Gift Ribbons can be dropped from these mobs, and is used in the new Slimernalia exclusive smelting recipes. You won't be able to use the item to smelt them after Slimernalia is over!\n-The Immigrants have a 100% chance to drop harpoon. Yep, that's right! 100% chance to drop harpoon. :)||\n||-(A 100% chance to drop zero harpoons.)||",  # stage 1
-    "Yo Slimernalia! Festive icebergs have grown over the farms, slid over the soils slowly, and fucked off shortly after into the slime sea (or something... dude, you don't have enough attention span to fish most the times, let alone watch a farm). As a result, the slime gained from reaping has doubled! In addition, Shovels and Slimering Cans are no longer as useless as they are now.\nDetailed patchnotes spoiled below.\n||-Slimering Can is now a farming tool again. For half the slime gain, and for 0 crop gain, you can get slime poudrins directly for farming, and doesn't need to be cared for.\n-The Shovel now pulls from a table of items when you get an item, said table of items can be improved in a future update quite easily.\n-As stated before, all reaping slime has doubled from farming until Slimernalia is over.||",  # stage 2
-    "The city's holiday cheer has made the made the mines twice as juicy! (Well, either that or the festive icebergs are at it again, so take your pick.) Slime gained from mining has doubled. Sledgehammers are now considered a tool, meaning juveniles can equip it no matter what-- maintains its heavy weapon stats, but juveniles still can't swing it for the sake of violence... except for right now, because it's Slimernalia. You should probably be careful with mining with big heavy sledgehammers, as it's gonna cause the cave walls to shift much harder than a pickaxe would.\nDetailed patchnotes spoiled below.\n||-The sledgehammer is now a mining tool. Use it to enable some sort of \"Captcha mining\". Completely optional, but is entirely worth it compared to that cringe AHK mining, trust me, trust me.\n-Slimegain from mining has doubled, as stated previously.||\n||To be more specific about the Sledgehammer, it replaces all common mine events with mine collapses, and gives you a reward IF AND ONLY IF you clear it with the captcha. Enjoy!||",  # stage 3
-    "Phoebus has blessed the piers with holiday cheer! A new fish is now obtainable from now until the end of Slimernalia, one at each kind of pier! Oh, and the fish hate these newcomers, and are twice as desperate to get on your hook as before.\nDetailed patchnotes spoiled below.\n||-The chance for a fish to bite your hook has doubled. Specifically, fish bites should happen sooner than most times so you won't be stuck with those long waits with no fish bites. It's better than doubling the slime from reeling, because we all know you want to catch that 0.01 inch sized fish, you monster\n-A new fish can now be gained at the saltwater pier, the freshwater pier, black pond, and moon respectively.||",  # stage 4
-    "Everyone's feeling so festive, you just feel lucky too! You know what that means? Increased chance of gambling. Only problem here is that everyone's now gambling, and it's causing the casino a bit of trouble keeping track of the packed business. So make it an even worse problem and gamble till you're flat broke!\nDetailed patchnotes spoiled below.\n||The casino now has a 20% chance to let you recoup your bet **only** when you lose. Only affects the singleplayer games.||",  # stage 5
-    "It's difficult to tell if the dumb staydeads creeping out of the sewers these days are from your time, or from another time way before your own. But it seems as if they too are festive, trying to give you gifts of... food? You don't think whatever they're offering is food anymore.\nDetailed patchnotes spoiled below.\n||-Spirits of Slimernalia Past are trying to give you gifts of food, but it's completely petrified. This new enemy has a chance to drop this new small-game weapon available exclusively during this small timeframe. Probably never to resurface again...||",  # stage 6
-    "The Cop Killer has been watching all of you baby juveniles partying, having fun, and even make a mockery of his status as a kingpin. It's safe to say that our Ben Saint is brewing with negative energy.",  # Prevents code goons from completely spoiling themselves. Fuck you. :)
-]
+event_stage_announcements = [
+    "HAHA! DO !POINTANDLAUGH @<EVENT ORGANIZER> FOR NOT SETTING THESE ANNOUNCEMENTS UP.",
+    "DO NOT GET YOUR HOPES UP.",
+    "REMEMBER TO KILL EACH OTHER."
+] # Search "event_stage" to get an idea.
 
 # Common strings.
 str_casino_closed = "The Casino only operates at night."
@@ -4388,33 +4386,24 @@ enemy_class_normal = 'normal'
 
 common_enemies = []
 # List of enemies sorted by their spawn rarity.
-if slimernalia_stage >= 1:
-    common_enemies = [enemy_type_sandbag, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
-    rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
-    raid_bosses = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
-    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
-    defense_up_enemies = [enemy_type_miserablemiser]
-    if slimernalia_stage >= 6:
-        common_enemies.append(enemy_type_spiritofslimernaliapast)
-else:
-    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
-    rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
-    raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-    defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
+common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
+uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
+raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 raid_den_bosses = [enemy_type_alm]
 
+if slimernalia_active == True:
+    common_enemies.extend[enemy_type_spiritofslimernaliapast, enemy_type_drugdealer]
+    uncommon_enemies.extend[enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
+    raid_bosses.extend = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
+    enemy_movers.extend = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
+    defense_up_enemies.extend = [enemy_type_miserablemiser]
 # List of enemies that spawn in the Nuclear Beach
-if slimernalia_stage >= 1:
-    pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    arctic_enemies = [enemy_type_desertraider]
-    slimeoid_trainers = [enemy_type_npc]
-else:
-    pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-    slimeoid_trainers = [enemy_type_npc]
+pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+slimeoid_trainers = [enemy_type_npc]
 
 
 # Double Halloween variant enemies
@@ -5127,15 +5116,6 @@ for enemy in enemy_data_table.keys():
         raid_boss_names.append(enemy_data_table[enemy]["raredisplayname"])
 
 # Responses given by cowardly enemies when a non-ghost user is in their district.
-if slimernalia_stage >= 1:
-    coward_responses = [
-    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
-    "the {} taunts: *You're not even worth renouncing to kill, bitch.*",
-    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*",
-    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*",
-    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*",
-    ]
-else:
     coward_responses = [
     "The {} calls out to you: *H-Hello. Are you one of those Gangsters everyone seems to be talking about?*",
     "The {} calls out to you: *You wouldn't hurt a {}, would you?*",
@@ -5145,13 +5125,6 @@ else:
     ]
 
 # Responses given by cowardly enemies when hurt.
-if slimernalia_stage >= 1:
-    coward_responses_hurt = [
-    "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
-    "\nThe {} rages out: *DUDE, FUCK OFF!!*",
-    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*",
-    ]
-else:
     coward_responses_hurt = [
     "\nThe {} cries out in pain!: *Just wait until Juvieman hears about this!!*",
     "\nThe {} cries out in pain!: *You MONSTER!*",

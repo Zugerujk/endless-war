@@ -620,15 +620,15 @@ async def update_slimernalia_kingpin(client, server):
         await send_message(client, channel, embed=announce)
 
 
-async def announce_slimernalia_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
+async def announce_event_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
     channel_obj = get_channel(server=server, channel_name="auditorium")
     announce_obj = EwResponseContainer(client=client, id_server=server.id)
     if send_all:
-        for stage in ewcfg.slimernalia_stage_announcements[:ewcfg.slimernalia_stage - 1]:
+        for stage in ewcfg.event_stage_announcements[:ewcfg.event_stage - 1]:
             announce_obj.add_channel_response(channel_obj, stage)
     else:
-        if ewcfg.slimernalia_stage >= 0:
-            announce_obj.add_channel_response(channel_obj, ewcfg.slimernalia_stage_announcements[ewcfg.slimernalia_stage - 1])
+        if ewcfg.event_stage >= 0:
+            announce_obj.add_channel_response(channel_obj, ewcfg.event_stage_announcements[ewcfg.event_stage - 1])
 
     return await announce_obj.post()
 

@@ -1786,6 +1786,7 @@ weapon_list = [
         fn_effect=get_normal_attack(weapon_type='heavy'),
         price=1000000,
         vendors=[ewcfg.vendor_basedhardware],
+        classes=[ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_sledgehammer_kills,
         str_brandish=["{name} finds the closest thing to destroy and hurls {weapon} into it!"]
     ),
@@ -1817,8 +1818,7 @@ weapon_list = [
     EwWeapon(  # 48
         id_weapon=ewcfg.weapon_id_juvierang,
         alias=[
-            "boomerang",
-            "juverang"
+            "juverang",
         ],
         str_crit="**Critical hit!!** {name_player}'s juvierang collides with its target!",
         str_miss="**MISS!!** {name_player}'s juvierang flies away!",
@@ -1827,7 +1827,7 @@ weapon_list = [
         str_weapon="a juvierang",
         str_weaponmaster_self="You are a rank {rank} {title} 'rang-er.",
         str_weaponmaster="They are a rank {rank} {title} 'rang-er.",
-        str_kill=["**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}"],
+        str_kill=comm_cfg.juvierangkilltext,
         str_killdescriptor="'rang'd",
         str_damage="{name_target} is knocked by a 'rang in the {hitzone}!!",
         str_duel="**WHIP! WHAP!!** {name_player} and {name_target} throw juvierangs at eachother like they're playing tower defense.",
@@ -1837,7 +1837,7 @@ weapon_list = [
         stat=ewcfg.stat_juvierang_kills,
         str_brandish=["{name} does an overdramatic spin and tosses {weapon} into the air. It returns to them, just like you'd expect."]
     ),
-    EwWeapon(  # 48
+    EwWeapon(  # 49
         id_weapon=ewcfg.weapon_id_missilelauncher,
         alias=[
             "missile",
@@ -1871,7 +1871,7 @@ weapon_list = [
         # str_trauma = "It looks like they are still searching for a missing body part.",
         # str_trauma_self = "You still haven't found the missing body part from your last encounter.",
     ),
-    EwWeapon(  # 49
+    EwWeapon(  # 50
         id_weapon=ewcfg.weapon_id_pistol,
         alias=[
             "singlepistol",
@@ -1898,7 +1898,7 @@ weapon_list = [
         stat=ewcfg.stat_pistol_kills,
         str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!",
     ),
-    EwWeapon(  # 50
+    EwWeapon(  # 51
         id_weapon=ewcfg.weapon_id_combatknife,
         alias=[
             "knife",
@@ -1925,7 +1925,7 @@ weapon_list = [
         stat=ewcfg.stat_combatknife_kills,
         str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!",
     ),
-    EwWeapon(  # 51
+    EwWeapon(  # 52
         id_weapon=ewcfg.weapon_id_machete,
         alias=[],
         str_crit="**Critical hit!!** {name_player} wedges their blade deep within {name_target}’s guts!",
@@ -1949,7 +1949,7 @@ weapon_list = [
         stat=ewcfg.stat_machete_kills,
         str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!",
     ),
-    EwWeapon(  # 52
+    EwWeapon(  # 53
         id_weapon=ewcfg.weapon_id_boomerang,
         alias=[
             "rang",
@@ -1975,7 +1975,7 @@ weapon_list = [
         stat=ewcfg.stat_boomerang_kills,
         str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
     ),
-    EwWeapon(  # 53
+    EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
         id_weapon=ewcfg.weapon_id_foodbasket,
         alias=[
             "petrifiedfoods", "basket", "petrified", "food", "picnicbasket",

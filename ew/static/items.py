@@ -1970,6 +1970,7 @@ item_list = [
         id_item=ewcfg.item_id_giftribbon,
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
+        #acquisition=ewcfg.acquisition_mining, #Enable this ONLY for Slimernalia.
     ),
     EwGeneralItem(
         id_item='rfconsortmarble',

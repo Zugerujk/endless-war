@@ -24,7 +24,7 @@ try:
     import ew.utils.rutils as relic_utils
 except:
     import ew.static.rstatic_dummy as ewrelic
-    import ew.utils.rutils as relic_utils
+    import ew.utils.rutils_dummy as relic_utils
 
 
 async def pa_command(cmd):
