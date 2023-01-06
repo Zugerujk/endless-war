@@ -529,15 +529,6 @@ async def mine(cmd):
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
 
-            
-            if sledgehammer_bonus == True:
-                unearthed_item_chance = 1
-                unearthed_item_amount = random.randint(3,10)
-                unearthed_item_type = "Slime Poudrin"
-                sledge_yield = random.randint(50000,100000)
-                mining_yield += sledge_yield
-                response = "Your reckless mining has gotten you {} slime and {} Slime Poudrins! ".format(sledge_yield, unearthed_item_amount)
-
             # event bonus
             for id_event in world_events:
 
@@ -664,9 +655,14 @@ async def mine(cmd):
                 mining_yield *= 2
             if user_data.life_state == ewcfg.life_state_juvenile:
                 mining_yield *= 2
-            if ewcfg.slimernalia_stage >= 3:
-                mining_yield *= 2
 
+            if sledgehammer_bonus == True:
+                unearthed_item_chance = 1
+                unearthed_item_amount = random.randint(3,10)
+                unearthed_item_type = "Slime Poudrin"
+                sledge_yield = random.randint(50000,100000)
+                mining_yield += sledge_yield
+                response = "Your reckless mining has gotten you {} slime and {} Slime Poudrins! ".format(sledge_yield, unearthed_item_amount)
             # trauma = se_static.trauma_map.get(user_data.trauma)
             # if trauma != None and trauma.trauma_class == ewcfg.trauma_class_slimegain:
             #	mining_yield *= (1 - 0.5 * user_data.degradation / 100)
@@ -1163,38 +1159,41 @@ async def claim(cmd):
     for id_event in world_events:
         if world_events.get(id_event) == ewcfg.event_type_rally:
             event = bknd_worldevent.EwWorldEvent(id_event=id_event)
-            if event.event_props.get('poi') == user_data.poi and event.event_props.get(str(user_data.id_user)) is None:
-                event.event_props[str(user_data.id_user)] = '1'
-                response = "You checked into the rally as security. Be the last one standing to claim your prize..."
-                event.persist()
-            elif event.event_props.get('poi') == user_data.poi:
-                response = "You already did that."
-            else:
-                response = "Wrong place, dumpass."
-            break
-        elif world_events.get(id_event) == ewcfg.event_type_rally_end:
-            event = bknd_worldevent.EwWorldEvent(id_event=id_event)
-            district = EwDistrict(id_server=cmd.guild.id, district=event.event_props.get('poi'))
-            if district is not None:
-                if district.name != user_data.poi:
-                    response = "There's no rally here."
-                elif district.controlling_faction == 'rabble' and len(district.get_players_in_district()) + (
-                district.get_enemies_in_district()) == 0:
-                    response = "You're not done, there are violent people and/or subhumans around here that are still alive."
-                elif event.event_props.get(str(user_data.id_user)) is None:
-                    response = "You're just pretending like you're part of security. Get outta here."
-                elif event.event_props.get('relic') == 'claimed':
-                    response = 'Too late, bud. Someone already took payment.'
-                else:
-                    relic_id = event.event_props.get('relic')
-                    map_entry = relic_map.get(relic_id)
-                    event.event_props['relic'] = 'claimed'
+
+            if event.time_activate + (60 * 30) >= int(time.time()):
+
+                if event.event_props.get('poi') == user_data.poi and event.event_props.get(str(user_data.id_user)) is None:
+                    event.event_props[str(user_data.id_user)] = '1'
+                    response = "You checked into the rally as security. Be the last one standing to claim your prize..."
                     event.persist()
-                    await ewdebug.award_item(cmd, itemname=relic_id, on_give='')
-                    response = "You outlasted them all. Yes, paydirt! You get the {}!".format(map_entry.str_name)
+                elif event.event_props.get('poi') == user_data.poi:
+                    response = "You already did that."
+                else:
+                    response = "Wrong place, dumpass."
+                break
+
             else:
-                response = ""
-            break
+                district = EwDistrict(id_server=cmd.guild.id, district=event.event_props.get('poi'))
+                if district is not None:
+                    if district.name != user_data.poi:
+                        response = "There's no rally here."
+                    elif district.controlling_faction == 'rabble' and len(district.get_players_in_district()) + (
+                    district.get_enemies_in_district()) == 0:
+                        response = "You're not done, there are violent people and/or subhumans around here that are still alive."
+                    elif event.event_props.get(str(user_data.id_user)) is None:
+                        response = "You're just pretending like you're part of security. Get outta here."
+                    elif event.event_props.get('relic') == 'claimed':
+                        response = 'Too late, bud. Someone already took payment.'
+                    else:
+                        relic_id = event.event_props.get('relic')
+                        map_entry = relic_map.get(relic_id)
+                        event.event_props['relic'] = 'claimed'
+                        event.persist()
+                        await ewdebug.award_item(cmd, itemname=relic_id, on_give='')
+                        response = "You outlasted them all. Yes, paydirt! You get the {}!".format(map_entry.str_name)
+                else:
+                    response = ""
+                break
         else:
             response = "There's no rally here."
 

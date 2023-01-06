@@ -472,7 +472,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING SEAWEED!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_oldboot,
@@ -480,7 +480,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING OLD BOOT!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_tincan,
@@ -488,7 +488,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING TIN CAN!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_oldcd,
@@ -496,7 +496,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING CD!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic", #figure out how to embed mixtapes into this
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_leather,
@@ -559,7 +559,7 @@ item_list = [
         str_desc="It’s just some string.",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=60,
+        price=60,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_spent_pod,
@@ -1970,7 +1970,7 @@ item_list = [
         id_item=ewcfg.item_id_giftribbon,
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
-        acquisition=ewcfg.acquisition_mining,
+        #acquisition=ewcfg.acquisition_mining, #Enable this ONLY for Slimernalia.
     ),
     EwGeneralItem(
         id_item='rfconsortmarble',
@@ -3607,6 +3607,17 @@ furniture_list = [
         furn_set='collection'
     ),
     EwFurniture(
+        id_furniture="portablegreenhouse",
+        str_name="portable greenhouse",
+        str_desc="{greenhouse_inspect}",
+        rarity = 'Plebeian',
+        price=1000000,
+        vendors=[ewcfg.vendor_giftshop],
+        furniture_place_desc = "You set up the portable greenhouse near the window.",
+        furniture_look_desc = "A portable greenhouse is put near the window.",
+        furn_set='collection'
+    ),
+    EwFurniture(
         id_furniture="generalcollection",
         str_name="general collection",
         str_desc="{general_collection}",
@@ -3819,6 +3830,7 @@ EwFurniture(
 ]
 
 
+# Remember to actually append to these lists when adding new furniture sets. 
 furniture_map = {}
 furniture_names = []
 furniture_lgbt = []
@@ -3871,3 +3883,5 @@ for furniture in furniture_list:
         furniture_collection.append(furniture.id_furniture)
     elif furniture.furn_set == "hatealiens":
         furniture_hatealiens.append(furniture.id_furniture)
+    elif furniture.furn_set == "hummels":
+        furniture_hummels.append(furniture.id_furniture)

@@ -841,9 +841,9 @@ def total_size(o, verbose=False):
 
     return sizeof(o)
 
-#quick function to check presence in a district
-def is_district_empty(poi = ''):
-    data = bknd_core.execute_sql_query('SELECT {id_user} FROM USERS WHERE {poi} = %s LIMIT 1'.format(poi=ewcfg.col_poi, id_user=ewcfg.col_id_user), (poi,))
+
+def is_district_empty(poi = ''):  # quick function to check presence in a district
+    data = bknd_core.execute_sql_query('SELECT {id_user} FROM users WHERE {poi} = %s LIMIT 1'.format(poi=ewcfg.col_poi, id_user=ewcfg.col_id_user), (poi,))
     if len(data) > 0:
         return False
     else:

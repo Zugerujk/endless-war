@@ -34,10 +34,12 @@ dh_stage = 0
 
 #Slimernalia Features
 slimernalia_active = False
-slimernalia_stage = 0
 
 #Swilldermuk Features
 swilldermuk_active = False
+
+#Event stages. Import them to the file you want by doing from ew.static.cfg import event_stage, then reference it with ewcfg.event_stage. Go wild.
+event_stage = 0
 
 
 """
@@ -839,6 +841,7 @@ cmd_inventory_alt1 = cmd_prefix + 'inv'
 cmd_inventory_alt2 = cmd_prefix + 'stuff'
 cmd_inventory_alt3 = cmd_prefix + 'bag'
 cmd_communitychest = cmd_prefix + 'chest'
+cmd_collectioninventory = cmd_prefix + 'contents'
 cmd_move = cmd_prefix + 'move'
 cmd_move_alt1 = cmd_prefix + 'goto'
 cmd_move_alt2 = cmd_prefix + 'walk'
@@ -856,7 +859,7 @@ cmd_disembark_alt1 = cmd_prefix + 'alight'
 cmd_checkschedule = cmd_prefix + 'schedule'
 cmd_inspect = cmd_prefix + 'inspect'
 cmd_inspect_alt1 = cmd_prefix + 'examine'
-cmd_plainlook = cmd_prefix + 'contents'
+# cmd_plainlook = cmd_prefix + 'contents'
 cmd_look = cmd_prefix + 'look'
 cmd_survey = cmd_prefix + 'survey'
 cmd_survey_alt1 = cmd_prefix + 'scan'
@@ -1096,6 +1099,8 @@ cmd_releaseprop = cmd_prefix + 'unstand'
 cmd_releasefish = cmd_prefix + 'releasefish'
 cmd_collect = cmd_prefix + 'collect'
 cmd_extract = cmd_prefix + 'extract'
+cmd_extract_alt_1 = cmd_prefix + 'uncollect'
+cmd_renamecollection = cmd_prefix + 'renamecollection'
 cmd_unpot = cmd_prefix + 'unpot'
 cmd_wash = cmd_prefix + 'wash'
 cmd_browse = cmd_prefix + 'browse'
@@ -1731,7 +1736,7 @@ moon_special = "green" #               glows
 
 #enemy count limits
 max_npcs = 20
-max_normal_enemies = 30
+max_normal_enemies = 50
 # strength of the burn applied every weather tick by firestorms
 firestorm_slime_burn = 100000
 
@@ -2114,15 +2119,11 @@ phoebus_bet_floor = 1000000 # How high a slime bet needs to be to get the Phoebu
 
 slimernalia_kingpin_announcement = "**HARK!** I, Phoebus do hereby crown <{player}> as today's Kingpin of Slimernalia! <{player}> gained a total of **{festivity}** festivity!"
 
-slimernalia_stage_announcements = [
-    "The Slimernalia holiday spirit invigorates the city! Juveniles, and even some of the shadier side of the city feel invigorated, and are now roaming enemies throughout the city. If you want to stay safe, use a body spray!\nDetailed patchnotes spoiled below.\n||-Enemies that can move that aren't raid bosses won't be announced in the Gang Bases now. You're welcome for the avoidance of the crazy amounts of spam that would have been.\n-Culls the monsters of the outskirts down to what is just required to keep errors at bay, replaces that missing monster pool with Juvenile counterparts, 3 raid bosses included in the midst.\n-Gift Ribbons can be dropped from these mobs, and is used in the new Slimernalia exclusive smelting recipes. You won't be able to use the item to smelt them after Slimernalia is over!\n-The Immigrants have a 100% chance to drop harpoon. Yep, that's right! 100% chance to drop harpoon. :)||\n||-(A 100% chance to drop zero harpoons.)||",  # stage 1
-    "Yo Slimernalia! Festive icebergs have grown over the farms, slid over the soils slowly, and fucked off shortly after into the slime sea (or something... dude, you don't have enough attention span to fish most the times, let alone watch a farm). As a result, the slime gained from reaping has doubled! In addition, Shovels and Slimering Cans are no longer as useless as they are now.\nDetailed patchnotes spoiled below.\n||-Slimering Can is now a farming tool again. For half the slime gain, and for 0 crop gain, you can get slime poudrins directly for farming, and doesn't need to be cared for.\n-The Shovel now pulls from a table of items when you get an item, said table of items can be improved in a future update quite easily.\n-As stated before, all reaping slime has doubled from farming until Slimernalia is over.||",  # stage 2
-    "The city's holiday cheer has made the made the mines twice as juicy! (Well, either that or the festive icebergs are at it again, so take your pick.) Slime gained from mining has doubled. Sledgehammers are now considered a tool, meaning juveniles can equip it no matter what-- maintains its heavy weapon stats, but juveniles still can't swing it for the sake of violence... except for right now, because it's Slimernalia. You should probably be careful with mining with big heavy sledgehammers, as it's gonna cause the cave walls to shift much harder than a pickaxe would.\nDetailed patchnotes spoiled below.\n||-The sledgehammer is now a mining tool. Use it to enable some sort of \"Captcha mining\". Completely optional, but is entirely worth it compared to that cringe AHK mining, trust me, trust me.\n-Slimegain from mining has doubled, as stated previously.||\n||To be more specific about the Sledgehammer, it replaces all common mine events with mine collapses, and gives you a reward IF AND ONLY IF you clear it with the captcha. Enjoy!||",  # stage 3
-    "Phoebus has blessed the piers with holiday cheer! A new fish is now obtainable from now until the end of Slimernalia, one at each kind of pier! Oh, and the fish hate these newcomers, and are twice as desperate to get on your hook as before.\nDetailed patchnotes spoiled below.\n||-The chance for a fish to bite your hook has doubled. Specifically, fish bites should happen sooner than most times so you won't be stuck with those long waits with no fish bites. It's better than doubling the slime from reeling, because we all know you want to catch that 0.01 inch sized fish, you monster\n-A new fish can now be gained at the saltwater pier, the freshwater pier, black pond, and moon respectively.||",  # stage 4
-    "Everyone's feeling so festive, you just feel lucky too! You know what that means? Increased chance of gambling. Only problem here is that everyone's now gambling, and it's causing the casino a bit of trouble keeping track of the packed business. So make it an even worse problem and gamble till you're flat broke!\nDetailed patchnotes spoiled below.\n||The casino now has a 20% chance to let you recoup your bet **only** when you lose. Only affects the singleplayer games.||",  # stage 5
-    "It's difficult to tell if the dumb staydeads creeping out of the sewers these days are from your time, or from another time way before your own. But it seems as if they too are festive, trying to give you gifts of... food? You don't think whatever they're offering is food anymore.\nDetailed patchnotes spoiled below.\n||-Spirits of Slimernalia Past are trying to give you gifts of food, but it's completely petrified. This new enemy has a chance to drop this new small-game weapon available exclusively during this small timeframe. Probably never to resurface again...||",  # stage 6
-    "The Cop Killer has been watching all of you baby juveniles partying, having fun, and even make a mockery of his status as a kingpin. It's safe to say that our Ben Saint is brewing with negative energy.",  # Prevents code goons from completely spoiling themselves. Fuck you. :)
-]
+event_stage_announcements = [
+    "HAHA! DO !POINTANDLAUGH @<EVENT ORGANIZER> FOR NOT SETTING THESE ANNOUNCEMENTS UP.",
+    "DO NOT GET YOUR HOPES UP.",
+    "REMEMBER TO KILL EACH OTHER."
+] # Search "event_stage" to get an idea.
 
 # Common strings.
 str_casino_closed = "The Casino only operates at night."
@@ -3907,7 +3908,7 @@ help_responses = {
     "slimeoids": "**SLIMEOIDS** are sentient masses of slime that you can keep as **pets**. To learn how to make one for yourself, visit **The Slimeoid Laboratory** in Brawlden and check the enclosed **'!instructions'**. After you've made one, you can also battle it out with other slimeoids in **The Arena**, located in Vandal Park. Slimeoids can also be used to fight **Negaslimeoids** that have been conjured by ghosts. If your slimeoid dies, it's **HEART** is dropped, which can be sown in the ground like a poudrin, or taken to the labs to revive your slimeoid with **'!restoreslimeoid'**. In regards to your slimeoid's stats, a slimeoid's **'Moxie'** represents its physical attack, **'Chutzpah'** its special attack, and **'Grit'** its defense. Additionally, the color you dye your slimeoid with **'!saturateslimeoid'** also plays into combat. Your slimeoid gets attack bonuses against slimeoids that have its split complementary hue and resist slimeoids with its analgous hues. For more information, see the diagrams linked below (credits to Slimepunk#3355). There are also various commands you can perform on your slimeoid, such as **'!observeslimeoid'**, **'!petslimeoid'**, **'!walkslimeoid'**, and **'!playfetch'**. To humanely and ethically euthanize your slimeoid, use **'!dissolveslimeoid'** at the laboratory. To store and release your slimeoid in a bottle (Warning: This bottle is dropped upon death!!), use **'!bottleslimeoid'** and **'!unbottleslimeoid [slimeoid]'**, respectively. To add a description to your slimeoid, use **!tagslimeoid** with a dog tag. To remove this description, **!untagslimeoid**. To battle to the **DEATH**, use **'slimeoidbattle [@] todeath'**.\n<https://cdn.discordapp.com/attachments/492088204053184533/586310921274523648/SLIMEOID-HUE.png>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662087653064706/SLIMEOID-HUE.gif>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662095848996894/SLIMEOID_HUE_NOTE.png>",
     "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a random one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming with the exception of Evil Studs, which is gained from sowing player scalps instead. Cosmetics can either be of 'plebian', 'patrician', or 'profollean' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
     "realestate": "The **Real Estate Agency** is, well, the agency where you buy real estate. First, check out the property you want with **'!consult [district]'**. The real estate agent will tell you a bit about the area. \nOnce you've made your decision, you can **'!signlease [district]'** to seal the deal. There's a down payment, and you will be charged rent every 2 IRL days. Fair warning, though, if you already have an apartment and you rent a second one, you will be moved out of the first.\n\nFinally, if you own an apartment already, you can **'!aptupgrade'** it, improving its storage capabilities, but you'll be charged a huge down payment and your rent will double. The biggest upgrade stores 32 closet items, 32 food items, 96 shelved items, and 24 pieces of furniture (And can be doubled if you have mutation Packrat). And if you're ready to cut and run, use **'!breaklease'** to end your contract. It'll cost another down payment, though.\n\nYou can !addkey to acquire a housekey. Giving this item to some lucky fellow gives them access to your apartment, including all your prized posessions. Getting burglarized? Use !changelocks to eliminate all housekeys you created. Both cost a premium, though.",
-    "apartments": "Once you've gotten yourself an apartment, there are a variety of things you can do inside it. To enter your apartment, do **'!retire'** in the district your apartment is located in. There are certain commands related to your apartment that you must do in a direct message to ENDLESS WAR. To change the name and description of your apartment, do **'!aptname [name]'** and **'!aptdesc [description]'**, respectively. To place and remove furniture (purchasable in The Bazaar), do **'!decorate [furniture]'** and **'!undecorate [furniture]'**, respectively. You can store and remove items with **'!stow'** and **'!snag'**, respectively. To store in and remove items from the fridge, do **'!fridge [item]'** and **'!unfridge [item]'**. To store in and remove items from the closet, do **'!closet [item]'** and **'!uncloset [item]'**, respectively. To store and remove your slimeoid, do **'!freeze'** and **'!unfreeze'**, respectively. To store and remove fish, do **'!aquarium [fish]'** and **'!releasefish [fish]'**, respectively. To store and remove items such as weapons and cosmetics, do **'!propstand [item]'** and **'!unstand [item]'**, respectively. To put away zines, do **!shelve [item]** and **!unshelve [item]**. To place crops into flower pots, do **pot [item]** and **unpot [item]** If you have a collection, you can !collect <collection> <item> to store certain items in that collection. To enter someone else's apartment, you can do **'!knock [player]'**, which will prompt them to let you in. This list of commands can also be accessed by using !help in a direct message to ENDLESS WAR.",
+    "apartments": "Once you've gotten yourself an apartment, there are a variety of things you can do inside it. To enter your apartment, do **'!retire'** in the district your apartment is located in. Alternatively, you can **'!goto apt'**. To change the name and description of your apartment, do **'!aptname [name]'** and **'!aptdesc [description]'**, respectively. To place and remove furniture (purchasable in The Bazaar and elsewhere), do **'!decorate [furniture]'** and **'!undecorate [furniture]'**. You can store and remove items with **'!stow'** and **'!snag'**, which will store them in either the Fridge (for food items), the Bookshelf (for zines), or the Closet. Each of these can store a certain amount of their respective items, which can be viewed with **'!fridge'**, **'!shelf'**, and **'!closet'**. You can also check the capacity of your apartment and any decorated collections with **'!decorate'** standalone. To store and remove your slimeoid or negaslimeoid, do **'!freeze'** and **'!unfreeze'**. \n\nFor information on collection functionality, use **'!help collections'**.\n\nTo enter someone else's apartment, you can do **'!knock [player]'**, which will prompt them to let you in.",
     "stocks": "**The Stock Exchange** is a sub-zone within downtown NLACakaNM, open only during the daytime (6AM-8PM). It allows players to **'!invest'** in various **'!stocks'**, which not only affects their own personal monetary gains, but the city's economy as well. Stocks will shift up and down value, which affects the price of food associated with the food chains of those respective stocks. The rate of exchange for stocks can be checked with **'!rates'**, and to withdraw your **'!shares'** from a stock, use **'!withdraw [amount] [stock]'** (the same logic also applies to !invest). Additionally, players may **'!transfer'** their slimecoin to other players at any time of the day while in the stock exchange, but at the cost of a 5% broker's fee and a 5 minute cooldown on subsequent transfers.",
     # Additional gameplay mechanics, part 3
     "trading": "Trading allows you to exchange multiple items at once with another player. You can ask someone to trade with you by using **!trade [player]**. Should they accept, you will be able to offer items with **!offer [item]**. Use **!removeoffer [item]** to remove an item from your offers. You can check both player's offers by using **!trade** again. When you're ready to finish the trade, use **!completetrade**. The items will only be exchanged when both players do the command. Note that if a player adds or removes an item afterwards you will no longer be set as ready and will need to redo the command. Should you want to cancel the trade, you can do so by using **!canceltrade**.",
@@ -3924,10 +3925,12 @@ help_responses = {
     # Additional gameplay mechanics, part 5
     "burying": "**Burying** is a mechanic that allows one to store an item within a location secretly, only retrievable through a password linked to the item.\n\nTo put an item in the ground, you first must !equip a **shovel**, sold at Atomic Forest Stockpile in the Ooze Gardens Farms. Once equipped, you can **!bury [coordinates] [item]**. The coordinates can be any string you enter, and will be saved with no spaces, punctuation, or case. For example, entering \"!bury DustTrap poudrin\" while in Cratersville will result in a slime poudrin being buried in Cratersville with the coordinates \"DUSTTRAP\". Once you bury an item, the message sent by ENDLESS WAR indicating the correct coordinates of the item will disappear after a short time. Make sure you write the coordinates elsewhere, as **once buried, an item cannot be recovered without the correct coordinates**.\n\nTo **!unearth** an item, simply go to the location it was buried in and type **!unearth [coordinates]**. You do **not need a shovel** to !unearth buried items, just the location and coordinates. Be aware anyone can !unearth buried items, not just the player who buried them, and so this can be utilized as if a sort of dead drop. Finally, if multiple items are buried in the same location with the same coordinates, you must !unearth [coordinates] multiple times to unearth all of the items.\n\nHappy burying!", 
     "stats": "Within ENDLESS WAR, **Stats** are a mechanic that allow the player to showcase their skill in specific areas. You can gain XP through your actions in-game, and you'll level-up as you accrue more and more XP. There are currently 4 stats: mining, farming, fishing, and feasting. To check your stats, use **!stats**. To check now-unobtainable stats, or to check all stats, use **!stats hidden** or **!stats all** respectively. Keep in mind, stats currently have **no effect**, and a player with Level 99 mining will function identical to a player with Level 1 mining. \n\nStat List:\n**MINING** - Mining XP is gained through !mining within mines, with the amount of XP gained being based on the amount of slime mined. \n**FARMING** - Farming XP is gained through !reaping mature crops, with the amount of XP gained being based on both number of crops gained and amount of slime gained. \n**FISHING** - Fishing XP is gained through !reeling up fish or items, with the amount of XP gained being based upon the rarity of the !reel. \n**FEASTING** - Feasting XP is gained through !eating or !ordering food, with the amount of XP gained being based upon the hunger restoration of the food.",
+    "collections": "**Collections** are furniture items that can store other items within them. You can buy different types of collections at the Museum: **scalp collections** that can hold scalps, **large aquariums** that can hold fish, **soul cylinders** that can hold souls, **weapon chests** that can hold weapons, **portable greenhouses** that can hold crops, and **general collections** that can hold anything. Specialized collections can store **50** of a specific type of item, and have **unique flavor text upon '!inspect'ing**. General collections can store **10** of any non-collection item and do not unique flavor text. Placing a collection in your apartment will give it its own named line in '!look' text.\n\nOnce you have a collection, while in your apartment, you can **'!collect <collection> <item>'** to store an item in the collection. If you have the mutation **Packrat**, you can !collect into any collection in your inventory while outside your apartment. To remove an item from a collection, go to the Bazaar, and you can **'!extract <collection> <item>'** for **100,000 slime**. You can rename collections while in your apartment with **'!renamecollection <collection> [name]'**. Once a collection is placed, you can **'!inspect <collection>'** to view its contents and any accompanying flavor text or information. General collections will have an italicized name on upon '!look', as to distinguish that they do not have any accompanying flavor text or information. Finally, with **'!contents <collection>'**, you can view a collection as if it were a community chest.",
     # Misc.
     "slimeball": "**Slimeball** is a sport where two teams of players compete to get the ball into the opposing team's goal to score points. A game of Slimeball is started when a player does !slimeball [team] in a district. Other players can join in by doing the same command in the same district. Once you've joined a game, you can do !slimeball to see your data, the ball's location and the score. To move around the field, use !slimeballgo [coordinates]. You can kick the ball by running into it. To stop, use !slimeballstop. Each team's goal is open between 20 and 30 Y, and located at the ends of the field (0 and 99 X for purple and pink respectively). To leave a game, do !slimeballleave, or join a different game. A game of Slimeball ends when no players are left.",
     "relics": "**Relics** are one-of-a-kind items hidden all over the city. You can !donate them to the museum in Ooze Gardens for a big slime payout and some additional information about that part of the city. The Curator is pretty airheaded though, so he won't notice if you swipe them back. Long story, he makes replicas, you get the idea. If you are killed with a relic, it gets passed to your killer. Also, hoarding too many might result in graverobbers creeping down your back stair. Be careful, now!",
     "basics": "**The Basics** are things you'll pick up within mere minutes of playing, but hey, we were all beginners at first. Ahem...\n\nYou are a delinquent JUVENILE, recently busted for attempting a scandalous act of vandalism and distribution of highly coveted SLIME. Luckily for you, the juvenile detention center you’ve been assigned to is notoriously corrupt and it’s an open secret how easy escape is. All you have to do for freedom and protection is align yourself to one of the many GANG LEADERS that recruit poor, unfortunate juveniles like yourself. Too pussy to fight directly, they’ve resorted to brainwashed child soldiers to fight their proxy wars for them. Day after day, night after night, from dawn ‘till dusk and dusk ‘till dawn, these troubled youths fight without reason or purpose. Yes, it feels as though a presence pervades this city, from the most poverty-stricken slums to the most gentrified high rise apartments. It is the influence of ENDLESS WAR.\n\nFor a list of essential commands, you can use \"!commands basic\". For help with other things, check out the rest of \"!help\" and, if you need to figure out specific commands, \"!commands\" to figure out categories. Best of luck getting slime in the mines, juvenile.",
+    "blurbs": "**Blurbs** are a community feature that allows aspiring writers to add flavor text to the game. The command is only directly accessible by mods and developers, but if one of them approves your idea it can be instantly added. As you might imagine, they can only be a Discord post's length. \nTypes of flavor text you can add:\nAll NPC and Vendor Dialogue\nDistrict !huff Responses\n!brandish responses with any weapon type\nFishing text of any sub-category\nResponses to !jam(music links) and !pray\nTV responses when !watch-ing\nSkateboard tricks and the descriptions on arcade cabinets\nServer advertisements on a !browse\nText displayed during a meteor shower\nStiltwalker responses and Slimeglobe text\nText from the one obscure mechanic in the bazaar where you remove items from collections and get distracted by something",
 
     # Weapon Types
     "normal": "**Normal weapons** include the **Dual Pistols**, **Revolver**, **Yo-yo**, **Pistol**, and **Combat Knife**. These are straightforward weapons with no gimmicks and average damage.",
@@ -4024,8 +4027,8 @@ help_response_group_map = {
     "Gameplay": ["Death", "Food", "Mutations", "Smelting", "Slimeoids", "Cosmetics"],
     "Slimegain" : ["Mining", "Scavenging", "Farming", "Fishing", "Hunting"],
     "Gang Violence": ["Gangs", "Ghosts", "Capturing", "Scouting", "Wanted", "Sparring", "Bleeding", "Offline"],
-    "World": ["Subzones", "Transportation", "Weather", "Realestate", "Apartments", "Casino", "Dojo"],
-    "Other": ["Mymutations", "Relics", "Stocks", "Trading", "Burying", "Stats", "Zines", "Manuscripts", "Sprays", "Slimeball"],
+    "World": ["Subzones", "Transportation", "Weather", "Realestate", "Apartments", "Collections", "Casino", "Dojo"],
+    "Other": ["Mymutations", "Relics", "Stocks", "Trading", "Burying", "Stats", "Zines", "Manuscripts", "Sprays", "Slimeball", "Blurbs"],
 }
 
 
@@ -4078,7 +4081,7 @@ mutation_descriptions = {
 
     mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",
-    mutation_id_packrat: "You can hoard items in collections inside your inventory.",
+    mutation_id_packrat: "You gain 2x apartment capacity. In addition, you are able to !collect into collections in your inventory while outside your apartment.",
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",
@@ -4166,7 +4169,7 @@ mine_commands = "**MINES**\n!mine: Use this one in the normal mines. A lot.\n!mi
 transport_commands = "**TRANSPORT**\n!schedule: Check the subway schedule.\n!embark: Used to board transports\n!disembark: Get off transports."
 zine_writing_places_commands = "**ZINES**\nbrowse <category>: Browse for zines. You can sort by title, author, date, length, et cetera by placing it after the command.\n!orderzine <zine>: Order a zine. Specify the name or number of the zine to pick one out.\n!read <zine ID> Begin reading a zine.\nThere are a lot of zine commands. I would recommend picking up HOW TO ZINE by Milly and learning the details there."
 universities_commands = "**UNIVERSITIES**\n!help <category>: Use this to teach yourself about various gameplay mechanics."
-apartment_commands = "**APARTMENTS**\nFor apartment-specific commands, use !help in DMs to get a list of commands. In addition to that, you can:\n!propstand <item> Turn an item into a piece of furniture.\n!aquarium <fish>: Turn a fish into an aquarium you can use as furniture.\n!pot <crop>: Turn a reaped crop into a flowerpot, same as the aquarium.\n!unpot: Remove a crop from its pot.\n!collect <collection> <item>: Add an item to a collection box.\nGo to the Bazaar to undo prop stands, aquariums, and collections."
+apartment_commands = "**APARTMENTS**\n!stow <item>: Put an item within the closet/fridge/bookshelf.\n!snag <item>: Take an item from the closet/fridge/bookshelf.\n!decorate <item>: Place a furniture item in the apartment.\n!undecorate <item>: Take a furniture item from the apartment.\n!propstand <item>: Turn an item into a piece of furniture.\n!collect <collection> <item>: Add an item to a collection box.\n!contents <collection>: Search a collection's contents as if a community chest.\n!aptname <name>: Rename apartment.\n!aptdesc <description>: Change apartment's description.\n!renamecollection <collection> [name]: Rename a collection.\n!unpot: Remove a potted crop from its pot.\n\nGo to the Bazaar to undo prop stands, aquariums, and collections."
 
 mutation_unique_commands = {
     "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
@@ -4416,33 +4419,24 @@ enemy_class_normal = 'normal'
 
 common_enemies = []
 # List of enemies sorted by their spawn rarity.
-if slimernalia_stage >= 1:
-    common_enemies = [enemy_type_sandbag, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
-    rare_enemies = [enemy_type_slimeadactyl, enemy_type_dinoslime, enemy_type_mammoslime, enemy_type_desertraider]
-    raid_bosses = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
-    enemy_movers = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_drugdealer, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
-    defense_up_enemies = [enemy_type_miserablemiser]
-    if slimernalia_stage >= 6:
-        common_enemies.append(enemy_type_spiritofslimernaliapast)
-else:
-    common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
-    uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
-    rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
-    raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-    enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-    defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
+common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
+uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
+rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
+raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 raid_den_bosses = [enemy_type_alm]
 
+if slimernalia_active == True:
+    common_enemies.extend[enemy_type_spiritofslimernaliapast, enemy_type_drugdealer]
+    uncommon_enemies.extend[enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
+    raid_bosses.extend = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
+    enemy_movers.extend = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
+    defense_up_enemies.extend = [enemy_type_miserablemiser]
 # List of enemies that spawn in the Nuclear Beach
-if slimernalia_stage >= 1:
-    pre_historic_enemies = [enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    arctic_enemies = [enemy_type_desertraider]
-    slimeoid_trainers = [enemy_type_npc]
-else:
-    pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-    arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
-    slimeoid_trainers = [enemy_type_npc]
+pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
+arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+slimeoid_trainers = [enemy_type_npc]
 
 
 # Double Halloween variant enemies
@@ -5155,15 +5149,6 @@ for enemy in enemy_data_table.keys():
         raid_boss_names.append(enemy_data_table[enemy]["raredisplayname"])
 
 # Responses given by cowardly enemies when a non-ghost user is in their district.
-if slimernalia_stage >= 1:
-    coward_responses = [
-    "the {} calls out in a panic: *LOOK DUDE, JUST LET ME GET BACK TO THE GANG BASE. PLEASE.*",
-    "the {} taunts: *You're not even worth renouncing to kill, bitch.*",
-    "the {} calls out: *I'm at the top of your gang's rungs, hitting me is a terrible, terrible idea with consequences.*",
-    "the {} calls out to you: *Hit me, and I'm going to get you banished from our gang.*",
-    "the {} calls out to you: *I don't have any relics, in the long term you're just going to waste both of our time.*",
-    ]
-else:
     coward_responses = [
     "The {} calls out to you: *H-Hello. Are you one of those Gangsters everyone seems to be talking about?*",
     "The {} calls out to you: *You wouldn't hurt a {}, would you?*",
@@ -5173,13 +5158,6 @@ else:
     ]
 
 # Responses given by cowardly enemies when hurt.
-if slimernalia_stage >= 1:
-    coward_responses_hurt = [
-    "\nThe {} cries out in pain!: ***RRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!***",
-    "\nThe {} rages out: *DUDE, FUCK OFF!!*",
-    "\nThe {} throws a tantrum: *I swear to god, you are going to get SO spawncamped once Slimernalia is over.*",
-    ]
-else:
     coward_responses_hurt = [
     "\nThe {} cries out in pain!: *Just wait until Juvieman hears about this!!*",
     "\nThe {} cries out in pain!: *You MONSTER!*",
@@ -5242,6 +5220,30 @@ rain_protection = [
     cosmetic_id_raincoat,
     weapon_id_umbrella
 ]
+
+crop_icon_map = {
+item_id_poketubers: emote_poketubers,
+item_id_pulpgourds: emote_pulpgourds,
+item_id_sourpotatoes: emote_sourpotatoes,
+item_id_bloodcabbages: emote_bloodcabbages,
+item_id_joybeans: emote_joybeans,
+item_id_purplekilliflower: emote_killiflower,
+item_id_razornuts: emote_razornuts,
+item_id_pawpaw: emote_pawpaw,
+item_id_sludgeberries: emote_sludgeberries,
+item_id_suganmanuts: emote_suganmanuts,
+item_id_pinkrowddishes: emote_pinkrowddishes,
+item_id_dankwheat: emote_dankwheat,
+item_id_brightshade: emote_brightshade,
+item_id_blacklimes: emote_blacklimes,    
+item_id_phosphorpoppies: emote_phosphorpoppies,
+item_id_direapples: emote_direapples,
+item_id_rustealeaves: emote_rustealeaves,
+item_id_metallicaps: emote_metallicaps,
+item_id_steelbeans: emote_steelbeans,
+item_id_aushucks: emote_aushucks,
+item_id_partypoppeppers: emote_partypoppeppers,
+}
 
 event_type_slimeglob = "slimeglob"
 event_type_slimefrenzy = "slimefrenzy"

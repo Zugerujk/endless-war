@@ -516,7 +516,7 @@ async def attack(cmd):
             if attacker_killed:
                 bkf_msg += "\nYou have been destroyed by your own stupidity."
             else:
-                bkf_msg += "\nYou lose {} slime!\n".format(ctn.backfire_damage)
+                bkf_msg += "\nYou bled {} slime!\n".format(ctn.backfire_damage)
 
         """ Final Operations """
 

@@ -379,8 +379,6 @@ async def cast(cmd):
                     return
 
                 # If damp is greater than 10, a fish won't bite. If it's less than or equal to 10, a fish will bite.
-                if ewcfg.slimernalia_stage >= 4:
-                    damp /= 2
                 if damp > 10:
                     # Send fishing flavor text
                     if fisher.pier.pier_type == ewcfg.fish_slime_void:
@@ -688,7 +686,7 @@ async def barter(cmd):
 
             # Filters out items of greater value than your fish.
             for value_filter in items:
-                if value < value_filter.context:
+                if value < value_filter.price:
                     items.remove(value_filter)
                 else:
                     pass
@@ -1037,7 +1035,7 @@ async def barter_all(cmd):
                         pass
                 # Filters out items of greater value than your fish.
                 for value_filter in potential_items:
-                    if value < value_filter.context:
+                    if value < value_filter.price:
                         potential_items.remove(value_filter)
                     else:
                         pass

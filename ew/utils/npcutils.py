@@ -217,7 +217,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 async def generic_move(enemy = None, npc_obj = None): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
-        if random.randrange(20) == 0:
+        if random.randrange(30) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
                 if len(resp_cont.channel_responses) > 0:
@@ -475,7 +475,7 @@ async def mozz_give(channel, npc_obj, enemy, item):
         await attack_talk(channel, npc_obj, enemy, territorial = True)
 
 async def mozz_move(channel, npc_obj, enemy):
-    if random.randrange(20) == 0 or ewutils.DEBUG_OPTIONS.get('alternate_talk') == True:
+    if random.randrange(30) == 0 or ewutils.DEBUG_OPTIONS.get('alternate_talk') == True:
         resp_cont = enemy.move()
         await resp_cont.post()
         if resp_cont != None:
@@ -545,6 +545,7 @@ async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probabilit
             await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
 
     if user_data.weapon != -1:
+        user_data = ewcombat.EwUser(id_user=user_data.id_user, id_server=user_data.id_server)
         weapon_item = EwItem(id_item=user_data.weapon)
         itemtype = weapon_item.template
         user_data.add_weaponskill(n=1, weapon_type = itemtype)
@@ -578,12 +579,12 @@ async def needy_give(channel, npc_obj, enemy, item):
 async def needy_move(enemy = None, npc_obj = None):
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
         pre_chosen_poi = None
-        move_probability = 20
+        move_probability = 30
         status = enemy.getStatusEffects()  # if the follower has a target they'll pester them constantly
         if ewcfg.status_enemy_following_id in status:
             status_obj = EwEnemyStatusEffect(enemy_data=enemy, id_status=ewcfg.status_enemy_following_id)
             user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
-            if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown] and user_data.poi[:3] != 'apt' and user_data.poi != enemy.poi:
+            if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow] and user_data.poi[:3] != 'apt' and user_data.poi != enemy.poi:
                 pre_chosen_poi = user_data.poi
                 move_probability = 1
             else:

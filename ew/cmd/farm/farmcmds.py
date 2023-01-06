@@ -240,9 +240,6 @@ async def reap(cmd):
                     if ewcfg.mutation_id_greenfingers in mutations:
                         slime_gain *= 1.2
 
-                    if ewcfg.slimernalia_stage >= 2:
-                        slime_gain *= 2
-
                     if user_data.poi == ewcfg.poi_id_jr_farms:
                         slime_gain = int(slime_gain / 4)
 

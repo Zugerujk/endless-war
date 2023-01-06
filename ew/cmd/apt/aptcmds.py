@@ -988,10 +988,10 @@ async def apt_look(cmd):
         poi = poi_static.id_to_poi.get(apt_model.poi)
         isVisiting = True
 
-    response = "You stand in {}, your flat in {}.\n\n{}\n\n".format(apt_model.name, poi.str_name, apt_model.description)
-
+    response = "You stand in {}, your flat in {}.\n\n{}\n".format(apt_model.name, poi.str_name, apt_model.description)
+    
     if isVisiting:
-        response = response.replace("your", "a")
+        response = response.replace("your flat", "a flat")
 
     resp_cont.add_channel_response(cmd.message.channel, response)
 
@@ -999,21 +999,28 @@ async def apt_look(cmd):
     decorate_resp = apt_decorate_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
     resp_cont.add_channel_response(cmd.message.channel, decorate_resp)
 
+    # Add an extra line break between furniture and storage
+    resp_cont.add_channel_response(cmd.message.channel, "") # Response container will add extra line itself
+
     # Fridge Compartment
-    fridge_response = "\n\n" + apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, fridge_response)
+    fridge_response = apt_fridge_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if fridge_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + fridge_response)
 
     # Closet Compartment
-    closet_response = "\n\n" + apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, closet_response)
+    closet_response = apt_closet_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if closet_response != "":  # currently always returns actual text
+        resp_cont.add_channel_response(cmd.message.channel, "" + closet_response)
 
     # Bookshelf Compartment
-    shelf_response = "\n\n" + apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, shelf_response)
+    shelf_response = apt_bookshelf_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if shelf_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + shelf_response)
 
     # Freezer Compartment
-    freeze_response = "\n\n" + apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
-    resp_cont.add_channel_response(cmd.message.channel, freeze_response)
+    freeze_response = apt_slimeoid_look_str(id_server=playermodel.id_server, id_user=apt_model.id_user)
+    if freeze_response != "":
+        resp_cont.add_channel_response(cmd.message.channel, "" + freeze_response)
 
     return await resp_cont.post(channel=cmd.message.channel)
 
@@ -1255,12 +1262,6 @@ async def store_item(cmd):
 
         else:
             response = "You store the {} in the {}.".format(name_string, destination)
-            hatrack = bknd_item.find_item(id_server=playermodel.id_server, id_user=str(playermodel.id_user) + "decorate", item_search="hatstand")
-            if destination == "closet" and item_sought.get('item_type') == ewcfg.it_cosmetic:
-                map_obj = cosmetics.cosmetic_map.get(item.item_props.get('id_cosmetic'))
-                if map_obj != None:
-                    if map_obj.is_hat == True and hatrack:
-                        response = "You hang the {} on the rack.".format(name_string)
     else:
         response = "Are you sure you have that item?"
 
@@ -1321,7 +1322,6 @@ async def remove_item(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     items_snagged = 0
-    hatrack = False
     item_list = []
     item_cache = bknd_core.get_cache(obj_type="EwItem")
     while multisnag > 0:
@@ -1370,13 +1370,6 @@ async def remove_item(cmd):
                 inv_response = bknd_item.check_inv_capacity(user_data=usermodel, item_type=item_sought.get('item_type'), return_strings=True, pronoun="You")
                 if inv_response != "":
                     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, inv_response))
-
-                if destination == "closet" and item_sought.get('item_type') == ewcfg.it_cosmetic:
-                    hatrack_obj = bknd_item.find_item(id_server=playermodel.id_server, id_user=str(playermodel.id_user) + "decorate", item_search="hatstand")
-                    map_obj = cosmetics.cosmetic_map.get(item.item_props.get('id_cosmetic'))
-                    if map_obj != None:
-                        if map_obj.is_hat == True and hatrack_obj:
-                            hatrack = True
 
                 if item_sought.get('item_type') == ewcfg.it_food:
                     food_items = bknd_item.inventory(
@@ -1433,8 +1426,6 @@ async def remove_item(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     response = "You take the {} from the {}.".format(name_string, destination)
-    if hatrack:
-        response = "You take the {} off the rack.".format(name_string)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1667,29 +1658,35 @@ async def flush(cmd):
     user_data = EwUser(member=cmd.message.author)
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=user_data.id_server)
-    item_obj = EwItem(id_item=item_sought.get('id_item'))
-    apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
 
-    if item_obj.soulbound == True:
-        response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
-    elif apartment.apt_class == 'c':
-        response = "Your apartment's toilet isn't good enough to just go cramming items down there."
-    elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
-        if user_data.weaponmarried:
-            weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
-            response = "You remember when your mother used to try flushing you down the toilet, and all the trauma that brought. Nobody should have to live what you did, especially not your beloved {}.".format(
-                weapon.str_weapon)
+    apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
+    poi = poi_static.id_to_poi(user_data.poi)
+    if item_sought:
+        item_obj = EwItem(id_item=item_sought.get('id_item'))
+        if item_obj.soulbound == True:
+            response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
+        elif not poi.is_apartment:
+            response = "You're not in an apartment. No toilet, just ask anyone."
+        elif apartment.apt_class == 'c':
+            response = "Your apartment's toilet isn't good enough to just go cramming items down there."
+        elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
+            if user_data.weaponmarried:
+                weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
+                response = "You remember when your mother used to try flushing you down the toilet, and all the trauma that brought. Nobody should have to live what you did, especially not your beloved {}.".format(
+                    weapon.str_weapon)
+                return await fe_utils.send_message(cmd.client, cmd.message.channel,
+                                                   fe_utils.formatMessage(cmd.message.author, response))
+
+            else:
+                response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed=True)
+                user_data.change_crime(n=ewcfg.cr_littering_points)
+                user_data.persist()
             return await fe_utils.send_message(cmd.client, cmd.message.channel,
                                                fe_utils.formatMessage(cmd.message.author, response))
-
         else:
-            response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed=True)
+            response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed= True)
             user_data.change_crime(n=ewcfg.cr_littering_points)
             user_data.persist()
-        return await fe_utils.send_message(cmd.client, cmd.message.channel,
-                                           fe_utils.formatMessage(cmd.message.author, response))
     else:
-        response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed= True)
-        user_data.change_crime(n=ewcfg.cr_littering_points)
-        user_data.persist()
+        response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
