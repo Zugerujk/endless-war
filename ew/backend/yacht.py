@@ -18,6 +18,7 @@ class EwYacht():
     xcoord = -1 #Ship's x coordinate
     ycoord = -1 #Ship's y coordinate
     speed = 0 #Ship's speed
+    direction = "" #Ship's orientation
 
     def __init__(self, id_yacht, id_server):
 
@@ -32,7 +33,7 @@ class EwYacht():
                 # Retrieve object
 
                 cursor.execute(
-                    "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
+                    "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
                         ewcfg.col_name_yacht,
                         ewcfg.col_thread_id,
                         ewcfg.col_id_user,
@@ -44,7 +45,8 @@ class EwYacht():
                         ewcfg.col_poopdeck,
                         ewcfg.col_xcoord,
                         ewcfg.col_ycoord,
-                        ewcfg.col_speed
+                        ewcfg.col_speed,
+                        ewcfg.col_direction
                     ), (
                         self.id_yacht,
                         self.id_server
@@ -63,6 +65,7 @@ class EwYacht():
                 self.xcoord = result[9]
                 self.ycoord = result[10]
                 self.speed = result[11]
+                self.direction = result[12]
 
             finally:
                 cursor.close()
@@ -77,7 +80,7 @@ class EwYacht():
 
             # Save the object.
             cursor.execute(
-                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
+                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
                     ewcfg.col_id_yacht,
                     ewcfg.col_name_yacht,
@@ -91,7 +94,8 @@ class EwYacht():
                     ewcfg.col_poopdeck,
                     ewcfg.col_xcoord,
                     ewcfg.col_ycoord,
-                    ewcfg.col_speed
+                    ewcfg.col_speed,
+                    ewcfg.col_direction
 
                 ), (
                     self.id_server,
@@ -107,7 +111,8 @@ class EwYacht():
                     self.poopdeck,
                     self.xcoord,
                     self.ycoord,
-                    self.speed
+                    self.speed,
+                    self.direction
                 ))
         finally:
             # Clean up the database handles.

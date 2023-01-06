@@ -2494,6 +2494,7 @@ col_storehouse = "storehouse" #Player manning the storehouse
 col_poopdeck = "poopdeck" #Player currently manning the poopdeck
 col_xcoord = "x_coord"
 col_ycoord = "y_coord"
+col_direction = 'direction'
 
 
 col_id_stat = "stat" #ID of the yacht stat

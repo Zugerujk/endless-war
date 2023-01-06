@@ -1415,10 +1415,15 @@ async def clock_tick_loop(id_server, force_active = False):
 async def boat_tick_loop(id_server):
     interval = ewcfg.boat_tick_length
     # Loops for boat movement
+    tick_count = 1
     while not ewutils.TERMINATE:
         await asyncio.sleep(interval)
-        await boat_tick(id_server=id_server)
+        tick_count = (tick_count + 1) % 2
+        await boat_tick(id_server=id_server, tick_count = tick_count)
 
-async def boat_tick(id_server):
-    pass
+async def boat_tick(id_server, tick_count):
+    if tick_count == 0:
+        pass
+
+    boats = bknd_core.execute_sql_query("SELECT id_yacht from")
 

@@ -562,33 +562,34 @@ CREATE TABLE yachts(
     id_yacht BIGINT NOT NULL AUTO_INCREMENT,
     name_yacht varchar(64) NOT NULL,
     thread_id varchar(32) NOT NULL,
-    id_user BIGINT NOT NULL DEFAULT = -1,
-    id_server BIGINT NOT NULL DEFAULT = -1,
+    id_user BIGINT NOT NULL DEFAULT  -1,
+    id_server BIGINT NOT NULL DEFAULT  -1,
     flood DECIMAL(9, 2) NOT NULL DEFAULT 0.0,
     filth DECIMAL(9, 2) NOT NULL DEFAULT 0.0,
-    helm BIGINT NOT NULL DEFAULT = -1,
-    cannon BIGINT NOT NULL DEFAULT = -1,
-    storehouse BIGINT NOT NULL DEFAULT = -1,
-    poopdeck BIGINT NOT NULL DEFAULT = -1,
-    x_coord INT NOT NULL DEFAULT = 27,
-    y_coord INT NOT NULL DEFAULT = 5,
+    helm BIGINT NOT NULL DEFAULT  -1,
+    cannon BIGINT NOT NULL DEFAULT  -1,
+    storehouse BIGINT NOT NULL DEFAULT  -1,
+    poopdeck BIGINT NOT NULL DEFAULT  -1,
+    x_coord INT NOT NULL DEFAULT  27,
+    y_coord INT NOT NULL DEFAULT  5,
+    speed INT NOT NULL DEFAULT  0,
+    direction VARCHAR(32) NOT NULL DEFAULT '',
 
     PRIMARY KEY (id_yacht, id_server)
 );
 
 
 CREATE TABLE yacht_stats(
-    id_yacht BIGINT NOT NULL DEFAULT =  -1,
+    id_yacht BIGINT NOT NULL DEFAULT   -1,
     id_stat BIGINT NOT NULL AUTO_INCREMENT,
-    type_stat VARCHAR(25) NOT NULL DEFAULT = '',
-    id_server BIGINT NOT NULL DEFAULT = -1,
-    target BIGINT NOT NULL DEFAULT = -1,
-    quantity BIGINT NOT NULL DEFAULT = -1,
+    type_stat VARCHAR(25) NOT NULL DEFAULT  '',
+    id_server BIGINT NOT NULL DEFAULT  -1,
+    target BIGINT NOT NULL DEFAULT  -1,
+    quantity BIGINT NOT NULL DEFAULT  -1,
 
-
+	PRIMARY KEY(id_stat),
     FOREIGN KEY (id_yacht)
 		REFERENCES yachts(id_yacht)
 		ON DELETE CASCADE
 );
-
 
