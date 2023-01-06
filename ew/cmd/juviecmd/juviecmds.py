@@ -1160,7 +1160,7 @@ async def claim(cmd):
         if world_events.get(id_event) == ewcfg.event_type_rally:
             event = bknd_worldevent.EwWorldEvent(id_event=id_event)
 
-            if event.time_activate + (60 * 30) < int(time.time()):
+            if event.time_activate + (60 * 30) >= int(time.time()):
 
                 if event.event_props.get('poi') == user_data.poi and event.event_props.get(str(user_data.id_user)) is None:
                     event.event_props[str(user_data.id_user)] = '1'
