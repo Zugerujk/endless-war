@@ -545,6 +545,7 @@ async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probabilit
             await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='hit', enemy=enemy)
 
     if user_data.weapon != -1:
+        user_data = ewcombat.EwUser(id_user=user_data.id_user, id_server=user_data.id_server)
         weapon_item = EwItem(id_item=user_data.weapon)
         itemtype = weapon_item.template
         user_data.add_weaponskill(n=1, weapon_type = itemtype)
