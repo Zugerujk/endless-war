@@ -112,10 +112,10 @@ def get_weapon_type_stats(weapon_type):
             "crit_chance": 0.1,
             "crit_multiplier": 1.5,
             "hit_chance": 0.8,
-            "backfire_chance": 1, # Guaranteed backfire with every attack
+            "backfire_chance": 1,  # Guaranteed backfire with every attack
             "backfire_multiplier": 0.15,
             "backfire_crit_mult": 0.75,  # Halve backfire damage relative to attack damage on crit
-            "backfire_miss_mult": 10, # Don't fuck it up or you're a dead motherfucker
+            "backfire_miss_mult": 10,  # Don't fuck it up or you're a dead motherfucker
         },
     }
 
@@ -247,7 +247,7 @@ def wef_garrote(ctn = None):
         ctn.slimes_damage *= 10
         ctn.crit = True
 
-    if ctn.miss == False:
+    if not ctn.miss:
         # Make damage integer
         ctn.slimes_damage = int(ctn.slimes_damage)
         # Stop movement
@@ -266,20 +266,21 @@ def wef_staff(ctn = None):
         lambda _: 3 <= market_data.clock < 4,  # witching hour
         lambda _: market_data.weather == ewcfg.weather_foggy,
         lambda _: ewutils.check_moon_phase(market_data) == ewcfg.moon_new,  # moonless night
-        lambda ctn: not ctn.user_data.has_soul,
-        lambda ctn: ctn.user_data.get_possession('weapon'),
-        lambda ctn: ctn.user_data.poi == ewcfg.poi_id_thevoid,
-        lambda ctn: ctn.shootee_data.slimes > ctn.user_data.slimes,
-        lambda ctn: (ctn.user_data.poi_death == ctn.user_data.poi) or (ctn.shootee_data.poi_death == ctn.shootee_data.poi),
-        lambda ctn: (ctn.user_data.id_killer == ctn.shootee_data.id_user) or (ctn.user_data.id_user == ctn.shootee_data.id_killer),
-        lambda ctn: (ctn.shootee_data.life_state == ewcfg.life_state_juvenile) or (ctn.shootee_data.life_state == ewcfg.life_state_enlisted and ctn.shootee_data.faction == ctn.user_data.faction),
-        lambda ctn: (ctn.shootee_data.gender == ctn.user_data.gender), # SGAB, or Same Gender Attack Bonus
+        lambda container: not container.user_data.has_soul,
+        lambda container: container.user_data.get_possession('weapon'),
+        lambda container: container.user_data.poi == ewcfg.poi_id_thevoid,
+        lambda container: container.shootee_data.slimes > container.user_data.slimes,
+        lambda container: (container.user_data.poi_death == container.user_data.poi) or (container.shootee_data.poi_death == container.shootee_data.poi),
+        lambda container: (container.user_data.id_killer == container.shootee_data.id_user) or (container.user_data.id_user == container.shootee_data.id_killer),
+        lambda container: (container.shootee_data.life_state == ewcfg.life_state_juvenile) or (container.shootee_data.life_state == ewcfg.life_state_enlisted and container.shootee_data.faction == container.user_data.faction),
+        lambda container: (container.shootee_data.gender == container.user_data.gender),  # SGAB, or Same Gender Attack Bonus
     }
     for condition in conditions:
         try:
             if condition(ctn):
                 conditions_met += 1
-        except:
+        except Exception as e:
+            ewutils.logMsg("Staff condition check for user {} failed.\nException: {}".format(ctn.user_data.id_user, e))
             pass
 
     ctn.slimes_spent = int(ctn.slimes_spent * 2)
@@ -790,7 +791,7 @@ weapon_list = [
             "bombs",
             "moly"
         ],
-        #str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!", Not needed with miss text included, double announcing basically
+        # str_backfire = "**Oh, the humanity!!** The bottle bursts in {name_player}'s hand, burning them terribly!!", Not needed with miss text included, double announcing basically
         str_miss="**OH FUCK!** Your molotov combusts and shatters all over you the moment {name_player} set it alight!",
         str_crit="{name_player}’s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
         str_equip="You equip the molotov cocktail.",
@@ -1126,7 +1127,7 @@ weapon_list = [
             'crit_spray': "**Critical hit!** The paint bullet skids a wall, spreading your paint across the whole thing!",
             'equip_spray': "You load a clip of paint into the gun and throw it onto your back, kinda like Rambo if he were an art major."
         },
-    str_brandish=["**SPLAAART!** {name} takes out {weapon} and inks the fuck out of a nearby splat zone!\n{tag}"]
+        str_brandish=["**SPLAAART!** {name} takes out {weapon} and inks the fuck out of a nearby splat zone!\n{tag}"]
     ),
     EwWeapon(  # 26
         id_weapon=ewcfg.weapon_id_paintroller,
@@ -1658,7 +1659,7 @@ weapon_list = [
         str_brandish=["{name} shakes {weapon}, but most people can't see it from this distance. It just looks like they're shaking their fist at them."]
     ),
     EwWeapon(  # 42 AWP
-        id_weapon=ewcfg.weapon_id_awp, #need to make
+        id_weapon=ewcfg.weapon_id_awp,  # need to make
         alias=[
             "l96",
             "sniperrifle",
@@ -1813,7 +1814,7 @@ weapon_list = [
         stat=ewcfg.stat_skateboard_kills,
         str_brandish=["Try !stunt."]
     ),
-EwWeapon(  # 48
+    EwWeapon(  # 48
         id_weapon=ewcfg.weapon_id_juvierang,
         alias=[
             "boomerang",
@@ -1826,7 +1827,7 @@ EwWeapon(  # 48
         str_weapon="a juvierang",
         str_weaponmaster_self="You are a rank {rank} {title} 'rang-er.",
         str_weaponmaster="They are a rank {rank} {title} 'rang-er.",
-        str_kill="**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}",
+        str_kill=["**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}"],
         str_killdescriptor="'rang'd",
         str_damage="{name_target} is knocked by a 'rang in the {hitzone}!!",
         str_duel="**WHIP! WHAP!!** {name_player} and {name_target} throw juvierangs at eachother like they're playing tower defense.",
@@ -2045,32 +2046,32 @@ slimeoid_weapon_type_convert = {
 }
 
 slimeoid_dmg_text = {
-    "blades":"slashed cleanly across the chest",
-    "teeth":"impaled by numerous sharp teeth",
-    "grip":"being deprived of oxygen",
-    "bludgeon":"struck hard in the skull",
-    "spikes":"skewered by a volley of jagged spikes",
-    "electricity":"tazed by a continuous arc of electricity",
-    "slam":"crushed under a massive weight"
+    "blades": "slashed cleanly across the chest",
+    "teeth": "impaled by numerous sharp teeth",
+    "grip": "being deprived of oxygen",
+    "bludgeon": "struck hard in the skull",
+    "spikes": "skewered by a volley of jagged spikes",
+    "electricity": "tazed by a continuous arc of electricity",
+    "slam": "crushed under a massive weight"
 }
 
 slimeoid_kill_text = {
-    "blades":"unleashes a flurry of strikes too fast for the eye to see. After a few heartbeats, slices slowly slide apart like fresh cut salami.",
-    "teeth":"clenches their prey in its powerful jaws. Ripping and tearing the head from its body until there’s nothing left but a stump.",
-    "grip":"has a tight stranglehold on their prey, squeezing until their brain bursts out of their skull like a cyst filled with grey matter.",
-    "bludgeon":"swiftly bashes their prey with force of a semi truck. Their bones are flung out of their body before vaporizing against a nearby building.",
-    "spikes":"slings a hail of gnarled spikes, pinning their victim against the wall like a carnival act. It eagerly picks off meat chunks of its prey to feast on like skewered BBQ.",
-    "electricity":"filled with unlimited power, charges up for a massive powerful arc, unleashing a blinding lightning strike. The taste of metal fills the static-charged atmosphere before its prey is struck with 80 jigawats of power.",
-    "slam":"jumps high into the air. With the force of an atomic warhead they crash down through the stratosphere and obliterate their prey below, painting the district green. "
+    "blades": "unleashes a flurry of strikes too fast for the eye to see. After a few heartbeats, slices slowly slide apart like fresh cut salami.",
+    "teeth": "clenches their prey in its powerful jaws. Ripping and tearing the head from its body until there’s nothing left but a stump.",
+    "grip": "has a tight stranglehold on their prey, squeezing until their brain bursts out of their skull like a cyst filled with grey matter.",
+    "bludgeon": "swiftly bashes their prey with force of a semi truck. Their bones are flung out of their body before vaporizing against a nearby building.",
+    "spikes": "slings a hail of gnarled spikes, pinning their victim against the wall like a carnival act. It eagerly picks off meat chunks of its prey to feast on like skewered BBQ.",
+    "electricity": "filled with unlimited power, charges up for a massive powerful arc, unleashing a blinding lightning strike. The taste of metal fills the static-charged atmosphere before its prey is struck with 80 jigawats of power.",
+    "slam": "jumps high into the air. With the force of an atomic warhead they crash down through the stratosphere and obliterate their prey below, painting the district green. "
 }
 
 
 slimeoid_crit_text = {
-"spit":"a rain of high velocity corrosive acid",
-"laser":"a searing white hot photon beam",
-"spines":"a hail of massive jagged spikes",
-"throw":"its unmatched strength and throws a car",
-"TK":"a brain blast of psychic waves",
-"fire":"a torrent of unrelenting dragon-like flames",
-"webs":"a high pressure string shot of sticky webs"
+    "spit": "a rain of high velocity corrosive acid",
+    "laser": "a searing white hot photon beam",
+    "spines": "a hail of massive jagged spikes",
+    "throw": "its unmatched strength and throws a car",
+    "TK": "a brain blast of psychic waves",
+    "fire": "a torrent of unrelenting dragon-like flames",
+    "webs": "a high pressure string shot of sticky webs"
 }

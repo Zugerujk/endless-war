@@ -1,4 +1,5 @@
 import time
+import traceback, sys
 
 from . import core as bknd_core
 from . import worldevent as bknd_event
@@ -1064,7 +1065,7 @@ def give_item(
 
 
 def give_item_multi(id_list = None, destination = None):
-    if id_list != None and destination != None:
+    if id_list is not None and destination is not None:
         for id_item in id_list:
             remove_from_trades(id_item)
 
@@ -1081,12 +1082,13 @@ def give_item_multi(id_list = None, destination = None):
                     [destination]
                 ))
 
-        except:
-            ewutils.logMsg('Failed to mass move items.')
+        except Exception as e:
+            ewutils.logMsg('Failed to mass move items with Exception: {}'.format(e))
+            traceback.print_exc(file=sys.stdout)
 
         item_cache = bknd_core.get_cache(obj_type="EwItem")
-        for id in id_list:
-            cache_item = item_cache.get_entry(unique_vals={"id_item": id})
+        for ids in id_list:
+            cache_item = item_cache.get_entry(unique_vals={"id_item": ids})
             cache_item.update({'id_owner': destination})
             item_cache.set_entry(data=cache_item)
 
