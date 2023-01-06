@@ -1660,9 +1660,12 @@ async def flush(cmd):
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=user_data.id_server)
     item_obj = EwItem(id_item=item_sought.get('id_item'))
     apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
+    poi = poi_static.id_to_poi(user_data.poi)
 
     if item_obj.soulbound == True:
         response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
+    elif not poi.is_apartment:
+        response = "You're not in an apartment. No toilet, just ask anyone."
     elif apartment.apt_class == 'c':
         response = "Your apartment's toilet isn't good enough to just go cramming items down there."
     elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:

@@ -383,7 +383,9 @@ blurb_context_map = {
     "curatorinsults":curator_insults,
     "actualstds":actual_stds,
     "bazaardistractions":bazaar_distractions,
-    "captcha":ewcfg.captcha_dict
+    "captcha":ewcfg.captcha_dict,
+    "stiltwalker":stiltwalker_jump_response,
+    "slimeglobe":slimeglobe_list
 }
 
 
