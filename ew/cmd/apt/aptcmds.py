@@ -1658,29 +1658,35 @@ async def flush(cmd):
     user_data = EwUser(member=cmd.message.author)
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=user_data.id_server)
-    item_obj = EwItem(id_item=item_sought.get('id_item'))
-    apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
 
-    if item_obj.soulbound == True:
-        response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
-    elif apartment.apt_class == 'c':
-        response = "Your apartment's toilet isn't good enough to just go cramming items down there."
-    elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
-        if user_data.weaponmarried:
-            weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
-            response = "You remember when your mother used to try flushing you down the toilet, and all the trauma that brought. Nobody should have to live what you did, especially not your beloved {}.".format(
-                weapon.str_weapon)
+    apartment = EwApartment(id_server=user_data.id_server, id_user=user_data.id_user)
+    poi = poi_static.id_to_poi(user_data.poi)
+    if item_sought:
+        item_obj = EwItem(id_item=item_sought.get('id_item'))
+        if item_obj.soulbound == True:
+            response = "That's soulbound. Maybe you think it's a sneaky way to flush yourself down the toilet, but trust me. Bad idea."
+        elif not poi.is_apartment:
+            response = "You're not in an apartment. No toilet, just ask anyone."
+        elif apartment.apt_class == 'c':
+            response = "Your apartment's toilet isn't good enough to just go cramming items down there."
+        elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
+            if user_data.weaponmarried:
+                weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
+                response = "You remember when your mother used to try flushing you down the toilet, and all the trauma that brought. Nobody should have to live what you did, especially not your beloved {}.".format(
+                    weapon.str_weapon)
+                return await fe_utils.send_message(cmd.client, cmd.message.channel,
+                                                   fe_utils.formatMessage(cmd.message.author, response))
+
+            else:
+                response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed=True)
+                user_data.change_crime(n=ewcfg.cr_littering_points)
+                user_data.persist()
             return await fe_utils.send_message(cmd.client, cmd.message.channel,
                                                fe_utils.formatMessage(cmd.message.author, response))
-
         else:
-            response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed=True)
+            response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed= True)
             user_data.change_crime(n=ewcfg.cr_littering_points)
             user_data.persist()
-        return await fe_utils.send_message(cmd.client, cmd.message.channel,
-                                           fe_utils.formatMessage(cmd.message.author, response))
     else:
-        response = cmdutils.item_off(item_sought.get('id_item'), user_data.id_server, item_sought.get('name'), is_flushed= True)
-        user_data.change_crime(n=ewcfg.cr_littering_points)
-        user_data.persist()
+        response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

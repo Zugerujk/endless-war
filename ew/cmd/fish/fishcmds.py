@@ -686,7 +686,7 @@ async def barter(cmd):
 
             # Filters out items of greater value than your fish.
             for value_filter in items:
-                if value < value_filter.context:
+                if value < value_filter.price:
                     items.remove(value_filter)
                 else:
                     pass
@@ -1035,7 +1035,7 @@ async def barter_all(cmd):
                         pass
                 # Filters out items of greater value than your fish.
                 for value_filter in potential_items:
-                    if value < value_filter.context:
+                    if value < value_filter.price:
                         potential_items.remove(value_filter)
                     else:
                         pass

@@ -1169,7 +1169,7 @@ async def print_map_data(cmd):
         if poi.is_subzone:
             for neighbor in poi.neighbors.keys():
                 if neighbor not in poi.mother_districts:
-                    print('subzone {} has invalid mother district(s)'.format(poi.str_name))
+                    ewutils.logMsg('Subzone {} has invalid mother district(s)'.format(poi.str_name))
 
             # if neighbor_poi.id_poi in poi.neighbors.keys():
             # if poi.id_poi in neighbor_poi.neighbors.keys():

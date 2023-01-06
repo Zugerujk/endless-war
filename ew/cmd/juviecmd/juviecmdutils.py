@@ -734,9 +734,8 @@ def create_mining_event(cmd, toolused=None):
     uncommon_event_triggered = False
     rare_event_triggered = False
 
-    if user_data.weapon >= 0:
-        weapon_item = EwItem(id_item=user_data.weapon)
-        weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
+    weapon_item = user_data.get_weapon_item()
+    weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
 
     if randomn < rare_event_chance: # 5% chance, divided by # of players
         rare_event_triggered = True
