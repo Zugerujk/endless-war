@@ -20,11 +20,11 @@ class EwYacht():
     speed = 0 #Ship's speed
     direction = "" #Ship's orientation
 
-    def __init__(self, id_yacht, id_server):
+    def __init__(self, id_thread, id_server):
 
         self.id_server = id_server
-        if id_server is not None and id_yacht is not None:
-            self.id_yacht = id_yacht
+        if id_server is not None and id_thread is not None:
+            self.thread_id = id_thread
             try:
                 conn_info = bknd_core.databaseConnect()
                 conn = conn_info.get('conn')
@@ -33,7 +33,7 @@ class EwYacht():
                 # Retrieve object
 
                 cursor.execute(
-                    "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE id_yacht = %s AND id_server = %s".format(
+                    "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE thread_id = %s AND id_server = %s".format(
                         ewcfg.col_name_yacht,
                         ewcfg.col_thread_id,
                         ewcfg.col_id_user,

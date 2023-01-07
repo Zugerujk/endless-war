@@ -1409,6 +1409,7 @@ cmd_talk = cmd_prefix + 'talk'
 cmd_avast = cmd_prefix + 'avast'
 cmd_setsail = cmd_prefix + 'setsail'
 cmd_rentyacht = cmd_prefix + 'rentyacht'
+cmd_quickthread = cmd_prefix + 'quickthread'
 
 cmd_clean_stats = cmd_prefix + 'cleanstats'
 
