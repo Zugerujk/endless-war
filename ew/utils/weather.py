@@ -152,7 +152,7 @@ async def weather_tick(id_server = None):
                             member = guild.get_member(user_data.id_user)
                             # Stop movement
                             ewutils.moves_active[user_data.id_user] = 0
-                            rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), deposited_district)
+                            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), deposited_district)
                             # Move the player into the neighbor
                             await ewrolemgr.updateRoles(client=client, member=member, new_poi=deposited_district)
                             user_data.poi = deposited_district_object.id_poi
