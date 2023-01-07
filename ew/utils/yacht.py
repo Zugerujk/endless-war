@@ -2,6 +2,8 @@ import ew.static.cfg as ewcfg
 import math
 from ..backend.yacht import EwYacht
 from ..backend import core as bknd_core
+import ew.static.poi as poi_static
+
 
 try:
     from ew.cmd import debug as ewdebug
@@ -64,6 +66,30 @@ async def boat_tick(id_server, tick_count):
 
 
 
+
+async def find_local_boats(poi = None, name = None, id_server = None):
+    boats = []
+    query = "select {} from yachts where {} = %s and {} <> %s".format(ewcfg.col_thread_id, ewcfg.col_id_server, ewcfg.col_direction)
+    data = bknd_core.execute_sql_query(query, (id_server, 'sunk'))
+
+    for id in data:
+        yacht = EwYacht(id_server=id_server, id_thread=id[0])
+        poi_match = 0
+        if poi is not None:
+            poi = poi_static.id_to_poi.get(poi)
+            if poi.coord is None:
+                continue
+            else:
+                for coord in poi.coord:
+                    if yacht.xcoord == coord[0] and yacht.ycoord == coord[1]:
+                        poi_match = 1
+        else:
+            poi_match = 1
+
+        if poi_match == 1 and(name in yacht.yacht_name or name is None):
+            boats.append(yacht)
+
+    return boats
 
 
 async def sink():

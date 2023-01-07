@@ -1452,6 +1452,7 @@ poi_list = [
         str_desc="A lonesome pier at the very end of the Slime's End peninsula, stretching out into the Slime Sea. From here, you're able to clearly make out Downtown in the distance, pumping light pollution into the normally polluted air. You're itching to get back there and punch some grandmas once you're done wringing slime out of fish.\n\nExits into Slime's End.",
         channel="slimes-end-pier",
         role="Slime's End Pier",
+        coord = [[25, 1], [26, 2], [26, 3], [26,4], [27,1], [27,2], [27,3], [27,4], [27,5]],
         permissions={'slimes-end-pier': ['read', 'send', 'connect']},
         pvp=False,
         is_subzone=True,

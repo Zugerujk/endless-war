@@ -26,22 +26,22 @@ async def rentyacht(cmd):
         accepted = await fe_utils.prompt(cmd=cmd, target = cmd.message.author, question = question, wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False)
         user_data = EwUser(member=cmd.message.author)
 
-        if accepted and user_data.slimecoin < ewcfg.yachtprice:
+        if accepted and user_data.slimecoin > ewcfg.yachtprice:
             channel_slimesea = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimesea)
 
             user_data.change_slimecoin(n=-ewcfg.yachtprice, coinsource=ewcfg.coinsource_spending)
             user_data.persist()
-            yacht = EwYacht(id_server=cmd.guild.id, id_yacht=None)
+            yacht = EwYacht()
             yacht.owner = cmd.message.author.id
             yacht.xcoord = 26
             yacht.ycoord = 5
             yacht.direction = 'stop'
             yacht.yacht_name = name
-
+            yacht.id_server = user_data.id_server
             response = "I christen ye: The S.S. {}!".format(name)
 
             starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "S.S. {}".format(name))
-            thread = await cmd.message.channel.create_thread(name="S.S. {}".format(name), message=starting_message, type=discord.ChannelType.private, invitable=False)
+            thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), message=starting_message, type=discord.ChannelType.private, invitable=False)
 
             yacht.thread_id = thread.id
             yacht.persist()
@@ -49,10 +49,12 @@ async def rentyacht(cmd):
 
         else:
             response = "Oh, pooer soul. Go whale around with the rest of the urchins, lad."
-            await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/npc/albertalex.png")
+            return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/npc/albertalex.png")
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
+async def board(cmd):
+    user_data = EwUser(member=cmd.message.author)
 

@@ -20,7 +20,7 @@ class EwYacht():
     speed = 0 #Ship's speed
     direction = "" #Ship's orientation
 
-    def __init__(self, id_thread, id_server):
+    def __init__(self, id_thread = None, id_server = None):
 
         self.id_server = id_server
         if id_server is not None and id_thread is not None:
@@ -80,7 +80,7 @@ class EwYacht():
 
             # Save the object.
             cursor.execute(
-                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
+                "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
                     ewcfg.col_id_yacht,
                     ewcfg.col_name_yacht,
