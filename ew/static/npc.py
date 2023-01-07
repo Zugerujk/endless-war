@@ -81,7 +81,7 @@ EwNpc(
                 "greenlightdistrictloop":["*Miku is gleefully shopping.*"],
                 "slimesendcliffsloop":["*Noticing the ocean waves, Miku frantically scrambles for land.*"]},
     func_ai = npcutils.chatty_npc_action,
-    image_profile = "https://cdn.discordapp.com/attachments/431238867459375145/832804357731778620/Miku_02.png", # "I'll illustrate one soon" - not final
+    image_profile = "https://rfck.app/npc/juviemiku_thumb.png", # "I'll illustrate one soon" - not final
     defaultslime = 160000,
     defaultlevel = 20,
     rewards = [
