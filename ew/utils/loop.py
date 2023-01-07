@@ -42,6 +42,8 @@ from ..backend.status import EwEnemyStatusEffect
 from ..backend.status import EwStatusEffect
 from ..backend.worldevent import EwWorldEvent
 from ..backend.item import EwItem
+import ew.utils.yacht as yacht_utils
+
 from ..static import cfg as ewcfg
 from ..static import items as static_items
 from ..static.food import swilldermuk_food
@@ -50,8 +52,10 @@ from ..static import status as se_static
 from ..static import weapons as static_weapons
 try:
     from ..utils import rutils
+    from ew.cmd import debug as ewdebug
 except:
     from ..utils import rutils_dummy as rutils
+    from ew.cmd import debug_dummy as ewdebug
 
 async def event_tick_loop(id_server):
     # initialise void connections
@@ -1419,11 +1423,8 @@ async def boat_tick_loop(id_server):
     while not ewutils.TERMINATE:
         await asyncio.sleep(interval)
         tick_count = (tick_count + 1) % 2
-        await boat_tick(id_server=id_server, tick_count = tick_count)
+        await yacht_utils.boat_tick(id_server=id_server, tick_count = tick_count)
 
-async def boat_tick(id_server, tick_count):
-    if tick_count == 0:
-        pass
 
-    boats = bknd_core.execute_sql_query("SELECT id_yacht from")
+
 
