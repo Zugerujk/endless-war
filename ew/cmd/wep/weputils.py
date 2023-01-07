@@ -903,7 +903,7 @@ async def attackEnemy(cmd):
             ewstats.increment_stat(user=user_data, metric=weapon.stat)
 
         # Give a bonus to the player's weapon skill for killing a stronger enemy.
-        if enemy_data.enemytype != ewcfg.enemy_type_sandbag and enemy_data.level >= user_data.slimelevel and weapon is not None:
+        if enemy_data.enemytype != ewcfg.enemy_type_sandbag and enemy_data.level >= user_data.slimelevel and weapon is not None and user_data.weaponskill < 14:
             user_data.add_weaponskill(n=1, weapon_type=weapon.id_weapon)
 
         slimes_todistrict = enemy_data.slimes / 2
