@@ -995,7 +995,9 @@ async def attackEnemy(cmd):
     else:
         if enemy_data.enemytype == ewcfg.enemy_type_npc:
             npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+            user_data.persist()
             await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)
+            user_data = EwUser(member=cmd.message.author)
         # A non-lethal blow!
         if weapon != None:
             if miss:
