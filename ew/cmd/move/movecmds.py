@@ -399,13 +399,13 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
 
-                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
+
 
                     user_data.poi = poi_current.id_poi
                     user_data.time_lastenter = int(time.time())
 
                     user_data.persist()
-
+                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
                     ewutils.end_trade(user_data.id_user)
                     enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
 
