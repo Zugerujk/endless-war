@@ -243,13 +243,11 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             await resp_cont.post()
 
     elif random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi):
-        resp_set = npc_obj.dialogue.get('loop')
-        if resp_set is None:
-            resp_set = npc_obj.dialogue.get('talk')
-        if resp_set is not None:
-            response = random.choice(resp_set)
-            name = "{}{}{}".format("**__", npc_obj.str_name.upper(), '__**')
-            return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+        if npc_obj.dialogue.get('loop') is not None:
+            return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
+        elif npc_obj.dialogue.get('talk') is not None:
+            return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='talk')
+        
 
 
 
