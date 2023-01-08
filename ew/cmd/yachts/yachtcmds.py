@@ -4,6 +4,8 @@ from ew.utils.combat import EwUser
 import ew.static.cfg as ewcfg
 from ew.backend.yacht import EwYacht
 from ew.utils import frontend as fe_utils
+from ew.utils import yacht as yacht_utils
+import ew.static.poi as poi_static
 import asyncio
 
 
@@ -39,6 +41,9 @@ async def rentyacht(cmd):
             yacht.yacht_name = name
             yacht.id_server = user_data.id_server
             response = "I christen ye: The S.S. {}!".format(name)
+            boat_poi = poi_static.id_to_poi.get("yacht")
+            new_poi = '{}{}'.format('yacht', yacht.thread_id)
+            poi_static.id_to_poi[new_poi] = boat_poi
 
             starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "S.S. {}".format(name))
             thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), message=starting_message, type=discord.ChannelType.private, invitable=False)
@@ -55,6 +60,23 @@ async def rentyacht(cmd):
 
 
 
-async def board(cmd):
+async def board_ship(cmd):
     user_data = EwUser(member=cmd.message.author)
+    poi = poi_static.id_to_poi.get(user_data.poi)
 
+    name = ' '.join(word for word in cmd.tokens[1:])
+
+    if not poi.is_dock:
+        response = "There are no ships here."
+
+    elif cmd.tokens_count == 1:
+        response = "Specify the ship you want to get on."
+
+    else:
+        if user_data.poi[:5] == 'yacht':
+            current_ship = EwYacht(id_server=user_data.id_server, id_thread=user_data.poi[5:])
+
+        ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name)
+
+        response = ""
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

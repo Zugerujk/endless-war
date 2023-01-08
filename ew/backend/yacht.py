@@ -4,7 +4,6 @@ from . import core as bknd_core
 from ..static import cfg as ewcfg
 
 class EwYacht():
-    id_yacht = -1 #ID of the yacht
     id_server = -1 #lol this is on everything
     yacht_name = '' #Name of the yacht
     thread_id = -1 #Identifier for the thread's name
@@ -19,6 +18,7 @@ class EwYacht():
     ycoord = -1 #Ship's y coordinate
     speed = 0 #Ship's speed
     direction = "" #Ship's orientation
+    slimes = 0 #Slime the ship has in it
 
     def __init__(self, id_thread = None, id_server = None):
 
@@ -35,7 +35,7 @@ class EwYacht():
                 cursor.execute(
                     "SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM yachts WHERE thread_id = %s AND id_server = %s".format(
                         ewcfg.col_name_yacht,
-                        ewcfg.col_thread_id,
+                        ewcfg.col_slimes,
                         ewcfg.col_id_user,
                         ewcfg.col_flood,
                         ewcfg.col_filth,
@@ -48,13 +48,13 @@ class EwYacht():
                         ewcfg.col_speed,
                         ewcfg.col_direction
                     ), (
-                        self.id_yacht,
+                        self.thread_id,
                         self.id_server
                     ))
                 result = cursor.fetchone()
 
                 self.yacht_name = result[0]
-                self.thread_id = result[1]
+                self.slimes = result[1]
                 self.owner = result[2]
                 self.flood = result[3]
                 self.filth = result[4]
@@ -82,7 +82,7 @@ class EwYacht():
             cursor.execute(
                 "REPLACE INTO yachts({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
-                    ewcfg.col_id_yacht,
+                    ewcfg.col_slimes,
                     ewcfg.col_name_yacht,
                     ewcfg.col_thread_id,
                     ewcfg.col_id_user,
@@ -99,7 +99,7 @@ class EwYacht():
 
                 ), (
                     self.id_server,
-                    self.id_yacht,
+                    self.slimes,
                     self.yacht_name,
                     self.thread_id,
                     self.owner,
@@ -129,11 +129,11 @@ class EwYacht():
             # Retrieve object
 
             cursor.execute(
-                "SELECT {} FROM yacht_stats WHERE id_server = %s and id_yacht = %s".format(
+                "SELECT {} FROM yacht_stats WHERE id_server = %s and thread_id = %s".format(
                     ewcfg.col_id_stat
                 ), (
                     self.id_server,
-                    self.id_yacht
+                    self.thread_id
                 ))
             results = cursor.fetchall()
 
@@ -146,7 +146,7 @@ class EwYacht():
         return stats
 
 class EwYachtStat():
-    id_yacht = -1 #Name of the affected yacht
+    thread_id = -1 #Name of the affected yacht
     id_stat = -1 #Unique value for the stat
     type_stat = "" #The stat in question
     target = 0 #Targeted yacht or player
@@ -166,14 +166,14 @@ class EwYachtStat():
             # Retrieve object
 
             cursor.execute(
-                "SELECT {}, {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and id_yacht = %s".format(
+                "SELECT {}, {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and thread_id = %s".format(
                     ewcfg.col_status_target,
                     ewcfg.col_quantity,
                     ewcfg.col_type_stat
                 ), (
                     self.id_stat,
                     self.id_server,
-                    self.id_yacht
+                    self.thread_id
                 ))
             result = cursor.fetchone()
 
@@ -196,14 +196,14 @@ class EwYachtStat():
             cursor.execute(
                 "REPLACE INTO yacht_stats({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
                     ewcfg.col_id_server,
-                    ewcfg.col_id_yacht,
+                    ewcfg.col_thread_id,
                     ewcfg.col_id_stat,
                     ewcfg.col_status_target,
                     ewcfg.col_quantity,
                     ewcfg.col_type_stat
                 ), (
                     self.id_server,
-                    self.id_yacht,
+                    self.thread_id,
                     self.id_stat,
                     self.target,
                     self.quantity,

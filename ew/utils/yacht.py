@@ -3,7 +3,7 @@ import math
 from ..backend.yacht import EwYacht
 from ..backend import core as bknd_core
 import ew.static.poi as poi_static
-
+from ew.utils import core as coreutils
 
 try:
     from ew.cmd import debug as ewdebug
@@ -11,12 +11,21 @@ except:
     from ew.cmd import debug_dummy as ewdebug
 
 
+def load_boats_to_poi(id_server):
+    boats = bknd_core.execute_sql_query(
+        "SELECT thread_id from yachts where {direction} <> %s and {id_server} = %s".format(direction=ewcfg.col_direction, id_server=ewcfg.col_id_server), ('sunk', id_server))
+    boat_poi = poi_static.id_to_poi.get('yacht')
+    for boat in boats:
+        poi_static.id_to_poi['{}{}'.format('yacht', boat)] = boat_poi
+        #boat_obj = EwYacht(id_server=id_server, id_thread=boat)
+
+
 
 async def boat_tick(id_server, tick_count):
     boats = bknd_core.execute_sql_query(
-        "SELECT id_yacht from yachts where {direction} <> %s and {id_server} = %s".format(direction=ewcfg.col_direction, id_server=ewcfg.col_id_server),  ('sunk', id_server))
+        "SELECT thread_id from yachts where {direction} <> %s and {id_server} = %s".format(direction=ewcfg.col_direction, id_server=ewcfg.col_id_server),  ('sunk', id_server))
     for boat in boats:
-        boat_obj = EwYacht(id_server=id_server, id_yacht=boat)
+        boat_obj = EwYacht(id_server=id_server, id_thread=boat)
 
         #If the ship is moving in a direction, allow it to move until it hits an obstruction.
         if boat.direction == 'stop':
@@ -67,7 +76,7 @@ async def boat_tick(id_server, tick_count):
 
 
 
-async def find_local_boats(poi = None, name = None, id_server = None):
+async def find_local_boats(poi = None, name = None, id_server = None, current_coords = None):
     boats = []
     query = "select {} from yachts where {} = %s and {} <> %s".format(ewcfg.col_thread_id, ewcfg.col_id_server, ewcfg.col_direction)
     data = bknd_core.execute_sql_query(query, (id_server, 'sunk'))
@@ -83,10 +92,13 @@ async def find_local_boats(poi = None, name = None, id_server = None):
                 for coord in poi.coord:
                     if yacht.xcoord == coord[0] and yacht.ycoord == coord[1]:
                         poi_match = 1
+        elif current_coords is not None:
+            if yacht.xcoord == current_coords[0] and yacht.ycoord == current_coords[1]:
+                poi_match = 1
         else:
             poi_match = 1
 
-        if poi_match == 1 and(name in yacht.yacht_name or name is None):
+        if poi_match == 1 and(coreutils.flattenTokenListToString(name) in coreutils.flattenTokenListToString(yacht.yacht_name) or name is None):
             boats.append(yacht)
 
     return boats

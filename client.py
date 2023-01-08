@@ -43,6 +43,7 @@ import ew.utils.slimeoid as slimeoid_utils
 import ew.utils.sports as sports_utils
 import ew.utils.transport as transport_utils
 import ew.utils.weather as bknd_weather
+import ew.utils.yacht as yacht_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 
@@ -279,6 +280,7 @@ async def on_ready():
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
+        yacht_utils.load_boats_to_poi(id_server=server.id)
 
         # create all the districts in the database
         for poi_object in poi_static.poi_list:

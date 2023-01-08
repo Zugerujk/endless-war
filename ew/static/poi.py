@@ -1461,6 +1461,7 @@ poi_list = [
         pier_type="saltwater",
         neighbors={'slimesend': 20},
         wikipage="https://rfck.miraheze.org/wiki/Slime's_End#Slime's_End_Pier",
+        is_dock=True
     ),
     EwPoi(
         id_poi="slimesea",
@@ -3134,6 +3135,20 @@ poi_list = [
         mother_districts = [ewcfg.poi_id_slimesend],
         neighbors = {ewcfg.poi_id_slimesend: 20},
         wikipage = ""
+    ),
+    EwPoi(
+        id_poi = 'yacht',
+        alias = [],
+        str_name = "{boat_name}",
+        str_desc = "You stand on the deck of another one of Smitty's hastily constructed ships. Seems seaworthy, regardless. There's a **storehouse**, a **poopdeck**, a **helm** and a **cannon** that you can station yourself at.",
+        channel = "slime-sea",
+        permissions = {'slime-sea': ['read']},
+        pvp = True,
+        is_subzone = False,
+        mother_districts = [],
+        neighbors = {},
+        wikipage = "",
+        is_dock=True
     )
 ]
 

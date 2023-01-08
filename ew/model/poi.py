@@ -134,6 +134,8 @@ class EwPoi:
     #if !jump will take you anywhere
     jump_dest = ""
 
+    is_dock = False
+
     def __init__(
             self,
             id_poi = "unknown",
@@ -178,7 +180,8 @@ class EwPoi:
             neighbors = None,
             topic = "",
             wikipage = "",
-            jump_dest = ""
+            jump_dest = "",
+            is_dock = False
     ):
         self.id_poi = id_poi
         self.alias = alias
@@ -223,7 +226,7 @@ class EwPoi:
         self.enemy_lock = enemy_lock
         self.wikipage = wikipage
         self.jump_dest = jump_dest
-
+        self.is_dock = is_dock
         self.neighbors = neighbors
         if self.neighbors == None:
             self.neighbors = {}
