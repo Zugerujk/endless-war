@@ -529,6 +529,13 @@ async def mine(cmd):
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
 
+            if sledgehammer_bonus == True:
+                unearthed_item_chance = 1
+                unearthed_item_amount = random.randint(3, 10)
+                unearthed_item_type = "Slime Poudrin"
+                sledge_yield = random.randint(50000, 100000)
+                mining_yield += sledge_yield
+
             # event bonus
             for id_event in world_events:
 
@@ -657,11 +664,7 @@ async def mine(cmd):
                 mining_yield *= 2
 
             if sledgehammer_bonus == True:
-                unearthed_item_chance = 1
-                unearthed_item_amount = random.randint(3,10)
-                unearthed_item_type = "Slime Poudrin"
-                sledge_yield = random.randint(50000,100000)
-                mining_yield += sledge_yield
+
                 response = "Your reckless mining has gotten you {} slime and {} Slime Poudrins! ".format(sledge_yield, unearthed_item_amount)
             # trauma = se_static.trauma_map.get(user_data.trauma)
             # if trauma != None and trauma.trauma_class == ewcfg.trauma_class_slimegain:
