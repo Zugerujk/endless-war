@@ -896,10 +896,16 @@ async def scavenge(cmd):
 
             district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
 
+            if user_data.poi != juviecmdutils.scavenge_locations.get(user_data.id_user):
+                juviecmdutils.scavenge_combos[user_data.id_user] = 0
+                combo = 0
+
             user_initial_level = user_data.slimelevel
             # add scavenged slime to user
             if ewcfg.mutation_id_trashmouth in mutations:
                 combo += 5
+
+            juviecmdutils.scavenge_locations[user_data.id_user] = user_data.poi
 
             time_since_last_scavenge = min(max(1, time_since_last_scavenge), ewcfg.soft_cd_scavenge)
 
