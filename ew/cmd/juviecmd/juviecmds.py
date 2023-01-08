@@ -531,9 +531,9 @@ async def mine(cmd):
 
             if sledgehammer_bonus == True:
                 unearthed_item_chance = 1
-                unearthed_item_amount = random.randint(3, 10)
+                unearthed_item_amount = random.randint(1, 3)
                 unearthed_item_type = "Slime Poudrin"
-                sledge_yield = random.randint(50000, 100000)
+                sledge_yield = random.randint(30000, 60000)
                 mining_yield += sledge_yield
 
             # event bonus
