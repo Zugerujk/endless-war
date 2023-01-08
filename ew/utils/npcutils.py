@@ -247,7 +247,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
             return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
         elif npc_obj.dialogue.get('talk') is not None:
             return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='talk')
-        
+
 
 
 
@@ -271,7 +271,7 @@ async def generic_give(channel, npc_obj, enemy, item):
 
     response = "?"
     if npc_obj.dialogue.get('give') is not None:
-        response = random.choice(npc_obj.dialogue.get('give'))
+        return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='give', enemy=enemy)
 
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
@@ -283,15 +283,12 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
 
     if random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi): #one in 25 chance to talk in addition to attacking. attacks are based on a condition
         if npc_obj.dialogue.get('loop') is not None:
-            response = random.choice(npc_obj.dialogue.get('loop'))
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy=enemy)
         elif npc_obj.dialogue.get('talk') is not None:
-            response = random.choice(npc_obj.dialogue.get('talk'))
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy)
         else:
             response = "..."
-
-        name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
-
-        if response is not None:
+            name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
             return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
 
     poi = poi_static.id_to_poi.get(enemy.poi)
