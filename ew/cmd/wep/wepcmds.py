@@ -1718,7 +1718,7 @@ async def duel(cmd):
 
     challenger_poi = poi_static.id_to_poi.get(challenger.poi)
     challengee_poi = poi_static.id_to_poi.get(challengee.poi)
-    if not challenger_poi.is_district or not challengee_poi.is_district:
+    if (not challenger_poi.is_district or not challengee_poi.is_district) and challenger.poi != 'hangemsquare':
         response = "Both participants need to be in a district zone."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
