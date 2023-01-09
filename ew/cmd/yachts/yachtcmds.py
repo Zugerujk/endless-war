@@ -11,6 +11,13 @@ import ew.utils.rolemgr as ewrolemgr
 import ew.utils.move as move_utils
 import asyncio
 
+try:
+    from ew.cmd import debug as ewdebug
+except:
+    from ew.cmd import debug_dummy as ewdebug
+
+
+
 
 async def rentyacht(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -78,7 +85,7 @@ async def board_ship(cmd):
     else:
         current_ship = None
         if user_data.poi[:5] == 'yacht':
-            current_ship = EwYacht(id_server=user_data.id_server, id_thread=user_data.poi[5:])
+            current_ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
             ships = yacht_utils.find_local_boats(name=name, current_coords=[current_ship.xcoord, current_ship.ycoord])
         else:
             ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name)
@@ -111,4 +118,108 @@ async def board_ship(cmd):
             else:
                 response = "There's no ship like that to board."
 
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def man(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    if user_data.poi[:5] != 'yacht':
+        response = "You can't just command a man into your life. You have to woo him gently."
+    elif cmd.tokens_count == 1:
+        response = "You have to man a specific post. Try 'poopdeck', 'helm', 'cannon', or 'storehouse'."
+    elif ewutils.flattenTokenListToString(cmd.tokens[1:]) not in['poopdeck', 'helm', 'cannon', 'storehouse']:
+        response = "That's not a thing, cap'n. Try 'poopdeck', 'helm', 'cannon', or 'storehouse'."
+    else:
+        post = ewutils.flattenTokenListToString(cmd.tokens[1:])
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        yacht_utils.clear_station(id_server=cmd.guild.id, thread_id=yacht.thread_id, id_user=user_data.id_user)
+
+        if post == 'poopdeck':
+            yacht.poopdeck = user_data.id_user
+        elif post == 'helm':
+            yacht.helm = user_data.id_user
+        elif post == 'cannon':
+            yacht.cannon = user_data.id_user
+        elif post == 'storehouse':
+            yacht.storehouse = user_data.id_user
+        yacht.persist()
+        response = "You man the {}!".format(post)
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def avast(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    if user_data.poi[:5] != 'yacht':
+        response = "Yeah, man, I like that antivirus software, too."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if yacht.storehouse == user_data.id_user or yacht.cannon == user_data.id_user:
+            response = "You can't see anything, you're not aboveboard!"
+        else:
+            center_x = min(max(yacht.xcoord, 5), ewdebug.max_right_bound-4)
+            center_y = min(max(yacht.ycoord, 5), ewdebug.max_lower_bound-4)
+            search_coords = []
+            for x in range(-4, 5):
+                for y in range (-4, 5):
+                    search_coords.append([center_x + x, center_y + y])
+
+            boats = yacht_utils.find_local_boats(id_server=cmd.guild.id, current_coords=search_coords)
+
+            response = ''
+
+            map_key = {
+                -1:'🟦', #blue
+                 3:'⬛', #black
+                 0:'🟩' #green
+
+            }
+
+            for y in range(-4, 5):
+                for x in range (-4, 5):
+                    letter = map_key.get(ewdebug.seamap[y+center_y][x+center_x])
+                    for boat in boats:
+                        if boat.ycoord == y+center_y and boat.xcoord == x+center_x:
+                            letter = '⛵'
+                    response += letter
+
+                response += '\n'
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def setsail(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    if user_data.poi[:5] != 'yacht':
+        response = "You have to do that when you're on a yacht."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if yacht.helm != user_data.id_user:
+            response = "You aren't at the helm!"
+        elif cmd.tokens_count == 1:
+            response = "Which direction?"
+        elif cmd.tokens[1] not in ['north', 'east', 'south', 'west', 'up', 'down', 'left', 'right', 'stop']:
+            response = "Not a direction, squickface!"
+        else:
+            yacht.speed = 1
+            if cmd.tokens[1] in ['north', 'up']:
+                yacht.direction = 'north'
+                response = "Set course due north!"
+            elif cmd.tokens[1] in ['south', 'down']:
+                yacht.direction = 'south'
+                response = 'Anchors aweigh, south we go!'
+            elif cmd.tokens[1] in ['east', 'right']:
+                yacht.direction = 'east'
+                response = "Time to go FUCKING EAST!"
+            elif cmd.tokens[1] in ['west', 'left']:
+                yacht.direction = 'west'
+                response = "Moving west, furl the sails!"
+            elif cmd.tokens[1] in ['stop']:
+                yacht.direction = 'stop'
+                yacht.speed = 0
+                response = 'Drop anchor!'
+            else:
+                response = ""
+            yacht.persist()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
