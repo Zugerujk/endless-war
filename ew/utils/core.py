@@ -67,6 +67,8 @@ tv_counter = 0
 
 conversations = {}
 
+square_duel = 0
+
 class EwVector2D:
     vector = [0, 0]
 

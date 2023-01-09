@@ -529,6 +529,13 @@ async def mine(cmd):
             if ewcfg.mutation_id_lucky in mutations:
                 unearthed_item_chance *= 1.777
 
+            if sledgehammer_bonus == True:
+                unearthed_item_chance = 1
+                unearthed_item_amount = random.randint(1, 3)
+                unearthed_item_type = "Slime Poudrin"
+                sledge_yield = random.randint(30000, 60000)
+                mining_yield += sledge_yield
+
             # event bonus
             for id_event in world_events:
 
@@ -657,11 +664,7 @@ async def mine(cmd):
                 mining_yield *= 2
 
             if sledgehammer_bonus == True:
-                unearthed_item_chance = 1
-                unearthed_item_amount = random.randint(3,10)
-                unearthed_item_type = "Slime Poudrin"
-                sledge_yield = random.randint(50000,100000)
-                mining_yield += sledge_yield
+
                 response = "Your reckless mining has gotten you {} slime and {} Slime Poudrins! ".format(sledge_yield, unearthed_item_amount)
             # trauma = se_static.trauma_map.get(user_data.trauma)
             # if trauma != None and trauma.trauma_class == ewcfg.trauma_class_slimegain:
@@ -896,10 +899,16 @@ async def scavenge(cmd):
 
             district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
 
+            if user_data.poi != juviecmdutils.scavenge_locations.get(user_data.id_user):
+                juviecmdutils.scavenge_combos[user_data.id_user] = 0
+                combo = 0
+
             user_initial_level = user_data.slimelevel
             # add scavenged slime to user
             if ewcfg.mutation_id_trashmouth in mutations:
                 combo += 5
+
+            juviecmdutils.scavenge_locations[user_data.id_user] = user_data.poi
 
             time_since_last_scavenge = min(max(1, time_since_last_scavenge), ewcfg.soft_cd_scavenge)
 

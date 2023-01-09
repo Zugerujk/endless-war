@@ -279,7 +279,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
             return
 
-        await rutils.movement_checker(user_data, poi_current, poi, cmd)
+
 
 
         await ewrolemgr.updateRoles(client=cmd.client, member=member_object, new_poi=poi.id_poi)
@@ -287,7 +287,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
         user_data.time_lastenter = int(time.time())
 
         user_data.persist()
-
+        await rutils.movement_checker(user_data, poi_current, poi, cmd)
         ewutils.end_trade(user_data.id_user)
         enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
         await one_eye_dm(id_user=user_data.id_user, id_server=user_data.id_server, poi=poi.id_poi)
@@ -399,13 +399,13 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
 
-                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
+
 
                     user_data.poi = poi_current.id_poi
                     user_data.time_lastenter = int(time.time())
 
                     user_data.persist()
-
+                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
                     ewutils.end_trade(user_data.id_user)
                     enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
 
@@ -1034,7 +1034,7 @@ async def teleport(cmd):
 
             ewutils.moves_active[cmd.message.author.id] = 0
 
-            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi, cmd)
+
 
             if poi.id_poi == ewcfg.poi_id_thesewers:
                 die_resp = await user_data.die(cause=ewcfg.cause_suicide)
@@ -1047,7 +1047,7 @@ async def teleport(cmd):
 
 
             user_data.persist()
-
+            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi, cmd)
 
             enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
             await one_eye_dm(id_user=user_data.id_user, id_server=user_data.id_server, poi=poi.id_poi)
