@@ -6,6 +6,9 @@ from ew.backend.yacht import EwYacht
 from ew.utils import frontend as fe_utils
 from ew.utils import yacht as yacht_utils
 import ew.static.poi as poi_static
+from ew.utils import core as ewutils
+import ew.utils.rolemgr as ewrolemgr
+import ew.utils.move as move_utils
 import asyncio
 
 
@@ -73,10 +76,39 @@ async def board_ship(cmd):
         response = "Specify the ship you want to get on."
 
     else:
+        current_ship = None
         if user_data.poi[:5] == 'yacht':
             current_ship = EwYacht(id_server=user_data.id_server, id_thread=user_data.poi[5:])
+            ships = yacht_utils.find_local_boats(name=name, current_coords=[current_ship.xcoord, current_ship.ycoord])
+        else:
+            ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name)
 
-        ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name)
+        if ships == []:
+            response = "There aren't any ships like that around here."
+        else:
+            selected_ship = None
+            for ship in ships:
+                if current_ship is not None and ship.thread_id == current_ship.thread_id:
+                    pass
+                else:
+                    selected_ship = ship
+            if selected_ship is not None:
+                #todo set up gangplank restrictions
+                if selected_ship.direction != 'stop':
+                    response = "Fuck, they just took off."
+                else:
+                    response = "You begin boarding the {}.".format(selected_ship.yacht_name)
+                    move_utils.move_counter += 1
+                    move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
+                    if move_current == ewutils.moves_active[cmd.message.author.id]:
+                        user_data = EwUser(member=cmd.message.author)
+                        user_data.poi = "yacht{}".format(selected_ship.thread_id)
+                        user_data.persist()
+                        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                        await user_data.move_inhabitants(id_poi=user_data.poi)
 
-        response = ""
+
+            else:
+                response = "There's no ship like that to board."
+
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

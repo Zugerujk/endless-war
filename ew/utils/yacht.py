@@ -76,7 +76,7 @@ async def boat_tick(id_server, tick_count):
 
 
 
-async def find_local_boats(poi = None, name = None, id_server = None, current_coords = None):
+def find_local_boats(poi = None, name = None, id_server = None, current_coords = None):
     boats = []
     query = "select {} from yachts where {} = %s and {} <> %s".format(ewcfg.col_thread_id, ewcfg.col_id_server, ewcfg.col_direction)
     data = bknd_core.execute_sql_query(query, (id_server, 'sunk'))
