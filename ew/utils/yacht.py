@@ -15,7 +15,9 @@ def load_boats_to_poi(id_server):
     boats = bknd_core.execute_sql_query(
         "SELECT thread_id from yachts where {direction} <> %s and {id_server} = %s".format(direction=ewcfg.col_direction, id_server=ewcfg.col_id_server), ('sunk', id_server))
     boat_poi = poi_static.id_to_poi.get('yacht')
+    print("LOADING BOATS")
     for boat in boats:
+        print('{}{}'.format('yacht', boat))
         poi_static.id_to_poi['{}{}'.format('yacht', boat)] = boat_poi
         #boat_obj = EwYacht(id_server=id_server, id_thread=boat)
 
@@ -80,7 +82,6 @@ def find_local_boats(poi = None, name = None, id_server = None, current_coords =
     boats = []
     query = "select {} from yachts where {} = %s and {} <> %s".format(ewcfg.col_thread_id, ewcfg.col_id_server, ewcfg.col_direction)
     data = bknd_core.execute_sql_query(query, (id_server, 'sunk'))
-
     if current_coords is not None:
         if type(current_coords[0]) == int:
             current_coords = [current_coords]
@@ -92,6 +93,7 @@ def find_local_boats(poi = None, name = None, id_server = None, current_coords =
             poi = poi_static.id_to_poi.get(poi)
             if poi.coord is None:
                 continue
+
             else:
                 for coord in poi.coord:
                     if yacht.xcoord == coord[0] and yacht.ycoord == coord[1]:
@@ -104,8 +106,7 @@ def find_local_boats(poi = None, name = None, id_server = None, current_coords =
                     break
         else:
             poi_match = 1
-
-        if poi_match == 1 and(coreutils.flattenTokenListToString(name) in coreutils.flattenTokenListToString(yacht.yacht_name) or name is None):
+        if poi_match == 1 and(name is None or coreutils.flattenTokenListToString(name) in coreutils.flattenTokenListToString(yacht.yacht_name)):
             boats.append(yacht)
 
     return boats

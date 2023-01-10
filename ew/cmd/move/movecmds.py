@@ -555,8 +555,11 @@ async def halt(cmd):
 async def look(cmd):
     user_data = EwUser(member=cmd.message.author)
 
-    poi = poi_static.id_to_poi.get(user_data.poi)
+    if user_data.poi[:5] == 'yacht':
+        response = "Quit !looking like a fucking landlubber. It's !avast."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+    poi = poi_static.id_to_poi.get(user_data.poi)
     district_data = EwDistrict(district=poi.id_poi, id_server=user_data.id_server)
     market_data = EwMarket(id_server=user_data.id_server)
     void_resp = get_void_connections_resp(poi.id_poi, user_data.id_server)

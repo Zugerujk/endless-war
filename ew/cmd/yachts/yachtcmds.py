@@ -86,9 +86,9 @@ async def board_ship(cmd):
         current_ship = None
         if user_data.poi[:5] == 'yacht':
             current_ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
-            ships = yacht_utils.find_local_boats(name=name, current_coords=[current_ship.xcoord, current_ship.ycoord])
+            ships = yacht_utils.find_local_boats(name=name, current_coords=[current_ship.xcoord, current_ship.ycoord], id_server=cmd.guild.id)
         else:
-            ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name)
+            ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name, id_server=cmd.guild.id)
 
         if ships == []:
             response = "There aren't any ships like that around here."
@@ -177,6 +177,7 @@ async def avast(cmd):
             }
 
             for y in range(-4, 5):
+                response += '\n'
                 for x in range (-4, 5):
                     letter = map_key.get(ewdebug.seamap[y+center_y][x+center_x])
                     for boat in boats:
@@ -184,7 +185,7 @@ async def avast(cmd):
                             letter = '⛵'
                     response += letter
 
-                response += '\n'
+
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
