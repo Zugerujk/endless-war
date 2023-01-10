@@ -3148,7 +3148,8 @@ poi_list = [
         mother_districts = [],
         neighbors = {},
         wikipage = "",
-        is_dock=True
+        is_dock=True,
+        str_in="aboard the"
     )
 ]
 

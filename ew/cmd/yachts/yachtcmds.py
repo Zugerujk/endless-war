@@ -48,7 +48,7 @@ async def rentyacht(cmd):
             yacht.xcoord = 26
             yacht.ycoord = 5
             yacht.direction = 'stop'
-            yacht.yacht_name = name
+            yacht.yacht_name = "S.S. " + name
             yacht.id_server = user_data.id_server
             response = "I christen ye: The S.S. {}!".format(name)
             boat_poi = poi_static.id_to_poi.get("yacht")

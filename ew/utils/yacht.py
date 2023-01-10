@@ -17,8 +17,8 @@ def load_boats_to_poi(id_server):
     boat_poi = poi_static.id_to_poi.get('yacht')
     print("LOADING BOATS")
     for boat in boats:
-        print('{}{}'.format('yacht', boat))
-        poi_static.id_to_poi['{}{}'.format('yacht', boat)] = boat_poi
+        print('{}{}'.format('yacht', boat[0]))
+        poi_static.id_to_poi['{}{}'.format('yacht', boat[0])] = boat_poi
         #boat_obj = EwYacht(id_server=id_server, id_thread=boat)
 
 

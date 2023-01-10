@@ -220,3 +220,7 @@ class EwYachtStat():
             return True
         else:
             return False
+
+    def change_slimes(self, n = 0, source = None):
+        change = int(n)
+        self.slimes += change

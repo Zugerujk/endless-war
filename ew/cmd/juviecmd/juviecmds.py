@@ -27,6 +27,7 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import combat as cmbt_utils
 from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
+from ew.utils.yacht import EwYacht
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.user import add_xp
@@ -887,7 +888,7 @@ async def scavenge(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You consider diving down to the bottom of the sea to grab some sick loot, but quickly change your mind when you {}.".format(random.choice(ewcfg.sea_scavenge_responses))))
 
     # Scavenge only in location channels
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == True:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == True:
         if user_data.hunger >= user_data.get_hunger_max():
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You are too exhausted to scrounge up scraps of slime off the street! Go get some grub!"))
         else:
@@ -897,7 +898,10 @@ async def scavenge(cmd):
 
             combo = juviecmdutils.scavenge_combos.get(user_data.id_user)
 
-            district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
+            if user_data.poi[:5] == 'yacht':
+                district_data = EwYacht(id_server=cmd.message.guild.id, id_thread=int(user_data.poi[5:]))
+            else:
+                district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
 
             if user_data.poi != juviecmdutils.scavenge_locations.get(user_data.id_user):
                 juviecmdutils.scavenge_combos[user_data.id_user] = 0

@@ -66,6 +66,11 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
     if not hasattr(cmd.message.channel, 'name'):
         isDM = True
 
+
+    if user_data.poi[:5] == 'yacht':
+        response = "You're on the sea, deal with the vessel first. Try !landho to get off it or !board to cross to another boat."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
     if isApt == False and isDM == False and ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
         channelid = fe_utils.get_channel(cmd.guild, poi_current.channel)
         return await fe_utils.send_message(
@@ -678,6 +683,10 @@ async def survey(cmd):
     market_data = EwMarket(id_server=user_data.id_server)
     poi = poi_static.id_to_poi.get(user_data.poi)
 
+    if user_data.poi[:5] == 'yacht':
+        response = "Quit !looking like a fucking landlubber. It's !avast."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
     # if it's a subzone, check who owns the actual district
     if poi.is_subzone:
         controlled_poi = poi_static.id_to_poi.get(poi.mother_districts[0] if len(poi.mother_districts) > 0 else poi.father_district)
@@ -756,7 +765,8 @@ async def scout(cmd):
         valid_pois = set()
         valid_pois.add(user_data.poi)
         neighbors = []
-        neighbors.extend(poi_static.poi_neighbors.get(user_data.poi))
+        if poi_static.poi_neighbors.get(user_data.poi) is not None:
+            neighbors.extend(poi_static.poi_neighbors.get(user_data.poi))
         if user_poi.is_apartment:
             neighbors.extend(user_poi.mother_districts)
 

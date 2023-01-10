@@ -15,6 +15,7 @@ from ew.backend.status import EwEnemyStatusEffect
 from ew.backend.status import EwStatusEffect
 from ew.backend.worldevent import EwWorldEvent
 from ew.backend.mutation import EwMutation
+from ew.backend.yacht import EwYacht
 from ew.backend.dungeons import EwGamestate
 
 from ew.utils.transport import EwTransport
@@ -231,8 +232,15 @@ async def data(cmd):
                 cosmetic_id_list.append(cos.item_props['id_cosmetic'])
 
         poi = poi_static.id_to_poi.get(user_data.poi)
+
+        shipname = ""
+        if user_data.poi[:5] == 'yacht':
+
+            ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
+            shipname = ship.yacht_name
+
         if poi != None:
-            response = "You find yourself {} {}. ".format(poi.str_in, poi.str_name)
+            response = "You find yourself {} {}. ".format(poi.str_in, poi.str_name.format(boat_name=shipname))
 
 
         #get race flavor text
