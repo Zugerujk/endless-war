@@ -614,7 +614,7 @@ async def xfer(cmd):
         sewer_data.persist()
 
         district_data = EwDistrict(district=user_data.poi, id_server=cmd.guild.id)
-        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
+        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing, poi_name=user_data.poi)
         district_data.persist()
 
         # Set the id_killer to the player himself, remove his slime and slime poudrins.

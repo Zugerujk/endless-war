@@ -9,6 +9,7 @@ from . import poi as poi_utils
 from .frontend import EwResponseContainer
 from ..backend import core as bknd_core
 from ..backend.district import EwDistrictBase
+from ..backend import yacht as bknd_yacht
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
 
@@ -76,7 +77,8 @@ class EwDistrict(EwDistrictBase):
                                 min_slimes = -math.inf,
                                 max_slimes = math.inf,
                                 ignore_offline = False,
-                                pvp_only = False
+                                pvp_only = False,
+                                poi_name = None
                                 ):
         client = ewutils.get_client()
 
@@ -95,7 +97,7 @@ class EwDistrict(EwDistrictBase):
             poi=ewcfg.col_poi
         ), (
             self.id_server,
-            self.name
+            self.name if poi_name is None else poi_name
         ))
 
         filtered_players = []
@@ -125,7 +127,7 @@ class EwDistrict(EwDistrictBase):
                                 min_slimes = -math.inf,
                                 max_slimes = math.inf,
                                 scout_used = False,
-                                classes = None,
+                                classes = None
                                 ):
 
         client = ewutils.get_client()
@@ -489,6 +491,10 @@ class EwDistrict(EwDistrictBase):
 
     """ add or remove slime """
 
-    def change_slimes(self, n = 0, source = None):
+    def change_slimes(self, n = 0, source = None, poi_name = None):
         change = int(n)
         self.slimes += change
+        if self.name == 'yacht' and poi_name is not None:
+            yacht = bknd_yacht.EwYacht(id_server=self.id_server, id_thread=int(poi_name[5:]))
+            yacht.change_slimes(n=n, source=source)
+            yacht.persist()

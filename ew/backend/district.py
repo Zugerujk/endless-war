@@ -40,6 +40,9 @@ class EwDistrictBase:
             self.id_server = id_server
             self.name = district
 
+            if district[:5] == 'yacht':
+                district = 'yacht'
+
             # find the district's property class
             for poi in poi_static.poi_list:
                 if poi.id_poi == self.name:

@@ -189,7 +189,7 @@ async def squeeze(cmd):
             targetmodel.persist()
 
             district_data = EwDistrict(district=targetmodel.poi, id_server=cmd.guild.id)
-            district_data.change_slimes(n=-penalty, source=ewcfg.source_squeeze)
+            district_data.change_slimes(n=-penalty, source=ewcfg.source_squeeze, poi_name=usermodel.poi)
             district_data.persist()
 
             if receivingreport != "":

@@ -109,7 +109,7 @@ class EwEffectContainer:
 
 def apply_status_bystanders(user_data = None, value = 0, life_states = None, factions = None, district_data = None, status = None):
     if life_states != None and factions != None and district_data != None and status != None:
-        bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
+        bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True, poi_name=user_data.poi)
         resp_cont = EwResponseContainer(id_server=user_data.id_server)
         channel = poi_static.id_to_poi.get(district_data.name).channel
         guild = ewutils.get_client().get_guild(user_data.id_server)
@@ -165,7 +165,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
 
         resp_cont = EwResponseContainer(id_server=user_data.id_server)
 
-        bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
+        bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True, poi_name=user_data.poi)
         bystander_enemies = district_data.get_enemies_in_district()
 
         for bystander in bystander_users:
@@ -244,7 +244,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     slimes_splatter *= 0.5
 
                 boss_slimes += slimes_toboss
-                district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)
+                district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing, poi_name=user_data.poi)
                 target_data.bleed_storage += slimes_tobleed
                 target_data.change_slimes(n=- slimes_directdamage, source=ewcfg.source_damage)
                 target_data.time_lasthit = int(time_now)
@@ -276,7 +276,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     if target_data.slimelevel >= user_data.slimelevel:
                         user_data.add_weaponskill(n=1, weapon_type=weapon.id_weapon)
 
-                    district_data.change_slimes(n=target_data.slimes / 2, source=ewcfg.source_killing)
+                    district_data.change_slimes(n=target_data.slimes / 2, source=ewcfg.source_killing, poi_name=user_data.poi)
                     levelup_resp = user_data.change_slimes(n=target_data.slimes / 2, source=ewcfg.source_killing)
 
                     target_data.id_killer = user_data.id_user
@@ -349,7 +349,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     slimes_splatter *= 0.5
 
                 if not was_killed:
-                    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)  # district gets 1/8 damage
+                    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing, poi_name=user_data.poi)  # district gets 1/8 damage
                     target_enemy_data.bleed_storage += slimes_tobleed  # enemy bleeds 1/8 damage
                     target_enemy_data.change_slimes(n=- slimes_directdamage, source=ewcfg.source_damage)  # enemy has 7/8 of damage removed
                     sewer_data.change_slimes(n=slimes_drained)  # sewer is given 3/4 of the damage
@@ -368,7 +368,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                     if target_enemy_data.level >= user_data.slimelevel:
                         user_data.add_weaponskill(n=1, weapon_type=weapon.id_weapon)
 
-                    district_data.change_slimes(n=int(target_enemy_data.slimes / 2), source=ewcfg.source_killing)  # give district 1/2 of target's remaining slime
+                    district_data.change_slimes(n=int(target_enemy_data.slimes / 2), source=ewcfg.source_killing, poi_name=user_data.poi)  # give district 1/2 of target's remaining slime
                     levelup_resp = user_data.change_slimes(n=int(target_enemy_data.slimes / 2), source=ewcfg.source_killing)  # give attacker 1/2 of target's remaining slime
 
                     if target_enemy_data.enemytype in ewcfg.raid_den_bosses:
@@ -861,7 +861,7 @@ async def attackEnemy(cmd):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.5, source=ewcfg.source_killing)
         slimes_splatter *= 0.5
 
-    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)  # district gains 1/8 damage as slime
+    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing, poi_name=user_data.poi)  # district gains 1/8 damage as slime
     enemy_data.bleed_storage += slimes_tobleed  # target gains 1/8 damage as bleed
     enemy_data.change_slimes(n=- slimes_directdamage, source=ewcfg.source_damage)  #
     # enemy_data.hardened_sap -= sap_damage
@@ -916,7 +916,7 @@ async def attackEnemy(cmd):
             slimes_todistrict = 0
             slimes_tokiller = 0
 
-        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
+        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing, poi_name=user_data.poi)
         levelup_response += user_data.change_slimes(n=slimes_tokiller, source=ewcfg.source_killing)
         if ewcfg.mutation_id_fungalfeaster in user_mutations:
             user_data.hunger = 0

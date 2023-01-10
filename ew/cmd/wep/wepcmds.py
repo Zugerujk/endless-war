@@ -261,7 +261,7 @@ async def attack(cmd):
             sewer_data.persist()  # this is the ONLY exception to "persist everything at the end" (aside from kingpin) because it is SOLELY used here
 
         if to_district > 0:
-            district_data.change_slimes(n=int(to_district), source=ewcfg.source_killing)
+            district_data.change_slimes(n=int(to_district), source=ewcfg.source_killing, poi_name=attacker.poi)
 
         """ Misc. Value Changes & Stat Changes"""
 
@@ -793,7 +793,7 @@ async def suicide(cmd):
             sewer_data.persist()
 
             district_data = EwDistrict(district=user_data.poi, id_server=cmd.guild.id)
-            district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
+            district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing, poi_name=user_data.poi)
             district_data.persist()
 
             # Set the id_killer to the player himself, remove his slime and slime poudrins.

@@ -145,6 +145,10 @@ class EwYacht():
             bknd_core.databaseClose(conn_info)
         return stats
 
+    def change_slimes(self, n = 0, source = None):
+        change = int(n)
+        self.slimes += change
+
 class EwYachtStat():
     thread_id = -1 #Name of the affected yacht
     id_stat = -1 #Unique value for the stat
@@ -221,6 +225,3 @@ class EwYachtStat():
         else:
             return False
 
-    def change_slimes(self, n = 0, source = None):
-        change = int(n)
-        self.slimes += change

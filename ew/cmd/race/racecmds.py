@@ -564,7 +564,7 @@ async def flutter(cmd):
             if user_data.faction == ewcfg.faction_killers:
                 excuses.append("you end up doing rapid dabs instead.")
 
-        if len(district_data.get_players_in_district()) > 1:
+        if len(district_data.get_players_in_district(poi_name=user_data.poi)) > 1:
             excuses.append("it's embarassing to do so with other people around.")
         else:
             excuses.append("you can't be bothered if there's no one here to see you do it.")

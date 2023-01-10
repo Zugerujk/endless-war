@@ -898,10 +898,8 @@ async def scavenge(cmd):
 
             combo = juviecmdutils.scavenge_combos.get(user_data.id_user)
 
-            if user_data.poi[:5] == 'yacht':
-                district_data = EwYacht(id_server=cmd.message.guild.id, id_thread=int(user_data.poi[5:]))
-            else:
-                district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
+
+            district_data = EwDistrict(district=user_data.poi, id_server=cmd.message.author.guild.id)
 
             if user_data.poi != juviecmdutils.scavenge_locations.get(user_data.id_user):
                 juviecmdutils.scavenge_combos[user_data.id_user] = 0
@@ -935,7 +933,7 @@ async def scavenge(cmd):
                 scavenge_yield = district_data.slimes
 
             levelup_response = user_data.change_slimes(n=scavenge_yield, source=ewcfg.source_scavenging)
-            district_data.change_slimes(n=-1 * scavenge_yield, source=ewcfg.source_scavenging)
+            district_data.change_slimes(n=-1 * scavenge_yield, source=ewcfg.source_scavenging, poi_name=user_data.poi)
             if district_data.slimes < 0:
                 district_data.slimes = 0
             district_data.persist()

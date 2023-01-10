@@ -383,7 +383,7 @@ class EwEnemy(EwEnemyBase):
 
                     market_data.splattered_slimes += slimes_damage
                     market_data.persist()
-                    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing)
+                    district_data.change_slimes(n=slimes_splatter, source=ewcfg.source_killing, poi_name=target_data.poi)
                     target_data.bleed_storage += slimes_tobleed
                     target_data.change_slimes(n=-slimes_directdamage, source=ewcfg.source_damage)
                     target_data.time_lasthit = int(time_now)
@@ -408,7 +408,7 @@ class EwEnemy(EwEnemyBase):
                         # release bleed storage
                         slimes_todistrict = target_data.slimes
 
-                        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing)
+                        district_data.change_slimes(n=slimes_todistrict, source=ewcfg.source_killing, poi_name=target_data.poi)
 
                         # Player was killed. Remove its id from enemies with defender ai.
                         enemy_data.id_target = -1
@@ -879,7 +879,7 @@ def check_defender_targets(user_data, enemy_data):
 """ Damage all players in a district """
 
 
-async def explode(damage = 0, district_data = None, market_data = None):
+async def explode(damage = 0, district_data = None, market_data = None, user_poi = None):
     id_server = district_data.id_server
     poi = district_data.name
 
@@ -891,10 +891,14 @@ async def explode(damage = 0, district_data = None, market_data = None):
 
     resp_cont = EwResponseContainer(id_server=id_server)
     response = ""
-    channel = poi_static.id_to_poi.get(poi).channel
+
+    if user_poi[:5] == 'yacht':
+        channel = server.fetch_channel(channel_id=int(user_poi[5:]))
+    else:
+        channel = poi_static.id_to_poi.get(poi).channel
 
     life_states = [ewcfg.life_state_juvenile, ewcfg.life_state_enlisted, ewcfg.life_state_executive]
-    users = district_data.get_players_in_district(life_states=life_states, pvp_only=True)
+    users = district_data.get_players_in_district(life_states=life_states, pvp_only=True, poi_name=user_poi)
 
     enemies = district_data.get_enemies_in_district()
 
@@ -936,7 +940,7 @@ async def explode(damage = 0, district_data = None, market_data = None):
         slimes_damage = slimes_damage_target
         if user_data.slimes < slimes_damage + user_data.bleed_storage:
             # die in the explosion
-            district_data.change_slimes(n=user_data.slimes, source=ewcfg.source_killing)
+            district_data.change_slimes(n=user_data.slimes, source=ewcfg.source_killing, poi_name=user_data.poi)
             district_data.persist()
             slimes_dropped = user_data.totaldamage + user_data.slimes
 
@@ -951,7 +955,7 @@ async def explode(damage = 0, district_data = None, market_data = None):
         else:
             # survive
             slime_splatter = 0.5 * slimes_damage
-            district_data.change_slimes(n=slime_splatter, source=ewcfg.source_killing)
+            district_data.change_slimes(n=slime_splatter, source=ewcfg.source_killing, poi_name=user_data.poi)
             district_data.persist()
             slimes_damage -= slime_splatter
             user_data.bleed_storage += slimes_damage
@@ -1122,7 +1126,8 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data):
         allies_in_district = district_data.get_players_in_district(
             min_level=math.ceil((1 / 10) ** 0.25 * user_data.slimelevel),
             life_states=[ewcfg.life_state_enlisted],
-            factions=[user_data.faction]
+            factions=[user_data.faction],
+            poi_name=user_data.poi
         )
         if user_data.id_user in allies_in_district:
             allies_in_district.remove(user_data.id_user)
@@ -1141,7 +1146,8 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data):
         allies_in_district = district_data.get_players_in_district(
             min_level=math.ceil((1 / 10) ** 0.25 * user_data.slimelevel),
             life_states=[ewcfg.life_state_enlisted],
-            factions=[user_data.faction]
+            factions=[user_data.faction],
+            poi_name=user_data.poi
         )
         if user_data.id_user in allies_in_district:
             allies_in_district.remove(user_data.id_user)
@@ -1850,6 +1856,7 @@ class EwUser(EwUserBase):
                     user_has_combustion = True
                     explode_damage = ewutils.slime_bylevel(self.slimelevel) / 5
                     explode_district = EwDistrict(district=self.poi, id_server=self.id_server)
+                    explode_poi_name = self.poi
                     explode_poi_channel = poi_static.id_to_poi.get(self.poi).channel
 
             # Rigor Mortis
@@ -1976,7 +1983,7 @@ class EwUser(EwUserBase):
                 explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(member.display_name)
                 resp_cont.add_channel_response(explode_poi_channel, explode_resp)
 
-                explosion = await explode(damage=explode_damage, district_data=explode_district)
+                explosion = await explode(damage=explode_damage, district_data=explode_district, user_poi=explode_poi_name)
                 resp_cont.add_response_container(explosion)
 
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')

@@ -394,7 +394,7 @@ async def bleedSlimes(id_server):
                 user_data.change_slimes(n=- real_bleed, source=ewcfg.source_bleeding)
 
                 district_data = EwDistrict(id_server=id_server, district=user_data.poi)
-                district_data.change_slimes(n=real_bleed, source=ewcfg.source_bleeding)
+                district_data.change_slimes(n=real_bleed, source=ewcfg.source_bleeding, poi_name=user_data.poi)
                 district_data.persist()
 
                 if user_data.slimes < 0:

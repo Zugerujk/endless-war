@@ -335,7 +335,7 @@ async def bleedout(cmd):
         poi = poi_static.id_to_poi.get(user_data.poi)
         district_data = EwDistrict(id_server=cmd.message.guild.id, district=poi.id_poi)
         user_data.change_slimes(n=-user_data.bleed_storage, source=ewcfg.source_bleeding)
-        district_data.change_slimes(n=user_data.bleed_storage, source=ewcfg.source_bleeding)
+        district_data.change_slimes(n=user_data.bleed_storage, source=ewcfg.source_bleeding, poi_name=user_data.poi)
         user_data.bleed_storage = 0
         user_data.persist()
         district_data.persist()
