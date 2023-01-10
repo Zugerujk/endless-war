@@ -55,7 +55,7 @@ async def rentyacht(cmd):
             new_poi = '{}{}'.format('yacht', yacht.thread_id)
             poi_static.id_to_poi[new_poi] = boat_poi
 
-            starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "S.S. {}".format(name))
+            starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
             thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), message=starting_message, type=discord.ChannelType.private, invitable=False)
 
             yacht.thread_id = thread.id
