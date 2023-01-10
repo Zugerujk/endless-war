@@ -757,7 +757,7 @@ async def suicide(cmd):
     resp_cont = EwResponseContainer(id_server=cmd.guild.id)
 
     # Only allowed in the combat zone.
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         response = "You must go into the city to commit {}.".format(cmd.tokens[0][1:])
     else:
         # Get the user data.

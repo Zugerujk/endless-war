@@ -45,7 +45,7 @@ async def cast(cmd):
     mutations = user_data.get_mutations()
 
     # Can only fish in the pier's channel
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=cmd.message.author.guild.id)
@@ -438,7 +438,7 @@ async def reel(cmd):
     responses = []
 
     # Must be in the correct channel
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     if cmd.message.author.id not in fishutils.fishers.keys():
@@ -637,7 +637,7 @@ async def barter(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
 
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=user_data.id_server)
@@ -984,7 +984,7 @@ async def barter_all(cmd):
     mutations = user_data.get_mutations()
 
     # if non-zone channel, break
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     # if not in speakeasy, break

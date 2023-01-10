@@ -28,7 +28,7 @@ async def capture_progress(cmd):
     response = ""
 
     poi = poi_static.id_to_poi.get(user_data.poi)
-    response += "**{}**: ".format(poi.str_name)
+    response += "**{}**: ".format(poi.str_name.format(boat_name = "Yachts"))
 
     if not user_data.poi in poi_static.capturable_districts:
         response += "This zone cannot be captured."

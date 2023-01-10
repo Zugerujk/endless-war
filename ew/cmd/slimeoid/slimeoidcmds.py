@@ -502,7 +502,7 @@ async def slimeoidbattle(cmd):
     if cmd.tokens[0] == "!slimeoidduel":
         duel = True
 
-    if ewutils.channel_name_is_poi(str(cmd.message.channel)) is False:
+    if ewutils.channel_name_is_poi(str(cmd.message.channel), cmd.message.channel) is False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     if cmd.mentions_count > 1:

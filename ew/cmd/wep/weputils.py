@@ -435,7 +435,7 @@ def canAttack(cmd):
 
     channel_poi = poi_static.chname_to_poi.get(cmd.message.channel.name)
 
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         response = "You can't commit violence from here."
     # elif ewmap.poi_is_pvp(user_data.poi) == False and cmd.mentions_count >= 1:
     # 	response = "You must go elsewhere to commit gang violence."

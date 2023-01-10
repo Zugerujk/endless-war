@@ -71,7 +71,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
         response = "You're on the sea, deal with the vessel first. Try !landho to get off it or !board to cross to another boat."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-    if isApt == False and isDM == False and ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if isApt == False and isDM == False and ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         channelid = fe_utils.get_channel(cmd.guild, poi_current.channel)
         return await fe_utils.send_message(
             cmd.client,
@@ -735,7 +735,7 @@ async def scout(cmd):
     user_data = EwUser(member=cmd.message.author)
     user_poi = poi_static.id_to_poi.get(user_data.poi)
 
-    if ewutils.channel_name_is_poi(str(cmd.message.channel)) is False:
+    if ewutils.channel_name_is_poi(str(cmd.message.channel), cmd.message.channel) is False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     market_data = EwMarket(id_server=cmd.guild.id)
@@ -942,7 +942,7 @@ async def teleport(cmd):
     if cmd.tokens[0] == (ewcfg.cmd_prefix + 'blj'):
         blj_used = True
 
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     time_now = int(time.time())
@@ -1361,7 +1361,7 @@ async def flush_streets(cmd):
 
 
 async def loop(cmd):
-    if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+    if ewutils.channel_name_is_poi(cmd.message.channel.name, cmd.message.channel) == False:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 
     time_now = int(time.time())
