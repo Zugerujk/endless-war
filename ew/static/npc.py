@@ -61,7 +61,7 @@ EwNpc(
         rarity=10,
         rewards = [
         {ewcfg.item_id_oldcd: [100, 1, 1],
-         "bobocuatroscalp":[100, 1, 1]},
+         }, #"bobocuatroscalp":[100, 1, 1]
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer', ewcfg.status_enemy_trainer_id],
 
