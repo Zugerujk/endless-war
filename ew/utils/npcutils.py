@@ -581,7 +581,7 @@ async def needy_move(enemy = None, npc_obj = None):
         if ewcfg.status_enemy_following_id in status:
             status_obj = EwEnemyStatusEffect(enemy_data=enemy, id_status=ewcfg.status_enemy_following_id)
             user_data = util_combat.EwUser(id_server=enemy.id_server, id_user=status_obj.id_target)
-            if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow] and user_data.poi[:3] != 'apt' and user_data.poi != enemy.poi:
+            if user_data.poi not in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_thesewers] and user_data.poi[:3] != 'apt' and user_data.poi != enemy.poi:
                 pre_chosen_poi = user_data.poi
                 move_probability = 1
             else:
