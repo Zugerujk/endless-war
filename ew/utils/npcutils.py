@@ -137,6 +137,8 @@ async def slox_action(keyword = '', enemy = None, channel = None, item = None, u
         return await warpath_die(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'give':
         return await feeder_give(enemy=enemy, channel=channel, item=item, npc_obj=npc_obj)
+    elif keyword == 'move':
+        pass
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 

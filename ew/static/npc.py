@@ -549,7 +549,7 @@ EwNpc(
     defaultlevel = 1,
     rarity=5,
     rewards = [
-    {ewcfg.item_id_dankwheat:[1, 1, 1]} #maybe you'll get a dankwheat. try it, sicko.
+    {'sloxpendant':[1, 1, 1]} #good luck.
     ],
     starting_statuses=["buddyslox"],
 ),
