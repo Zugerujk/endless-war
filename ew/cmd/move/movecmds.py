@@ -706,11 +706,14 @@ async def survey(cmd):
         items_resp = ""
         players_resp = ""
 
+    direction_image = ""
+    if poi.is_capturable or poi.id_poi in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
+        direction_image = '\nhttp://rfck.app/img/direction/{}_directions.png'.format(poi.id_poi)
     # post result to channel
     if poi != None:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
             cmd.message.author,
-            "You stand {} {}.\n\n{}{}{}{}{}{}".format(
+            "You stand {} {}.\n\n{}{}{}{}{}{}{}{}".format(
                 poi.str_in,
                 poi.str_name,
                 capped_resp,
@@ -721,7 +724,9 @@ async def survey(cmd):
                 worldevents_resp,
                 ("\n\n{}".format(
                     ewutils.weather_txt(market_data)
-                ) if cmd.guild != None else "")
+                ) if cmd.guild != None else ""),
+                direction_image,
+
             )  # + get_random_prank_item(user_data, district_data) # SWILLDERMUK
         ))
 
