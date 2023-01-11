@@ -53,7 +53,7 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = N
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'act':
-        if random.randint(1, 5) == 2:
+        if random.randint(1, 20) == 2:
             return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy = enemy, user_data=user_data)
     elif keyword == 'talk':
         return await generic_talk(channel=channel, npc_obj=npc_obj, enemy = enemy, user_data=user_data)
@@ -181,7 +181,9 @@ async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item 
 
 
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
-
+    delete_after = None
+    if 'loop' in keyword_override:
+        delete_after = 30
     if ewutils.is_district_empty(poi=enemy.poi):
         return
 
@@ -210,7 +212,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
             return await fe_utils.send_message(None, channel, response)
 
         name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
-        return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+        return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel, delete_after=delete_after)
 
 
 
@@ -242,7 +244,7 @@ async def generic_act(channel, npc_obj, enemy): #attacks when hostile. otherwise
         if resp_cont is not None:
             await resp_cont.post()
 
-    elif random.randrange(25) == 0 and not ewutils.is_district_empty(poi=enemy.poi):
+    elif random.randrange(35) == 0 and not ewutils.is_district_empty(poi=enemy.poi):
         if npc_obj.dialogue.get('loop') is not None:
             return await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='loop')
         elif npc_obj.dialogue.get('talk') is not None:
@@ -289,7 +291,7 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         else:
             response = "..."
             name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
-            return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel)
+            return await fe_utils.talk_bubble(response=response, name=name, image=npc_obj.image_profile, channel=channel, delete_after=30)
 
     poi = poi_static.id_to_poi.get(enemy.poi)
     resp_cont = None
