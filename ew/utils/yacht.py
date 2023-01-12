@@ -4,6 +4,8 @@ from ..backend.yacht import EwYacht
 from ..backend import core as bknd_core
 import ew.static.poi as poi_static
 from ew.utils import core as coreutils
+from ew.utils.district import EwDistrict
+from ew.utils.combat import EwUser
 
 try:
     from ew.cmd import debug as ewdebug
@@ -27,10 +29,10 @@ async def boat_tick(id_server, tick_count):
     boats = bknd_core.execute_sql_query(
         "SELECT thread_id from yachts where {direction} <> %s and {id_server} = %s".format(direction=ewcfg.col_direction, id_server=ewcfg.col_id_server),  ('sunk', id_server))
     for boat in boats:
-        boat_obj = EwYacht(id_server=id_server, id_thread=boat)
+        boat_obj = EwYacht(id_server=id_server, id_thread=boat[0])
 
         #If the ship is moving in a direction, allow it to move until it hits an obstruction.
-        if boat.direction == 'stop':
+        if boat_obj.direction == 'stop':
             boat_obj.speed = 0
         else:
             if tick_count == 1:
@@ -38,7 +40,7 @@ async def boat_tick(id_server, tick_count):
             else:
                 spaces_to_advance = math.ceil(boat_obj.speed / 2)
 
-            if boat.direction in ['north', 'west']:
+            if boat_obj.direction in ['north', 'west']:
                 direction_to_advance = -1
             else:
                 direction_to_advance = 1
@@ -47,7 +49,7 @@ async def boat_tick(id_server, tick_count):
             seacursor_y = boat_obj.ycoord
 
             for x in range(spaces_to_advance):
-                if boat.direction in['north', 'south']:
+                if boat_obj.direction in['north', 'south']:
                     seacursor_y += direction_to_advance
                 else:
                     seacursor_x += direction_to_advance
@@ -56,10 +58,13 @@ async def boat_tick(id_server, tick_count):
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
                 elif ewdebug.seamap[seacursor_y][seacursor_x] == 0 and ewdebug.seamap[boat_obj.ycoord][boat_obj.xcoord] == -1:
+                    boat_obj.xcoord = seacursor_x
+                    boat_obj.ycoord = seacursor_y
                     boat_obj.direction = 'stop'
                     boat_obj.flood = 0
                     boat_obj.speed = 0
-                    #todo send a message to the boat indicating arrival at a destination
+                    # todo send a message to the boat indicating arrival at a destination
+                    break
                 elif ewdebug.seamap[seacursor_y][seacursor_x] in [3, 0]:
                     #todo set up a boat message telling the player they've hit a wall or island
                     break
@@ -125,5 +130,44 @@ def clear_station(id_user, thread_id, id_server):
     yacht.persist()
 
 
-async def sink():
+async def sink(thread_id, id_server, killer_yacht = None):
+
+    sunk_yacht = EwYacht(id_server=id_server, id_thread=thread_id)
+    sunk_yacht.direction = 'sunk'
+    sunk_yacht.speed = 0
+
+    total_yield = 0
+    if sunk_yacht.slimes > 0:
+        total_yield += sunk_yacht.slimes
+
+    sunk_yacht.change_slimes(n=-sunk_yacht.slimes)
+
+    district_data = EwDistrict(id_server=id_server, district='yacht')
+    players = district_data.get_players_in_district(poi_name="yacht{}".format(thread_id))
+
+    sunk_yacht.persist()
+
+    for player in players:
+        player_obj = EwUser(id_user=player, id_server=id_server)
+        if player_obj.slimes > 0:
+            total_yield += player_obj.slimes
+
+        if player_obj.life_state != ewcfg.life_state_corpse:
+            player_obj.change_slimes(n=-player_obj.slimes)
+            player_obj.poi = "{}_{}_{}".format(ewcfg.poi_id_slimesea, sunk_yacht.xcoord, sunk_yacht.ycoord) #get items to sink to this region specifically
+            await player_obj.die(cause=ewcfg.cause_shipsink, updateRoles=True)
+
+    if killer_yacht is not None:
+        killer_yacht_obj = EwYacht(id_server=id_server, id_thread=killer_yacht)
+        if total_yield > 0:
+            killer_yacht_obj.change_slimes(n=total_yield)
+            killer_yacht_obj.persist()
+    else:
+        sewer_district = EwDistrict(id_server=sunk_yacht.id_server, district=ewcfg.poi_id_thesewers)
+        sewer_district.change_slimes(n=total_yield)
+        sewer_district.persist()
+
+
+
+async def send_message_to_boat(id_thread, id_server, message):
     pass

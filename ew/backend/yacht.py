@@ -130,7 +130,7 @@ class EwYacht():
 
             cursor.execute(
                 "SELECT {} FROM yacht_stats WHERE id_server = %s and thread_id = %s".format(
-                    ewcfg.col_id_stat
+                    ewcfg.col_id_idstat
                 ), (
                     self.id_server,
                     self.thread_id

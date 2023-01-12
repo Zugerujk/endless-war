@@ -1676,7 +1676,7 @@ enemy_attack_tick_length = 5
 # how often to burn
 burn_tick_length = 4
 
-boat_tick_length = 5
+boat_tick_length = 7
 
 # how often to check for statuses to be removed
 removestatus_tick_length = 5
@@ -2503,6 +2503,7 @@ col_direction = 'direction'
 col_id_stat = "stat" #ID of the yacht stat
 col_quantity = "quantity" #amount of stat
 col_type_stat = "type_stat"
+col_id_idstat = "id_stat"
 
 # Item type names
 it_item = "item"
@@ -2758,6 +2759,7 @@ cause_poison = 16
 cause_crushing = 17
 cause_gay = 18
 cause_debris = 19
+cause_shipsink = 20
 
 # List of user statistics that reset to 0 on death
 stats_clear_on_death = [

@@ -203,7 +203,7 @@ async def setsail(cmd):
         elif cmd.tokens[1] not in ['north', 'east', 'south', 'west', 'up', 'down', 'left', 'right', 'stop']:
             response = "Not a direction, squickface!"
         else:
-            yacht.speed = 1
+            yacht.speed = max(1, yacht.speed)
             if cmd.tokens[1] in ['north', 'up']:
                 yacht.direction = 'north'
                 response = "Set course due north!"
@@ -215,7 +215,7 @@ async def setsail(cmd):
                 response = "Time to go FUCKING EAST!"
             elif cmd.tokens[1] in ['west', 'left']:
                 yacht.direction = 'west'
-                response = "Moving west, furl the sails!"
+                response = "Moving west, unfurl the sails!"
             elif cmd.tokens[1] in ['stop']:
                 yacht.direction = 'stop'
                 yacht.speed = 0
