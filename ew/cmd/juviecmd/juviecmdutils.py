@@ -734,9 +734,6 @@ def create_mining_event(cmd, toolused=None):
     uncommon_event_triggered = False
     rare_event_triggered = False
 
-    weapon_item = user_data.get_weapon_item()
-    weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
-
     if randomn < rare_event_chance: # 5% chance, divided by # of players
         rare_event_triggered = True
     elif randomn < (uncommon_event_chance + rare_event_chance): # Always 30%
@@ -749,7 +746,7 @@ def create_mining_event(cmd, toolused=None):
         randomn = random.random()
 
         #Forces all common events into mineshaft collapses if you have a sledgehammer
-        if weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
+        if toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active:
             event_props = {}
             event_props['id_user'] = cmd.message.author.id
             event_props['poi'] = user_data.poi
@@ -792,21 +789,8 @@ def create_mining_event(cmd, toolused=None):
     elif uncommon_event_triggered:
         randomn = random.random()
 
-        # gap into the void
-        if randomn < 0.05:
-            event_props = {}
-            event_props['id_user'] = cmd.message.author.id
-            event_props['poi'] = user_data.poi
-            event_props['channel'] = cmd.message.channel.name
-            return bknd_worldevent.create_world_event(
-                id_server=cmd.guild.id,
-                event_type=ewcfg.event_type_voidhole,
-                time_activate=time_now,
-                time_expir=time_now + 15, # should be longer than ratelimit
-                event_props=event_props
-            )
         # mine shaft collapse
-        elif randomn < 0.5:
+        if randomn < 0.5:
             event_props = {}
             event_props['id_user'] = cmd.message.author.id
             event_props['poi'] = user_data.poi
@@ -836,8 +820,22 @@ def create_mining_event(cmd, toolused=None):
     # rare event
     elif rare_event_triggered:
         randomn = random.random()
-        # You beat up a skeleton - get poudrins and monsterbones
+        # gap into the void
         if randomn < 0.5:
+            event_props = {}
+            event_props['id_user'] = cmd.message.author.id
+            event_props['poi'] = user_data.poi
+            event_props['channel'] = cmd.message.channel.name
+            return bknd_worldevent.create_world_event(
+                id_server=cmd.guild.id,
+                event_type=ewcfg.event_type_voidhole,
+                time_activate=time_now,
+                time_expir=time_now + 15, # should be longer than ratelimit
+                event_props=event_props
+            )
+
+        # You beat up a skeleton - get poudrins and monsterbones
+        elif randomn < 0.75:
             event_props = {}
             event_props['id_user'] = cmd.message.author.id
             event_props['poi'] = user_data.poi
