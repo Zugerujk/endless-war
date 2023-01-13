@@ -6,7 +6,7 @@ import ew.static.poi as poi_static
 from ew.utils import core as coreutils
 from ew.utils.district import EwDistrict
 from ew.utils.combat import EwUser
-
+import ew.utils.frontend as fe_utils
 try:
     from ew.cmd import debug as ewdebug
 except:
@@ -47,6 +47,11 @@ async def boat_tick(id_server, tick_count):
 
             seacursor_x = boat_obj.xcoord
             seacursor_y = boat_obj.ycoord
+            response = ""
+            if boat_obj.direction in ['north', 'south', 'east', 'west'] and boat_obj.helm != -1:
+                player = EwUser(id_user=boat_obj.helm, id_server=id_server)
+                if player.poi == "yacht{}".format(boat_obj.thread_id):
+                    response += draw_map(xcoord=boat_obj.xcoord, ycoord=boat_obj.ycoord, id_server=boat_obj.id_server, radius=4)
 
             for x in range(spaces_to_advance):
                 if boat_obj.direction in['north', 'south']:
@@ -57,16 +62,20 @@ async def boat_tick(id_server, tick_count):
                 if ewdebug.seamap[seacursor_y][seacursor_x] == -1:
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
+                    if response != "":
+                        await fe_utils.send_message(None, boat_obj.get_thread(), response)
                 elif ewdebug.seamap[seacursor_y][seacursor_x] == 0 and ewdebug.seamap[boat_obj.ycoord][boat_obj.xcoord] == -1:
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
                     boat_obj.direction = 'stop'
                     boat_obj.flood = 0
                     boat_obj.speed = 0
-                    # todo send a message to the boat indicating arrival at a destination
+                    response += "LAND HO! Looks like we've arrived at an island."
+                    await fe_utils.send_message(None, boat_obj.get_thread(), response)
                     break
                 elif ewdebug.seamap[seacursor_y][seacursor_x] in [3, 0]:
-                    #todo set up a boat message telling the player they've hit a wall or island
+                    response += "The {} suddenly stops. Did we hit something?".format(boat_obj.yacht_name)
+                    await fe_utils.send_message(None, boat_obj.get_thread(), response)
                     break
 
         stats = boat_obj.getYachtStats()
@@ -76,8 +85,8 @@ async def boat_tick(id_server, tick_count):
                 boat_obj.flood += stat.quantity
 
         if boat_obj.flood > 100:
-            #todo create a sink function that drowns anyone on a sunken ship
-            pass
+            #todo detect the killer and parse that in too
+            await sink(thread_id=boat_obj.thread_id, id_server=id_server)
         boat_obj.persist()
 
 
@@ -135,6 +144,10 @@ async def sink(thread_id, id_server, killer_yacht = None):
     sunk_yacht = EwYacht(id_server=id_server, id_thread=thread_id)
     sunk_yacht.direction = 'sunk'
     sunk_yacht.speed = 0
+    sunk_yacht.helm = -1
+    sunk_yacht.poopdeck = -1
+    sunk_yacht.storehouse = -1
+    sunk_yacht.cannon = -1
 
     total_yield = 0
     if sunk_yacht.slimes > 0:
@@ -169,5 +182,32 @@ async def sink(thread_id, id_server, killer_yacht = None):
 
 
 
-async def send_message_to_boat(id_thread, id_server, message):
-    pass
+def draw_map(xcoord, ycoord, id_server, radius = 4 ):
+    center_x = min(max(xcoord, 5), ewdebug.max_right_bound - 4)
+    center_y = min(max(ycoord, 5), ewdebug.max_lower_bound - 4)
+    search_coords = []
+    for x in range(-radius, radius+1):
+        for y in range(-radius, radius+1):
+            search_coords.append([center_x + x, center_y + y])
+
+    boats = find_local_boats(id_server=id_server, current_coords=search_coords)
+
+    response = ''
+
+    map_key = {
+        -1: '🟦',  # blue
+        3: '⬛',  # black
+        0: '🟩'  # green
+
+    }
+
+    for y in range(-radius, radius+1):
+        response += '\n'
+        for x in range(-radius, radius+1):
+            letter = map_key.get(ewdebug.seamap[y + center_y][x + center_x])
+            for boat in boats:
+                if boat.ycoord == y + center_y and boat.xcoord == x + center_x:
+                    letter = '⛵'
+            response += letter
+
+    return response

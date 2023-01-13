@@ -2,6 +2,8 @@ import time
 
 from . import core as bknd_core
 from ..static import cfg as ewcfg
+from ew.utils import core as coreutils
+
 
 class EwYacht():
     id_server = -1 #lol this is on everything
@@ -148,6 +150,13 @@ class EwYacht():
     def change_slimes(self, n = 0, source = None):
         change = int(n)
         self.slimes += change
+
+    def get_thread(self):
+        client = coreutils.get_client()
+        server = client.get_guild(self.id_server)
+        channel = server.fetch_channel(channel_id=self.thread_id)
+        return channel
+
 
 class EwYachtStat():
     thread_id = -1 #Name of the affected yacht

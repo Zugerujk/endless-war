@@ -5453,6 +5453,7 @@ region_lock_states = {
 
 
 
+
 curse_words = {  # words that the player should be punished for saying via swear jar deduction. the higher number, the more the player gets punished.
     "fag": 20,
     "shit": 10,

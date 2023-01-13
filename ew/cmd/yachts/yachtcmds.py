@@ -158,36 +158,22 @@ async def avast(cmd):
         if yacht.storehouse == user_data.id_user or yacht.cannon == user_data.id_user:
             response = "You can't see anything, you're not aboveboard!"
         else:
-            center_x = min(max(yacht.xcoord, 5), ewdebug.max_right_bound-4)
-            center_y = min(max(yacht.ycoord, 5), ewdebug.max_lower_bound-4)
-            search_coords = []
-            for x in range(-4, 5):
-                for y in range (-4, 5):
-                    search_coords.append([center_x + x, center_y + y])
+            response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=6)
+            response += "\n{} is currently "
 
-            boats = yacht_utils.find_local_boats(id_server=cmd.guild.id, current_coords=search_coords)
+            if yacht.direction == 'stop':
+                response += "stopped."
+            elif yacht.direction == 'sunk':
+                response += "sunk."
+            else:
+                response += "headed {}.".format(yacht.direction)
 
-            response = ''
-
-            map_key = {
-                -1:'🟦', #blue
-                 3:'⬛', #black
-                 0:'🟩' #green
-
-            }
-
-            for y in range(-4, 5):
-                response += '\n'
-                for x in range (-4, 5):
-                    letter = map_key.get(ewdebug.seamap[y+center_y][x+center_x])
-                    for boat in boats:
-                        if boat.ycoord == y+center_y and boat.xcoord == x+center_x:
-                            letter = '⛵'
-                    response += letter
-
+            if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 0:
+                response += " You've docked on an island and can get off now."
 
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 async def setsail(cmd):
     user_data = EwUser(member=cmd.message.author)
