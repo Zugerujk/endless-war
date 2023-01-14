@@ -157,6 +157,35 @@ class EwYacht():
         channel = server.fetch_channel(channel_id=self.thread_id)
         return channel
 
+    def applyStat(self, stat_type, quantity = 0, target = 0):
+        bknd_core.execute_sql_query("insert into yacht_stats({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
+            ewcfg.col_thread_id,
+            ewcfg.col_type_stat,
+            'target',
+            ewcfg.col_quantity,
+            ewcfg.col_id_server),(
+            self.thread_id,
+            stat_type,
+            target,
+            quantity,
+            self.id_server
+        ))
+
+    def clearStat(self, stat_type, quantity = 0, target = 0):
+        bknd_core.execute_sql_query("insert into yacht_stats({}, {}, {}, {}, {})".format(
+            ewcfg.col_thread_id,
+            ewcfg.col_type_stat,
+            'target',
+            ewcfg.col_quantity,
+            ewcfg.col_id_server),(
+            self.thread_id,
+            stat_type,
+            target,
+            quantity,
+            self.id_server
+        ))
+
+
 
 class EwYachtStat():
     thread_id = -1 #Name of the affected yacht

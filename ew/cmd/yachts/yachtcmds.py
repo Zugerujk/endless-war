@@ -210,3 +210,8 @@ async def setsail(cmd):
                 response = ""
             yacht.persist()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+async def statstest(cmd):
+    pass
