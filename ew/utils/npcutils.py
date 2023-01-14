@@ -367,8 +367,8 @@ def drop_held_items(enemy):
 
     for item in items_list:
         items_to_drop.append(item.get('id_item'))
-
-    bknd_item.give_item_multi(id_list=items_to_drop, destination=enemy.poi)
+    if len(items_to_drop) > 0:
+        bknd_item.give_item_multi(id_list=items_to_drop, destination=enemy.poi)
 
 
 async def juvieman_die(channel, npc_obj, enemy = None):

@@ -493,7 +493,8 @@ class EwEnemy(EwEnemyBase):
                                     name_target=("<@!{}>".format(target_data.id_user)),
                                     hitzone=randombodypart,
                                     strikes=strikes,
-                                    civ_weapon=random.choice(ewcfg.makeshift_weapons)
+                                    civ_weapon=random.choice(ewcfg.makeshift_weapons),
+                                    dojo_weapons=random.choice(ewcfg.dojo_weapons)
                                 )
                                 if crit:
                                     response += " {}".format(used_attacktype.str_crit.format(
