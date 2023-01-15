@@ -1000,7 +1000,7 @@ async def annoint(cmd):
     # Make sure user has a weapon equipped before all else
     if user_data.weapon <= 0:
         response = "Equip a weapon first."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Grab the wanted name
     if cmd.tokens_count < 2:
