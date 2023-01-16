@@ -171,18 +171,10 @@ class EwYacht():
             self.id_server
         ))
 
-    def clearStat(self, stat_type, quantity = 0, target = 0):
-        bknd_core.execute_sql_query("insert into yacht_stats({}, {}, {}, {}, {})".format(
-            ewcfg.col_thread_id,
-            ewcfg.col_type_stat,
-            'target',
-            ewcfg.col_quantity,
-            ewcfg.col_id_server),(
-            self.thread_id,
-            stat_type,
-            target,
-            quantity,
-            self.id_server
+    def clearStat(self, id_stat):
+        bknd_core.execute_sql_query("delete from yacht_stats where {} = %s".format(
+            ewcfg.col_id_idstat),(
+            id_stat
         ))
 
 

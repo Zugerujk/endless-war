@@ -2870,11 +2870,11 @@ amy_curator_dialogue = {
     "cheatedfish":"\"Oh, it's you. I guess I respect the hustle, but if you cheat you're out of the fish donating game. Can't accecpt this one.\"",
     "caughtcheatfish":"\"This {fish}? It's fake. It's a goddamn counterfeit fish. Get out of here with this bullshit.\"",
     "fishdonate":"Amy approvingly nods her head at your {}. Looks like we got a winner! Amy tags the new fish, then dips headfirst into the fishtank to retrieve the old one. A few minutes later she emerges with it, slam dunking the majestic creature into the trash.\"Whoa nelly. I think we gotta clean these tanks better.\"\n\nYou got {} slime!",
-    "redonaterelic":"\"We have *a* version of this in the museum. Either you stole this real one earlier or this is fake. But either way I'm probably won't get to display this relic for long. No deal.\"",
+    "redonaterelic":"\"We have *a* version of this in the museum. Either you stole this real one earlier or this is fake. But either way I probably won't get to display this relic for long. No deal.\"",
     "donaterelic":"Amy looks the artifact over. \"A {}, huh? This is probably the real one, so I'll pay you to get the chance to study it.\" She walks into the backroom, casually tossing {:,} slime your way. You wait for her to carefully examine it, write up a plaque, and get all the fangirling out of her system when nobody's looking, before she comes back to set up the museum display. She also hands you a meticulously constructed replica for your trouble.\n\n \"Ugh. Swap the real one for the fake all you want. It's not like we can hold you off forever.\" While she isn't looking, you do just that.",
     "spoons":"\"You're tearing me apart, Lisa! Nah, but seriously. Don't donate the spoon picture again.\"",
     "artnametaken":"\"Somebody else chose that name. Just add an underscore or a 2 to the end, it'll be fine.\"",
-    "colon":"\"If you put a colon in the frame like that it won't hag on the wall right. Better take that out first.",
+    "colon":"\"If you put a colon in the frame like that it won't hang on the wall right. Better take that out first.",
     "deviantpost":'"I posted it to DeviantSPLAAART. May the algoorithm have mercy on its soul."',
     "notitleart":"\"It's gonna need a title. DeviantSPLAAART won't let me post it without one.\" "
 }

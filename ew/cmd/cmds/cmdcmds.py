@@ -67,7 +67,7 @@ try:
     from ew.static import rstatic as relic_static
 except:
     from ..debug_dummy import debug24
-    from ew.static import rstatic as relic_static
+    from ew.static import rstatic_dummy as relic_static
 
 """ show player's slime score """
 

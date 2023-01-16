@@ -212,6 +212,51 @@ async def setsail(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+async def unboard(cmd):
+    user_data = EwUser(member = cmd.message.author)
+
+    if user_data.poi[:5] != 'yacht':
+        response = "You gotta get boarded first."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == -1:
+            resp_cont = fe_utils.EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
+
+            user_data.poi = ewcfg.poi_id_slimesea
+            user_data.trauma = ewcfg.trauma_id_environment
+            die_resp = await user_data.die(cause=ewcfg.cause_drowning)
+            resp_cont.add_response_container(die_resp)
+            await resp_cont.post()
+            response = "{} jumps over the railing of the yacht and promptly drowns in the slime sea.".format(cmd.message.author.display_name)
+        elif ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 3:
+            response = "Holy shit dude, that's not even supposed to happen. You're like, Tony Hawking the map right now."
+        else:
+            exit_poi = ""
+            for dock in poi_static.docks:
+                dock_obj = poi_static.id_to_poi.get(dock)
+                for coord in dock_obj.coord:
+                    if coord[0] == yacht.xcoord and coord[1] == yacht.ycoord:
+                        exit_poi = dock
+                        break
+                if exit_poi != "":
+                    break
+            if exit_poi == "":
+                response = "The cliffs are too steep here. Looks like we can't head for land."
+            else:
+                response = "LAND HO!"
+                move_utils.move_counter += 1
+                move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
+                if move_current == ewutils.moves_active[cmd.message.author.id]:
+                    user_data = EwUser(member=cmd.message.author)
+                    user_data.poi = exit_poi
+                    user_data.persist()
+                    await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                    await user_data.move_inhabitants(id_poi=user_data.poi)
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
 
 async def statstest(cmd):
     pass

@@ -3171,6 +3171,7 @@ streets = []
 tutorial_pois = []
 zine_mother_districts = []
 enemy_lock_districts = []
+docks = []
 
 for poi in poi_list:
 
@@ -3269,6 +3270,9 @@ for poi in poi_list:
 
     if poi.is_pier:
         piers.append(poi.id_poi)
+
+    if poi.is_dock:
+        docks.append(poi.id_poi)
 
     if poi.is_outskirts:
         outskirts.append(poi.id_poi)
