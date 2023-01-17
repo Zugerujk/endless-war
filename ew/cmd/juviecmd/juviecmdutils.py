@@ -468,6 +468,7 @@ def check_and_explode(grid, cells_to_check):
 
         bubble_cluster = [coords]
         to_check = [coords]
+        globs = []
         while len(to_check) > 0:
             to_check_next = []
             for coord in to_check:
@@ -478,12 +479,18 @@ def check_and_explode(grid, cells_to_check):
                     if grid[neigh[0]][neigh[1]] == bubble:
                         bubble_cluster.append(neigh)
                         to_check_next.append(neigh)
+                    if grid[neigh[0]][neigh[1]] == ewcfg.cell_bubble_glob:
+                        globs.append(neigh)
+
             to_check = to_check_next
 
         if len(bubble_cluster) >= ewcfg.bubbles_to_burst:
             for coord in bubble_cluster:
                 grid[coord[0]][coord[1]] = ewcfg.cell_bubble_empty
                 slime_yield += 1
+            for coord in globs:
+                grid[coord[0]][coord[1]] = ewcfg.cell_bubble_empty
+                slime_yield += 10
 
     return slime_yield
 
@@ -516,8 +523,12 @@ def add_row(grid):
         # Make the new cell the same as the cell "above" it.
         elif randomn < 0.3:
             cell = grid[0][i]
-        if cell == ewcfg.cell_bubble_empty:
+        
+        if cell in [ewcfg.cell_bubble_empty, ewcfg.cell_bubble_glob]:
             cell = random.choice(ewcfg.cell_bubbles)
+        
+        if 0.3 < randomn < 0.307:
+            cell = ewcfg.cell_bubble_glob
 
         new_row.append(cell)
     grid.insert(0, new_row)

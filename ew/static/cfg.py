@@ -2009,6 +2009,7 @@ cell_bubble_1 = "1"
 cell_bubble_2 = "2"
 cell_bubble_3 = "3"
 cell_bubble_4 = "4"
+cell_bubble_glob = "⋆"
 
 cell_bubbles = [
     cell_bubble_0,
