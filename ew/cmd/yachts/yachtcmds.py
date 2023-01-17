@@ -256,6 +256,27 @@ async def unboard(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+async def stock(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "You must be thinking of \"!stocks\"."
+    elif cmd.tokens_count < 2:
+        response = "Stock what? Either a cannonball or a harpoon."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        stats = yacht.getYachtStats()
+
+        if cmd.tokens[1] not in['harpoon', 'cannonball']:
+            response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes them out of balsa wood!\"\n\nTry a cannonball or a harpoon."
+
+        elif ('cannonball' in stats and cmd.tokens[1] == 'cannonball') or ('harpoon' in stats and cmd.tokens[1] == 'harpoon'):
+            response = "They already have one. Don't go throwing shit around belowdeck, or the filth's gonna go through the roof."
+        elif user_data.id_user != yacht.storehouse:
+            response = "You're nowhere near the storehouse, you can't find it!"
+
+
+
+
 
 
 async def statstest(cmd):
