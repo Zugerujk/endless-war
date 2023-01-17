@@ -821,7 +821,7 @@ def check_for_mining_world_events(world_events, mine_action):
         if world_events.get(id_event) == ewcfg.event_type_slimefrenzy:
             event_data = EwWorldEvent(id_event=id_event)
             if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user:
-                mine_action.slime_yield *= 2
+                mine_action.slime_yield *= 4
 
         # Get a poudrin every !mine
         elif world_events.get(id_event) == ewcfg.event_type_poudrinfrenzy:
