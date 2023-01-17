@@ -48,6 +48,7 @@ from ..static.food import swilldermuk_food
 from ..static import poi as poi_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
+from ..cmd.juviecmd.juviecmdutils import mine_collapse
 try:
     from ..utils import rutils
 except:
@@ -94,24 +95,18 @@ async def event_tick(id_server):
                     response = event_def.str_event_end if event_def else ""
                     if event_data.event_type == ewcfg.event_type_minecollapse:
                         user_data = EwUser(id_user=event_data.event_props.get('id_user'), id_server=id_server)
-                        mutations = user_data.get_mutations()
                         if user_data.poi == event_data.event_props.get('poi'):
+                            # Do the mine collapse function
+                            mine_action = mine_collapse(id_user=user_data.id_user, id_server=id_server) 
+                            
+                            # Take either slime or hunger
+                            if mine_action.collapse_penalty != 0.0:
+                                if user_data.slimes > 1:
+                                    user_data.change_slimes(n=-(user_data.slimes * mine_action.collapse_penalty))
+                            elif mine_action.hunger_cost_multiplier != 1:
+                                user_data.hunger += (ewcfg.hunger_permine * mine_action.hunger_cost_multiplier)
 
-                            player_data = EwPlayer(id_user=user_data.id_user)
-                            response = "*{}*: You have lost an arm and a leg in a mining accident. Tis but a scratch.".format(
-                                player_data.display_name)
-
-                            if random.randrange(4) == 0:
-                                response = "*{}*: Big John arrives just in time to save you from your mining accident!\nhttps://cdn.discordapp.com/attachments/431275470902788107/743629505876197416/mine2.jpg".format(
-                                    player_data.display_name)
-                            else:
-
-                                if ewcfg.mutation_id_lightminer in mutations:
-                                    response = "*{}*: You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping.".format(
-                                        player_data.display_name)
-                                else:
-                                    user_data.change_slimes(n=-(user_data.slimes * 0.5))
-                                    user_data.persist()
+                            user_data.persist()
 
                     elif event_data.event_type == ewcfg.event_type_alarmclock:
                         clock_item = EwItem(event_data.event_props.get("clock_id"))

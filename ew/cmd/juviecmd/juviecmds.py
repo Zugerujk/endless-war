@@ -365,13 +365,11 @@ async def mine(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     mutations = user_data.get_mutations()
-    time_now = int(time.time())
-    poi = poi_static.id_to_poi.get(user_data.poi)
 
     responses = []
     resp_ctn = EwResponseContainer(client=cmd.client, id_server=cmd.guild.id)
-
     response = ""
+
     # Kingpins can't mine.
     if user_data.life_state == ewcfg.life_state_kingpin or user_data.life_state == ewcfg.life_state_grandfoe:
         return
@@ -396,16 +394,11 @@ async def mine(cmd):
             return await mismine(cmd, user_data, "exhaustion")
 
         else:
+            grid_cont = None
+            toolused = "nothing"
             
-            printgrid = True
-            hunger_cost_mod = ewutils.hunger_cost_mod(user_data.slimelevel)
-            extra = hunger_cost_mod - int(hunger_cost_mod)  # extra is the fractional part of hunger_cost_mod
-
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
-            poi = poi_static.id_to_poi.get(user_data.poi)
-
-            toolused = "nothing"
 
             # If the user has a weapon equipped, check to see if it's a mining tool.
             if user_data.weapon >= 0:
@@ -418,298 +411,137 @@ async def mine(cmd):
                 elif weapon.id_weapon == ewcfg.weapon_id_shovel:
                     toolused = ewcfg.weapon_id_shovel
 
-            
-            sledgehammer_bonus = False
+            if mining_type != "":
+                # Check if the mine has a grid container. If not, initialize one.
+                if user_data.id_server not in juviecmdutils.mines_map.get(user_data.poi): # The POI key will return another dict. The dict will be empty, unless there's an active grid, in which case the id_server will act as a key.
+                    init_grid(user_data.poi, user_data.id_server)
 
-            # Check for a mine collapse
-            for id_event in world_events:
-
-                if world_events.get(id_event) == ewcfg.event_type_minecollapse:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    # If the mine collapse corresponds to the user & the location
-                    if int(event_data.event_props.get('id_user')) == user_data.id_user and event_data.event_props.get('poi') == user_data.poi:
-                        captcha = event_data.event_props.get('captcha').lower()
-                        tokens_lower = []
-                        for token in cmd.tokens[1:]:
-                            tokens_lower.append(token.lower())
-
-                        # If the player enters the right captcha
-                        if captcha in tokens_lower:
-                            bknd_worldevent.delete_world_event(id_event=id_event)
-                            # Sledgehammer bonus if the player is using a sledgehammer & it's slimernalia
-                            if toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active:
-                                response = "You bludgeon the shifting earth around you, keeping the mineshaft intact while exposing the pockets of slime.\n"
-                                sledgehammer_bonus = True
-                                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response,))
-                            else:
-                                response = "You escape from the collapsing mineshaft."
-                                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                        # Delete worldevent if the player has Light Miner
-                        elif ewcfg.mutation_id_lightminer in mutations:
-                            bknd_worldevent.delete_world_event(id_event=id_event)
-                            response = "You nimbly step outside the collapse without even thinking about it."
-                            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                        else:
-                            return await mismine(cmd, user_data, ewcfg.event_type_minecollapse)
-
-            # Check if the mine has a grid container. If not, initialize one.
-            if user_data.id_server not in juviecmdutils.mines_map.get(user_data.poi): # The POI key will return another dict. The dict will be empty, unless there's an active grid, in which case the id_server will act as a key.
-                init_grid(user_data.poi, user_data.id_server)
-
-            # Get the grid container
-            grid_cont = juviecmdutils.mines_map.get(user_data.poi).get(user_data.id_server)
-
-            # Double check that the grid is the right kind
-            grid_type = ewcfg.grid_type_by_mining_type.get(mining_type)
-            if grid_type != grid_cont.grid_type:
-                init_grid(user_data.poi, user_data.id_server)
+                # Get the mine's grid container
                 grid_cont = juviecmdutils.mines_map.get(user_data.poi).get(user_data.id_server)
 
-            # Do the calcs for mining_yield, return either an int or string
-            mining_yield = get_mining_yield_by_grid_type(cmd, grid_cont)
-            bonus_yield = 0
+                # Double check that the grid is the right kind!
+                grid_type = ewcfg.grid_type_by_mining_type.get(mining_type)
+                if grid_type != grid_cont.grid_type:
+                    init_grid(user_data.poi, user_data.id_server)
+                    grid_cont = juviecmdutils.mines_map.get(user_data.poi).get(user_data.id_server)
 
-            # If mining_yield is a string, send string and print grid.
-            if type(mining_yield) == type(""):
-                response = mining_yield
-                if len(response) > 0:
-                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                if time_now > grid_cont.time_last_posted + 10:
-                    await print_grid(cmd)
-                return
-
-            # If mining_yield is 0, increment hunger and persist user_data.
-            if mining_yield == 0:
-                user_data.hunger += ewcfg.hunger_permine * int(hunger_cost_mod)
-                user_data.persist()
-                # response = "This vein has already been mined dry."
-                # await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                if printgrid:
-                    return await print_grid(cmd)
-                else:
-                    return
-
+            # Create mine_action container
+            mine_action = juviecmdutils.EwMineAction(user_data=user_data,
+                                                     valid=False,
+                                                     hunger_cost_multiplier=1,
+                                                     toolused=toolused,
+                                                     response=response,
+                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,
+            )
             
-            # If a shovel is used, do hole stuff
-            if toolused == ewcfg.weapon_id_shovel and user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
-
-                # Get hole gamestate
-                minestate = EwGamestate(id_server=user_data.id_server, id_state=poi.mother_districts[0] + 'hole')
-                added = random.randint(5, 15)
-                checked_dict = digup_relics.get(poi.mother_districts[0])
-                # print(checked_dict)
-                # Check if you hit an associated relic's depth
-                dug_relics = [x for x in checked_dict.keys() if int(minestate.value) <= int(x) <= int(minestate.value) + added]
-
-                if len(dug_relics) > 0:
-                    props = itm_utils.gen_item_props(relic_map.get(checked_dict.get(dug_relics[0])))
-                    bknd_item.item_create(
-                        item_type=ewcfg.it_relic,
-                        id_user=cmd.message.author.id,
-                        id_server=cmd.guild.id,
-                        item_props=props
-                    )
-                    response += "You ram your shovel back into the ground and hear a CLANK. Oh shit, we got one! You pull out a {}! ".format(relic_map.get(checked_dict.get(dug_relics[0])).str_name)
-                # Increment mine depth by random number between 5 and 15
-                minestate.value = str(int(minestate.value) + added)
-                minestate.persist()
-
-
-            # Determine if an item is found.
-            unearthed_item = False
-            unearthed_item_amount = (random.randrange(3) + 5)  # anywhere from 5-7 drops
-            unearthed_item_type = ""
+            # Check for a mine collapse
+            juviecmdutils.check_for_minecollapse(cmd, world_events, mine_action,)
             
-            # Currently 1/1500
-            unearthed_item_chance = 1 / ewcfg.unearthed_item_rarity
-            if user_data.life_state == ewcfg.life_state_juvenile:
-                unearthed_item_chance *= 2
-            if toolused == ewcfg.weapon_id_pickaxe:
-                unearthed_item_chance *= 1.5
-            if ewcfg.mutation_id_lucky in mutations:
-                unearthed_item_chance *= 1.777
+            # Do the calcs for !mine, return the updated mine_action container
+            if mine_action.collapse == False and mine_action.valid == False:
+                mine_action = get_mining_yield_by_grid_type(cmd, mine_action, grid_cont)
+            
+            # If !mine would result in nothing, send its response
+            if mine_action.valid == False:
+                response = mine_action.response
+                return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-            # give sledgehammer bonus
-            if sledgehammer_bonus == True:
-                unearthed_item_chance = 1
-                unearthed_item_amount = random.randint(1, 3)
-                unearthed_item_type = "Slime Poudrin"
-                bonus_yield += random.randint(30000, 60000)
+            # If !mine doesn't result in a collapse, run worldevent checks and bonus checks
+            if mine_action.collapse == False and mine_action.slime_yield != 0:
+                
+                # Check for currently-running world events
+                juviecmdutils.check_for_mining_world_events(world_events, mine_action)
 
-            # Non-minecollapse world events
-            for id_event in world_events:
+                # ZZZZT ZZZZT shovel check ZZZZT ZZZZT
+                if toolused == ewcfg.weapon_id_shovel and mine_action.user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
+                    poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
+                    juviecmdutils.dig_hole(cmd, mine_action, poi)
 
-                # Double slimegain
-                if world_events.get(id_event) == ewcfg.event_type_slimefrenzy:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
-                        mining_yield *= 2
+                # Check to create a world event
+                if random.random() < 0.05:
+                    create_mining_event(cmd, mine_action)
 
-                # Get a poudrin every !mine
-                if world_events.get(id_event) == ewcfg.event_type_poudrinfrenzy:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
-                        unearthed_item_chance = 1
-                        unearthed_item_amount = 1
+                # Unearth item check
+                if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
+                    mine_action.unearthed_item_chance *= 2
+                elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
+                    mine_action.unearthed_item_chance *= 1.5
+                if ewcfg.mutation_id_lucky in mutations:
+                    mine_action.unearthed_item_chance *= 1.777
                     
-                # Get a poudrin or bone every !mine
-                if world_events.get(id_event) == ewcfg.event_type_spookyskeleton:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
-                        unearthed_item_chance = 1
-                        unearthed_item_amount = 1
-                        # Set the item pool to skeleton
-                        unearthed_item_type = "skeleton"
+                if random.random() < mine_action.unearthed_item_chance:
+                    juviecmdutils.unearth_item(cmd, mine_action)
 
-                # Triple slimegain and ectoplasm every !mine
-                if world_events.get(id_event) == ewcfg.event_type_spookyghost:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
-                        mining_yield *= 3
-                        unearthed_item_chance = .85
-                        unearthed_item_amount = 1
-                        # Set the item pool to ghost
-                        unearthed_item_type = "ghost"
-
-                # Halve hunger cost
-                if world_events.get(id_event) == ewcfg.event_type_gas_leak:
-                    event_data = EwWorldEvent(id_event=id_event)
-                    if event_data.event_props.get('poi') == user_data.poi and int(event_data.event_props.get('id_user')) == user_data.id_user:
-                        hunger_cost_mod = int(hunger_cost_mod) / 2
-
-            # 1 / 20 chance to create a mining event
-            if random.random() < 0.05:
-                id_event = create_mining_event(cmd, toolused)
-                event_data = EwWorldEvent(id_event=id_event)
-
-                if event_data.id_event == -1:
-                    return ewutils.logMsg("Error couldn't find world event with id {}".format(id_event))
-
-                # If the created worldevent is a slime glob, increase mining yield and then delete the worldevent
-                if event_data.event_type == ewcfg.event_type_slimeglob:
-                    mining_yield *= 4
-                    bknd_worldevent.delete_world_event(id_event=id_event)
-
-                # If the event's activation time is in the past or present
-                if event_data.time_activate <= time.time():
-
-                    event_def = poi_static.event_type_to_def.get(event_data.event_type)
-                    if event_def == None:
-                        return ewutils.logMsg("Error, couldn't find event def for event type {}".format(event_data.event_type))
-                    str_event_start = event_def.str_event_start
-
-                    # Update minecollapse's event text.
-                    if event_data.event_type == ewcfg.event_type_minecollapse:
-                        str_event_start = str_event_start.format(cmd=ewcfg.cmd_mine, captcha=ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
-                        # Send miningcollapse event start response
-                        await fe_utils.send_response(str_event_start, cmd)
-                        event_data.time_expir = time_now + 60
-                        event_data.persist()
-                        # Set event start response to nothing, to not add to the generic response.
-                        str_event_start = ""
-
-                    # Add event start string to response
-                    if str_event_start != "":
-                        response += str_event_start + "\n"
-
-            # Figure out if there should be an unearthed item
-            if random.random() < unearthed_item_chance:
-                unearthed_item = True
-
-            if unearthed_item == True:
-                # If there are multiple possible products, randomly select one.
-                if unearthed_item_type == "ghost":
-                    item = random.choice([static_items.item_map.get('ectoplasm')])
-                elif unearthed_item_type == "skeleton":
-                    item = random.choice(vendors.mine_results + [static_items.item_map.get('bone')])
-                else:
-                    item = random.choice(vendors.mine_results)
-
-                # If the player has inventory capacity, create unearthed items
-                if bknd_item.check_inv_capacity(user_data=user_data, item_type=item.item_type):
-
-                    item_props = itm_utils.gen_item_props(item)
-
-                    for creation in range(unearthed_item_amount):
-                        bknd_item.item_create(
-                            item_type=item.item_type,
-                            id_user=cmd.message.author.id,
-                            id_server=cmd.guild.id,
-                            item_props=item_props
-                        )
-                    # Give correct response, if not using sledgehammer bonus
-                    if not sledgehammer_bonus:
-                        if unearthed_item_type != "":
-                            response += "You {} one {} out of the {}!".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), item.str_name, unearthed_item_type)
-                        elif unearthed_item_amount == 1:
-                            response += "You unearthed a {}! ".format(item.str_name)
-                        else:
-                            response += "You unearthed {} {}s! ".format(unearthed_item_amount, item.str_name)
-
-                    # Change POUDRINING stat
-                    ewstats.change_stat(user=user_data, metric=ewcfg.stat_lifetime_poudrins, n=unearthed_item_amount)
-
-            # ewutils.logMsg('{} has found {} {}(s)!'.format(cmd.message.author.display_name, item.str_name, unearthed_item_amount))
-
-            user_initial_level = user_data.slimelevel
-
-            controlling_faction = poi_utils.get_subzone_controlling_faction(user_data.poi, user_data.id_server)
-
-            # Give faction, weapon, and lifestate bonuses
-            if controlling_faction != "" and controlling_faction == user_data.faction:
-                mining_yield *= 2
-
-            if toolused == ewcfg.weapon_id_pickaxe:
-                mining_yield *= 2
-            if toolused == ewcfg.weapon_id_sledgehammer and user_data.life_state != ewcfg.life_state_juvenile:
-                mining_yield *= 2
-            if user_data.life_state == ewcfg.life_state_juvenile:
-                mining_yield *= 2
-
-            # Sledgehammer flavor text
-            if sledgehammer_bonus == True:
-
-                response = "Your reckless mining has gotten you an extra {} slime and {} Slime Poudrins! ".format(bonus_yield, unearthed_item_amount)
+            # If there WAS an uncleared collapse, do the flavor text and calcs for that
+            if mine_action.collapse == True:
+                mine_action = juviecmdutils.mine_collapse(mine_action, mutations, id_user=None)
+                
+                # Change user slime
+                if mine_action.user_data.slimes > 0:
+                    mine_action.user_data.change_slimes(n=-(mine_action.user_data.slimes * mine_action.collapse_penalty))
 
 
-            # Makes sure mining yield is always a positive number
-            mining_yield = max(0, round(mining_yield))
+            # Do final slime calcs & give slime
+            elif mine_action.slime_yield > 0:
+                # Capped district check
+                controlling_faction = poi_utils.get_subzone_controlling_faction(mine_action.user_data.poi, mine_action.user_data.id_server)
+                if controlling_faction != "" and controlling_faction == mine_action.user_data.faction:
+                    mine_action.slime_yield *= 2
+                # Tool & Juvie lifestate check
+                if mine_action.toolused in [ewcfg.weapon_id_pickaxe, ewcfg.weapon_id_sledgehammer]:
+                    mine_action.slime_yield *= 2
+                elif mine_action.user_data.life_state == ewcfg.life_state_juvenile and mine_action.toolused != ewcfg.weapon_id_sledgehammer:
+                    mine_action.slime_yield *= 2
 
-            # Fatigue the miner.
-            user_data.hunger += ewcfg.hunger_permine * int(hunger_cost_mod)
-            if extra > 0:  # if hunger_cost_mod is not an integer
+                # Add the multiplier-free bonus yield, make sure it's not negative!!!!
+                mine_action.slime_yield += mine_action.bonus_slime_yield
+                mine_action.slime_yield = max(0, round(mine_action.slime_yield))
+                
+                # Increase slime
+                mine_action.response += mine_action.user_data.change_slimes(n=mine_action.slime_yield, source=ewcfg.source_mining)
+
+                # Goonscap
+                xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
+                responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+            
+
+            # Take hunger from user
+            hunger_cost = ewcfg.hunger_permine * mine_action.hunger_cost_multiplier
+            mine_action.user_data.hunger += int(hunger_cost)
+            
+            # Liiiitle bit extra
+            extra_hunger = hunger_cost - int(hunger_cost)  # extra is the fractional part of hunger_cost if it's not an integer
+            if extra_hunger > 0: 
                 # there's an x% chance that an extra stamina is deducted, where x is the fractional part of hunger_cost_mod in percent (times 100)
-                if random.randint(1, 100) <= extra * 100:
-                    user_data.hunger += ewcfg.hunger_permine
+                if random.randint(1, 100) <= extra_hunger * 100:
+                    mine_action.user_data.hunger += ewcfg.hunger_permine
 
-            # Give user slime
-            mining_yield += bonus_yield
+            
+            # Persist user_data. ONCE. AT THE END.
+            mine_action.user_data.persist()
+            
+            response = mine_action.response
+            # Handle response container
+            if len(response) > 1 or len(responses) > 0:
+                resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
+                await resp_ctn.post()
+            
+            # Add grid print or make a new grid, at the very end <3 
+            if mine_action.grid_effect == 1:
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
+            elif mine_action.grid_effect == 2:
+                init_grid(mine_action.user_data.poi, mine_action.user_data.id_server)
 
-            levelup_response = user_data.change_slimes(n=mining_yield, source=ewcfg.source_mining)
+                grid_cont = juviecmdutils.mines_map.get(mine_action.user_data.poi).get(mine_action.user_data.id_server)
 
-            was_levelup = True if user_initial_level < user_data.slimelevel else False
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
 
-            # Tell the player their slime level increased and/or they unearthed an item.
-            if was_levelup:
-                response += levelup_response
-
-            #GoonScape Stat
-            xp_yield = max(1, round(mining_yield * 0.0077))
-            responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
-
-            user_data.persist()
-
-            if printgrid:
-                await print_grid(cmd)
+            return
 
     else:
         return await mismine(cmd, user_data, "channel")
-    # response = "You can't mine here! Go to the mines in Juvie's Row, Toxington, or Cratersville!"
 
-    if len(response) > 0 or len(responses) > 0:
-        resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)
-        return await resp_ctn.post()
 
 
 """Talk with someone. Oh god, somebody answer."""
@@ -757,13 +589,10 @@ async def flag(cmd):
     user_data = EwUser(member=cmd.message.author)
     mutations = user_data.get_mutations()
 
-    mutations = user_data.get_mutations()
-    time_now = int(time.time())
-
     response = ""
     # Kingpins can't mine.
     if user_data.life_state == ewcfg.life_state_kingpin or user_data.life_state == ewcfg.life_state_grandfoe:
-        return
+        return  
 
     # ghosts cant mine (anymore)
     if user_data.life_state == ewcfg.life_state_corpse:
@@ -784,9 +613,8 @@ async def flag(cmd):
             return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You've exhausted yourself from mining. You'll need some refreshment before getting back to work."))
 
         else:
-            printgrid = True
-            hunger_cost_mod = ewutils.hunger_cost_mod(user_data.slimelevel)
-            extra = hunger_cost_mod - int(hunger_cost_mod)  # extra is the fractional part of hunger_cost_mod
+            # hunger_cost_mod = ewutils.hunger_cost_mod(user_data.slimelevel)
+            # extra = hunger_cost_mod - int(hunger_cost_mod)  # extra is the fractional part of hunger_cost_mod
 
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
 
@@ -799,7 +627,6 @@ async def flag(cmd):
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             elif user_data.id_server not in juviecmdutils.mines_map.get(user_data.poi):
                 init_grid(user_data.poi, user_data.id_server)
-                printgrid = True
 
             grid_cont = juviecmdutils.mines_map.get(user_data.poi).get(user_data.id_server)
             grid = grid_cont.grid
@@ -807,7 +634,6 @@ async def flag(cmd):
             grid_type = ewcfg.grid_type_by_mining_type.get(mining_type)
             if grid_type != grid_cont.grid_type:
                 init_grid(user_data.poi, user_data.id_server)
-                printgrid = True
                 grid_cont = juviecmdutils.mines_map.get(user_data.poi).get(user_data.id_server)
                 grid = grid_cont.grid
 
@@ -853,8 +679,7 @@ async def flag(cmd):
             elif grid[row][col] == ewcfg.cell_empty:
                 grid[row][col] = ewcfg.cell_empty_marked
 
-            if printgrid:
-                await print_grid(cmd)
+            await print_grid(cmd, user_data.poi, grid_cont)
 
 
     else:
