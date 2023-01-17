@@ -245,8 +245,10 @@ def init_grid_bubblebreaker(poi, id_server):
                 continue
             cell = random.choice(ewcfg.cell_bubbles)
             randomn = random.random()
+            # Make the new cell the same as the previous cell
             if randomn < 0.15 and j > 0:
                 cell = row[-1]
+            # Make the new cell the same as the cell "below" it.
             elif randomn < 0.3 and i > 0:
                 cell = grid[-1][j]
 
@@ -506,11 +508,12 @@ def neighbors(grid, coords):
 def add_row(grid):
     new_row = []
     for i in range(len(grid[0])):
-
         cell = random.choice(ewcfg.cell_bubbles)
         randomn = random.random()
+        # Make the new cell the same as the previous cell
         if randomn < 0.15 and i > 0:
             cell = new_row[-1]
+        # Make the new cell the same as the cell "above" it.
         elif randomn < 0.3:
             cell = grid[0][i]
         if cell == ewcfg.cell_bubble_empty:
