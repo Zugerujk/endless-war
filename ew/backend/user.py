@@ -90,6 +90,8 @@ class EwUserBase:
     """ fix data in this object if it's out of acceptable ranges """
 
     def limit_fix(self):
+        self.id_user = str(self.id_user)
+
         if self.hunger > self.get_hunger_max():
             self.hunger = self.get_hunger_max()
 
@@ -115,18 +117,18 @@ class EwUserBase:
         self.combatant_type = ewcfg.combatant_type_player
 
         if ew_id != None:
-            id_user = ew_id.user
+            id_user = str(ew_id.user)
             id_server = ew_id.guild
 
         if (id_user == None) and (id_server == None):
             if (member != None):
                 id_server = member.guild.id
-                id_user = member.id
+                id_user = str(member.id)
 
         # Retrieve the object from the database if the user is provided.
         if (id_user != None) and (id_server != None):
             self.id_server = id_server
-            self.id_user = id_user
+            self.id_user = str(id_user)
 
             try:
                 conn_info = bknd_core.databaseConnect()
