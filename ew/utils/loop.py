@@ -1122,7 +1122,7 @@ async def capture_tick(id_server):
 
                 # dont count offline players
                 try:
-                    player_online = server.get_member(player_id).status != discord.Status.offline
+                    player_online = server.get_member(int(player_id)).status != discord.Status.offline
                 except:
                     player_online = False
 
@@ -1145,7 +1145,6 @@ async def capture_tick(id_server):
                         if ewcfg.mutation_id_unnaturalcharisma in mutations:
                             player_capture_speed += 1
 
-                        #ewutils.logMsg("Adding {} to Capture Speed of {} for player {}".format(player_capture_speed, capture_speed, player_id))
                         capture_speed += player_capture_speed
                         num_capturers += 1
                         dc_stat_increase_list.append(player_id)
