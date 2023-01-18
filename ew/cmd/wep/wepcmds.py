@@ -246,7 +246,7 @@ async def attack(cmd):
                 kingpin.change_slimes(n=int(to_kingpin))
                 kingpin.persist() # THIS ONLY GETS PERSISTED HERE BECAUSE THIS IS THE ONLY PLACE IT WILL EVER BE USED
 
-        if (not target_killed) and (ctn.slimes_damage != 0):
+        if (not target_killed) and (ctn.slimes_damage >= 0):
             # only take away slime if they survived to care
             target.change_slimes(n=-1 * (ctn.slimes_damage - to_bleed), source=ewcfg.source_damage)
             target.bleed_storage += to_bleed
@@ -1000,7 +1000,7 @@ async def annoint(cmd):
     # Make sure user has a weapon equipped before all else
     if user_data.weapon <= 0:
         response = "Equip a weapon first."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Grab the wanted name
     if cmd.tokens_count < 2:

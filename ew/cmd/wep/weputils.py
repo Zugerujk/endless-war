@@ -1199,22 +1199,20 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
     )
 
     # Apply Damage Modifiers
-    ctn.slimes_damage *= (1 + round(attacker_status_mods['dmg'] + target_status_mods['dmg'], 2)) * \
-        misc_atk_mod * \
-        misc_def_mod
+    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod
 
     # apply hit chance modifiers
-    ctn.hit_chance_mod += round(attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'], 2) - \
-                          (5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0
+    ctn.hit_chance_mod += attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'] - ((5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0)
 
     # lucky lucky lucy, oh and also n4 lol
     if ctn.shootee_data.life_state == ewcfg.life_state_lucky or target_status_mods['untouchable']:
         ctn.miss = True
 
     # apply crit chance modifiers
-    ctn.crit_mod += round(attacker_status_mods['crit'] + target_status_mods['crit'], 2) + \
-        0.1 if (ewcfg.mutation_id_airlock in attacker_mutations or ewcfg.mutation_id_foghorn in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0
+    ctn.crit_mod += attacker_status_mods['crit'] + target_status_mods['crit'] + \
+        (0.1 if (ewcfg.mutation_id_airlock in attacker_mutations or ewcfg.mutation_id_foghorn in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0)
 
+    # double crit chance if TaS is active
     if ewcfg.mutation_id_threesashroud in attacker_mutations:
         allies_in_district = district_data.get_players_in_district(
             min_level=math.ceil((1 / 10) ** 0.25 * ctn.user_data.slimelevel),
