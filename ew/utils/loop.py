@@ -318,7 +318,7 @@ async def kill_quitters(id_server):
     ))
 
     for user in users:
-        member = server.get_member(user[0])
+        member = await fe_utils.get_member(server, user[0])
 
         # Make sure to kill players who may have left while the bot was offline.
         if member is None:
@@ -368,7 +368,7 @@ async def bleedSlimes(id_server):
         user_data = EwUser(id_user=user[0], id_server=id_server)
 
         mutations = user_data.get_mutations()
-        member = server.get_member(user_data.id_user)
+        member = await fe_utils.get_member(server, user_data.id_user)
         if ewcfg.mutation_id_bleedingheart not in mutations or user_data.time_lasthit < int(time.time()) - ewcfg.time_bhbleed:
             slimes_to_bleed = user_data.bleed_storage * (
                     1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
@@ -1122,7 +1122,7 @@ async def capture_tick(id_server):
 
                 # dont count offline players
                 try:
-                    player_online = server.get_member(int(player_id)).status != discord.Status.offline
+                    player_online = (await fe_utils.get_member(server, player_id)).status != discord.Status.offline
                 except:
                     player_online = False
 

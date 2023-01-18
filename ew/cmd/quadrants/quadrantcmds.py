@@ -77,11 +77,11 @@ async def clear_quadrant(cmd):
     quadrant_data = EwQuadrant(id_server=author.guild.id, id_user=author.id, quadrant=quadrant.id_quadrant)
 
     if quadrant_data.id_target != -1:
-        target_member_data = cmd.guild.get_member(quadrant_data.id_target)
+        target_member_data = await fe_utils.get_member(cmd.guild, quadrant_data.id_target)
         target_member_data_2 = None
 
         if quadrant_data.id_target2 != -1:
-            target_member_data_2 = cmd.guild.get_member(quadrant_data.id_target)
+            target_member_data_2 = await fe_utils.get_member(cmd.guild, quadrant_data.id_target)
 
         quadrant_data = EwQuadrant(id_server=author.guild.id, id_user=author.id, quadrant=quadrant.id_quadrant, id_target=-1, id_target2=-1)
         quadrant_data.persist()
@@ -107,7 +107,7 @@ async def get_quadrants(cmd):
         quadrant_data = EwQuadrant(id_server=cmd.guild.id, id_user=member.id, quadrant=quadrant)
         if quadrant_data.id_target != -1:
             response += "\n"
-            response += get_quadrant(cmd, quadrant)
+            response += await get_quadrant(cmd, quadrant)
 
     if response == "":
         response = "{} quadrants are completely empty. " + ewcfg.emote_broken_heart
@@ -129,24 +129,24 @@ async def get_quadrants(cmd):
 
 
 async def get_sloshed(cmd):
-    response = get_quadrant(cmd, ewcfg.quadrant_sloshed)
+    response = await get_quadrant(cmd, ewcfg.quadrant_sloshed)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_roseate(cmd):
-    response = get_quadrant(cmd, ewcfg.quadrant_roseate)
+    response = await get_quadrant(cmd, ewcfg.quadrant_roseate)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_violacious(cmd):
-    response = get_quadrant(cmd, ewcfg.quadrant_violacious)
+    response = await get_quadrant(cmd, ewcfg.quadrant_violacious)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def get_policitous(cmd):
-    response = get_quadrant(cmd, ewcfg.quadrant_policitous)
+    response = await get_quadrant(cmd, ewcfg.quadrant_policitous)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

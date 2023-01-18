@@ -452,12 +452,12 @@ async def delete_last_message(client, last_messages, tick_length):
         ewutils.logMsg("failed to delete last message")
 
 
-def create_death_report(cause=None, user_data=None, deathmessage = ""):
+async def create_death_report(cause=None, user_data=None, deathmessage = ""):
     client = ewutils.get_client()
     server = client.get_guild(user_data.id_server)
 
     # User display name is used repeatedly later, grab now
-    user_member = server.get_member(user_data.id_user)
+    user_member = await get_member(server, user_data.id_user)
     user_player = EwPlayer(id_user=user_data.id_user)
     user_nick = user_player.display_name
 
@@ -577,7 +577,7 @@ async def update_slimernalia_kingpin(client, server):
         kingpin_state.persist()
         try:
             ewutils.logMsg(f"Attempted to dethrone {old_kingpin_id} from slimernalia kingpin...")
-            old_kingpin_member = server.get_member(old_kingpin_id)
+            old_kingpin_member = await get_member(server, old_kingpin_id)
             await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
         except:
             ewutils.logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin_id, server.id))
@@ -721,12 +721,15 @@ async def sync_topics(cmd):
 """
 async def get_member(guild, member_id):
     # Check for member in discord.py cache
-    member = guild.get_member(member_id)
+    try:
+        member = guild.get_member(int(member_id))
+    except ValueError:  # ValueError thrown when non 0-9 chars are passed as part of a string in int()
+        return None     # Return None now to ensure query_members doesnt throw an error when running the same int(id)
 
     # Sometimes discord.py fails cache members for no apparent reason, lets fix that
     if member is None:
         # query that insists on returning a list cause rapptz is lazy and so am I
-        mem_list = await guild.query_members(user_ids=[member_id], presences=True)
+        mem_list = await guild.query_members(user_ids=[int(member_id)], presences=True)
 
         # retrieve the member from the list if it's there
         member = mem_list[0] if len(mem_list) == 1 else None
