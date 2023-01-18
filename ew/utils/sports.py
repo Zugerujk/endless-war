@@ -1,5 +1,5 @@
 import asyncio
-
+import time
 from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.utils import core as ewutils
@@ -11,6 +11,7 @@ sb_games = {}
 async def slimeball_tick_loop(id_server):
     global sb_games
     while not ewutils.TERMINATE:
+        ewutils.last_loop['slimeball'] = int(time.time())
         await slimeball_tick(id_server)
         await asyncio.sleep(ewcfg.slimeball_tick_length)
 

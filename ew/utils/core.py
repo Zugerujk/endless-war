@@ -68,6 +68,8 @@ conversations = {}
 
 square_duel = 0
 
+last_loop = {}
+
 class EwVector2D:
     vector = [0, 0]
 

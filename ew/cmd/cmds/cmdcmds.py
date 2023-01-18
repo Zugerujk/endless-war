@@ -3437,3 +3437,14 @@ async def clear_zero_stats(cmd):
 
     if result is not None:
         return await fe_utils.send_response(f"Successfully cleaned the database of {result} redundant stats. Nice!", cmd)
+
+async def loop_diagnostic(cmd):
+    if 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
+        response = "Tick loop progress:\n"
+        time_now = int(time.time())
+
+        for timestamp in ewutils.last_loop.keys():
+            response += "{} loop: {} seconds ago\n".format(timestamp, time_now - ewutils.last_loop.get(timestamp))
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+

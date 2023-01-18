@@ -216,7 +216,8 @@ cmd_map = {
     ewcfg.cmd_listworldevents: cmdcmds.list_worldevents,
     ewcfg.cmd_listworldevents_alt1: cmdcmds.list_worldevents,
     ewcfg.cmd_endworldevent: cmdcmds.end_worldevent,
-    ewcfg.cmd_fun: cmdcmds.fun
+    ewcfg.cmd_fun: cmdcmds.fun,
+    ewcfg.cmd_loopdiagnostic: cmdcmds.loop_diagnostic
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_spook] = cmdcmds.spook

@@ -39,6 +39,7 @@ except:
 async def weather_tick_loop(id_server):
     interval = ewcfg.weather_tick_length
     while not ewutils.TERMINATE:
+        ewutils.last_loop['weather'] = int(time.time())
         await asyncio.sleep(interval)
         await weather_tick(id_server=id_server)
 

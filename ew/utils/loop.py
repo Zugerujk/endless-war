@@ -67,6 +67,7 @@ async def event_tick_loop(id_server):
 
     interval = ewcfg.event_tick_length
     while not ewutils.TERMINATE:
+        ewutils.last_loop['event'] = int(time.time())
         await asyncio.sleep(interval)
         await event_tick(id_server)
 
@@ -342,6 +343,7 @@ async def bleed_tick_loop(id_server):
     interval = ewcfg.bleed_tick_length
     # causes a capture tick to happen exactly every 10 seconds (the "elapsed" thing might be unnecessary, depending on how long capture_tick ends up taking on average)
     while not ewutils.TERMINATE:
+        ewutils.last_loop['bleed'] = int(time.time())
         await bleedSlimes(id_server=id_server)
         await enemyBleedSlimes(id_server=id_server)
         # ewutils.ewutils.logMsg("Capture tick happened on server %s." % id_server + " Timestamp: %d" % int(time.time()))
@@ -470,6 +472,7 @@ async def pushdownServerInebriation(id_server):
 async def burn_tick_loop(id_server):
     interval = ewcfg.burn_tick_length
     while not ewutils.TERMINATE:
+        ewutils.last_loop['burn'] = int(time.time())
         await burnSlimes(id_server=id_server)
         await enemyBurnSlimes(id_server=id_server)
         await asyncio.sleep(interval)
@@ -828,6 +831,7 @@ async def spawn_enemies_tick_loop(id_server):
     interval = ewcfg.enemy_spawn_tick_length
     # Causes the possibility of an enemy spawning every 10 seconds
     while not ewutils.TERMINATE:
+        ewutils.last_loop['spawn_enemies'] = int(time.time())
         await asyncio.sleep(interval)
         await spawn_enemies(id_server=id_server)
 
@@ -836,6 +840,7 @@ async def enemy_action_tick_loop(id_server):
     interval = ewcfg.enemy_attack_tick_length
     # Causes hostile enemies to attack every tick.
     while not ewutils.TERMINATE:
+        ewutils.last_loop['enemy_act'] = int(time.time())
         await asyncio.sleep(interval)
         # resp_cont = EwResponseContainer(id_server=id_server)
         await cmbt_utils.enemy_perform_action(id_server)
@@ -870,6 +875,7 @@ async def spawn_prank_items_tick_loop(id_server):
     interval = 180
     new_interval = 0
     while not ewutils.TERMINATE:
+        ewutils.last_loop['prank'] = int(time.time())
         if new_interval > 0:
             interval = new_interval
 
@@ -993,6 +999,7 @@ async def generate_credence_tick_loop(id_server):
     # interval = 10
 
     while not ewutils.TERMINATE:
+        ewutils.last_loop['credence'] = int(time.time())
         interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
         await asyncio.sleep(interval)
         await generate_credence(id_server)
@@ -1211,6 +1218,7 @@ async def capture_tick_loop(id_server):
     interval = ewcfg.capture_tick_length
     # causes a capture tick to happen exactly every 10 seconds (the "elapsed" thing might be unnecessary, depending on how long capture_tick ends up taking on average)
     while not ewutils.TERMINATE:
+        ewutils.last_loop['capture'] = int(time.time())
         await capture_tick(id_server=id_server)
         # ewutils.logMsg("Capture tick happened on server %s." % id_server + " Timestamp: %d" % int(time.time()))
 
@@ -1264,6 +1272,7 @@ async def give_kingpins_slime_and_decay_capture_points(id_server):
 async def clock_tick_loop(id_server, force_active = False):
     """ Good ol' Clock Tick Loop. Handles everything that has to occur on an in-game hour. (15 minutes)"""
     while not ewutils.TERMINATE:
+        ewutils.last_loop['clock'] = int(time.time())
         try:
             time_now = int(time.time())
             # Load the market from the database
