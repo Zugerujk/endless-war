@@ -136,7 +136,7 @@ async def ufo_observe(cmd):
                 players_in_district = district_data.get_players_in_district(min_slimes=0, life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_corpse, ewcfg.life_state_juvenile], ignore_offline=True)
                 server = ewcfg.server_list[cmd.guild.id]
                 for playerid in players_in_district:
-                    member_object = server.get_member(playerid)
+                    member_object = await fe_utils.get_member(server, playerid)
                     await ewrolemgr.updateRoles(client=cmd.client, member=member_object)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
