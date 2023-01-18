@@ -149,7 +149,7 @@ async def weather_tick(id_server = None):
 
                             # The member of the user
                             guild = client.get_guild(id_server)
-                            member = guild.get_member(user_data.id_user)
+                            member = await fe_utils.get_member(guild, user_data.id_user)
                             # Stop movement
                             ewutils.moves_active[user_data.id_user] = 0
                             await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), deposited_district)

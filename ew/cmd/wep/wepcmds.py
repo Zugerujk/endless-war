@@ -154,7 +154,7 @@ async def attack(cmd):
 
             # Apply mass burn from incendiary weapons
             if ctn.mass_apply_status == ewcfg.status_burning_id:
-                mass_status = apply_status_bystanders(
+                mass_status = await apply_status_bystanders(
                     user_data=attacker, status=ewcfg.status_burning_id,
                     value=ctn.bystander_damage, life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive, ewcfg.life_state_vigilante],
                     factions=["", target.faction], district_data=district_data
@@ -397,7 +397,7 @@ async def attack(cmd):
                 bounty_resp = "\n\n SlimeCorp transfers {:,} SlimeCoin to {}\'s account.".format(bounty, attacker_member.display_name)
 
             if possession:
-                ghost_name = cmd.guild.get_member(possession[0]).display_name
+                ghost_name = (await fe_utils.get_member(cmd.guild, possession[0])).display_name
                 contract_resp = "\n\n {} winces in pain as their slime is corrupted into negaslime. {}'s contract has been fulfilled.".format(attacker_member.display_name, ghost_name)
 
             if random.randint(0, 99) == 0 and target.gender != 'gorl':
@@ -521,7 +521,7 @@ async def attack(cmd):
         """ Final Operations """
 
         # Fulfill possession if necessary
-        if possession: fulfill_ghost_weapon_contract(possession, market_data, attacker, attacker_member.display_name)
+        if possession: await fulfill_ghost_weapon_contract(possession, market_data, attacker, attacker_member.display_name)
 
         # Persist everything that may have been changed. RIP function completion time
         if not possession: district_data.persist() # this is changed and persisted within fulfillment, no need to do it twice

@@ -107,7 +107,7 @@ class EwEffectContainer:
 # self.sap_ignored = sap_ignored
 
 
-def apply_status_bystanders(user_data = None, value = 0, life_states = None, factions = None, district_data = None, status = None):
+async def apply_status_bystanders(user_data = None, value = 0, life_states = None, factions = None, district_data = None, status = None):
     if life_states != None and factions != None and district_data != None and status != None:
         bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
         resp_cont = EwResponseContainer(id_server=user_data.id_server)
@@ -119,7 +119,7 @@ def apply_status_bystanders(user_data = None, value = 0, life_states = None, fac
             bystander_user_data = EwUser(id_user=bystander, id_server=user_data.id_server)
             bystander_player_data = EwPlayer(id_user=bystander, id_server=user_data.id_server)
             if bystander_player_data.display_name in ["", None]:
-                player_update(guild.get_member(bystander), guild)
+                player_update(await fe_utils.get_member(guild, bystander), guild)
             bystander_mutation = bystander_user_data.get_mutations()
 
             if market_data.weather == ewcfg.weather_rainy and status == ewcfg.status_burning_id:
@@ -290,7 +290,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
 
                     resp_cont.add_channel_response(channel, response)
 
-                    resp_cont.add_member_to_update(server.get_member(target_data.id_user))
+                    resp_cont.add_member_to_update(await fe_utils.get_member(server, target_data.id_user))
                 # Survived the explosion
                 else:
 
@@ -390,7 +390,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
         return resp_cont
 
 
-def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_name):
+async def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_name):
     ghost_id = possession_data[0]
     ghost_data = EwUser(id_user=ghost_id, id_server=user_data.id_server)
 
@@ -406,7 +406,7 @@ def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_
     user_data.cancel_possession()
 
     server = ewutils.get_client().get_guild(user_data.id_server)
-    ghost_name = server.get_member(ghost_id).display_name
+    ghost_name = (await fe_utils.get_member(server, ghost_id)).display_name
     return "\n\n {} winces in pain as their slime is corrupted into negaslime. {}'s contract has been fulfilled.".format(user_name, ghost_name)
 
 
@@ -775,7 +775,7 @@ async def attackEnemy(cmd):
             # Burn players in district
             if ewcfg.weapon_class_burning in weapon.classes:
                 if not miss:
-                    resp = apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
+                    resp = await apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
                     resp_cont.add_response_container(resp)
 
             if ewcfg.weapon_class_exploding in weapon.classes:
@@ -965,7 +965,7 @@ async def attackEnemy(cmd):
 
         weapon_possession = user_data.get_possession('weapon')
         if weapon_possession:
-            response += fulfill_ghost_weapon_contract(weapon_possession, market_data, user_data, cmd.message.author.display_name)
+            response += await fulfill_ghost_weapon_contract(weapon_possession, market_data, user_data, cmd.message.author.display_name)
 
         # When a raid boss dies, use this response instead so its drops aren't shown in the killfeed
         old_response = response

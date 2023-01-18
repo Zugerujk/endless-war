@@ -948,7 +948,7 @@ async def explode(damage = 0, district_data = None, market_data = None):
                 player_data.display_name)
             resp_cont.add_channel_response(channel, response)
 
-            resp_cont.add_member_to_update(server.get_member(user_data.id_user))
+            resp_cont.add_member_to_update(await fe_utils.get_member(server, user_data.id_user))
         else:
             # survive
             slime_splatter = 0.5 * slimes_damage
@@ -1826,7 +1826,7 @@ class EwUser(EwUserBase):
         member: EwPlayer = EwPlayer(id_server=self.id_server, id_user=self.id_user)
 
         # Make The death report
-        deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
+        deathreport = await fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
         resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 
         poi = poi_static.id_to_poi.get(self.poi)
@@ -1983,7 +1983,7 @@ class EwUser(EwUserBase):
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, server.get_member(self.id_user))
+            await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
 
         return resp_cont
 
@@ -2501,7 +2501,7 @@ class EwUser(EwUserBase):
                 ghost_data.time_lastenter = int(time.time())
                 ghost_data.persist()
 
-                ghost_member = server.get_member(ghost)
+                ghost_member = await fe_utils.get_member(server, ghost)
                 await ewrolemgr.updateRoles(client=client, member=ghost_member)
 
     def remove_inhabitation(self):
