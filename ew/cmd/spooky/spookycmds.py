@@ -195,7 +195,7 @@ async def haunt(cmd):
         member = None
         if cmd.mentions_count == 0 and cmd.tokens_count > 1:
             server = cmd.guild
-            member = server.get_member(ewutils.getIntToken(cmd.tokens))
+            member = await fe_utils.get_member(server, ewutils.getIntToken(cmd.tokens))
             haunted_data = EwUser(member=member)
         elif cmd.mentions_count == 1:
             member = cmd.mentions[0]
@@ -443,7 +443,7 @@ async def possess_weapon(cmd):
         server = cmd.guild
         inhabitee_id = user_data.get_inhabitee()
         inhabitee_data = EwUser(id_user=inhabitee_id, id_server=user_data.id_server)
-        inhabitee_member = server.get_member(inhabitee_id)
+        inhabitee_member = await fe_utils.get_member(server, inhabitee_id)
         inhabitee_name = inhabitee_member.display_name
         if inhabitee_data.weapon < 0:
             response = "{} is not wielding a weapon right now.".format(inhabitee_name)
@@ -502,7 +502,7 @@ async def possess_fishing_rod(cmd):
         server = cmd.guild
         inhabitee_id = user_data.get_inhabitee()
         inhabitee_data = EwUser(id_user=inhabitee_id, id_server=user_data.id_server)
-        inhabitee_member = server.get_member(inhabitee_id)
+        inhabitee_member = await fe_utils.get_member(server, inhabitee_id)
         inhabitee_name = inhabitee_member.display_name
         if inhabitee_data.get_possession():
             response = "{} is already being possessed.".format(inhabitee_name)

@@ -853,7 +853,7 @@ async def scout(cmd):
                 if len(allies_in_district) > 3:
                     continue
             if ewcfg.mutation_id_chameleonskin in scoutee_mutations:
-                member = cmd.guild.get_member(scoutee_data.id_user)
+                member = await fe_utils.get_member(cmd.guild, scoutee_data.id_user)
                 if member == None or member.status == discord.Status.offline:
                     continue
 
@@ -1333,7 +1333,7 @@ async def flush_streets(cmd):
                 user_data = EwUser(id_user=player, id_server=cmd.guild.id)
                 user_data.poi = ewcfg.poi_id_juviesrow
                 user_data.persist()
-                member = cmd.guild.get_member(player)
+                member = await fe_utils.get_member(cmd.guild, player)
                 await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
             item_cache = bknd_core.get_cache(obj_type = "EwItem")

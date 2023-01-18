@@ -493,7 +493,8 @@ class EwEnemy(EwEnemyBase):
                                     name_target=("<@!{}>".format(target_data.id_user)),
                                     hitzone=randombodypart,
                                     strikes=strikes,
-                                    civ_weapon=random.choice(ewcfg.makeshift_weapons)
+                                    civ_weapon=random.choice(ewcfg.makeshift_weapons),
+                                    dojo_weapons=random.choice(ewcfg.dojo_weapons)
                                 )
                                 if crit:
                                     response += " {}".format(used_attacktype.str_crit.format(
@@ -951,7 +952,7 @@ async def explode(damage = 0, district_data = None, market_data = None, user_poi
                 player_data.display_name)
             resp_cont.add_channel_response(channel, response)
 
-            resp_cont.add_member_to_update(server.get_member(user_data.id_user))
+            resp_cont.add_member_to_update(await fe_utils.get_member(server, user_data.id_user))
         else:
             # survive
             slime_splatter = 0.5 * slimes_damage
@@ -1019,7 +1020,7 @@ def get_hitzone(injury_map = None):
 # Returns the total modifier of all statuses of a certain type and target of a given player
 def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = None):
     mods = {
-        'dmg': 0,
+        'dmg': 1,
         'crit': 0,
         'hit_chance': 0,
         'no_cost': False,
@@ -1064,7 +1065,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
                 mods['hit_chance'] += status_flavor.hit_chance_mod_self
             mods['crit'] += status_flavor.crit_mod_self
 
-            mods['dmg'] += status_flavor.dmg_mod_self
+            mods['dmg'] *= status_flavor.dmg_mod_self
 
     # Checks if any status mod in the nocost list is in the user's statuses
     if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0 or user_data.life_state == ewcfg.life_state_vigilante:
@@ -1079,7 +1080,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
 # Returns the total modifier of all statuses of a certain type and target of a given player
 def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = None):
     mods = {
-        'dmg': 0,
+        'dmg': 1,
         'crit': 0,
         'hit_chance': 0,
         'untouchable': False
@@ -1103,7 +1104,7 @@ def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = Non
         if status_flavor is not None:
             mods['hit_chance'] += status_flavor.hit_chance_mod
             mods['crit'] += status_flavor.crit_mod
-            mods['dmg'] += status_flavor.dmg_mod
+            mods['dmg'] *= status_flavor.dmg_mod
 
     if ewcfg.status_n4 in user_statuses:
         mods['untouchable'] = True
@@ -1831,7 +1832,7 @@ class EwUser(EwUserBase):
         member: EwPlayer = EwPlayer(id_server=self.id_server, id_user=self.id_user)
 
         # Make The death report
-        deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
+        deathreport = await fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
         resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 
         poi = poi_static.id_to_poi.get(self.poi)
@@ -1989,7 +1990,7 @@ class EwUser(EwUserBase):
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, server.get_member(self.id_user))
+            await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
 
         return resp_cont
 
@@ -2507,7 +2508,7 @@ class EwUser(EwUserBase):
                 ghost_data.time_lastenter = int(time.time())
                 ghost_data.persist()
 
-                ghost_member = server.get_member(ghost)
+                ghost_member = await fe_utils.get_member(server, ghost)
                 await ewrolemgr.updateRoles(client=client, member=ghost_member)
 
     def remove_inhabitation(self):

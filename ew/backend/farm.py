@@ -98,6 +98,7 @@ class EwFarm:
 
 async def farm_tick_loop(id_server):
     while not ewutils.TERMINATE:
+        ewutils.last_loop['farm'] = int(time.time())
         await asyncio.sleep(ewcfg.farm_tick_length)
         farm_tick(id_server)
 

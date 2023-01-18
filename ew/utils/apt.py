@@ -49,7 +49,7 @@ async def rent_time(id_server = None):
                         user_data.poi = user_apt.poi  # toss out player
                         user_data.persist()
                         server = ewcfg.server_list[user_data.id_server]
-                        member_object = server.get_member(owner_id_user)
+                        member_object = await fe_utils.get_member(server, owner_id_user)
 
                         await ewrolemgr.updateRoles(client=client, member=member_object)
                         player = EwPlayer(id_user=owner_id_user)
@@ -96,7 +96,7 @@ async def handle_hourly_events(id_server = None):
                         brick_obj = EwItem(id_item=we.event_props.get("brick_id"))
                         id_user = brick_obj.id_owner.replace("stomach", "")
                         brick_user = EwUser(id_server=id_server, id_user=id_user)
-                        brick_member = server.get_member(int(id_user))
+                        brick_member = await fe_utils.get_member(server, id_user)
                         poi = poi_static.id_to_poi.get(brick_user.poi)
                         channel_brick = fe_utils.get_channel(server, poi.channel)
                         if brick_member:
@@ -116,7 +116,7 @@ async def handle_hourly_events(id_server = None):
                         if "decorate" in clock_obj.id_owner:
                             isFurnished = True
                         clock_user = clock_obj.id_owner.replace("decorate", "")
-                        clock_member = server.get_member(clock_user)
+                        clock_member = await fe_utils.get_member(server, clock_user)
                         if clock_member != None:
                             clock_player = EwUser(member=clock_member)
                             if (isFurnished == False or ("apt" in clock_player.poi and clock_player.visiting == "empty")) and clock_member:
@@ -148,7 +148,7 @@ async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
     client = ewutils.get_client()
     server = client.get_guild(server_id)
 
-    member_data = server.get_member(player_info.id_user)
+    member_data = await fe_utils.get_member(server, player_info.id_user)
 
     if player_info.id_server != None and member_data != None:
         try:
@@ -177,7 +177,7 @@ async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
                     pass
                 else:
                     server = ewcfg.server_list[sqt_data.id_server]
-                    member_object = server.get_member(squatter[0])
+                    member_object = await fe_utils.get_member(server, squatter[0])
                     sqt_data.poi = sqt_data.poi[3:] if sqt_data.poi[3:] in poi_static.id_to_poi.keys() else sqt_data.poi
                     sqt_data.visiting = ewcfg.location_id_empty
                     sqt_data.persist()

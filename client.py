@@ -1049,7 +1049,7 @@ async def on_message(message):
 
             poi = poi_static.id_to_poi.get(usermodel.poi)
             cmd_obj.guild = ewcfg.server_list[playermodel.id_server]
-            cmd_obj.message.author = cmd_obj.guild.get_member(playermodel.id_user)
+            cmd_obj.message.author = await fe_utils.get_member(cmd_obj.guild, playermodel.id_user)
 
             # Handle DM compatible commands
             if cmd in dm_cmd_map:
