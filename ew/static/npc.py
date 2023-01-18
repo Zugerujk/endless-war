@@ -140,7 +140,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "pork",
-    active = False,
+    active = True,
     str_name = "Pork, NLACPD",
     description = "Good thing you spotted in time. This isn't any old officer. This guy's got a sadist streak a million miles wide.",
     poi_list = poi_static.capturable_districts,
@@ -167,7 +167,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "riot",
-    active = False,
+    active = True,
     str_name = "Riot, NLACPD",
     description = "A fresh-faced officer with a penchant for destruction. Do you recognize the voice under there? Nah, can't be.",
     poi_list = poi_static.capturable_districts,
@@ -196,7 +196,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "sleuth",
-    active = False,
+    active = True,
     str_name = "Sleuth, NLACPD",
     description = "A well known police detective that goes way back with the department. It's NLACakaNM, so he has plenty to keep himself occupied.",
     poi_list = poi_static.capturable_districts,
@@ -224,7 +224,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "mrc",
-    active = False,
+    active = True,
     str_name = "Mr. C, NLACPD Chief of Police",
     description = 'The city\'s Chief of Police. Not much is known about them, but you hear they\'re pretty intimidating. You might not get this chance again, you should gank this sonavabitch!',
     poi_list = poi_static.capturable_districts,
