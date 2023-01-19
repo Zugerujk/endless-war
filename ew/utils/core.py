@@ -68,6 +68,8 @@ conversations = {}
 
 square_duel = 0
 
+last_loop = {}
+
 class EwVector2D:
     vector = [0, 0]
 
@@ -741,13 +743,16 @@ def is_player_inventory(id_inventory, id_server):
 
     # Grab the Discord Client
     client = get_client()
-    discord_result = client.get_guild(id_server).get_member(id_inventory)
+    try:
+        discord_result = client.get_guild(id_server).get_member(int(id_inventory))
+    except ValueError:
+        return False    # Could not convert to int, so definitely not a player
 
     # Try to grab a value from a user with given id
     db_result = bknd_core.execute_sql_query("SELECT {} FROM users WHERE id_user = %s AND id_server = %s".format(
         ewcfg.col_rand_seed
     ), (
-        id_inventory,
+        str(id_inventory),
         id_server
     ))
 

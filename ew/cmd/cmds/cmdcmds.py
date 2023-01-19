@@ -66,7 +66,7 @@ try:
     from ew.static import rstatic as relic_static
 except:
     from ..debug_dummy import debug24
-    from ew.static import rstatic as relic_static
+    from ew.static import rstatic_dummy as relic_static
 
 """ show player's slime score """
 
@@ -358,7 +358,7 @@ async def data(cmd):
         if user_data.life_state == ewcfg.life_state_corpse:
             inhabitee_id = user_data.get_inhabitee()
             if inhabitee_id:
-                inhabitee_name = server.get_member(inhabitee_id).display_name
+                inhabitee_name = (await fe_utils.get_member(server, inhabitee_id)).display_name
                 possession = user_data.get_possession()
                 if possession:
                     if possession[3] == 'weapon':
@@ -372,7 +372,7 @@ async def data(cmd):
             if inhabitant_ids:
                 inhabitant_names = []
                 for inhabitant_id in inhabitant_ids:
-                    inhabitant_names.append(server.get_member(inhabitant_id).display_name)
+                    inhabitant_names.append((await fe_utils.get_member(server, inhabitant_id)).display_name)
 
                 possession = user_data.get_possession()
                 if possession is not None:
@@ -388,7 +388,7 @@ async def data(cmd):
                         inhabitant_names[-1]
                     )
                     if possession:
-                        response_block += "{} is also possessing your {}. ".format(server.get_member(ghost_in_weapon).display_name, possession_type)
+                        response_block += "{} is also possessing your {}. ".format((await fe_utils.get_member(server, ghost_in_weapon)).display_name, possession_type)
 
         # if user_data.swear_jar >= 500:
         # 	response_block += "You're going to The Underworld for the things you've said."
@@ -2879,11 +2879,11 @@ async def dual_key_ban(cmd):
     if cmd.mentions_count == 1:
         # Raw mentions so we can even grab the funny ones
         mention_id = cmd.message.raw_mentions[0]
-        member = cmd.message.guild.get_member(mention_id)
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
         mention_id = cmd.tokens[1]
-        member = cmd.message.guild.get_member(int(mention_id))
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if member is not None:
         # If the person you're trying to dualkey is also a mod/admin/etc.
@@ -2948,11 +2948,11 @@ async def dual_key_release(cmd):
     if cmd.mentions_count == 1:
         # Raw mentions so we can even grab the funny ones
         mention_id = cmd.message.raw_mentions[0]
-        member = cmd.message.guild.get_member(mention_id)
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
         mention_id = cmd.tokens[1]
-        member = cmd.message.guild.get_member(int(mention_id))
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if member is not None:
         # If the person you're trying to dualkey is also a mod/admin/etc.
@@ -3437,3 +3437,14 @@ async def clear_zero_stats(cmd):
 
     if result is not None:
         return await fe_utils.send_response(f"Successfully cleaned the database of {result} redundant stats. Nice!", cmd)
+
+async def loop_diagnostic(cmd):
+    if 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
+        response = "Tick loop progress:\n"
+        time_now = int(time.time())
+
+        for timestamp in ewutils.last_loop.keys():
+            response += "{} loop: {} seconds ago\n".format(timestamp, time_now - ewutils.last_loop.get(timestamp))
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+

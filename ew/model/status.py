@@ -6,10 +6,10 @@ class EwStatusEffectDef:
     str_acquire = ""
     str_describe = ""
     str_describe_self = ""
-    dmg_mod_self = 0
+    dmg_mod_self = 1
     hit_chance_mod_self = 0
     crit_mod_self = 0
-    dmg_mod = 0
+    dmg_mod = 1
     hit_chance_mod = 0
     crit_mod = 0
 
@@ -20,10 +20,10 @@ class EwStatusEffectDef:
             str_acquire = "",
             str_describe = "",
             str_describe_self = "",
-            dmg_mod_self = 0,
+            dmg_mod_self = 1,
             hit_chance_mod_self = 0,
             crit_mod_self = 0,
-            dmg_mod = 0,
+            dmg_mod = 1,
             hit_chance_mod = 0,
             crit_mod = 0
     ):

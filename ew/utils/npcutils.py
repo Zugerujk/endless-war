@@ -67,6 +67,8 @@ async def police_npc_action(keyword = '', enemy = None, channel = None, item = N
         return await conditional_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
     elif keyword == 'die':
         return await police_die(channel=channel, npc_obj=npc_obj, keyword_override='die', enemy = enemy)
+    elif keyword == 'move':
+        return await generic_move(enemy=enemy, npc_obj=npc_obj, move_override=30)
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
@@ -219,9 +221,9 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 
 
-async def generic_move(enemy = None, npc_obj = None): #moves within boundaries every 20 seconds or so
+async def generic_move(enemy = None, npc_obj = None, move_override = 120): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
-        if random.randrange(30) == 0:
+        if random.randrange(move_override) == 0:
             resp_cont = enemy.move()
             if resp_cont != None:
                 if len(resp_cont.channel_responses) > 0:
@@ -365,8 +367,8 @@ def drop_held_items(enemy):
 
     for item in items_list:
         items_to_drop.append(item.get('id_item'))
-
-    bknd_item.give_item_multi(id_list=items_to_drop, destination=enemy.poi)
+    if len(items_to_drop) > 0:
+        bknd_item.give_item_multi(id_list=items_to_drop, destination=enemy.poi)
 
 
 async def juvieman_die(channel, npc_obj, enemy = None):
@@ -578,7 +580,7 @@ async def needy_give(channel, npc_obj, enemy, item):
 async def needy_move(enemy = None, npc_obj = None):
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
         pre_chosen_poi = None
-        move_probability = 30
+        move_probability = 120
         status = enemy.getStatusEffects()  # if the follower has a target they'll pester them constantly
         if ewcfg.status_enemy_following_id in status:
             status_obj = EwEnemyStatusEffect(enemy_data=enemy, id_status=ewcfg.status_enemy_following_id)
