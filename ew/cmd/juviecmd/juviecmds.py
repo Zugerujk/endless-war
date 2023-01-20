@@ -435,7 +435,7 @@ async def mine(cmd):
             )
             
             # Check for a mine collapse
-            juviecmdutils.check_for_minecollapse(cmd, world_events, mine_action,)
+            juviecmdutils.check_for_minecollapse(cmd, world_events, mine_action)
             
             # Do the calcs for !mine, return the updated mine_action container
             if mine_action.collapse == False and mine_action.valid == False:

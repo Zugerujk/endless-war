@@ -119,7 +119,7 @@ class EwMineAction:
                  collapse_penalty = 0.0,
                  unearthed_item_chance = 0.0,
                  unearthed_item_amount = 0,
-                 unearthed_item_type = 0,
+                 unearthed_item_type = "",
                  response = "",
                  toolused = "",
                  grid_effect = 0,
@@ -751,7 +751,7 @@ def check_for_minecollapse(cmd, world_events, mine_action):
         if world_events.get(id_event) == ewcfg.event_type_minecollapse:
             event_data = EwWorldEvent(id_event=id_event)
             # If the mine collapse corresponds to the user & the location
-            if int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user and event_data.event_props.get('poi') == mine_action.user_data.poi:
+            if int(event_data.event_props.get('id_user')) == int(mine_action.user_data.id_user) and event_data.event_props.get('poi') == mine_action.user_data.poi:
                 captcha = event_data.event_props.get('captcha').upper()
                 
                 # Check for captcha
@@ -782,7 +782,6 @@ def check_for_minecollapse(cmd, world_events, mine_action):
 
                     # Delete worldevent - YIKES! I know, but I can't think of a better way to handle these ugly things.
                     bknd_worldevent.delete_world_event(id_event=id_event)
-                    continue
                 # Player doesn't enter the right captcha, or !mines normally
                 else:
                     if int(event_data.event_props.get('mines')) <= 10:
@@ -798,7 +797,8 @@ def check_for_minecollapse(cmd, world_events, mine_action):
                         mine_action.hunger_cost_multiplier *= ewcfg.hunger_perlmcollapse
                         
                         bknd_worldevent.delete_world_event(id_event=id_event)
-                        continue                      
+
+                continue
 
 
 def dig_hole(cmd, mine_action, poi):
@@ -834,20 +834,20 @@ def check_for_mining_world_events(world_events, mine_action):
         # Double slimegain
         if world_events.get(id_event) == ewcfg.event_type_slimefrenzy:
             event_data = EwWorldEvent(id_event=id_event)
-            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user:
+            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == int(mine_action.user_data.id_user):
                 mine_action.slime_yield *= 2
 
         # Get a poudrin every !mine
         elif world_events.get(id_event) == ewcfg.event_type_poudrinfrenzy:
             event_data = EwWorldEvent(id_event=id_event)
-            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user:
+            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == int(mine_action.user_data.id_user):
                 mine_action.unearthed_item_chance = 1
                 mine_action.unearthed_item_amount = 1
             
         # Get a poudrin or bone every !mine
         elif world_events.get(id_event) == ewcfg.event_type_spookyskeleton:
             event_data = EwWorldEvent(id_event=id_event)
-            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user:
+            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == int(mine_action.user_data.id_user):
                 mine_action.unearthed_item_chance = 1
                 mine_action.unearthed_item_amount = 1
                 # Set the item pool to skeleton
@@ -856,7 +856,7 @@ def check_for_mining_world_events(world_events, mine_action):
         # Triple slimegain and ectoplasm every !mine
         elif world_events.get(id_event) == ewcfg.event_type_spookyghost:
             event_data = EwWorldEvent(id_event=id_event)
-            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == mine_action.user_data.id_user:
+            if event_data.event_props.get('poi') == mine_action.user_data.poi and int(event_data.event_props.get('id_user')) == int(mine_action.user_data.id_user):
                 mine_action.slime_yield *= 3
                 mine_action.unearthed_item_chance = .85
                 mine_action.unearthed_item_amount = 1
