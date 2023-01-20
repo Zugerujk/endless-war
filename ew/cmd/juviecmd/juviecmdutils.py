@@ -1012,7 +1012,7 @@ def unearth_item(cmd, mine_action):
             )
         # Give correct response
         if mine_action.unearthed_item_type != "":
-            mine_action.response += "You {} one {} out of the {}! \n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), item.str_name, mine_action.unearthed_item_type)
+            mine_action.response += "You {} {} {} out of the {}! \n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), mine_action.unearthed_item_amount, item.str_name, mine_action.unearthed_item_type)
         elif mine_action.unearthed_item_amount == 1:
             mine_action.response += "You unearthed a {}! \n".format(item.str_name)
         else:

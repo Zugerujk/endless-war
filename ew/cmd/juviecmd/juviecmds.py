@@ -404,7 +404,7 @@ async def mine(cmd):
             if user_data.weapon >= 0:
                 weapon_item = EwItem(id_item=user_data.weapon)
                 weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
-                if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe) and user_data.life_state != ewcfg.life_state_juvenile:
+                if (weapon.id_weapon == ewcfg.weapon_id_pickaxe or weapon.id_weapon == ewcfg.weapon_id_diamondpickaxe):
                     toolused = ewcfg.weapon_id_pickaxe
                 elif weapon.id_weapon == ewcfg.weapon_id_sledgehammer:
                     toolused = ewcfg.weapon_id_sledgehammer
@@ -488,9 +488,9 @@ async def mine(cmd):
                 if controlling_faction != "" and controlling_faction == mine_action.user_data.faction:
                     mine_action.slime_yield *= 2
                 # Tool & Juvie lifestate check
-                if mine_action.toolused in [ewcfg.weapon_id_pickaxe, ewcfg.weapon_id_sledgehammer]:
+                if mine_action.toolused in [ewcfg.weapon_id_pickaxe] or (ewcfg.slimernalia_active and mine_action.toolused in [ewcfg.weapon_id_sledgehammer]):
                     mine_action.slime_yield *= 2
-                elif mine_action.user_data.life_state == ewcfg.life_state_juvenile and mine_action.toolused != ewcfg.weapon_id_sledgehammer:
+                elif mine_action.user_data.life_state == ewcfg.life_state_juvenile:
                     mine_action.slime_yield *= 2
 
                 # Add the multiplier-free bonus yield, make sure it's not negative!!!!
