@@ -570,7 +570,7 @@ def get_mining_yield_by_grid_type(cmd, mine_action, grid_cont):
     else:
         mine_action.slime_yield = get_mining_yield_default(mine_action.user_data)
         mine_action.valid = True
-        return
+        return mine_action
 
 def get_mining_yield_minesweeper(cmd, mine_action, grid_cont):
     grid = grid_cont.grid
