@@ -270,13 +270,87 @@ async def stock(cmd):
             response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes them out of balsa wood!\"\n\nTry a cannonball or a harpoon."
 
         elif ('cannonball' in stats and cmd.tokens[1] == 'cannonball') or ('harpoon' in stats and cmd.tokens[1] == 'harpoon'):
-            response = "They already have one. Don't go throwing shit around belowdeck, or the filth's gonna go through the roof."
+            response = "They already have one. Don't go throwing shit around belowdeck, or the filth level's gonna go through the roof."
         elif user_data.id_user != yacht.storehouse:
             response = "You're nowhere near the storehouse, you can't find it!"
+        else:
+            yacht.applyStat(stat_type=cmd.tokens[1], quantity=0, target = 0)
+            response = "{} tosses a {} cannon-ways!".format(cmd.message.author.display_name, cmd.tokens[1])
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def load(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "Hey wait, I thought we were trying to forget about the cum jar."
+    elif cmd.tokens_count < 2:
+        response = "Load what? Either a cannonball or a harpoon."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        stats = yacht.getYachtStats()
+
+        if cmd.tokens[1] not in ['harpoon', 'cannonball']:
+            response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes them out of balsa wood!\"\n\nTry a cannonball or a harpoon."
+
+        elif ('cannonball' not in stats and cmd.tokens[1] == 'cannonball') or (
+                'harpoon' not in stats and cmd.tokens[1] == 'harpoon'):
+            response = "You don't have one of those. Storehouse guy, chop chop!"
+        elif user_data.id_user != yacht.cannon:
+            response = "You're nowhere near the cannon, you can't do that!"
+        else:
+            stat_sought = None
+            for stat in stats:
+                if stat == cmd.tokens[1]:
+                    stat_sought = stat
+                    break
+            if stat_sought is not None and stat_sought.quantity != 0:
+                response = "You already loaded that in."
+            else:
+                stat_sought.quantity += 1
+                stat_sought.persist()
+                response = "{} drops a {} into place!".format(cmd.message.author.display_name, cmd.tokens[1])
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+async def aim_ship(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "Just aim normally. If you're gonna larp as a pirate, be one first."
+    elif cmd.tokens_count < 2:
+        response = "Who are you aiming at?"
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        stats = yacht.getYachtStats()
 
+        if 'aim' not in stats:
+            yacht.applyStat(stat_type='aim')
 
+        stats = yacht.getYachtStats()
+        stat_sought = None
+        for stat in stats:
+            if stat == 'aim':
+                stat_sought = stat
+                break
+
+        name = ' '.join(word for word in cmd.tokens[1:])
+        coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
+
+        targets = yacht_utils.find_local_boats(current_coords=coords, id_server=user_data.id_server, name =name)
+        target_ship = None
+        for target in targets:
+            if target.thread_id == yacht.thread_id:
+                continue
+            else:
+                target_ship = target
+
+        if target_ship is None:
+            response = "There's nothing to aim at with that name. Nothing important, at least"
+
+        else:
+            stat_sought.quantity += 1
+            stat_sought.persist()
+            response = "{} drops a {} into place!".format(cmd.message.author.display_name, cmd.tokens[1])
 
 
 async def statstest(cmd):

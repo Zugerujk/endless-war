@@ -183,8 +183,8 @@ async def sink(thread_id, id_server, killer_yacht = None):
 
 
 def draw_map(xcoord, ycoord, id_server, radius = 4 ):
-    center_x = min(max(xcoord, 5), ewdebug.max_right_bound - 4)
-    center_y = min(max(ycoord, 5), ewdebug.max_lower_bound - 4)
+    center_x = min(max(xcoord, radius+1), ewdebug.max_right_bound - radius)
+    center_y = min(max(ycoord, radius+1), ewdebug.max_lower_bound - radius)
     search_coords = []
     for x in range(-radius, radius+1):
         for y in range(-radius, radius+1):
@@ -211,3 +211,14 @@ def draw_map(xcoord, ycoord, id_server, radius = 4 ):
             response += letter
 
     return response
+
+
+def get_boat_coord_radius(xcoord, ycoord, radius):
+    final_list = []
+
+    for x in range(-radius + xcoord, radius + 1 + xcoord):
+        for y in range(-radius + ycoord, radius + 1 + ycoord):
+            if 0 <= x <= ewdebug.max_right_bound and 0 <= y <= ewdebug.max_lower_bound:
+                final_list.append([x, y])
+
+    return final_list
