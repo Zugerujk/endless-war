@@ -3132,6 +3132,7 @@ poi_list = [
         neighbors={'thesewers': 60},
         is_subzone=False,
         wikipage="",
+        pvp=False
     ),
 ]
 
