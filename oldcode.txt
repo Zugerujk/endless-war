@@ -25178,3 +25178,89 @@ async def turnin(cmd):
     response = random.choice(potential_dialogue)
     if response is not None:
         await fe_utils.send_message(None, channel, response)
+
+
+async def exec_mutations(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    if cmd.mentions_count == 1:
+        user_data = EwUser(member=cmd.mentions[0])
+
+    status = user_data.getStatusEffects()
+
+    if ewcfg.status_n1 in status:
+        response = "They fight without expending themselves due to **Perfection**. They're precise even without a target due to **Indiscriminate Rage**. They're hard to fell and cut deep due to **Monolith Body**. They are immaculate and unaging due to **Immortality**."
+    elif ewcfg.status_n2 in status:
+        response = "They have unparalleled coordination, speed and reaction time due to **Fucked Out**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
+    elif ewcfg.status_n4 in status:
+        response = "They are capable of murder by machine due to **Napalm Hacker**. Their hiding spot evades you due to **Super Amnesia**."
+    elif ewcfg.status_n8 in status:
+        response = "They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
+    elif ewcfg.status_n11 in status:
+        response = "They command a crowd through fear and punishment due to **Unnatural Intimidation**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
+    elif ewcfg.status_n12 in status:
+        response = "Their body holds untold numbers of quirks and perks due to **Full Aberrant**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
+    elif ewcfg.status_n13 in status:
+        response = "They are prone to explosive entries due to **Tantrum**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
+    elif user_data.life_state == ewcfg.life_state_lucky:
+        response = "They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. "
+    else:
+        response = "Slimecorp hasn't issued them mutations in their current position."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def debug23(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    if user_data.poi == 'limecorp2f':
+        response = "Nope, looks like that wasn't it. Make sure to enter the answer as one number without spaces, measured in pounds."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+def has_sunstare_status(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if 'sunstare' not in user_data.getStatusEffects():
+        return False
+    else:
+        return True
+
+
+            if user_data.poi == ewcfg.debugroom and cmd.tokens[0] != (
+            ewcfg.cmd_descend) and poi.id_poi != ewcfg.poi_id_slimeoidlab:
+        return await fe_utils.send_message(
+            cmd.client,
+            cmd.message.channel,
+            fe_utils.formatMessage(cmd.message.author, "You can't move forwards or backwards in an {}, bitch.".format(ewcfg.debugroom_short))
+        )
+    elif user_data.poi != ewcfg.debugroom and cmd.tokens[0] == (ewcfg.cmd_descend):
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You can't move downwards on a solid surface, bitch."))
+
+poi_id_labs_bf4 = "slimeoid-lab-bf4"
+poi_id_labs_bf61 = "slimeoid-lab-bf61"
+poi_id_labs_bf93 = "slimeoid-lab-bf93"
+
+item_id_debug_shred_1 = "shred-1"
+item_id_debug_shred_2 = "shred-2"
+item_id_debug_shred_3 = "shred-3"
+item_id_debug_shred_4 = "shred-4"
+item_id_debug_shred_5 = "shred-5"
+item_id_debug_shred_6 = "shred-6"
+item_id_debug_shred_7 = "shred-7"
+item_id_debug_shred_8 = "shred-8"
+item_id_debug_shred_9 = "shred-9"
+item_id_debug_shred_10 = "shred-10"
+item_id_debug_shred_11 = "shred-11"
+item_id_debug_shred_12 = "shred-12"
+item_id_debug_shred_13 = "shred-13"
+debug5 = "  Huh? This one's sorta rigid. Heavy, too. You shrug and open it up anyway. Turns out this pack has been at the back of the storefront for so long that it petrified itself. \n\nYou got the Petrified Secreatures Card!"
+
+        elif new_card_chance == True and card_loop == True:
+            card_loop = False
+            response += relic_utils.debug5
+            item_type = 'relic'
+            item_props = relic_utils.debug4
+
+                if random.random() < new_card_ratio and relic_utils.canCreateRelic(item=relic_utils.debug3, id_server=id_server.id) == 1:
+        new_card_chance = True
+        card_loop = True
+
+invitation_desc = "It’s an invitation for some kind of a formal event hosted in BF93 of the SlimeCorp Labratory in Brawlden. There’s a barcode at the bottom of the page that is just begging to be scanned. You probably guessed that’s what it was already, though. You’re one smart cookie, y’know that pal? You’re one reeeaaalll smart cookie."
+# Item descriptions
+shred_desc = "It’s a shred of office paper. There’s definitely something written on it, but you can’t make out what it is because it’s just a single shred of paper. Maybe if you got a big enough pile of paper shreds you could smelt something legible."

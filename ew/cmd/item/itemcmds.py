@@ -1002,11 +1002,7 @@ async def item_use(cmd):
             elif context == "thedroplet":
                 response = "You stole Slimernalia, you scrooge! What do you have to say for yourself?"
 
-            elif ewcfg.item_id_key in context and context != 'housekey':
-                if user_data.poi == "room102" and context == 'reelkey':
-                    response = ewdebug.reel_code
-                if user_data.poi == "room103" and context == 'cabinetkey':
-                    response = ewdebug.debug_code
+
 
         if response is not None: resp_ctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
         for resp in responses: resp_ctn.add_channel_response(cmd.message.channel, resp)

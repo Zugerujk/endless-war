@@ -646,18 +646,14 @@ def unwrap(id_user = None, id_server = None, item = None, repeats = 0, rarity = 
     response = "You eagerly rip open a pack of Secreatures™ trading cards!!"
     bknd_item.item_delete(item.id_item)
     slimexodia = False
-    card_loop = False
-    new_card_chance = False
     slimexodia_chance = 1 / 1000
 
-    new_card_ratio = 1/1000
+
 
     if random.random() < slimexodia_chance:
         slimexodia = True
 
-    if random.random() < new_card_ratio and relic_utils.canCreateRelic(item=relic_utils.debug3, id_server=id_server.id) == 1:
-        new_card_chance = True
-        card_loop = True
+
 
     if slimexodia == True:
         # If there are multiple possible products, randomly select one.
@@ -692,11 +688,7 @@ def unwrap(id_user = None, id_server = None, item = None, repeats = 0, rarity = 
                 item_props=item_props
             )
 
-        elif new_card_chance == True and card_loop == True:
-            card_loop = False
-            response += relic_utils.debug5
-            item_type = 'relic'
-            item_props = relic_utils.debug4
+
 
 
             bknd_item.item_create(
@@ -711,10 +703,10 @@ def unwrap(id_user = None, id_server = None, item = None, repeats = 0, rarity = 
         response += " ***...What's this?!*** You manage to find a number of legendary cards, including:\n"
         for card in pulls:
             response += "**{}x** {}".format(pulls[card], card)
-    elif len(pulls) == 1 and new_card_chance is False:
+    elif len(pulls) == 1:
         response += " There’s a single holographic card poking out of the swathes of repeats and late edition cards...\n"
         response += " ***...What’s this?! It’s the legendary card {}!! If you’re able to collect the remaining pieces of Slimexodia, you might be able to smelt something incomprehensibly powerful!!***\n".format(list(pulls.keys())[0])
-    elif len(pulls) == 0 and new_card_chance is False:
+    elif len(pulls) == 0:
         response += " But… it’s mostly just repeats and late edition cards. You toss them away."
 
     return response

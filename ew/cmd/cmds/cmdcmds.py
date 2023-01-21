@@ -47,7 +47,6 @@ from ew.utils.cmd import EwCmd
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
-from .cmdsutils import exec_mutations
 from .cmdsutils import gen_score_text
 from .cmdsutils import get_user_shares_str
 from .cmdsutils import item_commands
@@ -443,8 +442,7 @@ async def mutations(cmd):
         user_data = EwUser(member=cmd.message.author)
         mutations = user_data.get_mutations()
 
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
 
         # if ewcfg.mutation_id_gay in mutations:
@@ -483,8 +481,7 @@ async def mutations(cmd):
             id_user=member.id,
             id_server=member.guild.id
         )
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
         mutations = user_data.get_mutations()
         for mutation in mutations:
