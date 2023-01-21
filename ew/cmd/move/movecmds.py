@@ -140,15 +140,6 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
     else:
         movement_method = "walking"
 
-    if user_data.poi == ewcfg.debugroom and cmd.tokens[0] != (
-            ewcfg.cmd_descend) and poi.id_poi != ewcfg.poi_id_slimeoidlab:
-        return await fe_utils.send_message(
-            cmd.client,
-            cmd.message.channel,
-            fe_utils.formatMessage(cmd.message.author, "You can't move forwards or backwards in an {}, bitch.".format(ewcfg.debugroom_short))
-        )
-    elif user_data.poi != ewcfg.debugroom and cmd.tokens[0] == (ewcfg.cmd_descend):
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You can't move downwards on a solid surface, bitch."))
 
     # if fetch_poi_if_coordless(poi.channel) is not None: # Triggers if your destination is a sub-zone.
     # 	poi = fetch_poi_if_coordless(poi.channel)

@@ -842,7 +842,10 @@ async def enemy_action_tick_loop(id_server):
         ewutils.last_loop['enemy_act'] = int(time.time())
         await asyncio.sleep(interval)
         # resp_cont = EwResponseContainer(id_server=id_server)
-        await cmbt_utils.enemy_perform_action(id_server)
+        try:
+            await cmbt_utils.enemy_perform_action(id_server) #occasionally role update lag will stop this loop,
+        except Exception as e:
+            ewutils.logMsg('Enemy tick loop failed. Reaason:{}'.format(e))
 
 
 async def release_timed_prisoners_and_blockparties(id_server, day):

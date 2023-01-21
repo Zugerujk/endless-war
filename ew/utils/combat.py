@@ -1403,7 +1403,6 @@ def drop_enemy_loot(enemy_data, district_data):
 # Gathers all enemies from the database (that are either raid bosses or have users in the same district as them) and has them perform an action
 async def enemy_perform_action(id_server):
     # time_start = time.time()
-
     client = ewcfg.get_client()
 
     time_now = int(time.time())

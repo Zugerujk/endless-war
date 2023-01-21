@@ -48,7 +48,6 @@ from ew.utils.cmd import EwCmd
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
-from .cmdsutils import exec_mutations
 from .cmdsutils import gen_score_text
 from .cmdsutils import get_user_shares_str
 from .cmdsutils import item_commands
@@ -451,8 +450,7 @@ async def mutations(cmd):
         user_data = EwUser(member=cmd.message.author)
         mutations = user_data.get_mutations()
 
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
 
         # if ewcfg.mutation_id_gay in mutations:
@@ -491,8 +489,7 @@ async def mutations(cmd):
             id_user=member.id,
             id_server=member.guild.id
         )
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
         mutations = user_data.get_mutations()
         for mutation in mutations:
@@ -2714,8 +2711,8 @@ async def make_bp(cmd):
     if EwUser(member=cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
         return
 
-    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 487483183957278730:
-        response = 'We were only going to give admin to Zug this time around.'
+    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 324283333984911361:
+        response = 'We were only going to give admin to Danny this time around.'
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.mentions_count > 0:
         recipient = cmd.mentions[0]

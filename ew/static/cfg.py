@@ -5797,16 +5797,13 @@ obj_type_indexes = {
 #print(scream)
 
 debugroom = None
-debugroom_short = None
+
 debugpiers = None
 debugfish_response = None
 debugfish_goal = None
-cmd_debug1 = None
-cmd_debug2 = None
-cmd_debug3 = None
-cmd_debug4 = None
+
 # debug5 = None
-cmd_debug6 = None
-cmd_debug7 = None
+
+
 cmd_debug8 = None
 cmd_debug9 = None

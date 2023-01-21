@@ -3150,8 +3150,23 @@ poi_list = [
         wikipage = "",
         is_dock=True,
         str_in="aboard the"
-    )
+    ),
+    EwPoi(
+        id_poi = "inactivesewers",
+        alias = ['inactive', 'inact',],
+        str_name = "Deep Sewers",
+        str_desc = "Where forgotten tools are left behind. \nExits into The Sewers.",
+        channel = "inactive-sewers",
+        permissions={'inactive-sewers': ['read', 'send', 'connect']},
+        is_gangbase=False,
+        neighbors={'thesewers': 60},
+        is_subzone=False,
+        wikipage="",
+        pvp=False
+    ),
 ]
+
+
 
 # if you're looking for poi_map, here it is
 id_to_poi = {}
