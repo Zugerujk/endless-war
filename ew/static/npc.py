@@ -263,7 +263,7 @@ EwNpc(
     func_ai = npcutils.generic_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/994241049012748399/998319239469486120/SLIMEZ.png", # Another with no PFP given so here's a placeholder
     defaultslime = 1500000,
-    defaultlevel = 40,
+    defaultlevel = 10,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
     {'pairofsunglasses': [50, 1, 1]},
@@ -288,7 +288,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
-    defaultlevel = 47,
+    defaultlevel = 32,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
     ],
@@ -310,7 +310,7 @@ EwNpc(
     func_ai = npcutils.generic_npc_action,
     image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/996283670631546931/rivers_cuomo_pinkerton.png", # No PFP given again
     defaultslime = 1900000,
-    defaultlevel = 37,
+    defaultlevel = 23,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
     {'pairofsunglasses': [100, 1, 1]},
