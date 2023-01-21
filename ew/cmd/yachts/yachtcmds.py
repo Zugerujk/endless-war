@@ -10,6 +10,7 @@ from ew.utils import core as ewutils
 import ew.utils.rolemgr as ewrolemgr
 import ew.utils.move as move_utils
 import math
+import random
 import asyncio
 
 try:
@@ -399,8 +400,38 @@ async def fire_cannon(cmd):
                 else:
                     distance = math.sqrt((target_ship.xcoord-yacht.xcoord)**2 + (target_ship.ycoord-yacht.ycoord)**2)
                     #i just used the fucking pythagorean theorem to kill a man with cannonballs. yeah i bet you're jealous
-                    hit_chance = (-0.018 * (distance**2)) - (0.048 * distance) + 1.015
-                    #i plotted the general results i wanted into a curve of best fit calculator and these were my results, go figure
+
+                    if firetype == 'cannonball':
+
+                        hit_chance = (-0.018 * (distance**2)) - (0.048 * distance) + 1.015
+                        #i plotted the general results i wanted into a curve of best fit calculator and these were my results, go figure
+                        random_pct = random.randint(0, 100)
+                        if random_pct > int(hit_chance * 100):
+                            response = "BAM!...........whoosh! You barely miss The {}!".format(target_ship.yacht_name)
+                        else:
+                            holesize =  int(7-distance)
+                            hole_dict = {
+                                1:" puny",
+                                2:" downright mediocre",
+                                3:"...well, actually it's pretty average",
+                                4:" looking leaky as fuck",
+                                5:" pretty big",
+                                6:" huge",
+                                7:" titanic, laddy!"
+                            }
+
+                            response = "BAM!............KKKKRRRRRAAAACKKKK! Their hull has been breached! The hole is{}!".format(hole_dict.get(holesize))
+
+                            target_ship.applyStat(stat_type='flood', quantity=holesize, target=yacht.thread_id)
+                    else:
+                        if distance != 0:
+                            response = "Harpoons don't reach that far. You have to be in the same area as them."
+                        else:
+                            target_ship.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
+                            yacht.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
+                            response = "SHHHHINC! A harpoon sinks into the {}'s walls, locking your ship to theirs!".format(target_ship.yacht_name)
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 
 
