@@ -9,6 +9,7 @@ import ew.static.poi as poi_static
 from ew.utils import core as ewutils
 import ew.utils.rolemgr as ewrolemgr
 import ew.utils.move as move_utils
+import math
 import asyncio
 
 try:
@@ -323,34 +324,85 @@ async def aim_ship(cmd):
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
         stats = yacht.getYachtStats()
 
-        if 'aim' not in stats:
-            yacht.applyStat(stat_type='aim')
+        if yacht.helm != user_data.id_user:
+            response = "You can't steer the ship to aim if you're not at the helm!"
+        else:
 
-        stats = yacht.getYachtStats()
-        stat_sought = None
-        for stat in stats:
-            if stat == 'aim':
-                stat_sought = stat
-                break
+            if 'aim' not in stats:
+                yacht.applyStat(stat_type='aim')
 
-        name = ' '.join(word for word in cmd.tokens[1:])
-        coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
+            stats = yacht.getYachtStats()
+            stat_sought = None
+            for stat in stats:
+                if stat == 'aim':
+                    stat_sought = stat
+                    break
 
-        targets = yacht_utils.find_local_boats(current_coords=coords, id_server=user_data.id_server, name =name)
-        target_ship = None
-        for target in targets:
-            if target.thread_id == yacht.thread_id:
-                continue
+            name = ' '.join(word for word in cmd.tokens[1:])
+            coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
+
+            targets = yacht_utils.find_local_boats(current_coords=coords, id_server=user_data.id_server, name =name)
+            target_ship = None
+            for target in targets:
+                if target.thread_id == yacht.thread_id:
+                    continue
+                else:
+                    target_ship = target
+
+            if target_ship is None:
+                response = "There's nothing to aim at with that name out here. Nothing important, at least."
+
             else:
-                target_ship = target
+                stat_sought.target = target_ship.thread_id
+                stat_sought.quantity = (target_ship.xcoord * 1000) + target_ship.ycoord #this creates a readable and distinct value for the coords locked into
+                stat_sought.persist()
+                response = "Aim for the {}, right between the eyes! Steady as she goes...".format(target_ship.yacht_name)
 
-        if target_ship is None:
-            response = "There's nothing to aim at with that name. Nothing important, at least"
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def fire_cannon(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "What, like in a crowded theater? Sounds like fun."
+    elif cmd.tokens_count < 2:
+        response = "Fire what? You could do a cannon or a harpoon."
+    elif cmd.tokens[1] not in ["cannon", "cannonball", "harpoon"]:
+        response = "You can only fire the cannon or a harpoon."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        stats = yacht.getYachtStats()
+        firetype = cmd.tokens[1].replace("cannon", "cannonball")
+
+        if yacht.cannon != user_data.id_user:
+            response = "You need to be near the cannon to fire it."
 
         else:
-            stat_sought.quantity += 1
-            stat_sought.persist()
-            response = "{} drops a {} into place!".format(cmd.message.author.display_name, cmd.tokens[1])
+            loaded = False
+            aimed = False
+            target_ship = None
+
+            for stat in stats:
+                if stat == 'aim':
+                    target_ship = EwYacht(id_server=yacht.id_server, id_thread=stat.target)
+                    if (target_ship.xcoord * 1000) + target_ship.ycoord == stat.quantity:
+                        aimed = True
+                elif stat == firetype:
+                    if stat.quantity > 0:
+                        loaded = True
+                        yacht.clearStat(id_stat=stat.id_stat)
+
+            if loaded is False:
+                response = "It's not loaded."
+            else:
+                if aimed is False:
+                    response = "BAM!..............splish!\nThe cannonball flies through the air, landing on sweet nothing! Aim faster next time, dumpass!"
+                else:
+                    distance = math.sqrt((target_ship.xcoord-yacht.xcoord)**2 + (target_ship.ycoord-yacht.ycoord)**2)
+                    #i just used the fucking pythagorean theorem to kill a man with cannonballs. yeah i bet you're jealous
+                    hit_chance = (-0.018 * (distance**2)) - (0.048 * distance) + 1.015
+                    #i plotted the general results i wanted into a curve of best fit calculator and these were my results, go figure
+
+
 
 
 async def statstest(cmd):
