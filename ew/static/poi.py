@@ -3068,60 +3068,74 @@ poi_list = [
         neighbors={'thevoid': 20},
         wikipage="https://rfck.miraheze.org/wiki/JuviesRow#GhostMaidCafe"
     ),
-	EwPoi(
-		id_poi = "coalitionsurplus",
-		alias = ['coalition surplus', 'csu', 'surplus', 'coal', 'coalition',],
-		str_name = "Coalition Surplus",
-		str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom mixed in with the overabundance of demilitarized guns, ammunition, and accessories. War memorabilia and other historical artifacts sometimes pop up in the shop, but on normal circumstances people with insider knowledge swoop in and buy it off before it ever reaches the store shelves.\n\nExits back into Glocksbury.",
-		channel = "coalition-surplus",
-		permissions = {'coalition-surplus': ['read', 'send', 'connect']},
-		pvp = False,
-		vendors = ['Coalition Surplus'], 
-		is_subzone = True,
-		mother_districts = ['glocksbury'],
-		neighbors = {'glocksbury': 20},
-		wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
-	),
-	EwPoi(
-		id_poi = "raiddenentryway",
-		alias = ['entrance', 'rde', 'raiddenentrance', 'entryway'],
-		str_name = "the Raid Den Entryway",
-		str_desc = "The opening stage of a great cavern. The only way out is forwards.\nContinues onward to the **Raid Den Atrium**.",
-		channel = "raid-den",
-		permissions = {'raid-den': ['read', 'send', 'connect']},
-		pvp = True,
+    EwPoi(
+        id_poi = "coalitionsurplus",
+        alias = ['coalition surplus', 'csu', 'surplus', 'coal', 'coalition',],
+        str_name = "Coalition Surplus",
+        str_desc = "The small warehouse is pronounced with the smell of old dust and stainless steel shelving to the ceilings. Of which, perhaps thousands of the possessions of the past deceased crowd the shelves from top to bottom mixed in with the overabundance of demilitarized guns, ammunition, and accessories. War memorabilia and other historical artifacts sometimes pop up in the shop, but on normal circumstances people with insider knowledge swoop in and buy it off before it ever reaches the store shelves.\n\nExits back into Glocksbury.",
+        channel = "coalition-surplus",
+        permissions = {'coalition-surplus': ['read', 'send', 'connect']},
+        pvp = False,
+        vendors = ['Coalition Surplus'],
+        is_subzone = True,
+        mother_districts = ['glocksbury'],
+        neighbors = {'glocksbury': 20},
+        wikipage = "https://rfck.miraheze.org/wiki/CharcoalPark#CoalitionSurplus"
+    ),
+    EwPoi(
+        id_poi = "raiddenentryway",
+        alias = ['entrance', 'rde', 'raiddenentrance', 'entryway'],
+        str_name = "the Raid Den Entryway",
+        str_desc = "The opening stage of a great cavern. The only way out is forwards.\nContinues onward to the **Raid Den Atrium**.",
+        channel = "raid-den",
+        permissions = {'raid-den': ['read', 'send', 'connect']},
+        pvp = True,
         enemy_lock = True,
-		mother_districts = ['downtownsubwaystation'],
-		neighbors = {'raiddenatrium': 20},
-		wikipage = ""
-	),
-	EwPoi(
-		id_poi = "raiddenatrium",
-		alias = ['atrium', 'rda',],
-		str_name = "the Raid Den Atrium",
-		str_desc = "The middle of a great cavern. It smells like rotting fish. \nContinues onward to the **Raid Den Core**.",
-		channel = "raid-den",
-		permissions = {'raid-den': ['read', 'send', 'connect']},
-		pvp = True,
+        mother_districts = ['downtownsubwaystation'],
+        neighbors = {'raiddenatrium': 20},
+        wikipage = ""
+    ),
+    EwPoi(
+        id_poi = "raiddenatrium",
+        alias = ['atrium', 'rda',],
+        str_name = "the Raid Den Atrium",
+        str_desc = "The middle of a great cavern. It smells like rotting fish. \nContinues onward to the **Raid Den Core**.",
+        channel = "raid-den",
+        permissions = {'raid-den': ['read', 'send', 'connect']},
+        pvp = True,
         enemy_lock = True,
-		mother_districts = ['downtownsubwaystation'],
-		neighbors = {'raiddencore': 20},
-		wikipage = ""
-	),
-	EwPoi(
-		id_poi = "raiddencore",
-		alias = ['core', 'rdc',],
-		str_name = "the Raid Den Core",
-		str_desc = "The core of a great cavern, from which intense energy flows. \nExits into the **Downtown Subway Station**.",
-		channel = "raid-den",
-		permissions = {'raid-den': ['read', 'send', 'connect']},
-		pvp = True,
+        mother_districts = ['downtownsubwaystation'],
+        neighbors = {'raiddencore': 20},
+        wikipage = ""
+    ),
+    EwPoi(
+        id_poi = "raiddencore",
+        alias = ['core', 'rdc',],
+        str_name = "the Raid Den Core",
+        str_desc = "The core of a great cavern, from which intense energy flows. \nExits into the **Downtown Subway Station**.",
+        channel = "raid-den",
+        permissions = {'raid-den': ['read', 'send', 'connect']},
+        pvp = True,
         enemy_lock = True,
-		mother_districts = ['downtownsubwaystation'],
-		neighbors = {'downtownsubwaystation': 20},
-		wikipage = ""
-	),
+        mother_districts = ['downtownsubwaystation'],
+        neighbors = {'downtownsubwaystation': 20},
+        wikipage = ""
+    ),
+    EwPoi(
+        id_poi = "inactivesewers",
+        alias = ['inactive', 'inact',],
+        str_name = "Deep Sewers",
+        str_desc = "Where forgotten tools are left behind. \nExits into The Sewers.",
+        channel = "inactive-sewers",
+        permissions={'inactive-sewers': ['read', 'send', 'connect']},
+        is_gangbase=False,
+        neighbors={'thesewers': 60},
+        is_subzone=False,
+        wikipage="",
+    ),
 ]
+
+
 
 # if you're looking for poi_map, here it is
 id_to_poi = {}
