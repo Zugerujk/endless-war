@@ -653,9 +653,9 @@ async def attackEnemy(cmd):
     shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, enemy_data, hitzone)
     shootee_status_mods = cmbt_utils.get_shootee_status_mods(enemy_data, user_data, hitzone)
 
-    hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-    crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-    dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+    hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+    crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+    dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
     slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 30)
     # disabled until held items update
