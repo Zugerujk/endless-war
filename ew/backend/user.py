@@ -187,7 +187,7 @@ class EwUserBase:
                         ewcfg.col_event_points
 
                     ), (
-                        id_user,
+                        str(id_user),
                         id_server
                     ))
                 result = cursor.fetchone()
