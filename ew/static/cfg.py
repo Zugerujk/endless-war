@@ -1379,6 +1379,7 @@ cmd_changegamestate = cmd_prefix + 'changegamestate'
 cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
 cmd_create_rally = cmd_prefix + 'createrally'
+cmd_admintrack = cmd_prefix + 'admintrack'
 
 # elevator cmds
 cmd_press_button = cmd_prefix + 'press'
@@ -3772,7 +3773,7 @@ status_enemy_trainer_id = 'slimeoidtrainer'
 status_enemy_tanky_id = 'tanky'
 status_enemy_dodgy_id = 'dodgy'
 status_enemy_following_id = 'following'
-
+status_enemy_delay_id = 'delay'
 
 status_n1 = "n1"
 status_n2 = "n2"

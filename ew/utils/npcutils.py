@@ -223,7 +223,8 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 async def generic_move(enemy = None, npc_obj = None, move_override = 120): #moves within boundaries every 20 seconds or so
     if enemy.life_state == ewcfg.enemy_lifestate_alive:
-        if random.randrange(move_override) == 0:
+        if random.randrange(move_override) == 0 and ewcombat.check_raidboss_movecooldown(enemy_data=enemy):
+            enemy.applyStatus(id_status=ewcfg.status_enemy_delay_id)
             resp_cont = enemy.move()
             if resp_cont != None:
                 if len(resp_cont.channel_responses) > 0:
@@ -477,6 +478,7 @@ async def mozz_give(channel, npc_obj, enemy, item):
 
 async def mozz_move(channel, npc_obj, enemy):
     if random.randrange(30) == 0 or ewutils.DEBUG_OPTIONS.get('alternate_talk') == True:
+        enemy.applyStatus(id_status=ewcfg.status_enemy_delay_id)
         resp_cont = enemy.move()
         await resp_cont.post()
         if resp_cont != None:

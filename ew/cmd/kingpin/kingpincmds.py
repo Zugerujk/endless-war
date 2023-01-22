@@ -589,3 +589,20 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
         except:
             ewutils.logMsg(
                 'server {}: failed to clowncar.'.format(cmd.message.guild.id, cmd.message.author.id))
+
+
+async def admintrack(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+
+    if cmd.mentions_count == 0:
+        response = "Who?"
+        return await fe_utils.send_response(response, cmd)
+    else:
+        response = ""
+        for mention in cmd.mentions:
+            user = EwUser(member=mention)
+            response += "{} is in {}.\n".format(mention.display_name, user.poi)
+
+        return await fe_utils.send_response(response, cmd)

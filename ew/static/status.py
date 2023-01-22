@@ -316,6 +316,13 @@ status_effect_list = [
         str_describe="They're a little too attached to someone right now.",
         str_describe_self="",
     ),
+EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_following_id,
+        time_expire=5,
+        str_acquire="",
+        str_describe="",
+        str_describe_self="",
+    ),
 ]
 
 status_effects_def_map = {}

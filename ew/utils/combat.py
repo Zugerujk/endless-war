@@ -96,6 +96,8 @@ class EwEnemy(EwEnemyBase):
                     
         if enemy_data.ai == ewcfg.enemy_ai_sandbag:
             target_data = None
+        elif ewcfg.status_enemy_delay_id in enemy_data.getStatusEffects():
+            target_data = None
         elif enemy_data.enemytype == 'npc' and condition is not None:
             target_data, group_attack = get_target_by_ai(enemy_data=enemy_data, condition = condition)
         else:
@@ -1606,7 +1608,7 @@ def find_npc(npcsearch = '', id_server = -1):
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
-    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers:
+    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers or enemy_data.enemytype == 'npc':
         if enemy_data.time_lastenter <= time_now - ewcfg.time_raidboss_movecooldown:
             # Raid boss can move
             return True
