@@ -502,7 +502,9 @@ async def mine(cmd):
 
                 # Goonscap
                 xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
+                mine_action.user_data.persist()
                 responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+
             
 
             # Take hunger from user
@@ -518,7 +520,7 @@ async def mine(cmd):
 
             
             # Persist user_data. ONCE. AT THE END.
-            mine_action.user_data.persist()
+
             
             response = mine_action.response
             # Handle response container
