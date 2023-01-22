@@ -928,7 +928,7 @@ async def on_message(message):
                 time_last_action=ewcfg.col_time_last_action
             ), (
                 int(time.time()),
-                message.author.id,
+                str(message.author.id),
                 message.guild.id
             ))
         except Exception as e:
