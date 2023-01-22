@@ -192,9 +192,9 @@ class EwEnemy(EwEnemyBase):
             shooter_status_mods = get_shooter_status_mods(enemy_data, target_data, hitzone)
             shootee_status_mods = get_shootee_status_mods(target_data, enemy_data, hitzone)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
             # maybe enemies COULD have weapon skills? could punishes players who die to the same enemy without mining up beforehand
             # slimes_damage = int((slimes_spent * 4) * (100 + (user_data.weaponskill * 10)) / 100.0)

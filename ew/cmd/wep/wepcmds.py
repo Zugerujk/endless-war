@@ -1447,9 +1447,9 @@ async def spray(cmd):
 
             shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, None, None)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg']
 
             slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 300)
             slimes_damage = int((50000 + slimes_spent * 10) * (100 + (user_data.weaponskill * 5)) / 100.0)
