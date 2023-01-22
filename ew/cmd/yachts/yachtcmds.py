@@ -103,18 +103,30 @@ async def board_ship(cmd):
                     selected_ship = ship
             if selected_ship is not None:
                 #todo set up gangplank restrictions
-                if selected_ship.direction != 'stop':
-                    response = "Fuck, they just took off."
+                #if selected_ship.direction != 'stop':
+                    #response = "Fuck, they just took off."
+                if user_data.poi[:5] == 'yacht' and selected_ship.thread_id == int(user_data.poi[5:]):
+                    response = "You're already here, dumbass."
                 else:
-                    response = "You begin boarding the {}.".format(selected_ship.yacht_name)
-                    move_utils.move_counter += 1
-                    move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
-                    if move_current == ewutils.moves_active[cmd.message.author.id]:
-                        user_data = EwUser(member=cmd.message.author)
-                        user_data.poi = "yacht{}".format(selected_ship.thread_id)
-                        user_data.persist()
-                        await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
-                        await user_data.move_inhabitants(id_poi=user_data.poi)
+                    shipstats = current_ship.getYachtStats()
+                    planked = False
+                    for stat in shipstats:
+                        if stat == 'gangplanked':
+                            if stat.target == selected_ship.thread_id:
+                                planked = True
+
+                    if not planked:
+                        response = "You need to !gangplank then first, so you can cross."
+                    else:
+                        response = "You begin boarding the {}.".format(selected_ship.yacht_name)
+                        move_utils.move_counter += 1
+                        move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
+                        if move_current == ewutils.moves_active[cmd.message.author.id]:
+                            user_data = EwUser(member=cmd.message.author)
+                            user_data.poi = "yacht{}".format(selected_ship.thread_id)
+                            user_data.persist()
+                            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                            await user_data.move_inhabitants(id_poi=user_data.poi)
 
 
             else:
@@ -431,6 +443,25 @@ async def fire_cannon(cmd):
                             yacht.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
                             response = "SHHHHINC! A harpoon sinks into the {}'s walls, locking your ship to theirs!".format(target_ship.yacht_name)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def gangplank(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    target_name  = ' '.join(word for word in cmd.tokens[1:])
+
+    if user_data.poi[:5] != 'yacht':
+        response = "Plank was a member of Slimecorp, telemarketing division. He's probably pretty miffed you put him out of a job, so i doubt he's in a gang now."
+    elif cmd.tokens_count < 2:
+        response = "Be more specific, who are you trying to board?"
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        ally_stats = yacht.getYachtStats()
+
+        coord_me = [yacht.xcoord, yacht.ycoord]
+
+        boats = yacht_utils.find_local_boats(current_coords=coord_me, id_server=cmd.guild.id, name=target_name)
+        if len(boats) < 1:
+            response = ""
+
 
 
 
