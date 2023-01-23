@@ -11,6 +11,7 @@ from ..backend import core as bknd_core
 from ..backend.district import EwDistrictBase
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+from ew.static import npc as static_npc
 
 
 """
@@ -129,6 +130,7 @@ class EwDistrict(EwDistrictBase):
                                 max_slimes = math.inf,
                                 scout_used = False,
                                 classes = None,
+                                npc_threats_only = False
                                 ):
 
         client = ewutils.get_client()
@@ -161,6 +163,7 @@ class EwDistrict(EwDistrictBase):
             fetched_class = enemy_data_column[4]  # data from enemyclass column in enemies table
 
             # Append the enemy to the list if it meets the requirements
+
             if max_level >= fetched_level >= min_level \
                     and max_slimes >= fetched_slimes >= min_slimes:
                 if classes != None:
@@ -172,6 +175,10 @@ class EwDistrict(EwDistrictBase):
             # Don't show sandbags on !scout
             if scout_used and fetched_type == ewcfg.enemy_type_sandbag:
                 filtered_enemies.remove(fetched_id_enemy)
+            if fetched_type == 'npc':
+                npc_obj = static_npc.active_npcs_map.get(fetched_class)
+                if npc_obj is not None and not npc_obj.is_threat and npc_threats_only:
+                    filtered_enemies.remove(fetched_id_enemy)
 
         return filtered_enemies
 

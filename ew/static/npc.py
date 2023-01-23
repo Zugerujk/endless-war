@@ -162,7 +162,8 @@ EwNpc(
     starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
-    slimeoid_name='Chocolate Donut'
+    slimeoid_name='Chocolate Donut',
+    is_threat=True
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -190,6 +191,7 @@ EwNpc(
     ],
     starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
+    is_threat=True,
     condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
 
     #if the cop is trigger happy or if you're above a certain crime level
@@ -210,6 +212,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/sleuth.png",
     defaultslime = 5911000,
     defaultlevel = 50,
+    is_threat=True,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [20, 1, 1],
@@ -237,6 +240,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
+    is_threat=True,
     rarity=1,
     rewards = [
     {
@@ -289,6 +293,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
     defaultlevel = 32,
+    is_threat=True,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
     ],
@@ -311,6 +316,7 @@ EwNpc(
     image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/996283670631546931/rivers_cuomo_pinkerton.png", # No PFP given again
     defaultslime = 1900000,
     defaultlevel = 23,
+    is_threat=True,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
     {'pairofsunglasses': [100, 1, 1]},
@@ -355,6 +361,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766477312020/kimblychadnpc.png",
     defaultslime = 2560000,
+    is_threat=True,
     defaultlevel = 40,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
@@ -378,6 +385,7 @@ EwNpc(
     image_profile = "https://media.discordapp.net/attachments/976385581498138624/998073766682824704/kimblytipsnpc.png",
     defaultslime = 2560000,
     defaultlevel = 40,
+    is_threat=True,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
     {'packofluckyslimes': [70, 1, 1]},
@@ -424,6 +432,7 @@ EwNpc(
     defaultslime = 30000000,
     defaultlevel = 99,
     rarity=7,
+    is_threat=True,
     attacktype = 'juvieman',
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
@@ -522,6 +531,7 @@ EwNpc(
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
+    is_threat=True,
     attacktype = 'pizzagraspers',
     rewards = [
     {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
@@ -571,6 +581,7 @@ EwNpc(
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
     rarity=1,
+    is_threat=True,
     slimeoid_name='蒸気船たかはし',
     rewards = [
     {ewcfg.weapon_id_brassknuckles:[100, 1, 1],
