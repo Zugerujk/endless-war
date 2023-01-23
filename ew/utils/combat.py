@@ -1984,7 +1984,10 @@ class EwUser(EwUserBase):
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
+            try:
+                await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
+            except:
+                ewutils.logMsg('Hell is full, failed to update roles.')
 
         return resp_cont
 
