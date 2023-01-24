@@ -431,7 +431,7 @@ async def mine(cmd):
                                                      hunger_cost_multiplier=1,
                                                      toolused=toolused,
                                                      response=response,
-                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,
+                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity, # 1/1500
             )
             
             # Check for a mine collapse
@@ -461,16 +461,8 @@ async def mine(cmd):
                 if random.random() < 0.05:
                     create_mining_event(cmd, mine_action)
 
-                # Unearth item check
-                if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
-                    mine_action.unearthed_item_chance *= 2
-                elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
-                    mine_action.unearthed_item_chance *= 1.5
-                if ewcfg.mutation_id_lucky in mutations:
-                    mine_action.unearthed_item_chance *= 1.777
-                    
-                if random.random() < mine_action.unearthed_item_chance:
-                    juviecmdutils.unearth_item(cmd, mine_action)
+                # Check to unearth an item
+                juviecmdutils.unearth_item(cmd, mine_action, mutations)
 
             # If there WAS an uncleared collapse, do the flavor text and calcs for that
             if mine_action.collapse == True:

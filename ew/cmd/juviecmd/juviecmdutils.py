@@ -985,42 +985,53 @@ def create_mining_event(cmd, mine_action):
             mine_action.response += str_event_start + "\n"
 
 
-def unearth_item(cmd, mine_action):
-    # If there are multiple possible products, randomly select one.
-    if mine_action.unearthed_item_type == "ghost":
-        item = random.choice([static_items.item_map.get('ectoplasm')])
-    elif mine_action.unearthed_item_type == "skeleton":
-        item = random.choice(vendors.mine_results + [static_items.item_map.get('bone')])
-    else:
-        item = random.choice(vendors.mine_results)
-    
-    if mine_action.unearthed_item_amount == 0:
-        mine_action.unearthed_item_amount = random.randrange(5, 7)
+def unearth_item(cmd, mine_action, mutations):    
+    # Do lifestate, pickaxe, & mutation checks if the chance is unchanged 
+    if mine_action.unearthed_item_chance != 1/ewcfg.unearthed_item_rarity:
+        if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
+            mine_action.unearthed_item_chance *= 2
+        elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
+            mine_action.unearthed_item_chance *= 1.5
+        if ewcfg.mutation_id_lucky in mutations:
+            mine_action.unearthed_item_chance *= 1.777
 
-
-    # If the player has inventory capacity, create unearthed items
-    if bknd_item.check_inv_capacity(user_data=mine_action.user_data, item_type=item.item_type):
-
-        item_props = itm_utils.gen_item_props(item)
-
-        for creation in range(mine_action.unearthed_item_amount):
-            bknd_item.item_create(
-                item_type=item.item_type,
-                id_user=cmd.message.author.id,
-                id_server=cmd.guild.id,
-                item_props=item_props
-            )
-        # Give correct response
-        if mine_action.unearthed_item_type != "":
-            mine_action.response += "You {} {} {} out of the {}! \n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), mine_action.unearthed_item_amount, item.str_name, mine_action.unearthed_item_type)
-        elif mine_action.unearthed_item_amount == 1:
-            mine_action.response += "You unearthed a {}! \n".format(item.str_name)
+    # Unearth item check        
+    if random.random() < mine_action.unearthed_item_chance:
+        # If there are multiple possible products, randomly select one.
+        if mine_action.unearthed_item_type == "ghost":
+            item = random.choice([static_items.item_map.get('ectoplasm')])
+        elif mine_action.unearthed_item_type == "skeleton":
+            item = random.choice(vendors.mine_results + [static_items.item_map.get('bone')])
         else:
-            mine_action.response += "You unearthed {} {}s! \n".format(mine_action.unearthed_item_amount, item.str_name)
+            item = random.choice(vendors.mine_results)
+        
+        if mine_action.unearthed_item_amount == 0:
+            mine_action.unearthed_item_amount = random.randrange(5, 7)
 
-        # Change POUDRINING stat
-        if item.str_name == "Slime Poudrin":
-            ewstats.change_stat(user=mine_action.user_data, metric=ewcfg.stat_lifetime_poudrins, n=mine_action.unearthed_item_amount)
+
+        # If the player has inventory capacity, create unearthed items
+        if bknd_item.check_inv_capacity(user_data=mine_action.user_data, item_type=item.item_type):
+
+            item_props = itm_utils.gen_item_props(item)
+
+            for creation in range(mine_action.unearthed_item_amount):
+                bknd_item.item_create(
+                    item_type=item.item_type,
+                    id_user=cmd.message.author.id,
+                    id_server=cmd.guild.id,
+                    item_props=item_props
+                )
+            # Give correct response
+            if mine_action.unearthed_item_type != "":
+                mine_action.response += "You {} {} {} out of the {}! \n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), mine_action.unearthed_item_amount, item.str_name, mine_action.unearthed_item_type)
+            elif mine_action.unearthed_item_amount == 1:
+                mine_action.response += "You unearthed a {}! \n".format(item.str_name)
+            else:
+                mine_action.response += "You unearthed {} {}s! \n".format(mine_action.unearthed_item_amount, item.str_name)
+
+            # Change POUDRINING stat
+            if item.str_name == "Slime Poudrin":
+                ewstats.change_stat(user=mine_action.user_data, metric=ewcfg.stat_lifetime_poudrins, n=mine_action.unearthed_item_amount)
 
 
 # Run lightminer and big john checks
