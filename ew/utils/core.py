@@ -752,9 +752,9 @@ def is_player_inventory(id_inventory, id_server):
     db_result = bknd_core.execute_sql_query("SELECT {} FROM users WHERE id_user = %s AND id_server = %s".format(
         ewcfg.col_rand_seed
     ), (
-        str(id_inventory),
+        int(id_inventory),
         id_server
-    ))
+    ), fetchone = True)
 
     if db_result and discord_result:
         return True
@@ -855,8 +855,8 @@ def is_district_empty(poi = ''):  # quick function to check presence in a distri
         id_user=ewcfg.col_id_user,
         time_last_action=ewcfg.col_time_last_action,
         time_last_enter = ewcfg.col_time_lastenter),
-        (poi, time_now-120, time_now-120))
-    if len(data) > 0:
+        (poi, time_now-120, time_now-120), fetchone = True)
+    if data is not None:
         return False
     else:
         return True
