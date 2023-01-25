@@ -566,7 +566,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     id_user=ewcfg.col_id_user,
                     poi = ewcfg.col_poi
                 ), (
-                    [str(id_server)]
+                    int(id_server)
                 ))
 
 
@@ -575,7 +575,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     poi=ewcfg.col_poi
                 ), (
                     'juviesrow',
-                    [str(id_server)]
+                    int(id_server)
                 ))
             iterator = 0
             for member in selection:
