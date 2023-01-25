@@ -386,7 +386,7 @@ def databaseClose(conn_info):
 """
 
 
-def execute_sql_query(sql_query = None, sql_replacements = None):
+def execute_sql_query(sql_query = None, sql_replacements = None, fetchone = False):
     data = None
     cursor = None
     conn_info = None
@@ -397,7 +397,7 @@ def execute_sql_query(sql_query = None, sql_replacements = None):
         cursor = conn.cursor()
         cursor.execute(sql_query, sql_replacements)
         if sql_query.lower().startswith("select"):
-            data = cursor.fetchall()
+            data = cursor.fetchall() if not fetchone else cursor.fetchone()
         conn.commit()
     finally:
         # Clean up the database handles.

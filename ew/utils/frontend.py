@@ -328,12 +328,12 @@ def find_kingpin(id_server, kingpin_role):
         id_server,
         ewcfg.life_state_kingpin,
         ewcfg.faction_rowdys if kingpin_role == ewcfg.role_rowdyfucker else ewcfg.faction_killers
-    ))
+    ), fetchone = True)
 
     kingpin = None
 
-    if len(data) > 0:
-        id_kingpin = data[0][0]
+    if data is not None:
+        id_kingpin = data[0]
         kingpin = EwUser(id_server=id_server, id_user=id_kingpin)
 
     return kingpin
