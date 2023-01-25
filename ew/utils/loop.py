@@ -1383,6 +1383,7 @@ async def clock_tick_loop(id_server, force_active = False):
                         ewutils.logMsg(f"Failed to expire blockparties in server {id_server}: {e}")
 
                     if market_data.day % 8 == 0 or force_active:
+                        continue # TODO: Turn off once alive players stop getting their user_data reset! :P
                         # Rent processing
                         try:
                             ewutils.logMsg("Started rent calc...")

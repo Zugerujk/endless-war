@@ -396,6 +396,7 @@ async def mine(cmd):
         else:
             grid_cont = None
             toolused = "nothing"
+            goonscape = False
             
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
@@ -499,16 +500,12 @@ async def mine(cmd):
                 
                 # Increase slime
                 mine_action.response += mine_action.user_data.change_slimes(n=mine_action.slime_yield, source=ewcfg.source_mining)
-
-                # Goonscap
-                xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
-                mine_action.user_data.persist()
-                responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
-
-            
+                
+                goonscape = True
 
             # Take hunger from user
-            hunger_cost = ewcfg.hunger_permine * mine_action.hunger_cost_multiplier
+            hunger_cost_mod = ewutils.hunger_cost_mod(mine_action.user_data.slimelevel)
+            hunger_cost = int(hunger_cost_mod) * mine_action.hunger_cost_multiplier
             mine_action.user_data.hunger += int(hunger_cost)
             
             # Liiiitle bit extra
@@ -517,11 +514,16 @@ async def mine(cmd):
                 # there's an x% chance that an extra stamina is deducted, where x is the fractional part of hunger_cost_mod in percent (times 100)
                 if random.randint(1, 100) <= extra_hunger * 100:
                     mine_action.user_data.hunger += ewcfg.hunger_permine
-
             
-            # Persist user_data. ONCE. AT THE END.
+            # Persist user_data :pleading:
+            user_data.persist()
 
-            
+            # Handle Goonscape stats
+            if goonscape:
+                xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
+                
+                responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+
             response = mine_action.response
             # Handle response container
             if len(response) > 1 or len(responses) > 0:
