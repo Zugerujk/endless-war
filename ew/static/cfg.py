@@ -56,7 +56,8 @@ public_gamestates = {
     'cratersvillehole':[1, '0', 0],
     'toxingtonhole':[1, '0', 0],
     'juviesrowhole':[1, '0', 0],
-    'hall_counter':[1, '1', 0]
+    'hall_counter':[1, '1', 0],
+    'bobocuatromorale':[0, '', 0]
 }
 
 forbidden_channels = ["suggestion-box"]

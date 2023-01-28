@@ -274,7 +274,7 @@ status_effect_list = [
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_enemy_hostile_id,
-        time_expire=86400,
+        time_expire=30,
         str_acquire="",
         str_describe="Oh shit, they're hostile!",
         str_describe_self=""

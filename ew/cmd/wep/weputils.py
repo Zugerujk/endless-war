@@ -850,8 +850,8 @@ async def attackEnemy(cmd):
         # slimes_directdamage = 0
         slimes_splatter = 0
     elif enemy_data.enemytype == ewcfg.enemy_type_npc:
-        slimes_drained *= 0.25
-        slimes_splatter *= 0.25
+        slimes_drained *= 0.5
+        slimes_splatter *= 0.5
 
     if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
