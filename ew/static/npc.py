@@ -59,7 +59,7 @@ EwNpc(
         image_profile = "https://cdn.discordapp.com/attachments/886372560135143424/994106498038890526/unknown-18.png",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
-        rarity=10,
+        rarity=7,
         rewards = [
         {ewcfg.item_id_oldcd: [100, 1, 1],
          }, #"bobocuatroscalp":[100, 1, 1]
