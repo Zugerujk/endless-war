@@ -192,11 +192,16 @@ async def avast(cmd):
 async def setsail(cmd):
     user_data = EwUser(member=cmd.message.author)
 
+
     if user_data.poi[:5] != 'yacht':
         response = "You have to do that when you're on a yacht."
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
-        if yacht.helm != user_data.id_user:
+        stats = yacht.getYachtStats()
+
+        if "harpooned" in stats:
+            response = "You're tied to another ship right now, no can do."
+        elif yacht.helm != user_data.id_user:
             response = "You aren't at the helm!"
         elif cmd.tokens_count == 1:
             response = "Which direction?"
@@ -222,6 +227,10 @@ async def setsail(cmd):
                 response = 'Drop anchor!'
             else:
                 response = ""
+            for stat in stats:
+                if stat.type_stat == 'gangplanked':
+                    yacht.clearStat(id_stat=stat.id_stat)
+
             yacht.persist()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -281,7 +290,7 @@ async def stock(cmd):
         stats = yacht.getYachtStats()
 
         if cmd.tokens[1] not in['harpoon', 'cannonball']:
-            response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes them out of balsa wood!\"\n\nTry a cannonball or a harpoon."
+            response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes the fuckers out of balsa wood!\"\n\nTry a cannonball or a harpoon."
 
         elif ('cannonball' in stats and cmd.tokens[1] == 'cannonball') or ('harpoon' in stats and cmd.tokens[1] == 'harpoon'):
             response = "They already have one. Don't go throwing shit around belowdeck, or the filth level's gonna go through the roof."
@@ -454,13 +463,39 @@ async def gangplank(cmd):
         response = "Be more specific, who are you trying to board?"
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
-        ally_stats = yacht.getYachtStats()
+        self_stats = yacht.getYachtStats()
 
         coord_me = [yacht.xcoord, yacht.ycoord]
 
         boats = yacht_utils.find_local_boats(current_coords=coord_me, id_server=cmd.guild.id, name=target_name)
         if len(boats) < 1:
-            response = ""
+            response = "There's nobody to gangplank with that name."
+        else:
+            chosen_boat = None
+            for boat in boats:
+                if boat.owner == yacht.owner:
+                    continue
+                else:
+                    chosen_boat = boat
+                    break
+
+            if chosen_boat is None:
+                response = "You can't gangplank yourself. Hey, somebody throw this guy overboard."
+            elif chosen_boat.direction != yacht.direction or yacht.direction != 'stop':
+                response = "One of you is still moving, you can't gangplank unless you're both stopped in the same place."
+            elif "gangplanked" in self_stats:
+                response = "You already gangplanked with somebody. You're a bit tied up at the moment."
+            else:
+                response = "You drop down the plank onto the {}!".format(chosen_boat.yacht_name)
+                target_response = "Someone's boarding! It's the {}!".format(yacht.yacht_name)
+                chosen_boat.applyStat(stat_type='gangplanked', target=yacht.thread_id)
+                yacht.applyStat(stat_type='gangplanked', target=chosen_boat.thread_id)
+                target_channel = chosen_boat.get_thread()
+                await fe_utils.send_message(cmd.client, target_channel,  target_response)
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
 
 
 

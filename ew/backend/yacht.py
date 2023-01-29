@@ -1,5 +1,5 @@
 import time
-
+import random
 from . import core as bknd_core
 from ..static import cfg as ewcfg
 from ew.utils import core as coreutils
@@ -177,7 +177,14 @@ class EwYacht():
             id_stat
         ))
 
+    def accumulate_filth(self, amount_filth = 1):
+        self.filth += amount_filth
+        self.persist()
 
+    def filth_check(self):
+        if random.randint(50, 150) > self.filth:
+            return False
+        return True
 
 class EwYachtStat():
     thread_id = -1 #Name of the affected yacht
