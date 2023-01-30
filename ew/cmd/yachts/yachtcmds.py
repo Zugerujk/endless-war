@@ -1,6 +1,7 @@
 import discord
+import time
 from ew.utils.combat import EwUser
-
+import ew.backend.item as bknd_item
 import ew.static.cfg as ewcfg
 from ew.backend.yacht import EwYacht
 from ew.utils import frontend as fe_utils
@@ -498,6 +499,49 @@ async def gangplank(cmd):
 
 
 
+async def seanet(cmd):
+    user_data = EwUser(member=cmd.message.author)
+
+    time_now = int(time.time())
+
+    if user_data.poi[:5] != 'yacht':
+        response = "You didn't find a net, so though you get ready to throw, I say no. Try it on a yacht."
+
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        stats = yacht.getYachtStats()
+        if yacht.direction != 'stop':
+            response = "You can only do that when the boat's not moving."
+        elif yacht.poopdeck != user_data.id_user:
+            response = "If you're gonna scoop shit from the bottom of the sea, you'll need to be on the poop deck."
+        elif 'netcast' in stats:
+            chosen_stat = None
+            for stat in stats:
+                if stat == 'netcast':
+                    chosen_stat=stat
+                    break
+
+            inventory_id = "slimesea{:03}{:03}".format(yacht.xcoord, yacht.ycoord)
+            sea_inv = bknd_item.inventory(id_user=inventory_id, id_server=cmd.guild.id)
+            response = "You pull up the net..."
+            if time_now - 60 > chosen_stat.quantity and len(sea_inv) > 0:
+                received_items = random.randint(0, len(sea_inv))
+                random.shuffle(sea_inv)
+                for x in range(received_items):
+                    item_obj = bknd_item.EwItem(id_item=sea_inv[x].get('id_item'))
+                    item_obj.id_owner = user_data.poi
+                    item_obj.persist()
+                    response += "\nYou caught a {}!".format(sea_inv[x].get('name'))
+
+                if received_items == 0:
+                    response += "and nothing's in it."
+            else:
+                response = "You pull up the net...and nothing's in it."
+        else:
+            response = "You drop the salvage net into the depths of the Slime Sea."
+            yacht.applyStat(stat_type='netcast', quantity=time_now)
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 
