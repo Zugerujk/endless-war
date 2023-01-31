@@ -1189,7 +1189,7 @@ async def give(cmd):
 """
 
 
-async def discard(cmd):
+async def discard(cmd, special_dest = None):
     user_data = EwUser(member=cmd.message.author)
     response = ""
 
@@ -1229,7 +1229,10 @@ async def discard(cmd):
             # 		return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
             response = "You throw away your " + item_sought.get("name")
-            itm_utils.item_drop(id_item=item.id_item)
+
+            if special_dest is not None and "slimesea" in special_dest:
+                response = "You toss your {} overboard.".format(item_sought.get("name"))
+            itm_utils.item_drop(id_item=item.id_item, other_poi=special_dest)
 
             await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 

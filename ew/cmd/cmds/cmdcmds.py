@@ -820,7 +820,12 @@ async def toss_off_cliff(cmd):
     item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
     item_sought = bknd_item.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=user_data.id_server)
 
-    if cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
+
+    if user_data.poi[:5] == 'yacht':
+        yacht = EwYacht(id_thread=int(user_data.poi[5:]), id_server=user_data.id_server)
+        destination = "slimesea{:03}{:03}".format(yacht.xcoord, yacht.ycoord)
+        return await ewitem.itemcmds.discard(cmd=cmd, special_dest=destination)
+    elif cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
         if item_sought:
             if item_sought.get('name') == "brick" and cmd.mentions_count > 0:
                 item = EwItem(id_item=item_sought.get('id_item'))
