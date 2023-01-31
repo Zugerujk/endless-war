@@ -150,16 +150,20 @@ async def man(cmd):
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
         yacht_utils.clear_station(id_server=cmd.guild.id, thread_id=yacht.thread_id, id_user=user_data.id_user)
 
-        if post == 'poopdeck':
-            yacht.poopdeck = user_data.id_user
-        elif post == 'helm':
-            yacht.helm = user_data.id_user
-        elif post == 'cannon':
-            yacht.cannon = user_data.id_user
-        elif post == 'storehouse':
-            yacht.storehouse = user_data.id_user
-        yacht.persist()
-        response = "You man the {}!".format(post)
+
+        if yacht.filth_check() and ewutils.flattenTokenListToString(cmd.tokens[1:]) != 'poopdeck':
+            response = "You slip on the poop deck and can't man anything! Which idiot forgot to swab?"
+        else:
+            if post == 'poopdeck':
+                yacht.poopdeck = user_data.id_user
+            elif post == 'helm':
+                yacht.helm = user_data.id_user
+            elif post == 'cannon':
+                yacht.cannon = user_data.id_user
+            elif post == 'storehouse':
+                yacht.storehouse = user_data.id_user
+            yacht.accumulate_filth()
+            response = "You man the {}!".format(post)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -204,6 +208,8 @@ async def setsail(cmd):
             response = "You're tied to another ship right now, no can do."
         elif yacht.helm != user_data.id_user:
             response = "You aren't at the helm!"
+        elif yacht.filth_check():
+            response = "The crew bumble around trying to shift course, but the poopdeck is too filthy! The fucking swabbies are slacking!"
         elif cmd.tokens_count == 1:
             response = "Which direction?"
         elif cmd.tokens[1] not in ['north', 'east', 'south', 'west', 'up', 'down', 'left', 'right', 'stop']:
@@ -232,7 +238,7 @@ async def setsail(cmd):
                 if stat.type_stat == 'gangplanked':
                     yacht.clearStat(id_stat=stat.id_stat)
 
-            yacht.persist()
+            yacht.accumulate_filth()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
@@ -292,7 +298,8 @@ async def stock(cmd):
 
         if cmd.tokens[1] not in['harpoon', 'cannonball']:
             response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes the fuckers out of balsa wood!\"\n\nTry a cannonball or a harpoon."
-
+        elif yacht.filth_check():
+            response = "You can't bring yourself to toss artillery on the ground, the filth down there will fuck up the cannons!"
         elif ('cannonball' in stats and cmd.tokens[1] == 'cannonball') or ('harpoon' in stats and cmd.tokens[1] == 'harpoon'):
             response = "They already have one. Don't go throwing shit around belowdeck, or the filth level's gonna go through the roof."
         elif user_data.id_user != yacht.storehouse:
@@ -300,6 +307,7 @@ async def stock(cmd):
         else:
             yacht.applyStat(stat_type=cmd.tokens[1], quantity=0, target = 0)
             response = "{} tosses a {} cannon-ways!".format(cmd.message.author.display_name, cmd.tokens[1])
+            yacht.accumulate_filth()
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -315,7 +323,8 @@ async def load(cmd):
 
         if cmd.tokens[1] not in ['harpoon', 'cannonball']:
             response = "Captain Albert's words echoed in your head. \"You can't just load anything into these cannons, laddy. Smitty makes them out of balsa wood!\"\n\nTry a cannonball or a harpoon."
-
+        elif yacht.filth_check():
+            response = "You reach over to load the {}, but nearly concuss yourself slipping over the greasy floors. Somebody forgot to swab...".format(cmd.tokens[1])
         elif ('cannonball' not in stats and cmd.tokens[1] == 'cannonball') or (
                 'harpoon' not in stats and cmd.tokens[1] == 'harpoon'):
             response = "You don't have one of those. Storehouse guy, chop chop!"
@@ -349,6 +358,8 @@ async def aim_ship(cmd):
 
         if yacht.helm != user_data.id_user:
             response = "You can't steer the ship to aim if you're not at the helm!"
+        elif yacht.filth_check():
+            response = "The stink lines on the deck completely obscure your vision! Somebody swab the poop deack already..."
         else:
 
             if 'aim' not in stats:
@@ -376,6 +387,7 @@ async def aim_ship(cmd):
                 response = "There's nothing to aim at with that name out here. Nothing important, at least."
 
             else:
+                yacht.accumulate_filth()
                 stat_sought.target = target_ship.thread_id
                 stat_sought.quantity = (target_ship.xcoord * 1000) + target_ship.ycoord #this creates a readable and distinct value for the coords locked into
                 stat_sought.persist()
@@ -398,7 +410,8 @@ async def fire_cannon(cmd):
 
         if yacht.cannon != user_data.id_user:
             response = "You need to be near the cannon to fire it."
-
+        elif yacht.filth_check():
+            response = "The cabin is so rank with filth that the humidity dampens the fuse! Can't fire until you swab the deck."
         else:
             loaded = False
             aimed = False
@@ -471,6 +484,8 @@ async def gangplank(cmd):
         boats = yacht_utils.find_local_boats(current_coords=coord_me, id_server=cmd.guild.id, name=target_name)
         if len(boats) < 1:
             response = "There's nobody to gangplank with that name."
+        elif yacht.filth_check():
+            response = "You can't find the plank under all this filth. God dammit, where is that blasted thing!"
         else:
             chosen_boat = None
             for boat in boats:
@@ -487,6 +502,7 @@ async def gangplank(cmd):
             elif "gangplanked" in self_stats:
                 response = "You already gangplanked with somebody. You're a bit tied up at the moment."
             else:
+                yacht.accumulate_filth()
                 response = "You drop down the plank onto the {}!".format(chosen_boat.yacht_name)
                 target_response = "Someone's boarding! It's the {}!".format(yacht.yacht_name)
                 chosen_boat.applyStat(stat_type='gangplanked', target=yacht.thread_id)
@@ -514,6 +530,8 @@ async def seanet(cmd):
             response = "You can only do that when the boat's not moving."
         elif yacht.poopdeck != user_data.id_user:
             response = "If you're gonna scoop shit from the bottom of the sea, you'll need to be on the poop deck."
+        elif yacht.filth_check():
+            response = "Your sea net is already full. Too much chum and filth that SOMEBODY forgot to swab."
         elif 'netcast' in stats:
             chosen_stat = None
             for stat in stats:
@@ -524,6 +542,7 @@ async def seanet(cmd):
             inventory_id = "slimesea{:03}{:03}".format(yacht.xcoord, yacht.ycoord)
             sea_inv = bknd_item.inventory(id_user=inventory_id, id_server=cmd.guild.id)
             response = "You pull up the net..."
+            yacht.accumulate_filth()
             if time_now - 60 > chosen_stat.quantity and len(sea_inv) > 0:
                 received_items = random.randint(0, len(sea_inv))
                 random.shuffle(sea_inv)
@@ -538,6 +557,7 @@ async def seanet(cmd):
             else:
                 response = "You pull up the net...and nothing's in it."
         else:
+            yacht.accumulate_filth()
             response = "You drop the salvage net into the depths of the Slime Sea."
             yacht.applyStat(stat_type='netcast', quantity=time_now)
 
