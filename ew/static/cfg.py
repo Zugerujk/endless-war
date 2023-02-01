@@ -1490,7 +1490,7 @@ hunger_pershot = 10
 hunger_perspar = 10
 hunger_perfarm = 50
 hunger_permine = 1
-hunger_perminereset = 25
+hunger_perminereset = 30
 hunger_perfish = 15
 hunger_perscavenge = 2
 hunger_pertick = 3
@@ -1931,6 +1931,18 @@ emote_ms_6 = ":six:"
 emote_ms_7 = ":seven:"
 emote_ms_8 = ":eight:"
 
+# Emotes for Bubblebreaker - all unused. Can't do custom emotes emotes sadly (crops), message becomes too long to be sent as 1
+emote_bb_empty = "➰"
+emote_bb_0 = "🍍"
+emote_bb_1 = "🍓"
+emote_bb_2 = "🍇"
+emote_bb_3 = "🥑"
+emote_bb_4 = "🫐"
+emote_bb_glob = "🥭"  
+
+# Emote for poudrin
+emote_poudrin = "<:poudrin:638900988560015400>"
+
 # Emote for deleting slime tweets
 emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
@@ -2013,6 +2025,25 @@ cell_bubble_2 = "2"
 cell_bubble_3 = "3"
 cell_bubble_4 = "4"
 cell_bubble_glob = "⋆"
+
+bubble_emote_map = {
+    cell_bubble_empty: emote_bb_empty,
+    cell_bubble_0: emote_bb_0,
+    cell_bubble_1: emote_bb_1,
+    cell_bubble_2: emote_bb_2,
+    cell_bubble_3: emote_bb_3,
+    cell_bubble_4: emote_bb_4,
+    cell_bubble_glob: emote_bb_glob,
+}
+
+# first letter of each fruit
+letter_to_cell = {
+    "p": "5",
+    "s": "1",
+    "g": "2",
+    "a": "3",
+    "b": "4",
+}
 
 cell_bubbles = [
     cell_bubble_0,
@@ -5207,7 +5238,10 @@ item_id_aushucks: emote_aushucks,
 item_id_partypoppeppers: emote_partypoppeppers,
 }
 
+# Not actual world events - used for mining.
 event_type_slimeglob = "slimeglob"
+event_type_poudringlob = "poudringlob"
+
 event_type_slimefrenzy = "slimefrenzy"
 event_type_poudrinfrenzy = "poudrinfrenzy"
 event_type_minecollapse = "minecollapse"

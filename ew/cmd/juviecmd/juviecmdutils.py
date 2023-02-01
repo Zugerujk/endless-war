@@ -95,6 +95,7 @@ class EwMineAction:
     hunger_cost_multiplier = 0
     slime_yield = 0
     bonus_slime_yield = 0
+    value_mod = 0.0
 
     collapse = False
     collapse_penalty = 0.0
@@ -115,6 +116,7 @@ class EwMineAction:
                  hunger_cost_multiplier = 0,
                  slime_yield = 0,
                  bonus_slime_yield = 0,
+                 value_mod = 0.0,
                  collapse = False,
                  collapse_penalty = 0.0,
                  unearthed_item_chance = 0.0,
@@ -128,6 +130,7 @@ class EwMineAction:
         self.hunger_cost_multiplier = hunger_cost_multiplier
         self.slime_yield = slime_yield
         self.bonus_slime_yield = bonus_slime_yield
+        self.value_mod = value_mod
         self.collapse = collapse
         self.collapse_penalty = collapse_penalty
         self.unearthed_item_chance = unearthed_item_chance
@@ -266,7 +269,7 @@ def init_grid_none(poi, id_server):
         mines_map.get(poi)[id_server] = grid_cont
 
 
-async def print_grid(cmd, poi, grid_cont):
+async def print_grid(cmd, poi, grid_cont, mutations):
     # poi = mine_action.user_data.poi
     # id_server = cmd.guild.id
 
@@ -279,7 +282,7 @@ async def print_grid(cmd, poi, grid_cont):
     if grid_cont.grid_type == ewcfg.mine_grid_type_minesweeper:
         return await print_grid_minesweeper(cmd, poi, grid_cont)
     elif grid_cont.grid_type == ewcfg.mine_grid_type_bubblebreaker:
-        return await print_grid_bubblebreaker(cmd, poi, grid_cont)
+        return await print_grid_bubblebreaker(cmd, poi, grid_cont, mutations)
 
 
 async def print_grid_minesweeper(cmd, poi, grid_cont):
@@ -344,19 +347,24 @@ async def print_grid_minesweeper(cmd, poi, grid_cont):
         grid_cont.wall_message = await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
 
 
-async def print_grid_bubblebreaker(cmd, poi, grid_cont):
+async def print_grid_bubblebreaker(cmd, poi, grid_cont, mutations):
     grid_str = ""
     poi = poi
     id_server = cmd.guild.id
     time_now = int(time.time())
 
     use_emotes = False
+    if ewcfg.mutation_id_dyslexia in mutations:
+        use_emotes = True
     grid = grid_cont.grid
 
     # grid_str += "   "
     for j in range(len(grid[0])):
         letter = ewcfg.alphabet[j]
-        grid_str += "{} ".format(letter)
+        if use_emotes:
+            grid_str += ":regional_indicator_{}:".format(letter)
+        else:
+            grid_str += "{} ".format(letter)
     grid_str += "\n"
     for i in range(len(grid)):
         row = grid[i]
@@ -366,17 +374,20 @@ async def print_grid_bubblebreaker(cmd, poi, grid_cont):
         # grid_str += "{} ".format(i+1)
         for j in range(len(row)):
             cell = row[j]
-            cell_str = get_cell_symbol_bubblebreaker(cell)
+            cell_str = get_cell_symbol_bubblebreaker(cell) + " "
             if use_emotes:
-                cell_str = ewcfg.number_emote_map.get(int(cell))
-            grid_str += cell_str + " "
+                cell_str = ewcfg.bubble_emote_map.get(cell)
+            grid_str += cell_str
         # grid_str += "{}".format(i+1)
         grid_str += "\n"
 
     # grid_str += "   "
     for j in range(len(grid[0])):
         letter = ewcfg.alphabet[j]
-        grid_str += "{} ".format(letter)
+        if use_emotes:
+            grid_str += ":regional_indicator_{}:".format(letter)
+        else:
+            grid_str += "{} ".format(letter)
 
     grid_edit = "\n```\n{}\n```".format(grid_str)
     if use_emotes:
@@ -527,7 +538,7 @@ def add_row(grid):
         if cell in [ewcfg.cell_bubble_empty, ewcfg.cell_bubble_glob]:
             cell = random.choice(ewcfg.cell_bubbles)
         
-        if 0.3 < randomn < 0.307:
+        if 0.3 < randomn < 0.308:  # .8% chance
             cell = ewcfg.cell_bubble_glob
 
         new_row.append(cell)
@@ -666,11 +677,16 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
 
         if col < 1:
             for char in token_lower:
+                if col != -1:
+                    break
                 if char in ewcfg.alphabet:
                     col = ewcfg.alphabet.index(char)
                     token_lower = token_lower.replace(char, "")
         if bubble_add == None:
             bubble = token_lower
+            # Change from letter to corresponding number
+            if bubble in ewcfg.letter_to_cell.keys():
+                bubble = ewcfg.letter_to_cell[bubble]
             if bubble in ewcfg.cell_bubbles:
                 bubble_add = bubble
 
@@ -697,12 +713,13 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
         cells_to_check = apply_gravity(grid)
         cells_to_check.append((row, col))
         slimes_pertile = 1.8 * get_mining_yield_default(mine_action.user_data)
+        mine_action.value_mod = 0.0
         
         # Check dropped cell, if exploded re-apply gravity and keep checking cells.
         while len(cells_to_check) > 0:
             bubbles_popped = check_and_explode(grid, cells_to_check)
 
-
+            mine_action.value_mod += bubbles_popped * (4/17)  # Every 4 !mines, 13 bubbles spawn. Thus, 4/17.
             mine_action.slime_yield += slimes_pertile * bubbles_popped
             mine_action.grid_effect = 1
 
@@ -788,7 +805,7 @@ def check_for_minecollapse(cmd, world_events, mine_action):
                         event_data.event_props['mines'] = int(event_data.event_props['mines']) + 1
                         event_data.persist()
 
-                        mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
+                        mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})\n".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
 
                     else:
                         mine_action.valid = True
@@ -871,132 +888,142 @@ def check_for_mining_world_events(world_events, mine_action):
 
 
 
-def create_mining_event(cmd, mine_action):
-    randomn = random.random()
-    time_now = int(time.time())
-    mine_district_data = EwDistrict(district=mine_action.user_data.poi, id_server=mine_action.user_data.id_server)
+def create_mining_event(cmd, mine_action, mutations, grid_type):
+    event_chance = 0.04 * mine_action.value_mod  # base chance
 
-    life_states = [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile]
-    num_miners = len(mine_district_data.get_players_in_district(life_states=life_states, ignore_offline=True))
-
-    # To be safe
-    if num_miners == 0:
-        num_miners = 1
-
-    common_event_chance = 0.7  # 7/10, not used
-    uncommon_event_chance = 0.3  # 3/10
-    rare_event_chance = 0.05 / num_miners  #  1/2 usual chance for 2 miners, 1/3 for 3 miners etc.
-    event_type = ""
-
-    common_event_triggered = False
-    uncommon_event_triggered = False
-    rare_event_triggered = False
-
-    if randomn < rare_event_chance: # 5% chance, divided by # of players
-        rare_event_triggered = True
-    elif randomn < (uncommon_event_chance + rare_event_chance): # Always 30%
-        uncommon_event_triggered = True
-    else:       # 70% - rare_event_chance (usually 5%)
-        common_event_triggered = True 
-
-    # common event
-    if common_event_triggered:
-        randomn = random.random()
-
-        #Forces all common events into mineshaft collapses if you have a sledgehammer
-        if mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active:
-            event_type = ewcfg.event_type_minecollapse
-        # 4x glob of slime
-        elif randomn < 0.5:
-            event_type = ewcfg.event_type_slimeglob
-        # 30 seconds slimefrenzy
-        else:
-            event_type = ewcfg.event_type_slimefrenzy
-
-    # uncommon event
-    elif uncommon_event_triggered:
-        randomn = random.random()
-
-        # mine shaft collapse
-        if randomn < 0.5:
-            event_type = ewcfg.event_type_minecollapse
-        # 10 second poudrin frenzy
-        else:
-            event_type = ewcfg.event_type_poudrinfrenzy
-
-    # rare event
-    elif rare_event_triggered:
-        randomn = random.random()
-
-        # gap into the void
-        if randomn < 0.5:
-            event_type = ewcfg.event_type_voidhole
-        # You beat up a skeleton - get poudrins and monsterbones
-        elif randomn < 0.75:
-            event_type = ewcfg.event_type_spookyskeleton
-        # You beat up a ghost - get triple slime and mine ectoplasm
-        else:
-            event_type = ewcfg.event_type_spookyghost
-
-
-    if event_type != "":
-        # Slime glob isn't a worldevent
-        if event_type == ewcfg.event_type_slimeglob:
-            mine_action.slime_yield *= 4
-        else:
-            event_props = {}
-            # Time table for how many seconds events should last
-            event_to_time = {
-                ewcfg.event_type_slimefrenzy: 30,
-                ewcfg.event_type_minecollapse: 60,
-                ewcfg.event_type_poudrinfrenzy: 5,
-                ewcfg.event_type_voidhole: 15,
-                ewcfg.event_type_spookyskeleton: 15,
-                ewcfg.event_type_spookyghost: 15,
-            }
-
-            # Get the expiry time and event definition
-            time_expir = time_now + event_to_time.get(event_type)
-            event_def = poi_static.event_type_to_def.get(event_type)
-            str_event_start = event_def.str_event_start
-
-
-            # Create generic event props
-            event_props['id_user'] = cmd.message.author.id
-            event_props['poi'] = mine_action.user_data.poi
-            event_props['channel'] = cmd.message.channel.name
-
-            # Create mine collapse-specific props
-            if event_type == ewcfg.event_type_minecollapse:
-                event_props['captcha'] = ewutils.generate_captcha(length=8, user_data=mine_action.user_data)
-                event_props['mines'] = 0
-                str_event_start = str_event_start.format(cmd=ewcfg.cmd_mine, captcha=ewutils.text_to_regional_indicator(event_props.get('captcha')))
-
-            # Create the world event
-            bknd_worldevent.create_world_event(
-                id_server=cmd.guild.id,
-                event_type=event_type,
-                time_activate=time_now,
-                time_expir=time_expir,
-                event_props=event_props
-            )
-            
-            # Add event creation to the !mine response
-            mine_action.response += str_event_start + "\n"
-
-
-def unearth_item(cmd, mine_action, mutations):    
-    # Do lifestate, pickaxe, & mutation checks if the chance is unchanged 
-    if mine_action.unearthed_item_chance != 1/ewcfg.unearthed_item_rarity:
-        if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
-            mine_action.unearthed_item_chance *= 2
-        elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
-            mine_action.unearthed_item_chance *= 1.5
+    # If the probability is not 0
+    if event_chance != 0.0:
+        # If user is a juvie/has a pickaxe, flat +1%. If user has Lucky, flat +1%.
+        if mine_action.toolused == "pickaxe" or mine_action.user_data.life_state == ewcfg.life_state_juvenile:
+            event_chance += 0.075
         if ewcfg.mutation_id_lucky in mutations:
-            mine_action.unearthed_item_chance *= 1.777
+            event_chance += 0.075
+
+    if random.random() < event_chance:
+        randomn = random.random()
+        time_now = int(time.time())
+        mine_district_data = EwDistrict(district=mine_action.user_data.poi, id_server=mine_action.user_data.id_server)
+
+        life_states = [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile]
+        num_miners = len(mine_district_data.get_players_in_district(life_states=life_states, ignore_offline=True))
+
+        # To be safe
+        if num_miners == 0:
+            num_miners = 1
+
+        common_event_chance = 0.7  # 7/10, not used
+        uncommon_event_chance = 0.3  # 3/10
+        rare_event_chance = 0.05 / num_miners  #  1/2 usual chance for 2 miners, 1/3 for 3 miners etc.
+        event_type = ""
+
+        common_event_triggered = False
+        uncommon_event_triggered = False
+        rare_event_triggered = False
+
+        if randomn < rare_event_chance: # 5% chance, divided by # of players
+            rare_event_triggered = True
+        elif randomn < (uncommon_event_chance + rare_event_chance): # Always 30%
+            uncommon_event_triggered = True
+        else:       # 70% - rare_event_chance (usually 5%)
+            common_event_triggered = True 
+
+        # common event
+        if common_event_triggered:
+            randomn = random.random()
+            #Forces all common events into mineshaft collapses if you have a sledgehammer
+            if mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active:
+                event_type = ewcfg.event_type_minecollapse
+            elif randomn < 0.5:
+                event_type = ewcfg.event_type_slimeglob  # 4x glob of slime
+            else:
+                event_type = ewcfg.event_type_slimefrenzy  # 30 second slimefrenzy
+
+        # uncommon event
+        elif uncommon_event_triggered:
+            randomn = random.random()
+            # mine shaft collapse
+            if randomn < 0.5:
+                event_type = ewcfg.event_type_minecollapse
+            elif randomn < 0.9:
+                event_type = ewcfg.event_type_poudrinfrenzy  # 10 second poudrin frenzy
+            else:
+                event_type = ewcfg.event_type_poudringlob  # 3-6 poudrins
+
+        # rare event
+        elif rare_event_triggered:
+            randomn = random.random()
+            if randomn < 0.5:
+                event_type = ewcfg.event_type_voidhole  # gap into the void
+            elif randomn < 0.75:
+                event_type = ewcfg.event_type_spookyskeleton  # 15 second mine poudrins and bones
+            else:
+                event_type = ewcfg.event_type_spookyghost  # 15 second triple slime and mine ectoplasm
+
+
+        if event_type != "":
+            # Correct from time-based events to individual events in MS and BB
+            if grid_type in [ewcfg.mine_grid_type_bubblebreaker, ewcfg.mine_grid_type_minesweeper]:  
+                if event_type in [ewcfg.event_type_slimefrenzy, ewcfg.event_type_spookyghost]:  # slime-focused
+                    event_type = ewcfg.event_type_slimeglob
+                elif event_type in [ewcfg.event_type_poudrinfrenzy, ewcfg.event_type_spookyskeleton]:  # poudrin-focused
+                    event_type = ewcfg.event_type_poudringlob
+
+            if event_type == ewcfg.event_type_slimeglob:  # Slime glob isn't a worldevent
+                mine_action.slime_yield *= 4
+                mine_action.response += "You mined an extra big glob of slime! {}\n".format(ewcfg.emote_slime1)
+
+            elif event_type == ewcfg.event_type_poudringlob:  # Poudrin glob isn't a worldevent
+                mine_action.unearthed_item_chance = 1
+                mine_action.unearthed_item_amount = random.randrange(3, 6) 
+                mine_action.response += "You mine into an underground vein! "                
+            
+            else:
+                event_props = {}
+                # Time table for how many seconds events should last
+                event_to_time = {
+                    ewcfg.event_type_slimefrenzy: 30,
+                    ewcfg.event_type_minecollapse: 60,
+                    ewcfg.event_type_poudrinfrenzy: 5,
+                    ewcfg.event_type_voidhole: 30,
+                    ewcfg.event_type_spookyskeleton: 15,
+                    ewcfg.event_type_spookyghost: 15,
+                }
+
+                # Get the expiry time and event definition
+                time_expir = time_now + event_to_time.get(event_type)
+                event_def = poi_static.event_type_to_def.get(event_type)
+                str_event_start = event_def.str_event_start
+
+                # Create generic event props
+                event_props['id_user'] = cmd.message.author.id
+                event_props['poi'] = mine_action.user_data.poi
+                event_props['channel'] = cmd.message.channel.name
+
+                # Create mine collapse-specific props
+                if event_type == ewcfg.event_type_minecollapse:
+                    event_props['captcha'] = ewutils.generate_captcha(length=8, user_data=mine_action.user_data)
+                    event_props['mines'] = 0
+                    str_event_start = str_event_start.format(cmd=ewcfg.cmd_mine, captcha=ewutils.text_to_regional_indicator(event_props.get('captcha')))
+
+                # Create the world event
+                bknd_worldevent.create_world_event(
+                    id_server=cmd.guild.id,
+                    event_type=event_type,
+                    time_activate=time_now,
+                    time_expir=time_expir,
+                    event_props=event_props
+                )
+                
+                # Add event creation to the !mine response
+                mine_action.response += str_event_start + "\n"
+
+
+def unearth_item(cmd, mine_action, mutations):
 
     # Unearth item check        
     if random.random() < mine_action.unearthed_item_chance:
+        unearth_icon = ""
+
         # If there are multiple possible products, randomly select one.
         if mine_action.unearthed_item_type == "ghost":
             item = random.choice([static_items.item_map.get('ectoplasm')])
@@ -1006,7 +1033,7 @@ def unearth_item(cmd, mine_action, mutations):
             item = random.choice(vendors.mine_results)
         
         if mine_action.unearthed_item_amount == 0:
-            mine_action.unearthed_item_amount = random.randrange(5, 7)
+            mine_action.unearthed_item_amount = 1
 
 
         # If the player has inventory capacity, create unearthed items
@@ -1021,17 +1048,20 @@ def unearth_item(cmd, mine_action, mutations):
                     id_server=cmd.guild.id,
                     item_props=item_props
                 )
-            # Give correct response
-            if mine_action.unearthed_item_type != "":
-                mine_action.response += "You {} {} {} out of the {}! \n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), mine_action.unearthed_item_amount, item.str_name, mine_action.unearthed_item_type)
-            elif mine_action.unearthed_item_amount == 1:
-                mine_action.response += "You unearthed a {}! \n".format(item.str_name)
-            else:
-                mine_action.response += "You unearthed {} {}s! \n".format(mine_action.unearthed_item_amount, item.str_name)
 
-            # Change POUDRINING stat
+            # Change POUDRINING stat, add poudrin icon
             if item.str_name == "Slime Poudrin":
                 ewstats.change_stat(user=mine_action.user_data, metric=ewcfg.stat_lifetime_poudrins, n=mine_action.unearthed_item_amount)
+                unearth_icon = ewcfg.emote_poudrin
+
+            # Give correct response
+            if mine_action.unearthed_item_type != "":
+                mine_action.response += "You {} {} {} out of the {}! {}\n".format(random.choice(["beat", "smack", "strike", "!mine", "brutalize"]), mine_action.unearthed_item_amount, item.str_name, mine_action.unearthed_item_type, unearth_icon)
+            elif mine_action.unearthed_item_amount == 1:
+                mine_action.response += "You unearthed a {}! {}\n".format(item.str_name, unearth_icon)
+            else:
+                mine_action.response += "You unearthed {} {}s! {}\n".format(mine_action.unearthed_item_amount, item.str_name, unearth_icon)
+
 
 
 # Run lightminer and big john checks

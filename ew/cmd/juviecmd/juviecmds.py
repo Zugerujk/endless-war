@@ -395,6 +395,7 @@ async def mine(cmd):
 
         else:
             grid_cont = None
+            grid_type = ""
             toolused = "nothing"
             
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
@@ -431,7 +432,8 @@ async def mine(cmd):
                                                      hunger_cost_multiplier=1,
                                                      toolused=toolused,
                                                      response=response,
-                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity, # 1/1500
+                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,  # 1/1500
+                                                     value_mod=1,  # Var for determining other random calcs
             )
             
             # Check for a mine collapse
@@ -457,9 +459,8 @@ async def mine(cmd):
                     poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
                     juviecmdutils.dig_hole(cmd, mine_action, poi)
 
-                # Check to create a world event
-                if random.random() < 0.05:
-                    create_mining_event(cmd, mine_action)
+                # Check to create a mining event
+                create_mining_event(cmd, mine_action, mutations, grid_type)
 
                 # Check to unearth an item
                 juviecmdutils.unearth_item(cmd, mine_action, mutations)
@@ -523,13 +524,13 @@ async def mine(cmd):
             
             # Add grid print or make a new grid, at the very end <3 
             if mine_action.grid_effect == 1:
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
             elif mine_action.grid_effect == 2:
                 init_grid(mine_action.user_data.poi, mine_action.user_data.id_server)
 
                 grid_cont = juviecmdutils.mines_map.get(mine_action.user_data.poi).get(mine_action.user_data.id_server)
 
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
 
             return
 
