@@ -92,7 +92,8 @@ async def event_tick(id_server):
                 try:
                     event_data = EwWorldEvent(id_event=row[0])
                     event_def = poi_static.event_type_to_def.get(event_data.event_type)
-
+                    if event_def and event_def.function_on_end is not None:
+                        await event_def.function_on_end
                     response = event_def.str_event_end if event_def else ""
                     if event_data.event_type == ewcfg.event_type_minecollapse:
                         user_data = EwUser(id_user=event_data.event_props.get('id_user'), id_server=id_server)
@@ -157,6 +158,9 @@ async def event_tick(id_server):
             try:
                 event_data = EwWorldEvent(id_event=row[0])
                 event_def = poi_static.event_type_to_def.get(event_data.event_type)
+
+                if event_def and event_def.function_on_activate is not None:
+                    await event_def.function_on_activate
 
                 # If the event is a POI event
                 if event_data.event_type in ewcfg.poi_events:
