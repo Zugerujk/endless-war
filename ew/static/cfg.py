@@ -57,7 +57,8 @@ public_gamestates = {
     'toxingtonhole':[1, '0', 0],
     'juviesrowhole':[1, '0', 0],
     'hall_counter':[1, '1', 0],
-    'bobocuatromorale':[0, '', 0]
+    'bobocuatromorale':[0, '', 0],
+    'hydraulicpress':[0, '', 3000000]
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -878,6 +879,7 @@ cmd_banish = cmd_prefix + 'banish'
 cmd_moveitem = cmd_prefix + 'moveitem'
 cmd_vouch = cmd_prefix + 'vouch'
 cmd_vote = cmd_prefix + 'vote'
+cmd_hydraulicpress = cmd_prefix + 'hydraulicpress'
 cmd_writhe = cmd_prefix + 'writhe'
 cmd_use = cmd_prefix + 'use'
 cmd_eat = cmd_prefix + 'eat'

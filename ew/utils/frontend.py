@@ -776,13 +776,17 @@ async def prompt(cmd = None, target = None, question = "", wait_time = 30, accep
         await send_message(cmd.client, cmd.message.channel, text=question)
 
         try:
-            message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == (target if checktarget else cmd.message.author) and message.content.lower() in [final_accept, final_decline])
+            message = await cmd.client.wait_for('message', timeout=wait_time, check=lambda message: message.author == (target if checktarget else cmd.message.author) and message.content.lower() in [final_accept, final_decline])
 
             if message is not None:
                 if message.content.lower() == final_accept:
                     accepted = True
-                if message.content.lower() == final_decline:
+                elif message.content.lower() == final_decline:
                     accepted = False
+                else:
+                    accepted = False
+            else:
+                accepted = False
 
         except Exception as e:
             ewutils.logMsg("Frontend util prompt threw Exception: {}".format(e))
