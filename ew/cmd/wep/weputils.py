@@ -771,10 +771,11 @@ async def attackEnemy(cmd):
 
             # SLIMERNALIA
             factions = ["", bystander_faction]
+            poi_data = poi_static.id_to_poi.get(user_data.poi, ewcfg.poi_id_juviesrow)
 
             # Burn players in district
             if ewcfg.weapon_class_burning in weapon.classes:
-                if not miss:
+                if (not miss) and poi_data.pvp:
                     resp = await apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
                     resp_cont.add_response_container(resp)
 
@@ -783,7 +784,7 @@ async def attackEnemy(cmd):
                 user_data.persist()
                 enemy_data.persist()
 
-                if not miss:
+                if (not miss) and poi_data.pvp:
                     # Damage players/enemies in district
                     resp = await weapon_explosion(user_data=user_data, shootee_data=enemy_data, district_data=district_data, market_data=market_data, life_states=life_states, factions=factions, slimes_damage=bystander_damage, time_now=time_now, target_enemy=True)
                     resp_cont.add_response_container(resp)
@@ -996,7 +997,7 @@ async def attackEnemy(cmd):
 
 
     else:
-        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc and (not miss):
             npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
             user_data.persist()
             await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)

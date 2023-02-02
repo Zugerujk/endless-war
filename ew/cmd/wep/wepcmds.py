@@ -1071,10 +1071,10 @@ async def marry(cmd):
     already_getting_married = False
     mutations = user_data.get_mutations()
 
-    for event_id in world_events:
-        if world_events.get(event_id) == ewcfg.event_type_marriageceremony:
+    for event_id, etype in world_events.items():
+        if etype == ewcfg.event_type_marriageceremony:
             world_event = EwWorldEvent(id_event=event_id)
-            if world_event.event_props.get("user_id") == user_data.id_user:
+            if int(world_event.event_props.get("user_id")) == user_data.id_user:
                 already_getting_married = True
                 break
 
