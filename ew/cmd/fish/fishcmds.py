@@ -359,7 +359,7 @@ async def cast(cmd):
                     time_to_wait = 5
 
                 time_to_wait = int(round(time_to_wait))
-                asyncio.sleep(time_to_wait)  # Pause
+                await asyncio.sleep(time_to_wait)  # Pause
 
                 # Cancel if fishing was interrupted
                 if current_fishing_id != fisher.fishing_id:
