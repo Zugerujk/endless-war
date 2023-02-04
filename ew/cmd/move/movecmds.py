@@ -858,7 +858,7 @@ async def scout(cmd):
 
         # No filtering is done on enemies themselves. Enemies that pose a threat to the player are filtered instead.
         enemies_in_district = district_data.get_enemies_in_district(scout_used=True)
-        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True)
+        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True, npc_threats_only=True)
 
         num_enemies = 0
         enemies_resp = ""
@@ -1088,6 +1088,34 @@ async def teleport(cmd):
             response = "You don't even know what that MEANS."
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def teleport_player_multi(cmd):
+    author = cmd.message.author
+    user_data = EwUser(member=author)
+
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
+        return
+
+    if cmd.mentions_count >= 1 and cmd.tokens_count >= 3:
+        destination = cmd.tokens[1].lower()
+        new_poi = poi_static.id_to_poi.get(destination)
+
+        for target in cmd.mentions:
+            if target != None and new_poi != None:
+                target_user = EwUser(member=target)
+                target_player = EwPlayer(id_user=target_user.id_user)
+
+                ewutils.moves_active[target_user.id_user] = 0
+
+                target_user.poi = new_poi.id_poi
+                target_user.persist()
+
+                response = "{} has been teleported to {}".format(target_player.display_name, new_poi.id_poi)
+
+                await ewrolemgr.updateRoles(client=cmd.client, member=target)
+
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def teleport_player(cmd):

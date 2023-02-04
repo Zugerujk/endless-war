@@ -159,22 +159,24 @@ async def revive(cmd, player_auto = None):
 
             response = '{slime4} Geysers of fresh slime erupt from every manhole in the city, showering their surrounding districts. {slime4} {name} has been reborn in slime. {slime4}'.format(
                 slime4=ewcfg.emote_slime4, name=cmd.message.author.display_name)
+            
+            if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
+                reunite = ""
+                brain = sl_static.brain_map.get(slimeoid.ai)
+                reunite += brain.str_revive.format(
+                    slimeoid_name=slimeoid.name
+                )
+                new_poi = poi_static.id_to_poi.get(player_data.poi)
+                revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
+                reunite = fe_utils.formatMessage(cmd.message.author, reunite)
+                await fe_utils.send_message(cmd.client, revivechannel, reunite)
+                
         else:
             response = 'You\'re not dead just yet.'
 
         #	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.display_name, ewcfg.emote_slimeskull)
         #	deathreport = "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(member, deathreport)
 
-        if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
-            reunite = ""
-            brain = sl_static.brain_map.get(slimeoid.ai)
-            reunite += brain.str_revive.format(
-                slimeoid_name=slimeoid.name
-            )
-            new_poi = poi_static.id_to_poi.get(player_data.poi)
-            revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
-            reunite = fe_utils.formatMessage(cmd.message.author, reunite)
-            await fe_utils.send_message(cmd.client, revivechannel, reunite)
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

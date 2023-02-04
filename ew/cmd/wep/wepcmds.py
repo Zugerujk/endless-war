@@ -1071,10 +1071,10 @@ async def marry(cmd):
     already_getting_married = False
     mutations = user_data.get_mutations()
 
-    for event_id in world_events:
-        if world_events.get(event_id) == ewcfg.event_type_marriageceremony:
+    for event_id, etype in world_events.items():
+        if etype == ewcfg.event_type_marriageceremony:
             world_event = EwWorldEvent(id_event=event_id)
-            if world_event.event_props.get("user_id") == user_data.id_user:
+            if int(world_event.event_props.get("user_id")) == user_data.id_user:
                 already_getting_married = True
                 break
 
@@ -1447,9 +1447,9 @@ async def spray(cmd):
 
             shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, None, None)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg']
 
             slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 300)
             slimes_damage = int((50000 + slimes_spent * 10) * (100 + (user_data.weaponskill * 5)) / 100.0)

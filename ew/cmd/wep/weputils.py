@@ -653,9 +653,9 @@ async def attackEnemy(cmd):
     shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, enemy_data, hitzone)
     shootee_status_mods = cmbt_utils.get_shootee_status_mods(enemy_data, user_data, hitzone)
 
-    hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-    crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-    dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+    hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+    crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+    dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
     slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 30)
     # disabled until held items update
@@ -771,10 +771,11 @@ async def attackEnemy(cmd):
 
             # SLIMERNALIA
             factions = ["", bystander_faction]
+            poi_data = poi_static.id_to_poi.get(user_data.poi, ewcfg.poi_id_juviesrow)
 
             # Burn players in district
             if ewcfg.weapon_class_burning in weapon.classes:
-                if not miss:
+                if (not miss) and poi_data.pvp:
                     resp = await apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
                     resp_cont.add_response_container(resp)
 
@@ -783,7 +784,7 @@ async def attackEnemy(cmd):
                 user_data.persist()
                 enemy_data.persist()
 
-                if not miss:
+                if (not miss) and poi_data.pvp:
                     # Damage players/enemies in district
                     resp = await weapon_explosion(user_data=user_data, shootee_data=enemy_data, district_data=district_data, market_data=market_data, life_states=life_states, factions=factions, slimes_damage=bystander_damage, time_now=time_now, target_enemy=True)
                     resp_cont.add_response_container(resp)
@@ -850,8 +851,8 @@ async def attackEnemy(cmd):
         # slimes_directdamage = 0
         slimes_splatter = 0
     elif enemy_data.enemytype == ewcfg.enemy_type_npc:
-        slimes_drained *= 0.25
-        slimes_splatter *= 0.25
+        slimes_drained *= 0.5
+        slimes_splatter *= 0.5
 
     if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
@@ -996,7 +997,7 @@ async def attackEnemy(cmd):
 
 
     else:
-        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc and (not miss):
             npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
             user_data.persist()
             await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)

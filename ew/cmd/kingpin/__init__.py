@@ -29,6 +29,7 @@ cmd_map = {
     ewcfg.cmd_hogtie: kingpincmds.hogtie,
     ewcfg.cmd_defect: kingpincmds.defect,
     ewcfg.cmd_create_rally: kingpincmds.create_rally,
+    ewcfg.cmd_admintrack:kingpincmds.admintrack,
 }
 if ewcfg.dh_active:
     cmd_map[ewcfg.cmd_exalt] = kingpincmds.exalt

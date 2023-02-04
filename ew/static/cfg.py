@@ -56,7 +56,9 @@ public_gamestates = {
     'cratersvillehole':[1, '0', 0],
     'toxingtonhole':[1, '0', 0],
     'juviesrowhole':[1, '0', 0],
-    'hall_counter':[1, '1', 0]
+    'hall_counter':[1, '1', 0],
+    'bobocuatromorale':[0, '', 0],
+    'hydraulicpress':[0, '', 3000000]
 }
 
 forbidden_channels = ["suggestion-box"]
@@ -879,6 +881,7 @@ cmd_banish = cmd_prefix + 'banish'
 cmd_moveitem = cmd_prefix + 'moveitem'
 cmd_vouch = cmd_prefix + 'vouch'
 cmd_vote = cmd_prefix + 'vote'
+cmd_hydraulicpress = cmd_prefix + 'hydraulicpress'
 cmd_writhe = cmd_prefix + 'writhe'
 cmd_use = cmd_prefix + 'use'
 cmd_eat = cmd_prefix + 'eat'
@@ -989,6 +992,7 @@ cmd_abduct = cmd_prefix + 'abduct'
 cmd_teleport = cmd_prefix + 'tp'
 cmd_teleport_alt1 = cmd_prefix + 'blj'
 cmd_teleport_player = cmd_prefix + 'tpp'
+cmd_teleport_player_multi = cmd_prefix + 'tppmulti'
 cmd_print_map_data = cmd_prefix + 'printmapdata'
 cmd_ping_me = cmd_prefix + 'pingme'
 cmd_boot = cmd_prefix + 'boot'
@@ -1384,6 +1388,7 @@ cmd_changegamestate = cmd_prefix + 'changegamestate'
 cmd_deletegamestate = cmd_prefix + 'deletegamestate'
 cmd_display_states = cmd_prefix + 'displaystates'
 cmd_create_rally = cmd_prefix + 'createrally'
+cmd_admintrack = cmd_prefix + 'admintrack'
 
 # elevator cmds
 cmd_press_button = cmd_prefix + 'press'
@@ -1504,7 +1509,7 @@ hunger_pershot = 10
 hunger_perspar = 10
 hunger_perfarm = 50
 hunger_permine = 1
-hunger_perminereset = 25
+hunger_perminereset = 30
 hunger_perfish = 15
 hunger_perscavenge = 2
 hunger_pertick = 3
@@ -1947,6 +1952,18 @@ emote_ms_6 = ":six:"
 emote_ms_7 = ":seven:"
 emote_ms_8 = ":eight:"
 
+# Emotes for Bubblebreaker - all unused. Can't do custom emotes emotes sadly (crops), message becomes too long to be sent as 1
+emote_bb_empty = "➰"
+emote_bb_0 = "🍍"
+emote_bb_1 = "🍓"
+emote_bb_2 = "🍇"
+emote_bb_3 = "🥑"
+emote_bb_4 = "🫐"
+emote_bb_glob = "🥭"  
+
+# Emote for poudrin
+emote_poudrin = "<:poudrin:638900988560015400>"
+
 # Emote for deleting slime tweets
 emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
@@ -2029,6 +2046,25 @@ cell_bubble_2 = "2"
 cell_bubble_3 = "3"
 cell_bubble_4 = "4"
 cell_bubble_glob = "⋆"
+
+bubble_emote_map = {
+    cell_bubble_empty: emote_bb_empty,
+    cell_bubble_0: emote_bb_0,
+    cell_bubble_1: emote_bb_1,
+    cell_bubble_2: emote_bb_2,
+    cell_bubble_3: emote_bb_3,
+    cell_bubble_4: emote_bb_4,
+    cell_bubble_glob: emote_bb_glob,
+}
+
+# first letter of each fruit
+letter_to_cell = {
+    "p": "5",
+    "s": "1",
+    "g": "2",
+    "a": "3",
+    "b": "4",
+}
 
 cell_bubbles = [
     cell_bubble_0,
@@ -2826,7 +2862,7 @@ vendor_thumbnails = {
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
     "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
     "themuseum":museum_thumbnails.get(current_curator),
-    "slimeypersuits":["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
+    poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
     "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
 }
 
@@ -2838,7 +2874,7 @@ museum_dialogue = {
 
 
 vendor_dialogue = {
-    "speakeasy":["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
+    poi_id_speakeasy:["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
     "clinicofslimoplasty":["Nice kidney. If you think you'll die before your next !piss I might just buy it off you.", "I'll give you a discount if you let me fix you up after I've had a few drinks. I'm playing Malpractice Bingo with a heart surgeon in Poudrin Alley.", "You get the kid's discount. I don't do it because it's good for business, really. I just like hurting children.", "Sonny, do you know about any gingerbread houses deep in the woods in this town? I'm looking to retire and could use a new space.", "I'll probably wind up repeating something I said to you. That's the dementia, pay it no mind.", "Lots of slimeoid operations recently. I don't care for 'em. Too many syringes."],
     "themuseum":museum_dialogue.get(current_curator),
     "neomiluakeestate":["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
@@ -2846,7 +2882,7 @@ vendor_dialogue = {
     "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it.", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
     "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
-    "slimeypersuits":["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
 
 }
 
@@ -3811,7 +3847,7 @@ status_enemy_trainer_id = 'slimeoidtrainer'
 status_enemy_tanky_id = 'tanky'
 status_enemy_dodgy_id = 'dodgy'
 status_enemy_following_id = 'following'
-
+status_enemy_delay_id = 'delay'
 
 status_n1 = "n1"
 status_n2 = "n2"
@@ -3920,7 +3956,7 @@ help_responses = {
     "stocks": "**The Stock Exchange** is a sub-zone within downtown NLACakaNM, open only during the daytime (6AM-8PM). It allows players to **'!invest'** in various **'!stocks'**, which not only affects their own personal monetary gains, but the city's economy as well. Stocks will shift up and down value, which affects the price of food associated with the food chains of those respective stocks. The rate of exchange for stocks can be checked with **'!rates'**, and to withdraw your **'!shares'** from a stock, use **'!withdraw [amount] [stock]'** (the same logic also applies to !invest). Additionally, players may **'!transfer'** their slimecoin to other players at any time of the day while in the stock exchange, but at the cost of a 5% broker's fee and a 5 minute cooldown on subsequent transfers.",
     # Additional gameplay mechanics, part 3
     "trading": "Trading allows you to exchange multiple items at once with another player. You can ask someone to trade with you by using **!trade [player]**. Should they accept, you will be able to offer items with **!offer [item]**. Use **!removeoffer [item]** to remove an item from your offers. You can check both player's offers by using **!trade** again. When you're ready to finish the trade, use **!completetrade**. The items will only be exchanged when both players do the command. Note that if a player adds or removes an item afterwards you will no longer be set as ready and will need to redo the command. Should you want to cancel the trade, you can do so by using **!canceltrade**.",
-    "weather": "The weather of NLACakaNM can have certain outcomes on gameplay, most notably in regards to mutations like White Nationalist or Light As A Feather. Right now, however, you should be most concerned with **Natural Disasters**, which can ruin your day. To check the weather, use **'!weather'**. To check the forecast, use **'!forecast'**.",
+    "weather": "Like most cities, NLACakaNM has a vibrant weather cycle. There are 7 major weather types within NLACakaNM: **sunny**, **rainy**, **windy**, **cloudy**, **foggy**, **snow**, and **lightning**. The weather primarily activates certain mutation-based buffs, as well as changing what fish are available within the city's water sources. To check the current weather, use **'!weather'**. To check the forecast, use **'!forecast [long/short]'**. \n\nYou may also notice the **moon phase**, which depends on a 29-day cycle. There's 7 major phases: the **new moon**, the **waxing horns**, the **waxing mandibles**, the **crescent moon**, the **waning maw**, the **waning sliver**, and the uncommon **green moon**. \n\nNLACakaNM is also faced with many **Natural Disasters**. These will affect one district in particular for a specific amount of time, and be visible from '!weather' and announced within gangbases. Though varying in their natural-ness, the current disasters facing NLACakaNM include **tornadoes**, **meteor showers**, **smog warnings**, **poudrin hail**, **radiation storms**, **japestorms**, **firestorms**, **raider incursions**, **slimeunist protests**, **dimensional rifts**, **fishing frenzies**, and **gas leaks**. \n\n**Tornadoes** will launch you out of an affected district (unless you have Big Boned), **Meteor Showers** will light up the night sky, **Smog Warnings** will make you unable to !scout that district, **Poudrin Hail** will crush you if you stand around too long without an umbrella, **Radiation Storms** will cuase you to generate slime while standing in the district (while also attracting radioactive creatures), **Japestorms** will cause all manner of laughery, **Firestorms** will set anyone without Napalm Snot ablaze, **Raider Incursions** will see raiders invade the district, **Slimeunist Protests** will see protesters fill the streets, **Dimensional Rifts** will open rifts between districts, **Fishing Frenzies** will cause fish to bite 2x as fast, and **Gas Leaks** will lessen hunger penalty from mining.",
     "casino": "**The Casino** is a sub-zone in Green Light District where players may bet their slime and slimecoin in various games, including **'!slimepachinko'**, **'!slimecraps'**, **'!slimeslots'**, **'!slimeroulette'**, **'!slimebaccarat'**, and **!slimeskat**. Some games allow you to bet certain amounts, while other games have a fixed cost. Furthermore, the casino allows you to challenge other players to a game of **'!russianroulette'**, where most of the loser's slime is transferred to the winner. To bet with slime, simply add 'slime' to the name of the game you wish to play. Example: **!slimeslots 500 slime**. You can gamble through your gellphone, but only with slimecoin.",
     "bleeding": "When you get hit by someone using a '!kill' command, certain things happen to your slime. Let's say you take 20,000 points of damage. **50%** of that slime, in this case 10,000, immediately becomes scavengeable. However, the other 50%, provided that you didn't die instantly, will undergo the **bleeding** process. 25% of that slime, in this case 5,000, is immediately added to a 'bleed pool', causing it to slowly trickle out of your body and onto the ground for it to be scavenged. The remaining 25% of that slime will **slowly** be added to the 'bleed pool', where it will then bleed, just as previously stated. Upon dying, your 'bleed pool' is immediately dumped onto the ground, ready to be scavenged. Think of it like the 'rolling HP' system from the game *EarthBound*. When you get hit, you don't take all your damage upfront, it instead slowly trickles down.",
     "offline": "Given that ENDLESS WAR is a **Discord** game, there are a few peculiarities surrounding it and how it interacts with Discord itself. When you set your status to **'Offline'**, you can still move between districts if you typed a '!goto' command beforehand. You won't show up on the sidebar in that district's channel, but people can still scout for you, and see the '[player] has entered [district]' message when you do enter the district they're in. Furthermore, you **can't** use commands while offline, and can only use commands **5 seconds** after coming online again. Often times, you may find yourself using '!scout' or '!look' on a district, only to find that **no one** is there besides yourself. This is likely because they're in that district, just with their status set to offline. The exception to this, of course, is if you have the **Chameleon Skin** mutation, which lets you type a handful of commands even while offline, including **!goto**, **!look**, **!scout**, **!survey**, **!embark**, and **!disembark**.",
@@ -3933,7 +3969,7 @@ help_responses = {
     # Additional gameplay mechanics, part 5
     "burying": "**Burying** is a mechanic that allows one to store an item within a location secretly, only retrievable through a password linked to the item.\n\nTo put an item in the ground, you first must !equip a **shovel**, sold at Atomic Forest Stockpile in the Ooze Gardens Farms. Once equipped, you can **!bury [coordinates] [item]**. The coordinates can be any string you enter, and will be saved with no spaces, punctuation, or case. For example, entering \"!bury DustTrap poudrin\" while in Cratersville will result in a slime poudrin being buried in Cratersville with the coordinates \"DUSTTRAP\". Once you bury an item, the message sent by ENDLESS WAR indicating the correct coordinates of the item will disappear after a short time. Make sure you write the coordinates elsewhere, as **once buried, an item cannot be recovered without the correct coordinates**.\n\nTo **!unearth** an item, simply go to the location it was buried in and type **!unearth [coordinates]**. You do **not need a shovel** to !unearth buried items, just the location and coordinates. Be aware anyone can !unearth buried items, not just the player who buried them, and so this can be utilized as if a sort of dead drop. Finally, if multiple items are buried in the same location with the same coordinates, you must !unearth [coordinates] multiple times to unearth all of the items.\n\nHappy burying!", 
     "stats": "Within ENDLESS WAR, **Stats** are a mechanic that allow the player to showcase their skill in specific areas. You can gain XP through your actions in-game, and you'll level-up as you accrue more and more XP. There are currently 4 stats: mining, farming, fishing, and feasting. To check your stats, use **!stats**. To check now-unobtainable stats, or to check all stats, use **!stats hidden** or **!stats all** respectively. Keep in mind, stats currently have **no effect**, and a player with Level 99 mining will function identical to a player with Level 1 mining. \n\nStat List:\n**MINING** - Mining XP is gained through !mining within mines, with the amount of XP gained being based on the amount of slime mined. \n**FARMING** - Farming XP is gained through !reaping mature crops, with the amount of XP gained being based on both number of crops gained and amount of slime gained. \n**FISHING** - Fishing XP is gained through !reeling up fish or items, with the amount of XP gained being based upon the rarity of the !reel. \n**FEASTING** - Feasting XP is gained through !eating or !ordering food, with the amount of XP gained being based upon the hunger restoration of the food.",
-    "collections": "**Collections** are furniture items that can store other items within them. You can buy different types of collections at the Museum: **scalp collections** that can hold scalps, **large aquariums** that can hold fish, **soul cylinders** that can hold souls, **weapon chests** that can hold weapons, **portable greenhouses** that can hold crops, and **general collections** that can hold anything. Specialized collections can store **50** of a specific type of item, and have **unique flavor text upon '!inspect'ing**. General collections can store **10** of any non-collection item and do not unique flavor text. Placing a collection in your apartment will give it its own named line in '!look' text.\n\nOnce you have a collection, while in your apartment, you can **'!collect <collection> <item>'** to store an item in the collection. If you have the mutation **Packrat**, you can !collect into any collection in your inventory while outside your apartment. To remove an item from a collection, go to the Bazaar, and you can **'!extract <collection> <item>'** for **100,000 slime**. You can rename collections while in your apartment with **'!renamecollection <collection> [name]'**. Once a collection is placed, you can **'!inspect <collection>'** to view its contents and any accompanying flavor text or information. General collections will have an italicized name on upon '!look', as to distinguish that they do not have any accompanying flavor text or information. Finally, with **'!contents <collection>'**, you can view a collection as if it were a community chest.",
+    "collections": "**Collections** are furniture items that can store other items within them. You can buy different types of collections at the Museum: **scalp collections** that can hold scalps, **large aquariums** that can hold fish, **soul cylinders** that can hold souls, **weapon chests** that can hold weapons, **portable greenhouses** that can hold crops, and **general collections** that can hold anything. Specialized collections can store **50** of a specific type of item, and have **unique flavor text upon '!inspect'ing**. General collections can store **10** of any non-collection item and do not unique flavor text. Placing a collection in your apartment will give it its own named line in '!look' text.\n\nOnce you have a collection, while in your apartment, you can **'!collect <collection> <item>'** to store an item in the collection. If you have the mutation **Packrat**, you can !collect into any collection in your inventory while outside your apartment. To remove an item from a collection, go to the Bazaar, and you can **'!extract <collection> <item>'** for **100,000 slime** (greenhouses only cost **1,000 slime**). You can rename collections while in your apartment with **'!renamecollection <collection> [name]'**. Once a collection is placed, you can **'!inspect <collection>'** to view its contents and any accompanying flavor text or information. General collections will have an italicized name on upon '!look', as to distinguish that they do not have any accompanying flavor text or information. Finally, with **'!contents <collection>'**, you can view a collection as if it were a community chest.",
     # Misc.
     "slimeball": "**Slimeball** is a sport where two teams of players compete to get the ball into the opposing team's goal to score points. A game of Slimeball is started when a player does !slimeball [team] in a district. Other players can join in by doing the same command in the same district. Once you've joined a game, you can do !slimeball to see your data, the ball's location and the score. To move around the field, use !slimeballgo [coordinates]. You can kick the ball by running into it. To stop, use !slimeballstop. Each team's goal is open between 20 and 30 Y, and located at the ends of the field (0 and 99 X for purple and pink respectively). To leave a game, do !slimeballleave, or join a different game. A game of Slimeball ends when no players are left.",
     "relics": "**Relics** are one-of-a-kind items hidden all over the city. You can !donate them to the museum in Ooze Gardens for a big slime payout and some additional information about that part of the city. The Curator is pretty airheaded though, so he won't notice if you swipe them back. Long story, he makes replicas, you get the idea. If you are killed with a relic, it gets passed to your killer. Also, hoarding too many might result in graverobbers creeping down your back stair. Be careful, now!",
@@ -5244,7 +5280,10 @@ item_id_aushucks: emote_aushucks,
 item_id_partypoppeppers: emote_partypoppeppers,
 }
 
+# Not actual world events - used for mining.
 event_type_slimeglob = "slimeglob"
+event_type_poudringlob = "poudringlob"
+
 event_type_slimefrenzy = "slimefrenzy"
 event_type_poudrinfrenzy = "poudrinfrenzy"
 event_type_minecollapse = "minecollapse"

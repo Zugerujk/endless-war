@@ -53,12 +53,13 @@ EwNpc(
         poi_list = [ewcfg.poi_id_crookline],  # list of locations an NPC roams in
         dialogue = {"talk":["Go away", "They won't let me inside Splatify", "Quiet, I'm listening to the tracks"],
                     "loop":["Not good", "Behemoth edits are played out 👎👎👎👎","Dances With White Girls 😂","This sounds like you just learned how to make riddims sounds yesterday","Too bad its not over 2min. Or else id put you in my highly banger populated playlist “dubstep 2022” maybe next time kid","Half decent","My ears are bleeding profusely","snorts fentanyl line* This actually better than your last failure of a EP. You will never be as good as aweminus. And if NSD was still active you wouldnt be good enough to be on it. Not even hating guy. You just lack originality.","your EP was a total bust. Not one song got over 1k likes. And you most likely paid that idiot kill feed to repost this garbag. You need yur money back,This is so bad. Like what are you doing?????","Sheeesh the beginning of ghis mix was ass. But these 2 last songs making up for it","This is half decent, but your lack of creativity didnt allow you to strech this track beyond 3 minutes. Nice try kid."],
-                    "die":["EVERY TIME"]},  # list of dialogue an npc can use
-        func_ai = npcutils.chatty_npc_action,  # function the enemy's AI uses
+                    "die":["EVERY TIME"],
+                    "give":["Still not good.", "I'll take that but I really don't see how it won't be just the same old thing."]},  # list of dialogue an npc can use
+        func_ai = npcutils.candidate_action,  # function the enemy's AI uses
         image_profile = "https://cdn.discordapp.com/attachments/886372560135143424/994106498038890526/unknown-18.png",  # image link to add to dialogue embeds
         defaultslime = 200,
         defaultlevel = 1,
-        rarity=10,
+        rarity=7,
         rewards = [
         {ewcfg.item_id_oldcd: [100, 1, 1],
          }, #"bobocuatroscalp":[100, 1, 1]
@@ -130,6 +131,7 @@ EwNpc(
     image_profile = "https://images-ext-2.discordapp.net/external/MkXZ4qyh3Ean3vEtPIE59Owa-I1Hhehdvkp2JO7g8mA/%3Fformat%3Dpng%26name%3Dsmall/https/pbs.twimg.com/media/FAqiED_WEAER7p4",
     defaultslime = 100000,
     defaultlevel = 17,
+    rarity=1,
     rewards = [
     {'carrottopsmohawk': [100, 1, 1]},
     {ewcfg.item_id_slimepoudrin: [50, 1, 4]},
@@ -162,7 +164,8 @@ EwNpc(
     starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
-    slimeoid_name='Chocolate Donut'
+    slimeoid_name='Chocolate Donut',
+    is_threat=True
     #if the cop is trigger happy or if you're above a certain crime level
 ),
 EwNpc(
@@ -190,6 +193,7 @@ EwNpc(
     ],
     starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
+    is_threat=True,
     condition = lambda user_data, enemy_data: True if user_data.crime > 1000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
 
     #if the cop is trigger happy or if you're above a certain crime level
@@ -210,6 +214,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/sleuth.png",
     defaultslime = 5911000,
     defaultlevel = 50,
+    is_threat=True,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [20, 1, 1],
@@ -237,6 +242,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 100,
+    is_threat=True,
     rarity=1,
     rewards = [
     {
@@ -289,6 +295,7 @@ EwNpc(
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
     defaultlevel = 32,
+    is_threat=True,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
     ],
@@ -311,6 +318,7 @@ EwNpc(
     image_profile = "https://cdn.discordapp.com/attachments/927511712473702411/996283670631546931/rivers_cuomo_pinkerton.png", # No PFP given again
     defaultslime = 1900000,
     defaultlevel = 23,
+    is_threat=True,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
     {'pairofsunglasses': [100, 1, 1]},
@@ -355,6 +363,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766477312020/kimblychadnpc.png",
     defaultslime = 2560000,
+    is_threat=True,
     defaultlevel = 40,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
@@ -378,6 +387,7 @@ EwNpc(
     image_profile = "https://media.discordapp.net/attachments/976385581498138624/998073766682824704/kimblytipsnpc.png",
     defaultslime = 2560000,
     defaultlevel = 40,
+    is_threat=True,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 3, 5]},
     {'packofluckyslimes': [70, 1, 1]},
@@ -424,6 +434,7 @@ EwNpc(
     defaultslime = 30000000,
     defaultlevel = 99,
     rarity=7,
+    is_threat=True,
     attacktype = 'juvieman',
     rewards = [
     {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
@@ -458,7 +469,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "herb",
-    active = False,
+    active = True,
     str_name = "Herb",
     description = "He's your typical politician. Can't even take a good bullet to the face.",
     poi_list = [ewcfg.poi_id_downtown, ewcfg.poi_id_krakbay, ewcfg.poi_id_smogsburg, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_charcoalpark, ewcfg.poi_id_oozegardens],
@@ -466,31 +477,31 @@ EwNpc(
                 "loop":["I see a vision for this city free of runaway slime, where violence is a thing of the past.", "Vote for me, and ensure Mr. Spin's money isn't wasted!", "Don't be afraid everyone! Nobody is out to hurt you, things are beginning to change!"],
                 "hit":["Hah! That one didn't even hurt."],
                 "die":["AIEEEEEEEE!!!!", "Security! SECURITY!!!", "AAAGHHHH NOT AGAIN!", "MY LUMBAGO!", "PLEASE STOP I LOOK UNELECTABLE!"],
-                "give":["Thanks for the donation! I assure you it won't go to waste!"]
+                "give":["Thanks for the donation! I assure you it won't go to waste!", "Eheheheh..."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "https://rfck.app/npc/herb_placeholder.jpg",
+    image_profile = "https://rfck.app/npc/herb_pfp.png",
     defaultslime = 20,
     defaultlevel = 1,
     rarity=3,
     slimeoid_name='Fortunate Son',
     rewards = [
-    {"herbsscalp":[100, 1, 1]}
+    {"necktie":[100, 1, 1]}
     ],
     starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
 
 ),
 EwNpc(
     id_npc = "n11",
-    active = False,
+    active = True,
     str_name = "Mr. Musset, Formerly N11",
     description = "A former Slimecorp employee. Are you gonna put aside your differences here? Personally, I'd fawgeddabowdhit.",
     poi_list = [ewcfg.poi_id_brawlden, ewcfg.poi_id_wreckington, ewcfg.poi_id_cratersville, ewcfg.poi_id_poudrinalley, ewcfg.poi_id_toxington, ewcfg.poi_id_charcoalpark],
-    dialogue = {"talk":["Hey dere.", "I'm comin ta change things. Public woiks, that kinda thing.", "Look at dis wise guy ova ere! They just waltz outta prison, so why are we's even funding dis? Seems like a big waste.", "We was a bit too extreme, but I don't do dat anymore."],
+    dialogue = {"talk":["Hey dere.", "I'm comin ta change things. Public woiks, that kinda thing.", "Look at dis wise guy ova ere! They just waltz outta prison, so why are we's even funding dis? Seems like a big waste.", "We was a bit too extreme back in dah day, but I don't do dat anymore."],
                 "loop":["Vote for dis guy! Ruben Musset oughta brighten up da government!", "I'm ya guy, I promise. I know Slimecorp, I can regulate Slimecorp.", "Musset for mayor, ya never felt gayer! And youse all know I'm talkin about the happy meaning."],
                 "hit":["Oh no ya don't.", "Come on!"],
                 "die":["Shoulda known.", "Asassinated, my foot! Come back ere!", "Can't zuck me, not no more...", "SEE DIS, PEOPLE? YOU DON'T HAFTA DIE LIKE DIS!"],
-                "give":["Ey, buddy. Dat means a lot."]
+                "give":["Ey, buddy. Dat means a lot.", "Do I recognize you, kid? Anyhow, I 'preciate dat."]
                 },
     func_ai = npcutils.candidate_action,
     image_profile = "https://rfck.app/npc/n11reformed.png",
@@ -500,7 +511,7 @@ EwNpc(
     attacktype = ewcfg.weapon_id_brassknuckles,
     slimeoid_name = 'Lil\' Bruiser',
     rewards = [
-    {"n11scalp":[100, 1, 1],
+    {
      ewcfg.weapon_id_brassknuckles:[20, 1, 1]}
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
@@ -522,6 +533,7 @@ EwNpc(
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
+    is_threat=True,
     attacktype = 'pizzagraspers',
     rewards = [
     {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
@@ -571,6 +583,7 @@ EwNpc(
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
     rarity=1,
+    is_threat=True,
     slimeoid_name='蒸気船たかはし',
     rewards = [
     {ewcfg.weapon_id_brassknuckles:[100, 1, 1],

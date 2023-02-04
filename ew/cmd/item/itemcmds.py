@@ -272,6 +272,13 @@ async def inventory_print(cmd):
                 response = fe_utils.formatMessage(cmd.message.author, response) if not targeting_dms else response
                 return await fe_utils.send_message(cmd.client, target_channel, response)
 
+            collection_item = EwItem(id_item=collection.get('id_item'))
+            collectiontype = collection_item.item_props.get('id_furniture')
+            if collectiontype not in ['largeaquarium', 'soulcylinder', 'weaponchest', 'scalpcollection', 'generalcollection', 'portablegreenhouse']:
+                response = "You can't look at the contents of something that's not a collection."
+                response = fe_utils.formatMessage(cmd.message.author, response) if not targeting_dms else response
+                return await fe_utils.send_message(cmd.client, target_channel, response)
+
             # Make sure this is in DMs or the poi channel
             if (not targeting_dms) and target_channel.name != poi_data.channel:
                 response = "You can't look at the contents of that collection here."
@@ -641,7 +648,7 @@ async def item_look(cmd):
 
         for collected in collection_inv:
 
-            if collected.get('template') in ['largeaquarium', 'soulcylinder', 'weaponchest', 'scalpcollection', 'generalcollection'] and collected.get('item_type') == ewcfg.it_furniture:
+            if collected.get('template') in ['largeaquarium', 'soulcylinder', 'weaponchest', 'scalpcollection', 'generalcollection', 'portablegreenhouse'] and collected.get('item_type') == ewcfg.it_furniture:
                 item_sought_collection = bknd_item.find_item(item_search=item_search, id_user='{}collection'.format(collected.get('id_item')), id_server=server)
                 item_dest.append(item_sought_collection)
 
@@ -2003,6 +2010,7 @@ async def manual_transfer(cmd):
 async def collect(cmd):
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
+    item_sought_col = None
 
     if cmd.tokens_count != 3:
         response = "You need to specify the item and the collection. Try !collect \"collection\" \"item\"."
@@ -2010,7 +2018,8 @@ async def collect(cmd):
 
     collection_seek = cmd.tokens[1]
     # Check for collection in apartment's decorate inventory
-    item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
+    if (poi.is_apartment and user_data.visiting == ewcfg.location_id_empty):
+        item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user="{}{}".format(user_data.id_user, "decorate"),id_server=user_data.id_server)
     # If user has packrat or is in their apartment, check their actual inventory
     if item_sought_col is None and ((ewcfg.mutation_id_packrat in user_data.get_mutations()) or (poi.is_apartment and user_data.visiting == ewcfg.location_id_empty)):
         item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
@@ -2022,7 +2031,7 @@ async def collect(cmd):
     if (user_data.visiting != ewcfg.location_id_empty or not poi.is_apartment) and ewcfg.mutation_id_packrat not in user_data.get_mutations():
         response = "Nobody can know about your shameful hoarding habits. Add to your collections in your apartment."
     elif not item_sought_col:
-        response = "You need a collection stowed in your apartment."
+        response = "You don't have that collection either here, or in your inventory."
     elif not item_sought_item:
         response = "Ah, a collector of imaginary objects. Too bad your brain is one of them. Pick a real item."
     elif not collection_seek:
@@ -2083,18 +2092,19 @@ async def remove_from_collection(cmd):
     user_data = EwUser(member=cmd.message.author)
     poi = poi_static.id_to_poi.get(user_data.poi)
     price = 100000
+    extract_all = False
 
     if user_data.poi != ewcfg.poi_id_bazaar:
         response = "You don't actually know how to get stuff out of this. Better find a specialist in the Bazaar."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.tokens_count != 3:
-        response = "You need to specify the item and the collection. Try !extract \"collection\" \"item\"."
+        response = "You need to specify the item and the collection. Try \"!extract <collection> <item>\"."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1])
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
     if not item_sought_col:
-        response = "That's not a real collection. Remember, it's !extract \"collection\" \"item\"."
+        response = "That's not a real collection. Remember, it's \"!extract <collection> <item>\"."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     item_seek = cmd.tokens[2]
@@ -2106,21 +2116,24 @@ async def remove_from_collection(cmd):
 
     furnlist = static_items.furniture_map
     collection = EwItem(id_item=item_sought_col.get('id_item'))
+    collectiontype = collection.item_props.get('id_furniture')
     item = EwItem(id_item=item_sought_item.get('id_item'))
     collection_list = furnlist.get(collection.item_props.get('id_furniture'))
 
+    if collectiontype == "portablegreenhouse":
+        price = 1000
 
     if collection_list is None or collection_list.furn_set != 'collection':
         response = "Trying to pull shit out of random objects? Yeah, I did meth once too."
     elif 'collection' != item.id_owner[-10:]:
         response = "That's not in your collection. Can't remove what isn't there."
-    elif user_data.slimes < 100000:
+    elif user_data.slimes < int(price):
         response = "These fucking prices... The removal fee is {price} slime.".format(price = price)
     else:
         bknd_item.give_item(id_user=user_data.id_user, id_server=int(item.id_server), id_item=item_sought_item.get('id_item'))
         user_data.change_slimes(n=-price, source=ewcfg.source_spending)
         user_data.persist()
-        response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over 100,000 slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), random.choice(comm_cfg.bazaar_distractions))
+        response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over {:,} slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), price, random.choice(comm_cfg.bazaar_distractions))
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

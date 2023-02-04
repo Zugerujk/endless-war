@@ -96,7 +96,8 @@ async def event_tick(id_server):
                 try:
                     event_data = EwWorldEvent(id_event=row[0])
                     event_def = poi_static.event_type_to_def.get(event_data.event_type)
-
+                    if event_def and event_def.function_on_end is not None:
+                        await event_def.function_on_end
                     response = event_def.str_event_end if event_def else ""
                     if event_data.event_type == ewcfg.event_type_minecollapse:
                         user_data = EwUser(id_user=event_data.event_props.get('id_user'), id_server=id_server)
@@ -161,6 +162,9 @@ async def event_tick(id_server):
             try:
                 event_data = EwWorldEvent(id_event=row[0])
                 event_def = poi_static.event_type_to_def.get(event_data.event_type)
+
+                if event_def and event_def.function_on_activate is not None:
+                    await event_def.function_on_activate
 
                 # If the event is a POI event
                 if event_data.event_type in ewcfg.poi_events:
@@ -845,7 +849,7 @@ async def enemy_action_tick_loop(id_server):
         try:
             await cmbt_utils.enemy_perform_action(id_server) #occasionally role update lag will stop this loop,
         except Exception as e:
-            ewutils.logMsg('Enemy tick loop failed. Reaason:{}'.format(e))
+            ewutils.logMsg('Enemy tick loop failed. Reason:{}'.format(e))
 
 
 async def release_timed_prisoners_and_blockparties(id_server, day):
@@ -1387,6 +1391,7 @@ async def clock_tick_loop(id_server, force_active = False):
                         ewutils.logMsg(f"Failed to expire blockparties in server {id_server}: {e}")
 
                     if market_data.day % 8 == 0 or force_active:
+                        continue # TODO: Turn off once alive players stop getting their user_data reset! :P
                         # Rent processing
                         try:
                             ewutils.logMsg("Started rent calc...")

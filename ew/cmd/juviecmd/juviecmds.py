@@ -396,7 +396,9 @@ async def mine(cmd):
 
         else:
             grid_cont = None
+            grid_type = ""
             toolused = "nothing"
+            goonscape = False
             
             world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id)
             mining_type = ewcfg.mines_mining_type_map.get(user_data.poi)
@@ -432,7 +434,8 @@ async def mine(cmd):
                                                      hunger_cost_multiplier=1,
                                                      toolused=toolused,
                                                      response=response,
-                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,
+                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,  # 1/1500
+                                                     value_mod=1,  # Var for determining other random calcs
             )
             
             # Check for a mine collapse
@@ -458,20 +461,11 @@ async def mine(cmd):
                     poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
                     juviecmdutils.dig_hole(cmd, mine_action, poi)
 
-                # Check to create a world event
-                if random.random() < 0.05:
-                    create_mining_event(cmd, mine_action)
+                # Check to create a mining event
+                create_mining_event(cmd, mine_action, mutations, grid_type)
 
-                # Unearth item check
-                if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
-                    mine_action.unearthed_item_chance *= 2
-                elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
-                    mine_action.unearthed_item_chance *= 1.5
-                if ewcfg.mutation_id_lucky in mutations:
-                    mine_action.unearthed_item_chance *= 1.777
-                    
-                if random.random() < mine_action.unearthed_item_chance:
-                    juviecmdutils.unearth_item(cmd, mine_action)
+                # Check to unearth an item
+                juviecmdutils.unearth_item(cmd, mine_action, mutations)
 
             # If there WAS an uncleared collapse, do the flavor text and calcs for that
             if mine_action.collapse == True:
@@ -500,14 +494,12 @@ async def mine(cmd):
                 
                 # Increase slime
                 mine_action.response += mine_action.user_data.change_slimes(n=mine_action.slime_yield, source=ewcfg.source_mining)
-
-                # Goonscap
-                xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
-                responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
-            
+                
+                goonscape = True
 
             # Take hunger from user
-            hunger_cost = ewcfg.hunger_permine * mine_action.hunger_cost_multiplier
+            hunger_cost_mod = ewutils.hunger_cost_mod(mine_action.user_data.slimelevel)
+            hunger_cost = int(hunger_cost_mod) * mine_action.hunger_cost_multiplier
             mine_action.user_data.hunger += int(hunger_cost)
             
             # Liiiitle bit extra
@@ -516,11 +508,16 @@ async def mine(cmd):
                 # there's an x% chance that an extra stamina is deducted, where x is the fractional part of hunger_cost_mod in percent (times 100)
                 if random.randint(1, 100) <= extra_hunger * 100:
                     mine_action.user_data.hunger += ewcfg.hunger_permine
+            
+            # Persist user_data :pleading:
+            user_data.persist()
 
-            
-            # Persist user_data. ONCE. AT THE END.
-            mine_action.user_data.persist()
-            
+            # Handle Goonscape stats
+            if goonscape:
+                xp_yield = max(1, round(mine_action.slime_yield * 0.0077))
+                
+                responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_mine_stat, xp_yield)
+
             response = mine_action.response
             # Handle response container
             if len(response) > 1 or len(responses) > 0:
@@ -530,13 +527,13 @@ async def mine(cmd):
             
             # Add grid print or make a new grid, at the very end <3 
             if mine_action.grid_effect == 1:
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
             elif mine_action.grid_effect == 2:
                 init_grid(mine_action.user_data.poi, mine_action.user_data.id_server)
 
                 grid_cont = juviecmdutils.mines_map.get(mine_action.user_data.poi).get(mine_action.user_data.id_server)
 
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
 
             return
 

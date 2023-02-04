@@ -411,6 +411,8 @@ async def fish_donate(id_item, cmd, dialogue_set):
             slimes_awarded *= 3
 
         user_data = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+        if user_data.life_state == ewcfg.life_state_corpse:
+            slimes_awarded *= -1
         user_data.change_slimes(n=slimes_awarded)
         user_data.persist()
 
@@ -461,6 +463,8 @@ async def relic_donate(id_item, cmd, dialogue_set):
         new_record.persist()
 
         user_data = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+        if user_data.life_state == ewcfg.life_state_corpse:
+            payout *= -1
         user_data.change_slimes(n=payout)
         user_data.persist()
         response = dialogue_set.get("donaterelic").format(relic_obj.str_name, payout)

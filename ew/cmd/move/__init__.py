@@ -38,6 +38,7 @@ cmd_map = {
 
     # ---- Admin commands ---- #
     ewcfg.cmd_teleport_player: movecmds.teleport_player,
+    ewcfg.cmd_teleport_player_multi:movecmds.teleport_player_multi,
     ewcfg.cmd_print_map_data: movecmds.print_map_data,
     ewcfg.cmd_boot: movecmds.boot,
     # flush items and slime from subzones into their mother district

@@ -346,21 +346,20 @@ async def cast(cmd):
                     # Damp is a random number between 0 and (fun - 1). If damp is <= 10, a fish will bite.
                     damp = random.randrange(fun)
 
-                # Wait this many seconds until trying for a bite - 30 if high on weed, 5 if debug bait, 60 if regular.
+                # Wait this many seconds until trying for a bite
+                time_to_wait = 60
+                if fisher.high:
+                    time_to_wait /= 2
+                if fishing_frenzy:
+                    time_to_wait /= 2
+                if fisher.pier.pier_type == ewcfg.fish_slime_moon:
+                    time_to_wait *= 7/6  # 70 normally, 35 if high
+
                 if high_value_bait_used:
-                    await asyncio.sleep(5)
-                elif fishing_frenzy:
-                    await asyncio.sleep(30)
-                elif fisher.pier.pier_type == ewcfg.fish_slime_moon:
-                    if fisher.high:
-                        await asyncio.sleep(35)
-                    else:
-                        await asyncio.sleep(70)
-                else:
-                    if fisher.high:
-                        await asyncio.sleep(30)
-                    else:
-                        await asyncio.sleep(60)
+                    time_to_wait = 5
+
+                time_to_wait = int(round(time_to_wait))
+                await asyncio.sleep(time_to_wait)  # Pause
 
                 # Cancel if fishing was interrupted
                 if current_fishing_id != fisher.fishing_id:

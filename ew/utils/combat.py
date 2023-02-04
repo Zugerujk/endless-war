@@ -85,8 +85,8 @@ class EwEnemy(EwEnemyBase):
                 ), (
                     enemy_data.poi,
                     enemy_data.id_server
-                ))
-            if len(users) > 0:
+                ), fetchone = True)
+            if users is not None:
                 if random.randrange(100) > 95:
                     response = random.choice(ewcfg.coward_responses)
                     response = response.format(enemy_data.display_name, enemy_data.display_name)
@@ -95,6 +95,8 @@ class EwEnemy(EwEnemyBase):
                     return resp_cont
                     
         if enemy_data.ai == ewcfg.enemy_ai_sandbag:
+            target_data = None
+        elif ewcfg.status_enemy_delay_id in enemy_data.getStatusEffects():
             target_data = None
         elif enemy_data.enemytype == 'npc' and condition is not None:
             target_data, group_attack = get_target_by_ai(enemy_data=enemy_data, condition = condition)
@@ -190,9 +192,9 @@ class EwEnemy(EwEnemyBase):
             shooter_status_mods = get_shooter_status_mods(enemy_data, target_data, hitzone)
             shootee_status_mods = get_shootee_status_mods(target_data, enemy_data, hitzone)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
             # maybe enemies COULD have weapon skills? could punishes players who die to the same enemy without mining up beforehand
             # slimes_damage = int((slimes_spent * 4) * (100 + (user_data.weaponskill * 10)) / 100.0)
@@ -1612,7 +1614,7 @@ def find_npc(npcsearch = '', id_server = -1):
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
-    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers:
+    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers or enemy_data.enemytype == 'npc':
         if enemy_data.time_lastenter <= time_now - ewcfg.time_raidboss_movecooldown:
             # Raid boss can move
             return True
@@ -1686,9 +1688,9 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                 ), (
                     enemy_data.poi,
                     enemy_data.id_server
-                ))
-            if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
+                ), fetchone = True)
+            if users is not None:
+                target_data = EwUser(id_user=users[0], id_server=enemy_data.id_server)
 
         # If an enemy is a raidboss, don't let it attack until some time has passed when entering a new district.
         if enemy_data.enemytype in ewcfg.raid_bosses and enemy_data.time_lastenter > raidbossaggrotimer:
@@ -1989,7 +1991,10 @@ class EwUser(EwUserBase):
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
+            try:
+                await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
+            except:
+                ewutils.logMsg('Hell is full, failed to update roles.')
 
         return resp_cont
 

@@ -566,7 +566,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     id_user=ewcfg.col_id_user,
                     poi = ewcfg.col_poi
                 ), (
-                    [str(id_server)]
+                    int(id_server)
                 ))
 
 
@@ -575,7 +575,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     poi=ewcfg.col_poi
                 ), (
                     'juviesrow',
-                    [str(id_server)]
+                    int(id_server)
                 ))
             iterator = 0
             for member in selection:
@@ -589,3 +589,20 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
         except:
             ewutils.logMsg(
                 'server {}: failed to clowncar.'.format(cmd.message.guild.id, cmd.message.author.id))
+
+
+async def admintrack(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+
+    if cmd.mentions_count == 0:
+        response = "Who?"
+        return await fe_utils.send_response(response, cmd)
+    else:
+        response = ""
+        for mention in cmd.mentions:
+            user = EwUser(member=mention)
+            response += "{} is in {}.\n".format(mention.display_name, user.poi)
+
+        return await fe_utils.send_response(response, cmd)
