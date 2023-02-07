@@ -1418,6 +1418,13 @@ cmd_rentyacht = cmd_prefix + 'rentyacht'
 cmd_quickthread = cmd_prefix + 'quickthread'
 cmd_board = cmd_prefix + 'board'
 cmd_man = cmd_prefix + 'man'
+cmd_unboard = cmd_prefix + 'unboard'
+cmd_stock_ammo = cmd_prefix + 'stock'
+cmd_loadcannon = cmd_prefix + 'load'
+cmd_firecannon = cmd_prefix + 'fire'
+cmd_aimship = cmd_prefix + 'aimship'
+cmd_gangplank = cmd_prefix + 'gangplank'
+cmd_seanet = cmd_prefix + 'seanet'
 
 cmd_clean_stats = cmd_prefix + 'cleanstats'
 

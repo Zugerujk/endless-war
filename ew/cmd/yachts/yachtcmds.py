@@ -178,7 +178,7 @@ async def avast(cmd):
             response = "You can't see anything, you're not aboveboard!"
         else:
             response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=6)
-            response += "\n{} is currently "
+            response += "\n{} is currently ".format(yacht.yacht_name)
 
             if yacht.direction == 'stop':
                 response += "stopped."
