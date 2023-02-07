@@ -539,7 +539,7 @@ def canAttack(cmd):
 
         if shootee_data.life_state == ewcfg.life_state_kingpin:
             # Disallow killing generals.
-            response = "He is hiding in his ivory tower and playing video games like a retard."
+            response = "He is hiding in his ivory tower and playing video games, like a starving artist who doesn't make art."
         elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()) and ewutils.square_duel != 2:
             response = "It's not noon yet. Everything in its own time."
         elif (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
