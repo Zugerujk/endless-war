@@ -619,6 +619,25 @@ EwNpc(
     ],
     starting_statuses = [ewcfg.status_enemy_juviemode_id, '1leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
+EwNpc(
+    id_npc = "thenoid",
+    active = True,
+    str_name = "The Noid",
+    description = "It's obvious, just avoid the Noid. Don't touch it.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["AVOOOOOID THE NOOOOOID!", "WHEEEE!", "ANFMXKAKNCNAEJD"],
+                "loop":["HEHAHAHAHAHAHAHA!", "NOID!", "()https://s3-prod.adage.com/s3fs-public/20210429%29_Noid_3x2.jpg", "()https://static.wikia.nocookie.net/noid/images/a/ae/Mrgreen_dab_base.png/revision/latest/scale-to-width-down/250?cb=20180705000434", "()https://static.wikia.nocookie.net/noid/images/8/89/Mrgreen_angry_base.png/revision/latest?cb=20180705000425", "()I'M GONNA SAY PENIS!", "()https://images-ext-2.discordapp.net/external/iJ1Gv0mAX2KsSrzwPosYNgkcJAf-fvdYkuhcsmLYOQI/https/media.tenor.com/3vy4MVq4ms4AAAPo/breaking-bad-pizza.mp4", "()https://images-ext-2.discordapp.net/external/BMYY--1kwHktu4BXMEg0uOevsJxXa-SlxH6SJ2HcuyY/%3Fcid%3D73b8f7b1b5606a879da93500c3cae5f2de6109a01b9882f7%26rid%3Dgiphy.mp4%26ct%3Ds/https/media4.giphy.com/media/XbhTOfqVoIrlMIQhHZ/giphy.mp4", "()https://static.wikia.nocookie.net/noid/images/f/f0/Mrgreen_surprised_base.png/revision/latest?cb=20180705000456", "()https://cdn.discordapp.com/attachments/431240644464214017/1072654857015677028/image.png", "()https://tenor.com/view/pizza-fail-funny-drop-cooking-gif-23785565", "DOMINOS OR BUST", "YOU CAN'T AVOID ME!", "()https://tenor.com/view/pizza-party-oddly-soothing-serenity-now-pizza-lost-gif-5500152", "()https://tenor.com/view/pizza-pizza-party-gif-10580277", "I AM A CLUMSY LONG EARED MAN."],
+                },
+    func_ai = npcutils.needy_npc_action,
+    image_profile = "https://compote.slate.com/images/fd2f8338-ec23-479f-bd89-f405909bf2d0.jpg",
+    defaultslime = 15,
+    defaultlevel = 1,
+    slimeoid_name = "peperoni",
+    rewards = [
+    {"meatlovers": [80, 1, 3]},
+    ],
+    starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
+),
 ]
 
 active_npcs_map = {}
