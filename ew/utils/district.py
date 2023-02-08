@@ -173,11 +173,11 @@ class EwDistrict(EwDistrictBase):
                     filtered_enemies.append(fetched_id_enemy)
 
             # Don't show sandbags on !scout
-            if scout_used and fetched_type == ewcfg.enemy_type_sandbag:
+            if scout_used and fetched_type == ewcfg.enemy_type_sandbag and fetched_id_enemy in filtered_enemies:
                 filtered_enemies.remove(fetched_id_enemy)
-            if fetched_type == 'npc':
+            if scout_used and fetched_type == 'npc':
                 npc_obj = static_npc.active_npcs_map.get(fetched_class)
-                if npc_obj is not None and not npc_obj.is_threat and npc_threats_only:
+                if npc_obj is not None and not npc_obj.is_threat and npc_threats_only and fetched_id_enemy in filtered_enemies:
                     filtered_enemies.remove(fetched_id_enemy)
 
         return filtered_enemies
