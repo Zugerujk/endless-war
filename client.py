@@ -1177,6 +1177,10 @@ async def on_raw_reaction_add(payload):
     if payload.guild_id is None:
         # Was a DM
         return
+    
+    # Don't handle our own reactions
+    if payload.user_id == client.user.id:
+        return
 
     server = client.get_guild(payload.guild_id)
 
@@ -1189,9 +1193,19 @@ async def on_raw_reaction_add(payload):
         if len(message.embeds) > 0:
             embed = message.embeds[0]
             userid = "<@!{}>".format(payload.user_id)
+            # If the person reacting made the tweet
             if embed.description.startswith(userid):
+                # If the reply is :blank:
                 if str(payload.emoji) == ewcfg.emote_delete_tweet:
                     await message.delete()
+            # If person reacting didn't make the tweet
+            else:
+                # If the reply is :slimetwitterlike:
+                if str(payload.emoji) in [ewcfg.emote_slimetwitter_like, ewcfg.emote_slimetwitter_like_debug]:
+                    pass
+                # If the reply is :slimeresplat:
+                elif str(payload.emoji) in [ewcfg.emote_slimetwitter_resplat, ewcfg.emote_slimetwitter_resplat_debug]:
+                    pass
 
     # Deviant Splaart Emote Handling
     elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:

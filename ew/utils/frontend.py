@@ -352,7 +352,7 @@ async def post_in_hideouts(id_server, message):
     )
 
 # FIXME remove client from this and a bunch of other front end commands, it's completely useless
-async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True):
+async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True, reference = None):
     """
         Proxy to discord.py channel.send with exception handling
         - channel is a discord Channel
@@ -382,7 +382,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows, embed=embed)
         if embed is not None:
-            return await channel.send(embed=embed)
+            return await channel.send(embed=embed, reference=reference)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise

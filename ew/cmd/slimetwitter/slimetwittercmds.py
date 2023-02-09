@@ -3,8 +3,11 @@ import time
 from ew.static import cfg as ewcfg
 from ew.utils import frontend as fe_utils
 from ew.utils import stats as ewstats
+from ew.utils import core as ewutils
 from ew.utils.combat import EwUser
+
 from .slimetwitterutils import get_tweet_color
+from .slimetwitterutils import format_player_tweet
 
 
 async def tweet(cmd):
@@ -26,25 +29,21 @@ async def tweet(cmd):
             response = "Alright there bud, slow down a bit. No one's gonna read all that ({}/280).".format(len(tweet_content))
             return await fe_utils.send_response(response, cmd)
 
-        tweet = fe_utils.discord.Embed()
-
-        tweet.set_thumbnail(url=cmd.message.author.display_avatar.url)
-        # we use the description to set the author since members cannot be mentioned from the author field
-        checkmark = ewcfg.emote_verified if user_data.verified else ""
-        tweet.description = "<@!{}>{}".format(cmd.message.author.id, checkmark)
-        tweet.color = get_tweet_color(user_data)
-
-        # \u200b is a whitespace character, since we cannot leave field names empty
-        tweet.add_field(name='\u200b', value=tweet_content)
-
-        # works as long as the first attachment is an image
-        # other file types are ignored
-        if len(cmd.message.attachments) > 0:
-            tweet.set_image(url=cmd.message.attachments[0].url)
+        tweet = format_player_tweet(cmd, user_data, tweet_content)
 
         channel = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimetwitter)
 
-        await fe_utils.send_message(cmd.client, channel, embed=tweet)
+        fart = await fe_utils.send_message(cmd.client, channel, embed=tweet)
+        
+        if ewutils.DEBUG:
+            await fart.add_reaction(ewcfg.emote_slimetwitter_like_debug)
+            await fart.add_reaction(ewcfg.emote_slimetwitter_resplat_debug)
+        else:
+            await fart.add_reaction(ewcfg.emote_slimetwitter_like)
+            await fart.add_reaction(ewcfg.emote_slimetwitter_resplat)
+
+
+
 
     else:
         response = "You need to have a gellphone to !tweet."
@@ -91,3 +90,51 @@ async def verification(cmd):
             response = "Only the Slimecorp employees at the HQ can get you verified on Slime Twitter."
 
     return await fe_utils.send_response(response, cmd)
+
+
+async def quote_retweet(cmd):
+    user_data = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+
+    if user_data.has_gellphone():
+
+        if cmd.tokens_count < 3:
+            if cmd.token_count < 2:
+                response = "You need to specify a message to resplat, dumbass. Use !quoteresplat <message id> <tweet>."
+                return await fe_utils.send_response(response, cmd)
+            elif len(cmd.message.attachments) == 0:
+                response = "Resplat what?"
+                return await fe_utils.send_response(response, cmd)
+            else:
+                tweet_content = "\u200d"
+        else:
+            tweet_content = ' '.join("`{}`".format(token) if token.startswith("#") else token for token in cmd.tokens[2:])
+
+        if len(tweet_content) > 280:
+            response = "Alright there bud, slow down a bit. No one's gonna read all that ({}/280).".format(len(tweet_content))
+            return await fe_utils.send_response(response, cmd)
+
+        #  Make sure to sQRT amirite
+        slime_twitter = fe_utils.get_channel(cmd.guild, ewcfg.channel_slimetwitter)
+        message_qrt_id = cmd.tokens[1]
+        try:
+            og_qrt_message = await slime_twitter.fetch_message(message_qrt_id)
+            embed = og_qrt_message.embeds[0]
+            possible_at = embed.description.replace(ewcfg.emote_verified, "")
+            og_user_id = possible_at.strip("<@!>")
+        except:
+            response = "There was an issue processing your resplat. Try !quoteresplat <message id> <tweet>."
+            return await fe_utils.send_response(response, cmd)
+
+        tweet_content = "<@!{}> {}".format(og_user_id, tweet_content)
+        tweet = format_player_tweet(cmd, user_data, tweet_content)
+
+        channel = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimetwitter)
+
+        fart = await fe_utils.send_message(cmd.client, channel, embed=tweet, reference=og_qrt_message)
+
+        if ewutils.DEBUG:
+            await fart.add_reaction(ewcfg.emote_slimetwitter_like_debug)
+            await fart.add_reaction(ewcfg.emote_slimetwitter_resplat_debug)
+        else:
+            await fart.add_reaction(ewcfg.emote_slimetwitter_like)
+            await fart.add_reaction(ewcfg.emote_slimetwitter_resplat)

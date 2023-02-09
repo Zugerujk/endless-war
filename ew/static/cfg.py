@@ -1375,6 +1375,8 @@ cmd_hogtie = cmd_prefix + 'hogtie'
 
 # Slime Twitter
 cmd_tweet = cmd_prefix + 'tweet'
+cmd_qrt = cmd_prefix + 'quoteresplat'
+cmd_qrt_alt1 = cmd_prefix + 'quoteretweet'
 cmd_verification = cmd_prefix + 'requestverification'
 cmd_verification_alt = cmd_prefix + '#verify'
 
@@ -1945,6 +1947,12 @@ emote_bb_glob = "🥭"
 
 # Emote for poudrin
 emote_poudrin = "<:poudrin:638900988560015400>"
+
+# Emotes for Slime Twitter & debugging
+emote_slimetwitter_like = "<:slimetwitterlike:822277824324960266>"
+emote_slimetwitter_resplat = "<:slimeresplat:822277898102112297>"
+emote_slimetwitter_like_debug = "💚"
+emote_slimetwitter_resplat_debug = "♻️"
 
 # Emote for deleting slime tweets
 emote_delete_tweet = emote_blank
