@@ -5,9 +5,10 @@ from ew.utils import frontend as fe_utils
 from ew.utils import stats as ewstats
 from ew.utils import core as ewutils
 from ew.utils.combat import EwUser
+from ew.utils.user import add_xp
 
-from .slimetwitterutils import get_tweet_color
 from .slimetwitterutils import format_player_tweet
+from .slimetwitterutils import separate_id_from_slimetwitter_embed
 
 
 async def tweet(cmd):
@@ -34,6 +35,7 @@ async def tweet(cmd):
         channel = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimetwitter)
 
         fart = await fe_utils.send_message(cmd.client, channel, embed=tweet)
+        await add_xp(cmd.message.author.id, cmd.guild.id, ewcfg.goonscape_clout_stat, 1300)
         
         if ewutils.DEBUG:
             await fart.add_reaction(ewcfg.emote_slimetwitter_like_debug)
@@ -98,7 +100,7 @@ async def quote_retweet(cmd):
     if user_data.has_gellphone():
 
         if cmd.tokens_count < 3:
-            if cmd.token_count < 2:
+            if cmd.tokens_count < 2:
                 response = "You need to specify a message to resplat, dumbass. Use !quoteresplat <message id> <tweet>."
                 return await fe_utils.send_response(response, cmd)
             elif len(cmd.message.attachments) == 0:
@@ -114,13 +116,13 @@ async def quote_retweet(cmd):
             return await fe_utils.send_response(response, cmd)
 
         #  Make sure to sQRT amirite
+        # Separate Tweeter's original ID
         slime_twitter = fe_utils.get_channel(cmd.guild, ewcfg.channel_slimetwitter)
         message_qrt_id = cmd.tokens[1]
         try:
             og_qrt_message = await slime_twitter.fetch_message(message_qrt_id)
             embed = og_qrt_message.embeds[0]
-            possible_at = embed.description.replace(ewcfg.emote_verified, "")
-            og_user_id = possible_at.strip("<@!>")
+            og_user_id = separate_id_from_slimetwitter_embed(embed=embed)
         except:
             response = "There was an issue processing your resplat. Try !quoteresplat <message id> <tweet>."
             return await fe_utils.send_response(response, cmd)
@@ -131,6 +133,7 @@ async def quote_retweet(cmd):
         channel = fe_utils.get_channel(server=cmd.guild, channel_name=ewcfg.channel_slimetwitter)
 
         fart = await fe_utils.send_message(cmd.client, channel, embed=tweet, reference=og_qrt_message)
+        await add_xp(cmd.message.author.id, cmd.guild.id, ewcfg.goonscape_clout_stat, 1300)
 
         if ewutils.DEBUG:
             await fart.add_reaction(ewcfg.emote_slimetwitter_like_debug)

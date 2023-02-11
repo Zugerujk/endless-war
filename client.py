@@ -45,8 +45,11 @@ import ew.utils.transport as transport_utils
 import ew.utils.weather as bknd_weather
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
+from ew.utils.user import add_xp
 
 from ew.cmd.race.racecmds import ree as racecmdsree
+from ew.cmd.slimetwitter.slimetwitterutils import separate_id_from_slimetwitter_embed
+from ew.cmd.slimetwitter.slimetwitterutils import send_qrt_command
 
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
@@ -1186,6 +1189,7 @@ async def on_raw_reaction_add(payload):
 
     slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
     deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
+    community_service = fe_utils.get_channel(server, ewcfg.channel_communityservice)
 
     # Slime Twitter Emote Handling
     if slime_twitter is not None and payload.channel_id == slime_twitter.id:
@@ -1202,10 +1206,19 @@ async def on_raw_reaction_add(payload):
             else:
                 # If the reply is :slimetwitterlike:
                 if str(payload.emoji) in [ewcfg.emote_slimetwitter_like, ewcfg.emote_slimetwitter_like_debug]:
-                    pass
+                    try:
+                        og_id_user = separate_id_from_slimetwitter_embed(embed)
+                        await add_xp(og_id_user, payload.guild_id, ewcfg.goonscape_clout_stat, 13000)
+                    except:
+                        ewutils.logMsg('Failed to increase Clout XP for user with ID {}.'.format(og_id_user))
                 # If the reply is :slimeresplat:
                 elif str(payload.emoji) in [ewcfg.emote_slimetwitter_resplat, ewcfg.emote_slimetwitter_resplat_debug]:
-                    pass
+                    try:
+                        await send_qrt_command(client, server, payload.user_id, payload.message_id)
+                        og_id_user = separate_id_from_slimetwitter_embed(embed)
+                        await add_xp(og_id_user, payload.guild_id, ewcfg.goonscape_clout_stat, 4300)
+                    except:
+                        ewutils.logMsg('Failed to increase Clout XP for user with ID {}, and failed to send Quote Resplat message to user with ID {}'.format(og_id_user, payload.id_user))
 
     # Deviant Splaart Emote Handling
     elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:
@@ -1223,6 +1236,10 @@ async def on_raw_reaction_add(payload):
                     await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 
+    # Community Service Clout
+    elif community_service is not None and payload.channel_id == community_service.id:
+        message = await community_service.fetch_message(payload.message_id)
+        await add_xp(message.author.id, payload.guild_id, ewcfg.goonscape_clout_stat, 6500)
 
 # find our REST API token
 token = ewutils.getToken()

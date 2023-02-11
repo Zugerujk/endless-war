@@ -3402,7 +3402,7 @@ async def display_goonscape_stats(cmd):
 
     # List all normal stats
     if normal:
-        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
 
             stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 

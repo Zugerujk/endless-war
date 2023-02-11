@@ -669,6 +669,9 @@ channel_relicexhibits = "relic-exhibits"
 channel_aquarium = "aquarium"
 channel_artexhibits = "art-exhibits"
 
+# Other
+channel_communityservice = "community-service"
+
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
     faction_rowdys: channel_rowdyroughhouse,
@@ -3254,7 +3257,8 @@ goonscape_mine_stat = "mining"
 goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
-# Double Halloween Exclusive. Won't appear after Halloween.
+goonscape_clout_stat = "clout"
+# Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
 
 # Database columns for goonscape stats
@@ -3266,7 +3270,9 @@ col_id_farming_level = goonscape_farm_stat + "_level"
 col_id_farming_xp = goonscape_farm_stat + "_xp"
 col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
-# Double Halloween
+col_id_clout_level = goonscape_clout_stat + "_level"
+col_id_clout_xp = goonscape_clout_stat + "_xp"
+# Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
 
@@ -3276,13 +3282,15 @@ gs_stat_to_level_col = {
     goonscape_fish_stat: col_id_fishing_level,
     goonscape_farm_stat: col_id_farming_level,
     goonscape_eat_stat: col_id_feasting_level,
-    goonscape_halloweening_stat: col_id_halloweening_level, # DH
+    goonscape_clout_stat: col_id_clout_level,
+    goonscape_halloweening_stat: col_id_halloweening_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
     goonscape_fish_stat: col_id_fishing_xp,
     goonscape_farm_stat: col_id_farming_xp,
     goonscape_eat_stat: col_id_feasting_xp,
+    goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
 }
 

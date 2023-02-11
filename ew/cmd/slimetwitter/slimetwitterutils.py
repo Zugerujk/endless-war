@@ -1,7 +1,6 @@
 from ew.static import cfg as ewcfg
 from ew.utils import frontend as fe_utils
 
-
 # Returns a user's life state/gang color as a discord.Colour object
 def get_tweet_color(user_data):
     if user_data.life_state < 2:
@@ -57,3 +56,16 @@ def format_player_tweet(cmd, user_data, content=""):
     return format_generic_tweet(profile=profile, author=author, checkmark=checkmark, tweet_content=tweet_content, embed_color=embed_color, attachment=attachment)
 
 
+# DMs a player the correct command to quote resplat
+async def send_qrt_command(client, server, user_id, message_id):
+    message = "To Quote Resplat that tweet, use the command:\n`!quoteresplat {} <your tweet>`".format(message_id)
+    member = await fe_utils.get_member(server, user_id)
+    await fe_utils.send_message(client, member, message)
+
+
+# Returns a user_id from a slimetwitter embed
+def separate_id_from_slimetwitter_embed(embed):
+    possible_at = embed.description.replace(ewcfg.emote_verified, "")
+    og_user_id = possible_at.strip("<@!>")
+
+    return og_user_id
