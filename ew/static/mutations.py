@@ -276,7 +276,7 @@ mutations = [
         str_describe_other="They have the mouth of a sailor and the vocabulary of a fourteen year old due to **Trash Mouth**.",
         str_acquire="You drop down onto your knees, your inhibitions wash away as a new lust overtakes you. You begin shoveling literally everything you can pry off the floor into your mouth with such supernatural vigor that a nearby priest spontaneously dies. You have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
         tier=5,
-        str_transplant="You get off the fucking chair in the goddamn waiting room and ask for a dirty mouth. The bitch doctor thinks you're a retard but slices your body up anyway. After a million fucking years of bullshit you eventually start to develop an extreme oral fixation and want to suck on everything in Dusttrap's office, even including Dusttrap's dusttrap. Whoops, I meant her cunt.\n\nYou have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
+        str_transplant="You get off the fucking chair in the goddamn waiting room and ask for a dirty mouth. Dr. Dusttrap thinks you're brain damaged, but slices your body up anyway. After a million fucking years of bullshit, you eventually start to develop an extreme oral fixation and want to suck on everything in Dusttrap's office, even including Dusttrap's dusttrap. Whoops, I meant her cunt.\n\nYou have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
 
     ),
     EwMutationFlavor(
@@ -412,9 +412,9 @@ mutations = [
         alias=['dl', 'lex'],
         str_describe_self="Long words make your head hurt due to **Dyslexia**.",
         str_describe_other="Long words make their head hurt due to **Dyslexia**.",
-        str_acquire="Something blows into your eye, and you rush to wipe it out. All of a sudden, the txet suorrnduing yuo, bllbroads and tmieclkocs negib to ilft off eth aepg. Snpotaoenus lliiterayc is a pertty iryifterng epxeriecne. You have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3.",
+        str_acquire="Something blows into your eye, and you rush to wipe it out. All of a sudden, the txet suorrnduing yuo, bllbroads and tmieclkocs negib to ilft off eth aepg. Snpotaoenus lliiterayc is a pertty iryifterng epxeriecne. You have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3. In addition, Bubble Breaker's board will appear as Emotes.",
         tier=6,
-        str_transplant="\"Hey pipsquick, are you sure you're in the right spot? I think you want to be in the Dojo for this.\" You assure her that you've come to the right place. You realize what she means when she takes out a club and knocks you over the head several times. You suppose that's one way to damage a brain. You can't think, let alone read.\n\nYou have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3.",
+        str_transplant="\"Hey pipsquick, are you sure you're in the right spot? I think you want to be in the Dojo for this.\" You assure her that you've come to the right place. You realize what she means when she takes out a club and knocks you over the head several times. You suppose that's one way to damage a brain. You can't think, let alone read.\n\nYou have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3. In addition, Bubble Breaker's board will appear as Emotes.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_bottomlessappetite,
