@@ -412,9 +412,9 @@ mutations = [
         alias=['dl', 'lex'],
         str_describe_self="Long words make your head hurt due to **Dyslexia**.",
         str_describe_other="Long words make their head hurt due to **Dyslexia**.",
-        str_acquire="Something blows into your eye, and you rush to wipe it out. All of a sudden, the txet suorrnduing yuo, bllbroads and tmieclkocs negib to ilft off eth aepg. Snpotaoenus lliiterayc is a pertty iryifterng epxeriecne. You have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3.",
+        str_acquire="Something blows into your eye, and you rush to wipe it out. All of a sudden, the txet suorrnduing yuo, bllbroads and tmieclkocs negib to ilft off eth aepg. Snpotaoenus lliiterayc is a pertty iryifterng epxeriecne. You have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3. In addition, Bubble Breaker's board will appear as Emotes.",
         tier=6,
-        str_transplant="\"Hey pipsquick, are you sure you're in the right spot? I think you want to be in the Dojo for this.\" You assure her that you've come to the right place. You realize what she means when she takes out a club and knocks you over the head several times. You suppose that's one way to damage a brain. You can't think, let alone read.\n\nYou have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3.",
+        str_transplant="\"Hey pipsquick, are you sure you're in the right spot? I think you want to be in the Dojo for this.\" You assure her that you've come to the right place. You realize what she means when she takes out a club and knocks you over the head several times. You suppose that's one way to damage a brain. You can't think, let alone read.\n\nYou have developed the mutation **Dyslexia**. Across the board, captcha length is reduced by 3. In addition, Bubble Breaker's board will appear as Emotes.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_bottomlessappetite,
