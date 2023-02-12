@@ -66,6 +66,10 @@ tv_counter = 0
 
 conversations = {}
 
+square_duel = 0
+
+last_loop = {}
+
 class EwVector2D:
     vector = [0, 0]
 
@@ -739,15 +743,18 @@ def is_player_inventory(id_inventory, id_server):
 
     # Grab the Discord Client
     client = get_client()
-    discord_result = client.get_guild(id_server).get_member(id_inventory)
+    try:
+        discord_result = client.get_guild(id_server).get_member(int(id_inventory))
+    except ValueError:
+        return False    # Could not convert to int, so definitely not a player
 
     # Try to grab a value from a user with given id
     db_result = bknd_core.execute_sql_query("SELECT {} FROM users WHERE id_user = %s AND id_server = %s".format(
         ewcfg.col_rand_seed
     ), (
-        id_inventory,
+        int(id_inventory),
         id_server
-    ))
+    ), fetchone = True)
 
     if db_result and discord_result:
         return True
@@ -840,10 +847,16 @@ def total_size(o, verbose=False):
 
     return sizeof(o)
 
-#quick function to check presence in a district
-def is_district_empty(poi = ''):
-    data = bknd_core.execute_sql_query('SELECT {id_user} FROM USERS WHERE {poi} = %s LIMIT 1'.format(poi=ewcfg.col_poi, id_user=ewcfg.col_id_user), (poi,))
-    if len(data) > 0:
+
+def is_district_empty(poi = ''):  # quick function to check presence in a district
+    time_now = int(time.time())
+    data = bknd_core.execute_sql_query('SELECT {id_user} FROM users WHERE {poi} = %s and ({time_last_action} > %s or {time_last_enter} > %s) LIMIT 1'.format(
+        poi=ewcfg.col_poi,
+        id_user=ewcfg.col_id_user,
+        time_last_action=ewcfg.col_time_last_action,
+        time_last_enter = ewcfg.col_time_lastenter),
+        (poi, time_now-120, time_now-120), fetchone = True)
+    if data is not None:
         return False
     else:
         return True

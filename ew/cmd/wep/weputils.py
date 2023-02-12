@@ -107,7 +107,7 @@ class EwEffectContainer:
 # self.sap_ignored = sap_ignored
 
 
-def apply_status_bystanders(user_data = None, value = 0, life_states = None, factions = None, district_data = None, status = None):
+async def apply_status_bystanders(user_data = None, value = 0, life_states = None, factions = None, district_data = None, status = None):
     if life_states != None and factions != None and district_data != None and status != None:
         bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
         resp_cont = EwResponseContainer(id_server=user_data.id_server)
@@ -119,7 +119,7 @@ def apply_status_bystanders(user_data = None, value = 0, life_states = None, fac
             bystander_user_data = EwUser(id_user=bystander, id_server=user_data.id_server)
             bystander_player_data = EwPlayer(id_user=bystander, id_server=user_data.id_server)
             if bystander_player_data.display_name in ["", None]:
-                player_update(guild.get_member(bystander), guild)
+                player_update(await fe_utils.get_member(guild, bystander), guild)
             bystander_mutation = bystander_user_data.get_mutations()
 
             if market_data.weather == ewcfg.weather_rainy and status == ewcfg.status_burning_id:
@@ -290,7 +290,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
 
                     resp_cont.add_channel_response(channel, response)
 
-                    resp_cont.add_member_to_update(server.get_member(target_data.id_user))
+                    resp_cont.add_member_to_update(await fe_utils.get_member(server, target_data.id_user))
                 # Survived the explosion
                 else:
 
@@ -390,7 +390,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
         return resp_cont
 
 
-def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_name):
+async def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_name):
     ghost_id = possession_data[0]
     ghost_data = EwUser(id_user=ghost_id, id_server=user_data.id_server)
 
@@ -406,7 +406,7 @@ def fulfill_ghost_weapon_contract(possession_data, market_data, user_data, user_
     user_data.cancel_possession()
 
     server = ewutils.get_client().get_guild(user_data.id_server)
-    ghost_name = server.get_member(ghost_id).display_name
+    ghost_name = (await fe_utils.get_member(server, ghost_id)).display_name
     return "\n\n {} winces in pain as their slime is corrupted into negaslime. {}'s contract has been fulfilled.".format(user_name, ghost_name)
 
 
@@ -506,10 +506,10 @@ def canAttack(cmd):
             else:
                 response = "You lack the moral fiber necessary for violence."
 
-        elif move_utils.poi_is_pvp(user_data.poi) == False and enemy_data.enemytype not in [ewcfg.enemy_type_sandbag] and enemy_data.enemyclass != 'dojomaster':
+        elif (not move_utils.poi_is_pvp(user_data.poi)) and not (enemy_data is not None and (enemy_data.enemytype in [ewcfg.enemy_type_sandbag] or enemy_data.enemyclass == 'dojomaster')):
             response = "You must go elsewhere to commit gang violence."
 
-        elif enemy_data != None:
+        elif enemy_data is not None:
             if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
                 npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
                 if npc_obj.str_juviemode != '' and npc_obj.str_juviemode is not None:
@@ -540,7 +540,7 @@ def canAttack(cmd):
         if shootee_data.life_state == ewcfg.life_state_kingpin:
             # Disallow killing generals.
             response = "He is hiding in his ivory tower and playing video games like a retard."
-        elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()):
+        elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()) and ewutils.square_duel != 2:
             response = "It's not noon yet. Everything in its own time."
         elif (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
@@ -653,9 +653,9 @@ async def attackEnemy(cmd):
     shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, enemy_data, hitzone)
     shootee_status_mods = cmbt_utils.get_shootee_status_mods(enemy_data, user_data, hitzone)
 
-    hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-    crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-    dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+    hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+    crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+    dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
     slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 30)
     # disabled until held items update
@@ -771,11 +771,12 @@ async def attackEnemy(cmd):
 
             # SLIMERNALIA
             factions = ["", bystander_faction]
+            poi_data = poi_static.id_to_poi.get(user_data.poi, ewcfg.poi_id_juviesrow)
 
             # Burn players in district
             if ewcfg.weapon_class_burning in weapon.classes:
-                if not miss:
-                    resp = apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
+                if (not miss) and poi_data.pvp:
+                    resp = await apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
                     resp_cont.add_response_container(resp)
 
             if ewcfg.weapon_class_exploding in weapon.classes:
@@ -783,7 +784,7 @@ async def attackEnemy(cmd):
                 user_data.persist()
                 enemy_data.persist()
 
-                if not miss:
+                if (not miss) and poi_data.pvp:
                     # Damage players/enemies in district
                     resp = await weapon_explosion(user_data=user_data, shootee_data=enemy_data, district_data=district_data, market_data=market_data, life_states=life_states, factions=factions, slimes_damage=bystander_damage, time_now=time_now, target_enemy=True)
                     resp_cont.add_response_container(resp)
@@ -849,6 +850,9 @@ async def attackEnemy(cmd):
         slimes_tobleed = 0
         # slimes_directdamage = 0
         slimes_splatter = 0
+    elif enemy_data.enemytype == ewcfg.enemy_type_npc:
+        slimes_drained *= 0.5
+        slimes_splatter *= 0.5
 
     if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
@@ -903,7 +907,7 @@ async def attackEnemy(cmd):
             ewstats.increment_stat(user=user_data, metric=weapon.stat)
 
         # Give a bonus to the player's weapon skill for killing a stronger enemy.
-        if enemy_data.enemytype != ewcfg.enemy_type_sandbag and enemy_data.level >= user_data.slimelevel and weapon is not None:
+        if enemy_data.enemytype != ewcfg.enemy_type_sandbag and enemy_data.level >= user_data.slimelevel and weapon is not None and user_data.weaponskill < 14:
             user_data.add_weaponskill(n=1, weapon_type=weapon.id_weapon)
 
         slimes_todistrict = enemy_data.slimes / 2
@@ -962,7 +966,7 @@ async def attackEnemy(cmd):
 
         weapon_possession = user_data.get_possession('weapon')
         if weapon_possession:
-            response += fulfill_ghost_weapon_contract(weapon_possession, market_data, user_data, cmd.message.author.display_name)
+            response += await fulfill_ghost_weapon_contract(weapon_possession, market_data, user_data, cmd.message.author.display_name)
 
         # When a raid boss dies, use this response instead so its drops aren't shown in the killfeed
         old_response = response
@@ -993,9 +997,11 @@ async def attackEnemy(cmd):
 
 
     else:
-        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc and (not miss):
             npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+            user_data.persist()
             await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)
+            user_data = EwUser(member=cmd.message.author)
         # A non-lethal blow!
         if weapon != None:
             if miss:
@@ -1194,22 +1200,20 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
     )
 
     # Apply Damage Modifiers
-    ctn.slimes_damage *= (1 + round(attacker_status_mods['dmg'] + target_status_mods['dmg'], 2)) * \
-        misc_atk_mod * \
-        misc_def_mod
+    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod
 
     # apply hit chance modifiers
-    ctn.hit_chance_mod += round(attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'], 2) - \
-                          (5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0
+    ctn.hit_chance_mod += attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'] - ((5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0)
 
     # lucky lucky lucy, oh and also n4 lol
     if ctn.shootee_data.life_state == ewcfg.life_state_lucky or target_status_mods['untouchable']:
         ctn.miss = True
 
     # apply crit chance modifiers
-    ctn.crit_mod += round(attacker_status_mods['crit'] + target_status_mods['crit'], 2) + \
-        0.1 if (ewcfg.mutation_id_airlock in attacker_mutations or ewcfg.mutation_id_foghorn in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0
+    ctn.crit_mod += attacker_status_mods['crit'] + target_status_mods['crit'] + \
+        (0.1 if (ewcfg.mutation_id_airlock in attacker_mutations or ewcfg.mutation_id_foghorn in attacker_mutations) and (ctn.market_data.weather == ewcfg.weather_foggy) else 0)
 
+    # double crit chance if TaS is active
     if ewcfg.mutation_id_threesashroud in attacker_mutations:
         allies_in_district = district_data.get_players_in_district(
             min_level=math.ceil((1 / 10) ** 0.25 * ctn.user_data.slimelevel),

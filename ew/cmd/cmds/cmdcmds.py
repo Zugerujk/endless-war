@@ -47,7 +47,6 @@ from ew.utils.cmd import EwCmd
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
-from .cmdsutils import exec_mutations
 from .cmdsutils import gen_score_text
 from .cmdsutils import get_user_shares_str
 from .cmdsutils import item_commands
@@ -66,7 +65,7 @@ try:
     from ew.static import rstatic as relic_static
 except:
     from ..debug_dummy import debug24
-    from ew.static import rstatic as relic_static
+    from ew.static import rstatic_dummy as relic_static
 
 """ show player's slime score """
 
@@ -358,7 +357,7 @@ async def data(cmd):
         if user_data.life_state == ewcfg.life_state_corpse:
             inhabitee_id = user_data.get_inhabitee()
             if inhabitee_id:
-                inhabitee_name = server.get_member(inhabitee_id).display_name
+                inhabitee_name = (await fe_utils.get_member(server, inhabitee_id)).display_name
                 possession = user_data.get_possession()
                 if possession:
                     if possession[3] == 'weapon':
@@ -372,7 +371,7 @@ async def data(cmd):
             if inhabitant_ids:
                 inhabitant_names = []
                 for inhabitant_id in inhabitant_ids:
-                    inhabitant_names.append(server.get_member(inhabitant_id).display_name)
+                    inhabitant_names.append((await fe_utils.get_member(server, inhabitant_id)).display_name)
 
                 possession = user_data.get_possession()
                 if possession is not None:
@@ -388,7 +387,7 @@ async def data(cmd):
                         inhabitant_names[-1]
                     )
                     if possession:
-                        response_block += "{} is also possessing your {}. ".format(server.get_member(ghost_in_weapon).display_name, possession_type)
+                        response_block += "{} is also possessing your {}. ".format((await fe_utils.get_member(server, ghost_in_weapon)).display_name, possession_type)
 
         # if user_data.swear_jar >= 500:
         # 	response_block += "You're going to The Underworld for the things you've said."
@@ -443,8 +442,7 @@ async def mutations(cmd):
         user_data = EwUser(member=cmd.message.author)
         mutations = user_data.get_mutations()
 
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
 
         # if ewcfg.mutation_id_gay in mutations:
@@ -483,8 +481,7 @@ async def mutations(cmd):
             id_user=member.id,
             id_server=member.guild.id
         )
-        if user_data.life_state in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-            return await exec_mutations(cmd)
+
 
         mutations = user_data.get_mutations()
         for mutation in mutations:
@@ -1775,8 +1772,8 @@ async def help(cmd):
             topic = random.choice(channel_topics)
 
             # Generate the silly page number for fun
-            random.seed(topic)
-            page_number = random.randint(1, 1337)
+            page_random_class = random.Random(topic)
+            page_number = page_random_class.randint(1, 1337)
 
             # Create a response with a part about the topic name and a reminder about game guides.
             response = "Excerpt from the Game Guide, page {}, on **{}**:\n\n".format(page_number, topic) + ewcfg.help_responses[topic] + "\n\nDon't forget - portable, fully-featured Game Guides can be purchased at Neo Milwaukee State or NLACU for 10,000 slime!"
@@ -1833,9 +1830,9 @@ async def commands(cmd):
     if "basic" in category:
         response += "Commands:\n" + ewcfg.basic_commands
 
-    elif ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':    
-        poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2])
-        poi_sought = poi_static.id_to_poi.get(poi_look)
+    elif ewutils.flattenTokenListToString(tokens=cmd.tokens[1]) == 'location':
+        poi_look = ewutils.flattenTokenListToString(tokens=cmd.tokens[2:]) if cmd.tokens_count >= 3 else user_data.poi
+        poi_sought = poi_static.id_to_poi.get(poi_look, None)
         if poi_sought:
             command_output = location_commands(cmd=cmd, search_poi=poi_sought.id_poi)
             if command_output != "":
@@ -2384,20 +2381,17 @@ async def wrap(cmd: EwCmd):
             response = "Are you sure you have that item?"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+async def eventstage(cmd: EwCmd):
+    """ Returns the current event stage. """
+    return await fe_utils.send_response(f"Event is currently at Stage {ewcfg.event_stage}.", cmd)
 
 async def yoslimernalia(cmd: EwCmd):
     """ Yo, Slimernalia! """
     ewstats.increment_stat(id_server=cmd.guild.id, id_user=cmd.message.author.id, metric=ewcfg.stat_festivity)
     await fe_utils.send_message(cmd.client, cmd.message.channel, '@everyone Yo, Slimernalia!', filter_everyone=False)
 
-
-async def slimernaliastage(cmd: EwCmd):
-    """ Returns the current slimernalia event stage. """
-    return await fe_utils.send_response(f"Slimernalia is currently at Stage {ewcfg.slimernalia_stage}.", cmd)
-
-
 # Admin commands
-async def announceslimernaliastage(cmd: EwCmd):
+async def announceeventstage(cmd: EwCmd):
     """ Announces the patch notes for the current/past slimernalia event stages. """
     if not cmd.message.author.guild_permissions.administrator:
         return
@@ -2408,25 +2402,25 @@ async def announceslimernaliastage(cmd: EwCmd):
     if "all" in cmd.tokens:
         print_all = True
 
-    await fe_utils.announce_slimernalia_stage_increase(cmd.client, cmd.guild, print_all)
+    await fe_utils.announce_event_stage_increase(cmd.client, cmd.guild, print_all)
 
     return await fe_utils.send_response("Announced them there stages for ya, sonny!", cmd)
 
 
-async def setslimernaliastage(cmd):
-    """ Allows an admin to set the slimernalia event stage manually. """
+async def seteventstage(cmd):
+    """ Allows an admin to set the event stage manually. """
     if not cmd.message.author.guild_permissions.administrator:
         return
 
     # Verify what the user sent
     if len(cmd.tokens) > 1 and str.isnumeric(cmd.tokens[1]):
-        if int(cmd.tokens[1]) <= len(ewcfg.slimernalia_stage_announcements):
-            ewcfg.slimernalia_stage = int(cmd.tokens[1])
-            response = f"Set festivity stage to {ewcfg.slimernalia_stage}"
+        if int(cmd.tokens[1]) <= len(ewcfg.event_stage_announcements):
+            ewcfg.event_stage = int(cmd.tokens[1])
+            response = f"Set event stage to {ewcfg.event_stage}"
         else:
-            response = f"Wuh? There's only {len(ewcfg.slimernalia_stage_announcements)} stages."
+            response = f"Wuh? There's only {len(ewcfg.event_stage_announcements)} stages."
     else:
-        response = "It's !setfestivitystage <int>."
+        response = "It's !seteventstage <int>."
 
     return await fe_utils.send_response(response, cmd)
 
@@ -2709,8 +2703,8 @@ async def make_bp(cmd):
     if EwUser(member=cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
         return
 
-    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 487483183957278730:
-        response = 'We were only going to give admin to Zug this time around.'
+    if  cmd.mentions_count > 0 and cmd.mentions[0].id != 324283333984911361:
+        response = 'We were only going to give admin to Danny this time around.'
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif cmd.mentions_count > 0:
         recipient = cmd.mentions[0]
@@ -2882,11 +2876,11 @@ async def dual_key_ban(cmd):
     if cmd.mentions_count == 1:
         # Raw mentions so we can even grab the funny ones
         mention_id = cmd.message.raw_mentions[0]
-        member = cmd.message.guild.get_member(mention_id)
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
         mention_id = cmd.tokens[1]
-        member = cmd.message.guild.get_member(int(mention_id))
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if member is not None:
         # If the person you're trying to dualkey is also a mod/admin/etc.
@@ -2951,11 +2945,11 @@ async def dual_key_release(cmd):
     if cmd.mentions_count == 1:
         # Raw mentions so we can even grab the funny ones
         mention_id = cmd.message.raw_mentions[0]
-        member = cmd.message.guild.get_member(mention_id)
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if len(cmd.tokens) >= 2 and str.isnumeric(cmd.tokens[1]):
         mention_id = cmd.tokens[1]
-        member = cmd.message.guild.get_member(int(mention_id))
+        member = await fe_utils.get_member(cmd.message.guild, mention_id)
 
     if member is not None:
         # If the person you're trying to dualkey is also a mod/admin/etc.
@@ -3330,11 +3324,13 @@ async def cockdraw(cmd):
         if size >= 10:
             size = user_data.rand_seed % 1000
     else:
-        random.seed(object)
-        size = float((random.randint(1, 100000) + user_data.rand_seed) % 110) / 10
+        # Create a seeded random class for !measure, as to not overwrite the global random seed
+        measure_random_class = random.Random(object)
+
+        size = float((measure_random_class.randint(1, 100000) + user_data.rand_seed) % 110) / 10
 
         if size >= 10:
-            size = (random.randint(1, 100000) + user_data.rand_seed) % 1000
+            size = (measure_random_class.randint(1, 100000) + user_data.rand_seed) % 1000
 
     if cmd.tokens[0] == '!cockdraw':
         response = "You slowly stick your hand in your pants..."
@@ -3406,7 +3402,7 @@ async def display_goonscape_stats(cmd):
 
     # List all normal stats
     if normal:
-        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat]:
+        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
 
             stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 
@@ -3438,3 +3434,14 @@ async def clear_zero_stats(cmd):
 
     if result is not None:
         return await fe_utils.send_response(f"Successfully cleaned the database of {result} redundant stats. Nice!", cmd)
+
+async def loop_diagnostic(cmd):
+    if 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
+        response = "Tick loop progress:\n"
+        time_now = int(time.time())
+
+        for timestamp in ewutils.last_loop.keys():
+            response += "{} loop: {} seconds ago\n".format(timestamp, time_now - ewutils.last_loop.get(timestamp))
+
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+

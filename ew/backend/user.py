@@ -90,6 +90,8 @@ class EwUserBase:
     """ fix data in this object if it's out of acceptable ranges """
 
     def limit_fix(self):
+        self.id_user = int(self.id_user)
+
         if self.hunger > self.get_hunger_max():
             self.hunger = self.get_hunger_max()
 
@@ -115,18 +117,18 @@ class EwUserBase:
         self.combatant_type = ewcfg.combatant_type_player
 
         if ew_id != None:
-            id_user = ew_id.user
+            id_user = int(ew_id.user)
             id_server = ew_id.guild
 
         if (id_user == None) and (id_server == None):
             if (member != None):
                 id_server = member.guild.id
-                id_user = member.id
+                id_user = int(member.id)
 
         # Retrieve the object from the database if the user is provided.
         if (id_user != None) and (id_server != None):
             self.id_server = id_server
-            self.id_user = id_user
+            self.id_user = int(id_user)
 
             try:
                 conn_info = bknd_core.databaseConnect()
@@ -245,7 +247,7 @@ class EwUserBase:
                     self.life_state = ewcfg.life_state_juvenile
                     # Create a new database entry if the object is missing.
                     cursor.execute(
-                        "REPLACE INTO users(id_user, id_server, poi, life_state, rand_seed) VALUES(%s, %s, %s, %s, %s)",
+                        "INSERT INTO users(id_user, id_server, poi, life_state, rand_seed) VALUES(%s, %s, %s, %s, %s)",
                         (
                             id_user,
                             id_server,
@@ -281,10 +283,7 @@ class EwUserBase:
             # Save the object.
 
             cursor.execute(
-                "REPLACE INTO users({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
-
-                    ewcfg.col_id_user,
-                    ewcfg.col_id_server,
+                "UPDATE users SET {id_user} = %s, {id_server} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s WHERE {id_user} = %s AND {id_server} = %s".format(
                     ewcfg.col_slimes,
                     ewcfg.col_slimelevel,
                     ewcfg.col_hunger,
@@ -332,7 +331,9 @@ class EwUserBase:
                     ewcfg.col_gender,
                     ewcfg.col_hogtied,
                     ewcfg.col_crime,
-                    ewcfg.col_event_points
+                    ewcfg.col_event_points,
+                    id_user = ewcfg.col_id_user,
+                    id_server = ewcfg.col_id_server,
                 ), (
                     self.id_user,
                     self.id_server,
@@ -381,8 +382,9 @@ class EwUserBase:
                     self.gender,
                     self.hogtied,
                     self.crime,
-                    self.event_points
-                    
+                    self.event_points,
+                    self.id_user,
+                    self.id_server
                 ))
 
             conn.commit()

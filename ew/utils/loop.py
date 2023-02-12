@@ -48,6 +48,7 @@ from ..static.food import swilldermuk_food
 from ..static import poi as poi_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
+from ..cmd.juviecmd.juviecmdutils import mine_collapse
 try:
     from ..utils import rutils
 except:
@@ -67,6 +68,7 @@ async def event_tick_loop(id_server):
 
     interval = ewcfg.event_tick_length
     while not ewutils.TERMINATE:
+        ewutils.last_loop['event'] = int(time.time())
         await asyncio.sleep(interval)
         await event_tick(id_server)
 
@@ -90,28 +92,23 @@ async def event_tick(id_server):
                 try:
                     event_data = EwWorldEvent(id_event=row[0])
                     event_def = poi_static.event_type_to_def.get(event_data.event_type)
-
+                    if event_def and event_def.function_on_end is not None:
+                        await event_def.function_on_end
                     response = event_def.str_event_end if event_def else ""
                     if event_data.event_type == ewcfg.event_type_minecollapse:
                         user_data = EwUser(id_user=event_data.event_props.get('id_user'), id_server=id_server)
-                        mutations = user_data.get_mutations()
                         if user_data.poi == event_data.event_props.get('poi'):
+                            # Do the mine collapse function
+                            mine_action = mine_collapse(id_user=user_data.id_user, id_server=id_server) 
+                            
+                            # Take either slime or hunger
+                            if mine_action.collapse_penalty != 0.0:
+                                if user_data.slimes > 1:
+                                    user_data.change_slimes(n=-(user_data.slimes * mine_action.collapse_penalty))
+                            elif mine_action.hunger_cost_multiplier != 1:
+                                user_data.hunger += (ewcfg.hunger_permine * mine_action.hunger_cost_multiplier)
 
-                            player_data = EwPlayer(id_user=user_data.id_user)
-                            response = "*{}*: You have lost an arm and a leg in a mining accident. Tis but a scratch.".format(
-                                player_data.display_name)
-
-                            if random.randrange(4) == 0:
-                                response = "*{}*: Big John arrives just in time to save you from your mining accident!\nhttps://cdn.discordapp.com/attachments/431275470902788107/743629505876197416/mine2.jpg".format(
-                                    player_data.display_name)
-                            else:
-
-                                if ewcfg.mutation_id_lightminer in mutations:
-                                    response = "*{}*: You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping.".format(
-                                        player_data.display_name)
-                                else:
-                                    user_data.change_slimes(n=-(user_data.slimes * 0.5))
-                                    user_data.persist()
+                            user_data.persist()
 
                     elif event_data.event_type == ewcfg.event_type_alarmclock:
                         clock_item = EwItem(event_data.event_props.get("clock_id"))
@@ -161,6 +158,9 @@ async def event_tick(id_server):
             try:
                 event_data = EwWorldEvent(id_event=row[0])
                 event_def = poi_static.event_type_to_def.get(event_data.event_type)
+
+                if event_def and event_def.function_on_activate is not None:
+                    await event_def.function_on_activate
 
                 # If the event is a POI event
                 if event_data.event_type in ewcfg.poi_events:
@@ -318,7 +318,7 @@ async def kill_quitters(id_server):
     ))
 
     for user in users:
-        member = server.get_member(user[0])
+        member = await fe_utils.get_member(server, user[0])
 
         # Make sure to kill players who may have left while the bot was offline.
         if member is None:
@@ -342,6 +342,7 @@ async def bleed_tick_loop(id_server):
     interval = ewcfg.bleed_tick_length
     # causes a capture tick to happen exactly every 10 seconds (the "elapsed" thing might be unnecessary, depending on how long capture_tick ends up taking on average)
     while not ewutils.TERMINATE:
+        ewutils.last_loop['bleed'] = int(time.time())
         await bleedSlimes(id_server=id_server)
         await enemyBleedSlimes(id_server=id_server)
         # ewutils.ewutils.logMsg("Capture tick happened on server %s." % id_server + " Timestamp: %d" % int(time.time()))
@@ -368,7 +369,7 @@ async def bleedSlimes(id_server):
         user_data = EwUser(id_user=user[0], id_server=id_server)
 
         mutations = user_data.get_mutations()
-        member = server.get_member(user_data.id_user)
+        member = await fe_utils.get_member(server, user_data.id_user)
         if ewcfg.mutation_id_bleedingheart not in mutations or user_data.time_lasthit < int(time.time()) - ewcfg.time_bhbleed:
             slimes_to_bleed = user_data.bleed_storage * (
                     1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
@@ -470,6 +471,7 @@ async def pushdownServerInebriation(id_server):
 async def burn_tick_loop(id_server):
     interval = ewcfg.burn_tick_length
     while not ewutils.TERMINATE:
+        ewutils.last_loop['burn'] = int(time.time())
         await burnSlimes(id_server=id_server)
         await enemyBurnSlimes(id_server=id_server)
         await asyncio.sleep(interval)
@@ -777,7 +779,7 @@ async def spawn_enemies(id_server = None, debug = False):
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
     # Why did I make this into incredibly hacky code? Because.
-    if random.randrange(4) == 0 and npc_enemies_count <= ewcfg.max_npcs:
+    if random.randrange(5) == 0 and npc_enemies_count <= ewcfg.max_npcs:
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_npc))
             #if random.randrange(2) == 0:
                 #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
@@ -828,6 +830,7 @@ async def spawn_enemies_tick_loop(id_server):
     interval = ewcfg.enemy_spawn_tick_length
     # Causes the possibility of an enemy spawning every 10 seconds
     while not ewutils.TERMINATE:
+        ewutils.last_loop['spawn_enemies'] = int(time.time())
         await asyncio.sleep(interval)
         await spawn_enemies(id_server=id_server)
 
@@ -836,9 +839,13 @@ async def enemy_action_tick_loop(id_server):
     interval = ewcfg.enemy_attack_tick_length
     # Causes hostile enemies to attack every tick.
     while not ewutils.TERMINATE:
+        ewutils.last_loop['enemy_act'] = int(time.time())
         await asyncio.sleep(interval)
         # resp_cont = EwResponseContainer(id_server=id_server)
-        await cmbt_utils.enemy_perform_action(id_server)
+        try:
+            await cmbt_utils.enemy_perform_action(id_server) #occasionally role update lag will stop this loop,
+        except Exception as e:
+            ewutils.logMsg('Enemy tick loop failed. Reason:{}'.format(e))
 
 
 async def release_timed_prisoners_and_blockparties(id_server, day):
@@ -870,6 +877,7 @@ async def spawn_prank_items_tick_loop(id_server):
     interval = 180
     new_interval = 0
     while not ewutils.TERMINATE:
+        ewutils.last_loop['prank'] = int(time.time())
         if new_interval > 0:
             interval = new_interval
 
@@ -993,6 +1001,7 @@ async def generate_credence_tick_loop(id_server):
     # interval = 10
 
     while not ewutils.TERMINATE:
+        ewutils.last_loop['credence'] = int(time.time())
         interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
         await asyncio.sleep(interval)
         await generate_credence(id_server)
@@ -1122,7 +1131,7 @@ async def capture_tick(id_server):
 
                 # dont count offline players
                 try:
-                    player_online = server.get_member(player_id).status != discord.Status.offline
+                    player_online = (await fe_utils.get_member(server, player_id)).status != discord.Status.offline
                 except:
                     player_online = False
 
@@ -1145,7 +1154,6 @@ async def capture_tick(id_server):
                         if ewcfg.mutation_id_unnaturalcharisma in mutations:
                             player_capture_speed += 1
 
-                        #ewutils.logMsg("Adding {} to Capture Speed of {} for player {}".format(player_capture_speed, capture_speed, player_id))
                         capture_speed += player_capture_speed
                         num_capturers += 1
                         dc_stat_increase_list.append(player_id)
@@ -1212,6 +1220,7 @@ async def capture_tick_loop(id_server):
     interval = ewcfg.capture_tick_length
     # causes a capture tick to happen exactly every 10 seconds (the "elapsed" thing might be unnecessary, depending on how long capture_tick ends up taking on average)
     while not ewutils.TERMINATE:
+        ewutils.last_loop['capture'] = int(time.time())
         await capture_tick(id_server=id_server)
         # ewutils.logMsg("Capture tick happened on server %s." % id_server + " Timestamp: %d" % int(time.time()))
 
@@ -1265,6 +1274,7 @@ async def give_kingpins_slime_and_decay_capture_points(id_server):
 async def clock_tick_loop(id_server, force_active = False):
     """ Good ol' Clock Tick Loop. Handles everything that has to occur on an in-game hour. (15 minutes)"""
     while not ewutils.TERMINATE:
+        ewutils.last_loop['clock'] = int(time.time())
         try:
             time_now = int(time.time())
             # Load the market from the database
@@ -1377,6 +1387,7 @@ async def clock_tick_loop(id_server, force_active = False):
                         ewutils.logMsg(f"Failed to expire blockparties in server {id_server}: {e}")
 
                     if market_data.day % 8 == 0 or force_active:
+                        continue # TODO: Turn off once alive players stop getting their user_data reset! :P
                         # Rent processing
                         try:
                             ewutils.logMsg("Started rent calc...")

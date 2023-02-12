@@ -70,38 +70,11 @@ def item_off(id_item, id_server, item_name = "", is_flushed = False):
     return response
 
 
-async def exec_mutations(cmd):
-    user_data = EwUser(member=cmd.message.author)
-
-    if cmd.mentions_count == 1:
-        user_data = EwUser(member=cmd.mentions[0])
-
-    status = user_data.getStatusEffects()
-
-    if ewcfg.status_n1 in status:
-        response = "They fight without expending themselves due to **Perfection**. They're precise even without a target due to **Indiscriminate Rage**. They're hard to fell and cut deep due to **Monolith Body**. They are immaculate and unaging due to **Immortality**."
-    elif ewcfg.status_n2 in status:
-        response = "They have unparalleled coordination, speed and reaction time due to **Fucked Out**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
-    elif ewcfg.status_n4 in status:
-        response = "They are capable of murder by machine due to **Napalm Hacker**. Their hiding spot evades you due to **Super Amnesia**."
-    elif ewcfg.status_n8 in status:
-        response = "They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
-    elif ewcfg.status_n11 in status:
-        response = "They command a crowd through fear and punishment due to **Unnatural Intimidation**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
-    elif ewcfg.status_n12 in status:
-        response = "Their body holds untold numbers of quirks and perks due to **Full Aberrant**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
-    elif ewcfg.status_n13 in status:
-        response = "They are prone to explosive entries due to **Tantrum**. They take advantage of your moments of weakness due to **Opportunist**. They prioritize best-in-breed productivity and physical enhancement synergy due to **Market Efficiency**. They can take the heat due to **Kevlar Attire**."
-    elif user_data.life_state == ewcfg.life_state_lucky:
-        response = "They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. They are extremely fortunate due to **Lucky**. "
-    else:
-        response = "Slimecorp hasn't issued them mutations in their current position."
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 def location_commands(cmd, search_poi = None):
     user_data = EwUser(member=cmd.message.author)
-    response = "**CURRENT LOCATION**:"
+    response = init_resp = "**CURRENT LOCATION**:"
 
     # Get either location searched or user location
     if search_poi is not None:
@@ -110,37 +83,40 @@ def location_commands(cmd, search_poi = None):
         poi = user_data.poi
     poi_obj = poi_static.id_to_poi.get(poi)
 
-    # Unique-ish commands first
-    if poi in [ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate]:
-        response += "\n" + ewcfg.universities_commands
-    if ewcfg.district_unique_commands.get(poi) is not None:
-        response += "\n" + ewcfg.district_unique_commands.get(poi)
+    if poi_obj is not None:
+        response = init_resp = "**{}**".format(poi_obj.str_name)
 
-    # Generic commands second
-    if poi in [ewcfg.poi_id_mine, ewcfg.poi_id_mine_sweeper, ewcfg.poi_id_mine_bubble, ewcfg.poi_id_tt_mines,
-               ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
-               ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble]:
-        response += "\n" + ewcfg.mine_commands
-    elif poi_obj.is_pier == True:
-        response += "\n" + ewcfg.pier_commands
-    elif poi_obj.is_transport_stop == True or poi_obj.is_transport == True:
-        response += "\n" + ewcfg.transport_commands
-    elif poi_obj.is_apartment:
-        response += "\n" + ewcfg.apartment_commands
-    elif poi in [ewcfg.poi_id_greencakecafe, ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate,
-               ewcfg.poi_id_glocksburycomics]:
-        response += "\n" + ewcfg.zine_writing_places_commands
-    elif poi in [ewcfg.poi_id_ab_farms, ewcfg.poi_id_og_farms, ewcfg.poi_id_jr_farms]:
-        response += "\n" + ewcfg.farm_commands
+        # Unique-ish commands first
+        if poi in [ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate]:
+            response += "\n" + ewcfg.universities_commands
+        if ewcfg.district_unique_commands.get(poi) is not None:
 
-    # Shops last
-    if len(poi_obj.vendors) != 0:
-        response += "\n" + ewcfg.shop_commands
+            response += "\n" + ewcfg.district_unique_commands.get(poi)
 
-    if response != "**CURRENT LOCATION**:":
-        return (response + "\n")
+        # Generic commands second
+        if poi in [ewcfg.poi_id_mine, ewcfg.poi_id_mine_sweeper, ewcfg.poi_id_mine_bubble, ewcfg.poi_id_tt_mines,
+                   ewcfg.poi_id_tt_mines_sweeper, ewcfg.poi_id_tt_mines_bubble, ewcfg.poi_id_cv_mines,
+                   ewcfg.poi_id_cv_mines_sweeper, ewcfg.poi_id_cv_mines_bubble]:
+            response += "\n" + ewcfg.mine_commands
+        elif poi_obj.is_pier:
+            response += "\n" + ewcfg.pier_commands
+        elif poi_obj.is_transport_stop or poi_obj.is_transport:
+            response += "\n" + ewcfg.transport_commands
+        elif poi_obj.is_apartment:
+            response += "\n" + ewcfg.apartment_commands
+        elif poi in [ewcfg.poi_id_greencakecafe, ewcfg.poi_id_nlacu, ewcfg.poi_id_neomilwaukeestate, ewcfg.poi_id_glocksburycomics]:
+            response += "\n" + ewcfg.zine_writing_places_commands
+        elif poi in [ewcfg.poi_id_ab_farms, ewcfg.poi_id_og_farms, ewcfg.poi_id_jr_farms]:
+            response += "\n" + ewcfg.farm_commands
+
+        # Shops last
+        if len(poi_obj.vendors) != 0:
+            response += "\n" + ewcfg.shop_commands
+
+    if response != init_resp:
+        return response + "\n"
     else:
-        return "No special commands for your current location. Try \"!commands basic\" or \"!help\"."
+        return "No special commands for {}. Try \"!commands basic\" or \"!help\".".format(poi_obj.str_name if poi_obj is not None else user_data.poi)
 
 
 def mutation_commands(cmd):

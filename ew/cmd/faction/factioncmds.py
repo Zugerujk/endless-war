@@ -8,6 +8,7 @@ from ew.static import poi as poi_static
 from ew.static import weapons as static_weapons
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
+import ew.utils.cmd as cmd_utils
 from ew.utils.combat import EwUser
 from functools import partial
 
@@ -330,6 +331,21 @@ async def vote(cmd):
         response = "You can't vote for nobody. What, were you planning to write in Deez Nuts?"
     else:
         target = cmd.mentions[0]
+
+        faction_dict = {
+            ewcfg.poi_id_juviesrow:'juvie',
+            ewcfg.poi_id_thesewers:'corpse',
+            ewcfg.poi_id_copkilltown:'killers',
+            ewcfg.poi_id_rowdyroughhouse:'rowdys'
+        }
+
+        target_user = EwUser(member=target)
+        if target_user.life_state == ewcfg.life_state_corpse:
+            faction = 'corpse'
+        elif target_user.life_state == ewcfg.life_state_enlisted:
+            faction = target_user.faction
+        else:
+            faction = 'juvie'
         results = bknd_core.execute_sql_query("SELECT 1 FROM votes WHERE id_server = %s AND id_user = %s and poi = %s".format(
                 id_role=ewcfg.col_id_role,
                 name=ewcfg.col_role_name
@@ -340,6 +356,8 @@ async def vote(cmd):
             ))
         if len(results) > 0:
             response = "You already voted here. The stupid motherfuckers over there won't let you stuff the ballot."
+        elif faction_dict.get(user_data.poi) != faction:
+            response = "They're not a member of that party. Vote for someone this polling place actually cares about."
         else:
             try:
                 bknd_core.execute_sql_query(
@@ -361,7 +379,55 @@ async def vote(cmd):
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+async def hydraulicpress(cmd): #dammit if this worked i bet it would be fucking huge. i wish people didn't hate the idea so much
+    state = EwGamestate(id_server=cmd.guild.id, id_state='hydraulicpress')
+    #locked behind a gamestate that will remain off for the time being
+    user_data = EwUser(member=cmd.message.author)
+    if state.bit == 0:
+        return await cmd_utils.fake_failed_command(cmd)
+    else:
+        if user_data.slimes < state.number:
+            response = "You're too scrawny, the press won't fit your meager slimecount. Try again when you have {:,} slime or more.".format(state.number)
+        elif cmd.mentions_count != 0:
+            response = "You have to press the slime into someone."
+        else:
+            target = EwUser(member=cmd.mentions[0])
 
+            if target.poi != user_data.poi:
+                response = "You need to be in the same place."
+            elif user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow]:
+                response = "You can't find a hydraulic press to use in here. The gang bases have some, you're pretty sure."
+            elif target.slimes > 2000000:
+                response = "They're too big, they won't fit in the press to receive your slime."
+            elif user_data.life_state == ewcfg.life_state_corpse or target.life_state == ewcfg.life_state_corpse:
+                response = "That seems pretty counterproductive..."
+            else:
+
+                target_1 = 2000000 - target.slimes
+                target_2 = user_data.slimes - state.number
+                final_target = min(target_1, target_2)
+
+                q = "This will squeeze {:,} slime into {}. Hey, {}, do you !accept or !refuse it?".format(final_target, cmd.mentions[0].display_name, cmd.mentions[0].display_name)
+                accept = await fe_utils.prompt(cmd=cmd, target=cmd.mentions[0], checktarget=True, question=q)
+                user_data = EwUser(member=cmd.message.author)
+                target = EwUser(member=cmd.mentions[0])
+
+                target_1 = 2000000 - target.slimes
+                target_2 = user_data.slimes - state.number
+                final_target = min(target_1, target_2)
+
+                if user_data.slimes < state.number or target.slimes > 2000000:
+                    response = "Nice try, jackass."
+                elif accept:
+                    response = "You get under the press, and {} jumps into the receiver. \n\n**PSSSSHHHHHHHHSPLAAAAT!** You nearly feel your lungs pop under the pressure, but soon enough the process is complete. {} is {:,} slime richer!".format(cmd.mentions[0].display_name, cmd.mentions[0].display_name, final_target)
+                    user_data.change_slimes(-final_target)
+                    target.change_slimes(final_target)
+                    user_data.persist()
+                    target.persist()
+                else:
+                    response = "Huh, guess they're not biting. Their loss!"
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 

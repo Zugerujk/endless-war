@@ -328,12 +328,12 @@ def find_kingpin(id_server, kingpin_role):
         id_server,
         ewcfg.life_state_kingpin,
         ewcfg.faction_rowdys if kingpin_role == ewcfg.role_rowdyfucker else ewcfg.faction_killers
-    ))
+    ), fetchone = True)
 
     kingpin = None
 
-    if len(data) > 0:
-        id_kingpin = data[0][0]
+    if data is not None:
+        id_kingpin = data[0]
         kingpin = EwUser(id_server=id_server, id_user=id_kingpin)
 
     return kingpin
@@ -352,7 +352,7 @@ async def post_in_hideouts(id_server, message):
     )
 
 # FIXME remove client from this and a bunch of other front end commands, it's completely useless
-async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True):
+async def send_message(client, channel, text=None, embed=None, delete_after=None, filter_everyone=True, reference = None):
     """
         Proxy to discord.py channel.send with exception handling
         - channel is a discord Channel
@@ -382,7 +382,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows, embed=embed)
         if embed is not None:
-            return await channel.send(embed=embed)
+            return await channel.send(embed=embed, reference=reference)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise
@@ -452,12 +452,12 @@ async def delete_last_message(client, last_messages, tick_length):
         ewutils.logMsg("failed to delete last message")
 
 
-def create_death_report(cause=None, user_data=None, deathmessage = ""):
+async def create_death_report(cause=None, user_data=None, deathmessage = ""):
     client = ewutils.get_client()
     server = client.get_guild(user_data.id_server)
 
     # User display name is used repeatedly later, grab now
-    user_member = server.get_member(user_data.id_user)
+    user_member = await get_member(server, user_data.id_user)
     user_player = EwPlayer(id_user=user_data.id_user)
     user_nick = user_player.display_name
 
@@ -577,7 +577,7 @@ async def update_slimernalia_kingpin(client, server):
         kingpin_state.persist()
         try:
             ewutils.logMsg(f"Attempted to dethrone {old_kingpin_id} from slimernalia kingpin...")
-            old_kingpin_member = server.get_member(old_kingpin_id)
+            old_kingpin_member = await get_member(server, old_kingpin_id)
             await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
         except:
             ewutils.logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin_id, server.id))
@@ -620,15 +620,15 @@ async def update_slimernalia_kingpin(client, server):
         await send_message(client, channel, embed=announce)
 
 
-async def announce_slimernalia_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
+async def announce_event_stage_increase(client: discord.Client, server: discord.Guild, send_all=True):
     channel_obj = get_channel(server=server, channel_name="auditorium")
     announce_obj = EwResponseContainer(client=client, id_server=server.id)
     if send_all:
-        for stage in ewcfg.slimernalia_stage_announcements[:ewcfg.slimernalia_stage - 1]:
+        for stage in ewcfg.event_stage_announcements[:ewcfg.event_stage - 1]:
             announce_obj.add_channel_response(channel_obj, stage)
     else:
-        if ewcfg.slimernalia_stage >= 0:
-            announce_obj.add_channel_response(channel_obj, ewcfg.slimernalia_stage_announcements[ewcfg.slimernalia_stage - 1])
+        if ewcfg.event_stage >= 0:
+            announce_obj.add_channel_response(channel_obj, ewcfg.event_stage_announcements[ewcfg.event_stage - 1])
 
     return await announce_obj.post()
 
@@ -721,12 +721,15 @@ async def sync_topics(cmd):
 """
 async def get_member(guild, member_id):
     # Check for member in discord.py cache
-    member = guild.get_member(member_id)
+    try:
+        member = guild.get_member(int(member_id))
+    except ValueError:  # ValueError thrown when non 0-9 chars are passed as part of a string in int()
+        return None     # Return None now to ensure query_members doesnt throw an error when running the same int(id)
 
     # Sometimes discord.py fails cache members for no apparent reason, lets fix that
     if member is None:
         # query that insists on returning a list cause rapptz is lazy and so am I
-        mem_list = await guild.query_members(user_ids=[member_id], presences=True)
+        mem_list = await guild.query_members(user_ids=[int(member_id)], presences=True)
 
         # retrieve the member from the list if it's there
         member = mem_list[0] if len(mem_list) == 1 else None
@@ -734,7 +737,7 @@ async def get_member(guild, member_id):
     return member
 
 
-async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None):
+async def talk_bubble(response = "", name = "", image = None, channel = None, color = "", npc_obj = None, delete_after = None):
     bubble = discord.Embed()
     client = ewutils.get_client()
     if name != "" and channel is not None:
@@ -754,7 +757,7 @@ async def talk_bubble(response = "", name = "", image = None, channel = None, co
         else:
             bubble.color = discord.Colour(int("33cc4a", 16))
         bubble.add_field(name='\u200b', value=response)
-        await send_message(client, channel, embed=bubble)
+        await send_message(client, channel, embed=bubble, delete_after=delete_after)
 
 
 async def prompt(cmd = None, target = None, question = "", wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False):
@@ -773,16 +776,20 @@ async def prompt(cmd = None, target = None, question = "", wait_time = 30, accep
         await send_message(cmd.client, cmd.message.channel, text=question)
 
         try:
-            message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == (target if checktarget else cmd.message.author) and message.content.lower() in [final_accept, final_decline])
+            message = await cmd.client.wait_for('message', timeout=wait_time, check=lambda message: message.author == (target if checktarget else cmd.message.author) and message.content.lower() in [final_accept, final_decline])
 
-            if message != None:
+            if message is not None:
                 if message.content.lower() == final_accept:
                     accepted = True
-                if message.content.lower() == final_decline:
+                elif message.content.lower() == final_decline:
                     accepted = False
+                else:
+                    accepted = False
+            else:
+                accepted = False
 
         except Exception as e:
-            print(e)
+            ewutils.logMsg("Frontend util prompt threw Exception: {}".format(e))
             accepted = False
     else:
         accepted = False

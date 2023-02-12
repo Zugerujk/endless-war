@@ -530,15 +530,18 @@ def inaccessible(user_data = None, poi = None):
 
 
 async def kick(id_server):
+    time_now = int(time.time() - ewcfg.time_kickout)
     # Gets data for all living players from the database
-    all_living_players = bknd_core.execute_sql_query("SELECT {poi}, {id_user} FROM users WHERE id_server = %s AND {life_state} > 0 AND {time_last_action} < %s".format(
+    all_living_players = bknd_core.execute_sql_query("SELECT {poi}, {id_user} FROM users WHERE id_server = %s AND {life_state} > 0 AND {time_last_action} < %s AND {time_lastenter} < %s".format(
         poi=ewcfg.col_poi,
         id_user=ewcfg.col_id_user,
         time_last_action=ewcfg.col_time_last_action,
+        time_lastenter=ewcfg.col_time_lastenter,
         life_state=ewcfg.col_life_state
     ), (
         id_server,
-        (int(time.time()) - ewcfg.time_kickout)
+        time_now,
+        time_now
     ))
 
     client = ewutils.get_client()
@@ -576,7 +579,7 @@ async def kick(id_server):
                     if user_data.poi != party_poi and user_data.life_state not in [ewcfg.life_state_kingpin, ewcfg.life_state_lucky, ewcfg.life_state_executive]:
 
                         server = ewcfg.server_list[id_server]
-                        member_object = server.get_member(id_user)
+                        member_object = await fe_utils.get_member(server, id_user)
 
                         user_data.poi = mother_district_chosen
                         user_data.time_lastenter = int(time.time())
@@ -589,6 +592,7 @@ async def kick(id_server):
                         mother_district_channel = fe_utils.get_channel(server, poi_static.id_to_poi[mother_district_chosen].channel)
                         response = "You have been kicked out for loitering! You can only stay in a sub-zone and twiddle your thumbs for 1 hour at a time."
                         await fe_utils.send_message(client, mother_district_channel, fe_utils.formatMessage(member_object, response))
+                        ewutils.logMsg('moved inactive player {} out of subzone {}. Last action: {}'.format(user_data.id_user, user_data.poi, user_data.time_last_action))
         except:
             ewutils.logMsg('failed to move inactive player out of subzone with poi {}: {}'.format(player[0], player[1]))
 

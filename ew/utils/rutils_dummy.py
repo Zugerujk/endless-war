@@ -3,14 +3,9 @@ from ew.static.poi import id_to_poi
 
 debug_var_1 = None
 
-debug3 = 'gatekeep'
-debug4 = {
-    'id_relic':'gaslight',
-    'relic_name':'Girl Boss',
-    'relic_desc':'I lost touch with these slippery ass memes ages ago. Not funny in the least.',
-    'acquisition':'testing'
-}
-debug5 = "guh?"
+
+
+
 
 auction_relic_date_map = {}
 
@@ -83,4 +78,7 @@ async def debug45(enemy_data):
 
 
 async def debug114(cmd):
+    pass
+
+async def debug256():
     pass

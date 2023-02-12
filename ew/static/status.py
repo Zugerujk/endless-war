@@ -161,7 +161,7 @@ status_effect_list = [
         time_expire=300,
         str_acquire="Calorie-induced rage consumes you! You could drink gasoline and get shot and not feel a damn thing!",
         str_describe_self="You're in the middle of a raging food coma.",
-        dmg_mod=-0.4
+        dmg_mod=0.6
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_n1,
@@ -169,8 +169,8 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="You are god's gift to malice.",
         str_describe="He is god's gift to malice.",
-        dmg_mod=-0.5,
-        dmg_mod_self=1,
+        dmg_mod=0.5,
+        dmg_mod_self=2,
         hit_chance_mod_self=+.2,
         hit_chance_mod=-.35
     ),
@@ -180,9 +180,9 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="You shred like nobody's business.",
         str_describe="They shred like nobody's business.",
-        dmg_mod=-0.5,
-        hit_chance_mod_self=+.2,
-        hit_chance_mod=-.5
+        dmg_mod=0.5,
+        hit_chance_mod_self=0.2,
+        hit_chance_mod=-0.5
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_n4,
@@ -190,16 +190,16 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="Sorry, you can't let them do that.",
         str_describe="Sorry, they can't let you do this.",
-        dmg_mod=-1,
-        dmg_mod_self=-.5,
+        dmg_mod=0,
+        dmg_mod_self=0.5,
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_n8,
         time_expire=86400,
         str_acquire="",
         str_describe_self="You're itching to move on from this.",
-        dmg_mod_self=-0.5,
-        dmg_mod=0.5,
+        dmg_mod_self=0.5,
+        dmg_mod=1.5,
         crit_mod_self=.3
     ),
     EwStatusEffectDef(
@@ -208,9 +208,8 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="You're feeling like putting your cronies to the test.",
         str_describe="You're afraid of this guy.",
-        dmg_mod=-0.5,
-        dmg_mod_self=0.5,
-
+        dmg_mod=0.5,
+        dmg_mod_self=1.5,
         crit_mod_self=.5
     ),
     EwStatusEffectDef(
@@ -219,8 +218,8 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="Time to get nasty.",
         str_describe="She barely looks human.",
-        dmg_mod=-0.5,
-        dmg_mod_self=0.7,
+        dmg_mod=0.5,
+        dmg_mod_self=1.7,
         crit_mod_self=.75
     ),
     EwStatusEffectDef(
@@ -229,8 +228,8 @@ status_effect_list = [
         str_acquire="",
         str_describe_self="They're really starting to get on your nerves.",
         str_describe="You're really starting to get on his nerves.",
-        dmg_mod=-0.5,
-        dmg_mod_self=0.5,
+        dmg_mod=0.5,
+        dmg_mod_self=1.5,
         crit_mod_self=.5
     ),
 
@@ -245,7 +244,7 @@ status_effect_list = [
         time_expire=86400,
         str_acquire="",
         str_describe_self="You're dressed to the nines in the latest Kevlar work attire.",
-        dmg_mod=-0.2
+        dmg_mod=0.8
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_hogtied_id,
@@ -275,7 +274,7 @@ status_effect_list = [
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_enemy_hostile_id,
-        time_expire=86400,
+        time_expire=30,
         str_acquire="",
         str_describe="Oh shit, they're hostile!",
         str_describe_self=""
@@ -293,7 +292,7 @@ status_effect_list = [
         str_acquire="",
         str_describe="They look exceedingly difficult to kill.",
         str_describe_self="",
-        dmg_mod=-.8,
+        dmg_mod=0.2,
     ),
     EwStatusEffectDef(
         id_status=ewcfg.status_enemy_dodgy_id,
@@ -315,6 +314,13 @@ status_effect_list = [
         time_expire=86400,
         str_acquire="",
         str_describe="They're a little too attached to someone right now.",
+        str_describe_self="",
+    ),
+EwStatusEffectDef(
+        id_status=ewcfg.status_enemy_delay_id,
+        time_expire=5,
+        str_acquire="",
+        str_describe="",
         str_describe_self="",
     ),
 ]

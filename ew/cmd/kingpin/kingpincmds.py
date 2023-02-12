@@ -24,7 +24,7 @@ try:
     import ew.utils.rutils as relic_utils
 except:
     import ew.static.rstatic_dummy as ewrelic
-    import ew.utils.rutils as relic_utils
+    import ew.utils.rutils_dummy as relic_utils
 
 
 async def pa_command(cmd):
@@ -548,7 +548,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
         phone_data.item_props['gellphoneactive'] = 'false'
         phone_data.persist()
         if phone_data.id_owner.isnumeric() and int(phone_data.id_owner)>0:
-            member_object = server.get_member(int(phone_data.id_owner))
+            member_object = await fe_utils.get_member(server, phone_data.id_owner)
             if member_object is None:
                 continue
             user_data = EwUser(member=member_object)
@@ -566,7 +566,7 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     id_user=ewcfg.col_id_user,
                     poi = ewcfg.col_poi
                 ), (
-                    [str(id_server)]
+                    int(id_server)
                 ))
 
 
@@ -575,17 +575,34 @@ async def clowncar(cmd):#shoves everyone not there into JR or the sewers
                     poi=ewcfg.col_poi
                 ), (
                     'juviesrow',
-                    [str(id_server)]
+                    int(id_server)
                 ))
             iterator = 0
             for member in selection:
                 iterator += 1
                 if iterator % 20 == 0:
                     await asyncio.sleep(5)
-                member_object = server.get_member(member[0])
+                member_object = await fe_utils.get_member(server, member[0])
                 await ewrolemgr.updateRoles(client = cmd.client, member=member_object)
 
 
         except:
             ewutils.logMsg(
                 'server {}: failed to clowncar.'.format(cmd.message.guild.id, cmd.message.author.id))
+
+
+async def admintrack(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+
+    if cmd.mentions_count == 0:
+        response = "Who?"
+        return await fe_utils.send_response(response, cmd)
+    else:
+        response = ""
+        for mention in cmd.mentions:
+            user = EwUser(member=mention)
+            response += "{} is in {}.\n".format(mention.display_name, user.poi)
+
+        return await fe_utils.send_response(response, cmd)

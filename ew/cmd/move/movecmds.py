@@ -135,15 +135,6 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
     else:
         movement_method = "walking"
 
-    if user_data.poi == ewcfg.debugroom and cmd.tokens[0] != (
-            ewcfg.cmd_descend) and poi.id_poi != ewcfg.poi_id_slimeoidlab:
-        return await fe_utils.send_message(
-            cmd.client,
-            cmd.message.channel,
-            fe_utils.formatMessage(cmd.message.author, "You can't move forwards or backwards in an {}, bitch.".format(ewcfg.debugroom_short))
-        )
-    elif user_data.poi != ewcfg.debugroom and cmd.tokens[0] == (ewcfg.cmd_descend):
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You can't move downwards on a solid surface, bitch."))
 
     # if fetch_poi_if_coordless(poi.channel) is not None: # Triggers if your destination is a sub-zone.
     # 	poi = fetch_poi_if_coordless(poi.channel)
@@ -279,7 +270,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
 
             return
 
-        await rutils.movement_checker(user_data, poi_current, poi, cmd)
+
 
 
         await ewrolemgr.updateRoles(client=cmd.client, member=member_object, new_poi=poi.id_poi)
@@ -287,7 +278,7 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
         user_data.time_lastenter = int(time.time())
 
         user_data.persist()
-
+        await rutils.movement_checker(user_data, poi_current, poi, cmd)
         ewutils.end_trade(user_data.id_user)
         enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
         await one_eye_dm(id_user=user_data.id_user, id_server=user_data.id_server, poi=poi.id_poi)
@@ -399,13 +390,13 @@ async def move(cmd = None, isApt = False, continuousMove = -1):
                     poi_previous = poi_static.id_to_poi.get(user_data.poi)
                     # print('previous poi: {}'.format(poi_previous))
 
-                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
+
 
                     user_data.poi = poi_current.id_poi
                     user_data.time_lastenter = int(time.time())
 
                     user_data.persist()
-
+                    await rutils.movement_checker(user_data, poi_previous, poi_current, cmd)
                     ewutils.end_trade(user_data.id_user)
                     enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
 
@@ -694,11 +685,14 @@ async def survey(cmd):
         items_resp = ""
         players_resp = ""
 
+    direction_image = ""
+    if poi.is_capturable or poi.id_poi in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
+        direction_image = '\nhttp://rfck.app/img/direction/{}_directions.png'.format(poi.id_poi)
     # post result to channel
     if poi != None:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
             cmd.message.author,
-            "You stand {} {}.\n\n{}{}{}{}{}{}".format(
+            "You stand {} {}.\n\n{}{}{}{}{}{}{}{}".format(
                 poi.str_in,
                 poi.str_name,
                 capped_resp,
@@ -709,7 +703,9 @@ async def survey(cmd):
                 worldevents_resp,
                 ("\n\n{}".format(
                     ewutils.weather_txt(market_data)
-                ) if cmd.guild != None else "")
+                ) if cmd.guild != None else ""),
+                direction_image,
+
             )  # + get_random_prank_item(user_data, district_data) # SWILLDERMUK
         ))
 
@@ -835,7 +831,7 @@ async def scout(cmd):
                 if len(allies_in_district) > 3:
                     continue
             if ewcfg.mutation_id_chameleonskin in scoutee_mutations:
-                member = cmd.guild.get_member(scoutee_data.id_user)
+                member = await fe_utils.get_member(cmd.guild, scoutee_data.id_user)
                 if member == None or member.status == discord.Status.offline:
                     continue
 
@@ -849,7 +845,7 @@ async def scout(cmd):
 
         # No filtering is done on enemies themselves. Enemies that pose a threat to the player are filtered instead.
         enemies_in_district = district_data.get_enemies_in_district(scout_used=True)
-        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True)
+        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True, npc_threats_only=True)
 
         num_enemies = 0
         enemies_resp = ""
@@ -1034,7 +1030,7 @@ async def teleport(cmd):
 
             ewutils.moves_active[cmd.message.author.id] = 0
 
-            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi, cmd)
+
 
             if poi.id_poi == ewcfg.poi_id_thesewers:
                 die_resp = await user_data.die(cause=ewcfg.cause_suicide)
@@ -1047,7 +1043,7 @@ async def teleport(cmd):
 
 
             user_data.persist()
-
+            await rutils.movement_checker(user_data, poi_static.id_to_poi.get(user_data.poi), poi, cmd)
 
             enemy_lock_impose_restrictions(id_user=user_data.id_user, poi=poi.id_poi)
             await one_eye_dm(id_user=user_data.id_user, id_server=user_data.id_server, poi=poi.id_poi)
@@ -1079,6 +1075,34 @@ async def teleport(cmd):
             response = "You don't even know what that MEANS."
 
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def teleport_player_multi(cmd):
+    author = cmd.message.author
+    user_data = EwUser(member=author)
+
+    if not (ewutils.DEBUG or author.guild_permissions.administrator or user_data.life_state == ewcfg.life_state_kingpin):
+        return
+
+    if cmd.mentions_count >= 1 and cmd.tokens_count >= 3:
+        destination = cmd.tokens[1].lower()
+        new_poi = poi_static.id_to_poi.get(destination)
+
+        for target in cmd.mentions:
+            if target != None and new_poi != None:
+                target_user = EwUser(member=target)
+                target_player = EwPlayer(id_user=target_user.id_user)
+
+                ewutils.moves_active[target_user.id_user] = 0
+
+                target_user.poi = new_poi.id_poi
+                target_user.persist()
+
+                response = "{} has been teleported to {}".format(target_player.display_name, new_poi.id_poi)
+
+                await ewrolemgr.updateRoles(client=cmd.client, member=target)
+
+                await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
 async def teleport_player(cmd):
@@ -1169,7 +1193,7 @@ async def print_map_data(cmd):
         if poi.is_subzone:
             for neighbor in poi.neighbors.keys():
                 if neighbor not in poi.mother_districts:
-                    print('subzone {} has invalid mother district(s)'.format(poi.str_name))
+                    ewutils.logMsg('Subzone {} has invalid mother district(s)'.format(poi.str_name))
 
             # if neighbor_poi.id_poi in poi.neighbors.keys():
             # if poi.id_poi in neighbor_poi.neighbors.keys():
@@ -1315,7 +1339,7 @@ async def flush_streets(cmd):
                 user_data = EwUser(id_user=player, id_server=cmd.guild.id)
                 user_data.poi = ewcfg.poi_id_juviesrow
                 user_data.persist()
-                member = cmd.guild.get_member(player)
+                member = await fe_utils.get_member(cmd.guild, player)
                 await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
             item_cache = bknd_core.get_cache(obj_type = "EwItem")

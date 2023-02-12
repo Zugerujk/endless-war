@@ -143,7 +143,7 @@ async def revive(cmd, player_auto = None):
                 district_data = EwDistrict(district=poi, id_server=cmd.guild.id)
 
                 district_data.change_slimes(n=geyser_amount)
-                sewer_data.change_slimes(n=-1 * geyser_amount)
+                sewer_data.change_slimes(n=-2 * geyser_amount)
 
                 district_data.persist()
                 sewer_data.persist()
@@ -159,22 +159,24 @@ async def revive(cmd, player_auto = None):
 
             response = '{slime4} Geysers of fresh slime erupt from every manhole in the city, showering their surrounding districts. {slime4} {name} has been reborn in slime. {slime4}'.format(
                 slime4=ewcfg.emote_slime4, name=cmd.message.author.display_name)
+            
+            if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
+                reunite = ""
+                brain = sl_static.brain_map.get(slimeoid.ai)
+                reunite += brain.str_revive.format(
+                    slimeoid_name=slimeoid.name
+                )
+                new_poi = poi_static.id_to_poi.get(player_data.poi)
+                revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
+                reunite = fe_utils.formatMessage(cmd.message.author, reunite)
+                await fe_utils.send_message(cmd.client, revivechannel, reunite)
+                
         else:
             response = 'You\'re not dead just yet.'
 
         #	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.display_name, ewcfg.emote_slimeskull)
         #	deathreport = "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(member, deathreport)
 
-        if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
-            reunite = ""
-            brain = sl_static.brain_map.get(slimeoid.ai)
-            reunite += brain.str_revive.format(
-                slimeoid_name=slimeoid.name
-            )
-            new_poi = poi_static.id_to_poi.get(player_data.poi)
-            revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
-            reunite = fe_utils.formatMessage(cmd.message.author, reunite)
-            await fe_utils.send_message(cmd.client, revivechannel, reunite)
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -195,7 +197,7 @@ async def haunt(cmd):
         member = None
         if cmd.mentions_count == 0 and cmd.tokens_count > 1:
             server = cmd.guild
-            member = server.get_member(ewutils.getIntToken(cmd.tokens))
+            member = await fe_utils.get_member(server, ewutils.getIntToken(cmd.tokens))
             haunted_data = EwUser(member=member)
         elif cmd.mentions_count == 1:
             member = cmd.mentions[0]
@@ -441,7 +443,7 @@ async def possess_weapon(cmd):
         server = cmd.guild
         inhabitee_id = user_data.get_inhabitee()
         inhabitee_data = EwUser(id_user=inhabitee_id, id_server=user_data.id_server)
-        inhabitee_member = server.get_member(inhabitee_id)
+        inhabitee_member = await fe_utils.get_member(server, inhabitee_id)
         inhabitee_name = inhabitee_member.display_name
         if inhabitee_data.weapon < 0:
             response = "{} is not wielding a weapon right now.".format(inhabitee_name)
@@ -500,7 +502,7 @@ async def possess_fishing_rod(cmd):
         server = cmd.guild
         inhabitee_id = user_data.get_inhabitee()
         inhabitee_data = EwUser(id_user=inhabitee_id, id_server=user_data.id_server)
-        inhabitee_member = server.get_member(inhabitee_id)
+        inhabitee_member = await fe_utils.get_member(server, inhabitee_id)
         inhabitee_name = inhabitee_member.display_name
         if inhabitee_data.get_possession():
             response = "{} is already being possessed.".format(inhabitee_name)

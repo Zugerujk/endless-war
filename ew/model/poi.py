@@ -285,6 +285,8 @@ class EwEventDef:
     str_event_ongoing = ""
     str_event_end = ""
     str_check_text = ""
+    function_on_activate = None
+    function_on_end = None
 
     def __init__(
             self,
@@ -297,6 +299,8 @@ class EwEventDef:
             str_event_ongoing = "",
             str_event_end = "",
             str_check_text = "",
+            function_on_activate = None,
+            function_on_end = None
     ):
         self.event_type = event_type
         self.str_name = str_name
@@ -307,6 +311,8 @@ class EwEventDef:
         self.str_event_ongoing = str_event_ongoing
         self.str_event_end = str_event_end
         self.str_check_text = str_check_text
+        self.function_on_activate = function_on_activate
+        self.function_on_end = function_on_end
 
 
 class EwDungeonScene:

@@ -140,6 +140,8 @@ class EwNpc:
     slimeoid_name = '' #if a slimeoid trainer has a specific named slimeoid, it is named here.
 
     str_juviemode = "" #unique string for why you can't kill them
+
+    is_threat = False
     
     def __init__(
         self,
@@ -159,7 +161,8 @@ class EwNpc:
         description = "",
         rarity = 5,
         slimeoid_name = '',
-        str_juviemode = ''
+        str_juviemode = '',
+        is_threat = False
     ):
         self.id_npc = id_npc
         self.active = active
@@ -178,3 +181,4 @@ class EwNpc:
         self.rarity = rarity
         self.slimeoid_name = slimeoid_name
         self.str_juviemode = str_juviemode
+        self.is_threat = is_threat

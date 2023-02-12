@@ -320,7 +320,7 @@ async def one_eye_dm(id_user = None, id_server = None, poi = None):
                     str(id_user),
                 ))
             for recipient in recipients:
-                member = server.get_member(int(recipient[0]))
+                member = await fe_utils.get_member(server, recipient[0])
                 mutation = EwMutation(id_server=id_server, id_user=recipient[0], id_mutation=ewcfg.mutation_id_oneeyeopen)
                 mutation.data = ""
                 mutation.persist()

@@ -312,7 +312,7 @@ async def award_fish(fisher, cmd, user_data):
                 player_id = random.choice(players_in_district)
 
                 target_data = EwUser(id_user=player_id, id_server=cmd.guild.id)
-                target = cmd.guild.get_member(player_id)
+                target = await ewfrontend.get_member(cmd.guild, player_id)
 
                 mutations = target_data.get_mutations()
 
@@ -481,10 +481,10 @@ async def award_fish(fisher, cmd, user_data):
 
         if fisher.inhabitant_id:
             server = cmd.guild
-            inhabitant_member = server.get_member(fisher.inhabitant_id)
+            inhabitant_member = await ewfrontend.get_member(server, fisher.inhabitant_id)
             inhabitant_name = inhabitant_member.display_name
             inhabitant_data = EwUser(id_user=fisher.inhabitant_id, id_server=user_data.id_server)
-            inhabitee_name = server.get_member(actual_fisherman).display_name
+            inhabitee_name = (await ewfrontend.get_member(server, actual_fisherman)).display_name
 
             # Take 1/4 of the slime the player would have gained, to inverse and give to the ghost.
             slime_gain = int(0.25 * slime_gain)        

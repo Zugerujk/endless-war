@@ -85,8 +85,8 @@ class EwEnemy(EwEnemyBase):
                 ), (
                     enemy_data.poi,
                     enemy_data.id_server
-                ))
-            if len(users) > 0:
+                ), fetchone = True)
+            if users is not None:
                 if random.randrange(100) > 95:
                     response = random.choice(ewcfg.coward_responses)
                     response = response.format(enemy_data.display_name, enemy_data.display_name)
@@ -95,6 +95,8 @@ class EwEnemy(EwEnemyBase):
                     return resp_cont
                     
         if enemy_data.ai == ewcfg.enemy_ai_sandbag:
+            target_data = None
+        elif ewcfg.status_enemy_delay_id in enemy_data.getStatusEffects():
             target_data = None
         elif enemy_data.enemytype == 'npc' and condition is not None:
             target_data, group_attack = get_target_by_ai(enemy_data=enemy_data, condition = condition)
@@ -190,9 +192,9 @@ class EwEnemy(EwEnemyBase):
             shooter_status_mods = get_shooter_status_mods(enemy_data, target_data, hitzone)
             shootee_status_mods = get_shootee_status_mods(target_data, enemy_data, hitzone)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'] + shootee_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'] + shootee_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance'] + shootee_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit'] + shootee_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg'] * shootee_status_mods['dmg']
 
             # maybe enemies COULD have weapon skills? could punishes players who die to the same enemy without mining up beforehand
             # slimes_damage = int((slimes_spent * 4) * (100 + (user_data.weaponskill * 10)) / 100.0)
@@ -493,7 +495,8 @@ class EwEnemy(EwEnemyBase):
                                     name_target=("<@!{}>".format(target_data.id_user)),
                                     hitzone=randombodypart,
                                     strikes=strikes,
-                                    civ_weapon=random.choice(ewcfg.makeshift_weapons)
+                                    civ_weapon=random.choice(ewcfg.makeshift_weapons),
+                                    dojo_weapons=random.choice(ewcfg.dojo_weapons)
                                 )
                                 if crit:
                                     response += " {}".format(used_attacktype.str_crit.format(
@@ -947,7 +950,7 @@ async def explode(damage = 0, district_data = None, market_data = None):
                 player_data.display_name)
             resp_cont.add_channel_response(channel, response)
 
-            resp_cont.add_member_to_update(server.get_member(user_data.id_user))
+            resp_cont.add_member_to_update(await fe_utils.get_member(server, user_data.id_user))
         else:
             # survive
             slime_splatter = 0.5 * slimes_damage
@@ -1015,7 +1018,7 @@ def get_hitzone(injury_map = None):
 # Returns the total modifier of all statuses of a certain type and target of a given player
 def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = None):
     mods = {
-        'dmg': 0,
+        'dmg': 1,
         'crit': 0,
         'hit_chance': 0,
         'no_cost': False,
@@ -1060,7 +1063,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
                 mods['hit_chance'] += status_flavor.hit_chance_mod_self
             mods['crit'] += status_flavor.crit_mod_self
 
-            mods['dmg'] += status_flavor.dmg_mod_self
+            mods['dmg'] *= status_flavor.dmg_mod_self
 
     # Checks if any status mod in the nocost list is in the user's statuses
     if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0 or user_data.life_state == ewcfg.life_state_vigilante:
@@ -1075,7 +1078,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
 # Returns the total modifier of all statuses of a certain type and target of a given player
 def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = None):
     mods = {
-        'dmg': 0,
+        'dmg': 1,
         'crit': 0,
         'hit_chance': 0,
         'untouchable': False
@@ -1099,7 +1102,7 @@ def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = Non
         if status_flavor is not None:
             mods['hit_chance'] += status_flavor.hit_chance_mod
             mods['crit'] += status_flavor.crit_mod
-            mods['dmg'] += status_flavor.dmg_mod
+            mods['dmg'] *= status_flavor.dmg_mod
 
     if ewcfg.status_n4 in user_statuses:
         mods['untouchable'] = True
@@ -1396,7 +1399,6 @@ def drop_enemy_loot(enemy_data, district_data):
 # Gathers all enemies from the database (that are either raid bosses or have users in the same district as them) and has them perform an action
 async def enemy_perform_action(id_server):
     # time_start = time.time()
-
     client = ewcfg.get_client()
 
     time_now = int(time.time())
@@ -1606,7 +1608,7 @@ def find_npc(npcsearch = '', id_server = -1):
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
-    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers:
+    if enemy_data.enemytype in ewcfg.raid_bosses or ewcfg.enemy_movers or enemy_data.enemytype == 'npc':
         if enemy_data.time_lastenter <= time_now - ewcfg.time_raidboss_movecooldown:
             # Raid boss can move
             return True
@@ -1680,9 +1682,9 @@ def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
                 ), (
                     enemy_data.poi,
                     enemy_data.id_server
-                ))
-            if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
+                ), fetchone = True)
+            if users is not None:
+                target_data = EwUser(id_user=users[0], id_server=enemy_data.id_server)
 
         # If an enemy is a raidboss, don't let it attack until some time has passed when entering a new district.
         if enemy_data.enemytype in ewcfg.raid_bosses and enemy_data.time_lastenter > raidbossaggrotimer:
@@ -1825,7 +1827,7 @@ class EwUser(EwUserBase):
         member: EwPlayer = EwPlayer(id_server=self.id_server, id_user=self.id_user)
 
         # Make The death report
-        deathreport = fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
+        deathreport = await fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
         resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 
         poi = poi_static.id_to_poi.get(self.poi)
@@ -1982,7 +1984,10 @@ class EwUser(EwUserBase):
         ewutils.logMsg(f'Server {server.name} ({server.id}): {member.display_name} ({self.id_user}) was killed by {self.id_killer} - cause was {cause}')
         # You can opt out of the heavy roles update
         if updateRoles:
-            await ewrolemgr.updateRoles(client, server.get_member(self.id_user))
+            try:
+                await ewrolemgr.updateRoles(client, await fe_utils.get_member(server, self.id_user))
+            except:
+                ewutils.logMsg('Hell is full, failed to update roles.')
 
         return resp_cont
 
@@ -2202,8 +2207,6 @@ class EwUser(EwUserBase):
             if result is None:
                 result = 0
 
-        # random.seed(self.rand_seed + mutation_dat)
-
         except:
             ewutils.logMsg("Failed to get mutation level for user {}.".format(self.id_user))
 
@@ -2245,10 +2248,10 @@ class EwUser(EwUserBase):
             if counter == None:
                 counter = 0
             # The next possible mutations will be the same each level-up until a new mutation is given
-            random.seed(counter + seed)
+            mutation_random_class = random.Random(counter + seed)
 
             for x in range(1000):
-                result = random.choice(list(static_mutations.mutation_ids))
+                result = mutation_random_class.choice(list(static_mutations.mutation_ids))
                 result_mutation = static_mutations.mutations_map[result]
                 incompatible = False
 
@@ -2502,7 +2505,7 @@ class EwUser(EwUserBase):
                 ghost_data.time_lastenter = int(time.time())
                 ghost_data.persist()
 
-                ghost_member = server.get_member(ghost)
+                ghost_member = await fe_utils.get_member(server, ghost)
                 await ewrolemgr.updateRoles(client=client, member=ghost_member)
 
     def remove_inhabitation(self):

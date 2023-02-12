@@ -154,7 +154,7 @@ async def attack(cmd):
 
             # Apply mass burn from incendiary weapons
             if ctn.mass_apply_status == ewcfg.status_burning_id:
-                mass_status = apply_status_bystanders(
+                mass_status = await apply_status_bystanders(
                     user_data=attacker, status=ewcfg.status_burning_id,
                     value=ctn.bystander_damage, life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive, ewcfg.life_state_vigilante],
                     factions=["", target.faction], district_data=district_data
@@ -246,7 +246,7 @@ async def attack(cmd):
                 kingpin.change_slimes(n=int(to_kingpin))
                 kingpin.persist() # THIS ONLY GETS PERSISTED HERE BECAUSE THIS IS THE ONLY PLACE IT WILL EVER BE USED
 
-        if (not target_killed) and (ctn.slimes_damage != 0):
+        if (not target_killed) and (ctn.slimes_damage >= 0):
             # only take away slime if they survived to care
             target.change_slimes(n=-1 * (ctn.slimes_damage - to_bleed), source=ewcfg.source_damage)
             target.bleed_storage += to_bleed
@@ -397,7 +397,7 @@ async def attack(cmd):
                 bounty_resp = "\n\n SlimeCorp transfers {:,} SlimeCoin to {}\'s account.".format(bounty, attacker_member.display_name)
 
             if possession:
-                ghost_name = cmd.guild.get_member(possession[0]).display_name
+                ghost_name = (await fe_utils.get_member(cmd.guild, possession[0])).display_name
                 contract_resp = "\n\n {} winces in pain as their slime is corrupted into negaslime. {}'s contract has been fulfilled.".format(attacker_member.display_name, ghost_name)
 
             if random.randint(0, 99) == 0 and target.gender != 'gorl':
@@ -516,12 +516,12 @@ async def attack(cmd):
             if attacker_killed:
                 bkf_msg += "\nYou have been destroyed by your own stupidity."
             else:
-                bkf_msg += "\nYou lose {} slime!\n".format(ctn.backfire_damage)
+                bkf_msg += "\nYou bled {} slime!\n".format(ctn.backfire_damage)
 
         """ Final Operations """
 
         # Fulfill possession if necessary
-        if possession: fulfill_ghost_weapon_contract(possession, market_data, attacker, attacker_member.display_name)
+        if possession: await fulfill_ghost_weapon_contract(possession, market_data, attacker, attacker_member.display_name)
 
         # Persist everything that may have been changed. RIP function completion time
         if not possession: district_data.persist() # this is changed and persisted within fulfillment, no need to do it twice
@@ -1000,7 +1000,7 @@ async def annoint(cmd):
     # Make sure user has a weapon equipped before all else
     if user_data.weapon <= 0:
         response = "Equip a weapon first."
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     # Grab the wanted name
     if cmd.tokens_count < 2:
@@ -1071,10 +1071,10 @@ async def marry(cmd):
     already_getting_married = False
     mutations = user_data.get_mutations()
 
-    for event_id in world_events:
-        if world_events.get(event_id) == ewcfg.event_type_marriageceremony:
+    for event_id, etype in world_events.items():
+        if etype == ewcfg.event_type_marriageceremony:
             world_event = EwWorldEvent(id_event=event_id)
-            if world_event.event_props.get("user_id") == user_data.id_user:
+            if int(world_event.event_props.get("user_id")) == user_data.id_user:
                 already_getting_married = True
                 break
 
@@ -1447,9 +1447,9 @@ async def spray(cmd):
 
             shooter_status_mods = cmbt_utils.get_shooter_status_mods(user_data, None, None)
 
-            hit_chance_mod += round(shooter_status_mods['hit_chance'], 2)
-            crit_mod += round(shooter_status_mods['crit'], 2)
-            dmg_mod += round(shooter_status_mods['dmg'], 2)
+            hit_chance_mod += shooter_status_mods['hit_chance']
+            crit_mod += shooter_status_mods['crit']
+            dmg_mod *= shooter_status_mods['dmg']
 
             slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 300)
             slimes_damage = int((50000 + slimes_spent * 10) * (100 + (user_data.weaponskill * 5)) / 100.0)
@@ -1677,25 +1677,48 @@ async def null_cmd(cmd):
 
 async def duel(cmd):
     time_now = int(time.time())
+    author = cmd.message.author
 
-    if cmd.mentions_count != 1:
+    challenger = EwUser(member=author)
+
+    if challenger.poi == 'hangemsquare' and cmd.mentions_count == 0 and ewutils.square_duel == 0:
+        channel = fe_utils.get_channel(server=cmd.guild, channel_name='hang-em-square')
+        response = "OK, cowpokes, this whole field will be live in 60 seconds. Git ready!"
+        ewutils.square_duel = 1
+        await fe_utils.send_message(cmd.client, channel, fe_utils.formatMessage(author, response))
+        await asyncio.sleep(55)
+        for x in range(5):
+            response = "**{}**".format(5 - x)
+            await fe_utils.send_message(cmd.client, channel, fe_utils.formatMessage(author, response))
+        response = "DRAW!"
+        ewutils.square_duel = 2
+        await fe_utils.send_message(cmd.client, channel, fe_utils.formatMessage(author, response))
+        await asyncio.sleep(120)
+        ewutils.square_duel = 0
+        response = "Gee whillicers! The show's over, nothing to see here."
+        return await fe_utils.send_message(cmd.client, channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif ewutils.square_duel in [1, 2] and challenger.poi == 'hangemsquare':
+        response = "A duel's happening now, hold your horses."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif cmd.mentions_count != 1:
         # Must mention only one player
         response = "Mention the player you want to challenge."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-    author = cmd.message.author
+
+
     member = cmd.mentions[0]
+    challengee = EwUser(member=member)
 
     if author.id == member.id:
         response = "You might be looking for !suicide."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(author, response))
 
-    challenger = EwUser(member=author)
-    challengee = EwUser(member=member)
+
 
     challenger_poi = poi_static.id_to_poi.get(challenger.poi)
     challengee_poi = poi_static.id_to_poi.get(challengee.poi)
-    if not challenger_poi.is_district or not challengee_poi.is_district:
+    if (not challenger_poi.is_district or not challengee_poi.is_district) and challenger.poi != 'hangemsquare':
         response = "Both participants need to be in a district zone."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -1796,6 +1819,8 @@ async def duel(cmd):
             await asyncio.sleep(1)
             challenger = EwUser(member=author)
             challengee = EwUser(member=member)
+            challenger.applyStatus(id_status=ewcfg.status_dueling)
+            challengee.applyStatus(id_status=ewcfg.status_dueling)
 
         ewutils.active_restrictions[challenger.id_user] = 2
         ewutils.active_restrictions[challengee.id_user] = 2
@@ -1823,6 +1848,9 @@ async def duel(cmd):
             challengee = EwUser(member=member)
             challenger_slimes = challenger.slimes
             challengee_slimes = challengee.slimes
+
+        challengee.clear_status(id_status=ewcfg.status_dueling)
+        challenger.clear_status(id_status=ewcfg.status_dueling)
 
         if challenger.slimes <= 0:
             # challenger lost

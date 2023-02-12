@@ -472,7 +472,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING SEAWEED!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_oldboot,
@@ -480,7 +480,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING OLD BOOT!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_tincan,
@@ -488,7 +488,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING TIN CAN!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_oldcd,
@@ -496,7 +496,7 @@ item_list = [
         str_desc="OH GOD IT'S A FUCKING CD!",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic", #figure out how to embed mixtapes into this
-        context=10,
+        price=10,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_leather,
@@ -559,7 +559,7 @@ item_list = [
         str_desc="It’s just some string.",
         acquisition=ewcfg.acquisition_bartering,
         ingredients="generic",
-        context=60,
+        price=60,
     ),
     EwGeneralItem(
         id_item=ewcfg.item_id_spent_pod,
@@ -1970,6 +1970,7 @@ item_list = [
         id_item=ewcfg.item_id_giftribbon,
         str_name="Gift Ribbon",
         str_desc="A spool of ribbon meant to use to make festive items during Slimernalia. Unfortunately, these spools of ribbon have been out of stock for years now.",
+        #acquisition=ewcfg.acquisition_mining, #Enable this ONLY for Slimernalia.
     ),
     EwGeneralItem(
         id_item='rfconsortmarble',
