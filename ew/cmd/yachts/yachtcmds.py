@@ -514,7 +514,7 @@ async def gangplank(cmd):
                 target_response = "Someone's boarding! It's the {}!".format(yacht.yacht_name)
                 chosen_boat.applyStat(stat_type='gangplanked', target=yacht.thread_id)
                 yacht.applyStat(stat_type='gangplanked', target=chosen_boat.thread_id)
-                target_channel = chosen_boat.get_thread()
+                target_channel = await chosen_boat.get_thread()
                 await fe_utils.send_message(cmd.client, target_channel,  target_response)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

@@ -63,7 +63,8 @@ async def boat_tick(id_server, tick_count):
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
                     if response != "":
-                        await fe_utils.send_message(None, boat_obj.get_thread(), response)
+                        thread = await boat_obj.get_thread()
+                        await fe_utils.send_message(None, thread, response)
                 elif ewdebug.seamap[seacursor_y][seacursor_x] == 0 and ewdebug.seamap[boat_obj.ycoord][boat_obj.xcoord] == -1:
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
@@ -71,11 +72,13 @@ async def boat_tick(id_server, tick_count):
                     boat_obj.flood = 0
                     boat_obj.speed = 0
                     response += "LAND HO! Looks like we've arrived at an island."
-                    await fe_utils.send_message(None, boat_obj.get_thread(), response)
+                    thread = await boat_obj.get_thread()
+                    await fe_utils.send_message(None, thread, response)
                     break
                 elif ewdebug.seamap[seacursor_y][seacursor_x] in [3, 0]:
                     response += "The {} suddenly stops. Did we hit something?".format(boat_obj.yacht_name)
-                    await fe_utils.send_message(None, boat_obj.get_thread(), response)
+                    thread = boat_obj.get_thread()
+                    await fe_utils.send_message(None, thread, response)
                     break
 
         stats = boat_obj.getYachtStats()
