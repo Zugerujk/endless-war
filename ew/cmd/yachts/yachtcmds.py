@@ -176,7 +176,7 @@ async def man(cmd):
 
 async def avast(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    extra_response = None
     if user_data.poi[:5] != 'yacht':
         response = "Yeah, man, I like that antivirus software, too."
     else:
@@ -184,21 +184,62 @@ async def avast(cmd):
         if yacht.storehouse == user_data.id_user or yacht.cannon == user_data.id_user:
             response = "You can't see anything, you're not aboveboard!"
         else:
-            response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=6)
-            response += "\n{} is currently ".format(yacht.yacht_name)
+            response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=4)
+            extra_response = "\n{} is currently ".format(yacht.yacht_name)
 
             if yacht.direction == 'stop':
-                response += "stopped."
+                extra_response += "stopped."
             elif yacht.direction == 'sunk':
-                response += "sunk."
+                extra_response += "sunk."
             else:
-                response += "headed {}.".format(yacht.direction)
+                extra_response += "headed {}.".format(yacht.direction)
+
+            coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
+            ships = yacht_utils.find_local_boats(current_coords=coords, id_server=cmd.guild.id)
+            if len(ships) > 1:
+                extra_response += "There are ships nearby: "
+                shipnames = []
+                for ship in ships:
+                    if ship.thread_id != yacht.thread_id:
+                        shipnames.append("the **{}**".format(ship.yacht_name))
+                    extra_response += "{}.".format(ewutils.formatNiceList(names=shipnames))
+
+            stats = yacht.getYachtStats()
+            flood_count = 0
+            for stat in stats:
+                if stat in ['gangplanked', 'harpooned']:
+                    attached_yacht = EwYacht(id_server=yacht.id_server, id_thread=stat.target)
+                    if attached_yacht.thread_id != yacht.thread_id:
+                        extra_response += " You are {} to the {}.".format(stat.type_stat, attached_yacht.yacht_name)
+                if stat == 'embalmed':
+                    extra_response += " You have embalmed your ship to prevent it from burning up."
+                if stat == 'flood':
+                    flood_count += stat.quantity
+                if stat == 'netcast':
+                    extra_response += " You lowered the treasure net."
+
+
+            if flood_count > 50:
+                extra_response += " There are so many holes in the ship it's lunacy it can even stay together."
+            elif flood_count > 25:
+                extra_response += " You're taking on way too much water. Basically, you're sunk already."
+            elif flood_count > 15:
+                extra_response += " The yacht's taking on water."
+            elif flood_count > 10:
+                extra_response += " There is a large hole in the boat."
+            elif flood_count > 5:
+                extra_response += " The boat's taking on a bit of water."
+
+            if yacht.flood > 0:
+                extra_response += " The ship is {}% flooded.".format(yacht.flood)
+            if yacht.filth > 0:
+                extra_response += " The ship's filth level is {}%.".format(yacht.filth)
 
             if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 0:
-                response += " You've docked on an island and can get off now."
+                extra_response += " You've docked on an island and can get off now."
 
-
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, extra_response))
 
 
 async def setsail(cmd):
@@ -470,7 +511,7 @@ async def fire_cannon(cmd):
                             response = "Harpoons don't reach that far. You have to be in the same area as them."
                         else:
                             target_ship.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
-                            yacht.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
+                            yacht.applyStat(stat_type="harpooned", quantity=0, target=target_ship.thread_id)
                             response = "SHHHHINC! A harpoon sinks into the {}'s walls, locking your ship to theirs!".format(target_ship.yacht_name)
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 

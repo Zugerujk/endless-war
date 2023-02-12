@@ -48,10 +48,19 @@ async def boat_tick(id_server, tick_count):
             seacursor_x = boat_obj.xcoord
             seacursor_y = boat_obj.ycoord
             response = ""
+            radius = 0
+
+            if boat_obj.direction in ['north', 'south', 'east', 'west'] and boat_obj.poopdeck != -1:
+                player = EwUser(id_user=boat_obj.poopdeck, id_server=id_server)
+                if player.poi == "yacht{}".format(boat_obj.thread_id):
+                    radius = 3
             if boat_obj.direction in ['north', 'south', 'east', 'west'] and boat_obj.helm != -1:
                 player = EwUser(id_user=boat_obj.helm, id_server=id_server)
                 if player.poi == "yacht{}".format(boat_obj.thread_id):
-                    response += draw_map(xcoord=boat_obj.xcoord, ycoord=boat_obj.ycoord, id_server=boat_obj.id_server, radius=4)
+                    radius = 4
+
+            if radius > 0:
+                response += draw_map(xcoord=boat_obj.xcoord, ycoord=boat_obj.ycoord, id_server=boat_obj.id_server, radius=radius)
 
             for x in range(spaces_to_advance):
                 if boat_obj.direction in['north', 'south']:
@@ -71,12 +80,12 @@ async def boat_tick(id_server, tick_count):
                     boat_obj.direction = 'stop'
                     boat_obj.flood = 0
                     boat_obj.speed = 0
-                    response += "LAND HO! Looks like we've arrived at an island."
+                    response += "\nLAND HO! Looks like we've arrived at an island."
                     thread = await boat_obj.get_thread()
                     await fe_utils.send_message(None, thread, response)
                     break
                 elif ewdebug.seamap[seacursor_y][seacursor_x] in [3, 0]:
-                    response += "The {} suddenly stops. Did we hit something?".format(boat_obj.yacht_name)
+                    response += "\nThe {} suddenly stops. Did we hit something?".format(boat_obj.yacht_name)
                     thread = boat_obj.get_thread()
                     await fe_utils.send_message(None, thread, response)
                     break
