@@ -294,7 +294,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
-    defaultlevel = 32,
+    defaultlevel = 12,
     is_threat=True,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
