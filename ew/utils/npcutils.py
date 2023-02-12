@@ -535,7 +535,7 @@ async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
         await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
         bknd_item.item_delete(item.get('id_item'))
     else:
-        response = "{} turns their nose at your offer."
+        response = "{} turns their nose at your offer.".format(npc_obj.str_name)
         return await fe_utils.send_message(None, channel, response)
 
 
