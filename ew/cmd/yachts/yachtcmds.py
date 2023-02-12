@@ -93,7 +93,7 @@ async def board_ship(cmd):
         else:
             ships = yacht_utils.find_local_boats(poi=user_data.poi, name=name, id_server=cmd.guild.id)
 
-        if ships == []:
+        if ships is None or len(ships) == 0:
             response = "There aren't any ships like that around here."
         else:
             selected_ship = None
@@ -109,16 +109,23 @@ async def board_ship(cmd):
                 if user_data.poi[:5] == 'yacht' and selected_ship.thread_id == int(user_data.poi[5:]):
                     response = "You're already here, dumbass."
                 else:
-                    shipstats = current_ship.getYachtStats()
-                    planked = False
-                    for stat in shipstats:
-                        if stat == 'gangplanked':
-                            if stat.target == selected_ship.thread_id:
-                                planked = True
-
-                    if not planked:
-                        response = "You need to !gangplank then first, so you can cross."
+                    approved = False
+                    if current_ship is None:
+                        approved = True
                     else:
+                        shipstats = current_ship.getYachtStats()
+                        planked = False
+                        for stat in shipstats:
+                            if stat == 'gangplanked':
+                                if stat.target == selected_ship.thread_id:
+                                    planked = True
+
+                        if not planked:
+                            response = "You need to !gangplank then first, so you can cross."
+                        else:
+                            approved = True
+
+                    if approved:
                         response = "You begin boarding the {}.".format(selected_ship.yacht_name)
                         move_utils.move_counter += 1
                         move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
