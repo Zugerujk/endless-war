@@ -79,6 +79,7 @@ class EwDistrict(EwDistrictBase):
                                 pvp_only = False
                                 ):
         client = ewutils.get_client()
+
         server = client.get_guild(self.id_server)
         if server == None:
             ewutils.logMsg("error: couldn't find server with id {}".format(self.id_server))
@@ -128,7 +129,8 @@ class EwDistrict(EwDistrictBase):
                                 ):
 
         client = ewutils.get_client()
-        server = client.get_guild(self.id_server)
+        server = client.get_guild(int(self.id_server))
+        #print("{}{}".format(self.id_server, type(self.id_server)))
         if server == None:
             ewutils.logMsg("error: couldn't find server with id {}".format(self.id_server))
             return []

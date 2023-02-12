@@ -816,7 +816,7 @@ poi_list = [
         id_poi="arsonbrookstreetb",
         alias=['cinderstateforest', 'cinderstate', 'cinder'],
         str_name="Cinder State Forest",
-        str_desc="This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimifed version that's called something supremely retarded like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fries, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This street connects back into Arsonbrook. This street is connected to Astatine Trail, Stillwater town, and Tilly Hill.",
+        str_desc="This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimifed version that's called something supremely retarded like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fires, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This street connects back into Arsonbrook. This street is connected to Astatine Trail, Stillwater town, and Tilly Hill.",
         channel="cinder-state-forest",
         permissions={'arsonbrookstreetb': ['read', 'send', 'connect']},
         property_class="b",
@@ -2659,8 +2659,8 @@ poi_list = [
     EwPoi(
         id_poi="northoutskirtsedge",
         alias=['noedge', 'noe'],
-        str_name="North Outskirts Edge",
-        str_desc="It's a small patch of desert on the edge of town. Go any further and you're just asking for trouble. Fuck the police. This outskirt is connected to Northwest Outskirts Edge, Northwest Outskirts, Nuclear Beach Edge, Arsonbrook, Brawlden and New New Yonkers.",
+        str_name="North Outskirts Edge - Cinder State Forest",
+        str_desc=" This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimifed version that's called something supremely retarded like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fires, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This outskirt is connected to Northwest Outskirts Edge, Northwest Outskirts, Nuclear Beach Edge, Arsonbrook, Brawlden and New New Yonkers.",
         channel="north-outskirts-edge",
         permissions={'north-outskirts-edge': ['read', 'send', 'connect']},
         is_outskirts=True,
@@ -2845,7 +2845,7 @@ poi_list = [
         id_poi="themuseum",
         alias=['ogm', 'oozegardensmuseum', 'mus', 'relic', 'museumofnaturalhistory', 'museum'],
         str_name="NLACakaNM Museum of History",
-        str_desc="You walk into an out-of-the-way, bland brick building, one of NLACakaNM's history museums. Even with the fishy smell from the aquariums in the left wing, you can't help but feel like you're at the DMV. The directories tell you there are some relics and art exhibits on the right, but it doesn't look like many have been donated yet. The only thing that isn't completely dick-flattening in here is the bizarre enthusiasm of the curator behind the counter, chipper and egg-like. You guess some people just have a taste for the dull. This area exits into Ooze Gardens.",
+        str_desc="You walk into an out-of-the-way, bland brick building, one of NLACakaNM's history museums. Even with the fishy smell from the aquariums in the left wing, you can't help but feel like you're at the DMV. The directories tell you there are some relics and art exhibits on the right, and while it's not a *bad* collection by any means, you still notice some empty spaces on many of the pedestals. Amy Hart's behind the counter, typing away on her laptop. Probably just a dissertation or some other shit you don't care about. This area exits into Ooze Gardens.",
         channel="the-museum",
         role="The Museum",
         permissions={'the-museum': ['read', 'send', 'connect'], 'relic-exhibits': ['read'], 'aquarium': ['read'],
@@ -3860,6 +3860,28 @@ world_events = [
         str_event_ongoing="**There's an opening to a RAID DEN within the ground!**",
         str_event_end="The ground crashes together, forever sealing the raid den in the earth.",
         str_check_text="There's a raid den entrance in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_rally,
+        str_name="a political candidate's rally.",
+        pois=[],
+        length=2,  # 11h
+        buffer=0,  # 13h
+        str_event_start="This rally needs security!",
+        str_event_ongoing="A candidate is looking to keep ruffians out of this event.",
+        str_event_end="Time to begin.",
+        str_check_text="A political rally is about to start in ",
+    ),
+    EwEventDef(
+        event_type=ewcfg.event_type_rally_end,
+        str_name="a political candidate's rally, now over.",
+        pois=[],
+        length=3,  # 11h
+        buffer=2,  # 13h
+        str_event_start="The street is full of thugs! Clear 'em out to claim a relic.",
+        str_event_ongoing="Some candidate's trying to lie to the people right now! Get the peanut gallery to shut up!",
+        str_event_end="The ground crashes together, forever sealing the raid den in the earth.",
+        str_check_text="A political rally is going on in ",
     ),
 ]
 

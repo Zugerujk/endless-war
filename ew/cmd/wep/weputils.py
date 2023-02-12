@@ -12,10 +12,11 @@ from ew.static import cfg as ewcfg
 from ew.static import poi as poi_static
 from ew.static import slimeoid as sl_static
 from ew.static import weapons as static_weapons
+from ew.static import npc as static_npc
 from ew.utils import combat as cmbt_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
-#from ew.utils import move as move_utils
+from ew.utils import move as move_utils
 from ew.utils import stats as ewstats
 try:
     from ew.utils import rutils as rutils
@@ -26,6 +27,7 @@ from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.slimeoid import EwSlimeoid
+
 
 """ A data-moving class which holds references to objects we want to modify with weapon effects. """
 
@@ -456,8 +458,6 @@ def canAttack(cmd):
         response = "You've run out of ammo and need to {}!".format(ewcfg.cmd_reload)
     elif weapon.cooldown + (float(weapon_item.item_props.get("time_lastattack")) if weapon_item.item_props.get("time_lastattack") != None else 0) > time_now_float:
         response = "Your {weapon_name} isn't ready for another attack yet!".format(weapon_name=weapon.id_weapon)
-    elif poi.id_poi == 'hangemsquare' and market.clock != 12:
-        response = "It's not noon yet. Everything in its own time."
     elif (ewcfg.weapon_class_captcha in weapon.classes and captcha not in [None, ""] and captcha.lower() not in tokens_lower) or code_count > 1:
         if (ewcfg.weapon_class_burning in weapon.classes or ewcfg.weapon_class_exploding in weapon.classes):
             slime_backfired = int(user_data.slimes * (0.1 + random.random() / 20))
@@ -497,8 +497,7 @@ def canAttack(cmd):
         if (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
             response = "Take a moment to appreciate your last slaughter."
-
-        # what the fuck is this
+                # what the fuck is this
         elif user_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_lucky, ewcfg.life_state_executive] and not ewcfg.slimernalia_active:
 
             # Only killers, rowdys, the cop killer, and rowdy fucker can shoot people.
@@ -507,9 +506,19 @@ def canAttack(cmd):
             else:
                 response = "You lack the moral fiber necessary for violence."
 
+        elif move_utils.poi_is_pvp(user_data.poi) == False and enemy_data.enemytype not in [ewcfg.enemy_type_sandbag] and enemy_data.enemyclass != 'dojomaster':
+            response = "You must go elsewhere to commit gang violence."
+
         elif enemy_data != None:
-            # enemy found, redirect variables to code in ewhunting
-            response = ewcfg.enemy_targeted_string
+            if ewcfg.status_enemy_juviemode_id in enemy_data.getStatusEffects():
+                npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+                if npc_obj.str_juviemode != '' and npc_obj.str_juviemode is not None:
+                    response = npc_obj.str_juviemode
+                else:
+                    response = "God damn it. They're standing right there, but you can't kill them cause they're under the legal limit. Fucking government-fellating bitch."
+            else:
+                # enemy found, redirect variables to code in ewhunting
+                response = ewcfg.enemy_targeted_string
 
         else:
             # no enemy is found within that district
@@ -524,13 +533,15 @@ def canAttack(cmd):
         user_isrowdys = user_data.life_state == ewcfg.life_state_enlisted and user_data.faction == ewcfg.faction_rowdys
         user_isslimecorp = user_data.life_state == ewcfg.life_state_enlisted and user_data.faction == ewcfg.faction_slimecorp
         user_isexecutive = user_data.life_state in [ewcfg.life_state_lucky, ewcfg.life_state_executive]
+        user_isvigilante = user_data.life_state in [ewcfg.life_state_vigilante]
 
         possession_data = user_data.get_possession()
 
         if shootee_data.life_state == ewcfg.life_state_kingpin:
             # Disallow killing generals.
             response = "He is hiding in his ivory tower and playing video games like a retard."
-
+        elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()):
+            response = "It's not noon yet. Everything in its own time."
         elif (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
             # disallow kill if the player has killed recently
             response = "Take a moment to appreciate your last slaughter."
@@ -549,7 +560,7 @@ def canAttack(cmd):
         elif rutils.eg_check2(time_now, shootee_data):
             response = "{} is not mired in the ENDLESS WAR right now.".format(member.display_name)
 
-        elif user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False and not ewcfg.slimernalia_active:
+        elif user_iskillers == False and user_isrowdys == False and user_isexecutive == False and user_isslimecorp == False and user_isvigilante == False and not ewcfg.slimernalia_active:
             # Only killers, rowdys, the cop killer, and rowdy fucker can shoot people.
             if user_data.life_state == ewcfg.life_state_juvenile:
                 response = "Juveniles lack the moral fiber necessary for violence."
@@ -580,7 +591,7 @@ def canAttack(cmd):
             # User is targeting themselves
             response = "Try {}.".format(ewcfg.cmd_suicide)
 
-        elif shootee_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_lucky, ewcfg.life_state_executive]:
+        elif shootee_data.life_state not in [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_lucky, ewcfg.life_state_executive, ewcfg.life_state_vigilante]:
             if shootee_data.life_state == ewcfg.life_state_corpse and (ewcfg.status_ghostbust_id in user_data.getStatusEffects() or ewcfg.mutation_id_coleblooded in mutations):
                 response = ewcfg.ghost_busting_string
             else:
@@ -833,7 +844,7 @@ async def attackEnemy(cmd):
     slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
     slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-    if sandbag_mode:
+    if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects() or enemy_data.enemytype == ewcfg.enemy_type_policeofficer:
         slimes_drained = 0
         slimes_tobleed = 0
         # slimes_directdamage = 0
@@ -873,6 +884,7 @@ async def attackEnemy(cmd):
             slimeoid_dmg = static_weapons.slimeoid_dmg_text.get(slimeoid.weapon)
 
     if was_killed:
+
         # adjust statistics
         ewstats.increment_stat(user=user_data, metric=ewcfg.stat_pve_kills)
         ewstats.track_maximum(user=user_data, metric=ewcfg.stat_biggest_kill, value=int(slimes_dropped))
@@ -880,6 +892,10 @@ async def attackEnemy(cmd):
             ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_pve_ganks)
         elif user_data.slimelevel < enemy_data.level:
             ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_pve_takedowns)
+
+        if enemy_data.enemytype == ewcfg.enemy_type_policeofficer or enemy_data.enemyclass in['riot', 'pork', 'sleuth', 'mrc']:
+            ewstats.increment_stat(user=user_data, metric=ewcfg.stat_lifetime_cops_killed)
+            user_data.change_crime(n=ewcfg.cr_cop_kill)
 
         if weapon != None:
             weapon_item.item_props["kills"] = (int(weapon_item.item_props.get("kills")) if weapon_item.item_props.get("kills") != None else 0) + 1
@@ -893,7 +909,7 @@ async def attackEnemy(cmd):
         slimes_todistrict = enemy_data.slimes / 2
         slimes_tokiller = enemy_data.slimes / 2
 
-        if sandbag_mode:
+        if sandbag_mode or ewcfg.status_enemy_barren_id in enemy_data.getStatusEffects():
             slimes_todistrict = 0
             slimes_tokiller = 0
 
@@ -973,7 +989,13 @@ async def attackEnemy(cmd):
             resp_cont.add_channel_response(cmd.message.channel, defeat_response)
 
         user_data = EwUser(member=cmd.message.author)
+
+
+
     else:
+        if enemy_data.enemytype == ewcfg.enemy_type_npc:
+            npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+            await npc_obj.func_ai(keyword='hit', enemy=enemy_data, channel=cmd.message.channel, user_data = user_data)
         # A non-lethal blow!
         if weapon != None:
             if miss:
@@ -989,6 +1011,7 @@ async def attackEnemy(cmd):
                     hitzone=randombodypart,
                     slimeoid_name=slimeoid_name,
                     slimeoid_dmg=slimeoid_dmg
+
                 )
                 if crit:
                     response += " {}".format(weapon.str_crit.format(
@@ -996,7 +1019,7 @@ async def attackEnemy(cmd):
                         name_target=enemy_data.display_name,
                         hitzone=randombodypart,
                         slimeoid_name=slimeoid_name,
-                        slimeoid_crit=slimeoid_crit
+                        slimeoid_crit=slimeoid_crit,
                     ))
 
                 response += " {target_name} loses {damage:,} slime!".format(
@@ -1070,6 +1093,10 @@ async def attackEnemy(cmd):
             await asyncio.sleep(60)
 
         await killfeed_resp_cont.post()
+    elif was_killed and enemy_data.enemytype == ewcfg.enemy_type_npc:
+        npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
+        await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
+        await resp_cont.post()
 
     # Send the response to the player.
 

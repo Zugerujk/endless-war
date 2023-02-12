@@ -15,11 +15,11 @@ cmd_map = {
     ewcfg.cmd_inventory_alt2: itemcmds.inventory_print,
     ewcfg.cmd_inventory_alt3: itemcmds.inventory_print,
     ewcfg.cmd_communitychest: itemcmds.inventory_print,
+    ewcfg.cmd_collectioninventory: itemcmds.inventory_print,
 
     # get an item's description
     ewcfg.cmd_inspect: itemcmds.item_look,
     ewcfg.cmd_inspect_alt1: itemcmds.item_look,
-    ewcfg.cmd_plainlook: itemcmds.item_look,
 
     # use an item
     ewcfg.cmd_use: itemcmds.item_use,
@@ -69,11 +69,14 @@ cmd_map = {
     ewcfg.cmd_manualsoulbind: itemcmds.manual_soulbind,
     ewcfg.cmd_collect: itemcmds.collect,
     ewcfg.cmd_extract: itemcmds.remove_from_collection,
+    ewcfg.cmd_extract_alt_1: itemcmds.remove_from_collection,
+    ewcfg.cmd_renamecollection: itemcmds.rename_collection,
 
     # SLIMERNALIA
     ewcfg.cmd_unwrap: itemcmds.unwrap,
     ewcfg.cmd_unearth:itemcmds.unearth,
-    ewcfg.cmd_bury:itemcmds.bury
+    ewcfg.cmd_bury:itemcmds.bury,
+    ewcfg.cmd_huff:itemcmds.huff,
 
 }
 
@@ -88,11 +91,11 @@ dm_cmd_map = {
     ewcfg.cmd_inventory_alt2: itemcmds.inventory_print,
     ewcfg.cmd_inventory_alt3: itemcmds.inventory_print,
     ewcfg.cmd_communitychest: itemcmds.inventory_print,
+    ewcfg.cmd_collectioninventory: itemcmds.inventory_print,
 
     # !inspect
     ewcfg.cmd_inspect: itemcmds.item_look,
     ewcfg.cmd_inspect_alt1: itemcmds.item_look,
-    ewcfg.cmd_plainlook: itemcmds.item_look,
 }
 
 apt_dm_cmd_map = {
@@ -117,6 +120,7 @@ apt_dm_cmd_map = {
     ewcfg.cmd_releaseprop: itemcmds.releaseprop,
     ewcfg.cmd_aquarium: itemcmds.aquarium,
     ewcfg.cmd_releasefish: itemcmds.releasefish,
-    ewcfg.cmd_collect:itemcmds.collect,
+    ewcfg.cmd_collect: itemcmds.collect,
+    ewcfg.cmd_renamecollection: itemcmds.rename_collection,
 
 }

@@ -2,11 +2,18 @@ import asyncio
 import random
 
 from ew.static import poi as poi_static
+from ew.static import npc as npc_static
 from ew.utils import dungeons as dungeon_utils
 from ew.utils import frontend as fe_utils
 from ew.utils import rolemgr as ewrolemgr
+from ew.utils import core as ewutils
 from ew.utils.combat import EwUser
 from . import dungeonutils
+import ew.static.community_cfg as comm_cfg
+from ew.backend.dungeons import EwBlurb
+import ew.static.cfg as ewcfg
+from ew.utils import cmd as cmd_utils
+import ew.backend.core as bknd_core
 
 
 async def tutorial_cmd(cmd):
@@ -92,3 +99,99 @@ async def tutorial_cmd(cmd):
         # response = dungeon_utils.format_tutorial_response(tutorial_scene)
         # return await fe_utils.send_message(client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
         return
+
+
+async def add_blurb(cmd):
+    if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    if len(cmd.tokens) > 5 or len(cmd.tokens) < 3:
+        response = "The syntax is !addblurb \"blurb\" \"context\" \"subcontext\" \"subsubcontext\" Only the first context is required."
+    else:
+        blurb_obj = EwBlurb()
+        blurb_obj.id_server = cmd.guild.id
+        blurb_obj.blurb = cmd.tokens[1]
+        blurb_obj.context = cmd.tokens[2]
+        if len(cmd.tokens) > 3:
+            blurb_obj.subcontext = cmd.tokens[3]
+        if len(cmd.tokens) > 4:
+            blurb_obj.subsubcontext = cmd.tokens[4]
+        blurb_obj.persist()
+
+        if blurb_obj.context == 'npc':
+            npc = npc_static.active_npcs_map.get(blurb_obj.subcontext)
+            if npc.dialogue.get(blurb_obj.subsubcontext) is not None:
+                npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
+            else:
+                npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
+        elif blurb_obj.context == 'district':
+            comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
+        elif blurb_obj.context == 'vendor':
+            ewcfg.vendor_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
+        list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
+        if list_to_update is not None:
+            list_to_update.append(blurb_obj.blurb)
+
+        response = "Added a blurb."
+
+    await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+
+async def displayblurbs(cmd):
+    if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
+        return await cmd_utils.fake_failed_command(cmd)
+
+    context = None
+    subcontext = None
+    subsubcontext = None
+
+
+    if len(cmd.tokens) > 1:
+        context = cmd.tokens[1]
+    if len(cmd.tokens) > 2:
+        subcontext = cmd.tokens[2]
+    if len(cmd.tokens) > 3:
+        subsubcontext = cmd.tokens[3]
+
+
+    query = "SELECT {col_id_id_blurb}, {col_id_blurb} from blurbs".format(col_id_blurb=ewcfg.col_id_blurb, col_id_id_blurb=ewcfg.col_id_id_blurb)
+
+
+    if context is not None:
+        query += " WHERE {} = '{}'".format(ewcfg.col_id_context, context)
+    if subcontext is not None:
+        query += " AND {} = '{}'".format(ewcfg.col_id_subcontext, subcontext)
+    if subsubcontext is not None:
+        query += " AND {} = '{}'".format(ewcfg.col_id_subsubcontext, subsubcontext)
+
+    data_chunk = bknd_core.execute_sql_query(query)
+
+    resp_cont = fe_utils.EwResponseContainer(id_server=cmd.guild.id)
+
+    response = "\n"
+    for data in data_chunk:
+        response += "Blurb {}: {}\n".format(data[0], data[1][0:50])
+
+    resp_cont.add_channel_response(cmd.message.channel, response)
+    await resp_cont.post()
+    #await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+async def display_blurb_context(cmd):
+    response = comm_cfg.context_guide
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def delete_blurb(cmd):
+    to_delete = ewutils.getIntToken(tokens = cmd.tokens, allow_all = True)
+    checked = EwBlurb(id_server=cmd.guild.id, id_blurb=to_delete)
+    if checked.context != "" and checked.context != None:
+        query = "DELETE from blurbs WHERE {col_id_id_blurb} = %s".format(col_id_id_blurb=ewcfg.col_id_id_blurb)
+        bknd_core.execute_sql_query(query, (to_delete,))
+        response = "Done."
+    else:
+        response = "No such blurb."
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

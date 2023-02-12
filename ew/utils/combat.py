@@ -11,6 +11,7 @@ from . import hunting as hunt_utils
 from . import item as itm_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
+from . import npcutils as npcutils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from .user import get_move_speed, add_xp
@@ -31,6 +32,7 @@ from ..static import cfg as ewcfg
 from ..static import cosmetics as static_cosmetics
 from ..static import food as static_food
 from ..static import hunting as hunt_static
+from ..static import npc as npc_static
 from ..static import items as static_items
 from ..static import mutations as static_mutations
 from ..static import poi as poi_static
@@ -48,7 +50,7 @@ except:
 
 class EwEnemy(EwEnemyBase):
     # Function that enemies use to attack or otherwise interact with players.
-    async def kill(self):
+    async def kill(self, condition = None):
 
         client = ewutils.get_client()
 
@@ -94,6 +96,8 @@ class EwEnemy(EwEnemyBase):
                     
         if enemy_data.ai == ewcfg.enemy_ai_sandbag:
             target_data = None
+        elif enemy_data.enemytype == 'npc' and condition is not None:
+            target_data, group_attack = get_target_by_ai(enemy_data=enemy_data, condition = condition)
         else:
             target_data, group_attack = get_target_by_ai(enemy_data)
 
@@ -214,6 +218,7 @@ class EwEnemy(EwEnemyBase):
             target_isrowdys = target_data.life_state == ewcfg.life_state_enlisted and target_data.faction == ewcfg.faction_rowdys
             target_isslimecorp = target_data.life_state == ewcfg.life_state_enlisted and target_data.faction == ewcfg.faction_slimecorp
             target_isexecutive = target_data.life_state in [ewcfg.life_state_lucky, ewcfg.life_state_executive]
+            target_isvigilante = target_data.life_state in [ewcfg.life_state_vigilante]
             target_isjuvie = target_data.life_state == ewcfg.life_state_juvenile
             target_isnotdead = target_data.life_state != ewcfg.life_state_corpse
 
@@ -232,14 +237,14 @@ class EwEnemy(EwEnemyBase):
 
             # enemies dont fuck with ghosts, ghosts dont fuck with enemies.
             elif (
-                    target_iskillers or target_isrowdys or target_isjuvie or target_isexecutive or target_isslimecorp) and (
+                    target_iskillers or target_isrowdys or target_isjuvie or target_isexecutive or target_isslimecorp or target_isvigilante) and (
                     target_isnotdead):
                 was_killed = False
                 was_hurt = False
 
                 if target_data.life_state in [ewcfg.life_state_enlisted,
                                               ewcfg.life_state_juvenile, ewcfg.life_state_lucky,
-                                              ewcfg.life_state_executive]:
+                                              ewcfg.life_state_executive, ewcfg.life_state_vigilante]:
 
                     # If a target is being attacked by an enemy with the defender ai, check to make sure it can be hit.
                     if (enemy_data.ai == ewcfg.enemy_ai_defender) and (
@@ -419,7 +424,8 @@ class EwEnemy(EwEnemyBase):
                                 name_target=("<@!{}>".format(target_data.id_user)),
                                 hitzone=randombodypart,
                                 strikes=strikes,
-                                civ_weapon=civ_weapon
+                                civ_weapon=civ_weapon,
+                                dojo_weapons=random.choice(ewcfg.dojo_weapons)
                             )
                             kill_descriptor = used_attacktype.str_killdescriptor
                             if crit:
@@ -550,7 +556,7 @@ class EwEnemy(EwEnemyBase):
         if should_post_resp_cont:
             await resp_cont.post()
 
-    def move(self):
+    def move(self, pre_chosen_poi = None):
         resp_cont = EwResponseContainer(id_server=self.id_server)
 
         old_district_response = ""
@@ -558,6 +564,7 @@ class EwEnemy(EwEnemyBase):
         gang_base_response = ""
 
         try:
+        #if True:
             # Raid bosses can move into other parts of the outskirts as well as the city, including district zones.
             destinations = set(poi_static.poi_neighbors.get(self.poi))
             all_destinations = set(destinations)
@@ -565,9 +572,13 @@ class EwEnemy(EwEnemyBase):
             # Filter subzones and gang bases out.
             # Nudge raidbosses into the city.
             for destination in all_destinations:
-
                 destination_poi_data = poi_static.id_to_poi.get(destination)
-                if destination_poi_data.is_subzone or destination_poi_data.is_gangbase or not destination_poi_data.pvp:
+
+                if self.enemytype == ewcfg.enemy_type_npc:
+                    npc_obj = npc_static.active_npcs_map.get(self.enemyclass)
+                    if destination not in npc_obj.poi_list and npc_obj.poi_list != []:
+                        destinations.remove(destination)
+                elif destination_poi_data.is_subzone or destination_poi_data.is_gangbase or (not destination_poi_data.pvp and self.enemytype == ewcfg.enemy_type_npc):
                     destinations.remove(destination)
 
                 if self.poi in poi_static.outskirts_depths:
@@ -580,11 +591,14 @@ class EwEnemy(EwEnemyBase):
                     if (destination in poi_static.outskirts_edges) or (destination in poi_static.outskirts_middle):
                         destinations.remove(destination)
 
+
             if len(destinations) > 0:
 
                 old_poi = self.poi
                 new_poi = random.choice(list(destinations))
 
+                if pre_chosen_poi is not None:
+                    new_poi = pre_chosen_poi
                 self.poi = new_poi
                 self.time_lastenter = int(time.time())
                 self.id_target = -1
@@ -604,12 +618,21 @@ class EwEnemy(EwEnemyBase):
                     self.display_name,
                     ewcfg.emote_megaslime
                 )
-                resp_cont.add_channel_response(new_ch_name, new_district_response)
+
+                if self.enemytype == ewcfg.enemy_type_npc:
+                    new_district_response = "{} just walked in.".format(
+                        self.display_name
+                    )
+
+                if self.enemytype != ewcfg.enemy_type_npc or not ewutils.is_district_empty(new_poi_def.id_poi):
+                    resp_cont.add_channel_response(new_ch_name, new_district_response)
 
                 old_district_response = "{} has moved to {}!".format(self.display_name, new_poi_def.str_name)
                 old_poi_def = poi_static.id_to_poi.get(old_poi)
                 old_ch_name = old_poi_def.channel
                 resp_cont.add_channel_response(old_ch_name, old_district_response)
+                self.identifier = hunt_utils.set_identifier(poi=new_poi, id_server=self.id_server)
+
 
                 if new_poi not in poi_static.outskirts and self.enemytype in ewcfg.raid_bosses:
                     gang_base_response = "There are reports of a powerful enemy roaming around {}.".format(
@@ -1040,7 +1063,7 @@ def get_shooter_status_mods(user_data = None, shootee_data = None, hitzone = Non
             mods['dmg'] += status_flavor.dmg_mod_self
 
     # Checks if any status mod in the nocost list is in the user's statuses
-    if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0:
+    if len(set(ewcfg.nocost).intersection(set(user_statuses))) > 0 or user_data.life_state == ewcfg.life_state_vigilante:
         mods['no_cost'] = True
 
     # Signals presence of vaccine
@@ -1234,7 +1257,11 @@ def drop_enemy_loot(enemy_data, district_data):
     drop_range = None
 
     has_dropped_item = False
-    drop_table = ewcfg.enemy_drop_tables[enemy_data.enemytype]
+    if enemy_data.enemytype == 'npc':
+        chosen_npc = npc_static.active_npcs_map.get(enemy_data.enemyclass)
+        drop_table = chosen_npc.rewards
+    else:
+        drop_table = ewcfg.enemy_drop_tables[enemy_data.enemytype]
 
     for drop_data_set in drop_table:
         value = None
@@ -1376,7 +1403,7 @@ async def enemy_perform_action(id_server):
 
     # Only select enemies that are either in a zone with a player in it, or that act autonomously (raid bosses)
     enemydata = bknd_core.execute_sql_query(
-        "SELECT {id_enemy} FROM enemies WHERE ((enemies.poi IN (SELECT users.poi FROM users WHERE NOT (users.life_state = %s OR users.life_state = %s) AND users.id_server = {id_server})) OR (enemies.enemytype IN %s) OR (enemies.life_state = %s OR enemies.expiration_date < %s) OR (enemies.id_target != -1)) AND enemies.id_server = {id_server}".format(
+        "SELECT {id_enemy} FROM enemies WHERE ((enemies.poi IN (SELECT users.poi FROM users WHERE NOT (users.life_state = %s OR users.life_state = %s) AND users.id_server = {id_server})) OR (enemies.enemytype IN %s) OR (enemies.enemytype = 'npc') OR (enemies.life_state = %s OR enemies.expiration_date < %s) OR (enemies.id_target != -1)) AND enemies.id_server = {id_server}".format(
             id_enemy=ewcfg.col_id_enemy,
             id_server=id_server
         ), (
@@ -1391,6 +1418,7 @@ async def enemy_perform_action(id_server):
         enemy = EwEnemy(id_enemy=row[0], id_server=id_server)
         enemy_statuses = enemy.getStatusEffects()
         resp_cont = EwResponseContainer(id_server=id_server)
+        npc_obj = None
 
         # If an enemy is marked for death or has been alive too long, delete it
         if enemy.life_state == ewcfg.enemy_lifestate_dead or (enemy.expiration_date < time_now):
@@ -1407,6 +1435,14 @@ async def enemy_perform_action(id_server):
                     resp_cont = enemy.move()
                     if resp_cont != None:
                         await resp_cont.post(delete_after=120)
+
+            ch_name = poi_static.id_to_poi.get(enemy.poi).channel
+            channel_obj = fe_utils.get_channel(server=client.get_guild(id_server), channel_name=ch_name)
+            if enemy.enemytype == ewcfg.enemy_type_npc:
+
+                npc_obj = npc_static.active_npcs_map.get(enemy.enemyclass)
+                await npc_obj.func_ai(keyword = 'move', enemy = enemy, channel = channel_obj) #get npc movement action
+
 
             # If an enemy is alive and not a sandbag, make it perform the kill function.
             if enemy.enemytype != ewcfg.enemy_type_sandbag:
@@ -1446,7 +1482,10 @@ async def enemy_perform_action(id_server):
                         fe_utils.delete_last_message(client, last_messages, ewcfg.enemy_attack_tick_length))
                     resp_cont = None
 
-                elif any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(10) == 0:
+                elif npc_obj is not None:
+                    await npc_obj.func_ai(keyword='act', enemy = enemy, channel = channel_obj) #trigger enemy ai for generic action in front of a player
+                elif any([ewcfg.status_evasive_id, ewcfg.status_aiming_id]) not in enemy_statuses and random.randrange(
+                        10) == 0:
                     resp_cont = random.choice([enemy.dodge, enemy.taunt, enemy.aim])()
                 else:
                     resp_cont = await enemy.kill()
@@ -1462,7 +1501,7 @@ async def enemy_perform_action(id_server):
 
 
 # Finds an enemy based on its regular/shorthand name, or its ID.
-def find_enemy(enemy_search = None, user_data = None):
+def find_enemy(enemy_search = None, user_data = None, npc_search = None):
     enemy_found = None
     enemy_search_alias = None
 
@@ -1500,16 +1539,17 @@ def find_enemy(enemy_search = None, user_data = None):
 
             searched_identifier = identifiers_found.pop()
 
+
             enemydata = bknd_core.execute_sql_query(
-                "SELECT {id_enemy} FROM enemies WHERE {poi} = %s AND {identifier} = %s AND {life_state} = 1".format(
-                    id_enemy=ewcfg.col_id_enemy,
-                    poi=ewcfg.col_enemy_poi,
-                    identifier=ewcfg.col_enemy_identifier,
-                    life_state=ewcfg.col_enemy_life_state
-                ), (
-                    user_data.poi,
-                    searched_identifier,
-                ))
+            "SELECT {id_enemy} FROM enemies WHERE {poi} = %s AND {identifier} = %s AND {life_state} = 1".format(
+                id_enemy=ewcfg.col_id_enemy,
+                poi=ewcfg.col_enemy_poi,
+                identifier=ewcfg.col_enemy_identifier,
+                life_state=ewcfg.col_enemy_life_state
+            ), (
+                user_data.poi,
+                searched_identifier,
+            ))
 
             for row in enemydata:
                 enemy = EwEnemy(id_enemy=row[0], id_server=user_data.id_server)
@@ -1543,6 +1583,26 @@ def find_enemy(enemy_search = None, user_data = None):
     return enemy_found
 
 
+def find_npc(npcsearch = '', id_server = -1):
+    enemyfound = None
+    if npcsearch is not None:
+        enemydata = bknd_core.execute_sql_query(
+            "SELECT {id_enemy} FROM enemies WHERE {enemyclass} = %s AND {life_state} = 1".format(
+                id_enemy=ewcfg.col_id_enemy,
+                enemyclass=ewcfg.col_enemy_class,
+                life_state=ewcfg.col_enemy_life_state
+            ), (
+                npcsearch,
+            ))
+        for row in enemydata:
+            enemy = EwEnemy(id_enemy=row[0], id_server=id_server)
+            if enemy is not None:
+                enemyfound = enemy
+                break
+    return enemyfound
+
+
+
 def check_raidboss_movecooldown(enemy_data):
     time_now = int(time.time())
 
@@ -1556,7 +1616,7 @@ def check_raidboss_movecooldown(enemy_data):
 
 
 # Selects which non-ghost user to attack based on certain parameters.
-def get_target_by_ai(enemy_data, cannibalize = False):
+def get_target_by_ai(enemy_data, cannibalize = False, condition = None):
     target_data = None
     group_attack = False
 
@@ -1591,8 +1651,15 @@ def get_target_by_ai(enemy_data, cannibalize = False):
                     enemy_data.poi,
                     enemy_data.id_server
                 ))
-            if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+            if condition is not None:
+                for user in users:
+                    user_data = EwUser(id_user=user[0], id_server = enemy_data.id_server)
+                    if condition(user_data, enemy_data):
+                        target_data = user_data
+                        break
+            elif len(users) > 0:
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
+
 
         elif enemy_data.ai == ewcfg.enemy_ai_attacker_b:
             users = bknd_core.execute_sql_query(
@@ -1615,7 +1682,7 @@ def get_target_by_ai(enemy_data, cannibalize = False):
                     enemy_data.id_server
                 ))
             if len(users) > 0:
-                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server, data_level=1)
+                target_data = EwUser(id_user=users[0][0], id_server=enemy_data.id_server)
 
         # If an enemy is a raidboss, don't let it attack until some time has passed when entering a new district.
         if enemy_data.enemytype in ewcfg.raid_bosses and enemy_data.time_lastenter > raidbossaggrotimer:
@@ -1753,7 +1820,8 @@ class EwUser(EwUserBase):
         resp_cont = EwResponseContainer(id_server=self.id_server)
 
         client: discord.Client = ewcfg.get_client()
-        server: discord.Guild = client.get_guild(self.id_server)
+
+        server: discord.Guild = client.get_guild(int(self.id_server))
         member: EwPlayer = EwPlayer(id_server=self.id_server, id_user=self.id_user)
 
         # Make The death report
@@ -1984,6 +2052,7 @@ class EwUser(EwUserBase):
         item_props = food_item.item_props
         mutations = self.get_mutations()
         statuses = self.getStatusEffects()
+        isDrink = food_item.template in static_food.drinks
 
         # Find out if the item is perishable
         if item_props.get('perishable') != None:
@@ -1995,11 +2064,16 @@ class EwUser(EwUserBase):
         else:
             item_is_non_perishable = False
 
+
         user_has_spoiled_appetite = ewcfg.mutation_id_spoiledappetite in mutations
         item_has_expired = float(getattr(food_item, "time_expir", 0)) < time.time()
         if item_has_expired and not (user_has_spoiled_appetite or item_is_non_perishable):
             response = "You realize that the {} you were trying to eat is already spoiled. Ugh, not eating that.".format(food_item.name)
         # ewitem.item_drop(food_item.id_item)
+        elif npcutils.find_drinkster(user_data=self, isDrink=isDrink):
+            response = "Oh shit, it's the Drinkster! He snatches the {} right out of your hand and crushes it!\nhttps://rfck.app/npc/drinksterdance.gif".format(food_item.name)
+            bknd_item.item_delete(food_item.id_item)
+            return [response]
         else:
             hunger_restored = int(item_props['recover_hunger'])
             if self.id_user in ewutils.food_multiplier and ewutils.food_multiplier.get(self.id_user) > 0:

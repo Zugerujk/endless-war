@@ -47,3 +47,6 @@ def act(cmd_obj, poi, content_tolower):
 
 async def secret_context(user_data, item, cmd):
     return False
+
+async def award_item(cmd, itemname = None, on_give = None, on_fail = None, on_runout = None, gamestate = None, marker_gamestate = None):
+    return

@@ -156,7 +156,7 @@ async def attack(cmd):
             if ctn.mass_apply_status == ewcfg.status_burning_id:
                 mass_status = apply_status_bystanders(
                     user_data=attacker, status=ewcfg.status_burning_id,
-                    value=ctn.bystander_damage, life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive],
+                    value=ctn.bystander_damage, life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive, ewcfg.life_state_vigilante],
                     factions=["", target.faction], district_data=district_data
                 )
 
@@ -541,7 +541,7 @@ async def attack(cmd):
             wep_explode = await weapon_explosion(user_data=EwUser(member=attacker_member), shootee_data=EwUser(member=target_member),
                                            district_data=EwDistrict(id_server=cmd.guild.id, district=attacker.poi),
                                            market_data=EwMarket(id_server=cmd.guild.id),
-                                           life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive],
+                                           life_states=[ewcfg.life_state_enlisted, ewcfg.life_state_juvenile, ewcfg.life_state_executive, ewcfg.life_state_vigilante],
                                            factions=["", target.faction],
                                            slimes_damage=ctn.bystander_damage, time_now=start_time, target_enemy=False)
         if (EwUser(member=attacker_member).life_state != ewcfg.life_state_corpse) and attacker_killed:
@@ -610,7 +610,7 @@ async def attack(cmd):
     resp_ctn.format_channel_response(cmd.message.channel, attacker_member)
     await resp_ctn.post()
     if weaponCheckDeb:
-        await debug114(cmd=cmd)
+        kf_ctn = await debug114(cmd=cmd, kf_ctn = kf_ctn)
 
     # Post to killfeed if necessary
     if kf_ctn is not None:
@@ -827,7 +827,7 @@ async def brandish(cmd):
         else:
             weapon_name = weapon.item_props.get('weapon_name')
 
-        response = weapon_obj.str_brandish.format(weapon=weapon_name, name = cmd.message.author.display_name, tag = user_data.spray)
+        response = random.choice(weapon_obj.str_brandish).format(weapon=weapon_name, name = cmd.message.author.display_name, tag = user_data.spray)
     else:
         response = "{} flips the bird!".format(cmd.message.author.display_name)
     return await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))

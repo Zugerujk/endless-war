@@ -49,6 +49,7 @@ class EwFood:
 
     time_fridged = 0
 
+
     def __init__(
             self,
             id_food = "",

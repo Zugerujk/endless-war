@@ -30,16 +30,20 @@ def gen_score_text(ew_id, slime_alias):
     return response
 
 
-def item_off(id_item, id_server, item_name = "", is_pushed_off = False):
+def item_off(id_item, id_server, item_name = "", is_flushed = False):
     item_obj = EwItem(id_item=id_item)
     districtmodel = EwDistrict(id_server=id_server, district=ewcfg.poi_id_slimesendcliffs)
     slimetotal = 0
 
     if item_obj.item_props.get('id_furniture') == 'sord':
         response = "You toss the sord off the cliff, but for whatever reason, the damn thing won't go down. It just keeps going up and up, as though gravity itself blocked this piece of shit jpeg artifact on Twitter. It eventually goes out of sight, where you assume it flies into the sun."
+        if is_flushed:
+            response = "You cram the sord in the toilet."
         bknd_item.item_delete(id_item=id_item)
     elif random.randrange(500) < 125 or item_obj.item_type in([ewcfg.it_questitem, item_obj.item_type == ewcfg.it_medal, ewcfg.it_relic])  or item_obj.item_props.get('rarity') == ewcfg.rarity_princeps or item_obj.item_props.get('id_cosmetic') == "soul" or item_obj.item_props.get('id_furniture') == "propstand" or item_obj.item_props.get('id_furniture') in static_items.furniture_collection or item_obj.item_props.get('acquisition') == 'relic':
         response = "You toss the {} off the cliff. It sinks into the ooze disappointingly.".format(item_name)
+        if is_flushed:
+            response = "You flush {} down the toilet. Off it goes..."
         if item_obj.item_props.get('id_item') in [ewcfg.item_id_oldboot, ewcfg.item_id_seaweed, ewcfg.item_id_tincan, ewcfg.item_id_slimepoudrin] or item_obj.item_props.get('acquisition') == ewcfg.acquisition_fishing:
             bknd_item.item_delete(id_item=id_item)
         else:
@@ -47,17 +51,22 @@ def item_off(id_item, id_server, item_name = "", is_pushed_off = False):
 
     elif random.randrange(500) < 498:
         response = "You toss the {} off the cliff. A nearby kraken swoops in and chomps it down with the cephalapod's equivalent of a smile. Your new friend kicks up some sea slime for you. Sick!".format(item_name)
+        if is_flushed:
+            response = "You flush {} down the toilet. Off it goes..."
         slimetotal = 2000 + random.randrange(10000)
         bknd_item.item_delete(id_item=id_item)
 
     else:
         response = "{} Oh fuck. FEEDING FRENZY!!! Sea monsters lurch down on the spoils like it's fucking christmas, and a ridiculous level of slime debris covers the ground. {}".format(ewcfg.emote_slime1, ewcfg.emote_slime1)
+        if is_flushed:
+            response = "You flush {} down the toilet. Off it goes..."
         slimetotal = 100000 + random.randrange(900000)
 
         bknd_item.item_delete(id_item=id_item)
 
-    districtmodel.change_slimes(n=slimetotal)
-    districtmodel.persist()
+    if not is_flushed:
+        districtmodel.change_slimes(n=slimetotal)
+        districtmodel.persist()
     return response
 
 
@@ -128,7 +137,7 @@ def location_commands(cmd, search_poi = None):
     if len(poi_obj.vendors) != 0:
         response += "\n" + ewcfg.shop_commands
 
-    if response == "**CURRENT LOCATION**:":
+    if response != "**CURRENT LOCATION**:":
         return (response + "\n")
     else:
         return "No special commands for your current location. Try \"!commands basic\" or \"!help\"."
@@ -203,6 +212,11 @@ def holiday_commands(header = True):
         response = ""
     if ewcfg.dh_active:
         return "{}{}".format(response, ewcfg.holidaycommands.get('doublehalloween'))
+    elif ewcfg.slimernalia_active:
+        return "{}{}".format(response, ewcfg.holidaycommands.get('slimernalia'))
+    elif ewcfg.swilldermuk_active:
+        return "{}{}".format(response, ewcfg.holidaycommands.get('swilldermuk'))
+
     else:
         return ''
 

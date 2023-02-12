@@ -48,7 +48,10 @@ from ..static.food import swilldermuk_food
 from ..static import poi as poi_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
-
+try:
+    from ..utils import rutils
+except:
+    from ..utils import rutils_dummy as rutils
 
 async def event_tick_loop(id_server):
     # initialise void connections
@@ -174,6 +177,13 @@ async def event_tick(id_server):
                     for channel in ewcfg.hideout_channels:
                         resp_cont.add_channel_response(channel, gangbase_alert)
 
+                    if event_data.event_type == ewcfg.event_type_rally_end:
+                        target_district = EwDistrict(id_server=id_server, district=poi.id_poi)
+                        if target_district.controlling_faction != 'rabble':
+                            target_district.capture_points = ewcfg.max_capture_points_s
+                            target_district.capturing_faction = 'rabble'
+                            target_district.persist()
+
 
             except Exception as e:
                 ewutils.logMsg("Error in event tick for server {}:{}".format(id_server, e))
@@ -195,11 +205,12 @@ async def decaySlimes(id_server = None):
             conn = conn_info.get('conn')
             cursor = conn.cursor()
 
-            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost})".format(
+            cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT ({life_state} = {life_state_kingpin} OR {life_state} = {life_state_ghost} OR {life_state} = {life_state_vigilante})".format(
                 slimes=ewcfg.col_slimes,
                 life_state=ewcfg.col_life_state,
                 life_state_kingpin=ewcfg.life_state_kingpin,
-                life_state_ghost=ewcfg.life_state_corpse
+                life_state_ghost=ewcfg.life_state_corpse,
+                life_state_vigilante = ewcfg.life_state_vigilante
             ), (
                 id_server,
             ))
@@ -710,7 +721,6 @@ def enemyRemoveExpiredStatuses(id_server = None):
             id_server,
             time_now
         ))
-
         for row in statuses:
             status = row[0]
             id_enemy = row[1]
@@ -748,10 +758,11 @@ async def spawn_enemies(id_server = None, debug = False):
     resp_list = []
     chosen_type = None
     chosen_POI = None
-
+    npc_enemies_count = len(bknd_core.execute_sql_query("SELECT id_enemy FROM enemies where {life_state} = %s and {enemytype} = %s and {id_server} = %s".format(life_state=ewcfg.col_life_state, enemytype=ewcfg.col_enemy_type, id_server=ewcfg.col_id_server), (1, 'npc', id_server)))
+    all_enemies_count = len(bknd_core.execute_sql_query("SELECT id_enemy FROM enemies where {life_state} = %s and {id_server} = %s".format(life_state=ewcfg.col_life_state, id_server=ewcfg.col_id_server), (1, id_server)))
     # One in 3 chance of spawning a regular enemy in the outskirts
 
-    if random.randrange(3) == 0 or debug:
+    if (random.randrange(3) == 0 or debug) and all_enemies_count-npc_enemies_count <= ewcfg.max_normal_enemies:
         weathertype = ewcfg.enemy_weathertype_normal
         # If it's raining, an enemy has  2/3 chance to spawn as a bicarbonate enemy, which doesn't take rain damage
         if market_data.weather == ewcfg.weather_bicarbonaterain:
@@ -766,13 +777,14 @@ async def spawn_enemies(id_server = None, debug = False):
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
     # Why did I make this into incredibly hacky code? Because.
-    if random.randrange(5) == 0:
-            if random.randrange(2) == 0:
-                resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
-            else:
-                resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
+    if random.randrange(4) == 0 and npc_enemies_count <= ewcfg.max_npcs:
+        resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_npc))
+            #if random.randrange(2) == 0:
+                #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
+            #else:
+                #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_ug_slimeoidtrainer))
 
-    # Chance to spawn enemies that correspond to POI Events.
+    # Chance to spawn enemies that correspond to POI Events. Unaffected by enemy spawn cap
     if random.randrange(4) == 0:
         for id_event in world_events:
             # Only if the event corresponds to a type of event that spawns enemies
@@ -1319,17 +1331,21 @@ async def clock_tick_loop(id_server, force_active = False):
                     
                     await fe_utils.send_message(client, sex_channel, response)
                     
+
                     # Bazaar Refresh
                     try:
+
                         ewutils.logMsg("Started bazaar refresh...")
                         await market_utils.refresh_bazaar(id_server)
                         ewutils.logMsg("...finished bazaar refresh.")
+
                     except Exception as e:
                         ewutils.logMsg(f"Bazaar refresh failed in server {id_server}: {e}")
 
                     # Leaderboard Refresh
                     try:
                         ewutils.logMsg("Started leaderboard calcs...")
+
                         await leaderboard_utils.post_leaderboards(client=client, server=server)
                         ewutils.logMsg("...finished leaderboard calcs.")
                     except Exception as e:

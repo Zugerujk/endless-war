@@ -8,7 +8,9 @@ import ew.static.items as static_items
 from ew.utils import cmd as cmd_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
+from ew.utils import weather as weather_utils
 from ew.utils import item as itm_utils
+from ew.backend import worldevent as bknd_worldevent
 from ew.utils import move as move_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils.combat import EwUser
@@ -16,6 +18,13 @@ import ew.backend.core as bknd_core
 import asyncio
 from ew.backend.item import EwItem
 from ew.utils import stats as ewstats
+
+try:
+    import ew.static.rstatic as ewrelic
+    import ew.utils.rutils as relic_utils
+except:
+    import ew.static.rstatic_dummy as ewrelic
+    import ew.utils.rutils as relic_utils
 
 
 async def pa_command(cmd):
@@ -166,7 +175,7 @@ async def defect(cmd):
         await ewrolemgr.updateRoles(client=cmd.client, member=member)
 
         leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-        await fe_utils.send_message(cmd.client, leak_channel,  "{}: Let {} defect.".format(modauth.display_name, member.display_name))
+        await fe_utils.send_message(client=cmd.client, channel=leak_channel,  text="<@!{}>: Let {} defect.".format(mod_data.id_user, member.display_name), filter_everyone=False)
 
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -484,7 +493,7 @@ async def hogtie(cmd):
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}:Released {} from eternal bondage.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>:Released {} from eternal bondage.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
             else:
                 target_data.hogtied = 1
                 target_data.persist()
@@ -492,7 +501,38 @@ async def hogtie(cmd):
                 await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
                 leak_channel = fe_utils.get_channel(server=cmd.guild, channel_name='squickyleaks')
-                await fe_utils.send_message(cmd.client, leak_channel, "{}: Hogtied {}.".format(cmd.message.author.display_name, member.display_name))
+                await fe_utils.send_message(cmd.client, leak_channel, "<@!{}>: Hogtied {}.".format(cmd.message.author.id, member.display_name), filter_everyone=False)
+
+
+async def create_rally(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    elif cmd.tokens_count > 2:
+        if relic_utils.canCreateRelic(item=cmd.tokens[1], id_server=cmd.guild.id, createstate=0) and ewrelic.relic_map.get(cmd.tokens[1]) is not None:
+            poi = poi_static.id_to_poi.get(cmd.tokens[2])
+            if poi is not None:
+                await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=ewcfg.event_type_rally, pre_chosen_poi=poi.id_poi)
+                await weather_utils.create_poi_event(id_server=cmd.guild.id, pre_chosen_event=ewcfg.event_type_rally_end, pre_chosen_poi=poi.id_poi)
+
+                world_events = bknd_worldevent.get_world_events(id_server=cmd.guild.id, active_only=False)
+                for event in world_events:
+                    if event == ewcfg.event_type_rally_end:
+                        event_obj = bknd_worldevent.EwWorldEvent(id_event=event)
+                        if event_obj.event_props.get('poi') == poi.id_poi:
+                            event_obj.event_props['relic'] = cmd.tokens[1]
+                            event_obj.persist()
+
+                response = "Rally created."
+            else:
+                response = "Invalid location."
+        else:
+            response = "Invalid relic, or already created."
+    else:
+        response = "Try !createrally <relic> <location>."
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
 
 
 async def clowncar(cmd):#shoves everyone not there into JR or the sewers
