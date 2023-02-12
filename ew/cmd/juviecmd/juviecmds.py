@@ -677,7 +677,7 @@ async def flag(cmd):
             elif grid[row][col] == ewcfg.cell_empty:
                 grid[row][col] = ewcfg.cell_empty_marked
 
-            await print_grid(cmd, user_data.poi, grid_cont)
+            await print_grid(cmd, user_data.poi, grid_cont, mutations)
 
 
     else:

@@ -671,6 +671,9 @@ channel_relicexhibits = "relic-exhibits"
 channel_aquarium = "aquarium"
 channel_artexhibits = "art-exhibits"
 
+# Other
+channel_communityservice = "community-service"
+
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
     faction_rowdys: channel_rowdyroughhouse,
@@ -1380,6 +1383,8 @@ cmd_hogtie = cmd_prefix + 'hogtie'
 
 # Slime Twitter
 cmd_tweet = cmd_prefix + 'tweet'
+cmd_qrt = cmd_prefix + 'quoteresplat'
+cmd_qrt_alt1 = cmd_prefix + 'quoteretweet'
 cmd_verification = cmd_prefix + 'requestverification'
 cmd_verification_alt = cmd_prefix + '#verify'
 
@@ -1970,6 +1975,12 @@ emote_bb_glob = "🥭"
 
 # Emote for poudrin
 emote_poudrin = "<:poudrin:638900988560015400>"
+
+# Emotes for Slime Twitter & debugging
+emote_slimetwitter_like = "<:slimetwitterlike:822277824324960266>"
+emote_slimetwitter_resplat = "<:slimeresplat:822277898102112297>"
+emote_slimetwitter_like_debug = "💚"
+emote_slimetwitter_resplat_debug = "♻️"
 
 # Emote for deleting slime tweets
 emote_delete_tweet = emote_blank
@@ -3292,7 +3303,8 @@ goonscape_mine_stat = "mining"
 goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
-# Double Halloween Exclusive. Won't appear after Halloween.
+goonscape_clout_stat = "clout"
+# Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
 
 # Database columns for goonscape stats
@@ -3304,7 +3316,9 @@ col_id_farming_level = goonscape_farm_stat + "_level"
 col_id_farming_xp = goonscape_farm_stat + "_xp"
 col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
-# Double Halloween
+col_id_clout_level = goonscape_clout_stat + "_level"
+col_id_clout_xp = goonscape_clout_stat + "_xp"
+# Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
 
@@ -3314,13 +3328,15 @@ gs_stat_to_level_col = {
     goonscape_fish_stat: col_id_fishing_level,
     goonscape_farm_stat: col_id_farming_level,
     goonscape_eat_stat: col_id_feasting_level,
-    goonscape_halloweening_stat: col_id_halloweening_level, # DH
+    goonscape_clout_stat: col_id_clout_level,
+    goonscape_halloweening_stat: col_id_halloweening_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
     goonscape_fish_stat: col_id_fishing_xp,
     goonscape_farm_stat: col_id_farming_xp,
     goonscape_eat_stat: col_id_feasting_xp,
+    goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
 }
 
@@ -4130,7 +4146,7 @@ mutation_descriptions = {
     mutation_id_trashmouth: "Reach maximum power scavenges 3 times as fast. Example: The soft cooldown of 15 seconds on scavenging is now reduced to 5 seconds. You can also eat cosmetics and furniture. You can also eat furniture and cosmetics using !devour <item>.",
     mutation_id_webbedfeet: "Your scavenging power increases the more slime there is in a district. Caps out at 400% more slime gained from scavenging, but does stack with the White Nationalist mutation. You can feel out the amount of slime you scavenge.",
 
-    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
+    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same. In addition, Bubble Breaker's board will appear as Emotes.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",
     mutation_id_packrat: "You gain 2x apartment capacity. In addition, you are able to !collect into collections in your inventory while outside your apartment.",
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",

@@ -5,6 +5,8 @@ cmd_map = {
 
     # Send a tweet
     ewcfg.cmd_tweet: slimetwittercmds.tweet,
+    ewcfg.cmd_qrt: slimetwittercmds.quote_retweet,
+    ewcfg.cmd_qrt_alt1: slimetwittercmds.quote_retweet,
 
     # Get Verified
     ewcfg.cmd_verification: slimetwittercmds.verification,

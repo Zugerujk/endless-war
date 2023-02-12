@@ -469,8 +469,9 @@ def bubble_fall(grid, coords):
 
 
 # for bubblebreaker
-def check_and_explode(grid, cells_to_check):
+def check_and_explode(grid, cells_to_check, combo):
     slime_yield = 0
+    increase_combo = False
 
     for coords in cells_to_check:
         bubble = grid[coords[0]][coords[1]]
@@ -498,12 +499,17 @@ def check_and_explode(grid, cells_to_check):
         if len(bubble_cluster) >= ewcfg.bubbles_to_burst:
             for coord in bubble_cluster:
                 grid[coord[0]][coord[1]] = ewcfg.cell_bubble_empty
-                slime_yield += 1
+                slime_yield += (1 * combo)
             for coord in globs:
                 grid[coord[0]][coord[1]] = ewcfg.cell_bubble_empty
-                slime_yield += 10
+                slime_yield += (10 * combo)
+                combo += 2
+            increase_combo = True
 
-    return slime_yield
+    if increase_combo:
+        combo += 1
+
+    return slime_yield, combo
 
 
 # for bubblebreaker
@@ -538,7 +544,7 @@ def add_row(grid):
         if cell in [ewcfg.cell_bubble_empty, ewcfg.cell_bubble_glob]:
             cell = random.choice(ewcfg.cell_bubbles)
         
-        if 0.3 < randomn < 0.308:  # .8% chance
+        if 0.3 < randomn < 0.31:  # 1% chance
             cell = ewcfg.cell_bubble_glob
 
         new_row.append(cell)
@@ -657,6 +663,7 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
     grid = grid_cont.grid
     row = -1
     col = -1
+    combo = 1
     bubble_add = None
     overlimit = False
 
@@ -681,7 +688,7 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
                     break
                 if char in ewcfg.alphabet:
                     col = ewcfg.alphabet.index(char)
-                    token_lower = token_lower.replace(char, "")
+                    token_lower = token_lower[1:]
         if bubble_add == None:
             bubble = token_lower
             # Change from letter to corresponding number
@@ -717,14 +724,17 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
         
         # Check dropped cell, if exploded re-apply gravity and keep checking cells.
         while len(cells_to_check) > 0:
-            bubbles_popped = check_and_explode(grid, cells_to_check)
-
+            bubbles_popped, combo = check_and_explode(grid, cells_to_check, combo)
+            print(bubbles_popped)
+            print(combo)
             mine_action.value_mod += bubbles_popped * (4/17)  # Every 4 !mines, 13 bubbles spawn. Thus, 4/17.
             mine_action.slime_yield += slimes_pertile * bubbles_popped
             mine_action.grid_effect = 1
 
             cells_to_check = apply_gravity(grid)
 
+        if grid_cont.cells_mined <= 13:
+            mine_action.slime_yield /= 2
 
         grid_cont.cells_mined += 1
         grid_height = get_height(grid)
@@ -961,9 +971,9 @@ def create_mining_event(cmd, mine_action, mutations, grid_type):
 
 
         if event_type != "":
-            # Correct from time-based events to individual events in MS and BB
+            # Correct from time-based spam events to individual events in MS and BB
             if grid_type in [ewcfg.mine_grid_type_bubblebreaker, ewcfg.mine_grid_type_minesweeper]:  
-                if event_type in [ewcfg.event_type_slimefrenzy, ewcfg.event_type_spookyghost]:  # slime-focused
+                if event_type in [ewcfg.event_type_spookyghost]:  # slime-focused
                     event_type = ewcfg.event_type_slimeglob
                 elif event_type in [ewcfg.event_type_poudrinfrenzy, ewcfg.event_type_spookyskeleton]:  # poudrin-focused
                     event_type = ewcfg.event_type_poudringlob
