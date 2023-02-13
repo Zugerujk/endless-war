@@ -526,13 +526,13 @@ async def mine(cmd):
             
             # Add grid print or make a new grid, at the very end <3 
             if mine_action.grid_effect == 1:
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
             elif mine_action.grid_effect == 2:
                 init_grid(mine_action.user_data.poi, mine_action.user_data.id_server)
 
                 grid_cont = juviecmdutils.mines_map.get(mine_action.user_data.poi).get(mine_action.user_data.id_server)
 
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
 
             return
 
@@ -676,7 +676,7 @@ async def flag(cmd):
             elif grid[row][col] == ewcfg.cell_empty:
                 grid[row][col] = ewcfg.cell_empty_marked
 
-            await print_grid(cmd, user_data.poi, grid_cont, mutations)
+            await print_grid(cmd, user_data.poi, grid_cont)
 
 
     else:

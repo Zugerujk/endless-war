@@ -79,6 +79,8 @@ class EwMineGrid:
 
     cells_mined = 0
 
+    variation = 0
+
     def __init__(self, grid = [], grid_type = ""):
         self.grid = grid
         self.grid_type = grid_type
@@ -87,6 +89,7 @@ class EwMineGrid:
         self.times_edited = 0
         self.time_last_posted = 0
         self.cells_mined = 0
+        self.variation = 0
 
 
 class EwMineAction:
@@ -269,7 +272,7 @@ def init_grid_none(poi, id_server):
         mines_map.get(poi)[id_server] = grid_cont
 
 
-async def print_grid(cmd, poi, grid_cont, mutations):
+async def print_grid(cmd, poi, grid_cont):
     # poi = mine_action.user_data.poi
     # id_server = cmd.guild.id
 
@@ -282,7 +285,7 @@ async def print_grid(cmd, poi, grid_cont, mutations):
     if grid_cont.grid_type == ewcfg.mine_grid_type_minesweeper:
         return await print_grid_minesweeper(cmd, poi, grid_cont)
     elif grid_cont.grid_type == ewcfg.mine_grid_type_bubblebreaker:
-        return await print_grid_bubblebreaker(cmd, poi, grid_cont, mutations)
+        return await print_grid_bubblebreaker(cmd, poi, grid_cont)
 
 
 async def print_grid_minesweeper(cmd, poi, grid_cont):
@@ -347,14 +350,14 @@ async def print_grid_minesweeper(cmd, poi, grid_cont):
         grid_cont.wall_message = await fe_utils.edit_message(cmd.client, grid_cont.wall_message, grid_edit)
 
 
-async def print_grid_bubblebreaker(cmd, poi, grid_cont, mutations):
+async def print_grid_bubblebreaker(cmd, poi, grid_cont):
     grid_str = ""
     poi = poi
     id_server = cmd.guild.id
     time_now = int(time.time())
 
     use_emotes = False
-    if ewcfg.mutation_id_dyslexia in mutations:
+    if grid_cont.variation == 1:
         use_emotes = True
     grid = grid_cont.grid
 
@@ -681,6 +684,17 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
             mine_action.hunger_cost_multiplier *= int(ewcfg.hunger_perminereset)
             mine_action.grid_effect = 2
             return mine_action
+        # Manage switching between numbers and emotes
+        if coords in ["fruit", "emote", "fruits", "emotes", "emoji", "emojis"]:
+            mine_action.valid = True
+            mine_action.grid_effect = 1
+            grid_cont.variation = 1
+            return mine_action
+        if coords in ["number", "numbers", "original", "default"]:
+            mine_action.valid = True
+            mine_action.grid_effect = 1
+            grid_cont.variation = 0
+            return mine_action
 
         if col < 1:
             for char in token_lower:
@@ -725,8 +739,6 @@ def get_mining_yield_bubblebreaker(cmd, mine_action, grid_cont):
         # Check dropped cell, if exploded re-apply gravity and keep checking cells.
         while len(cells_to_check) > 0:
             bubbles_popped, combo = check_and_explode(grid, cells_to_check, combo)
-            print(bubbles_popped)
-            print(combo)
             mine_action.value_mod += bubbles_popped * (4/17)  # Every 4 !mines, 13 bubbles spawn. Thus, 4/17.
             mine_action.slime_yield += slimes_pertile * bubbles_popped
             mine_action.grid_effect = 1
