@@ -4100,7 +4100,7 @@ mutation_descriptions = {
     mutation_id_trashmouth: "Reach maximum power scavenges 3 times as fast. Example: The soft cooldown of 15 seconds on scavenging is now reduced to 5 seconds. You can also eat cosmetics and furniture. You can also eat furniture and cosmetics using !devour <item>.",
     mutation_id_webbedfeet: "Your scavenging power increases the more slime there is in a district. Caps out at 400% more slime gained from scavenging, but does stack with the White Nationalist mutation. You can feel out the amount of slime you scavenge.",
 
-    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same. In addition, Bubble Breaker's board will appear as Emotes.",
+    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",
     mutation_id_packrat: "You gain 2x apartment capacity. In addition, you are able to !collect into collections in your inventory while outside your apartment.",
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
