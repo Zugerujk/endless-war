@@ -260,7 +260,7 @@ EwNpc(
     str_name = "Slimes MacKenzie", # Knockoff of beloved Slurms MacKenzie, which is a knockoff of Spuds MacKenzie
     description = 'MacKenzie\'s here, guys. It\'s a real party now.',
     poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_speakeasy, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_beachresort],
-    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!", "Hey you want some cocktails Im pretty sure I can break into Gramps stash in Vagrants Corner.", "Man this place is a lot hotter than back home if I wasn’t slime I’m pretty sure I’d be melting", "I am not saying my fucking catchphrase simp!", "Hey I heard you got the tier three sub from some sandwich shop…I’ll give you an autograph if you give me it.", "Did you know the speak easy also turns into a boat. Yeah me either.", "Check out the tiki bar out in grand toronto when you get the chance dude!"],
+    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!", "Hey you want some cocktails Im pretty sure I can break into Gramps stash in Vagrants Corner.", "Man this place is a lot hotter than back home if I wasn’t slime I’m pretty sure I’d be melting", "I am not saying my fucking catchphrase simp!", "Hey I heard you got the tier three sub from some sandwich shop…I’ll give you an autograph if you give me it.", "Check out the tiki bar out in grand toronto when you get the chance dude!"],
                 "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
                 "hit":["HUK---", "HYEHK-", "OW! WHAT THE FUCKS WRONG WITH YOU!"],
                 "die":["Party on, contest winners. Party on.", "Oh…No…B R O…"],
@@ -294,7 +294,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
-    defaultlevel = 32,
+    defaultlevel = 12,
     is_threat=True,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
@@ -618,6 +618,25 @@ EwNpc(
     {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
     ],
     starting_statuses = [ewcfg.status_enemy_juviemode_id, '1leveltrainer', ewcfg.status_enemy_trainer_id]
+),
+EwNpc(
+    id_npc = "thenoid",
+    active = True,
+    str_name = "The Noid",
+    description = "It's obvious, just avoid the Noid. Don't touch it.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["AVOOOOOID THE NOOOOOID!", "WHEEEE!", "ANFMXKAKNCNAEJD"],
+                "loop":["HEHAHAHAHAHAHAHA!", "NOID!", "()https://s3-prod.adage.com/s3fs-public/20210429%29_Noid_3x2.jpg", "()https://static.wikia.nocookie.net/noid/images/a/ae/Mrgreen_dab_base.png/revision/latest/scale-to-width-down/250?cb=20180705000434", "()https://static.wikia.nocookie.net/noid/images/8/89/Mrgreen_angry_base.png/revision/latest?cb=20180705000425", "()I'M GONNA SAY PENIS!", "()https://images-ext-2.discordapp.net/external/iJ1Gv0mAX2KsSrzwPosYNgkcJAf-fvdYkuhcsmLYOQI/https/media.tenor.com/3vy4MVq4ms4AAAPo/breaking-bad-pizza.mp4", "()https://images-ext-2.discordapp.net/external/BMYY--1kwHktu4BXMEg0uOevsJxXa-SlxH6SJ2HcuyY/%3Fcid%3D73b8f7b1b5606a879da93500c3cae5f2de6109a01b9882f7%26rid%3Dgiphy.mp4%26ct%3Ds/https/media4.giphy.com/media/XbhTOfqVoIrlMIQhHZ/giphy.mp4", "()https://static.wikia.nocookie.net/noid/images/f/f0/Mrgreen_surprised_base.png/revision/latest?cb=20180705000456", "()https://cdn.discordapp.com/attachments/431240644464214017/1072654857015677028/image.png", "()https://tenor.com/view/pizza-fail-funny-drop-cooking-gif-23785565", "DOMINOS OR BUST", "YOU CAN'T AVOID ME!", "()https://tenor.com/view/pizza-party-oddly-soothing-serenity-now-pizza-lost-gif-5500152", "()https://tenor.com/view/pizza-pizza-party-gif-10580277", "I AM A CLUMSY LONG EARED MAN."],
+                },
+    func_ai = npcutils.needy_npc_action,
+    image_profile = "https://compote.slate.com/images/fd2f8338-ec23-479f-bd89-f405909bf2d0.jpg",
+    defaultslime = 15,
+    defaultlevel = 1,
+    slimeoid_name = "peperoni",
+    rewards = [
+    {"meatlovers": [80, 1, 3]},
+    ],
+    starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
 ]
 

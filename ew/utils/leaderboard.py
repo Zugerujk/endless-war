@@ -458,14 +458,17 @@ def make_district_control_board(id_server, title):
     )
 
 def make_relics_found_board(id_server, title):
-    existing_relics = len(static_relic.relic_list)
+    existing_relics = 0
+    for relic in static_relic.relic_list:
+        if relic.active:
+            existing_relics += 1
     relic_count_state = EwGamestate(id_server=id_server, id_state='donated_relics')
     if relic_count_state.value:
         relic_count_donated = int(relic_count_state.value)
     else:
         relic_count_donated = 0
 
-    allrelics = ['TOTAL', existing_relics - 1]
+    allrelics = ['TOTAL', existing_relics]
     donatedrelics = ['DONATED', relic_count_donated]
 
     return format_board(

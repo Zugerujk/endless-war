@@ -331,6 +331,21 @@ async def vote(cmd):
         response = "You can't vote for nobody. What, were you planning to write in Deez Nuts?"
     else:
         target = cmd.mentions[0]
+
+        faction_dict = {
+            ewcfg.poi_id_juviesrow:'juvie',
+            ewcfg.poi_id_thesewers:'corpse',
+            ewcfg.poi_id_copkilltown:'killers',
+            ewcfg.poi_id_rowdyroughhouse:'rowdys'
+        }
+
+        target_user = EwUser(member=target)
+        if target_user.life_state == ewcfg.life_state_corpse:
+            faction = 'corpse'
+        elif target_user.life_state == ewcfg.life_state_enlisted:
+            faction = target_user.faction
+        else:
+            faction = 'juvie'
         results = bknd_core.execute_sql_query("SELECT 1 FROM votes WHERE id_server = %s AND id_user = %s and poi = %s".format(
                 id_role=ewcfg.col_id_role,
                 name=ewcfg.col_role_name
@@ -341,6 +356,8 @@ async def vote(cmd):
             ))
         if len(results) > 0:
             response = "You already voted here. The stupid motherfuckers over there won't let you stuff the ballot."
+        elif faction_dict.get(user_data.poi) != faction:
+            response = "They're not a member of that party. Vote for someone this polling place actually cares about."
         else:
             try:
                 bknd_core.execute_sql_query(
