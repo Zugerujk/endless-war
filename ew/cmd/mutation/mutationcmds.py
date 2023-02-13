@@ -284,7 +284,12 @@ async def shakeoff(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if cmd.mentions_count == 0:
-        response = "God knows there are like a million third eyes floating around. You'll have to specify whose you're looking for."
+        statuses = user_data.getStatusEffects()
+        if user_data.poi in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow] and ewcfg.status_repelled_id in statuses:
+            user_data.clear_status(ewcfg.status_repelled_id)
+            response = user_data.applyStatus(ewcfg.status_repelaftereffects_id)
+        else:
+            response = "God knows there are like a million third eyes floating around. You'll have to specify whose you're looking for."
 
     elif cmd.mentions_count > 1:
         response = "You're not that good at finding private eyes. Look for one at a time."
