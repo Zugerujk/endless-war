@@ -1897,7 +1897,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_coalitionsurplus],
         stat=ewcfg.stat_pistol_kills,
-        str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!",
+        str_brandish=["{name} fires several rounds into the air with {weapon}, waking up all the neighbors!"],
     ),
     EwWeapon(  # 51
         id_weapon=ewcfg.weapon_id_combatknife,
@@ -1924,7 +1924,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_combatknife_kills,
-        str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!",
+        str_brandish=["{name} holds {weapon} up to a random passerby, shaking them down for all their goods!"],
     ),
     EwWeapon(  # 52
         id_weapon=ewcfg.weapon_id_machete,

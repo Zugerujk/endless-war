@@ -452,6 +452,9 @@ async def mine(cmd):
             # If !mine doesn't result in a collapse, run worldevent checks and bonus checks
             if mine_action.collapse == False and mine_action.slime_yield != 0:
                 
+                # Check to create a mining event
+                create_mining_event(cmd, mine_action, mutations, grid_type)
+
                 # Check for currently-running world events
                 juviecmdutils.check_for_mining_world_events(world_events, mine_action)
 
@@ -459,9 +462,6 @@ async def mine(cmd):
                 if toolused == ewcfg.weapon_id_shovel and mine_action.user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
                     poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
                     juviecmdutils.dig_hole(cmd, mine_action, poi)
-
-                # Check to create a mining event
-                create_mining_event(cmd, mine_action, mutations, grid_type)
 
                 # Check to unearth an item
                 juviecmdutils.unearth_item(cmd, mine_action, mutations)
