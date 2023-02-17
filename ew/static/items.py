@@ -1,15 +1,9 @@
-import json
-import os
-import random
 from . import cfg as ewcfg
-from . import community_cfg
 from ..model.item import EwFurniture
 from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
 from ..model.item import EwPrankItem
 from ..model.slimeoid import EwSlimeoidFood
-from ew.static.community_cfg import slimeglobe_list
-import random
 
 """
     The list of item definitions. Instances of items are always based on these

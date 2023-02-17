@@ -1037,6 +1037,7 @@ cmd_serve = cmd_prefix + 'serve'
 cmd_sow_cloth = cmd_prefix + 'sowcloth'
 cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
+cmd_bespoke = cmd_prefix + "bespoke"
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -3566,6 +3567,10 @@ base_durability = 2500000  # 2.5 mega
 
 generic_scalp_durability = 25000  # 25k
 soul_durability = 100000000  # 100 mega
+
+# Yeah the repair cost
+cosmetic_repair_cost = 10000
+cosmetic_bespoke_cost = 100000
 
 cosmetic_id_raincoat = "raincoat"
 

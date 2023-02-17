@@ -18,6 +18,7 @@ cmd_map = {
     # Reworking/fixing
     ewcfg.cmd_sew: cosmeticcmds.sew,
     ewcfg.cmd_retrofit: cosmeticcmds.retrofit,
+    ewcfg.cmd_bespoke: cosmeticcmds.bespoke,
 
     # Dyeing
     ewcfg.cmd_dyecosmetic: cosmeticcmds.dye,
