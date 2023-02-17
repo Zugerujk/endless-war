@@ -402,9 +402,10 @@ async def sew(cmd):
 async def bespoke(cmd):
     """ Update a princep's style to whatever the user so wishes """
     user_data = EwUser(member=cmd.message.author)
+    cmd_alias = cmd.tokens[0]
     # Must be at the bodega
     if user_data.poi != ewcfg.poi_id_bodega:
-        response = "Bespoke? Nice thesaurus, nerd. Pretty sure only the **hipster** at the **Bodega** would ever use a word like that."
+        response = f"{cmd_alias}? Nice thesaurus, nerd. Pretty sure only the **hipster** at the **Bodega** would ever use a word like that."
         return await fe_utils.send_response(response, cmd)
 
     if len(cmd.tokens) < 2:
@@ -413,7 +414,7 @@ async def bespoke(cmd):
         item_search = cmd.tokens[1]
 
     if not item_search:
-        response = "Bespoke which princep? Check your !inventory."
+        response = f"{cmd_alias} which princep? Check your !inventory."
         return await fe_utils.send_response(response, cmd)
 
     item_sought = await cosmetic_utils.has_cosmetic(user_data, item_search)
@@ -427,11 +428,11 @@ async def bespoke(cmd):
     else:
         chosen_style = cmd.tokens[2]
     if chosen_style not in ewcfg.fashion_styles:
-        response = f'"What? You need to tell me how to bespoke your princep. It\'s !bespoke <item> <style>. The styles \*in* right now include: {ewutils.formatNiceList(ewcfg.fashion_styles)}."'
+        response = f'"What? You need to tell me how to {cmd_alias} your princep. It\'s {cmd_alias} <item> <style>. The styles \*in* right now include: {ewutils.formatNiceList(ewcfg.fashion_styles)}."'
         return await fe_utils.send_response(response, cmd)
 
     if user_data.slimes < ewcfg.cosmetic_bespoke_cost:
-        response = f'"**Sweetie**, I don\'t know which mud-drenched sewer you just crawled out of, but in **MY** bodega we enjoy a little civilisation. Come back when you\'ve got the meager {ewcfg.cosmetic_bespoke_cost:,} slime to bespoke that thing."'
+        response = f'"**Sweetie**, I don\'t know which mud-drenched sewer you just crawled out of, but in **MY** bodega we enjoy a little civilisation. Come back when you\'ve got the meager {ewcfg.cosmetic_bespoke_cost:,} slime to {cmd_alias} that thing."'
         return await fe_utils.send_response(response, cmd)
 
     # Remove the slimes cost first

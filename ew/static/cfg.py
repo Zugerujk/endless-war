@@ -1038,6 +1038,7 @@ cmd_sow_cloth = cmd_prefix + 'sowcloth'
 cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
 cmd_bespoke = cmd_prefix + "bespoke"
+cmd_bespoke_alt1 = cmd_prefix + 'tailor'
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
