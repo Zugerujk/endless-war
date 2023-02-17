@@ -312,7 +312,7 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     potential_dialogue = npc_obj.dialogue.get(keyword_override)
     drop_held_items(enemy=enemy)
     response = random.choice(potential_dialogue)
-    await fe_utils.send_message(None, channel, response)
+    #await fe_utils.send_message(None, channel, response)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     if response is not None:
