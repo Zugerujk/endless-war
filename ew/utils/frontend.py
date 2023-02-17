@@ -382,7 +382,7 @@ async def send_message(client, channel, text=None, embed=None, delete_after=None
         if text and not text.isspace():
             return await channel.send(content=text, delete_after=delete_after, allowed_mentions=mention_allows, embed=embed)
         if embed is not None:
-            return await channel.send(embed=embed, reference=reference)
+            return await channel.send(embed=embed, reference=reference, delete_after=delete_after)
     except discord.errors.Forbidden:
         ewutils.logMsg('Could not message user: {}\n{}'.format(channel, text))
         raise

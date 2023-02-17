@@ -557,7 +557,7 @@ async def unpossess_fishing_rod(cmd):
     elif not user_data.get_possession('rod'):
         response = "You want to unpossess a fishing rod you aren't possessing?\n" \
                    "Huh, curious.\n" \
-                   "ARE YOU RETARDED?"
+                   "ARE YOU STUPID?"
     else:
         response = "You let go the fishing rod so your fishing partner doesn't need your help anymore, the tendrils near their hook begin to dissappear into a grey fog."
         user_data.cancel_possession()

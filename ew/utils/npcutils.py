@@ -191,6 +191,8 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if ewutils.is_district_empty(poi=enemy.poi):
         return
 
+    potential_dialogue = []
+
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
 
@@ -199,7 +201,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
-    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+    potential_dialogue.extend(npc_obj.dialogue.get(keyword_override))
 
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
@@ -310,7 +312,7 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     potential_dialogue = npc_obj.dialogue.get(keyword_override)
     drop_held_items(enemy=enemy)
     response = random.choice(potential_dialogue)
-    await fe_utils.send_message(None, channel, response)
+    #await fe_utils.send_message(None, channel, response)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     if response is not None:
