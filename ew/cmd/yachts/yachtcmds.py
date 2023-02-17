@@ -48,7 +48,7 @@ async def rentyacht(cmd):
             user_data.persist()
             yacht = EwYacht()
             yacht.owner = cmd.message.author.id
-            yacht.xcoord = 26
+            yacht.xcoord = 27
             yacht.ycoord = 5
             yacht.direction = 'stop'
             yacht.yacht_name = "S.S. " + name
@@ -239,7 +239,8 @@ async def avast(cmd):
                 extra_response += " You've docked on an island and can get off now."
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, extra_response))
+    if extra_response is not None:
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, extra_response))
 
 
 async def setsail(cmd):

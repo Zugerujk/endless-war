@@ -368,7 +368,7 @@ poi_list = [
         property_class="b",
         is_district=True,
         is_capturable=True,
-        neighbors={'vagrantscorner': 60, 'slimesendcliffs': 20, 'slimesendpier': 20},
+        neighbors={'vagrantscorner': 60, 'slimesendcliffs': 20, 'slimesendpier': 20, ewcfg.poi_id_capnalexyachtshack: 20},
         topic="The furthest point of NLACakaNM into the Slime Sea (formerly the Grand Canyon). The green glow of slime makes Slime's End bright as day, 24/7.",
         wikipage="https://rfck.miraheze.org/wiki/Slime's_End",
     ),
