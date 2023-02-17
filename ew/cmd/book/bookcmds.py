@@ -22,11 +22,15 @@ async def begin_manuscript(cmd):
 
     poi = poi_static.id_to_poi.get(user_data.poi)
 
+    poudrins = bknd_item.find_item(item_search="slimepoudrin", id_user=cmd.message.author.id,
+                                   id_server=cmd.guild.id if cmd.guild is not None else None,
+                                   item_type_filter=ewcfg.it_item)
+
     if not poi.write_manuscript or poi.id_poi == ewcfg.poi_id_clinicofslimoplasty:
         response = "You'd love to begin work on your zine, however your current location doesn't strike you as a particularly good place to get started. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS) to pick up a blank manuscript."
 
-    elif user_data.slimes < cost:
-        response = "You don't have enough slime to create a manuscript. ({:,}/{:,})".format(user_data.slimes, cost)
+    elif user_data.slimes < cost and poudrins is None:
+        response = "You don't have enough slime or a poudrin to create a manuscript. ({:,}/{:,})".format(user_data.slimes, cost)
 
     elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
         response = "You are just too hungry to begin your masterpiece!"
@@ -46,12 +50,18 @@ async def begin_manuscript(cmd):
             book.author = cmd.message.author.display_name
             book.title = title
             user_data.manuscript = book.id_book
-            user_data.change_slimes(n=-cost, source=ewcfg.source_spending)
+
+            if poudrins is not None:
+                bknd_item.item_delete(id_item=poudrins.get('id_item'))
+                response = "You exchange a poudrin for a shoddily-bound manuscript. You scrawl the name \"{} by {}\" into the cover.".format(book.title, book.author)
+
+            else:
+                user_data.change_slimes(n=-cost, source=ewcfg.source_spending)
+                response = "You exchange 20,000 slime for a shoddily-bound manuscript. You scrawl the name \"{} by {}\" into the cover.".format(book.title, book.author)
 
             book.persist()
             user_data.persist()
 
-            response = "You exchange 20,000 slime for a shoddily-bound manuscript. You scrawl the name \"{} by {}\" into the cover.".format(book.title, book.author)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
