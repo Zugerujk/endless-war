@@ -1430,6 +1430,7 @@ cmd_firecannon = cmd_prefix + 'fire'
 cmd_aimship = cmd_prefix + 'aimship'
 cmd_gangplank = cmd_prefix + 'gangplank'
 cmd_seanet = cmd_prefix + 'seanet'
+cmd_swab = cmd_prefix + 'swab'
 
 cmd_clean_stats = cmd_prefix + 'cleanstats'
 

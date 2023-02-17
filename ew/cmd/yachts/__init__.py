@@ -13,8 +13,8 @@ cfg.cmd_firecannon:yachtcmds.fire_cannon,
 cfg.cmd_aim:yachtcmds.aim_ship,
 cfg.cmd_stock_ammo:yachtcmds.stock,
 cfg.cmd_loadcannon:yachtcmds.load,
-cfg.cmd_aimship:yachtcmds.aim_ship
-
+cfg.cmd_aimship:yachtcmds.aim_ship,
+cfg.cmd_swab:yachtcmds.swab
 }
 
 
