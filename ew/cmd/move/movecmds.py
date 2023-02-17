@@ -39,6 +39,7 @@ from ew.backend.apt import EwApartment
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.move import EwPath
 from ew.utils.transport import EwTransport
+from ew.utils import yacht as yacht_utils
 from .moveutils import get_enemies_look_resp
 from .moveutils import get_players_look_resp
 from .moveutils import get_slimes_resp
@@ -618,6 +619,18 @@ async def look(cmd):
             ad_data = EwAd(id_ad=id_ad)
             ad_resp = format_ad_response(ad_data)
             ad_formatting = "\n\n..."
+
+    dock_resp = ""
+    if poi.is_dock:
+        boats = yacht_utils.find_local_boats(poi=poi.id_poi, id_server=user_data.id_server)
+        if len(boats) > 0:
+            names = []
+            for boat in boats:
+                names.append("the *" + boat.yacht_name + "*")
+            dock_resp += ewutils.formatNiceList(names=names).capitalize()
+            dock_resp += " are docked here."
+
+
 
     if poi.id_poi in['westoutskirts', 'ufoufo'] and ewcfg.dh_active and ewcfg.dh_stage >= 300:
         state = EwGamestate(id_server=user_data.id_server, id_state='shipstate')
