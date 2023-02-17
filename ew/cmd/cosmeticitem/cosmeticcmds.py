@@ -417,10 +417,13 @@ async def bespoke(cmd):
         response = f"{cmd_alias} which princep? Check your !inventory."
         return await fe_utils.send_response(response, cmd)
     # Oops only look for princeps, yippee!
-    item_sought = await cosmetic_utils.has_cosmetic(user_data, item_search, rarity=ewcfg.rarity_princeps)
+    item_sought = await cosmetic_utils.has_cosmetic(user_data, item_search)
 
     if item_sought is None:
-        response = f"You don't have a {item_search}. Maybe try something real?"
+        response = f"You don't have a {item_search} princep. Maybe try something real?"
+        return await fe_utils.send_response(response, cmd)
+    elif item_sought.item_props.get("rarity") != ewcfg.rarity_princeps:
+        response = f"That couldn't possibly be {cmd_alias}'d. It'd explode, or something. Can't be done. Not princep-y enough."
         return await fe_utils.send_response(response, cmd)
 
     if len(cmd.tokens) < 3:
