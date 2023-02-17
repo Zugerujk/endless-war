@@ -394,7 +394,7 @@ async def sew(cmd):
         # Before we update the cosmetic
         item_sought.persist()
 
-        response = '"Excellent. Just a moment… one more stitch and-- there, perfect! Your {}, sir. It’s good as new, no? Well, no refunds in any case."'.format(item_sought.item_props['cosmetic_name'])
+        response = '"Excellent. Just a moment… one more stitch and-- there, perfect! Your {}, sir. It’s good as new, no? Well that\'ll be {:,} slime, and no refunds."'.format(item_sought.item_props['cosmetic_name'], ewcfg.cosmetic_repair_cost)
 
     return await fe_utils.send_response(response, cmd)
 
@@ -441,7 +441,7 @@ async def bespoke(cmd):
     item_sought = cosmetic_utils.restyle_cosmetic(item_sought, chosen_style)
     item_sought.persist()
 
-    response = f'"Excellent. Just a moment… a little more, and-- there, perfect! Your {item_sought.name:,} is... hideous. But now in the style of hideous you picked. Your {ewcfg.cosmetic_bespoke_cost} slime, please. No refunds."'
+    response = f'"Excellent. Just a moment… a little more, and-- there, perfect! Your {item_sought.name} is... hideous. But now in the style of hideous you picked. Your {ewcfg.cosmetic_bespoke_cost:,} slime, please. No refunds."'
     return await fe_utils.send_response(response, cmd)
 
 
@@ -551,7 +551,7 @@ async def retrofit(cmd):
                         response = 'The hipster behind the counter looks over your {} with the thoroughness that a true man would only spend making sure all the blood really was wrung from his most recent hunt’s neck or all the cum was ejactulated from his partner’s throbbing cock…\n"Sir," he begins to say, turning back to you before almost vomiting at the sight. After he regains his composure, he continues, "I understand you are an, shall we say, uneducated peasant, to put it delicately, but even still you should be able to tell that your {} is already completely up-to-date. Please, do not bother me with such wastes of my boss’ time again. I do enough of that on my own."'.format(
                             item_sought.item_props['cosmetic_name'], item_sought.item_props['cosmetic_name'])
         else:
-            response = "Sew which cosmetic? Check your **!inventory**."
+            response = "Retrofit which cosmetic? Check your **!inventory**."
     else:
         response = "Heh, yeah right. What kind of self-respecting juvenile delinquent knows how to sew? Sewing totally lame, everyone knows that! Even people who sew know that! Looks like you’re gonna have to find some nerd to do it for you."
 
