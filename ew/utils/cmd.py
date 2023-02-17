@@ -307,7 +307,7 @@ def get_crime_level(num, forYou = 1):
         if num <= level:
             response = ewcfg.crime_status.get(level).format(they=pronounThey, them=pronounThem, their=pronounTheir)
             return response.capitalize()
-    return ewcfg.crime_status.get(1000000)
+    return ewcfg.crime_status.get(1000000).format(they=pronounThey, them=pronounThem, their=pronounTheir).capitalize()
 
 
 # Determine if a channel has any topics that relate to it in !help
