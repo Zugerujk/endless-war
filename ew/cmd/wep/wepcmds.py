@@ -308,7 +308,7 @@ async def attack(cmd):
             if target_killed:
                 # Value Changes
                 attacker.hunger = 0 if ewcfg.mutation_id_fungalfeaster in attacker_mutations else attacker.hunger
-                if attacker_weapon_item.item_type == ewcfg.weapon_id_molotov:
+                if attacker_weapon_item.template == ewcfg.weapon_id_molotov:
                     attacker.change_crime(n=ewcfg.cr_arson_points)
                 else:
                     attacker.change_crime(n=ewcfg.cr_murder_points)
