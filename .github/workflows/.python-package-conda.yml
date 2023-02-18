@@ -9,20 +9,32 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v3.3.0
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4.5.0
       with:
-        python-version: 3.9
+        python-version: 3.11
     - name: Add conda to system path
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
         echo $CONDA/bin >> $GITHUB_PATH
+        dir $CONDA
+        dir $CONDA/etc
+    - name: Clean dependencies (pip)
+      run: |
+        # Clear cache to ensure new versions are properly integrated
+        pip cache purge
+    - name: Clean dependencies (conda)
+      run: |
+        # Clear out the env file (if it exists)
+        conda env remove --name ew
     - name: Install dependencies
       run: |
-        conda env update --file ew_env.yml --name base
+        conda env update --file ew_env.yml --name ew
     - name: Lint with flake8
       run: |
+        source $CONDA/etc/profile.d/conda.sh
+        conda activate ew
         conda install flake8
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -30,6 +42,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        conda install pytest
-        conda install pytest-cov
-        pytest --junitxml=junit/test-results.xml --cov=ew --cov-report=xml --cov-report=html
+        source $CONDA/etc/profile.d/conda.sh
+        conda activate ew
+        pip install pytest
+        pip install pytest-cov
+        pytest --cov=ew
