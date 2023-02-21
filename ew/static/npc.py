@@ -638,6 +638,29 @@ EwNpc(
     ],
     starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
+EwNpc(
+    id_npc = "walterpboils",
+    active = True,
+    str_name = "Walter P. Boils",
+    description = "Prosecutor Boils really likes democracy. How dare you desecrate it by voting.",
+    poi_list = ['dreadford'],
+    dialogue = {"talk":["Don't interrupt, boy. I got ta prosecute these gosh dang fraudsters.", "Voter fraud's everywhere these days. Better not catch you votin'.", "You hear tell about these sailin' machines? Can't stand 'em.", "Marty's an honest man, I can see it in his eyes. His jaggedy, freaky lookin' eyes."],
+                "loop":["Hey, everybody, let's...Aw heck, that's right. The polls are closed.", "You can vote fer anyone, just don't vote me late for dinner. That's freedom, bucko.", "That American eagle in the sky don't got hands so it don't got the right to vote. I like ta think I'm voting in place of that eagle."],
+                "die":["GUILTY! I KNEW IT ALL ALONG!"],
+                "hit":["HEY", "CONTEMPT OF COURT! CONTEMPT I SAY!!", "YOU'LL BE NEEDING MY EYEPATCH SOON!", "AGGRAVATED ASSAULT!"]
+                },
+    func_ai = npcutils.condition_hostile_action,
+    image_profile = "https://rfck.app/npc/Boils.png",
+    defaultslime = 150000,
+    defaultlevel = 25,
+    slimeoid_name = "Puppy Liberty",
+    rewards = [
+    {"meatlovers": [100, 1, 1]},
+    ],
+    starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=True,
+    condition = lambda user_data, enemy_data: True if npcutils.is_user_voter(id_server=user_data.id_server, id_user = user_data.id_user) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+),
 ]
 
 active_npcs_map = {}

@@ -713,3 +713,10 @@ async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc 
 
         bknd_item.item_delete(item_obj.id_item)
         await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
+
+def is_user_voter(id_user, id_server):
+    results = bknd_core.execute_sql_query( "select {id_user} from votes where {id_user} = %s and {id_server} = %s".format(id_user=id_user, id_server=id_server), (id_user, id_server))
+    if len(results) > 0:
+        return True
+    else:
+        return False
