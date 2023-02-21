@@ -28,10 +28,20 @@ async def rentyacht(cmd):
 
     name = ' '.join(word for word in cmd.tokens[1:])
 
+    docked_yachts = yacht_utils.find_local_boats(poi=ewcfg.poi_id_slimesend_pier, id_server=user_data.id_server)
+
+    ownone = None
+    for yacht_ in docked_yachts:
+        if yacht_.owner == cmd.message.author.id:
+            ownone = yacht_.yacht_name
+
     if user_data.poi != ewcfg.poi_id_capnalexyachtshack:
         response = "Nobody in NLACakaNM can afford to sell out yachts except for the Alexanders. Head over to the Yacht Shack and we can try this again."
     elif cmd.tokens_count < 2:
         response = "Laddy, you need a name for this vessel! I'm not a playwright here, son, do it yerself!"
+        return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/img/npc/albertalex.png")
+    elif ownone is not None:
+        response = "Ay, you already own a yacht, laddy! You have the {}, what do ya need another one fer?".format(ownone)
         return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/img/npc/albertalex.png")
 
     elif user_data.slimecoin < ewcfg.yachtprice:
@@ -200,9 +210,10 @@ async def avast(cmd):
                 extra_response += "There are ships nearby: "
                 shipnames = []
                 for ship in ships:
-                    if ship.thread_id != yacht.thread_id:
+
+                    if int(ship.thread_id) != int(yacht.thread_id):
                         shipnames.append("the **{}**".format(ship.yacht_name))
-                    extra_response += "{}.".format(ewutils.formatNiceList(names=shipnames))
+                extra_response += "{}.".format(ewutils.formatNiceList(names=shipnames))
 
             stats = yacht.getYachtStats()
             flood_count = 0

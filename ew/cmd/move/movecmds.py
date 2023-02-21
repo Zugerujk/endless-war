@@ -572,13 +572,27 @@ async def look(cmd):
     else:
         str_desc = poi.str_desc
 
+
+    dock_resp = ""
+    if poi.is_dock:
+        boats = yacht_utils.find_local_boats(poi=poi.id_poi, id_server=user_data.id_server)
+        if len(boats) > 0:
+            names = []
+            for boat in boats:
+                names.append("the **" + boat.yacht_name + "**")
+            temp_resp_dock = "\n\n" + ewutils.formatNiceList(names=names)
+            dock_resp += temp_resp_dock[0].upper() + temp_resp_dock[1:]
+            dock_resp += " {} docked here.".format("is" if len(names) == 1 else "are")
+
+
     if poi.is_subzone or poi.id_poi == ewcfg.poi_id_thevoid:  # Triggers if you input the command in the void or a sub-zone.
         wikichar = '\n\n<{}>'.format(poi.wikipage) if poi.wikipage != '' else ''
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author,
-                                                                                                   "You stand {} {}.\n\n{}{}{}".format(
+                                                                                                   "You stand {} {}.\n\n{}{}{}{}".format(
                                                                                                        poi.str_in,
                                                                                                        poi.str_name,
                                                                                                        str_desc,
+                                                                                                       dock_resp,
                                                                                                        wikichar,
                                                                                                        void_resp,
 
@@ -620,15 +634,7 @@ async def look(cmd):
             ad_resp = format_ad_response(ad_data)
             ad_formatting = "\n\n..."
 
-    dock_resp = ""
-    if poi.is_dock:
-        boats = yacht_utils.find_local_boats(poi=poi.id_poi, id_server=user_data.id_server)
-        if len(boats) > 0:
-            names = []
-            for boat in boats:
-                names.append("the *" + boat.yacht_name + "*")
-            dock_resp += ewutils.formatNiceList(names=names).capitalize()
-            dock_resp += " are docked here."
+
 
 
 

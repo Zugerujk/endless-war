@@ -116,12 +116,12 @@ def find_local_boats(poi = None, name = None, id_server = None, current_coords =
         yacht = EwYacht(id_server=id_server, id_thread=id[0])
         poi_match = 0
         if poi is not None:
-            poi = poi_static.id_to_poi.get(poi)
-            if poi.coord is None:
+            poi_found = poi_static.id_to_poi.get(poi)
+            if poi_found.coord is None:
                 continue
 
             else:
-                for coord in poi.coord:
+                for coord in poi_found.coord:
                     if yacht.xcoord == coord[0] and yacht.ycoord == coord[1]:
                         poi_match = 1
                         break
