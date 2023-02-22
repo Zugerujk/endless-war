@@ -655,7 +655,7 @@ EwNpc(
     defaultlevel = 25,
     slimeoid_name = "Puppy Liberty",
     rewards = [
-    {"meatlovers": [100, 1, 1]},
+    {"necktie": [100, 1, 1]},
     ],
     starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
     is_threat=True,

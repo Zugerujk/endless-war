@@ -1,5 +1,5 @@
 import datetime
-
+import random
 # Global configuration options.
 
 
@@ -1816,7 +1816,7 @@ time_raidboss_movecooldown = 2.5 * 60
 max_enemies = 5
 
 #The current curator
-current_curator = "amy"
+current_curator = random.choice("amy", "curator")
 
 # response string used to let attack function in ewwep know that an enemy is being attacked
 enemy_targeted_string = "ENEMY-TARGETED"
@@ -2841,7 +2841,7 @@ vendor_thumbnails = {
 
 museum_dialogue = {
     "amy":["God, this is frustrating.", "Hoss isn't here. Did you need something?", "The truckers out here are kind of mental. I tried importing a crate of Takis since they're not stocked in the city and shipping cost me 260 mega.", "Hey...you don't look quite right. Guess that's normal around here, but how did you end up looking like that?", "Truthfully, I'd rather not talk history right now. It's a sore subject with you gangsters, I'll keep my research to myself.", "Hey wait, is that a...Nah, it's just an ordinary weapon. Forget I said anything.", "It'd be nice to go along with Hoss, but there's a strong possibility ENDLESS WAR might endanger us somehow if we both left at the same time. We're hedging our bets.", "I'm not an exhibit. I don't think I'm flattered that you thought otherwise, heh."],
-    "curator":[""]
+    "curator":["CAN YOU SMELL THE FISH? I'VE BEEN STEWING IN THIS FARMSTINK FOR SO BLOODY LONG IT'S BECOME MY DEFAULT NOW.", "I KNOW YOU'RE GOING TO STEAL THE RELICS YOU DONATE, YOU STALEVAPED TICKDANCER ZOOMERTYPE. JUST TAKE THEM. IF YOU DON'T THEN SOME OTHER IMBECILE WILL INSTEAD.", "ALL THIS TALK OF CANDIDATES, YOU THINK THEY CAN TRICK ME?! I'LL VOTE WHEN HELL SLEETS ITS TROUSERS!", "HAVE YOU HEARD WORD OF THIS BICARBONATE FOUNTAIN? I MIGHT HAVE SOME CHANCE TO ESCAPE USING IT, BUT THE DOC'S ORDERS TELL ME I SHOULDN'T BE TRYING TO ZUCK MYSELF FOR ANOTHER YEAR OR TWO.", "NO, I WON'T GIVE YOU FREE SLIME, YOU WILTING PATHETIC GUTTERHANGER. EARN IT OR YOU WON'T BE PROUD OF IT."]
 }
 
 
@@ -2866,7 +2866,7 @@ museum_curator_dialogue = {
     "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
     "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
     "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
-    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. He turns around to catch you in the act, but shrugs and doesn't respond to your crime.",
     "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
     "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
     "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
