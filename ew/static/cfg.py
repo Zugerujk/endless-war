@@ -1816,7 +1816,7 @@ time_raidboss_movecooldown = 2.5 * 60
 max_enemies = 5
 
 #The current curator
-current_curator = random.choice("amy", "curator")
+current_curator = random.choice(["amy", "curator"])
 
 # response string used to let attack function in ewwep know that an enemy is being attacked
 enemy_targeted_string = "ENEMY-TARGETED"
