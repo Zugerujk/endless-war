@@ -98,7 +98,7 @@ def restyle_cosmetic(item_data: EwItem, new_style: str) -> EwItem:
     return item_data
 
 
-async def has_cosmetic(user_data, search_cosmetic: int | str, ignore_adorned = False, ignore_slimeoid = False) -> EwItem | None:
+async def has_cosmetic(user_data, search_cosmetic, ignore_adorned = False, ignore_slimeoid = False):
     """ See if a player has a matching cosmetic. """
     cosmetic_items = bknd_item.inventory(
         id_user=user_data.id_user,
