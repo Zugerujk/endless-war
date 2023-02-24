@@ -2828,6 +2828,16 @@ museum_thumbnails = {
     "curator":["THE CURATOR", "https://rfck.app/npc/CURATOR_GOOD_HEAD.png"]
 }
 
+hide_value = random.randint(0, 2)
+
+hide_taka_thumbnail = ["https://rfck.app/npc/hide_taka_taco.png", "https://rfck.app/npc/hide_taka_pizza.png", "https://rfck.app/npc/hide_taka_kfc.png"]
+hide_dialogue = {
+    0:["I hope you choke on it.", "If you order another barbecue sauce packet and nothing else I'm going to scream.", " My boss will fire me if he catches me talking to you. Go on, shoo. I have tuition to pay.", "Go on. Make the same order repeatedly and then get out of here, like you always do."],#tacobell, stoic
+    1:["Lovely day out, am I right?", "Hey, pal, can you keep a secret? We're selling chicken nuggets under the table.", "I've been told to tell you that we cook all our food right here, in the food court. That's right, there's a robust kitchen through that door. All freshly defrroooo... fried!", "I tried to talk about starting a union but, they got the whole place bugged so they threw my partner down the sewers. Call for help, man!"],#pizza, cheerful
+    2:["*Licks fingers* Good.", "No spam ordering, man. You're running me ragged.", "()*Hide picks a taco shell out of their hair and eats it*", "We import all our food from Jamaica Avenue. When the pizza crusts grow mold they can mutate it into chicken. Heh, I don't know how it works."] #kfc, chill
+}
+
+
 vendor_thumbnails = {
     poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/npc/albertalex.png"],
     "saloon":["OL' BOY RUSTLE", "https://rfck.app/npc/olboyrustle.png"],
@@ -2837,7 +2847,8 @@ vendor_thumbnails = {
     poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
     "themuseum":museum_thumbnails.get(current_curator),
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
-    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
+    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
+    poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]]
 }
 
 
@@ -2856,7 +2867,9 @@ vendor_dialogue = {
     "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it.", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
     "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
-    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"],
+    poi_id_foodcourt:hide_dialogue.get(hide_value)
+
 
 }
 
