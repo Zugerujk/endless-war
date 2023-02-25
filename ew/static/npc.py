@@ -711,6 +711,80 @@ EwNpc(
     str_juviemode="Nah, they have all kinds of connections in the underworld. You wouldn't want to lose their patronage as a gangster yourself.",
     is_threat=False
 ),
+EwNpc(
+    id_npc = "gully",
+    active = True,
+    str_name = "Gully, The Sludge Agglomeration",
+    description = "Look at this lil' fella! He likes to trade you old CDs for various bits of trash. Seems a little pointless, but you appreciate the hustle.",
+    poi_list = ['draintrench'],
+    dialogue = {"talk":["()The shape within the drain shifts towards you, one poudrin eye in socket, the other face gives it's best customer service smile. 😄", "()You try to have a conversation with Gully. It'd be enlightening if you could understand a goddamn word it said.", "muk kfo yn! blublubllll..."],
+                "loop":["()You hear some banging in a drainpipe.", "()Something smells horrible.", "Glblblblbl...flashyyn.", "()You hear some lazy gurgling."],
+                "die":["()*flush*"],
+                "hit":["!!!"],
+                "tradeoldcd":["flamingbarrel", "trashbag", "tippedrecyclingbin", "metaltrashcan", "plasticdumpster", ewcfg.item_id_slimepoudrin],
+                "tradefail":["()He only takes old CDs. They call 'em \"trash tokens\" in the business."],
+                "give":["()Glghlgrl! Gully hands you a {bonus}!", "()Gleeel? blublub. Gully tosses a {bonus} your way."]
+                },
+    func_ai = npcutils.trader_action,
+    image_profile = "https://rfck.app/npc/gully.png",
+    defaultslime = 50231,
+    defaultlevel = 1,
+    rewards = [
+    {"necktie": [10, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_juviemode_id],
+    str_juviemode="You can't get 'em between the bars of that drainpipe!.",
+    is_threat=False
+),
+EwNpc(
+    id_npc = "notasnake",
+    active = True,
+    str_name = " Definitely *not* A Snake",
+    description = "See? It's got legs and everything.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["()When you let the first letter out of your mouth, the coated creature pauses its business, and looks at you, dead in the eyes, just before skimming your appearance. It moves a little further and pretends like you aren't there. Great..."],
+                "loop":["()Definitely not a snake, but a coated figure, scavenges around something on the street corner. The sound of the trashcans it is looking trough echoes trough the entire district.", "()Definitely not a snake, but a coated figure, tries to light up a cigarette it picked up from the ground. It is likely trying to imitate someone it saw.", "()Definitely not a snake, but a coated figure, observes a few of the windows on the lower floors of the buildings. You could swear it teared up just a little bit.", "()Definitely not a snake, but a coated figure, peeks into a sewer. It recoils when a small \"boooo....\" makes its presence."],
+                "die":["WRYYYY!!"],
+                "hit":["()Definitely not a snake reels from the blow, contradicting its own name by opening it's mouth wide-open! It hisses loudly, doing a poor man's imitation of a rattlesnake's tail shake! How...ambiguous."],
+                "traderandom":[ewcfg.item_id_slimepoudrin, "freeapple", ewcfg.item_id_snakeinacan, ewcfg.item_id_oldcd, ewcfg.item_id_windupchatterteeth, "funpizza", "masterbait", ewcfg.item_id_promotradingcardpack, "kepi", "rfconsortmarble", "billshat", "packofluckyslimes", ewcfg.item_id_foodbase],
+                "give":["()The little guy dashes to the side a little when it sees your hand. It hisses once and just stares you from there. After it analyses you a bit more closely, it picks up what you were holding with its tail, sniffs it a little bit, and pushes the whole thing down its throat. It proceeds to do the worst noise you have ever heard, almost as if a bunch of demons were screeching all of the ten most obscure country songs at once, and spits out a {bonus}. It takes its breath for a while, and goes right back into checking if there's any other junk to eat. You begrudgingly pick up your digestive-fluid-covered part of the deal.", "()You get closer to the long critter. It turns around, with some old toys and a few used bullets in-mouth. It more than quickly notices your great offer, takes it, gulps it along, and ear-damagingly coughs out a {bonus}. You take your reward, and it goes right back into a trash pile."],
+                "tradefail":["()You hand out your offering to the fake snake. The whip-shaped being gives it a good look, even tasting a bit around the edge, but it does an expression of disgust while doing so. Something isn't right for digestion, or it just doesn't want to get that thing inside. It pushes it next to you and continues own with its own business."]
+                },
+    func_ai = npcutils.trader_action,
+    image_profile = "https://rfck.app/npc/slimesnake.png",
+    defaultslime = 220000,
+    defaultlevel = 10,
+    attacktype = 'fangs',
+    rewards = [
+    {"hatthatlookslikeanelephant": [10, 1, 1]},
+    ],
+    slimeoid_name = "Actually Is a Snake",
+    starting_statuses = ['8leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=True
+),
+EwNpc(
+    id_npc = "ratqueen",
+    active = True,
+    str_name = "Rat Queen",
+    description = "She's always using that spray can of hers. Banksy over here doesn't care about gangs marking the territory, though.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["Hey fuck off kid, don’t you see I’m busy?", "The shit y’all spray in this city kinda sucks, I’m doin’ you a favor.", "The cops here are seriously gullible, it’s so fuckin’ cash!", "Fuckers keep calling me a furry, y’all just don’t understand ART!"],
+                "loop":[""],
+                "die":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
+                "hit":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
+                "give":[""],
+                 },
+    func_ai = npcutils.generic_npc_action,
+    image_profile = "https://rfck.app/npc/ratqueen.png",
+    defaultslime = 10001,
+    defaultlevel = 2,
+    rewards = [
+    {ewcfg.weapon_id_spraycan: [100, 1, 5]},
+    ],
+    slimeoid_name = "Master Splinter",
+    starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=False
+),
 ]
 
 active_npcs_map = {}

@@ -2581,6 +2581,15 @@ EwCosmeticItem(
         style = "smart",
         freshness = 8
     ),
+    EwCosmeticItem(
+        id_cosmetic = "hatthatlookslikeanelephant",
+        str_name = "Hat that Looks like an Elephant",
+        str_desc = "It's exactly what it sounds like. The elephant's legs droop down over your eyes, as though you had horse blinders on.",
+        rarity = "patrician",
+        durability = 250000,
+        style = "cute",
+        freshness = 3
+    ),
 ]
 
 

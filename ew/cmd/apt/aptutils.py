@@ -211,6 +211,8 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
         furn_response += "\nWhoa, your flat is so futuristic! You've got LED lights hanging from every wall to show how far in the future you are compared to everyone else. They just don't get it."
     if all(elem in furniture_id_list for elem in static_items.furniture_hummels):
         furn_response += "\nYour apartment has severe elderly vibes, like a thick fog."
+    if all(elem in furniture_id_list for elem in static_items.furniture_trash):
+        furn_response += "\nAlthough you have risen through the ranks and gained some form of shelter from the elements, you can't help but pine for the good old days. You know, those days where you didn't have to work so hard to get that 'rotten milk flavored meth lab' charm into your sleeping space. Sometimes true beauty takes work. You brought homelessness into the comfort of your own home."
 
     market_data = EwMarket(id_server=id_server)
     clock_data = ewutils.weather_txt(market_data)

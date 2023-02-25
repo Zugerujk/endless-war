@@ -190,6 +190,15 @@ async def trader_action(keyword = '', enemy = None, channel = None, item = None,
     else:
         return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
+async def notasnake_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == "give":
+        return await trade_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None): #sends npc dialogue, including context specific and rare variants
     delete_after = None
     if 'loop' in keyword_override:

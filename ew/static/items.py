@@ -3821,6 +3821,56 @@ EwFurniture(
         furniture_look_desc = "A Slimexodia Hummel is propped up on your shelf.",
         furn_set = "hummels",
     ),
+    EwFurniture(
+        id_furniture = "flamingbarrel",
+        str_name = "Flaming Barrel",
+        str_desc = "It's an oil drum full of unknown contents that constantly has a fire stoked in it. You can use  it as a lamp, if you don't mind the smoke.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You drop the barrel down and toss in a match.",
+        furniture_look_desc = "An oil drum is set up here, and whatever's inside is on fire.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "trashbag",
+        str_name = "Trash Bag",
+        str_desc = "It's a black trash bag that someone threw out. It's leaking out garbage juice.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You throw the trash bag next to the doorway. *You'll take it out at some point*, you think to yourself.",
+        furniture_look_desc = "There is a trash bag set up here.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "tippedrecyclingbin",
+        str_name = "Tipped Recycling Bin",
+        str_desc = "This is that blue trash can they hand out for recycling. It's useless to you, so maybe you can tip it over and use it like a sofa.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You set the recycle bin up, then kick it on its side. Take that, you smog hating treefuckers.",
+        furniture_look_desc = "A recycling bin is tipped over in the middle of the room.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "metaltrashcan",
+        str_name = "Metal Trash Can",
+        str_desc = "Oscar the Grouch had the right idea, this thing looks comfy.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You bang the lid against the wall for a few seconds until you get bored and line the ol' can up against it.",
+        furniture_look_desc = "The trash can is gathering flies.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "plasticdumpster",
+        str_name = "Dumpster",
+        str_desc = "It's a big ol' metal dumpster. How did you get ahold of this? God only knows.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You call upon the sewer rats, promising them rewards of dumpster food if they carry this up to your apartment. You were always good at coercing those guys.",
+        furniture_look_desc = "A dumpster has been jammed in here somehow.",
+        furn_set = "trash",
+    ),
 ]
 
 
@@ -3843,6 +3893,7 @@ furniture_specialhue = []
 furniture_collection = []
 furniture_hatealiens = []
 furniture_hummels = []
+furniture_trash = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3879,3 +3930,5 @@ for furniture in furniture_list:
         furniture_hatealiens.append(furniture.id_furniture)
     elif furniture.furn_set == "hummels":
         furniture_hummels.append(furniture.id_furniture)
+    elif furniture.furn_set == "trash":
+        furniture_trash.append(furniture.id_furniture)
