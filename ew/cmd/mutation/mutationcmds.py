@@ -784,7 +784,7 @@ async def tracker(cmd):
     mutations = user_data.get_mutations()
 
     if ewcfg.mutation_id_oneeyeopen not in mutations:
-        response = "Your third eye is tucked snugly into your forehead. Actually, who are you fooling? You don't have a third eye. What, are you, retarded?"
+        response = "Your third eye is tucked snugly into your forehead. Actually, who are you fooling? You don't have a third eye. What, are you, dimwitted?"
     else:
         mutation = EwMutation(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, id_mutation=ewcfg.mutation_id_oneeyeopen)
         if mutation.data == "":
