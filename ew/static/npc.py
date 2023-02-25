@@ -661,6 +661,28 @@ EwNpc(
     is_threat=True,
     condition = lambda user_data, enemy_data: True if npcutils.is_user_voter(id_server=user_data.id_server, id_user = user_data.id_user) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
 ),
+EwNpc(
+    id_npc = "slimderman",
+    active = True,
+    str_name = "Slimederman",
+    description = "It's that guy from the creepypoud stories. You might want to check your inventory, maybe you collected a page on accident or something.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["ooglhlghl im the slimederman", "find my 8 slimy pages if you dare", "boo", "i'll !harvest your soulllllll", "oooooooh look at me im the slimederman"],
+                "loop":["()https://rfck.app/npc/slimderman.png"],
+                "die":[""],
+                "hit":["!!!"]
+                },
+    func_ai = npcutils.chatty_npc_action,
+    image_profile = "https://rfck.app/npc/slimderman.png",
+    defaultslime = 390000,
+    defaultlevel = 25,
+    rewards = [
+    {"necktie": [10, 1, 1],
+    "slimdermancosplaymask":[1, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_dodgy_id],
+    is_threat=False
+),
 ]
 
 active_npcs_map = {}

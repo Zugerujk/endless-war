@@ -2572,6 +2572,15 @@ EwCosmeticItem(
         style = "evil",
         freshness = 0
     ),
+    EwCosmeticItem(
+        id_cosmetic = "slimdermancosplaymask",
+        str_name = "Slimderman Cosplay Mask",
+        str_desc = "Now you too can look just like your favorite creepypoud crush! Strike fear into the hearts of your enemies as they think you are the one and only terrifying Slimederman.",
+        rarity = "patrician",
+        durability = 250000,
+        style = "smart",
+        freshness = 8
+    ),
 ]
 
 
