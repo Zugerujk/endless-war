@@ -915,11 +915,13 @@ def create_mining_event(cmd, mine_action, mutations, grid_type):
 
     # If the probability is not 0
     if event_chance != 0.0:
-        # If user is a juvie/has a pickaxe, flat +1%. If user has Lucky, flat +1%.
+        # If user is a juvie/has a pickaxe, flat +0.5%. If user has Lucky, flat +0.5%. If a user has Light Miner, flat +0.25%
         if mine_action.toolused == "pickaxe" or mine_action.user_data.life_state == ewcfg.life_state_juvenile:
-            event_chance += 0.075
+            event_chance += 0.005
         if ewcfg.mutation_id_lucky in mutations:
-            event_chance += 0.075
+            event_chance += 0.005
+        if ewcfg.mutation_id_lightminer in mutations:
+            event_chance += 0.0025
 
     if random.random() < event_chance:
         randomn = random.random()
@@ -964,10 +966,10 @@ def create_mining_event(cmd, mine_action, mutations, grid_type):
         elif uncommon_event_triggered:
             randomn = random.random()
             # mine shaft collapse
-            if randomn < 0.5:
+            if randomn < 0.45:
                 event_type = ewcfg.event_type_minecollapse
             elif randomn < 0.9:
-                event_type = ewcfg.event_type_poudrinfrenzy  # 10 second poudrin frenzy
+                event_type = ewcfg.event_type_poudrinfrenzy  # 5 second poudrin frenzy
             else:
                 event_type = ewcfg.event_type_poudringlob  # 3-6 poudrins
 
