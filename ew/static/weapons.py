@@ -1866,7 +1866,7 @@ weapon_list = [
         clip_size = 1,
         captcha_length = 11,
         price = 1500000,
-        str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
+        str_brandish=["As a show of patriotism, you attempt to fire upon a helicopter and miss."],
         str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
         str_reload_warning = "Quick, reload before someone gets here!",
         # str_trauma = "It looks like they are still searching for a missing body part.",
@@ -1948,7 +1948,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_machete_kills,
-        str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!",
+        str_brandish=["{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!"],
     ),
     EwWeapon(  # 53
         id_weapon=ewcfg.weapon_id_boomerang,
@@ -1974,7 +1974,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_boomerang_kills,
-        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
+        str_brandish=["{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves."],
     ),
     EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
         id_weapon=ewcfg.weapon_id_foodbasket,
@@ -1996,7 +1996,7 @@ weapon_list = [
         str_scalp=" It's completely petrified.",
         fn_effect=get_normal_attack(weapon_type='small_game'),
         stat=ewcfg.stat_foodbasket_kills,
-        str_brandish="{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing.",
+        str_brandish=["{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing."],
     ),
 ]
 
