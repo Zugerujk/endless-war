@@ -683,6 +683,34 @@ EwNpc(
     starting_statuses = [ewcfg.status_enemy_dodgy_id],
     is_threat=False
 ),
+EwNpc(
+    id_npc = "poudrinpurveyors",
+    active = True,
+    str_name = "The Poudrin Purveyors",
+    description = "Oh look, it's the Poudrin Purveyors! They trade drugs and weapons for the poudrins in their stock.",
+    poi_list = poi_static.outskirts,
+    dialogue = {"talk":["I will kill your wife, your son, your infant daughter, and I'll do it for half the price of my family-slaying competitors! Add in a stepmom at no extra charge!", "Trade in some weapons for poudrins. Quick, before I die of cancer again.", "They call me...Heisenblob.", "Nah, we're not selling poudrin meth to children quite yet. That's not until later in my character arc."],
+                "loop":["Poudrins for sale! Just poudrins.", "We accept meth, major credit cards, weapons, drug-related materials, and Taco Bell stock exclusively.", "Jesse, I think I'm developing a chemotherapy fetsh. Ms. Dusttrap's giving me the sweats."],
+                "die":["May my death satisfy you..."],
+                "hit":["!!!"],
+                "tradeweapon":[ewcfg.item_id_slimepoudrin],
+                "trade"+ewcfg.item_id_dankwheat:[ewcfg.item_id_slimepoudrin],
+                'tradepileofmysteriouspowder':[ewcfg.item_id_slimepoudrin],
+                "trade"+ewcfg.item_id_seaweedjoint:[ewcfg.item_id_slimepoudrin],
+                "tradefail":["We accept guns and drugs only. No half measures."],
+                "give":["ENDLESS JESSE! GET OVER HERE! Jesse takes your offering and hands you a poudrin for your trouble."]
+                },
+    func_ai = npcutils.trader_action,
+    image_profile = "https://rfck.app/npc/poudrinpurveyors.png",
+    defaultslime = 0,
+    defaultlevel = 1,
+    rewards = [
+    {"necktie": [10, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_juviemode_id],
+    str_juviemode="Nah, they have all kinds of connections in the underworld. You wouldn't want to lose their patronage as a gangster yourself.",
+    is_threat=False
+),
 ]
 
 active_npcs_map = {}

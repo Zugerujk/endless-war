@@ -181,10 +181,16 @@ async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
 
+async def trader_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == "move":
+        pass
+    elif keyword == "give":
+        return await trade_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
-
-
-async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
+async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None): #sends npc dialogue, including context specific and rare variants
     delete_after = None
     if 'loop' in keyword_override:
         delete_after = 30
@@ -213,6 +219,8 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
 
 
     if response is not None:
+        response = response.format(bonus = bonus_flavor)
+
         if response[:2] == '()':  # for exposition that doesn't use a talk bubble
             response = response[2:]
             return await fe_utils.send_message(None, channel, response)
@@ -649,12 +657,13 @@ async def crush_drink(channel = None, id_item = None):
     return await fe_utils.send_message(None, channel, response)
 
 
-async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc trade system
+async def trade_give(channel, npc_obj, enemy, item):
     if item is not None:
         item_obj = EwItem(id_item=item.get('id_item'))
         id_user = item_obj.id_owner
         dialogue = npc_obj.dialogue
         direct = dialogue.get('trade' + item_obj.template)
+        name_received = None
         if direct == None:
             direct = dialogue.get('trade' + item_obj.item_type)
             if direct == None:
@@ -664,7 +673,7 @@ async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc 
             item_received = random.choice(direct)
             if item_received != 'nothing':
                 item = static_items.item_map.get(item_received)
-
+                name = None
                 item_type = ewcfg.it_item
                 if item != None:
                     item_id = item.id_item
@@ -702,17 +711,30 @@ async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc 
                         item_id = item.id_weapon
                         name = item.str_weapon
 
-                item_props = itm_utils.gen_item_props(item)
+                if name is not None:
+                    name_received = name
+                    item_props = itm_utils.gen_item_props(item)
 
-                bknd_item.item_create(
-                    item_type=item_type,
-                    id_user=id_user,
-                    id_server=item_obj.id_server,
-                    item_props=item_props
-                )
+                    bknd_item.item_create(
+                        item_type=item_type,
+                        id_user=id_user,
+                        id_server=item_obj.id_server,
+                        item_props=item_props
+                    )
 
-        bknd_item.item_delete(item_obj.id_item)
-        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
+        if name_received is not None:
+            bknd_item.item_delete(item_obj.id_item)
+            if item_obj.item_type == ewcfg.it_weapon:
+                user_data = util_combat.EwUser(id_user=item_obj.id_owner, id_server=item_obj.id_server)
+                if user_data.weapon == item_obj.id_item:
+                    user_data.weapon = -1
+                    user_data.persist()
+                elif user_data.sidearm == item_obj.id_item:
+                    user_data.sidearm = -1
+                    user_data.persist()
+
+        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='tradefail' if name_received is None else 'give', bonus_flavor=name_received)
+
 
 def is_user_voter(id_user, id_server):
     results = bknd_core.execute_sql_query( "select {id_user} from votes where {id_user} = %s and {id_server} = %s".format(id_user=id_user, id_server=id_server), (id_user, id_server))
