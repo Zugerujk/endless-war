@@ -750,7 +750,7 @@ EwNpc(
                 "give":["()The little guy dashes to the side a little when it sees your hand. It hisses once and just stares you from there. After it analyses you a bit more closely, it picks up what you were holding with its tail, sniffs it a little bit, and pushes the whole thing down its throat. It proceeds to do the worst noise you have ever heard, almost as if a bunch of demons were screeching all of the ten most obscure country songs at once, and spits out a {bonus}. It takes its breath for a while, and goes right back into checking if there's any other junk to eat. You begrudgingly pick up your digestive-fluid-covered part of the deal.", "()You get closer to the long critter. It turns around, with some old toys and a few used bullets in-mouth. It more than quickly notices your great offer, takes it, gulps it along, and ear-damagingly coughs out a {bonus}. You take your reward, and it goes right back into a trash pile."],
                 "tradefail":["()You hand out your offering to the fake snake. The whip-shaped being gives it a good look, even tasting a bit around the edge, but it does an expression of disgust while doing so. Something isn't right for digestion, or it just doesn't want to get that thing inside. It pushes it next to you and continues own with its own business."]
                 },
-    func_ai = npcutils.trader_action,
+    func_ai = npcutils.notasnake_action,
     image_profile = "https://rfck.app/npc/slimesnake.png",
     defaultslime = 220000,
     defaultlevel = 10,
