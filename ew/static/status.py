@@ -318,7 +318,7 @@ status_effect_list = [
     ),
 EwStatusEffectDef(
         id_status=ewcfg.status_enemy_delay_id,
-        time_expire=5,
+        time_expire=7,
         str_acquire="",
         str_describe="",
         str_describe_self="",
