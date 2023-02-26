@@ -387,7 +387,7 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
 
 async def ratqueen_act(channel=None, npc_obj=None, enemy=None):
     district = ewdistrict.EwDistrict(district=enemy.poi, id_server=enemy.id_server)
-    if district.capture_points > 0:
+    if district.capture_points > 0 and random.randint(0, 20) == 0:
         district.decay_capture_points()
         district.persist()
     return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
