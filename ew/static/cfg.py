@@ -2844,7 +2844,7 @@ vendor_thumbnails = {
     "basedhardware":["BETTY BAMALAM", "https://rfck.app/npc/bet.png"],
     "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
-    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
+    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/brainslime.png"],
     "themuseum":museum_thumbnails.get(current_curator),
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
     "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],

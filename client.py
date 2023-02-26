@@ -927,6 +927,7 @@ async def on_message(message):
     if message.guild is not None:
 
         try:
+            usermodel.time_last_action = int(time.time())
             bknd_core.execute_sql_query("UPDATE users SET {time_last_action} = %s WHERE id_user = %s AND id_server = %s".format(
                 time_last_action=ewcfg.col_time_last_action
             ), (
