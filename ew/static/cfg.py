@@ -1,5 +1,5 @@
 import datetime
-
+import random
 # Global configuration options.
 
 
@@ -1037,6 +1037,8 @@ cmd_serve = cmd_prefix + 'serve'
 cmd_sow_cloth = cmd_prefix + 'sowcloth'
 cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
+cmd_bespoke = cmd_prefix + "bespoke"
+cmd_bespoke_alt1 = cmd_prefix + 'tailor'
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -1816,7 +1818,7 @@ time_raidboss_movecooldown = 2.5 * 60
 max_enemies = 5
 
 #The current curator
-current_curator = "amy"
+current_curator = random.choice(["amy", "curator"])
 
 # response string used to let attack function in ewwep know that an enemy is being attacked
 enemy_targeted_string = "ENEMY-TARGETED"
@@ -2826,22 +2828,34 @@ museum_thumbnails = {
     "curator":["THE CURATOR", "https://rfck.app/npc/CURATOR_GOOD_HEAD.png"]
 }
 
+hide_value = random.randint(0, 2)
+
+hide_taka_thumbnail = ["https://rfck.app/npc/hide_taka_taco.png", "https://rfck.app/npc/hide_taka_pizza.png", "https://rfck.app/npc/hide_taka_kfc.png"]
+hide_dialogue = {
+    0:["I hope you choke on it.", "If you order another barbecue sauce packet and nothing else I'm going to scream.", " My boss will fire me if he catches me talking to you. Go on, shoo. I have tuition to pay.", "Go on. Make the same order repeatedly and then get out of here, like you always do."],#tacobell, stoic
+    1:["Lovely day out, am I right?", "Hey, pal, can you keep a secret? We're selling chicken nuggets under the table.", "I've been told to tell you that we cook all our food right here, in the food court. That's right, there's a robust kitchen through that door. All freshly defrroooo... fried!", "I tried to talk about starting a union but, they got the whole place bugged so they threw my partner down the sewers. Call for help, man!"],#pizza, cheerful
+    2:["*Licks fingers* Good.", "No spam ordering, man. You're running me ragged.", "()*Hide picks a taco shell out of their hair and eats it*", "We import all our food from Jamaica Avenue. When the pizza crusts grow mold they can mutate it into chicken. Heh, I don't know how it works."] #kfc, chill
+}
+
+
 vendor_thumbnails = {
     poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/npc/albertalex.png"],
     "saloon":["OL' BOY RUSTLE", "https://rfck.app/npc/olboyrustle.png"],
     "basedhardware":["BETTY BAMALAM", "https://rfck.app/npc/bet.png"],
     "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
-    "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
+    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
     "themuseum":museum_thumbnails.get(current_curator),
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
-    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
+    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
+    poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]],
+    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"]
 }
 
 
 museum_dialogue = {
     "amy":["God, this is frustrating.", "Hoss isn't here. Did you need something?", "The truckers out here are kind of mental. I tried importing a crate of Takis since they're not stocked in the city and shipping cost me 260 mega.", "Hey...you don't look quite right. Guess that's normal around here, but how did you end up looking like that?", "Truthfully, I'd rather not talk history right now. It's a sore subject with you gangsters, I'll keep my research to myself.", "Hey wait, is that a...Nah, it's just an ordinary weapon. Forget I said anything.", "It'd be nice to go along with Hoss, but there's a strong possibility ENDLESS WAR might endanger us somehow if we both left at the same time. We're hedging our bets.", "I'm not an exhibit. I don't think I'm flattered that you thought otherwise, heh."],
-    "curator":[""]
+    "curator":["CAN YOU SMELL THE FISH? I'VE BEEN STEWING IN THIS FARMSTINK FOR SO BLOODY LONG IT'S BECOME MY DEFAULT NOW.", "I KNOW YOU'RE GOING TO STEAL THE RELICS YOU DONATE, YOU STALEVAPED TICKDANCER ZOOMERTYPE. JUST TAKE THEM. IF YOU DON'T THEN SOME OTHER IMBECILE WILL INSTEAD.", "ALL THIS TALK OF CANDIDATES, YOU THINK THEY CAN TRICK ME?! I'LL VOTE WHEN HELL SLEETS ITS TROUSERS!", "HAVE YOU HEARD WORD OF THIS BICARBONATE FOUNTAIN? I MIGHT HAVE SOME CHANCE TO ESCAPE USING IT, BUT THE DOC'S ORDERS TELL ME I SHOULDN'T BE TRYING TO ZUCK MYSELF FOR ANOTHER YEAR OR TWO.", "NO, I WON'T GIVE YOU FREE SLIME, YOU WILTING PATHETIC GUTTERHANGER. EARN IT OR YOU WON'T BE PROUD OF IT."]
 }
 
 
@@ -2849,12 +2863,15 @@ vendor_dialogue = {
     poi_id_speakeasy:["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
     "clinicofslimoplasty":["Nice kidney. If you think you'll die before your next !piss I might just buy it off you.", "I'll give you a discount if you let me fix you up after I've had a few drinks. I'm playing Malpractice Bingo with a heart surgeon in Poudrin Alley.", "You get the kid's discount. I don't do it because it's good for business, really. I just like hurting children.", "Sonny, do you know about any gingerbread houses deep in the woods in this town? I'm looking to retire and could use a new space.", "I'll probably wind up repeating something I said to you. That's the dementia, pay it no mind.", "Lots of slimeoid operations recently. I don't care for 'em. Too many syringes."],
     "themuseum":museum_dialogue.get(current_curator),
-    "neomiluakeestate":["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
+    poi_id_neomilwaukeestate:["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
     "realestateagency":["😎", "hey. I don't really care if you buy real estate, lol. slimecoin isn't profitable  at all, we keep afloat off a government subsidy", "hope there's no hard feelings about the whole slimecorp thing, dog. I was losing them millions just by playing scribblenauts instead of doing any marketing", "hope youre not looking for magicksrampage. they signed on as a janitor with us for a few days but realized their mistake and got out", "i'll add some of my sick taste in decor to you apartment for some slime under the table.", "there's this guy on the street named bobo cuatro who will buy a mixtape from anybody. this dudes my hero i swear", "i was never a booze guy at slimecorp but i'm starting to learn a few things. lol guess the party doesn't have to stop."],
     "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it.", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
     "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
-    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"],
+    poi_id_foodcourt:hide_dialogue.get(hide_value),
+    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."]
+
 
 }
 
@@ -2866,7 +2883,7 @@ museum_curator_dialogue = {
     "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
     "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
     "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
-    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. He turns around to catch you in the act, but shrugs and doesn't respond to your crime.",
     "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
     "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
     "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
@@ -3567,6 +3584,10 @@ base_durability = 2500000  # 2.5 mega
 generic_scalp_durability = 25000  # 25k
 soul_durability = 100000000  # 100 mega
 
+# Yeah the repair cost
+cosmetic_repair_cost = 10000
+cosmetic_bespoke_cost = 100000
+
 cosmetic_id_raincoat = "raincoat"
 
 cosmeticAbility_id_lucky = "lucky"  # Not in use. Mininghelmets have this ability.
@@ -4092,7 +4113,7 @@ mutation_descriptions = {
     mutation_id_socialanimal: "Your damage increases by 10% for every ally in your district.",
     mutation_id_threesashroud: "Cannot be scouted and crit chance is doubled if there are more than 3 allies in your district. Cannot be scouted by players with the Keen Smell mutation.",
     mutation_id_aposematicstench: "For every 5 levels you gain, you appear as 1 more person when being scouted. Cannot be scouted by players with the Keen Smell mutation. Use !stink to produce a monster repelling effect. Attacking enemies with it on causes a temporary damage nerf and the removal of the effect.",
-    mutation_id_lucky: "33% higher chance to get slime poudrins from mining and farming, and better luck at casino games. Increased !reel chance.",
+    mutation_id_lucky: "Higher chance to create mining events while mining, higher chance to unearth poudrins, better luck at casino games, and increased !reel chance.",
     mutation_id_dressedtokill: "50% more damage if freshness is at least 250.",
     mutation_id_keensmell: "Scouting will list off the names of players and enemies within a district. Will not work on players with the Aposematic Stench or Three's A Shroud mutations.",
     mutation_id_enlargedbladder: "You can use the !piss command. The most cost-effective mutation, and therefore the best one.",
@@ -4100,7 +4121,7 @@ mutation_descriptions = {
     mutation_id_trashmouth: "Reach maximum power scavenges 3 times as fast. Example: The soft cooldown of 15 seconds on scavenging is now reduced to 5 seconds. You can also eat cosmetics and furniture. You can also eat furniture and cosmetics using !devour <item>.",
     mutation_id_webbedfeet: "Your scavenging power increases the more slime there is in a district. Caps out at 400% more slime gained from scavenging, but does stack with the White Nationalist mutation. You can feel out the amount of slime you scavenge.",
 
-    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same. In addition, Bubble Breaker's board will appear as Emotes.",
+    mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",
     mutation_id_packrat: "You gain 2x apartment capacity. In addition, you are able to !collect into collections in your inventory while outside your apartment.",
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
@@ -4110,12 +4131,12 @@ mutation_descriptions = {
     mutation_id_napalmsnot: "You do some burn damage when attacking with any weapon, in addition to its normal damage. You also gain immunity to burn damage.",
     mutation_id_ditchslap: "Use !slap @user <location> on an ally to instantly launch them to an adjacent district. If you are in a safe zone, the target must use !clench before they can be hit. Any given ally can't be slapped again for a 5 minute cooldown.",
     mutation_id_greenfingers: "Farming wait time is decreased by 33%, and yields are increased by 20%.",
-    mutation_id_lightminer: "You are immune to mineshaft collapses.",
+    mutation_id_lightminer: " Mineshaft collapses result in hunger loss instead. In addition, Mining Events are slightly more likely.",
     mutation_id_longarms: "You can !longdrop <destination> <item> to drop an item in an adjacent district.",
     mutation_id_lethalfingernails: "If you have no weapon, you will use your fingernails instead. They do the same damage as a level 6 revolver with no miss.",
     mutation_id_davyjoneskeister: "When making deals with Captain Albert Alexander, you only receive offers for slime, not items.",
     mutation_id_onemansjunk: "When bartering fish with Alexander, you will only receive offers for items, not slime",
-    mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you'ree currently tracking, use !thirdeye.",
+    mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you're currently tracking, use !thirdeye.",
     mutation_id_bottomlessappetite: "Your maximum hunger is doubled.",
     mutation_id_airlock: "Combined weather effects of all weather-based mutations. This mutation is mutually exclusive with those.",
     mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon. Any weapon that you have mastery 7 or higher with will not be dropped on death.",
@@ -4176,7 +4197,7 @@ external_link_commands = "!map: Pull up the world map.\n!time: Get the latest RF
 combat_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!aim <player>: Increase accuracy toward a target.\n!taunt <player>: Decrease you opponent's accuracy.\n!dodge <player>: Increase evasion for a short time.\n!reload: Some weapons have limited ammo and need to reload."
 item_commands = "!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search, general, food, cosmetic, color, furniture, weapon, weapontype, preserved, <item color>, <weapon type>.\n!inv search <contents>: Display all items that contain <contents>.\n!inspect <item>: Inspect an item in your inventory.\n!discard <item>: Discard an item.\n!use <item>: Some items can be used.\n!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade.\n!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item.\n!scrawl <item> <description>: Add a message to an item.\n!strip <item>: Remove a message from an item\n!give @player <item>: Giving away items increases festivity."
 cosmetics_dyes_commands = "!adorn <cosmetic>: Wear a cosmetic\n!dedorn <cosmetic>: Take a cosmetic off.\n!dyecosmetic <cosmetic> <dye>: Dye a cosmetic using dyes in your inventory.\n!dyefurniture <furniture> <dye>: Change the color of furniture with dye.\n!saturateslimeoid <dye>: Dye your slimeoid."
-miscellaneous_commands = "!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!changespray <tag>:Change the image link that displays on a !tag.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
+miscellaneous_commands = "!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off. Alternatively, if within a gangbase, use this to shake off any body spray you have active.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!changespray <tag>:Change the image link that displays on a !tag.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
 flavor_commands = "Command list: \n!salute\n!unsalute\n!hurl\n!howl\n!moan\n!pot\n!bully <target>\n!lol\n!jam <instrument>\n!measure <subject>\n!skate\n!brandish\n!tag"
 slimeoid_commands = "!slimeoid: Check your or another player's slimeoid.\n!saturateslimeoid <dye>: Dye your slimeoid. Some colors are strong against others in battle.\n!bottleslimeoid:Put your slimeoid in a bottle, turning them into an item.\n!unbottleslimeoid: Unbottle a slimeoid.\n!feedslimeoid <food>: Feed your slimeoid stat modifying candy, or normal food so they can fight again sooner.\n!dressslimeoid <cosmetic>: Dress up your slimeoid.\n!undressslimeoid: Take cosmetics off your slimeoid.\n!slimeoidbattle <player>: Challenge another player to a slimeoid battle. Add keywords to modify the battle. Keywords are: death, bet <number>, size <number>.\n!slimeoidduel <player>: Varient of !slimeoidbattle which includes a countdown before the match begins (swap dyes)\n!playfetch, !petslimeoid, !abuseslimeoid, !walkslimeoid, !observeslimeoid: You can interact with your own slimeoid, or somebody's you share quadrants with, in various ways."
 trading_commands = "!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade."

@@ -338,7 +338,7 @@ async def renounce(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif user_data.life_state != ewcfg.life_state_enlisted:
-        response = "What exactly are you renouncing? Your lackadaisical, idyllic life free of vice and violence? You aren't actually currently enlisted in any gang, retard."
+        response = "What exactly are you renouncing? Your lackadaisical, idyllic life free of vice and violence? You aren't actually currently enlisted in any gang, dumbass."
 
     elif user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_thebreakroom]:
         response = "To turn in your badge, you must return to your soon-to-be former gang base."
@@ -452,6 +452,9 @@ async def mine(cmd):
             # If !mine doesn't result in a collapse, run worldevent checks and bonus checks
             if mine_action.collapse == False and mine_action.slime_yield != 0:
                 
+                # Check to create a mining event
+                create_mining_event(cmd, mine_action, mutations, grid_type)
+
                 # Check for currently-running world events
                 juviecmdutils.check_for_mining_world_events(world_events, mine_action)
 
@@ -459,9 +462,6 @@ async def mine(cmd):
                 if toolused == ewcfg.weapon_id_shovel and mine_action.user_data.life_state != ewcfg.life_state_juvenile and cmd.tokens[0] == '!dig':
                     poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
                     juviecmdutils.dig_hole(cmd, mine_action, poi)
-
-                # Check to create a mining event
-                create_mining_event(cmd, mine_action, mutations, grid_type)
 
                 # Check to unearth an item
                 juviecmdutils.unearth_item(cmd, mine_action, mutations)
@@ -526,13 +526,13 @@ async def mine(cmd):
             
             # Add grid print or make a new grid, at the very end <3 
             if mine_action.grid_effect == 1:
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
             elif mine_action.grid_effect == 2:
                 init_grid(mine_action.user_data.poi, mine_action.user_data.id_server)
 
                 grid_cont = juviecmdutils.mines_map.get(mine_action.user_data.poi).get(mine_action.user_data.id_server)
 
-                await print_grid(cmd, mine_action.user_data.poi, grid_cont, mutations)
+                await print_grid(cmd, mine_action.user_data.poi, grid_cont)
 
             return
 
@@ -676,7 +676,7 @@ async def flag(cmd):
             elif grid[row][col] == ewcfg.cell_empty:
                 grid[row][col] = ewcfg.cell_empty_marked
 
-            await print_grid(cmd, user_data.poi, grid_cont, mutations)
+            await print_grid(cmd, user_data.poi, grid_cont)
 
 
     else:

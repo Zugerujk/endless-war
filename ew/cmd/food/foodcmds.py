@@ -480,9 +480,15 @@ async def order(cmd):
                             else:
                                 response = "You slam {:,} {} down on the counter at {} for {} and give it to {}.".format(value, currency_used, current_vendor, name, target_player_data.display_name)
 
-                            response += "\n\n*{}*: ".format(target_player_data.display_name) + await target_data.eat(item_data)
+                            eat_text = await target_data.eat(item_data)
+                            if type(eat_text) == str:
+                                final_text = eat_text
+                            else:
+                                final_text = " ".join(eat_text)
+
+                            response += "\n\n*{}*: ".format(target_player_data.display_name) + final_text
                             target_data.persist()
-                            
+
                         else:
 
                             if value == 0:

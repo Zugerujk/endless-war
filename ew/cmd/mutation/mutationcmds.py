@@ -284,7 +284,12 @@ async def shakeoff(cmd):
     user_data = EwUser(member=cmd.message.author)
 
     if cmd.mentions_count == 0:
-        response = "God knows there are like a million third eyes floating around. You'll have to specify whose you're looking for."
+        statuses = user_data.getStatusEffects()
+        if user_data.poi in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow] and ewcfg.status_repelled_id in statuses:
+            user_data.clear_status(ewcfg.status_repelled_id)
+            response = user_data.applyStatus(ewcfg.status_repelaftereffects_id)
+        else:
+            response = "God knows there are like a million third eyes floating around. You'll have to specify whose you're looking for."
 
     elif cmd.mentions_count > 1:
         response = "You're not that good at finding private eyes. Look for one at a time."
@@ -638,7 +643,7 @@ async def longdrop(cmd):
         elif item_obj.item_type == ewcfg.it_weapon and user_data.weapon >= 0 and item_obj.id_item == user_data.weapon:
             if user_data.weaponmarried:
                 weapon = static_weapons.weapon_map.get(item_obj.item_props.get("weapon_type"))
-                response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the retarded decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
+                response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the inane decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
                     weapon.str_weapon)
                 return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
             else:
@@ -779,7 +784,7 @@ async def tracker(cmd):
     mutations = user_data.get_mutations()
 
     if ewcfg.mutation_id_oneeyeopen not in mutations:
-        response = "Your third eye is tucked snugly into your forehead. Actually, who are you fooling? You don't have a third eye. What, are you, retarded?"
+        response = "Your third eye is tucked snugly into your forehead. Actually, who are you fooling? You don't have a third eye. What, are you, dimwitted?"
     else:
         mutation = EwMutation(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, id_mutation=ewcfg.mutation_id_oneeyeopen)
         if mutation.data == "":

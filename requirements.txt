@@ -1,0 +1,8 @@
+aiohttp~=3.8.4
+async-timeout~=4.0.2
+attrs~=22.2.0
+discord~=2.1 # Eventually please update to use discord.py instead
+mysqlclient~=2.1.1
+multidict~=6.0.4
+typing-extensions~=4.5.0
+yarl~=1.8.2

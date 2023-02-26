@@ -718,3 +718,14 @@ diamondpickaxekilltext = [
     "{name_player}'s shiny diamond pickaxe inspires awe from passersby. {name_target} tries to diss their style, only to meet the business end of the pick. {emote_skull}",
     "{name_player} is flaunting their style! They're a block game PvP master, expertly block jumping and sprint dashing like the best of them. {name_target} stands no chance and gets blown away. {name_player} crouch spams in disrespect. {emote_skull}"
 ]
+
+
+graffiti = [
+    "https://media.discordapp.net/attachments/431605021852041237/1068223499161845780/graffiti.png?width=984&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1055778876388823090/goosegraffiticontestminecraft.png?width=887&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1045800531014189187/ewthink2.png?width=616&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1044479366341611580/graffiti.png"
+]
+modified_graffiti = []
+for graf in graffiti:
+    modified_graffiti.append("()" + graf)
