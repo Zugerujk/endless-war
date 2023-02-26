@@ -2,7 +2,7 @@
 from ..model.hunting import EwAttackType
 from ..model.hunting import EwNpc
 from . import cfg as ewcfg
-
+from . import community_cfg as commcfg
 
 from ew.utils import npcutils
 from . import poi as poi_static
@@ -769,12 +769,12 @@ EwNpc(
     description = "She's always using that spray can of hers. Banksy over here doesn't care about gangs marking the territory, though.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["Hey fuck off kid, don’t you see I’m busy?", "The shit y’all spray in this city kinda sucks, I’m doin’ you a favor.", "The cops here are seriously gullible, it’s so fuckin’ cash!", "Fuckers keep calling me a furry, y’all just don’t understand ART!"],
-                "loop":[""],
+                "loop":commcfg.modified_graffiti,
                 "die":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
                 "hit":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
-                "give":[""],
+                "give":["Oh. Uh...thanks, kid."],
                  },
-    func_ai = npcutils.generic_npc_action,
+    func_ai = npcutils.ratqueen_action,
     image_profile = "https://rfck.app/npc/ratqueen.png",
     defaultslime = 10001,
     defaultlevel = 2,

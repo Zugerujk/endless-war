@@ -8,7 +8,7 @@ from ew.static import items as static_items
 from ew.static import food as static_food
 from ew.static import cosmetics as static_cosmetics
 from ew.static import weapons as static_weapons
-
+from ew.utils import district as ewdistrict
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
@@ -198,6 +198,13 @@ async def notasnake_action(keyword = '', enemy = None, channel = None, item = No
     else:
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
+async def ratqueen_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == "act":
+        return await ratqueen_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
 
 async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None): #sends npc dialogue, including context specific and rare variants
     delete_after = None
@@ -378,6 +385,12 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     await fe_utils.send_message(None, channel, response)
 
 
+async def ratqueen_act(channel=None, npc_obj=None, enemy=None):
+    district = ewdistrict.EwDistrict(district=enemy.poi, id_server=enemy.id_server)
+    if district.capture_points > 0:
+        district.decay_capture_points()
+        district.persist()
+    return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
 
 def drop_held_items(enemy):
     owner_id = "npcinv{}".format(enemy.enemyclass)
