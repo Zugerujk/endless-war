@@ -435,7 +435,7 @@ riflekilltext = [
     "{name_player} fires their rifle wildly in the general direction of {name_target}. {name_target} is dead, along with some nearby civilians. Oops. {emote_skull}",
     "**BLAM BLAM BLAM!** {name_player} launches a hailstorm of bullets in {name_target}'s direction. They try to jump for cover but get blown away. {emote_skull}",
     "{name_player} unloads an entire rifle magazine on {name_target}! Bullets pierce them several times over, leaving them looking like swiss cheese. {emote_skull}",
-    "{name_player} aims down the sights and peeks {name_target} with an unending barrage of headshots, utterly annihilating everything from the shoulder up. Looks like they are going to need a closet casket funeral. {emote_skull}"
+    "{name_player} aims down the sights and peeks {name_target} with an unending barrage of headshots, utterly annihilating everything from the shoulder up. Looks like they are going to need a closed casket funeral. {emote_skull}"
 ]
 
 smgkilltext = [
