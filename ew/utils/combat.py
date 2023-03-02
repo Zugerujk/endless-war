@@ -2025,7 +2025,8 @@ class EwUser(EwUserBase):
             weapon = static_weapons.weapon_map.get(weapon_type)
             if ewcfg.weapon_class_paint in weapon.classes and self.weaponskill > 16:
                 self.weaponskill = 16
-
+            elif self.weaponskill < 0:
+                self.weaponskill = 0
             ewutils.weaponskills_set(
                 id_server=self.id_server,
                 id_user=self.id_user,
