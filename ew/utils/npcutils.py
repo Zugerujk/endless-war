@@ -229,13 +229,12 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
     if potential_dialogue is not None:
-        response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+        response = random.choice(potential_dialogue).format(bonus = bonus_flavor, player_name= "" if player is None else player.display_name)
     else:
         response = None
 
 
     if response is not None:
-        response = response.format(bonus = bonus_flavor)
 
         if response[:2] == '()':  # for exposition that doesn't use a talk bubble
             response = response[2:]
