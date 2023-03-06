@@ -870,7 +870,9 @@ async def scout(cmd):
         else:
             players_resp += "You feel the ground rumble from a stampeding horde of gangsters in this district."
 
-        if ewcfg.mutation_id_keensmell in mutations and num_players >= 1:
+        if (ewcfg.mutation_id_keensmell in mutations or user_data.poi == poi.id_poi) and num_players >= 1:
+            if ewcfg.mutation_id_keensmell not in mutations:
+                detailed_players_resp = detailed_players_resp.replace("You pick up the scent of ", "You spot ")
             players_resp += " " + detailed_players_resp
 
         # to avoid visual clutter, no scouting message is sent out for 0 enemies, and by extension, threats.

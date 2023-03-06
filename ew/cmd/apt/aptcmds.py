@@ -118,12 +118,13 @@ async def depart(cmd = None, isGoto = False, movecurrent = None):
             user_data.visiting = ewcfg.location_id_empty
             user_data.time_lastenter = int(time.time())
             ewutils.active_target_map[user_data.id_user] = ""
-            user_data.persist()
+
 
             ewutils.end_trade(user_data.id_user)
             await user_data.move_inhabitants(id_poi=poi_dest.id_poi)
 
-            await ewrolemgr.updateRoles(client=client, member=member_object)
+            await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=user_data.poi)
+            user_data.persist()
 
             if isGoto:
                 response = "You arrive in {}.".format(poi_dest.str_name)

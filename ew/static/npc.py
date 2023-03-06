@@ -155,7 +155,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/pork.png",
     defaultslime = 6911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [100, 2, 3],
@@ -183,7 +183,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/riot.png",
     defaultslime = 4911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [50, 1, 1],
@@ -213,7 +213,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/sleuth.png",
     defaultslime = 5911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     is_threat=True,
     rarity=7,
     rewards = [
@@ -241,7 +241,7 @@ EwNpc(
     func_ai = npcutils.police_chief_npc_action,
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
-    defaultlevel = 100,
+    defaultlevel = 80,
     is_threat=True,
     rarity=1,
     rewards = [
@@ -250,7 +250,7 @@ EwNpc(
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False,
+    condition = lambda user_data, enemy_data: True if user_data.crime > 2250000 else False,
 
     #if the cop is trigger happy or if you're above a certain crime level
 ),
@@ -786,6 +786,9 @@ EwNpc(
     is_threat=False
 ),
 ]
+
+for npc in npc_list:
+    npc.starting_statuses.append(ewcfg.status_enemy_delay_id)
 
 active_npcs_map = {}
 spawn_probability_list = []

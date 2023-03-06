@@ -229,13 +229,12 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
     if potential_dialogue is not None:
-        response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+        response = random.choice(potential_dialogue).format(bonus = bonus_flavor, player_name= "" if player is None else player.display_name)
     else:
         response = None
 
 
     if response is not None:
-        response = response.format(bonus = bonus_flavor)
 
         if response[:2] == '()':  # for exposition that doesn't use a talk bubble
             response = response[2:]
@@ -583,7 +582,10 @@ async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probabilit
         user_data = ewcombat.EwUser(id_user=user_data.id_user, id_server=user_data.id_server)
         weapon_item = EwItem(id_item=user_data.weapon)
         itemtype = weapon_item.template
-        user_data.add_weaponskill(n=1, weapon_type = itemtype)
+        delta = 1
+        if ewcfg.status_repelled_id in user_data.getStatusEffects(): #prevent cheesing this
+            delta = (-5)
+        user_data.add_weaponskill(n=delta, weapon_type = itemtype)
         user_data.persist()
 
 async def needy_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None):
