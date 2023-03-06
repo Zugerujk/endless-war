@@ -620,6 +620,99 @@ async def dye(cmd):
     else:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'You need to specify which cosmetic you want to paint and which dye you want to use! Check your **!inventory**.'))
 
+async def pattern(cmd):
+    if len(cmd.tokens) < 5:
+        response = f"You gotta {cmd.tokens[0]} <cosmetic> <dye1> <dye2> <pattern>"
+        return fe_utils.send_response(response, cmd)
+    hat_id = ewutils.flattenTokenListToString(cmd.tokens[1])
+    dye_id = ewutils.flattenTokenListToString(cmd.tokens[2])
+    dye_id2 = ewutils.flattenTokenListToString(cmd.tokens[3])
+    pattern_id = ewutils.flattenTokenListToString(cmd.tokens[4])
+
+    try:
+        hat_id_int = int(hat_id)
+    except:
+        hat_id_int = None
+
+    try:
+        dye_id_int = int(dye_id)
+    except:
+        dye_id_int = None
+
+    try: 
+        dye2_id_int = int(dye_id2)
+    except:
+        dye2_id_int = None
+        dye_id_int = dye2_id_int
+
+    try:
+        pattern_id_int = int(pattern_id)
+    except:
+        pattern_id_int = None
+
+    if hat_id != None and len(hat_id) > 0 and dye_id != None and len(dye_id) > 0 and dye_id2 != None and len(dye_id2) > 0 and pattern_id != None and len(pattern_id) > 0:
+        response = "You don't have one."
+
+        items = bknd_item.inventory(
+            id_user=cmd.message.author.id,
+            id_server=cmd.guild.id,
+        )
+
+        cosmetic = None
+        dye = None
+        dye2 = None
+        pattern = None
+        for item in items:
+
+            if int(item.get('id_item')) == hat_id_int or hat_id in ewutils.flattenTokenListToString(item.get('name')):
+                if item.get('item_type') == ewcfg.it_cosmetic and cosmetic is None:
+                    cosmetic = item
+
+            if int(item.get('id_item')) == dye_id_int or dye_id in ewutils.flattenTokenListToString(item.get('name')):
+                if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.dye_map and dye is None:
+                    dye = item
+
+            if int(item.get('id_item')) == dye2_id_int or dye_id2 in ewutils.flattenTokenListToString(item.get('name')):
+                if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.dye_map and dye2 is None:
+                    dye2 = item
+
+            if int(item.get('id_item')) == pattern_id_int or pattern_id in ewutils.flattenTokenListToString(item.get('name')):
+                if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.pattern_map and pattern is None:
+                    pattern = item
+    
+            if cosmetic != None and dye != None and dye2 != None and pattern != None:
+                break
+
+        if cosmetic != None:
+            if dye != None and dye2 != None and pattern != None:
+                
+                cosmetic_item = EwItem(id_item=cosmetic.get("id_item"))
+                dye_item = EwItem(id_item=dye.get("id_item"))
+                dye2_item = EwItem(id_item=dye2.get("id_item"))
+                pattern_item = EwItem(id_item=pattern.get("id_item"))
+                print(pattern_item)
+                hue = hue_static.hue_map.get(dye_item.item_props.get('id_item'))
+                hue2 = hue_static.hue_map.get(dye2_item.item_props.get('id_item'))
+                patternchoice = static_items.pattern_map.get(pattern_item.item_props.get('id_item'))
+                print(patternchoice)
+                response = "You pattern your {} in {} and {} {}!".format(cosmetic_item.item_props.get('cosmetic_name'), hue.str_name, hue2.str_name, patternchoice)
+                cosmetic_item.item_props['hue'] = hue.id_hue
+                cosmetic_item.item_props['hue2'] = hue2.id_hue
+                cosmetic_item.item_props['pattern'] = pattern.id_pattern
+
+                cosmetic_item.persist()
+                bknd_item.item_delete(id_item=dye.get('id_item'))
+                bknd_item.item_delete(id_item=dye2.get('id_item'))
+                bknd_item.item_delete(id_item=pattern.get("id_item"))
+            else:
+                response = 'Use which dyes and pattern? Check your **!inventory**.'
+        else:
+            response = 'Pattern which cosmetic? Check your **!inventory**.'
+
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    else:
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'You need to specify which cosmetic you want to pattern and which dyes you want to use! Check your **!inventory**.'))
+
 
 async def balance_cosmetics(cmd):
     """	Load new values into these and reboot to balance cosmetics. """

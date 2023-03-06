@@ -937,6 +937,9 @@ cmd_dyecosmetic = cmd_prefix + 'dyecosmetic'
 cmd_dyecosmetic_alt1 = cmd_prefix + 'dyehat'
 cmd_dyecosmetic_alt2 = cmd_prefix + 'saturatecosmetic'
 cmd_dyecosmetic_alt3 = cmd_prefix + 'saturatehat'
+cmd_patterncosmetic = cmd_prefix + 'patterncosmetic'
+cmd_patterncosmetic_alt1 = cmd_prefix + 'patternhat'
+cmd_patterncosmetic_alt2 = cmd_prefix + 'pattern'
 cmd_create = cmd_prefix + 'create'
 cmd_forgemasterpoudrin = cmd_prefix + 'forgemasterpoudrin'
 cmd_createitem = cmd_prefix + 'createitem'
@@ -2993,6 +2996,7 @@ item_id_rainwing = "rainwing"
 item_id_dyesolution = "dyesolution"
 item_id_textiles = "textiles"
 item_id_foodbase = "foodbase"
+item_id_transferpaper = "transferpaper"
 item_id_mastectomy_mango_pod = "mastectomymangopod"
 item_id_menthol_mint_pod = "mentholmintpod"
 item_id_striking_strawberry_pod = "strikingstrawberrypod"
@@ -3181,6 +3185,17 @@ item_id_dye_negative = "negativedye"
 item_id_paint_copper = "copperpaint"
 item_id_paint_chrome = "chromepaint"
 item_id_paint_gold = "goldpaint"
+
+# pattern ids
+item_id_pattern_tartan = "patterntartan"
+item_id_pattern_polkadot = "patternpolkadot"
+item_id_pattern_stripes = "patternstripes"
+item_id_pattern_houndstooth = "patternhoundstooth"
+item_id_pattern_tiedye = "patterntiedye"
+item_id_pattern_kente = "patternkente"
+item_id_pattern_catseye = "patterncatseye"
+item_id_pattern_cash = "patterncash"
+
 
 fuck_energies = ['khaotickilliflowerfuckenergy', 'rampagingrowddishfuckenergy', 'direappleciderfuckenergy', 'ultimateurinefuckenergy', 'superwaterfuckenergy', 'justcumfuckenergy', 'goonshinefuckenergy', 'liquidcoffeegroundsfuckenergy', 'joybeanjavafuckenergy', 'krakacolafuckenergy', 'drfuckerfuckenergy']
 

@@ -314,6 +314,62 @@ item_list = [
         durability=3
     ),
     EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_tartan,
+        context="pattern",
+        str_name="Pattern - Tartan",
+        str_desc="A tartan pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_polkadot,
+        context="pattern",
+        str_name="Pattern - Polka Dot",
+        str_desc="A polka dot pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_stripes,
+        context="pattern",
+        str_name="Pattern - Stripes",
+        str_desc="A stripes pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_houndstooth,
+        context="pattern",
+        str_name="Pattern - Houndstooth",
+        str_desc="A houndstooth pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_tiedye,
+        context="pattern",
+        str_name="Pattern - Tie Dye",
+        str_desc="A tie dye pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_kente,
+        context="pattern",
+        str_name="Pattern - Kente",
+        str_desc="A kente pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_catseye,
+        context="pattern",
+        str_name="Pattern - Catseye",
+        str_desc="A catseye pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
+        id_item=ewcfg.item_id_pattern_cash,
+        context="pattern",
+        str_name="Pattern - Cash",
+        str_desc="A cash pattern.",
+        acquisition=ewcfg.acquisition_smelting,
+    ),
+    EwGeneralItem(
         id_item="bone",
         str_name="Bone",
         str_desc="A small nondescript bone. Traces of fresh slime in it indicate it must've belonged to one of the city's residents.",
@@ -2029,10 +2085,12 @@ for item in item_list:
     for alias in item.alias:
         item_map[alias] = item
 
-# list of dyes you're able to saturate your Slimeoid with
+# list of dyes and patterns
 dye_list = []
 dye_map = {}
-# seperate the dyes from the other normal items
+pattern_list = []
+pattern_map = {}
+# seperate the dyes and patterns from the normal items
 for c in item_list:
 
     if c.context != "dye":
@@ -2040,6 +2098,13 @@ for c in item_list:
     else:
         dye_list.append(c)
         dye_map[c.str_name] = c.id_item
+
+    if c.context != "pattern":
+        pass
+    else:
+        pattern_list.append(c)
+        pattern_map[c.id_item] = c.str_name
+
 
 slimexodia_parts = []
 

@@ -27,6 +27,11 @@ cmd_map = {
     ewcfg.cmd_dyecosmetic_alt2: cosmeticcmds.dye,
     ewcfg.cmd_dyecosmetic_alt3: cosmeticcmds.dye,
 
+    # Patterning
+    ewcfg.cmd_patterncosmetic: cosmeticcmds.pattern,
+    ewcfg.cmd_patterncosmetic_alt1: cosmeticcmds.pattern,
+    ewcfg.cmd_patterncosmetic_alt2: cosmeticcmds.pattern,
+
     # admins manipulate/make items
     ewcfg.cmd_balance_cosmetics: cosmeticcmds.balance_cosmetics,
 
@@ -50,5 +55,10 @@ apt_dm_cmd_map = {
     ewcfg.cmd_dyecosmetic_alt1: cosmeticcmds.dye,
     ewcfg.cmd_dyecosmetic_alt2: cosmeticcmds.dye,
     ewcfg.cmd_dyecosmetic_alt3: cosmeticcmds.dye,
+
+    # Patterning
+    ewcfg.cmd_patterncosmetic: cosmeticcmds.pattern,
+    ewcfg.cmd_patterncosmetic_alt1: cosmeticcmds.pattern,
+    ewcfg.cmd_patterncosmetic_alt2: cosmeticcmds.pattern,
 
 }
