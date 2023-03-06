@@ -172,7 +172,9 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
             collections_placed = True
         else:
             furn_response += "{} ".format(i.item_props['furniture_look_desc'])
-            # Display scrawled notes on furnite. Works on bricks. - Liz
+            # Display scrawled notes on furniture. Works on bricks. - Liz
+            # TODO: Cut off messages over a certain length. "... There's no way you're reading all that."
+            # Alternatively, cut off messages over a certain amount. "There's no way you're going around reading all these notes."
             if has_message:
                 furn_response += "It has a message attatched: \"{}\" ".format(i.item_props['item_message'])
             furniture_id_list.append(i.item_props['id_furniture'])
