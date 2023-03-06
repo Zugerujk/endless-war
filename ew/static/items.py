@@ -2256,6 +2256,7 @@ furniture_list = [
         furniture_look_desc = "There's a rainbow bed in the bedroom.",
         furn_set = "lgbt",
     ),
+    ## added to "default" set (Not actually default, name is a joke) - Liz
     EwFurniture(
         id_furniture = "bed",
         str_name = "bed",
@@ -2263,9 +2264,10 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 150000,
-        vendors = ['bazaar'],
+        vendors = ['basedhardware'],
         furniture_place_desc = "The IKEA instructions are confusing, so it takes a few attempts to make the bed.",
         furniture_look_desc = "There's a bed in the bedroom.",
+        furn_set = "default",
     ),
     EwFurniture(
         id_furniture = "hauntedbed",
@@ -3871,6 +3873,69 @@ EwFurniture(
         furniture_look_desc = "A dumpster has been jammed in here somehow.",
         furn_set = "trash",
     ),
+    ## Liz Additions beyond this point. Here be the Elderly set!
+    # TODO: Remove set from Maid Cafe, was added for easy testing
+    EwFurniture(
+        id_furniture = "floralsofa",
+        str_name = "Floral Sofa",
+        str_desc = "A rustic sofa with an obnoxious floral design. It smells like soap and sepia.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 2500000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "Struggling to lift your Floral Sofa, You call up a few friends to move in the couch. You manage to spend some time catching up before offering them some cookies as they leave. What lovely company!",
+        furniture_look_desc = "A frilly floral sofa sits daintily in the living room.",
+        furn_set = "elderly"
+    ),
+    EwFurniture(
+        id_furniture = "rockingchair",
+        str_name = "Rocking Chair",
+        str_desc = "A simple rustic chair designed to rock back and forth. Comes with a pair of used knitting needles.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 250000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You simply pick up the rocking chair and hoist it into place. If only all furniture was this easy to move.",
+        furniture_look_desc = "A cozy rocking chair creaks back and forth.",
+        furn_set = "elderly"
+    ),
+    EwFurniture(
+        id_furniture = "staleairdispenser",
+        str_name = "Stale Air Dispenser",
+        str_desc = "A small metal spraycan advertising STALE AIR! Allegedly makes you 'smell like a century'.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 3000000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You shake up your can of Stale Air and spray it around. Noticing you can't smell a thing, you spray until the can stops working and toss it aside. Then it all hits you at once and the scent of old books and aged soap make you dry-heave, forcing you to steady yourself with the wall. You aren't getting that smell out any time soon.",
+        furniture_look_desc = "This place is thick with dust and memories.",
+        furn_set = "elderly"
+    ),
+     EwFurniture(
+        id_furniture = "chair",
+        str_name = "chair",
+        str_desc = "A standard-issue chair, ready-made for collapsing into.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 150000,
+        vendors = ['basedhardware'],
+        furniture_place_desc = "After a few hours and multiple missing screws, you assemble the chair.",
+        furniture_look_desc = "There's a chair in the here.",
+        furn_set = "default",
+    ),
+     EwFurniture(
+        id_furniture = "table",
+        str_name = "table",
+        str_desc = "A standard-issue table, ready-made for spilling coffee on.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 150000,
+        vendors = ['basedhardware'],
+        furniture_place_desc = "This thing doesn't even come with instructions to assemble. You manage it anyway in a feat of persistence and determination.",
+        furniture_look_desc = "There's a table here.",
+        furn_set = "default",
+    ),
+    
 ]
 
 
@@ -3894,6 +3959,8 @@ furniture_collection = []
 furniture_hatealiens = []
 furniture_hummels = []
 furniture_trash = []
+furniture_elderly = []
+furniture_default = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3932,3 +3999,7 @@ for furniture in furniture_list:
         furniture_hummels.append(furniture.id_furniture)
     elif furniture.furn_set == "trash":
         furniture_trash.append(furniture.id_furniture)
+    elif furniture.furn_set == "elderly":
+        furniture_elderly.append(furniture.id_furniture)
+    elif furniture.furn_set == "default":
+        furniture_default.append(furniture.id_furniture)
