@@ -165,12 +165,18 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
     collections_id_list = []
     for furn in furns:
         i = EwItem(furn.get('id_item'))
+        has_message = i.item_props.get('item_message')
         # Collections are collected and handled in a separate area
         if i.item_props.get('id_furniture') in static_items.furniture_collection:
             collections_id_list.append(furn.get('id_item'))
             collections_placed = True
         else:
             furn_response += "{} ".format(i.item_props['furniture_look_desc'])
+            # Display scrawled notes on furniture. Works on bricks. - Liz
+            # TODO: Cut off messages over a certain length. "... There's no way you're reading all that."
+            # Alternatively, cut off messages over a certain amount. "There's no way you're going around reading all these notes."
+            if has_message:
+                furn_response += "It has a message attatched: \"{}\" ".format(i.item_props['item_message'])
             furniture_id_list.append(i.item_props['id_furniture'])
 
         hue = hue_static.hue_map.get(i.item_props.get('hue'))
@@ -213,6 +219,10 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
         furn_response += "\nYour apartment has severe elderly vibes, like a thick fog."
     if all(elem in furniture_id_list for elem in static_items.furniture_trash):
         furn_response += "\nAlthough you have risen through the ranks and gained some form of shelter from the elements, you can't help but pine for the good old days. You know, those days where you didn't have to work so hard to get that 'rotten milk flavored meth lab' charm into your sleeping space. Sometimes true beauty takes work. You brought homelessness into the comfort of your own home."
+    if all(elem in furniture_id_list for elem in static_items.furniture_elderly):
+        furn_response += "\nThere is a freshly baked pie on the windowsill."
+    if all(elem in furniture_id_list for elem in static_items.furniture_default):
+        furn_response += "\nThis location contains all the essential components of a living space."
 
     market_data = EwMarket(id_server=id_server)
     clock_data = ewutils.weather_txt(market_data)
