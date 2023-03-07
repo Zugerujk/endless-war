@@ -661,7 +661,7 @@ async def pattern(cmd):
         cosmetic = None
         dye = None
         dye2 = None
-        pattern = None
+        pattern = None    
         for item in items:
 
             if int(item.get('id_item')) == hat_id_int or hat_id in ewutils.flattenTokenListToString(item.get('name')):
@@ -675,37 +675,47 @@ async def pattern(cmd):
             if int(item.get('id_item')) == dye2_id_int or dye_id2 in ewutils.flattenTokenListToString(item.get('name')):
                 if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.dye_map and dye2 is None:
                     dye2 = item
-
-            if int(item.get('id_item')) == pattern_id_int or pattern_id in ewutils.flattenTokenListToString(item.get('name')):
-                if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.pattern_map and pattern is None:
-                    pattern = item
+            if int(item.get('id_item')) == pattern_id_int or pattern_id in ewutils.flattenTokenListToString(item.get('template')):
+                if item.get('template') in hue_static.pattern_map and pattern is None:
+                    pattern = item 
     
             if cosmetic != None and dye != None and dye2 != None and pattern != None:
                 break
 
         if cosmetic != None:
             if dye != None and dye2 != None and pattern != None:
-                
+                #gets the four item ids
                 cosmetic_item = EwItem(id_item=cosmetic.get("id_item"))
                 dye_item = EwItem(id_item=dye.get("id_item"))
                 dye2_item = EwItem(id_item=dye2.get("id_item"))
                 pattern_item = EwItem(id_item=pattern.get("id_item"))
-                print(pattern_item)
-                hue = hue_static.hue_map.get(dye_item.item_props.get('id_item'))
+                hue = hue_static.hue_map.get(dye_item.item_props.get('id_item')) #gets both the hues for hue static
                 hue2 = hue_static.hue_map.get(dye2_item.item_props.get('id_item'))
-                patternchoice = static_items.pattern_map.get(pattern_item.item_props.get('id_item'))
-                print(patternchoice)
-                response = "You pattern your {} in {} and {} {}!".format(cosmetic_item.item_props.get('cosmetic_name'), hue.str_name, hue2.str_name, patternchoice)
-                cosmetic_item.item_props['hue'] = hue.id_hue
-                cosmetic_item.item_props['hue2'] = hue2.id_hue
-                cosmetic_item.item_props['pattern'] = pattern.id_pattern
+                if pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_relic') != None: #an ADDITIONAL check to make sure relics can't be used in this way.
+                    response = "Amy Hart's words echoed... \"WHAT THE FUCK ARE YOU DOING?\"...yeah, maybe you shouldn't."
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                elif hat_id == pattern_id: #prevents you from sacrificing the item you are trying to pattern, without this you'd be able to make the item delete itself.
+                    response = "While making a black hole form in your bare hands in the middle of the city SOUNDS cool, I promise you paradoxical items are not as fun as you may think."
+                    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('weapon_type') != None and pattern_item.item_props.get('weapon_name') == None: #allows you to sacrifice unnamed weapons for patterns
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('weapon_type'))
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_furniture') != None: #allows you to sacrifice allowed furniture items for patterns.
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_furniture'))
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_cosmetic') != None: #allows you to sacrifice allowed other cosmetics for patterns.
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_cosmetic'))
+                else:
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_item')) #allows you to sacrifice generic items.
+                response = "You give your {} a {} and {} {} pattern!".format(cosmetic_item.item_props.get('cosmetic_name'), hue.str_name, hue2.str_name, patternchoice)
+                cosmetic_item.item_props['hue'] = hue.id_hue # {
+                cosmetic_item.item_props['hue2'] = hue2.id_hue # deletes the items that it used
+                cosmetic_item.item_props['pattern'] = patternchoice # }
 
                 cosmetic_item.persist()
                 bknd_item.item_delete(id_item=dye.get('id_item'))
                 bknd_item.item_delete(id_item=dye2.get('id_item'))
                 bknd_item.item_delete(id_item=pattern.get("id_item"))
             else:
-                response = 'Use which dyes and pattern? Check your **!inventory**.'
+                response = 'Use which dyes and item? Check your **!inventory**.'
         else:
             response = 'Pattern which cosmetic? Check your **!inventory**.'
 

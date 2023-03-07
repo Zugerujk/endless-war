@@ -3601,7 +3601,10 @@ soul_durability = 100000000  # 100 mega
 
 # Yeah the repair cost
 cosmetic_repair_cost = 10000
-cosmetic_bespoke_cost = 100000
+cosmetic_bespoke_cost = 100000 #raw slime, and princeps only
+cosmetic_reroll_plebian_cost = 100 #in poudrins
+cosmetic_reroll_patrician_cost = 125 #in poudrins
+cosmetic_reroll_profollean_cost = 175 #in poudrins
 
 cosmetic_id_raincoat = "raincoat"
 

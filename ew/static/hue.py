@@ -332,6 +332,33 @@ hue_list = [
 # A map of id_hue to EwHue objects.
 hue_map = {}
 
+pattern_map = {
+"shovel": "farm",
+"hoe": "farm",
+"slimeringcan": "farm",
+"pitchfork": "farm",
+"bloodstone": "ooze",
+"rfconsortmarble": "cat eye",
+"packofluckyslimes": "shamrock",
+"ghostlycloth": "tattered",
+"partypopper": "confetti",
+"moonrock": "celestial",
+"autographedshorts": "autograph",
+"bananapeel": "banana",
+"hawaiianshirt": "tropical",
+"3": "",
+"4": "",
+"5": "",
+"6": "",
+"7": "",
+"8": "",
+"9": "",
+"11": "",
+"12": "",
+"13": "",
+"14": "",
+"[miscpatternitem]": "miscpattern",
+}
 # A list of hue names
 hue_names = []
 

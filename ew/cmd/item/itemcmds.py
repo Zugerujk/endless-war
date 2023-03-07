@@ -825,8 +825,14 @@ async def item_look(cmd):
                 response += "\n\nIts freshness rating is {rating}.".format(rating=item.item_props['freshness'])
 
                 hue = hue_static.hue_map.get(item.item_props.get('hue'))
-                if hue != None:
+                hue2 = hue_static.hue_map.get(item.item_props.get('hue2'))
+                pattern = item.item_props.get('pattern')
+                if hue != None and pattern == None:
                     response += " Its been dyed in {} paint.".format(hue.str_name)
+                elif hue != None and hue2 != None and pattern == 'autograph':
+                    response += " Its been dyed in {} paint with a {} {}." .format(hue.str_name, hue2.str_name, pattern)
+                elif hue != None and hue2 != None and pattern != None:
+                    response += " It has a {} and {} {} pattern." .format(hue.str_name, hue2.str_name, pattern)
 
             if item.item_type == ewcfg.it_furniture:
                 furnlist = static_items.furniture_map
