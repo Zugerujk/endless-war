@@ -61,6 +61,8 @@ active_slimeoidbattles = {}
 
 active_televisions = {}
 
+jeeves = {}
+
 tv_counter = 0
 
 
