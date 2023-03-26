@@ -1,5 +1,8 @@
 from . import cfg as ewcfg
-
+try:
+    from ew.utils import rutils
+except:
+    from ew.utils import rutils_dummy as rutils
 from ..model.slimeoid import EwHue
 
 # All color attributes in the game.
@@ -332,11 +335,11 @@ hue_list = [
 # A map of id_hue to EwHue objects.
 hue_map = {}
 
-pattern_map = {
-"shovel": "farm",
-"hoe": "farm",
-"slimeringcan": "farm",
-"pitchfork": "farm",
+pattern_map = { #patterns with the empty # are categorized.
+"shovel": "tartan",
+"hoe": "tartan",
+"slimeringcan": "tartan",
+"pitchfork": "tartan",
 "bloodstone": "ooze",
 "rfconsortmarble": "cat eye",
 "packofluckyslimes": "shamrock",
@@ -345,20 +348,44 @@ pattern_map = {
 "moonrock": "celestial",
 "autographedshorts": "autograph",
 "bananapeel": "banana",
-"hawaiianshirt": "tropical",
-"3": "",
-"4": "",
-"5": "",
-"6": "",
-"7": "",
-"8": "",
-"9": "",
-"11": "",
-"12": "",
-"13": "",
-"14": "",
-"[miscpatternitem]": "miscpattern",
-}
+"hawaiianshirt": "hawaiian",
+"dragonsoul": "flame",
+"forbidden111": "forbidden",# need help deciding what is good enough
+"ectoplasm": "plasma",
+"bone": "bone",
+"sord": "JPG artifact",
+"lavalamp": "ink swirl",
+"brick": "brick",
+"pinkrowddishes": "rowdy maws",
+"purplekilliflower": "killer slugs",
+"beansinacan": "fart",
+"blacklimes": "cut limes",
+"funpizza": "fun",
+"poudrin": "poudrin",
+"kaleidoscuttle": "tie dye",
+"vultureburger": "burger",
+"doublestuffedcrust": "pizza",
+"jestershat": "harlequin",
+"snouse": "snouse",
+"mysenseofhumor": "UNFUNNY",
+} # 'ancient' pattern is set in the !pattern code to be all relics NOT on this pattern list.
+#categorizes patterns into pattern types
+abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', ] #patterns that can't be categorized into any other category due to being unique
+allover_patterns = ['confetti', 'hawaiian', 'rowdy maws', 'killer slugs', 'shamrock', 'cut limes', ] #patterns that do not flow into themselves and repeat
+organic_patterns = ['flame', 'bone', 'banana', 'fart', ] #patterns seen in nature, animals, or 
+repeat_patterns = ['brick', 'cat eye', 'tartan', 'harlequin', ] #patterns that flow into themselves and repeat, like a brick wall
+singular_patterns = ['autograph',] #patterns that aren't a fucking pattern but singular item, like an autograph
+special_patterns = ['ancient', 'UNFUNNY', ] #patterns that relate to relics or limited time events
+
+# ADDITIONALLY, you can extend this pattern map and their category with SECRET PATTERNS if you use the optional import to rutils, so you can take the piss out of it and/or make people want to start trying to rub their relics all over their cosmetics.
+#try:
+#    pattern_map.extend({rutils.debugpatternmap}) # for adding on patterns that are secret or otherwise something you don't want github goons to see. Fuck if i care though
+#    special_patterns.extend({rutils.debugspecialpatterns}) # do the same with others etc if you want to add to the other lists.
+#except:
+#    rutils.debugpatternmap == None # I don't know how rutils works and i don't want to know
+# todo: get a dev from the devteam to implement this if they want to implement it, but it works fine as is.
+
+
 # A list of hue names
 hue_names = []
 

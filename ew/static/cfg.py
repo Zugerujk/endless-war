@@ -1042,6 +1042,8 @@ cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
 cmd_bespoke = cmd_prefix + "bespoke"
 cmd_bespoke_alt1 = cmd_prefix + 'tailor'
+cmd_restyle = cmd_prefix + "restyle"
+cmd_restyle_alt1 = cmd_prefix + "stitch"
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -3186,17 +3188,6 @@ item_id_paint_copper = "copperpaint"
 item_id_paint_chrome = "chromepaint"
 item_id_paint_gold = "goldpaint"
 
-# pattern ids
-item_id_pattern_tartan = "patterntartan"
-item_id_pattern_polkadot = "patternpolkadot"
-item_id_pattern_stripes = "patternstripes"
-item_id_pattern_houndstooth = "patternhoundstooth"
-item_id_pattern_tiedye = "patterntiedye"
-item_id_pattern_kente = "patternkente"
-item_id_pattern_catseye = "patterncatseye"
-item_id_pattern_cash = "patterncash"
-
-
 fuck_energies = ['khaotickilliflowerfuckenergy', 'rampagingrowddishfuckenergy', 'direappleciderfuckenergy', 'ultimateurinefuckenergy', 'superwaterfuckenergy', 'justcumfuckenergy', 'goonshinefuckenergy', 'liquidcoffeegroundsfuckenergy', 'joybeanjavafuckenergy', 'krakacolafuckenergy', 'drfuckerfuckenergy']
 
 # Hunting trophy ids from safari event
@@ -3602,9 +3593,9 @@ soul_durability = 100000000  # 100 mega
 # Yeah the repair cost
 cosmetic_repair_cost = 10000
 cosmetic_bespoke_cost = 100000 #raw slime, and princeps only
-cosmetic_reroll_plebian_cost = 100 #in poudrins
-cosmetic_reroll_patrician_cost = 125 #in poudrins
-cosmetic_reroll_profollean_cost = 175 #in poudrins
+cosmetic_reroll_plebian_cost = 25 #in poudrins
+cosmetic_reroll_patrician_cost = 50 #in poudrins
+cosmetic_reroll_profollean_cost = 75 #in poudrins
 
 cosmetic_id_raincoat = "raincoat"
 

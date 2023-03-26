@@ -448,6 +448,63 @@ async def bespoke(cmd):
     response = f'"Excellent. Just a moment… a little more, and-- there, perfect! Your {item_sought.name} is... hideous. But now in the style of hideous you picked. Your {ewcfg.cosmetic_bespoke_cost:,} slime, please. No refunds."'
     return await fe_utils.send_response(response, cmd)
 
+async def restyle(cmd):
+    """ Reroll a cosmetic's style with slime poudrins """
+    user_data = EwUser(member=cmd.message.author)
+    cmd_alias = cmd.tokens[0]
+    # Must be at the bodega
+    if user_data.poi != ewcfg.poi_id_bodega:
+        response = f"{cmd_alias}? You don't even know where to begin how to restyle a cosmetic. Pretty sure the rumors are only the **hipster** at the **Bodega** can do that."
+        return await fe_utils.send_response(response, cmd)
+
+    if len(cmd.tokens) < 1:
+        item_search = None
+    else:
+        item_search = cmd.tokens[1]
+
+    if not item_search:
+        response = f"{cmd_alias} which cosmetic? Check your !inventory."
+        return await fe_utils.send_response(response, cmd)
+    # limits their search to only cosmetics they have
+    item_sought = await cosmetic_utils.has_cosmetic(user_data, item_search)
+
+    if item_sought is None:
+        response = f"You don't have a {item_search}."
+        return await fe_utils.send_response(response, cmd)
+    elif item_sought.item_props.get("rarity") == ewcfg.rarity_princeps:
+        response = f"That's what !bespoke is for, go get your sick thrills elsewhere."
+        return await fe_utils.send_response(response, cmd)
+
+    poudrins = bknd_item.find_item(item_search="slimepoudrin", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
+    if len(cmd.tokens) > 2:
+        response = f"It's {cmd_alias} <cosmetic>. You don't need to put any fancy bullshit after that. Oh, and make sure you aren't putting spaces in the cosmetic's name." 
+        return await fe_utils.send_response(response, cmd)
+    style = random.choice(ewcfg.fashion_styles)
+    
+    if item_sought.item_props.get("style") == style:
+        while item_sought.item_props.get("style") == style:
+            style = random.choice(ewcfg.fashion_styles)
+
+    cost = 0
+    # get cosmetic item's rarity for cost
+    if item_sought.item_props.get("rarity") == 'profollean':
+        cost = ewcfg.cosmetic_reroll_profollean_cost
+    elif item_sought.item_props.get("rarity") == 'patrician':
+        cost = ewcfg.cosmetic_reroll_patrician_cost
+    elif item_sought.item_props.get("rarity") == 'plebian':
+        cost = ewcfg.cosmetic_reroll_plebian_cost
+
+    if cost <= poudrins:
+        while cost > 0: # This while loop deletes the poudrins one by one, i am so sorry.
+            bknd_item.item_delete(id_item=poudrins.get('id_item'))
+            cost -= 1
+        item_sought = cosmetic_utils.restyle_cosmetic(item_sought, style) # Finally applies the new style to the item.
+        item_sought.persist()
+        response = f'"Your {item_sought.name} is now {style}, heh heh heh... no refunds!"'
+    else:
+        response = f"Woah, stop. You can\'t afford it."
+    return await fe_utils.send_response(response, cmd)
+
 
 async def retrofit(cmd):
     """ Retrofit updates a cosmetic item's properties to match the current definition. """
@@ -623,7 +680,7 @@ async def dye(cmd):
 async def pattern(cmd):
     if len(cmd.tokens) < 5:
         response = f"You gotta {cmd.tokens[0]} <cosmetic> <dye1> <dye2> <pattern>"
-        return fe_utils.send_response(response, cmd)
+        await fe_utils.send_response(response, cmd)
     hat_id = ewutils.flattenTokenListToString(cmd.tokens[1])
     dye_id = ewutils.flattenTokenListToString(cmd.tokens[2])
     dye_id2 = ewutils.flattenTokenListToString(cmd.tokens[3])
@@ -661,7 +718,7 @@ async def pattern(cmd):
         cosmetic = None
         dye = None
         dye2 = None
-        pattern = None    
+        pattern = None
         for item in items:
 
             if int(item.get('id_item')) == hat_id_int or hat_id in ewutils.flattenTokenListToString(item.get('name')):
@@ -691,8 +748,12 @@ async def pattern(cmd):
                 pattern_item = EwItem(id_item=pattern.get("id_item"))
                 hue = hue_static.hue_map.get(dye_item.item_props.get('id_item')) #gets both the hues for hue static
                 hue2 = hue_static.hue_map.get(dye2_item.item_props.get('id_item'))
-                if pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_relic') != None: #an ADDITIONAL check to make sure relics can't be used in this way.
-                    response = "Amy Hart's words echoed... \"WHAT THE FUCK ARE YOU DOING?\"...yeah, maybe you shouldn't."
+                patternchoice = None
+                if pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_relic') != None: #allows relics to be used if it has a pattern map recipe (nobody but main devs should do this!). ((relics are not consumed))
+                    response = "You rub the relic all over the item, if Amy Hart saw you doing this, she'd most definitely try to kill you."
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_relic'))
+                    if patternchoice == None: #allows all relics to give a default relic-exclusive pattern unless specified otherwise in the pattern_map
+                        patternchoice == 'ancient'
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 elif hat_id == pattern_id: #prevents you from sacrificing the item you are trying to pattern, without this you'd be able to make the item delete itself.
                     response = "While making a black hole form in your bare hands in the middle of the city SOUNDS cool, I promise you paradoxical items are not as fun as you may think."
@@ -703,17 +764,24 @@ async def pattern(cmd):
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_furniture'))
                 elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_cosmetic') != None: #allows you to sacrifice allowed other cosmetics for patterns.
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_cosmetic'))
+                    if patternchoice == 'snouse': #for obvious reasons i can't test this, but this should be fine.
+                        response += "The snouse scurries away after your gross negligence to its feelings. No snice were harmed in the altering of this cosmetic."
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_food') != None: #allows you to sacrifice allowed food items for patterns.
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_food'))
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_fish') != None: #why the fuck does everything need to be differenciated when i can't get this streamlined when i need to allow all types of items without this code clutter
+                    patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_fish')) #whatever, you can now sacrifice fish for patterns.
                 else:
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_item')) #allows you to sacrifice generic items.
                 response = "You give your {} a {} and {} {} pattern!".format(cosmetic_item.item_props.get('cosmetic_name'), hue.str_name, hue2.str_name, patternchoice)
-                cosmetic_item.item_props['hue'] = hue.id_hue # {
-                cosmetic_item.item_props['hue2'] = hue2.id_hue # deletes the items that it used
-                cosmetic_item.item_props['pattern'] = patternchoice # }
+                cosmetic_item.item_props['hue'] = hue.id_hue 
+                cosmetic_item.item_props['hue2'] = hue2.id_hue 
+                cosmetic_item.item_props['pattern'] = patternchoice 
 
                 cosmetic_item.persist()
                 bknd_item.item_delete(id_item=dye.get('id_item'))
-                bknd_item.item_delete(id_item=dye2.get('id_item'))
-                bknd_item.item_delete(id_item=pattern.get("id_item"))
+                bknd_item.item_delete(id_item=dye2.get('id_item')) 
+                if pattern_item.item_props.get('id_item') != None and pattern_item.item_props.get('id_relic') == None: #relics are NOT consumed in this process.
+                    bknd_item.item_delete(id_item=pattern.get("id_item"))
             else:
                 response = 'Use which dyes and item? Check your **!inventory**.'
         else:

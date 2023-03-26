@@ -829,7 +829,7 @@ async def item_look(cmd):
                 pattern = item.item_props.get('pattern')
                 if hue != None and pattern == None:
                     response += " Its been dyed in {} paint.".format(hue.str_name)
-                elif hue != None and hue2 != None and pattern == 'autograph':
+                elif hue != None and hue2 != None and pattern in hue_static.singular_patterns:
                     response += " Its been dyed in {} paint with a {} {}." .format(hue.str_name, hue2.str_name, pattern)
                 elif hue != None and hue2 != None and pattern != None:
                     response += " It has a {} and {} {} pattern." .format(hue.str_name, hue2.str_name, pattern)

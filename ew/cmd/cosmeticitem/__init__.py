@@ -20,6 +20,9 @@ cmd_map = {
     ewcfg.cmd_retrofit: cosmeticcmds.retrofit,
     ewcfg.cmd_bespoke: cosmeticcmds.bespoke,
     ewcfg.cmd_bespoke_alt1: cosmeticcmds.bespoke,
+    ewcfg.cmd_restyle: cosmeticcmds.restyle,
+    ewcfg.cmd_restyle_alt1: cosmeticcmds.restyle,
+
 
     # Dyeing
     ewcfg.cmd_dyecosmetic: cosmeticcmds.dye,

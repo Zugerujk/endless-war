@@ -314,48 +314,6 @@ item_list = [
         durability=3
     ),
     EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_tartan,
-        str_name="Tartan pattern",
-        str_desc="A tartan pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_polkadot,
-        str_name="Polka dot pattern",
-        str_desc="A polka dot pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_stripes,
-        str_name="Stripes pattern",
-        str_desc="A stripes pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_houndstooth,
-        str_name="Houndstooth pattern",
-        str_desc="A houndstooth pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_tiedye,
-        str_name="Tie dye pattern",
-        str_desc="A tie dye pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_kente,
-        str_name="Kente pattern",
-        str_desc="A kente pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
-        id_item=ewcfg.item_id_pattern_cash,
-        str_name="Cash pattern",
-        str_desc="A cash pattern.",
-        acquisition=ewcfg.acquisition_smelting,
-    ),
-    EwGeneralItem(
         id_item="bone",
         str_name="Bone",
         str_desc="A small nondescript bone. Traces of fresh slime in it indicate it must've belonged to one of the city's residents.",
@@ -2074,9 +2032,7 @@ for item in item_list:
 # list of dyes and patterns
 dye_list = []
 dye_map = {}
-pattern_list = []
-pattern_map = {}
-# seperate the dyes and patterns from the normal items
+# seperate the dyes from the normal items
 for c in item_list:
 
     if c.context != "dye":
@@ -2084,12 +2040,6 @@ for c in item_list:
     else:
         dye_list.append(c)
         dye_map[c.str_name] = c.id_item
-
-    if c.context != "pattern":
-        pass
-    else:
-        pattern_list.append(c)
-        pattern_map[c.id_item] = c.str_name
 
 
 slimexodia_parts = []
