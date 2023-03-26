@@ -2854,7 +2854,8 @@ vendor_thumbnails = {
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
     "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
     poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]],
-    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"]
+    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"],
+    poi_id_apt_littlechernobyl:["JERMA", "https://rfck.app/npc/jerma.png"]
 }
 
 
@@ -2875,8 +2876,8 @@ vendor_dialogue = {
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
     poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"],
     poi_id_foodcourt:hide_dialogue.get(hide_value),
-    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."]
-
+    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."],
+    poi_id_apt_littlechernobyl:["Hope you enjoy the toilets. They're handpicked by me."]
 
 }
 
@@ -4112,8 +4113,8 @@ mutation_descriptions = {
     mutation_id_whitenationalist: "Cannot be scouted regularly and you scavenge 50% more slime while weather is snowy, which also stacks with the Webbed Feet mutation. Use **'!weather'** to check if it's snowing. You can still be scouted by players with the Keen Smell mutation.",
     mutation_id_spoiledappetite: "You can eat spoiled food.",
     mutation_id_bigbones: "The amount of food items you can hold in your inventory is doubled.",
-    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger.",
-    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger.",
+    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger, AKA when you're less than half full.",
+    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger. Stay full to retain the effect.",
     mutation_id_bingeeater: "Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds. Eating lots of food at once puts you in a raging food coma, increasing defense.",
     mutation_id_lonewolf: "50% more damage and 2x capping speed when in a district without any friendly gangsters. Stacks with the Patriot mutation.",
     mutation_id_quantumlegs: "You can now use the !tp command, allowing you to teleport to a district up to two locations away from you after an uninterrupted 15 second running start, with a cooldown of 1 hour.",
