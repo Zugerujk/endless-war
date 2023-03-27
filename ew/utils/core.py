@@ -502,8 +502,8 @@ def weapon_carry_capacity_bylevel(slimelevel) -> int:
 def max_adornspace_bylevel(slimelevel) -> int:
     """ Calculates how many cosmetics the player can adorn """
     ### OLD COSMETIC SLOT EQ: adorn_space = math.floor(math.sqrt(slimelevel - 2) - 0.40) ## Note had to have a condition where adorn_space was 0 when slimelevel < 4 in an if-else statement.
-    adorn_space = min(max(math.floor((slimelevel-5)/5),0),9)+1 #you get your first cosmetic slot at 5, and another for every 5 levels (10 at level 50). Caps at 10 so no more is gotten at level 55, etc.
-    #To change the max, you want to change the 9 to another number, creating a hard cap per 5 levels, so make it 10 if you want to hardcap level 55 as the top cosmetic level at 11, 60 for 12, and so on.
+    adorn_space = min(max(math.floor((slimelevel-5)/5),0),7)+1 #you get your first cosmetic slot at 5, and another for every 5 levels (10 at level 50). Caps at 8 so no more is gotten at level 45, etc.
+    #To change the max, you want to change the 7 to another number, creating a hard cap per 5 levels, so make it 10 if you want to hardcap level 55 as the top cosmetic level at 11, 60 for 12, and so on.
     return adorn_space
 
 

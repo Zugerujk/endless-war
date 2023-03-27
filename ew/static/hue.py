@@ -344,7 +344,7 @@ pattern_map = { #patterns with the empty # are categorized.
 "textiles":"polka dot", # Bro, this one was the hardest
 "barredkatanajaw":"stripes", #striped fish
 "dogtag":"houndstooth", #pun
-"ghosttoken":"cash", 
+"ghosttoken":"cash",
 "oldboot":"chevron", # boot non-slip texture
 "necktie":"gingham", # THERE IS NO ITEM IN RFCK WITH GINGHAM ROOTS. 
 "brokenclock":"swirl",
@@ -376,7 +376,7 @@ pattern_map = { #patterns with the empty # are categorized.
 "doublestuffedcrust": "pizza",
 "jestershat": "harlequin",
 "snouse": "snouse",
-"mysenseofhumor": "UNFUNNY", #cry about it waluigi man (loud clapping from one guy)
+"mysenseofhumor": "UNFUNNY",
 } # 'ancient' pattern is set in the !pattern code to be all relics NOT on this pattern list.
 #categorizes patterns into pattern types
 abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', 'camouflage'] #patterns that can't be categorized into any other category due to being unique

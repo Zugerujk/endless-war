@@ -2029,7 +2029,7 @@ for item in item_list:
     for alias in item.alias:
         item_map[alias] = item
 
-# list of dyes and patterns
+# list of dyes you're able to saturate your Slimeoid with
 dye_list = []
 dye_map = {}
 # seperate the dyes from the normal items
