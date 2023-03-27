@@ -340,6 +340,15 @@ pattern_map = { #patterns with the empty # are categorized.
 "hoe": "tartan",
 "slimeringcan": "tartan",
 "pitchfork": "tartan",
+"bandanna":"paisley", # popular bandanna pattern
+"textiles":"polka dot", # Bro, this one was the hardest
+"barredkatanajaw":"stripes", #striped fish
+"dogtag":"houndstooth", #pun
+"ghosttoken":"cash", 
+"oldboot":"chevron", # boot non-slip texture
+"necktie":"gingham", # THERE IS NO ITEM IN RFCK WITH GINGHAM ROOTS. 
+"brokenclock":"swirl",
+"camofatigues":"camouflage",
 "bloodstone": "ooze",
 "rfconsortmarble": "cat eye",
 "packofluckyslimes": "shamrock",
@@ -350,7 +359,7 @@ pattern_map = { #patterns with the empty # are categorized.
 "bananapeel": "banana",
 "hawaiianshirt": "hawaiian",
 "dragonsoul": "flame",
-"forbidden111": "forbidden",# need help deciding what is good enough
+"forbidden111": "forbidden",
 "ectoplasm": "plasma",
 "bone": "bone",
 "sord": "JPG artifact",
@@ -367,13 +376,13 @@ pattern_map = { #patterns with the empty # are categorized.
 "doublestuffedcrust": "pizza",
 "jestershat": "harlequin",
 "snouse": "snouse",
-"mysenseofhumor": "UNFUNNY",
+"mysenseofhumor": "UNFUNNY", #cry about it waluigi man (loud clapping from one guy)
 } # 'ancient' pattern is set in the !pattern code to be all relics NOT on this pattern list.
 #categorizes patterns into pattern types
-abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', ] #patterns that can't be categorized into any other category due to being unique
-allover_patterns = ['confetti', 'hawaiian', 'rowdy maws', 'killer slugs', 'shamrock', 'cut limes', ] #patterns that do not flow into themselves and repeat
-organic_patterns = ['flame', 'bone', 'banana', 'fart', ] #patterns seen in nature, animals, or 
-repeat_patterns = ['brick', 'cat eye', 'tartan', 'harlequin', ] #patterns that flow into themselves and repeat, like a brick wall
+abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', 'camouflage'] #patterns that can't be categorized into any other category due to being unique
+allover_patterns = ['confetti', 'hawaiian', 'rowdy maws', 'killer slugs', 'shamrock', 'cut limes', 'paisley', 'cash', 'swirl'] #patterns that do not flow into themselves and repeat
+organic_patterns = ['flame', 'bone', 'banana', 'fart', 'fun', 'snouse', 'poudrin', 'pizza', 'burger'] #patterns seen in nature, animals, or otherwise made from organic parts. Contains foods because why not
+repeat_patterns = ['brick', 'cat eye', 'tartan', 'harlequin', 'polka dot', 'stripes', 'houndstooth', 'chevron', 'gingham'] #patterns that flow into themselves and repeat, like a brick wall
 singular_patterns = ['autograph',] #patterns that aren't a fucking pattern but singular item, like an autograph
 special_patterns = ['ancient', 'UNFUNNY', ] #patterns that relate to relics or limited time events
 

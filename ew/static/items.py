@@ -3888,8 +3888,6 @@ EwFurniture(
         furniture_look_desc = "A dumpster has been jammed in here somehow.",
         furn_set = "trash",
     ),
-    ## Liz Additions beyond this point. Here be the Elderly set!
-    # TODO: Remove set from Maid Cafe, was added for easy testing
     EwFurniture(
         id_furniture = "floralsofa",
         str_name = "Floral Sofa",
