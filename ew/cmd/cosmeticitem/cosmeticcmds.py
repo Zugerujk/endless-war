@@ -14,6 +14,7 @@ from ew.utils import core as ewutils
 from ew.utils import cosmeticitem as cosmetic_utils
 from ew.utils import frontend as fe_utils
 from ew.utils.combat import EwUser
+
 try:
     from ew.static.rstatic import debugsmoke
     from ew.cmd.debugr import debug22
@@ -474,8 +475,9 @@ async def restyle(cmd):
     elif item_sought.item_props.get("rarity") == ewcfg.rarity_princeps:
         response = f"That's what !bespoke is for, go get your sick thrills elsewhere."
         return await fe_utils.send_response(response, cmd)
+    
+    poudrins = bknd_item.find_poudrin(id_user=cmd.message.author.id, id_server=cmd.guild.id)
 
-    poudrins = bknd_item.find_item(item_search="slimepoudrin", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
     if len(cmd.tokens) > 2:
         response = f"It's {cmd_alias} <cosmetic>. You don't need to put any fancy bullshit after that. Oh, and make sure you aren't putting spaces in the cosmetic's name." 
         return await fe_utils.send_response(response, cmd)
@@ -487,22 +489,23 @@ async def restyle(cmd):
 
     cost = 0
     # get cosmetic item's rarity for cost
-    if item_sought.item_props.get("rarity") == 'profollean':
+    if item_sought.item_props.get("rarity") == 'Profollean':
         cost = ewcfg.cosmetic_reroll_profollean_cost
-    elif item_sought.item_props.get("rarity") == 'patrician':
+    elif item_sought.item_props.get("rarity") == 'Patrician':
         cost = ewcfg.cosmetic_reroll_patrician_cost
-    elif item_sought.item_props.get("rarity") == 'plebian':
-        cost = ewcfg.cosmetic_reroll_plebian_cost
+    elif item_sought.item_props.get("rarity") == 'Plebeian':
+        cost = ewcfg.cosmetic_reroll_plebeian_cost
 
     if cost <= poudrins:
         while cost > 0: # This while loop deletes the poudrins one by one, i am so sorry.
-            bknd_item.item_delete(id_item=poudrins.get('id_item'))
+            apoudrin = bknd_item.find_item(item_search="slimepoudrin", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
+            bknd_item.item_delete(id_item=apoudrin.get('id_item'))
             cost -= 1
         item_sought = cosmetic_utils.restyle_cosmetic(item_sought, style) # Finally applies the new style to the item.
         item_sought.persist()
         response = f'"Your {item_sought.name} is now {style}, heh heh heh... no refunds!"'
     else:
-        response = f"Woah, stop. You can\'t afford it."
+        response = f"Woah, stop. You can\'t afford it. Can't scam you if you don't got poudrins to scam!"
     return await fe_utils.send_response(response, cmd)
 
 
