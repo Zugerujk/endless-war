@@ -125,9 +125,9 @@ mutations = [
         alias=['fc', 'fat', 'chance', 'obesity'],
         str_describe_self="Your impressive girth provides ample amounts of armor against attacks due to **Fat Chance**.",
         str_describe_other="Their impressive girth provides ample amounts of armor against attacks due to **Fat Chance**.",
-        str_acquire="Your body begins to swell, providing you with easily hundreds of extra pounds nigh instantaneously. Walking becomes difficult, breathing even more so. Your fat solidifies into a brick-like consistency, turning you into a living fortress. You only have slightly increased mobility than a regular fortress, however. You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger.",
+        str_acquire="Your body begins to swell, providing you with easily hundreds of extra pounds nigh instantaneously. Walking becomes difficult, breathing even more so. Your fat solidifies into a brick-like consistency, turning you into a living fortress. You only have slightly increased mobility than a regular fortress, however. You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger, AKA when you're less than half full.",
         tier=5,
-        str_transplant="'Alright', Dusttrap says, 'I want to go to the food court and eat as many Doritos Locos Tacos as you can steal, then take these pills.' You have an amazing time mercilessly stuffing your face and getting away with grand theft taco scot-free. That said, you think you got scammed by that doctor. The pills are placebos, you basically only needed to get really fat.\n\n You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger.",
+        str_transplant="'Alright', Dusttrap says, 'I want to go to the food court and eat as many Doritos Locos Tacos as you can steal, then take these pills.' You have an amazing time mercilessly stuffing your face and getting away with grand theft taco scot-free. That said, you think you got scammed by that doctor. The pills are placebos, you basically only needed to get really fat.\n\n You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger, AKA when you're less than half full.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_fastmetabolism,
@@ -135,9 +135,9 @@ mutations = [
         alias=['fm', 'metabolism'],
         str_describe_self="Fierce boiling and sizzling can be heard from deep inside your stomach due to **Fast Metabolism**.",
         str_describe_other="Fierce boiling and sizzling can be heard from deep inside their stomach due to **Fast Metabolism**.",
-        str_acquire="An intense heat is felt in the pit of your stomach, which wails in pain as it’s dissolved from the inside out. Your gastric acid roars to an unthinkably destructive fever pitch, ready to completely annihilate whatever poor calories may enter your body before instantly turning them into pure leg muscle. You have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger.",
+        str_acquire="An intense heat is felt in the pit of your stomach, which wails in pain as it’s dissolved from the inside out. Your gastric acid roars to an unthinkably destructive fever pitch, ready to completely annihilate whatever poor calories may enter your body before instantly turning them into pure leg muscle. You have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger. Stay full to retain the effect.",
         tier=6,
-        str_transplant="Dusttrap grabs a small bottle in the back. 'You're gonna have to take all these pills. I bought these from infomercials and I'm not really sure which ones work yet.' Welp, bottoms up. With the hesitation of a hardened gangster, you slide the pills down your gullet. In your stomach they begin to bubble and boil, and you can sense a hint of smoke in your breath.\n\nYou have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger.",
+        str_transplant="Dusttrap grabs a small bottle in the back. 'You're gonna have to take all these pills. I bought these from infomercials and I'm not really sure which ones work yet.' Welp, bottoms up. With the hesitation of a hardened gangster, you slide the pills down your gullet. In your stomach they begin to bubble and boil, and you can sense a hint of smoke in your breath.\n\nYou have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger. Stay full to retain the effect.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_bingeeater,
