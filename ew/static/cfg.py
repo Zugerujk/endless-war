@@ -3324,12 +3324,12 @@ gs_stat_to_xp_col = {
 minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
 
 gs_stat_to_cape_description = {
-    goonscape_mine_stat: "MINE TEXT. {user_id}'s CAPE NUMERO #{placement}",
-    goonscape_fish_stat: "FISH TEXT. {user_id}'s CAPE NUMERO #{placement}",
-    goonscape_farm_stat: "FARM TEXT. {user_id}'s CAPE NUMERO #{placement}",
-    goonscape_eat_stat: "EAT TEXT. {user_id}'s CAPE NUMERO x{placement}",
-    goonscape_clout_stat: "CLOUT TEXT. {user_id}'s CAPE NUMERO #{placement}",
-    goonscape_halloweening_stat: "SCUM TEXT. {user_id}'s CAPE NUMERO {placement}",
+    goonscape_mine_stat: "Mining: A cape earned by {user_id} for maxing out the mining stat. Soot and dirt trails along it's ornate patterns, physical evidence of the hours spent toiling for poudrins and XP. Cape Number {#placement}",
+    goonscape_fish_stat: "A cape earned by {user_id} for maxing out the fishing stat. It makes for handy shade when spending hours at the pier, and glimmers like the scales of the fish caught and traded in to obtain it. Cape Number {#placement}",
+    goonscape_farm_stat: "A cape earned by {user_id} for maxing out the farming stat. It comes built-in with several pouches for holding seeds and crops, and is hemmed with beautiful juvie green. Cape Number {#placement}",
+    goonscape_eat_stat: " A cape earned by {user_id} for maxing out the feasting stat. The stains prove it's seen its fair usage as a bib as well as a cape. We can't believe {user_id} ate the whole thing. Cape Number {#placement}",
+    goonscape_clout_stat: "A cape earned by {user_id} for maxing out the clout stat. It's like a diamond play button but even more worthless! Cape Number {#placement}",
+    goonscape_halloweening_stat: "A cape earned by {user_id} for maxing out the halloween stat, obtainable during Double Halloween 2022. It shimmers purple with fabric made of double halloween grist, haunted by the hours wasted grinding this stat out. Cape Number {#placement}",
     goonscape_pee_stat: "__Belonging to the shoulders of {user_id}.__\n{placement}: The cape hangs heavy with a brutal yellow hue.\n{placement}: It raditates power.\n{placement}: And also pee.",
 }
 
