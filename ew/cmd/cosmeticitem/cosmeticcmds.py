@@ -475,6 +475,9 @@ async def restyle(cmd):
     elif item_sought.item_props.get("rarity") == ewcfg.rarity_princeps:
         response = f"That's what !bespoke is for, go get your sick thrills elsewhere."
         return await fe_utils.send_response(response, cmd)
+    elif item_sought.item_props.get("style") == ewcfg.style_skill:
+        response = f"You thought you could pull a fast one? That's not a cosmetic, that's a skill cape."
+        return await fe_utils.send_response(response, cmd)
     
     poudrins = bknd_item.find_poudrin(id_user=cmd.message.author.id, id_server=cmd.guild.id)
 
