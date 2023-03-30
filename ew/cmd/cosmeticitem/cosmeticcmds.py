@@ -484,11 +484,11 @@ async def restyle(cmd):
     if len(cmd.tokens) > 2:
         response = f"It's {cmd_alias} <cosmetic>. You don't need to put any fancy bullshit after that. Oh, and make sure you aren't putting spaces in the cosmetic's name." 
         return await fe_utils.send_response(response, cmd)
-    style = random.choice(ewcfg.fashion_styles)
+    style = random.choice(ewcfg.valid_styles)
     
     if item_sought.item_props.get("style") == style:
         while item_sought.item_props.get("style") == style:
-            style = random.choice(ewcfg.fashion_styles)
+            style = random.choice(ewcfg.valid_styles)
 
     cost = 0
     # get cosmetic item's rarity for cost
