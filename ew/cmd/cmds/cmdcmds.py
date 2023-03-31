@@ -226,7 +226,9 @@ async def data(cmd):
             cos = EwItem(id_item=cosmetic.get('id_item'))
             if cos.item_props['adorned'] == 'true':
                 hue = hue_static.hue_map.get(cos.item_props.get('hue'))
-                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                hue2 = cos.item_props.get('hue2')
+                pattern = cos.item_props.get('pattern')
+                adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name')))
                 cosmetic_id_list.append(cos.item_props['id_cosmetic'])
 
         poi = poi_static.id_to_poi.get(user_data.poi)
@@ -1444,7 +1446,8 @@ async def fashion(cmd):
             if c.item_props['adorned'] == 'true':
 
                 hue = hue_static.hue_map.get(c.item_props.get('hue'))
-
+                hue2 = c.item_props.get('hue2')
+                pattern = c.item_props.get('pattern')
                 adorned_styles.append(c.item_props.get('fashion_style'))
 
                 if c.item_props['id_cosmetic'] not in adorned_ids:
@@ -1456,7 +1459,7 @@ async def fashion(cmd):
                 space_adorned += int(c.item_props['size'])
 
                 adorned_ids.append(c.item_props['id_cosmetic'])
-                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name')))
 
         # show all the cosmetics that you have adorned.
         if len(adorned_cosmetics) > 0:
