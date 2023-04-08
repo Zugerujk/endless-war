@@ -629,13 +629,13 @@ async def swab(cmd):
         response = "The landlubber term for that is !scrub, scrub."
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
-        if user_data.id_user == yacht.poopdeck:
+        if user_data.id_user != yacht.poopdeck:
             response = "Don't just !swab anything. It's gotta be when you're manned to the poop deck!"
         else:
             swab = -20
             if user_data.life_state == 1:
                 swab *= 1.5
-            yacht.filth = max(0, yacht.filth-swab)
+            yacht.filth = max(0, int(yacht.filth)+int(swab))
             yacht.persist()
             response = "**swab swab**"
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
