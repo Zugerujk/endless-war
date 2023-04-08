@@ -165,7 +165,7 @@ async def man(cmd):
     else:
         post = ewutils.flattenTokenListToString(cmd.tokens[1:])
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
-        yacht_utils.clear_station(id_server=cmd.guild.id, thread_id=yacht.thread_id, id_user=user_data.id_user)
+        yacht = yacht_utils.clear_station(id_server=cmd.guild.id, thread_id=yacht.thread_id, id_user=user_data.id_user)
 
 
         if yacht.filth_check() and ewutils.flattenTokenListToString(cmd.tokens[1:]) != 'poopdeck':
@@ -391,14 +391,15 @@ async def load(cmd):
         elif user_data.id_user != yacht.cannon:
             response = "You're nowhere near the cannon, you can't do that!"
         else:
+            response = None
             stat_sought = None
             for stat in stats:
-                if stat == cmd.tokens[1]:
-                    stat_sought = stat
+                if stat == cmd.tokens[1] and stat.quantity == 1:
+                    response = "You already loaded that in."
                     break
-            if stat_sought is not None and stat_sought.quantity != 0:
-                response = "You already loaded that in."
-            else:
+                elif stat == cmd.tokens[1] and stat.quantity == 0:
+                    stat_sought = stat
+            if response is None:
                 stat_sought.quantity += 1
                 stat_sought.persist()
                 response = "{} drops a {} into place!".format(cmd.message.author.display_name, cmd.tokens[1])

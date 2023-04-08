@@ -2560,7 +2560,7 @@ col_ycoord = "y_coord"
 col_direction = 'direction'
 
 
-col_id_stat = "stat" #ID of the yacht stat
+col_id_stat = "id_stat" #ID of the yacht stat
 col_quantity = "quantity" #amount of stat
 col_type_stat = "type_stat"
 col_id_idstat = "id_stat"

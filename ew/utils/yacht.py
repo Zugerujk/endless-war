@@ -149,6 +149,7 @@ def clear_station(id_user, thread_id, id_server):
     if id_user == yacht.helm:
         yacht.helm = -1
     yacht.persist()
+    return yacht
 
 
 async def sink(thread_id, id_server, killer_yacht = None):

@@ -174,7 +174,7 @@ class EwYacht():
     def clearStat(self, id_stat):
         bknd_core.execute_sql_query("delete from yacht_stats where {} = %s".format(
             ewcfg.col_id_idstat),(
-            id_stat
+            id_stat,
         ))
 
     def accumulate_filth(self, amount_filth = 1):
@@ -207,20 +207,21 @@ class EwYachtStat():
             # Retrieve object
 
             cursor.execute(
-                "SELECT {}, {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s and thread_id = %s".format(
-                    ewcfg.col_status_target,
+                "SELECT {}, {}, {}, {} FROM yacht_stats WHERE id_stat = %s AND id_server = %s".format(
+                    'target',
                     ewcfg.col_quantity,
-                    ewcfg.col_type_stat
+                    ewcfg.col_type_stat,
+                    ewcfg.col_thread_id
                 ), (
                     self.id_stat,
-                    self.id_server,
-                    self.thread_id
+                    self.id_server
                 ))
             result = cursor.fetchone()
-
-            self.target = result[0]
-            self.quantity = result[1]
-            self.type_stat = result[2]
+            if result is not None:
+                self.target = result[0]
+                self.quantity = result[1]
+                self.type_stat = result[2]
+                self.thread_id = result[3]
 
         finally:
             cursor.close()
@@ -239,7 +240,7 @@ class EwYachtStat():
                     ewcfg.col_id_server,
                     ewcfg.col_thread_id,
                     ewcfg.col_id_stat,
-                    ewcfg.col_status_target,
+                    'target',
                     ewcfg.col_quantity,
                     ewcfg.col_type_stat
                 ), (
