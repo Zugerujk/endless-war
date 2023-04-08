@@ -113,7 +113,7 @@ apt_dm_cmd_map = {
     ewcfg.cmd_undecorate: aptcmds.remove_item,
     ewcfg.cmd_unshelve: aptcmds.remove_item,
     ewcfg.cmd_unshelve_alt_1: aptcmds.remove_item,
-
+    ewcfg.cmd_jeeves: aptcmds.jeeves,
     # !watch, tv of course
     ewcfg.cmd_watch: aptcmds.watch,
 
