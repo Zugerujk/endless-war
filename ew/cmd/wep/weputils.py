@@ -902,8 +902,8 @@ async def attackEnemy(cmd):
             user_data.change_crime(n=ewcfg.cr_cop_kill)
 
         if weapon != None:
-            weapon_item.item_props["kills"] = (int(weapon_item.item_props.get("kills")) if weapon_item.item_props.get("kills") != None else 0) + 1
-            weapon_item.item_props["totalkills"] = (int(weapon_item.item_props.get("totalkills")) if weapon_item.item_props.get("totalkills") != None else 0) + 1
+            weapon_item.item_props["hunts"] = (int(weapon_item.item_props.get("hunts")) if weapon_item.item_props.get("hunts") != None else 0) + 1
+            weapon_item.item_props["totalhunts"] = (int(weapon_item.item_props.get("totalhunts")) if weapon_item.item_props.get("totalhunts") != None else 0) + 1
             ewstats.increment_stat(user=user_data, metric=weapon.stat)
 
         # Give a bonus to the player's weapon skill for killing a stronger enemy.

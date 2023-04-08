@@ -936,6 +936,7 @@ async def on_message(message):
     if message.guild is not None:
 
         try:
+            usermodel.time_last_action = int(time.time())
             bknd_core.execute_sql_query("UPDATE users SET {time_last_action} = %s WHERE id_user = %s AND id_server = %s".format(
                 time_last_action=ewcfg.col_time_last_action
             ), (
@@ -978,7 +979,7 @@ async def on_message(message):
         if message.channel.owner.id != client.user.id:
             return
 
-    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+    if message.content.startswith(ewcfg.cmd_prefix) or message.content in ewdebug.debug_content_check or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
             Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !

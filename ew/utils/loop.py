@@ -306,6 +306,13 @@ async def decaySlimes(id_server = None):
             bknd_core.databaseClose(conn_info)
 
 
+async def misc_hourly_function(id_server): #right now it just switches Hide's personality, we could use this for other bits and bobs like this
+    hide_value = random.randint(0, 2)
+    thumbnail = ewcfg.hide_taka_thumbnail[hide_value]
+    ewcfg.vendor_thumbnails[ewcfg.poi_id_foodcourt] = ["HIDE TAKA", thumbnail]
+    dialogue = ewcfg.hide_dialogue.get(hide_value)
+    ewcfg.vendor_dialogue[ewcfg.poi_id_foodcourt] = dialogue
+
 
 
 """
@@ -1337,6 +1344,9 @@ async def clock_tick_loop(id_server, force_active = False):
                 
                 ewutils.logMsg("Kicking AFK players...")
                 await move_utils.kick(id_server)  
+
+                ewutils.logMsg("Running misc. events...")
+                await misc_hourly_function(id_server=id_server)
 
                 sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
 

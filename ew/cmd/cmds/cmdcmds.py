@@ -1515,12 +1515,13 @@ async def fashion(cmd):
 
                         stat_response += "{stat} by {amount} ".format(stat=stat, amount=int(stats_breakdown[stat]))
 
-                        stat_responses.append(stat_response)
+                        stat_responses.append(stat_response)  # bye bye
 
-            if len(stat_responses) == 0:
-                response += "doesn't affect their stats at all. "
-            else:
-                response += ewutils.formatNiceList(names=stat_responses, conjunction="and") + ". \n\n"
+            # Commented out for now. Doesn't do anything except exist
+            # if len(stat_responses) == 0:
+            #     response += "doesn't affect their stats at all. "
+            # else:
+            #     response += ewutils.formatNiceList(names=stat_responses, conjunction="and") + ". \n\n"
 
             space_remaining = ewutils.max_adornspace_bylevel(user_data.slimelevel) - space_adorned
 

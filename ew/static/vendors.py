@@ -13,6 +13,15 @@ except:
 # A map of vendor names to their items.
 vendor_inv = {}
 
+it_to_map = {
+    ewcfg.it_item: static_items.item_map,
+    ewcfg.it_food: static_food.food_map,
+    ewcfg.it_weapon: weapons.weapon_map,
+    ewcfg.it_furniture: static_items.furniture_map,
+    ewcfg.it_cosmetic: cosmetics.cosmetic_map,
+    ewcfg.it_relic: static_relic.relic_map
+}
+
 # Populate item map, including all aliases.
 for item in static_items.item_list:
     # Add item to its vendors' lists.

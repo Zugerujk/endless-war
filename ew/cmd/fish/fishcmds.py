@@ -178,8 +178,8 @@ async def cast(cmd):
                     elif id_food == "druggumbo":
                         fisher.pier.pier_type = ewcfg.fish_slime_event
 
-                    elif id_food == "masterbait":
-                        high_value_bait_used = True
+                    # elif id_food == "masterbait":
+                    #     high_value_bait_used = True
 
                     elif id_food == "ferroslimeoid":
                         fisher.current_fish = "seaitem"

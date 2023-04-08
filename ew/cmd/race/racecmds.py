@@ -857,7 +857,15 @@ async def strike_deal(cmd):
                             "*{target}:* {user} dances around in excitement before realizing you don’t have a soul. They shout obscenities at you for wasting their time.",
                             "*{target}:* {user} dances around in excitement before realizing you don’t have a soul. They flick brimstone towards you, before stomping away angrily.",
                             "*{target}:* {user} chuckles and disappears momentarily, before reappearing with the shit kicked out of them. Apparently it's \"BAD\" and \"AN INSULT TO SATAN\" to make deals with soulless husks."
-                        ] 
+                        ]
+                    elif target_data.race == ewcfg.race_demon:
+                    # Special responses for Demon vs Demon deals -Liz
+                        responses = [
+                           "*{target}:* You sign off on the deal without breaking eye contact, much to the confusion of {user}. Don't they know your soul is already spoken for?",
+                           "*{user}:* You snap your fingers and conjure a contract, only to find {target} has done the same! You spend a few hours negotiating the specifics of a soul trade. Eugh, what a waste of time.",    
+                           "*{user}:* You make a mischevious expression at {target}, and {target} does the same. You're pretty sure this constitutes an unspoken, nonverbal agreement.",
+                           "*{target}:* {user} offers you a sheaf of dollar store vellum. You sign *their* name on it, just before bursting into hysterics. {user} looks like they're about to pop a blood vessel."
+                        ]
                     else:
                         responses = [
                             "*{target}:* {user} cackles maniacally as magic ethereal chains bind you from the depths of hell. It’s a good thing mist can’t prevent you from going about your buisness.",

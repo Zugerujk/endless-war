@@ -2,6 +2,7 @@ import asyncio
 import random
 
 from ew.static import poi as poi_static
+from ew.static import weapons as wep_static
 from ew.static import npc as npc_static
 from ew.utils import dungeons as dungeon_utils
 from ew.utils import frontend as fe_utils
@@ -128,6 +129,10 @@ async def add_blurb(cmd):
             comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
         elif blurb_obj.context == 'vendor':
             ewcfg.vendor_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
+        elif blurb_obj.context == 'killtext':
+            wep_obj = wep_static.weapon_map.get(blurb_obj.subcontext)
+            if wep_obj is not None:
+                wep_obj.str_kill.append(blurb_obj.blurb)
         list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
         if list_to_update is not None:
             list_to_update.append(blurb_obj.blurb)

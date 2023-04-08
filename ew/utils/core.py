@@ -62,6 +62,8 @@ active_slimeoidbattles = {}
 
 active_televisions = {}
 
+jeeves = {}
+
 tv_counter = 0
 
 
@@ -858,8 +860,8 @@ def is_district_empty(poi = ''):  # quick function to check presence in a distri
         id_user=ewcfg.col_id_user,
         time_last_action=ewcfg.col_time_last_action,
         time_last_enter = ewcfg.col_time_lastenter),
-        (poi, time_now-120, time_now-120), fetchone = True)
-    if data is not None:
+        (poi, time_now-300, time_now-300), fetchone = True)
+    if data is not None or DEBUG:
         return False
     else:
         return True

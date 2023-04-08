@@ -135,3 +135,15 @@ def load_other_blurbs():
             static_weapons.weapon_map[blurb[2]].str_brandish.append(blurb[1])
         except Exception as e:
             ewutils.logMsg('Error loading blurb:{}'.format(e))
+
+    killtextblurbs = bknd_core.execute_sql_query(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
+            col_id_blurb=ewcfg.col_id_blurb,
+            col_id_id_blurb=ewcfg.col_id_id_blurb,
+            col_subcontext=ewcfg.col_id_subcontext), ('killtext',))
+
+    for blurb in killtextblurbs:
+        try:
+            static_weapons.weapon_map[blurb[2]].str_kill.append(blurb[1])
+        except Exception as e:
+            ewutils.logMsg('Error loading blurb:{}'.format(e))
