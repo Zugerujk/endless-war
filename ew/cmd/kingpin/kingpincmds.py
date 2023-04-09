@@ -258,7 +258,7 @@ async def create(cmd):
         response = 'Lowly Non-Kingpins cannot hope to create items with their bare hands.'
         return await fe_utils.send_response(response, cmd)
 
-    if len(cmd.tokens) not in [4, 5, 6, 7]:
+    if len(cmd.tokens) not in [4, 5, 6, 7, 8]:
         response = 'Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity(optional)>, <context>(optional).\n'
         return await fe_utils.send_response(response, cmd)
 
@@ -266,13 +266,14 @@ async def create(cmd):
     item_desc = cmd.tokens[2]
     # recipient is the third token
     style = cmd.tokens[4] if len(cmd.tokens) >= 5 and ewutils.flattenTokenListToString(cmd.tokens[4]) in ewcfg.fashion_styles else ewcfg.style_cool
-    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'plebeian', 'patrician'] else 'princeps'
-    context = cmd.tokens[6] if len(cmd.tokens) >= 7 else ''
+    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'Plebeian', 'Patrician', 'Pcapitromotional'] else 'princeps'
+    freshness = int(cmd.tokens[6]) if len(cmd.tokens) >= 7 else 100
+    context = cmd.tokens[7] if len(cmd.tokens) >= 8 else ''
 
     if cmd.mentions and cmd.mentions[0]:
         recipient = cmd.mentions[0]
     else:
-        response = 'You need to specify a recipient. Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity>(optional) <context>(optional)'
+        response = 'You need to specify a recipient. Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity>(optional) <freshness>(optional) <context>(optional)'
         return await fe_utils.send_response(response, cmd)
     
     # princeps stopped assigning durability and stuff for... reasons (idk!!!! something with the caching update???? As far as I can tell????) so I just assigned them here lol
@@ -291,7 +292,7 @@ async def create(cmd):
         "durability": ewcfg.base_durability * 100,
         "size": 1,
         "fashion_style": style,
-        "freshness": 100,
+        "freshness": freshness,
         "adorned": "false",
         "context": context
     }
@@ -305,7 +306,7 @@ async def create(cmd):
 
     itm_utils.soulbind(new_item_id)
 
-    response = 'Item "{}" successfully created.'.format(item_name)
+    response = 'Item "{}" with ID {} successfully created.'.format(item_name, new_item_id)
     return await fe_utils.send_response(response, cmd)
 
 
