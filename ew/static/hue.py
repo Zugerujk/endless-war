@@ -342,7 +342,7 @@ pattern_map = { #patterns with the empty # are categorized.
 "pitchfork": "tartan",
 "bandanna":"paisley", # popular bandanna pattern
 "textiles":"polka dot", # Bro, this one was the hardest
-"barredkatanajaw":"stripes", #striped fish
+"felinehat":"stripes",
 "dogtag":"houndstooth", #pun
 "ghosttoken":"cash",
 "oldboot":"chevron", # boot non-slip texture

@@ -17,9 +17,11 @@ from ew.utils.combat import EwUser
 
 try:
     from ew.static.rstatic import debugsmoke
+    from ew.static import rstatic as relic_static
     from ew.cmd.debugr import debug22
 except:
     from ew.static.rstatic_dummy import debugsmoke
+    from ew.static import rstatic_dummy as relic_static
     from ew.cmd.debugr_dummy import debug22
 
 
@@ -498,6 +500,9 @@ async def restyle(cmd):
         cost = ewcfg.cosmetic_reroll_patrician_cost
     elif item_sought.item_props.get("rarity") == 'Plebeian':
         cost = ewcfg.cosmetic_reroll_plebeian_cost
+    else:
+        cost = 100
+
 
     if cost <= poudrins:
         while cost > 0: # This while loop deletes the poudrins one by one, i am so sorry.
@@ -720,7 +725,6 @@ async def pattern(cmd):
             id_user=cmd.message.author.id,
             id_server=cmd.guild.id,
         )
-
         cosmetic = None
         dye = None
         dye2 = None
@@ -730,18 +734,18 @@ async def pattern(cmd):
             if int(item.get('id_item')) == hat_id_int or hat_id in ewutils.flattenTokenListToString(item.get('name')):
                 if item.get('item_type') == ewcfg.it_cosmetic and cosmetic is None:
                     cosmetic = item
-
             if int(item.get('id_item')) == dye_id_int or dye_id in ewutils.flattenTokenListToString(item.get('name')):
                 if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.dye_map and dye is None:
                     dye = item
-
             if int(item.get('id_item')) == dye2_id_int or dye_id2 in ewutils.flattenTokenListToString(item.get('name')):
                 if item.get('item_type') == ewcfg.it_item and item.get('name') in static_items.dye_map and dye2 is None:
                     dye2 = item
-            if int(item.get('id_item')) == pattern_id_int or pattern_id in ewutils.flattenTokenListToString(item.get('template')):
+            if (int(item.get('id_item')) == pattern_id_int or pattern_id in ewutils.flattenTokenListToString(item.get('template'))):
                 if item.get('template') in hue_static.pattern_map and pattern is None:
                     pattern = item 
-    
+                elif (item.get('item_type') == 'relic' or item.get("template") in relic_static.alt_relics) and pattern is None:
+                    pattern = item
+
             if cosmetic != None and dye != None and dye2 != None and pattern != None:
                 break
 
@@ -754,17 +758,21 @@ async def pattern(cmd):
                 pattern_item = EwItem(id_item=pattern.get("id_item"))
                 hue = hue_static.hue_map.get(dye_item.item_props.get('id_item')) #gets both the hues for hue static
                 hue2 = hue_static.hue_map.get(dye2_item.item_props.get('id_item'))
+                donotdeletethisfuckingitem = False
                 patternchoice = None
-                if pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_relic') != None: #allows relics to be used if it has a pattern map recipe (nobody but main devs should do this!). ((relics are not consumed))
+                if (pattern_item.item_type == ewcfg.it_relic or pattern_item.template in relic_static.alt_relics): #allows relics to be used if it has a pattern map recipe (nobody but main devs should do this!). ((relics are not consumed))
                     response = "You rub the relic all over the item, if Amy Hart saw you doing this, she'd most definitely try to kill you."
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_relic'))
-                    if patternchoice == None: #allows all relics to give a default relic-exclusive pattern unless specified otherwise in the pattern_map
-                        patternchoice == 'ancient'
+                    donotdeletethisfuckingitem = True
+                    if patternchoice == None and pattern_item.template in relic_static.alt_relics:
+                        patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_item'))
+                        if patternchoice == None: #allows all relics to give a default relic-exclusive pattern unless specified otherwise in the pattern_map
+                            patternchoice = 'ancient'
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 elif hat_id == pattern_id: #prevents you from sacrificing the item you are trying to pattern, without this you'd be able to make the item delete itself.
                     response = "While making a black hole form in your bare hands in the middle of the city SOUNDS cool, I promise you paradoxical items are not as fun as you may think."
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('weapon_type') != None and pattern_item.item_props.get('weapon_name') == None: #allows you to sacrifice unnamed weapons for patterns
+                elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('weapon_type') != None and pattern_item.item_props.get('weapon_name') == '': #allows you to sacrifice unnamed weapons for patterns
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('weapon_type'))
                 elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_furniture') != None: #allows you to sacrifice allowed furniture items for patterns.
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_furniture'))
@@ -786,8 +794,8 @@ async def pattern(cmd):
                 cosmetic_item.persist()
                 bknd_item.item_delete(id_item=dye.get('id_item'))
                 bknd_item.item_delete(id_item=dye2.get('id_item')) 
-                if pattern_item.item_props.get('id_item') != None and pattern_item.item_props.get('id_relic') == None: #relics are NOT consumed in this process.
-                    bknd_item.item_delete(id_item=pattern.get("id_item"))
+                if pattern_item.id_item != None and (pattern_item.item_type is not ewcfg.it_relic or pattern_item.template not in relic_static.alt_relics or 'id_relic' != None) and donotdeletethisfuckingitem == False: #relics are NOT consumed in this process.
+                    bknd_item.item_delete(id_item=pattern.get('id_item'))
             else:
                 response = 'Use which dyes and item? Check your **!inventory**.'
         else:

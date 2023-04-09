@@ -2542,6 +2542,8 @@ rarity_profollean = "Profollean"
 rarity_promotional = "Promotional"  # Cosmetics awarded at events / achieved through limited ways
 rarity_princeps = "princeps"
 
+normal_rarities = [rarity_plebeian, rarity_patrician, rarity_profollean]
+
 # Leaderboard score categories
 leaderboard_slimes = "SLIMIEST"
 leaderboard_slimecoin = "SLIMECOIN BARONS"

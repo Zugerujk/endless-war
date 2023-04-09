@@ -1428,7 +1428,7 @@ async def propstand(cmd):
 
         if item.soulbound:
             response = "Cool idea, but no. If you tried to mount a soulbound item above the fireplace you'd be stuck there too."
-        elif item.item_type == ewcfg.it_relic:
+        elif item.item_type == ewcfg.it_relic or item.item_props.get('aquisition') == 'relic':
             response = "Hey, can't help but notice that you don't run a museum. Only people that run a museum are allowed to stick priceless artifacts on pedestals. Think you can handle that, bitch?"
         else:
             if item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
@@ -2047,6 +2047,8 @@ async def collect(cmd):
         response = "You must specify a collection item."
     elif item_sought_item.get('soulbound') == True:
         response = "That's bound to your soul. You can't collect it any harder if you wanted to."
+    elif item_sought_item.item_type == ewcfg.it_relic or item_sought_item.item_props.get('aquisition') == 'relic':
+        response = "Only some sort of CURATOR can pull hyjinks like that, besides that you have a feeling someone will swipe the relic under your nose when you try to get it out anyways."
     else:
         furn_list = static_items.furniture_map
         item = EwItem(id_item=item_sought_item.get('id_item'))
