@@ -1096,6 +1096,7 @@ cmd_apartment = cmd_prefix + 'apartment'
 cmd_apartment_alt = cmd_prefix + 'apt'
 cmd_aptname = cmd_prefix + 'aptname'
 cmd_aptdesc = cmd_prefix + 'aptdesc'
+cmd_jeeves = cmd_prefix + 'jeeves'
 cmd_upgrade = cmd_prefix + 'aptupgrade'  # do we need the apt at the beginning?
 cmd_knock = cmd_prefix + 'knock'
 cmd_trickortreat = cmd_prefix + 'trickortreat'

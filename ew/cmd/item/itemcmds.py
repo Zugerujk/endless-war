@@ -928,7 +928,7 @@ async def item_use(cmd):
             if function is not None:
                 return await function(cmd=cmd)
 
-        if item.item_type == ewcfg.it_item:
+        if item.item_type in [ewcfg.it_item, ewcfg.it_cosmetic]:
             name = item_sought.get('name')
             context = item.item_props.get('context')
             if (context == "cardpack" or context == "promocardpack" or context == "boosterbox"):
@@ -1019,6 +1019,8 @@ async def item_use(cmd):
             
             elif context == 'partypopper':
                 response = "***:tada:POP!!!:tada:*** Confetti flies all throughout the air, filling the area with a sense of celebration! :confetti_ball::confetti_ball::confetti_ball:"
+                if item.soulbound is not True:
+                    bknd_item.item_delete(item.id_item)
 
             elif context == 'milk':
                 response = "After struggling with the milk cap, you eventually manage to force it off with your bare hands. Now holding the open gallon jug out, you pour all of its contents onto the ground until you're left with an empty carton."
