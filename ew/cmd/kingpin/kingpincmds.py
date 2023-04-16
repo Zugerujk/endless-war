@@ -266,8 +266,9 @@ async def create(cmd):
     item_desc = cmd.tokens[2]
     # recipient is the third token
     style = cmd.tokens[4] if len(cmd.tokens) >= 5 and ewutils.flattenTokenListToString(cmd.tokens[4]) in ewcfg.valid_styles else ewcfg.style_cool
-    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'plebeian', 'patrician'] else 'princeps'
-    context = cmd.tokens[6] if len(cmd.tokens) >= 7 else ''
+    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'Plebeian', 'Patrician', 'Pcapitromotional'] else 'princeps'
+    freshness = int(cmd.tokens[6]) if len(cmd.tokens) >= 7 else 100
+    context = cmd.tokens[7] if len(cmd.tokens) >= 8 else ''
 
     if cmd.mentions and cmd.mentions[0]:
         recipient = cmd.mentions[0]
