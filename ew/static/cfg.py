@@ -1235,6 +1235,7 @@ cmd_shutdownbot = cmd_prefix + 'shutdownbot'
 cmd_checkbot = cmd_prefix + 'checkbot'
 cmd_set_debug_option = cmd_prefix + 'debugoption'
 
+cmd_award_skill_capes = cmd_prefix + 'awardskillcapes'
 
 cmd_reroll_mutation = cmd_prefix + 'rerollmutation'
 cmd_clear_mutations = cmd_prefix + 'sterilizemutations'
@@ -2181,6 +2182,9 @@ str_generic_onbreak = "Their {} broke!!"
 str_soul_onadorn = "{} has begun swirling around you."
 str_soul_unadorn = "{} has stopped swirling around you and you place it back into your hammerspace."
 str_soul_onbreak = "{} has ***SHATTERED.*** Uh oh."
+str_cape_onadorn = "You skillfully adorn your {} and flourish it several times."
+str_cape_unadorn = "You skillfully unadorn your {}."
+str_cape_onbreak = "Your {} tears! Better hope they skill issue replacements."
 str_generic_inv_limit = "You can't fit another {} in your inventory!"
 
 generic_role_name = 'NLACakaNM'
@@ -3277,6 +3281,7 @@ goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
 goonscape_clout_stat = "clout"
+goonscape_pee_stat = "piss"
 # Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
 
@@ -3291,6 +3296,8 @@ col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
 col_id_clout_level = goonscape_clout_stat + "_level"
 col_id_clout_xp = goonscape_clout_stat + "_xp"
+col_id_peeing_level = goonscape_pee_stat + "_level"
+col_id_peeing_xp = goonscape_pee_stat + "_xp"
 # Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
@@ -3303,6 +3310,7 @@ gs_stat_to_level_col = {
     goonscape_eat_stat: col_id_feasting_level,
     goonscape_clout_stat: col_id_clout_level,
     goonscape_halloweening_stat: col_id_halloweening_level,
+    goonscape_pee_stat: col_id_peeing_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
@@ -3311,6 +3319,19 @@ gs_stat_to_xp_col = {
     goonscape_eat_stat: col_id_feasting_xp,
     goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
+    goonscape_pee_stat: col_id_peeing_xp,
+}
+
+minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
+
+gs_stat_to_cape_description = {
+    goonscape_mine_stat: "Mining: A cape earned by {user_id} for maxing out the mining stat. Soot and dirt trails along it's ornate patterns, physical evidence of the hours spent toiling for poudrins and XP. Cape Number #{placement}",
+    goonscape_fish_stat: "A cape earned by {user_id} for maxing out the fishing stat. It makes for handy shade when spending hours at the pier, and glimmers like the scales of the fish caught and traded in to obtain it. Cape Number #{placement}",
+    goonscape_farm_stat: "A cape earned by {user_id} for maxing out the farming stat. It comes built-in with several pouches for holding seeds and crops, and is hemmed with beautiful juvie green. Cape Number #{placement}",
+    goonscape_eat_stat: " A cape earned by {user_id} for maxing out the feasting stat. The stains prove it's seen its fair usage as a bib as well as a cape. We can't believe {user_id} ate the whole thing. Cape Number #{placement}",
+    goonscape_clout_stat: "A cape earned by {user_id} for maxing out the clout stat. It's like a diamond play button but even more worthless! Cape Number #{placement}",
+    goonscape_halloweening_stat: "A cape earned by {user_id} for maxing out the halloween stat, obtainable during Double Halloween 2022. It shimmers purple with fabric made of double halloween grist, haunted by the hours wasted grinding this stat out. Cape Number #{placement}",
+    goonscape_pee_stat: "A cape earned by {user_id} for pissing to the extreme. The cape hangs heavy with a brutal yellow hue, raditating power. And also pee. Cape Number #{placement}",
 }
 
 legacy_stat_dict = {
@@ -3572,8 +3593,10 @@ style_smart = "smart"
 style_beautiful = "beautiful"
 style_cute = "cute"
 style_evil = "evil"
+style_skill = "skill"
 
-fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil]
+fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil, style_skill]
+valid_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil] #dont let noncapes get the skill style!
 
 freshnesslevel_1 = 500
 freshnesslevel_2 = 1000
@@ -4216,11 +4239,11 @@ universities_commands = "**UNIVERSITIES**\n!help <category>: Use this to teach y
 apartment_commands = "**APARTMENTS**\n!stow <item>: Put an item within the closet/fridge/bookshelf.\n!snag <item>: Take an item from the closet/fridge/bookshelf.\n!decorate <item>: Place a furniture item in the apartment.\n!undecorate <item>: Take a furniture item from the apartment.\n!propstand <item>: Turn an item into a piece of furniture.\n!collect <collection> <item>: Add an item to a collection box.\n!contents <collection>: Search a collection's contents as if a community chest.\n!aptname <name>: Rename apartment.\n!aptdesc <description>: Change apartment's description.\n!renamecollection <collection> [name]: Rename a collection.\n!unpot: Remove a potted crop from its pot.\n\nGo to the Bazaar to undo prop stands, aquariums, and collections."
 
 mutation_unique_commands = {
-    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
+    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.\n!shakeoff <player>: Used to break a person's thirdeye tracking from yourself. Anybody can use this.",
     "aposematicstench": "**APOSEMATIC STENCH**\n!stink: Gain stink, which drives away monsters. It functions like Fuck Energy Body Spray.",
     "bleedingheart": "**BLEEDING HEART**\n!bleedout: Purge your bleed storage onto the ground all at once.",
     "longarms": "**LONG ARMS**\n!longdrop <location> <item>: Drop an item in an adjacent district.",
-    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.",
+    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.\n!inventory preserved: Shows you which items you have preserved already.",
     "ditchslap": "**DITCH SLAP**\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
     "landlocked": "**LANDLOCKED**\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
     "organicfursuit": "**ORGANIC FURSUIT**\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
@@ -4293,6 +4316,7 @@ district_unique_commands = {
     "blimp": "**BLIMP**:\nGo skydiving. No parachute, but you can pretend.",
     "themuseum": "**THE MUSEUM**\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
     "wafflehouse": "**WAFFLE HOUSE**\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
+    "ghostmaidcafe": "**GHOST MAID CAFE**\n!startshift <hardmode>: Begin working to earn antislime and ghost tokens. Write hardmode after the command to challenge yourself.\n!serve: Serve customers during a shift to avoid failing before your pay.",
     "doorsofthesludgenant": "**DOOR OF THE SLUDGENANT**\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
 }
 

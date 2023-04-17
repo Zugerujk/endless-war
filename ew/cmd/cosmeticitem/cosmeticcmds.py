@@ -430,8 +430,8 @@ async def bespoke(cmd):
         chosen_style = None
     else:
         chosen_style = cmd.tokens[2]
-    if chosen_style not in ewcfg.fashion_styles:
-        response = f'"What? You need to tell me how to {cmd_alias} your princep. It\'s {cmd_alias} <item> <style>. The styles \*in* right now include: {ewutils.formatNiceList(ewcfg.fashion_styles)}."'
+    if chosen_style not in ewcfg.valid_styles:
+        response = f'"What? You need to tell me how to {cmd_alias} your princep. It\'s {cmd_alias} <item> <style>. The styles \*in* right now include: {ewutils.formatNiceList(ewcfg.valid_styles)}."'
         return await fe_utils.send_response(response, cmd)
 
     if user_data.slimes < ewcfg.cosmetic_bespoke_cost:

@@ -912,7 +912,6 @@ weapon_list = [
     EwWeapon(  # 19
         id_weapon=ewcfg.weapon_id_fishingrod,
         alias=[
-            "fish",
             "fishing",
             "rod",
             "super",
