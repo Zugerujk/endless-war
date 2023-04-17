@@ -16,6 +16,7 @@ from ew.backend.status import EwStatusEffect
 from ew.backend.worldevent import EwWorldEvent
 from ew.backend.mutation import EwMutation
 from ew.backend.dungeons import EwGamestate
+from ew.backend.questrecords import fetch_quest_records
 
 from ew.utils.transport import EwTransport
 
@@ -3414,18 +3415,63 @@ async def display_goonscape_stats(cmd):
             response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
     # List hidden stats
     if hidden:
-        for stat_name in [ewcfg.goonscape_halloweening_stat]:
+        for stat_name in [ewcfg.goonscape_halloweening_stat, ewcfg.goonscape_pee_stat]:
 
             stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
 
             # Format usual response, with explanation of the stat's origin.
-            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp - {origin}\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp, origin=ewcfg.legacy_stat_dict[stat_name])
+            origin = ewcfg.legacy_stat_dict.get(stat_name)
+            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp {origin}\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp, origin=("- "+origin if origin is not None else ""))
 
     response += "```"
 
     
     await fe_utils.send_response(response, cmd)
 
+async def award_skill_capes(cmd): #this command should be removed after its been used once. it would just duplicate all capes if used again :p
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+    for skill in ewcfg.gs_stat_to_level_col.keys(): #loop through skills
+        capes = bknd_core.execute_sql_query(
+            "SELECT * FROM quest_records WHERE {id_server} = %s AND {record_type} = %s AND {record_data} = %s ORDER BY {time_stamp} ASC".format(
+                id_server = ewcfg.col_id_server,
+                record_type = ewcfg.col_record_type,
+                record_data = ewcfg.col_record_data,
+                time_stamp = ewcfg.col_time_stamp,
+            ), (
+                cmd.guild.id, 
+                "skill_cape", 
+                skill,
+            )
+        )
+        placement = 1
+        for cape in capes: #loop through quest records made for achieving lv99 in a goonscape stat
+            bknd_item.item_create(
+                item_type=ewcfg.it_cosmetic,
+                id_user=cape[1],
+                id_server=cape[2],
+                item_props={
+                    'id_cosmetic': '{skill}skillcape'.format(skill=skill),
+                    'cosmetic_name': "{skill} cape".format(skill=skill.capitalize()),
+                    'cosmetic_desc': ewcfg.gs_stat_to_cape_description.get(skill).format(user_id=cape[1],placement=placement),
+                    'str_onadorn': ewcfg.str_cape_onadorn,
+                    'str_unadorn': ewcfg.str_cape_unadorn,
+                    'str_onbreak': ewcfg.str_cape_onbreak,
+                    'rarity': ewcfg.rarity_promotional,
+                    'size': 0,
+                    'attack':0,
+                    'defense':0,
+                    'speed':0,
+                    'ability': None,
+                    'durability': 42069, #man fuck this noise
+                    'original_durability': 42069,
+                    'fashion_style': ewcfg.style_skill,
+                    'freshness': 1,
+                    'adorned': 'true',
+                    'soulbound': 'true'
+                }
+            )
+            placement += 1
 
 async def clear_zero_stats(cmd):
     """Admin command to clear redundant 0 value stats from the database."""

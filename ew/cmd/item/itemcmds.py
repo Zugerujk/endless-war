@@ -382,32 +382,46 @@ async def inventory_print(cmd):
         # Filter to preserved items (rigor mortis)
         if "preserved" in lower_token_list:
             prop_hunt["preserved"] = str(cmd.message.author.id)
+        
+        if "fish" in lower_token_list:
+            prop_hunt["acquisition"] = ewcfg.acquisition_fishing
+        
+        if ewcfg.fish_rarity_common in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_common
+        elif ewcfg.fish_rarity_uncommon in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_uncommon
+        elif ewcfg.fish_rarity_rare in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_rare
+        elif ewcfg.fish_rarity_promo in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_promo
 
         # Less tokens exist than colours or weapons. Search each token instead of each colour/weapon
-        if len(lower_token_list) < 20: # anything above that is just gonna make this loop run long
-            i = 1
-            while i < len(lower_token_list):
-                token = lower_token_list[i]
+        
+        i = 1
+        while i < len(lower_token_list):
+            token = lower_token_list[i]
 
-                # Only cosmetics and furnitures can be dyed
-                if item_type in [ewcfg.it_cosmetic, ewcfg.it_furniture]:
-                    #Filter by colour
-                    hue_prop = hue_static.hue_map.get(token)
-                    if(hue_prop):
-                        prop_hunt["hue"] = hue_prop.id_hue
-                        i += 1 # this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
-                        continue
+            #Filter by colour
+            hue_prop = hue_static.hue_map.get(token)
+            if(hue_prop):
+                prop_hunt["hue"] = hue_prop.id_hue
+                i += 1 # this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
+                continue
 
-                # Only weapons have weapon types
-                if item_type == ewcfg.it_weapon:
-                    #Filter by weapon
-                    weapon_prop = static_weapons.weapon_map.get(token)
-                    if(weapon_prop):
-                        prop_hunt["weapon_type"] = weapon_prop.id_weapon
-                        i += 1
-                        continue
-
+            #Filter by weapon
+            weapon_prop = static_weapons.weapon_map.get(token)
+            if(weapon_prop):
+                prop_hunt["weapon_type"] = weapon_prop.id_weapon
                 i += 1
+                continue
+
+            style_prop = token in ewcfg.fashion_styles
+            if(style_prop):
+                prop_hunt["fashion_style"] = token
+                i += 1
+                continue
+
+            i += 1
         
         if(not prop_hunt):
             prop_hunt = None

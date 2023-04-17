@@ -28,7 +28,19 @@ async def create_quest_record(_time_stamp, _id_user, _id_server, _record_type, _
             _id_user, 
             _id_server, 
             _record_type, 
-            _record_data
+            _record_data,
         )
     )
 
+async def fetch_quest_records(_id_server, _record_type, _record_data):
+    return bknd_core.execute_sql_query(
+        "SELECT * FROM quest_records WHERE {id_server} = %s AND {record_type} = %s AND {record_data} = %s".format(
+            id_server = ewcfg.col_id_server,
+            record_type = ewcfg.col_record_type,
+            record_data = ewcfg.col_record_data,
+        ), (
+            _id_server, 
+            _record_type, 
+            _record_data,
+        )
+    )
