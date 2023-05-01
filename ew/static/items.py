@@ -2032,7 +2032,7 @@ for item in item_list:
 # list of dyes you're able to saturate your Slimeoid with
 dye_list = []
 dye_map = {}
-# seperate the dyes from the other normal items
+# seperate the dyes from the normal items
 for c in item_list:
 
     if c.context != "dye":
@@ -2040,6 +2040,7 @@ for c in item_list:
     else:
         dye_list.append(c)
         dye_map[c.str_name] = c.id_item
+
 
 slimexodia_parts = []
 
@@ -3887,8 +3888,6 @@ EwFurniture(
         furniture_look_desc = "A dumpster has been jammed in here somehow.",
         furn_set = "trash",
     ),
-    ## Liz Additions beyond this point. Here be the Elderly set!
-    # TODO: Remove set from Maid Cafe, was added for easy testing
     EwFurniture(
         id_furniture = "floralsofa",
         str_name = "Floral Sofa",

@@ -234,7 +234,7 @@ smelting_recipe_list = [
             "dp",
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 10, #100 megaslime worth
+            ewcfg.item_id_minecraftdiamond: 3, #30 megaslime worth
             ewcfg.item_id_stick: 2,
         },
         products=[ewcfg.weapon_id_diamondpickaxe]

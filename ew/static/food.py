@@ -2412,7 +2412,7 @@ food_list = [
         str_name = "Fun Pizza",
         vendors = ['Beach Resort'],
         str_eat = "You didn't actually realize what this was until the bartender brings it out. It's a pulp gourd slice pizza topped with other healthy fruits. You wouldn't have ordered this expensive piece of shit if you knew what it was in the first place. With a rebellious sigh, you eat the entire thing.",
-        str_desc = "Imagine going to a party and the white suburban stay at home mom, with two overachiever kids and white dad who barbeques but doesn't know how to barbeque and yet is always surrounded by other white dads who compliment his barbequing even though they're just store bought preshaped frozen patties from Ralph's or Food 4 Less and while he's cooking those the white mom comes out and says \"okay kids, here's some pizza!\" And she pulls this out and starts telling the kids why it's a \"fun pizza\" and then cries in her master bedroom when no one likes it or finishes it and the white dad is then consoling her why she sobs that she's a terrible mother and ruined her fourth grade straight B+ sons birthay and thinks her kids hate her but they don't care but she continues crying softly into her pillow while the children eat poorly cooked burgers with unmelted kraft singles and too much mayonnaise and the only other condiments are two pickles and pepper because the dad calls it his special burger with a secret spice but the spice was just pepper and the kids just keep playing E rated games on their Nintendo Wii while the 17 year old older sister starts cleaning the tragedy up and throwing away uneaten \"fun pizza\" and whole burgers dejected from the start while she dials Pizza Hut to get these kids an actual birthday lunch and the mother then throws a fit because the daughter did something the kids liked nd she didn't and was the only one making a huge deal out of it and the daughter was then grounded from her TV in her room for only two days and the son went to blow out the candles in his standard birthday cake from Food 4 Less the mom added sludgeberries to so she could feel she did something but was still slightly teary and sad because her day was ruined by no one wanting to eat her \"fun pizza\".",
+        str_desc = "Imagine going to a party and the white suburban stay at home mom, with two overachiever kids and white dad who barbeques but doesn't know how to barbeque and yet is always surrounded by other white dads who compliment his barbequing even though they're just store bought preshaped frozen patties from Ralph's or Food 4 Less and while he's cooking those the white mom comes out and says \"okay kids, here's some pizza!\" And she pulls this out and starts telling the kids why it's a \"fun pizza\" and then cries in her master bedroom when no one likes it or finishes it and the white dad is then consoling her why she sobs that she's a terrible mother and ruined her fourth grade straight B+ sons birthay and thinks her kids hate her but they don't care but she continues crying softly into her pillow while the children eat poorly cooked burgers with unmelted kraft singles and too much mayonnaise and the only other condiments are two pickles and pepper because the dad calls it his special burger with a secret spice but the spice was just pepper and the kids just keep playing E rated games on their Nintendo Wii while the 17 year old older sister starts cleaning the tragedy up and throwing away uneaten \"fun pizza\" and whole burgers dejected from the start while she dials Pizza Hut to get these kids an actual birthday lunch and the mother then throws a fit because the daughter did something the kids liked and she didn't and was the only one making a huge deal out of it and the daughter was then grounded from her TV in her room for only two days and the son went to blow out the candles in his standard birthday cake from Food 4 Less the mom added sludgeberries to so she could feel she did something but was still slightly teary and sad because her day was ruined by no one wanting to eat her \"fun pizza\".",
         time_expir = 1,
     ),
     EwFood(
@@ -2601,7 +2601,7 @@ food_list = [
     EwFood(
         id_food = "gumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Pear Gumball",
         vendors = ["Gumball Machine"],
         str_eat = "You stuff the gumball in your mouth. The passive pear flavor ends up only getting stronger well long after its consumption.",
@@ -2612,7 +2612,7 @@ food_list = [
     EwFood(
         id_food = "corpsegumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Corpse Gumball",
         str_eat = "You carefully put the invisible gumball into your mouth, you don't know if you were able to catch it out of the gumball machine, hold it in your hand, or if the gumball slipped out of your hand on the way of eating it... but it's tasteless, and the texture reminds you of your tongue... hey, wait a minute.",
         str_desc = "It's your run-of-the-mill invisible gumball. It reminds you of ghostly friends! It's so ghostly, it feels like nothing in your hands. And your mouth, too!",
@@ -2622,7 +2622,7 @@ food_list = [
     EwFood(
         id_food = "rowdygumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Rowdy Gumball",
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes passively peachy, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill pink gumball. It reminds you of inactive fools.",
@@ -2632,7 +2632,7 @@ food_list = [
     EwFood(
         id_food = "killergumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Killer Gumball",
         str_eat = "You stuff the Killer Gumball in your mouth. It tastes passively of sweet grapes, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill purple gumball. It reminds you of inactive fools.",
@@ -2642,7 +2642,7 @@ food_list = [
     EwFood(
         id_food = "rowdywantedgumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "RowdyWanted Gumball",
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes actively peachy, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill hot pink gumball. It reminds you of an active, violent thrasher.",
@@ -2652,7 +2652,7 @@ food_list = [
     EwFood(
         id_food = "killerwantedgumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "KillerWanted Gumball",
         str_eat = "You stuff the Rowdy Gumball in your mouth. It tastes actively of sweet grapes, filling your mouth with a hint of flavor. Yum!",
         str_desc = "It's your run-of-the-mill dark purple gumball. It reminds you of an active, smug dabber.",
@@ -2662,7 +2662,7 @@ food_list = [
     EwFood(
         id_food = "dunggumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Dung Gumball",
         str_eat = "You stuff the Dung Gumball in your mouth. It tastes absolutely god awful, just the worst thing you've ever imagined. To make it worse, you start to feel a crunch. A dung beetle was included with the gumball, free-of-charge.",
         str_desc = "It's your run-of-the-mill brown gumball. Oh boy, you love chocolate flavor!",
@@ -2672,7 +2672,7 @@ food_list = [
     EwFood(
         id_food = "wrappingpapergumball",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Wrapping Paper Gumball",
         str_eat = "You stuff the Wrapping Paper Gumball in your mouth, forgetting to take the wrapping off. How stupid! Now you're stuck chewing a papery gummy mass.",
         str_desc = "It's your run-of-the-mill orange gumball, covered in wrapping paper. How sweet!",
@@ -2682,7 +2682,7 @@ food_list = [
     EwFood(
         id_food = "jawbreaker",
         recover_hunger = 10,
-        price = 25000,
+        price = 2500,
         str_name = "Jawbreaker",
         str_eat = "You stuff the Jawbreaker in your mouth. When you bite into it, your tooth fucking chips. What the fuck! You bit into a jawbreaker, dumbass. You end up unable to finish it in a timely manner, so you fling the intolerable sugar orb into someone's window before running off.",
         str_desc = "It's your run-of-the-mill multicolor speckled gumball. It took a bit of struggling to wrench this out of the gumball machine.",
@@ -2692,7 +2692,7 @@ food_list = [
     EwFood(
         id_food = "poketubergumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Poke-tuber Gumball",
         str_eat = "You stuff the Poke-tuber gumball in your mouth. It tastes like blended up sawdust and sulfur, fucking disgusting! You spend the next half hour spitting out the mixture of what someone clearly mistaken as a firework and labeled it as a gumball.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels just like sandpaper in your hands, and you doubt the taste is going to be much better.",
@@ -2702,7 +2702,7 @@ food_list = [
     EwFood(
         id_food = "pulpgourdgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Pulp Gourd Gumball",
         str_eat = "You stuff the Pulp Gourd gumball into your mouth. It feels decadent, a sublime but disappointingly mild taste as you chew. Inevitably, you spit out a few seeds.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels smooth in your grabbers, and the scent reminds you of the olden days of late autumn.",
@@ -2712,7 +2712,7 @@ food_list = [
     EwFood(
         id_food = "sourpotatogumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Sour Potato Gumball",
         str_eat = "You stuff the Sour Potato gumball into your mouth. FUCK, THAT'S SOUR! You try to spit the gumball out, but it has already burst and stuck to all corners of your mouth and overloading your senses in a sugar-addled misery.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface feels slightly rugged and uneven, but it smells sour just from a passing waft catching your nostrils all the way from the grasp you have it in from your hands.",
@@ -2722,7 +2722,7 @@ food_list = [
     EwFood(
         id_food = "bloodcabbagegumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Blood Cabbage Gumball",
         str_eat = "You stuff the Blood Cabbage Gumball into your mouth. Nothing seems out of the ordinary, until all of your spit comes out thicker, and an undeniable oozing red. While it's a neat novelty; you wish it didn't last a few full days.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a bit flaky and the scent smells a bit of copper oxide. ",
@@ -2732,7 +2732,7 @@ food_list = [
     EwFood(
         id_food = "joybeangumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Joybean Gumball",
         str_eat = "You stuff the Joybean gumball into your mouth. Hey! That's actually not that bad, except for the part for when the hallucinogen kicks in, making you trip copious amounts of balls.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. It has a delightfully green gradient for color and seems to jostle in your hand whenever you shake it and try to hold it still afterwards.",
@@ -2742,7 +2742,7 @@ food_list = [
     EwFood(
         id_food = "purplekilliflowergumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Purple Killiflower Gumball",
         str_eat = "You stuff the Purple Killiflower gumball into your mouth. You start coughing violently to what appears to have been smoke pellets firing off, making you look like a living legend that just held in over ten vape hits at the same time. However the time you finally start chewing, the chewing gum starts to bleed a large amount of grape-flavored cough syrup down your throat, finally letting you experience the unchallenged cool aura you're giving off, blowing smoke everywhere and not even having to clear your paralyzed throat.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a smooth texture with a few white sprinkles scattered and stuck along it. Smelling it makes you feel like you just got smoke blown in your face.",
@@ -2752,7 +2752,7 @@ food_list = [
     EwFood(
         id_food = "razornutgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Razornut Gumball",
         str_eat = "You stuff the Razornut Gumball into your mouth. You find yourself gnawing on the surface for minutes on end before you finally snap the shell and find a spring surprise! The insides are as sharp as the outside and you maul your own gums as soon as you finally split the gumball in half like a nutcracker. You'll have to be nursing both your jaw and your sensitive gums for the forseeable future.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The texture feels worse than a pinecone and even sturdier than a wallnut, you don't think your \"dental insurance\" covers this.",
@@ -2762,7 +2762,7 @@ food_list = [
     EwFood(
         id_food = "pawpawgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Pawpaw Gumball",
         str_eat = "You stuff the Pawpaw gumball into your mouth. It has a mildly sweet taste that outlasts the gum within the gumball itself, until a bitter aftertaste takes over your entire mouth like a landmine.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has cracks along the circumference and feels slightly tacky, dense, and bulbous.",
@@ -2772,7 +2772,7 @@ food_list = [
     EwFood(
         id_food = "sludgeberrygumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Sludgeberry Gumball",
         str_eat = "You stuff the Sludgeberry gumball into your mouth. The gum within the gumball keeps growing larger as it keeps absorbing your drool, you unknowingly chew until the chewed gumball paste overflows from your teeth and becomes troublesome to pull out like pizza dough.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a bit nubby, and the coloration is a deep, muddy teal.",
@@ -2782,7 +2782,7 @@ food_list = [
     EwFood(
         id_food = "suganmanutgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Suganmanut Gumball",
         str_eat = "You stuff the Suganmanut gumball into your mouth. The taste is very hard to put down, but if you had to say, it tastes like if a doctor's office was a flavor. However you don't mind one bit, it's an aquired taste.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is slightly rough, and it smells like table salt.",
@@ -2792,7 +2792,7 @@ food_list = [
     EwFood(
         id_food = "pinkrowddishgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Pink Rowddish Gumball",
         str_eat = "You stuff the Pink Rowddish gumball into your mouth. Almost instantly, you start whooping in celebration for no reason and start smashing your head into walls, counters, and other people's foreheads as you chew. You've never felt so alive!",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The gumball seems to jingle when you shake the pink gumball, and smells like an italian pasta dish.",
@@ -2802,7 +2802,7 @@ food_list = [
     EwFood(
         id_food = "dankwheatgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Dankwheat Gumball",
         str_eat = "You stuff the Dankwheat gumball into your mouth. Your senses are overloaded by a sugar aided drug slowing your mental processes down to a crawl, only remembering that you were looking at your hand, flipping it over, staring, and doing this process for a few minutes, before wandering around aimlessly asking questions that you already knew the answer to. Part of you thinks you may have even attempted to !harvest, god... how embarassing.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is smooth, the color a pale indigo tint and smells pretty fresh, when did they make these, again?",
@@ -2812,7 +2812,7 @@ food_list = [
     EwFood(
         id_food = "brightshadegumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Brightshade Gumball",
         str_eat = "You stuff the Brightshade gumball into your mouth. After chewing a little you seem to chomp down onto something gritty and a few live brightshades sprout straight out of your mouth, aimed towards the nearest light. You shrug and eat these too, the live plants makes the experience all the better.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a uninteresting texture, but a nice coloration of dark blues and yellow splotches like a quail's egg.",
@@ -2822,7 +2822,7 @@ food_list = [
     EwFood(
         id_food = "blacklimegumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Black Lime Gumball",
         str_eat = "You stuff the Black Lime gumball into your mouth. What first seemed to taste like rotten gum sends you nearly a foot into your own grave as the pungent amounts of lime flavor make you choke and gasp for air. But alas, the gumball is still in your mouth and will continue to torture you until you either finish chewing, spit it out, or swallow prematurely.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a few small nubs along it, and it smells, well... iffy. You don't know if this is pleasant to eat.",
@@ -2832,7 +2832,7 @@ food_list = [
     EwFood(
         id_food = "phosphorpoppygumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Phosphorpoppy Gumball",
         str_eat = "You stuff the Phosphorpoppy gumball into your mouth. What lies behind the normal, nearly tasteless chewing gum reveals the sugar spiked poison you have unknowingly unleashed into your system. You start fidgeting uncontrollably as you walk, and after stubbing your feet a few times on the ground you decide it's best to lay low for a little while and ride it out.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a neat swirl between a light and slightly less light green, and it feels slightly softer than what a gumball normally feels like.",
@@ -2842,7 +2842,7 @@ food_list = [
     EwFood(
         id_food = "rustealeafgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Rustea Leaf Gumball",
         str_eat = "You stuff the Rustea Leaf gumball into your mouth. You aren't exactly careful with the spike on the gumball but with all due respect dissolves pretty fast to your saliva, the taste is something like a rejected flavor of candy cane, and you're not really feeling seasonal about the... crunchiness of the gum.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is very flaky with a singular spike, and the coloration is the metallic sheen of copper. ",
@@ -2852,7 +2852,7 @@ food_list = [
     EwFood(
         id_food = "metallicapgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Metallicap Gumball",
         str_eat = "You stuff the Metallicap gumball in your mouth. Your stomach cries out for mercy the moment it hits your tongue, but you've made your body go through a lot more punishment than this, you focus all of your mental fortitude to chew this shroom flavored chewing gum, and yet it's as hard as metal, how long have you been gnawing this rotten smelling, inedible hunk of metal in your mouth? Not even you know.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is splotchy and dull looking, and reeks of something beyond rotten, even the sugar shell smells like it's inedible.",
@@ -2862,7 +2862,7 @@ food_list = [
     EwFood(
         id_food = "stealbeangumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Steal Bean Gumball",
         str_eat = "You stuff the Steel Bean gumball into your mouth. After a little bit of struggling with the gumball against your teeth, it generously splits apart with a rather spicy chewing gum inside. It's not an unreasonable amount of heat from the chewing gum, but you can't help but feel you've been lied to, you wanted to break your teeth all over an inedible hunk of metal, not actually have some nice chewing gum! God damnit, damn it all! This is unreasonable, you're fucking fuming and foaming at the mouth!",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. Despite it smelling earthy, it looks and feels exactly like a lug nut with a screw on it, along with a round cap tightened on both ends.",
@@ -2872,7 +2872,7 @@ food_list = [
     EwFood(
         id_food = "aushuckgumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Aushuck Gumball",
         str_eat = "You stuff the Aushuck gumball into your mouth. Despite the very high expectations you had for the gumball, it comes out tasteless. Not even a mild sugar taste from the shell of the gum can give in to your bleak disappointment of this gum. You now hold an even bigger disgust for the upper class as a result.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface has a plaid golden and red pattern, and perfectly smooth for a texture.",
@@ -2882,7 +2882,7 @@ food_list = [
     EwFood(
         id_food = "partypoppeppergumball",
         recover_hunger = 250,
-        price = 25000,
+        price = 2500,
         str_name = "Party Poppepper Gumball",
         str_eat = "You stuff the Party Popppepper gumball into your mouth. The sugar shell is sweeter than usual and tantalizes you into biting down. However as soon as you follow through with your consumption and let your saliva touch the cyan chewing gum, multicolored confetti explodes out of your mouth in a violent fashion. It's like a breaching explosive was set off in your face, knocking you backwards from the sheer velocity. You were just made into being a living confetti cannon and you don't think your neck is thanking you anytime soon.",
         str_desc = "It's your run-of-the-mill earthy smelling gumball. The surface is a curvy red and yellow stripe swirl, and feels more dense than it should be for a gumball.",
@@ -2892,7 +2892,7 @@ food_list = [
     EwFood(
         id_food = "poudringumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Poudrin Gumball",
         str_eat = "You stuff the Poudrin Gumball in your mouth. It cracks open, filling your mouth with delicious SLIME. God you love slime.",
         str_desc = "Your run-of-the-mill poudrin, coated in wax. Apparently sometimes the SLIME inside of a slime-stuffed gumball crystallizes from the extreme pressure of manufacturing. Score..?",
@@ -2902,7 +2902,7 @@ food_list = [
     EwFood(
         id_food = "napalmorangegumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Napalm Orange Gumball",
         str_eat = "You stuff the Napalm Orange Gumball in your mouth. It tastes... vaguely of citrus. You're careful not to cough while chewing.",
         str_desc = "Your run-of-the-mill orange gumball, coated in combustible napalm. This gumball is volatile, and having it fuels your spirit with domestic terrorism!",
@@ -2912,7 +2912,7 @@ food_list = [
     EwFood(
         id_food = "egggumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Egg Gumball",
         str_eat = "You stuff the Egg Gumball in your mouth. It tastes just like a raw egg, salmonella risk and all!",
         str_desc = "Your run-of-the-mill white gumball, specially crafted with an egg shape. It’s just as brittle as an egg too, and has a yolk inside!",
@@ -2922,7 +2922,7 @@ food_list = [
     EwFood(
         id_food = "sexgumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Sex Gumball",
         str_eat = "You stuff the Sex gumball into your mouth. You find the whole experience just like any other normal gumball you've had so far, the gum is only mildly flavored, the sugar coated shell dissolves into your mouth as you chew it up, and you even blow a bubble with the chewing gum. Why are you thinking about it so much?",
         str_desc = "It's your run-of-the-mill gumball. It has a bleak gray color and seems to lack any interesting features to distinct it from the other gumballs... Well, besides being gray.",
@@ -2932,7 +2932,7 @@ food_list = [
     EwFood(
         id_food = "targumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Tar Gumball",
         str_eat = "You stuff the gumball-covered clump of tar in your mouth. It tastes resinous, with a pungent tone. Chewing on it is quite fun, if absolutely horrific for your teeth.",
         str_desc = "This is literally a ball of tar, incredibly sticky and painful to pull off of your skin. Thank god they stick to nearby gumballs and make a fun colorful clump!",
@@ -2942,7 +2942,7 @@ food_list = [
     EwFood(
         id_food = "slimecorpgumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Slmecorp Gumball",
         str_eat = "You stuff the Slimecorp Gumball in your mouth. It tastes like a really shitty cherry flavor. Ugh, fuck these things! You spit the gum out.",
         str_desc = "Your run-of-the-mill dark red gumball. Huh. You thought they got rid of these ages ago.",
@@ -2952,7 +2952,7 @@ food_list = [
     EwFood(
         id_food = "bowlinggumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Bowling Gumball",
         str_eat = "You stuff the Bowling Ball your mouth, knocking out your teeth like pins. Strike!",
         str_desc = "Your run-of-the-mill miniature bowling ball. It looks… like a small bowling ball.",
@@ -2962,7 +2962,7 @@ food_list = [
     EwFood(
         id_food = "skullgumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Skull Gumball",
         str_eat = "You stuff the Skull Gumball into your mouth. Within the first few seconds of chewing this gumball you feel as if the world around you expanding starting from the first step outwards, meaning every motion you take becomes a blur inside your own head as you zoom fifty feet in your own perspective with each step. Is this what it feels like to be clinically insane in the membrane? If you're being honest with yourself, you would have preferred death over this experience.",
         str_desc = "It's a titanium white gumball with a simple skull face stamped onto it in black food coloring. You feel as if the skull is more of a signal of warning rather than a simple design.",
@@ -2972,7 +2972,7 @@ food_list = [
     EwFood(
         id_food = "musketgumball",
         recover_hunger = 500,
-        price = 25000,
+        price = 2500,
         str_name = "Musket Gumball",
         str_eat = "You stuff the Musket Ball into your mouth. Krch-crack! There goes a few teeth as soon as you bite down full force. Sure, it's packed… with metal, not with flavor. You spit it and the few teeth you broke into your hand, before pocketing the contents of your fist. Nobody can know what just happened.",
         str_desc = "Your run-of-the-mill black gumball. It's a bit heavier than the other one you've had before though. Does that mean it's packed with more flavor?",
@@ -2982,7 +2982,7 @@ food_list = [
     EwFood(
         id_food = "armageddongumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "Armageddon Gumball",
         str_eat = "You take the Armageddon gumball and put it in your mouth. Immediately, you find yourself gripping your kneecaps and coughing violently, thick plumes of condensed cinnamon billowing from your lips with each futile attempt to spit out the gumball. There's a saying in ancient history, and while you think history is all bullshit and has no value in today's slime society... deep in the recesses of your mind you finally come to realization in the unholy levels of suffering you've come to endure: \"There comes a line between torture for information, and torture to make the victim desire death.\"",
         str_desc = "it's a crimson red gumball that starts irritating your skin as soon as it makes contact, making you yelp out in pain and nearly writhe from how it just won't stop hurting your hands, fuck!",
@@ -2992,7 +2992,7 @@ food_list = [
     EwFood(
         id_food = "rainbowgumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "***RAINBOW GUMBALL!!!***",
         str_eat = "You stuff the ***SUPREMELY RARE*** Rainbow Gumball in your mouth. Your taste buds are overwhelmed with LGBT power, feeling every color of the rainbow at once. Chewing on it is like feeling the vaginal birth of Christ in your mouth.",
         str_desc = "The pattern on this gumball rotates forever in an infinite spiral of rainbow power. Looking into it for too long makes you feel… gay? It tastes like every flavor all at once.",
@@ -3002,7 +3002,7 @@ food_list = [
     EwFood(
         id_food = "ledgumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "LED Gumball",
         str_eat = "You stuff the SUPREMELY RARE LED Gumball in your mouth. It cracks and crunches in your mouth, the wiring cutting your flesh. Being more machine than morsel, you swallow it before chewing too much.",
         str_desc = "It's a striped blue gumball that makes a small source of light in your hands, a part of you is tempted to try some slick tricks with it like that as seen on TV product or some shit, but you remember being told not to play with your food when you were young.",
@@ -3012,7 +3012,7 @@ food_list = [
     EwFood(
         id_food = "polarassaultfuckenergygumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "Polar Assault FUCK ENERGY Gumball",
         str_eat = "You pop the Polar Assault FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is the irradiated spearmint flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy blue gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
@@ -3022,7 +3022,7 @@ food_list = [
     EwFood(
         id_food = "nucleartastefuckenergygumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "Nuclear Taste FUCK ENERGY Gumball",
         str_eat = "You pop the Nuclear Taste FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is what feels like over a dozen sour warheads in a flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy green gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
@@ -3032,7 +3032,7 @@ food_list = [
     EwFood(
         id_food = "partypopcenturyblitzfuckenergygumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "Party Pop Century Blitz FUCK ENERGY Gumball",
         str_eat = "You pop the Party Pop Century Blitz FUCK ENERGY Gumball into your mouth. Past the flavor death in a sugar coat is bubblegum flavored diesel gasoline flavored gum and the eradication of your taste buds soon after, the dense amount of packed gum expanding from the saliva the producers of space food dream to one day make food from. The sugar coating that once held this now fistful of gum in your mouth nearly gives you food poisoning from its acidic makeup, and has quickly risen to a palpitating heartburn. You feel as if the gum you're chewing has swapped places with your own brain, and your mental awareness around you is quickly deteriorating with every numbed chew you commit yourself to.",
         str_desc = "It's a greasy red and yellow gumball with the FUCK ENERGY logo stamped onto it only due to the cross-promotion with FUCK ENERGY. The sugar coating irritating your skin from being such a high concentration of sugar, so what the fuck are you waiting for, coward? Pissy bitch? You gonna hold onto this all day and show it to your friends instead of eating it right here, right now? What a fucking bitch that you are to deny yourself from this luxury.",
@@ -3042,7 +3042,7 @@ food_list = [
     EwFood(
         id_food = "radioheadgumball",
         recover_hunger = 5000,
-        price = 25000,
+        price = 2500,
         str_name = "Radiohead Gumball",
         str_eat = "You pop the Radiohead Gumball into your mouth.\n\n[Verse 1]\nThis is just a nightmare\nSoon I'm going to wake up\nSomeone's gonna bring me 'round\nRunning from the bombers\nHiding in the forest\nRunning through the fields\nLaying flat on the ground\nJust like everybody\nStepping over heads\nRunning from the underground\n[Refrain]\nThis is your warning, four minute warning\n\n[Verse 2]\nI don't wanna hear it\nI don't wanna know\nI just wanna run and hide\nThis is just a nightmare\nBut soon I'm gonna wake up\nSomeone's gonna bring me 'round\n\n[Refrain]\nThis is our warning, four minute warning\n\n[Outro]\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive\nI will eat you alive\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nThere'll be no more lies\nI will eat you alive\nI will eat you alive\nI will eat you alive",
         str_desc = "It's a white gumball with neat, even black speckles along the whole surface. Some kind of horrid energy eminates from it like it's going to make you puke.",
