@@ -3639,6 +3639,17 @@ furniture_list = [
         furn_set='collection'
     ),
     EwFurniture(
+        id_furniture="treasurechest",
+        str_name="treasure chest",
+        str_desc="You'll have to bust it open to view its contents.",
+        rarity='Plebeian',
+        price=500000,
+        vendors=[ewcfg.vendor_giftshop],
+        furniture_place_desc="You drop the treasure chest, unopened, in your apartment. Banks are for landlubbers. Though you can't shake the feeling your house feels more like an NPC's now.",
+        furniture_look_desc="There's an unopened treasure chest in here.",
+        furn_set='collection'
+    ),
+    EwFurniture(
         id_furniture = "shipinabottle",
         str_name = "Ship in a Bottle",
         str_desc = "One of those mass-manufactured, cheaply-produced ships inside a large glass bottle.",

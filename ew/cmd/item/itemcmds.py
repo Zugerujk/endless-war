@@ -2034,7 +2034,7 @@ async def collect(cmd):
     item_sought_item = bknd_item.find_item(item_search=item_seek, id_user=user_data.id_user, id_server=user_data.id_server)
 
     # Stop the command if a variety of things
-    if (user_data.visiting != ewcfg.location_id_empty or not poi.is_apartment) and ewcfg.mutation_id_packrat not in user_data.get_mutations():
+    if (user_data.visiting != ewcfg.location_id_empty or not poi.is_apartment) and ewcfg.mutation_id_packrat not in user_data.get_mutations() and item_sought_col.get('name') != 'treasure chest':
         response = "Nobody can know about your shameful hoarding habits. Add to your collections in your apartment."
     elif not item_sought_col:
         response = "You don't have that collection either here, or in your inventory."
@@ -2125,10 +2125,11 @@ async def remove_from_collection(cmd):
     collectiontype = collection.item_props.get('id_furniture')
     item = EwItem(id_item=item_sought_item.get('id_item'))
     collection_list = furnlist.get(collection.item_props.get('id_furniture'))
-
+    chestinv = bknd_item.inventory(id_server=cmd.guild.id, id_user='{}{}'.format(collection.id_item, 'collection'))
     if collectiontype == "portablegreenhouse":
         price = 1000
-
+    elif collectiontype == 'treasurechest':
+        price = 20000 * len(chestinv)
     if collection_list is None or collection_list.furn_set != 'collection':
         response = "Trying to pull shit out of random objects? Yeah, I did meth once too."
     elif 'collection' != item.id_owner[-10:]:
@@ -2136,10 +2137,18 @@ async def remove_from_collection(cmd):
     elif user_data.slimes < int(price):
         response = "These fucking prices... The removal fee is {price} slime.".format(price = price)
     else:
-        bknd_item.give_item(id_user=user_data.id_user, id_server=int(item.id_server), id_item=item_sought_item.get('id_item'))
         user_data.change_slimes(n=-price, source=ewcfg.source_spending)
         user_data.persist()
-        response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over {:,} slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), price, random.choice(comm_cfg.bazaar_distractions))
+        if collection.template == 'treasurechest':
+            chestinv = bknd_item.inventory(id_server=cmd.guild.id, id_user='{}{}'.format(collection.id_item, 'collection'))
+            for item in chestinv:
+                bknd_item.give_item(id_user=cmd.message.author.id, id_server=cmd.guild.id, id_item=item.get('id_item'))
+            bknd_item.item_delete(collection.id_item)
+            response = "You somehow find a specialist in the smoky kiosks that can bust open this treasure chest without annhialating everything inside. You hand over {:,}, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the chest's contents, fully separated. Maybe someday you'll figure out how to do it...".format(price, random.choice(comm_cfg.bazaar_distractions))
+        else:
+            bknd_item.give_item(id_user=user_data.id_user, id_server=int(item.id_server), id_item=item_sought_item.get('id_item'))
+
+            response = "You somehow find a specialist in the smoky kiosks that can get your precious belongings out of the {} you forced them into. You hand over {:,} slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the item and collection, fully separated. Maybe someday you'll figure out how to do it...".format(item_sought_col.get('name'), price, random.choice(comm_cfg.bazaar_distractions))
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
