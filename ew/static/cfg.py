@@ -1534,6 +1534,15 @@ currency_slime = "slime"
 currency_slimecoin = "SlimeCoin"
 currency_soul = "soul"
 
+global_slimegain_multiplier = 1.00
+fishgain_multiplier = 1.00
+minegain_multiplier = 1.00
+farmgain_multiplier = 1.00
+#todo implement a sewer slime multiplier and a hunting yield multiplier too
+global_damage_multiplier = 1.00
+
+
+
 # inebriation
 inebriation_max = 20
 inebriation_pertick = 2
@@ -2478,6 +2487,9 @@ col_time_activate = 'time_activate'
 col_time_stamp = 'time_stamp'
 col_record_type = 'record_type'
 col_record_data = 'record_data'
+col_id_context_num = "context_num"
+col_id_month = "month"
+col_id_year = "year"
 
 # Database columns for advertisements
 col_id_ad = 'id_ad'

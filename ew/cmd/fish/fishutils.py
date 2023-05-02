@@ -454,6 +454,8 @@ async def award_fish(fisher, cmd, user_data):
         if user_data.poi == ewcfg.poi_id_juviesrow_pier:
             slime_gain = int(slime_gain / 4)
 
+        slime_gain *= ewcfg.fishgain_multiplier * ewcfg.global_slimegain_multiplier
+
         # Makes sure slime gain can never go below 0.
         slime_gain = max(0, round(slime_gain))
 

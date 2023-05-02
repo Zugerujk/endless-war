@@ -227,6 +227,7 @@ async def reap(cmd):
                     crop_gain = 0
 
                     controlling_faction = poi_utils.get_subzone_controlling_faction(user_data.poi, user_data.id_server)
+                    slime_gain *= ewcfg.farmgain_multiplier * ewcfg.global_slimegain_multiplier
 
                     if controlling_faction != "" and controlling_faction == user_data.faction:
                         slime_gain *= 2
