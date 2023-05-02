@@ -1539,6 +1539,7 @@ fishgain_multiplier = 1.00
 minegain_multiplier = 1.00
 farmgain_multiplier = 1.00
 #todo implement a sewer slime multiplier and a hunting yield multiplier too
+#todo these are per server and probably need to be converted to dicts
 global_damage_multiplier = 1.00
 
 

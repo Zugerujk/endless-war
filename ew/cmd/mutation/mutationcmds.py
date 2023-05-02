@@ -23,6 +23,7 @@ from ew.utils import poi as poi_utils
 from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils import cmd as cmd_utils
+from ew.utils import mutations as mut_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -164,6 +165,8 @@ async def graft(cmd):
     if target == 0:
         response = '"What? My ears aren\'t what they used to be. I thought you suggested I give you {}. Only braindead squicks would say that."'.format(' '.join(cmd.tokens[1:]))
         incompatible = True
+    elif target not in mut_utils.active_mutations[user_data.id_server]:
+        response = '"Plumb forgot how to do that surgery, sorry kid. My Alzheimers only lets me remember the procedures in the monthly rotation. A little too convenient, if you ask me."'
     elif target in mutations:
         response = '"Nope, you already have that mutation. Hey, I thought I was supposed to be the senile one here!"'
         incompatible = True

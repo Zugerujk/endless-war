@@ -43,6 +43,7 @@ import ew.utils.slimeoid as slimeoid_utils
 import ew.utils.sports as sports_utils
 import ew.utils.transport as transport_utils
 import ew.utils.weather as bknd_weather
+import ew.utils.mutations as mut_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.user import add_xp
@@ -276,7 +277,7 @@ async def on_ready():
 
         ewdebug.initialize_gamestate(id_server=server.id)
 
-
+        mut_utils.initialize_rotation(id_server=server.id)
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)

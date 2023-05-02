@@ -5,7 +5,7 @@ from ew.static import mutations as static_mutations
 import random
 from ew.backend.dungeons import EwGamestate
 
-active_mutations = []
+active_mutations = {}
 
 stat_ranges = {
     'gamespeed':[1, 1],
@@ -21,7 +21,7 @@ def initialize_rotation(id_server):
     today = datetime.date.today()
     month = int(today.month)
     year = int(today.year)
-
+    active_mutations[id_server] = []
     future_month = (month % 12) + 1
     future_year = year if month != 12 else year + 1
 
@@ -43,13 +43,13 @@ def initialize_rotation(id_server):
     if len(current_rotation_data) == 0:
         current_rotation_data = insert_rotation(id_server=id_server, month=month, year=year),
     if len(future_rotation_data) == 0:
-        future_rotation_data = insert_rotation(id_server=id_server, month = future_month, year = future_year)
+        insert_rotation(id_server=id_server, month = future_month, year = future_year)
 
     for mut in current_rotation_data:
         name = mut[0]
         modifier = mut[1]
         if name not in stat_ranges.keys():
-            active_mutations.append(mut[0])
+            active_mutations[id_server].append(mut[0])
         else:
             if modifier == 1.00:
                 pass
