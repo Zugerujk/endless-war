@@ -1,6 +1,7 @@
 import asyncio
 import random
 import time
+import datetime
 import math
 
 from ew.backend import core as bknd_core
@@ -879,3 +880,37 @@ async def forcechemo(cmd):
         response = "You have forcibly chemo'd {}.".format(target)
     # Send message
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def display_current_rotation(cmd):
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+
+    if cmd.tokens[0] == ewcfg.cmd_prefix + 'nextrotation' and cmd.message.author.guild_permissions.administrator:
+        month = (month % 12) + 1
+        year = year if month != 12 else year + 1
+    elif cmd.tokens[0] == ewcfg.cmd_prefix + 'nextrotation':
+        return
+
+    current_rotation_data = bknd_core.execute_sql_query(
+        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s".format(
+            id_mutation=ewcfg.col_id_mutation,
+            context_num=ewcfg.col_id_context_num,
+            month=ewcfg.col_id_month,
+            year=ewcfg.col_id_year
+        ), (month, year))
+
+    response = 'ACTIVE MUTATIONS\n'
+    stat_resp = '\nADDITIONAL MODIFIERS\n'
+    for piece in current_rotation_data:
+        if piece[0] in mut_utils.stat_ranges.keys() and piece[1] != 1:
+            stat_resp += mut_utils.stat_ranges.get(piece[0])[2].format(piece[1])
+        else:
+            mutation_obj = static_mutations.mutations_map.get(piece[0])
+            response += mutation_obj.str_name + ','
+
+    if stat_resp != '\nADDITIONAL MODIFIERS\n':
+        response += stat_resp
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

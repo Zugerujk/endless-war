@@ -8,13 +8,13 @@ from ew.backend.dungeons import EwGamestate
 active_mutations = {}
 
 stat_ranges = {
-    'gamespeed':[1, 1],
-    'decayrate':[1, 1],
-    'slimegainrate':[1, 1],
-    'fishrate':[1, 1],
-    'minerate':[1, 1],
-    'farmrate':[1, 1],
-    'damagemultiplier':[1, 1]
+    'gamespeed':[1, 1, 'Game Speed: {}x\n'],
+    'decayrate':[1, 1, 'Decay Rate" LV {}\n'],
+    'slimegainrate':[1, 1, 'Slimegain Multiplier: {}x\n'],
+    'fishrate':[1, 1, 'Fishing Slimegain: {}x\n'],
+    'minerate':[1, 1, 'Mining Slimegain: {}x\n'],
+    'farmrate':[1, 1, 'Farming Slimegain: {}x\n'],
+    'damagemultiplier':[1, 1, 'Damage Multiplier: {}x\n']
 }
 
 default_variables = {
