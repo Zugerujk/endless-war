@@ -49,6 +49,9 @@ cmd_map = {
     # Terezi Gang can flip coins
     ewcfg.cmd_coinflip: cmdcmds.coinflip,
 
+    # Die wielders can die
+    ewcfg.cmd_rolldie: cmdcmds.rolldie,
+
     # Bass weilders can jam out
     ewcfg.cmd_jam: cmdcmds.jam,
     ewcfg.cmd_stunt: cmdcmds.stunt,

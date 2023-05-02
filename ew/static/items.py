@@ -3824,7 +3824,7 @@ EwFurniture(
     EwFurniture(
         id_furniture = "flamingbarrel",
         str_name = "Flaming Barrel",
-        str_desc = "It's an oil drum full of unknown contents that constantly has a fire stoked in it. You can use  it as a lamp, if you don't mind the smoke.",
+        str_desc = "It's an oil drum full of unknown contents that constantly has a fire stoked in it. You can use it as a lamp, if you don't mind the smoke.",
         rarity = "Plebeian",
         acquisition = "npc",
         furniture_place_desc = "You drop the barrel down and toss in a match.",
@@ -3847,7 +3847,7 @@ EwFurniture(
         str_desc = "This is that blue trash can they hand out for recycling. It's useless to you, so maybe you can tip it over and use it like a sofa.",
         rarity = "Plebeian",
         acquisition = "npc",
-        furniture_place_desc = "You set the recycle bin up, then kick it on its side. Take that, you smog hating treefuckers.",
+        furniture_place_desc = "You set the recycle bin up, then kick it on its side. Take that, you smog-hating treefuckers.",
         furniture_look_desc = "A recycling bin is tipped over in the middle of the room.",
         furn_set = "trash",
     ),
@@ -3870,6 +3870,17 @@ EwFurniture(
         furniture_place_desc = "You call upon the sewer rats, promising them rewards of dumpster food if they carry this up to your apartment. You were always good at coercing those guys.",
         furniture_look_desc = "A dumpster has been jammed in here somehow.",
         furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "die",
+        str_name = "Die",
+        str_desc = "It's a die. You could try to \"!rolldie\" with it, or get 2 and call them \"Dice\".",
+        rarity = "Plebeian",
+        acquisition = "bartering",        
+        price = 234156,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You toss the die out of your pocket, and see it careen across the ground. Just as it looks like it's about to stop rolling... it falls between the floorboards. Damnit!",
+        furniture_look_desc = "There's a die stuck in the floorboards.",
     ),
 ]
 
