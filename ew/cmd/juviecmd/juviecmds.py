@@ -486,7 +486,7 @@ async def mine(cmd):
                     mine_action.slime_yield *= 2
                 elif mine_action.user_data.life_state == ewcfg.life_state_juvenile:
                     mine_action.slime_yield *= 2
-                mine_action *= ewcfg.minegain_multiplier * ewcfg.global_slimegain_multiplier
+                mine_action *= ewcfg.minegain_multiplier_dt[user_data.id_server] * ewcfg.global_slimegain_multiplier_dt[user_data.id_server]
 
                 # Add the multiplier-free bonus yield, make sure it's not negative!!!!
                 mine_action.slime_yield += mine_action.bonus_slime_yield

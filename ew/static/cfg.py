@@ -1535,13 +1535,16 @@ currency_slimecoin = "SlimeCoin"
 currency_soul = "soul"
 
 global_slimegain_multiplier = 1.00
+global_slimegain_multiplier_dt = {}
 fishgain_multiplier = 1.00
+fishgain_multiplier_dt = {}
 minegain_multiplier = 1.00
+minegain_multiplier_dt = {}
 farmgain_multiplier = 1.00
+farmgain_multiplier_dt = {}
 #todo implement a sewer slime multiplier and a hunting yield multiplier too
-#todo these are per server and probably need to be converted to dicts
 global_damage_multiplier = 1.00
-
+global_damage_multiplier_dt = {}
 
 
 # inebriation

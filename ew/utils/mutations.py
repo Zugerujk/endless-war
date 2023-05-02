@@ -17,6 +17,15 @@ stat_ranges = {
     'damagemultiplier':[1, 1]
 }
 
+default_variables = {
+    'slimegainrate': ewcfg.global_slimegain_multiplier,
+    'fishrate': ewcfg.fishgain_multiplier,
+    'minerate': ewcfg.minegain_multiplier,
+    'farmrate': ewcfg.farmgain_multiplier,
+    'damagemultiplier': ewcfg.global_damage_multiplier
+}
+
+
 def initialize_rotation(id_server):
     today = datetime.date.today()
     month = int(today.month)
@@ -51,7 +60,18 @@ def initialize_rotation(id_server):
         if name not in stat_ranges.keys():
             active_mutations[id_server].append(mut[0])
         else:
-            if modifier == 1.00:
+
+            if name == 'damagemultiplier':
+                ewcfg.global_damage_multiplier_dt[id_server] = modifier
+            elif name == 'slimegainrate':
+                ewcfg.global_slimegain_multiplier_dt[id_server] = modifier
+            elif name == 'fishrate':
+                ewcfg.fishgain_multiplier_dt[id_server] = modifier
+            elif name == 'farmrate':
+                ewcfg.farmgain_multiplier_dt[id_server] = modifier
+            elif name == 'minerate':
+                ewcfg.minegain_multiplier_dt[id_server] = modifier
+            elif modifier == 1.00:
                 pass
             elif name == 'gamespeed':
                 gamestate = EwGamestate(id_server=id_server, id_state='endlessgraphite')
@@ -61,16 +81,7 @@ def initialize_rotation(id_server):
                 gamestate = EwGamestate(id_server=id_server, id_state='endlesspumice')
                 gamestate.number = int(modifier)
                 gamestate.persist()
-            elif name == 'damagemultiplier':
-                ewcfg.global_damage_multiplier = modifier
-            elif name == 'slimegainrate':
-                ewcfg.global_slimegain_multiplier = modifier
-            elif name == 'fishrate':
-                ewcfg.fishgain_multiplier = modifier
-            elif name == 'farmrate':
-                ewcfg.farmgain_multiplier = modifier
-            elif name == 'minerate':
-                ewcfg.minegain_multiplier = modifier
+
 
 
 
@@ -84,6 +95,8 @@ def insert_rotation(id_server, month, year):
 
         contextnum = 1.00  # this is to reroll variables other than mutations. currently all multipliers are locked at 1
         if mut in stat_ranges.keys():
+            if mut in default_variables.keys():
+                contextnum = default_variables.get(mut)
             if random.randint(1, 10) == 1:
                 range = stat_ranges.get(mut)
                 contextnum = round(random.uniform(range[0], range[1]), 2)
