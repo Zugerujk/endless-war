@@ -2846,6 +2846,8 @@ vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
 vendor_gumballmachine = "Gumball Machine"
 
+vendor_passive_chat_wait_time = 60 * 60 * 12  # 12 hours
+
 
 museum_thumbnails = {
     "amy":["AMY HART", "https://rfck.app/npc/AMY_HART_pfp.png"],
@@ -2898,6 +2900,11 @@ vendor_dialogue = {
     poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."],
     poi_id_apt_littlechernobyl:["Hope you enjoy the toilets. They're handpicked by me."]
 
+}
+
+vendor_order_dialogue = {
+    poi_id_slimypersuits:["Thanks for shopping at Slimy Persuits, ha!", "That one tastes reeeaaal good, dude. Trust me!", "Hey kid — you want anything... extra, with that purchase?", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!"],
+    "oozegardensfarms":["THOU DESERVES TIDINGS FOR THY PURCHASE.", "GREAT CHOICE!", "MAY THOU FIELDS TEEM WITH LIFE!"]
 }
 
 
