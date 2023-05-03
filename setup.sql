@@ -567,5 +567,7 @@ CREATE TABLE mut_rotations (
     year int NOT NULL DEFAULT 2023,
     id_server BIGINT NOT NULL DEFAULT -1,
     mutation varchar(128) NOT NULL DEFAULT '',
-    context_num decimal(9, 2) NOT NULL DEFAULT 1
+    context_num decimal(9, 2) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (month, year, id_server, mutation)
 );

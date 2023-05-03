@@ -4,6 +4,7 @@ import ew.static.cfg as ewcfg
 from ew.static import mutations as static_mutations
 import random
 from ew.backend.dungeons import EwGamestate
+import time
 
 active_mutations = {}
 
@@ -34,29 +35,38 @@ def initialize_rotation(id_server):
     future_month = (month % 12) + 1
     future_year = year if month != 12 else year + 1
 
-    current_rotation_data = bknd_core.execute_sql_query("select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s".format(
+
+
+
+
+    current_rotation_data = bknd_core.execute_sql_query("select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
         id_mutation = ewcfg.col_id_mutation,
         context_num = ewcfg.col_id_context_num,
         month = ewcfg.col_id_month,
-        year = ewcfg.col_id_year
-    ),(month, year))
+        year = ewcfg.col_id_year,
+        id_server=ewcfg.col_id_server
+    ),(month, year, id_server))
 
     future_rotation_data = bknd_core.execute_sql_query(
-        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s".format(
+        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
             id_mutation=ewcfg.col_id_mutation,
             context_num=ewcfg.col_id_context_num,
             month=ewcfg.col_id_month,
-            year=ewcfg.col_id_year
-        ), (future_month, future_year))
+            year=ewcfg.col_id_year,
+            id_server=ewcfg.col_id_server
+        ), (future_month, future_year, id_server))
 
     if len(current_rotation_data) == 0:
-        current_rotation_data = insert_rotation(id_server=id_server, month=month, year=year),
+
+        current_rotation_data = insert_rotation(id_server=id_server, month=month, year=year)
     if len(future_rotation_data) == 0:
-        insert_rotation(id_server=id_server, month = future_month, year = future_year)
+        insert_rotation(id_server=id_server, month = future_month, year = future_year, isFuture=1)
 
     for mut in current_rotation_data:
         name = mut[0]
         modifier = mut[1]
+
+
         if name not in stat_ranges.keys():
             active_mutations[id_server].append(mut[0])
         else:
@@ -88,8 +98,8 @@ def initialize_rotation(id_server):
 
 
 
-def insert_rotation(id_server, month, year):
-    selected_muts = create_rotation()
+def insert_rotation(id_server, month, year, isFuture = 0):
+    selected_muts = create_rotation(id_server=(id_server + isFuture))
     returned_list = []
     for mut in selected_muts:
 
@@ -118,13 +128,21 @@ def insert_rotation(id_server, month, year):
 
 
 
-def create_rotation():
+def create_rotation(id_server):
     all_mutations = []
+    time_now = int(time.time())
+    random_seed_mut = random.Random(id_server)
+    random_seed_mut.seed(id_server + time_now)
 
+    #print("{}{}".format(id_server, time_now))
     for mutation in static_mutations.mutations:
         all_mutations.append(mutation.id_mutation)
 
-    random.shuffle(all_mutations)
+
+    #print(all_mutations)
+    random_seed_mut.shuffle(all_mutations)
+
+    #print(all_mutations)
 
     limited_list = int(len(all_mutations) * .66)
 

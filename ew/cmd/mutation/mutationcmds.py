@@ -145,7 +145,7 @@ async def chemo(cmd):
 
 async def graft(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    print(mut_utils.active_mutations)
     if cmd.message.channel.name != ewcfg.channel_clinicofslimoplasty:
         response = "Chemotherapy doesn't just grow on trees. You'll need to go to the clinic in Crookline to get some."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -168,6 +168,7 @@ async def graft(cmd):
         incompatible = True
     elif target not in mut_utils.active_mutations[user_data.id_server]:
         response = '"Plumb forgot how to do that surgery, sorry kid. My Alzheimers only lets me remember the procedures in the monthly rotation. A little too convenient, if you ask me."'
+        incompatible = True
     elif target in mutations:
         response = '"Nope, you already have that mutation. Hey, I thought I was supposed to be the senile one here!"'
         incompatible = True
@@ -894,23 +895,122 @@ async def display_current_rotation(cmd):
         return
 
     current_rotation_data = bknd_core.execute_sql_query(
-        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s".format(
+        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
             id_mutation=ewcfg.col_id_mutation,
             context_num=ewcfg.col_id_context_num,
             month=ewcfg.col_id_month,
-            year=ewcfg.col_id_year
-        ), (month, year))
+            year=ewcfg.col_id_year,
+            id_server=ewcfg.col_id_server
+        ), (month, year, cmd.guild.id))
 
     response = 'ACTIVE MUTATIONS\n'
     stat_resp = '\nADDITIONAL MODIFIERS\n'
     for piece in current_rotation_data:
-        if piece[0] in mut_utils.stat_ranges.keys() and piece[1] != 1:
+        if piece[0] in mut_utils.stat_ranges.keys():
+            if piece[1] == 1:
+                continue
             stat_resp += mut_utils.stat_ranges.get(piece[0])[2].format(piece[1])
         else:
             mutation_obj = static_mutations.mutations_map.get(piece[0])
-            response += mutation_obj.str_name + ','
+            response += mutation_obj.str_name + ', '
 
     if stat_resp != '\nADDITIONAL MODIFIERS\n':
         response += stat_resp
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def add_rotation_mut(cmd):
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+            if 'future' in cmd.tokens:
+                month = (month % 12) + 1
+                year = year if month != 12 else year + 1
+            else:
+                mut_utils.active_mutations.get(cmd.guild.id).append(target)
+
+            response = "Added."
+
+            bknd_core.execute_sql_query(
+                "replace into mut_rotations({id_server}, {id_month}, {id_year}, {mutation}, {context_num}) values(%s, %s, %s, %s, %s)".format(
+                    id_server=ewcfg.col_id_server,
+                    id_month=ewcfg.col_id_month,
+                    id_year=ewcfg.col_id_year,
+                    mutation=ewcfg.col_id_mutation,
+                    context_num=ewcfg.col_id_context_num
+                ), (cmd.guild.id,
+                    month,
+                    year,
+                    target,
+                    1))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def drop_rotation_mut(cmd):
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    print("{} {} {}".format(cmd.guild.id, year, target))
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        if 'future' in cmd.tokens:
+            month = (month % 12) + 1
+            year = year if month != 12 else year + 1
+        else:
+            mut_utils.active_mutations[cmd.guild.id].remove(target)
+        response = "Removed."
+        bknd_core.execute_sql_query(
+            "delete from mut_rotations where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation
+            ), (cmd.guild.id,
+                month,
+                year,
+                target))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def change_rotation_stat(cmd):
+    target_name = cmd.tokens[1]
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if cmd.tokens_count != 3:
+        response = "You failed to fuck with everything. Try !changerotation <stat> <value>"
+    else:
+        if 'future' in cmd.tokens:
+            month = (month % 12) + 1
+            year = year if month != 12 else year + 1
+        targetnum = round(float(cmd.tokens[2]), 2)
+        response = "Successfully fucked with everything by setting {} to {}. You may need to restart to apply changes.".format(target_name, targetnum)
+        bknd_core.execute_sql_query(
+            "update mut_rotations set {context_num} = %s where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation,
+                context_num=ewcfg.col_id_context_num
+            ), (targetnum,
+                cmd.guild.id,
+                month,
+                year,
+                target_name))
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

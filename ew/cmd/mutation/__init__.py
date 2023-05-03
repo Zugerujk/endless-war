@@ -25,7 +25,10 @@ cmd_map = {
     # Debug commands
     ewcfg.cmd_forcegraft: mutationcmds.forcegraft,
     ewcfg.cmd_forcechemo: mutationcmds.forcechemo,
-    ewcfg.cmd_nextrotation:mutationcmds.display_current_rotation
+    ewcfg.cmd_nextrotation:mutationcmds.display_current_rotation,
+    ewcfg.cmd_add_mut_rotation:mutationcmds.add_rotation_mut,
+    ewcfg.cmd_clear_mut_rotation:mutationcmds.drop_rotation_mut,
+    ewcfg.cmd_change_rotation_stat:mutationcmds.change_rotation_stat
 }
 
 apt_dm_cmd_map = {
