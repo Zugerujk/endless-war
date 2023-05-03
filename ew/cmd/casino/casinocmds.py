@@ -287,16 +287,7 @@ async def craps(cmd):
             roll1 = random.randint(1, 6)
             roll2 = random.randint(1, 6)
 
-            emotes_dice = [
-                ewcfg.emote_dice1,
-                ewcfg.emote_dice2,
-                ewcfg.emote_dice3,
-                ewcfg.emote_dice4,
-                ewcfg.emote_dice5,
-                ewcfg.emote_dice6
-            ]
-
-            response = " {} {}".format(emotes_dice[roll1 - 1], emotes_dice[roll2 - 1])
+            response = " {} {}".format(ewcfg.emotes_dice[roll1 - 1], ewcfg.emotes_dice[roll2 - 1])
 
             if (roll1 + roll2) == 7:
                 winnings = 5 * value
