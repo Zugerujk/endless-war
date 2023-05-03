@@ -234,7 +234,7 @@ smelting_recipe_list = [
             "dp",
         ],
         ingredients={
-            ewcfg.item_id_minecraftdiamond: 10, #100 megaslime worth
+            ewcfg.item_id_minecraftdiamond: 3, #30 megaslime worth
             ewcfg.item_id_stick: 2,
         },
         products=[ewcfg.weapon_id_diamondpickaxe]
@@ -2047,9 +2047,9 @@ EwSmeltingRecipe(
         ],
         ingredients = {
             ewcfg.item_id_ghostlycloth : 3,
-            ewcfg.item_id_negapoudrin : 1,
+            ewcfg.item_id_negapoudrin : 9,
             ewcfg.item_id_cute_material : 2,
-            ewcfg.item_id_ghosttoken : 5,
+            ewcfg.item_id_ghosttoken : 50,
         },
         products=['maidoutfit']
     ),
@@ -2077,9 +2077,9 @@ EwSmeltingRecipe(
             'moonhat',
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth: 2,
+            ewcfg.item_id_ghostlycloth: 6,
             ewcfg.item_id_blacklimeade : 2,
-            ewcfg.item_id_ghosttoken : 3,
+            ewcfg.item_id_ghosttoken : 10,
         },
         products=['widebrimmedhat']
     ),
@@ -2092,8 +2092,8 @@ EwSmeltingRecipe(
             'eveningdress',
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth : 3,
-            ewcfg.item_id_ghosttoken : 3,
+            ewcfg.item_id_ghostlycloth : 6,
+            ewcfg.item_id_ghosttoken : 20,
             ewcfg.item_id_textiles: 10,
         },
         products = ['drapeddress']

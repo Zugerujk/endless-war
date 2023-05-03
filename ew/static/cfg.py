@@ -938,6 +938,9 @@ cmd_dyecosmetic = cmd_prefix + 'dyecosmetic'
 cmd_dyecosmetic_alt1 = cmd_prefix + 'dyehat'
 cmd_dyecosmetic_alt2 = cmd_prefix + 'saturatecosmetic'
 cmd_dyecosmetic_alt3 = cmd_prefix + 'saturatehat'
+cmd_patterncosmetic = cmd_prefix + 'patterncosmetic'
+cmd_patterncosmetic_alt1 = cmd_prefix + 'patternhat'
+cmd_patterncosmetic_alt2 = cmd_prefix + 'pattern'
 cmd_create = cmd_prefix + 'create'
 cmd_forgemasterpoudrin = cmd_prefix + 'forgemasterpoudrin'
 cmd_createitem = cmd_prefix + 'createitem'
@@ -1040,6 +1043,8 @@ cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
 cmd_bespoke = cmd_prefix + "bespoke"
 cmd_bespoke_alt1 = cmd_prefix + 'tailor'
+cmd_restyle = cmd_prefix + "restyle"
+cmd_restyle_alt1 = cmd_prefix + "stitch"
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -1097,6 +1102,7 @@ cmd_apartment = cmd_prefix + 'apartment'
 cmd_apartment_alt = cmd_prefix + 'apt'
 cmd_aptname = cmd_prefix + 'aptname'
 cmd_aptdesc = cmd_prefix + 'aptdesc'
+cmd_jeeves = cmd_prefix + 'jeeves'
 cmd_upgrade = cmd_prefix + 'aptupgrade'  # do we need the apt at the beginning?
 cmd_knock = cmd_prefix + 'knock'
 cmd_trickortreat = cmd_prefix + 'trickortreat'
@@ -1235,6 +1241,7 @@ cmd_shutdownbot = cmd_prefix + 'shutdownbot'
 cmd_checkbot = cmd_prefix + 'checkbot'
 cmd_set_debug_option = cmd_prefix + 'debugoption'
 
+cmd_award_skill_capes = cmd_prefix + 'awardskillcapes'
 
 cmd_reroll_mutation = cmd_prefix + 'rerollmutation'
 cmd_clear_mutations = cmd_prefix + 'sterilizemutations'
@@ -2154,7 +2161,7 @@ festivity_dye_bonus = 500 # Bonus for dyeing a gifted cosmetic
 festivity_scrawl_bonus = 100 # Bonus for scrawling on a gift
 festivity_name_bonus = 100 # Bonus for naming a weapon gift
 festivity_smelt_bonus = 500 # Bonus for gifting something handmade
-festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
+festivity_pleb_bonus = 10 # Bonus for plebeian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
 festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
@@ -2192,6 +2199,9 @@ str_generic_onbreak = "Their {} broke!!"
 str_soul_onadorn = "{} has begun swirling around you."
 str_soul_unadorn = "{} has stopped swirling around you and you place it back into your hammerspace."
 str_soul_onbreak = "{} has ***SHATTERED.*** Uh oh."
+str_cape_onadorn = "You skillfully adorn your {} and flourish it several times."
+str_cape_unadorn = "You skillfully unadorn your {}."
+str_cape_onbreak = "Your {} tears! Better hope they skill issue replacements."
 str_generic_inv_limit = "You can't fit another {} in your inventory!"
 
 generic_role_name = 'NLACakaNM'
@@ -2549,6 +2559,8 @@ rarity_profollean = "Profollean"
 rarity_promotional = "Promotional"  # Cosmetics awarded at events / achieved through limited ways
 rarity_princeps = "princeps"
 
+normal_rarities = [rarity_plebeian, rarity_patrician, rarity_profollean]
+
 # Leaderboard score categories
 leaderboard_slimes = "SLIMIEST"
 leaderboard_slimecoin = "SLIMECOIN BARONS"
@@ -2861,7 +2873,8 @@ vendor_thumbnails = {
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
     "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
     poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]],
-    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"]
+    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"],
+    poi_id_apt_littlechernobyl:["JERMA", "https://rfck.app/npc/jerma.png"]
 }
 
 
@@ -2882,8 +2895,8 @@ vendor_dialogue = {
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
     poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"],
     poi_id_foodcourt:hide_dialogue.get(hide_value),
-    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."]
-
+    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."],
+    poi_id_apt_littlechernobyl:["Hope you enjoy the toilets. They're handpicked by me."]
 
 }
 
@@ -3287,6 +3300,7 @@ goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
 goonscape_clout_stat = "clout"
+goonscape_pee_stat = "piss"
 # Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
 
@@ -3301,6 +3315,8 @@ col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
 col_id_clout_level = goonscape_clout_stat + "_level"
 col_id_clout_xp = goonscape_clout_stat + "_xp"
+col_id_peeing_level = goonscape_pee_stat + "_level"
+col_id_peeing_xp = goonscape_pee_stat + "_xp"
 # Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
@@ -3313,6 +3329,7 @@ gs_stat_to_level_col = {
     goonscape_eat_stat: col_id_feasting_level,
     goonscape_clout_stat: col_id_clout_level,
     goonscape_halloweening_stat: col_id_halloweening_level,
+    goonscape_pee_stat: col_id_peeing_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
@@ -3321,6 +3338,19 @@ gs_stat_to_xp_col = {
     goonscape_eat_stat: col_id_feasting_xp,
     goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
+    goonscape_pee_stat: col_id_peeing_xp,
+}
+
+minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
+
+gs_stat_to_cape_description = {
+    goonscape_mine_stat: "Mining: A cape earned by {user_id} for maxing out the mining stat. Soot and dirt trails along it's ornate patterns, physical evidence of the hours spent toiling for poudrins and XP. Cape Number #{placement}",
+    goonscape_fish_stat: "A cape earned by {user_id} for maxing out the fishing stat. It makes for handy shade when spending hours at the pier, and glimmers like the scales of the fish caught and traded in to obtain it. Cape Number #{placement}",
+    goonscape_farm_stat: "A cape earned by {user_id} for maxing out the farming stat. It comes built-in with several pouches for holding seeds and crops, and is hemmed with beautiful juvie green. Cape Number #{placement}",
+    goonscape_eat_stat: " A cape earned by {user_id} for maxing out the feasting stat. The stains prove it's seen its fair usage as a bib as well as a cape. We can't believe {user_id} ate the whole thing. Cape Number #{placement}",
+    goonscape_clout_stat: "A cape earned by {user_id} for maxing out the clout stat. It's like a diamond play button but even more worthless! Cape Number #{placement}",
+    goonscape_halloweening_stat: "A cape earned by {user_id} for maxing out the halloween stat, obtainable during Double Halloween 2022. It shimmers purple with fabric made of double halloween grist, haunted by the hours wasted grinding this stat out. Cape Number #{placement}",
+    goonscape_pee_stat: "A cape earned by {user_id} for pissing to the extreme. The cape hangs heavy with a brutal yellow hue, raditating power. And also pee. Cape Number #{placement}",
 }
 
 legacy_stat_dict = {
@@ -3582,8 +3612,10 @@ style_smart = "smart"
 style_beautiful = "beautiful"
 style_cute = "cute"
 style_evil = "evil"
+style_skill = "skill"
 
-fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil]
+fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil, style_skill]
+valid_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil] #dont let noncapes get the skill style!
 
 freshnesslevel_1 = 500
 freshnesslevel_2 = 1000
@@ -3598,7 +3630,10 @@ soul_durability = 100000000  # 100 mega
 
 # Yeah the repair cost
 cosmetic_repair_cost = 10000
-cosmetic_bespoke_cost = 100000
+cosmetic_bespoke_cost = 100000 #raw slime, and princeps only
+cosmetic_reroll_plebeian_cost = 25 #in poudrins
+cosmetic_reroll_patrician_cost = 50 #in poudrins
+cosmetic_reroll_profollean_cost = 75 #in poudrins
 
 cosmetic_id_raincoat = "raincoat"
 
@@ -3960,7 +3995,7 @@ help_responses = {
     "ghosts": "Ghost gameplay revolves around the acquisition of antislime, through haunting and possession. Every use of **'!haunt'** away a small portion of slime from the haunted player, and grants it to the ghost as antislime. The amount of slime taken starts at 1/1000th and varies depending on a number of conditions, and you may also add a customized message by doing '!haunt [@player] [message]'. It can be done face-to-face like with !kill, or done remotely with decreased potency. As a ghost, you can only leave the sewers after being dead for at least a day. Furthermore, if a player has consumed **coleslaw**, they can **'!bust'** ghosts, which sends them back to the sewers. After amassing sufficient **Negative Slime** ghosts can conjure **Negaslimoids** at Waffle House. Ghosts can also **!inhabit** living players to move alongside them. If a ghost has sufficient antislime, they may also **!possessweapon** or **!possessfishingrod** to grant bonuses to the player they're inhabiting, with a potential reward in antislime if conditions are fulfilled. For more detailed information on ghost mechanics, see https://rfck.miraheze.org/wiki/Ghosts",
     # Additional gameplay mechanics, part 2
     "slimeoids": "**SLIMEOIDS** are sentient masses of slime that you can keep as **pets**. To learn how to make one for yourself, visit **The Slimeoid Laboratory** in Brawlden and check the enclosed **'!instructions'**. After you've made one, you can also battle it out with other slimeoids in **The Arena**, located in Vandal Park. Slimeoids can also be used to fight **Negaslimeoids** that have been conjured by ghosts. If your slimeoid dies, it's **HEART** is dropped, which can be sown in the ground like a poudrin, or taken to the labs to revive your slimeoid with **'!restoreslimeoid'**. In regards to your slimeoid's stats, a slimeoid's **'Moxie'** represents its physical attack, **'Chutzpah'** its special attack, and **'Grit'** its defense. Additionally, the color you dye your slimeoid with **'!saturateslimeoid'** also plays into combat. Your slimeoid gets attack bonuses against slimeoids that have its split complementary hue and resist slimeoids with its analgous hues. For more information, see the diagrams linked below (credits to Slimepunk#3355). There are also various commands you can perform on your slimeoid, such as **'!observeslimeoid'**, **'!petslimeoid'**, **'!walkslimeoid'**, and **'!playfetch'**. To humanely and ethically euthanize your slimeoid, use **'!dissolveslimeoid'** at the laboratory. To store and release your slimeoid in a bottle (Warning: This bottle is dropped upon death!!), use **'!bottleslimeoid'** and **'!unbottleslimeoid [slimeoid]'**, respectively. To add a description to your slimeoid, use **!tagslimeoid** with a dog tag. To remove this description, **!untagslimeoid**. To battle to the **DEATH**, use **'slimeoidbattle [@] todeath'**.\n<https://cdn.discordapp.com/attachments/492088204053184533/586310921274523648/SLIMEOID-HUE.png>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662087653064706/SLIMEOID-HUE.gif>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662095848996894/SLIMEOID_HUE_NOTE.png>",
-    "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a random one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming with the exception of Evil Studs, which is gained from sowing player scalps instead. Cosmetics can either be of 'plebian', 'patrician', or 'profollean' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
+    "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a random one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming with the exception of Evil Studs, which is gained from sowing player scalps instead. Cosmetics can either be of 'plebeian', 'patrician', or 'profollean' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
     "realestate": "The **Real Estate Agency** is, well, the agency where you buy real estate. First, check out the property you want with **'!consult [district]'**. The real estate agent will tell you a bit about the area. \nOnce you've made your decision, you can **'!signlease [district]'** to seal the deal. There's a down payment, and you will be charged rent every 2 IRL days. Fair warning, though, if you already have an apartment and you rent a second one, you will be moved out of the first.\n\nFinally, if you own an apartment already, you can **'!aptupgrade'** it, improving its storage capabilities, but you'll be charged a huge down payment and your rent will double. The biggest upgrade stores 32 closet items, 32 food items, 96 shelved items, and 24 pieces of furniture (And can be doubled if you have mutation Packrat). And if you're ready to cut and run, use **'!breaklease'** to end your contract. It'll cost another down payment, though.\n\nYou can !addkey to acquire a housekey. Giving this item to some lucky fellow gives them access to your apartment, including all your prized posessions. Getting burglarized? Use !changelocks to eliminate all housekeys you created. Both cost a premium, though.",
     "apartments": "Once you've gotten yourself an apartment, there are a variety of things you can do inside it. To enter your apartment, do **'!retire'** in the district your apartment is located in. Alternatively, you can **'!goto apt'**. To change the name and description of your apartment, do **'!aptname [name]'** and **'!aptdesc [description]'**, respectively. To place and remove furniture (purchasable in The Bazaar and elsewhere), do **'!decorate [furniture]'** and **'!undecorate [furniture]'**. You can store and remove items with **'!stow'** and **'!snag'**, which will store them in either the Fridge (for food items), the Bookshelf (for zines), or the Closet. Each of these can store a certain amount of their respective items, which can be viewed with **'!fridge'**, **'!shelf'**, and **'!closet'**. You can also check the capacity of your apartment and any decorated collections with **'!decorate'** standalone. To store and remove your slimeoid or negaslimeoid, do **'!freeze'** and **'!unfreeze'**. \n\nFor information on collection functionality, use **'!help collections'**.\n\nTo enter someone else's apartment, you can do **'!knock [player]'**, which will prompt them to let you in.",
     "stocks": "**The Stock Exchange** is a sub-zone within downtown NLACakaNM, open only during the daytime (6AM-8PM). It allows players to **'!invest'** in various **'!stocks'**, which not only affects their own personal monetary gains, but the city's economy as well. Stocks will shift up and down value, which affects the price of food associated with the food chains of those respective stocks. The rate of exchange for stocks can be checked with **'!rates'**, and to withdraw your **'!shares'** from a stock, use **'!withdraw [amount] [stock]'** (the same logic also applies to !invest). Additionally, players may **'!transfer'** their slimecoin to other players at any time of the day while in the stock exchange, but at the cost of a 5% broker's fee and a 5 minute cooldown on subsequent transfers.",
@@ -4115,8 +4150,8 @@ mutation_descriptions = {
     mutation_id_whitenationalist: "Cannot be scouted regularly and you scavenge 50% more slime while weather is snowy, which also stacks with the Webbed Feet mutation. Use **'!weather'** to check if it's snowing. You can still be scouted by players with the Keen Smell mutation.",
     mutation_id_spoiledappetite: "You can eat spoiled food.",
     mutation_id_bigbones: "The amount of food items you can hold in your inventory is doubled.",
-    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger.",
-    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger.",
+    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger, AKA when you're less than half full.",
+    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger. Stay full to retain the effect.",
     mutation_id_bingeeater: "Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds. Eating lots of food at once puts you in a raging food coma, increasing defense.",
     mutation_id_lonewolf: "50% more damage and 2x capping speed when in a district without any friendly gangsters. Stacks with the Patriot mutation.",
     mutation_id_quantumlegs: "You can now use the !tp command, allowing you to teleport to a district up to two locations away from you after an uninterrupted 15 second running start, with a cooldown of 1 hour.",
@@ -4226,11 +4261,11 @@ universities_commands = "**UNIVERSITIES**\n!help <category>: Use this to teach y
 apartment_commands = "**APARTMENTS**\n!stow <item>: Put an item within the closet/fridge/bookshelf.\n!snag <item>: Take an item from the closet/fridge/bookshelf.\n!decorate <item>: Place a furniture item in the apartment.\n!undecorate <item>: Take a furniture item from the apartment.\n!propstand <item>: Turn an item into a piece of furniture.\n!collect <collection> <item>: Add an item to a collection box.\n!contents <collection>: Search a collection's contents as if a community chest.\n!aptname <name>: Rename apartment.\n!aptdesc <description>: Change apartment's description.\n!renamecollection <collection> [name]: Rename a collection.\n!unpot: Remove a potted crop from its pot.\n\nGo to the Bazaar to undo prop stands, aquariums, and collections."
 
 mutation_unique_commands = {
-    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
+    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.\n!shakeoff <player>: Used to break a person's thirdeye tracking from yourself. Anybody can use this.",
     "aposematicstench": "**APOSEMATIC STENCH**\n!stink: Gain stink, which drives away monsters. It functions like Fuck Energy Body Spray.",
     "bleedingheart": "**BLEEDING HEART**\n!bleedout: Purge your bleed storage onto the ground all at once.",
     "longarms": "**LONG ARMS**\n!longdrop <location> <item>: Drop an item in an adjacent district.",
-    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.",
+    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.\n!inventory preserved: Shows you which items you have preserved already.",
     "ditchslap": "**DITCH SLAP**\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
     "landlocked": "**LANDLOCKED**\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
     "organicfursuit": "**ORGANIC FURSUIT**\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
@@ -4304,6 +4339,7 @@ district_unique_commands = {
     "blimp": "**BLIMP**:\nGo skydiving. No parachute, but you can pretend.",
     "themuseum": "**THE MUSEUM**\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
     "wafflehouse": "**WAFFLE HOUSE**\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
+    "ghostmaidcafe": "**GHOST MAID CAFE**\n!startshift <hardmode>: Begin working to earn antislime and ghost tokens. Write hardmode after the command to challenge yourself.\n!serve: Serve customers during a shift to avoid failing before your pay.",
     "doorsofthesludgenant": "**DOOR OF THE SLUDGENANT**\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
 }
 

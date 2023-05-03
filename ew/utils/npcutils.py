@@ -206,10 +206,12 @@ async def ratqueen_action(keyword = '', enemy = None, channel = None, item = Non
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None): #sends npc dialogue, including context specific and rare variants
+async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None, clear_message = 0): #sends npc dialogue, including context specific and rare variants
     delete_after = None
     if 'loop' in keyword_override:
         delete_after = 30
+    elif clear_message > 0:
+        delete_after = clear_message
     if ewutils.is_district_empty(poi=enemy.poi):
         return
 
@@ -317,7 +319,7 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         if npc_obj.dialogue.get('loop') is not None:
             return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy=enemy)
         elif npc_obj.dialogue.get('talk') is not None:
-            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy)
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy, clear_message=30)
         else:
             response = "..."
             name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')

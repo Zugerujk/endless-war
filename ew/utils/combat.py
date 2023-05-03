@@ -1938,7 +1938,7 @@ class EwUser(EwUserBase):
             self.time_lastdeath = time_now
             self.life_state = ewcfg.life_state_corpse
             self.poi_death = self.poi
-            self.poi = ewcfg.poi_id_thesewers
+            self.poi = 'altlock' if self.poi == 'altlock' else ewcfg.poi_id_thesewers
             self.weapon = -1
             self.sidearm = -1
             self.time_expirpvp = 0
@@ -2100,7 +2100,7 @@ class EwUser(EwUserBase):
 
             self.hunger -= hunger_restored
             if self.hunger < 0:
-                xp_hunger += self.hunger #only count actual hunger restored for xp no over eating for free points >:[ 
+                xp_hunger = max(0, xp_hunger - self.hunger) #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
             if self.inebriation > 20:
