@@ -2043,13 +2043,12 @@ EwSmeltingRecipe(
         alias=[
             'maid suit',
             'maid dress',
-            'maid outfit',
+            'maid outfit'
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth : 3,
-            ewcfg.item_id_negapoudrin : 9,
-            ewcfg.item_id_cute_material : 2,
-            ewcfg.item_id_ghosttoken : 50,
+            ewcfg.item_id_ghostlycloth : 5,
+            ewcfg.item_id_negapoudrin : 1,
+            ewcfg.item_id_cute_material : 2
         },
         products=['maidoutfit']
     ),
@@ -2059,12 +2058,11 @@ EwSmeltingRecipe(
         alias =[
             'cigholder',
             'cighold',
-            'cigstickonastick',
+            'cigstickonastick'
         ],
         ingredients={
             'cigarette': 1,
-            ewcfg.item_id_stick: 2,
-            ewcfg.item_id_ghosttoken : 2,
+            ewcfg.item_id_stick: 1
         },
         products=['cigaretteholder']
     ),
@@ -2074,12 +2072,11 @@ EwSmeltingRecipe(
         alias = [
             'vampirehat',
             'sunhat',
-            'moonhat',
+            'moonhat'
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth: 6,
+            ewcfg.item_id_ghostlycloth: 3,
             ewcfg.item_id_blacklimeade : 2,
-            ewcfg.item_id_ghosttoken : 10,
         },
         products=['widebrimmedhat']
     ),
@@ -2092,9 +2089,9 @@ EwSmeltingRecipe(
             'eveningdress',
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth : 6,
-            ewcfg.item_id_ghosttoken : 20,
-            ewcfg.item_id_textiles: 10,
+            ewcfg.item_id_ghostlycloth : 4,
+            ewcfg.item_id_negapoudrin : 1,
+            ewcfg.item_id_faggot : 1
         },
         products = ['drapeddress']
     ),

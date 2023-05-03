@@ -3,7 +3,7 @@ import os
 import random
 from ..model.item import EwCosmeticItem
 
-unique_smeltables = ['skinsuit', 'eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'maidoutfit', 'drapeddress', 'widebrimmedhat', 'cigaretteholder', 'customfanhoodie',]
+unique_smeltables = ['eldritchsoul', 'safaribadge', 'cloutgoggles', 'programmersocks', 'customfanhoodie',]
 # Because all profollean cosmetics are complicated, they are in the same boat as unique_smeltables. DO NOT add profollean cosmetics to unique_smeltables! 
 # Profollean cosmetics and unique_smeltables are not smeltable in the slimepoudrin + stylecosmeticitem recipe. (Example: 4 slimepoudrin + 1 coolbeans will NOT give you a programmer socks or a cool profollean cosmetic! ) 
 cosmetic_items_list = [
@@ -1172,7 +1172,7 @@ cosmetic_items_list = [
         str_onadorn="You cloak up into the alien skinsuit. Who's invading now, body snatchers?",
         str_unadorn="You take off the skinsuit. Phew, it was hot and weirdly gelatinous in there.",
         str_onbreak="",
-        rarity="Plebeian",
+        rarity = "Profollean",
         durability=250000,
         style="smart",
         freshness=10,
@@ -2157,6 +2157,7 @@ cosmetic_items_list = [
         str_desc = "A cute little maid outfit! You look so cute with the little skirt and the little head thing that you don't remember the name of... You would rather not remember the things you had to do to get this outfit.",
         str_onadorn = "You pull on the maid outfit, ready to get to work!",
         str_unadorn = "You quickly pull off the outfit. \"Mom, I can explain!\" You shout as she runs away in shame.",
+        rarity = "Profollean",
         durability = 2500000,
         style = "cute",
         freshness = 7,
@@ -2169,6 +2170,7 @@ cosmetic_items_list = [
         str_desc = "A long piece of... stick, or something, with a cigarette spot on the end. You are too unrefined to know the specifics but DANG you look pretty holding it. It could put someone's eye out!",
         str_onadorn = "You stick the cigarette holder into your mouth, inhaling deeply before blowing out a puff of smoke.",
         str_unadorn = "You remove the cigarette holder from your mouth and store it in your pocket.",
+        rarity = "Profollean",
         durability = 2500000,
         style = "beautiful",
         freshness = 5,
@@ -2181,6 +2183,7 @@ cosmetic_items_list = [
         str_desc = "This hat cost you so many hours, you might as well be the lord of this city! Better not let the patrons see you in it though... They keep asking you to... Crush them...",
         str_onadorn = "You place the wide brimmed hat on your head, the edge flopping over one eye sexily. Oh yeah, lets get this ~~blood~~ bread.",
         str_unadorn = "You remove the wide brimmed hat, setting it down. You feel shorter now.",
+        rarity = "Profollean",
         durability = 2500000,
         style = "beautiful",
         freshness = 8,
@@ -2194,6 +2197,7 @@ cosmetic_items_list = [
         str_desc = "A long gown, with ample room for large bosoms and tall stature. It is fitted for someone of height 289.56 cm. If you are shorter than that, it's gonna be pooling around your feet.",
         str_onadorn = "You slide into the beautiful dress... you are now absolutely breathtaking. Men (and women) bow before you, almost trying to throw themselves under your feet. It is rather annoying.",
         str_unadorn = "Your huge body rips out of the dress, tearing it to shreds! It was no match for your impressive figure! (Don't worry though it still is in your inventory.)", #sus
+        rarity = "Profollean",
         durability = 2500000,
         style = "beautiful",
         freshness = 10,
