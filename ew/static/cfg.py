@@ -2722,7 +2722,7 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
-stat_foodbasket_kills = 'foodbasket_kills'
+stat_basket_kills = 'basket_kills'
 
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
@@ -3264,7 +3264,7 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
-weapon_id_foodbasket = 'petrifiedfoodbasket'
+weapon_id_basket = 'basket'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -4746,7 +4746,7 @@ enemy_drop_tables = {
         {item_id_giftribbon: [100, 2, 5]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [100, 1, 1]},
+        {weapon_id_basket: [100, 1, 1]},
         {rarity_patrician: [50, 1, 1]},
         {item_id_slimepoudrin: [10, 10, 25]},
     ],
