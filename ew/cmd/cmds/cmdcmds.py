@@ -3398,6 +3398,11 @@ async def display_goonscape_stats(cmd):
     normal = True
     hidden = False
 
+    if cmd.mentions_count > 0:
+        target_id = cmd.mentions[0].id
+    else:
+        target_id = cmd.message.author.id
+
     # Handle user specification
     if cmd.tokens_count > 1:
         if cmd.tokens[1].lower() in ["all", "a"]:
@@ -3410,14 +3415,14 @@ async def display_goonscape_stats(cmd):
     if normal:
         for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
     # List hidden stats
     if hidden:
         for stat_name in [ewcfg.goonscape_halloweening_stat, ewcfg.goonscape_pee_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             # Format usual response, with explanation of the stat's origin.
             origin = ewcfg.legacy_stat_dict.get(stat_name)
