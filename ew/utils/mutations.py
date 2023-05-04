@@ -66,6 +66,7 @@ def initialize_rotation(id_server):
         name = mut[0]
         modifier = mut[1]
 
+        active_mutations[id_server].clear()
 
         if name not in stat_ranges.keys():
             active_mutations[id_server].append(mut[0])

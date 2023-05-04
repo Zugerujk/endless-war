@@ -21,6 +21,7 @@ from . import leaderboard as leaderboard_utils
 from . import weather as weather_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
+from . import mutations as mut_utils
 try:
     from . import rutils as rutils
 except:
@@ -1323,6 +1324,9 @@ async def clock_tick_loop(id_server, force_active = False):
                 # Decrease inebriation for all players above min (0).
                 ewutils.logMsg("Handling inebriation...")
                 await pushdownServerInebriation(id_server)
+
+                ewutils.logMsg('Updating rotations...')
+                mut_utils.initialize_rotation(id_server)
 
                 ewutils.logMsg("Killing offers...")
                 # Remove fish offers which have timed out
