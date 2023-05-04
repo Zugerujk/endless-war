@@ -1014,3 +1014,56 @@ async def change_rotation_stat(cmd):
                 target_name))
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def lock_mutation(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        response = "Locked in."
+
+        bknd_core.execute_sql_query(
+            "replace into mut_rotations({id_server}, {id_month}, {id_year}, {mutation}, {context_num}) values(%s, %s, %s, %s, %s)".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation,
+                context_num=ewcfg.col_id_context_num
+            ), (cmd.guild.id,
+                0,
+                0,
+                target,
+                1))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def unlock_mutation(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        response = "Released the lock for this mutation."
+
+        bknd_core.execute_sql_query(
+            "delete from mut_rotations where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation
+            ), (cmd.guild.id,
+                0,
+                0,
+                target))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

@@ -133,23 +133,34 @@ def create_rotation(id_server):
     time_now = int(time.time())
     random_seed_mut = random.Random(id_server)
     random_seed_mut.seed(id_server + time_now)
+    locked_muts = []
 
-    #print("{}{}".format(id_server, time_now))
+    locked_rotation_data = bknd_core.execute_sql_query(
+        "select {id_mutation} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
+            id_mutation=ewcfg.col_id_mutation,
+            context_num=ewcfg.col_id_context_num,
+            month=ewcfg.col_id_month,
+            year=ewcfg.col_id_year,
+            id_server=ewcfg.col_id_server
+        ), (0, 0, id_server))
+
+    for lock in locked_rotation_data:
+        locked_muts.append(lock[0])
+
     for mutation in static_mutations.mutations:
-        all_mutations.append(mutation.id_mutation)
+        if mutation.id_mutation not in locked_muts:
+            all_mutations.append(mutation.id_mutation)
 
-
-    #print(all_mutations)
     random_seed_mut.shuffle(all_mutations)
 
-    #print(all_mutations)
-
-    limited_list = int(len(all_mutations) * .66)
+    limited_list = int(len(all_mutations) * .66) - len(locked_rotation_data)
 
     selections = all_mutations[:limited_list]
 
     for stat in stat_ranges.keys():
         selections.append(stat)
+
+    selections.extend(locked_muts)
 
     return selections
 
