@@ -32,6 +32,7 @@ def initialize_rotation(id_server):
     month = int(today.month)
     year = int(today.year)
     active_mutations[id_server] = []
+    active_mutations[id_server].clear()
     future_month = (month % 12) + 1
     future_year = year if month != 12 else year + 1
 
@@ -66,7 +67,6 @@ def initialize_rotation(id_server):
         name = mut[0]
         modifier = mut[1]
 
-        active_mutations[id_server].clear()
 
         if name not in stat_ranges.keys():
             active_mutations[id_server].append(mut[0])
