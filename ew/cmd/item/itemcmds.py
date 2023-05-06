@@ -382,32 +382,46 @@ async def inventory_print(cmd):
         # Filter to preserved items (rigor mortis)
         if "preserved" in lower_token_list:
             prop_hunt["preserved"] = str(cmd.message.author.id)
+        
+        if "fish" in lower_token_list:
+            prop_hunt["acquisition"] = ewcfg.acquisition_fishing
+        
+        if ewcfg.fish_rarity_common in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_common
+        elif ewcfg.fish_rarity_uncommon in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_uncommon
+        elif ewcfg.fish_rarity_rare in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_rare
+        elif ewcfg.fish_rarity_promo in lower_token_list:
+            prop_hunt["rarity"] = ewcfg.fish_rarity_promo
 
         # Less tokens exist than colours or weapons. Search each token instead of each colour/weapon
-        if len(lower_token_list) < 20: # anything above that is just gonna make this loop run long
-            i = 1
-            while i < len(lower_token_list):
-                token = lower_token_list[i]
+        
+        i = 1
+        while i < len(lower_token_list):
+            token = lower_token_list[i]
 
-                # Only cosmetics and furnitures can be dyed
-                if item_type in [ewcfg.it_cosmetic, ewcfg.it_furniture]:
-                    #Filter by colour
-                    hue_prop = hue_static.hue_map.get(token)
-                    if(hue_prop):
-                        prop_hunt["hue"] = hue_prop.id_hue
-                        i += 1 # this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
-                        continue
+            #Filter by colour
+            hue_prop = hue_static.hue_map.get(token)
+            if(hue_prop):
+                prop_hunt["hue"] = hue_prop.id_hue
+                i += 1 # this is basically a simple for loop except when a token is identified in 1 way, the while loop moves to the next token instead of checking if its also something else.
+                continue
 
-                # Only weapons have weapon types
-                if item_type == ewcfg.it_weapon:
-                    #Filter by weapon
-                    weapon_prop = static_weapons.weapon_map.get(token)
-                    if(weapon_prop):
-                        prop_hunt["weapon_type"] = weapon_prop.id_weapon
-                        i += 1
-                        continue
-
+            #Filter by weapon
+            weapon_prop = static_weapons.weapon_map.get(token)
+            if(weapon_prop):
+                prop_hunt["weapon_type"] = weapon_prop.id_weapon
                 i += 1
+                continue
+
+            style_prop = token in ewcfg.fashion_styles
+            if(style_prop):
+                prop_hunt["fashion_style"] = token
+                i += 1
+                continue
+
+            i += 1
         
         if(not prop_hunt):
             prop_hunt = None
@@ -825,8 +839,14 @@ async def item_look(cmd):
                 response += "\n\nIts freshness rating is {rating}.".format(rating=item.item_props['freshness'])
 
                 hue = hue_static.hue_map.get(item.item_props.get('hue'))
-                if hue != None:
+                hue2 = hue_static.hue_map.get(item.item_props.get('hue2'))
+                pattern = item.item_props.get('pattern')
+                if hue != None and pattern == None:
                     response += " Its been dyed in {} paint.".format(hue.str_name)
+                elif hue != None and hue2 != None and pattern in hue_static.singular_patterns:
+                    response += " Its been dyed in {} paint with a {} {}." .format(hue.str_name, hue2.str_name, pattern)
+                elif hue != None and hue2 != None and pattern != None:
+                    response += " It has a {} and {} {} pattern." .format(hue.str_name, hue2.str_name, pattern)
 
             if item.item_type == ewcfg.it_furniture:
                 furnlist = static_items.furniture_map
@@ -914,7 +934,7 @@ async def item_use(cmd):
             if function is not None:
                 return await function(cmd=cmd)
 
-        if item.item_type == ewcfg.it_item:
+        if item.item_type in [ewcfg.it_item, ewcfg.it_cosmetic]:
             name = item_sought.get('name')
             context = item.item_props.get('context')
             if (context == "cardpack" or context == "promocardpack" or context == "boosterbox"):
@@ -1005,6 +1025,8 @@ async def item_use(cmd):
             
             elif context == 'partypopper':
                 response = "***:tada:POP!!!:tada:*** Confetti flies all throughout the air, filling the area with a sense of celebration! :confetti_ball::confetti_ball::confetti_ball:"
+                if item.soulbound is not True:
+                    bknd_item.item_delete(item.id_item)
 
             elif context == 'milk':
                 response = "After struggling with the milk cap, you eventually manage to force it off with your bare hands. Now holding the open gallon jug out, you pour all of its contents onto the ground until you're left with an empty carton."
@@ -1425,7 +1447,7 @@ async def propstand(cmd):
 
         if item.soulbound:
             response = "Cool idea, but no. If you tried to mount a soulbound item above the fireplace you'd be stuck there too."
-        elif item.item_type == ewcfg.it_relic:
+        elif item.item_type == ewcfg.it_relic or item.item_props.get('aquisition') == 'relic':
             response = "Hey, can't help but notice that you don't run a museum. Only people that run a museum are allowed to stick priceless artifacts on pedestals. Think you can handle that, bitch?"
         else:
             if item.item_type == ewcfg.it_weapon and usermodel.weapon >= 0 and item.id_item == usermodel.weapon:
@@ -2044,6 +2066,8 @@ async def collect(cmd):
         response = "You must specify a collection item."
     elif item_sought_item.get('soulbound') == True:
         response = "That's bound to your soul. You can't collect it any harder if you wanted to."
+    elif item_sought_item.get('item_type') == ewcfg.it_relic:
+        response = "Only some sort of CURATOR can pull hyjinks like that, besides that you have a feeling someone will swipe the relic under your nose when you try to get it out anyways."
     else:
         furn_list = static_items.furniture_map
         item = EwItem(id_item=item_sought_item.get('id_item'))

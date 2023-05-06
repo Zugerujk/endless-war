@@ -49,6 +49,9 @@ cmd_map = {
     # Terezi Gang can flip coins
     ewcfg.cmd_coinflip: cmdcmds.coinflip,
 
+    # Die wielders can die
+    ewcfg.cmd_rolldie: cmdcmds.rolldie,
+
     # Bass weilders can jam out
     ewcfg.cmd_jam: cmdcmds.jam,
     ewcfg.cmd_stunt: cmdcmds.stunt,
@@ -112,6 +115,8 @@ cmd_map = {
     ewcfg.cmd_promote: cmdcmds.promote,
     ewcfg.cmd_checkbot: cmdcmds.check_bot,
 
+    # award skill capes earned before capes existed
+    ewcfg.cmd_award_skill_capes: cmdcmds.award_skill_capes,
     # force print the leaderboard
     ewcfg.cmd_post_leaderboard: cmdcmds.post_leaderboard,
 

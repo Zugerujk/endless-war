@@ -14,6 +14,7 @@ import ew.static.vendors as vendors
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
+import ew.static.weapons as static_weapons
 from ew.utils import core as ewutils
 
 try:
@@ -30,6 +31,9 @@ try:
     from ew.utils import rutils as relic_utils
 except:
     from ew.utils import rutils_dummy as relic_utils
+
+
+vendor_last_interact = {}
 
 
 async def stock_market_tick(stock_data, id_server):
@@ -317,9 +321,10 @@ async def refresh_bazaar(id_server = None):
     bazaar_cosmetics = []
     bazaar_general_items = []
     bazaar_furniture = []
+    bazaar_weapons = []
     bazaar_relics = []
 
-
+    # For every item within the bazaar's vendor inventory, assign them to lists based on their type.
     for item in vendors.vendor_inv.get(ewcfg.vendor_bazaar):
         if item in static_items.item_names:
             bazaar_general_items.append(item)
@@ -333,17 +338,16 @@ async def refresh_bazaar(id_server = None):
         elif item in static_items.furniture_names:
             bazaar_furniture.append(item)
 
+        elif item in static_weapons.weapon_names:
+            bazaar_weapons.append(item)
+
 
         elif item in static_relic.relic_names and relic_utils.canCreateRelic(item=item, id_server=id_server) is not None:
             bazaar_relics.append(item)
 
+    print(bazaar_general_items)
     if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
         market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
-
-    market_data.bazaar_wares['slimecorp1'] = ewcfg.weapon_id_umbrella
-    market_data.bazaar_wares['slimecorp2'] = ewcfg.cosmetic_id_raincoat
-
-    market_data.bazaar_wares['generalitem'] = random.choice(bazaar_general_items)
 
     market_data.bazaar_wares['food1'] = random.choice(bazaar_foods)
     # Don't add repeated foods
@@ -381,10 +385,9 @@ async def refresh_bazaar(id_server = None):
 
     market_data.bazaar_wares['furniture3'] = bw_furniture3
 
-    if random.random() < 0.05:  # 1 / 20
-        market_data.bazaar_wares['minigun'] = ewcfg.weapon_id_minigun
-
-    if random.random() < 0.05:  # 1 / 20
-        market_data.bazaar_wares['bustedrifle'] = ewcfg.item_id_bustedrifle
+    if random.random() < 0.1:  # 1 / 10
+        market_data.bazaar_wares['weapon'] = random.choice(bazaar_weapons)
+    
+    market_data.bazaar_wares['generalitem'] = random.choice(bazaar_general_items)
     
     market_data.persist()

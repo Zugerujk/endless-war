@@ -90,7 +90,7 @@ def update_cosmetic(item_data: EwItem) -> EwItem:
 
 def restyle_cosmetic(item_data: EwItem, new_style: str) -> EwItem:
     """ Change a cosmetic item's style property."""
-    if new_style not in ewcfg.fashion_styles:
+    if new_style not in ewcfg.valid_styles:
         return item_data
 
     item_data.item_props["fashion_style"] = new_style

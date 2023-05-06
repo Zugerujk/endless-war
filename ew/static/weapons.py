@@ -912,7 +912,6 @@ weapon_list = [
     EwWeapon(  # 19
         id_weapon=ewcfg.weapon_id_fishingrod,
         alias=[
-            "fish",
             "fishing",
             "rod",
             "super",
@@ -1977,25 +1976,25 @@ weapon_list = [
         str_brandish=["{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves."],
     ),
     EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
-        id_weapon=ewcfg.weapon_id_foodbasket,
+        id_weapon=ewcfg.weapon_id_basket,
         alias=[
-            "petrifiedfoods", "basket", "petrified", "food", "picnicbasket",
+            "petrifiedfoods", "foobasket", "petrified", "picnicbasket",
         ],
         str_crit="**Critical hit!!** {name_player}’s hurls a large petrified roast at {name_target}, breaking their {hitzone}!",
         str_miss="**MISS!!** {name_player} drops their basket and stumbles over to pick it back up!",
         str_equip="You slip the basket's handles over your forearm.",
-        str_name="foodbasket",
+        str_name="basket",
         str_weapon="a food basket",
         str_weaponmaster_self="You are a rank {rank} {title} picnicker.",
         str_weaponmaster="They are a rank {rank} {title} picnicker.",
-        str_kill=comm_cfg.foodbasketkilltext,
+        str_kill=comm_cfg.basketkilltext,
         str_killdescriptor="yogi'd",
         str_damage="{name_target} gets impacted by a lump of petrified food in their {hitzone}!!",
         str_duel="{name_player} and {name_target} have a pleseant picnic. It ends prematurely due to a bear storming into the dojo.",
         str_description="It's a food basket, made from reinforced wick weaving.",
         str_scalp=" It's completely petrified.",
         fn_effect=get_normal_attack(weapon_type='small_game'),
-        stat=ewcfg.stat_foodbasket_kills,
+        stat=ewcfg.stat_basket_kills,
         str_brandish=["{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing."],
     ),
 ]

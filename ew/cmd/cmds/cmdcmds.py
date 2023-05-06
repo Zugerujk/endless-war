@@ -17,6 +17,7 @@ from ew.backend.worldevent import EwWorldEvent
 from ew.backend.mutation import EwMutation
 from ew.backend.yacht import EwYacht
 from ew.backend.dungeons import EwGamestate
+from ew.backend.questrecords import fetch_quest_records
 
 from ew.utils.transport import EwTransport
 
@@ -160,13 +161,19 @@ async def data(cmd):
         enemy = cmbt_utils.find_enemy(soughtenemy, user_data)
         if enemy != None:
 
+            description = ewcfg.enemy_data_table[enemy.enemytype].get("raredescription") if enemy.rare_status else ewcfg.enemy_data_table[enemy.enemytype].get("description")
+            # Try for arctic variant description
+            if description is not None and ewcfg.enemy_data_table[enemy.enemytype].get("arcticvariant") == enemy.display_name:
+                description = ewcfg.enemy_data_table[enemy.enemytype].get("arcticdescription")
+            description = "" if description == None else description
+
             if enemy.enemytype == 'npc':
                 npc_obj = npcutils.active_npcs_map.get(enemy.enemyclass)
                 response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.image_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
             elif enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
-                response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. ".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype)
+                response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. {}".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype, description)
             else:
-                response = "{} is a level {} enemy. They have {:,} slime".format(enemy.display_name, enemy.level, enemy.slimes)  # , enemy.hardened_sap)
+                response = "{} is a level {} enemy. They have {:,} slime. {}".format(enemy.display_name, enemy.level, enemy.slimes, description)  # , enemy.hardened_sap)
 
             statuses = enemy.getStatusEffects()
 
@@ -227,7 +234,9 @@ async def data(cmd):
             cos = EwItem(id_item=cosmetic.get('id_item'))
             if cos.item_props['adorned'] == 'true':
                 hue = hue_static.hue_map.get(cos.item_props.get('hue'))
-                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                hue2 = cos.item_props.get('hue2')
+                pattern = cos.item_props.get('pattern')
+                adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name')))
                 cosmetic_id_list.append(cos.item_props['id_cosmetic'])
 
         poi = poi_static.id_to_poi.get(user_data.poi)
@@ -725,6 +734,45 @@ async def jam(cmd):
         response = "Are you sure you have that item?"
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+"""
+    Dice wielders can DIE    
+"""
+
+
+async def rolldie(cmd):
+    validroll = False
+    
+    # Look for die
+    item_found = ewutils.flattenTokenListToString("die")
+    item_sought = bknd_item.find_item(item_search=item_found, id_user=cmd.message.author.id, id_server=cmd.guild.id)
+
+    # Check for if the user has either a die OR is Terezi Gang
+    if item_sought:
+        item = EwItem(id_item=item_sought.get('id_item'))
+        if item.item_props.get("id_furniture") == "die":
+            validroll = True
+    elif fe_utils.check_user_has_role(cmd.guild, cmd.message.author, ewcfg.role_donor_proper):
+        validroll = True
+    
+    # If the user *can* roll
+    if validroll:
+        # Send a dice rolling message
+        response = "{}".format(ewcfg.emote_dice_rolling)
+        sent_message = await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    
+        await asyncio.sleep(4)  # WAIT
+
+        # Roll dice, edit esponse
+        dieroll = random.randint(1, 6)
+        return await fe_utils.edit_message(cmd.client, sent_message, fe_utils.formatMessage(cmd.message.author, "{}".format(ewcfg.emotes_dice[dieroll - 1])))
+    
+    else:
+        response = "You're not feeling dicey enough to do that."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
 
 async def stunt(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -1359,7 +1407,8 @@ async def fashion(cmd):
             if c.item_props['adorned'] == 'true':
 
                 hue = hue_static.hue_map.get(c.item_props.get('hue'))
-
+                hue2 = c.item_props.get('hue2') # hue2 and pattern hold no importance in the cosmetic's calculation, so no need to go through the hue map for it.
+                pattern = c.item_props.get('pattern')
                 adorned_styles.append(c.item_props.get('fashion_style'))
 
                 if c.item_props['id_cosmetic'] not in adorned_ids:
@@ -1371,7 +1420,7 @@ async def fashion(cmd):
                 space_adorned += int(c.item_props['size'])
 
                 adorned_ids.append(c.item_props['id_cosmetic'])
-                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name'))) # Throws as "red/white striped felinehat if all are not none, throws red felinehat if dye2 and pattern is none."
 
         # show all the cosmetics that you have adorned.
         if len(adorned_cosmetics) > 0:
@@ -1456,7 +1505,8 @@ async def fashion(cmd):
             if c.item_props['adorned'] == 'true':
 
                 hue = hue_static.hue_map.get(c.item_props.get('hue'))
-
+                hue2 = c.item_props.get('hue2')
+                pattern = c.item_props.get('pattern')
                 adorned_styles.append(c.item_props.get('fashion_style'))
 
                 if c.item_props['id_cosmetic'] not in adorned_ids:
@@ -1468,7 +1518,7 @@ async def fashion(cmd):
                 space_adorned += int(c.item_props['size'])
 
                 adorned_ids.append(c.item_props['id_cosmetic'])
-                adorned_cosmetics.append((hue.str_name + " " if hue != None else "") + cosmetic.get('name'))
+                adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name')))
 
         # show all the cosmetics that you have adorned.
         if len(adorned_cosmetics) > 0:
@@ -2582,6 +2632,11 @@ async def prank(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
 
 
+"""
+    ENCYCLOPEDIC COMMANDS
+"""
+
+# Gaiaslimeoids and Shamblers
 async def almanac(cmd):
     if not cmd.tokens_count > 1:
         enemy_counter = 0
@@ -3406,6 +3461,11 @@ async def display_goonscape_stats(cmd):
     normal = True
     hidden = False
 
+    if cmd.mentions_count > 0:
+        target_id = cmd.mentions[0].id
+    else:
+        target_id = cmd.message.author.id
+
     # Handle user specification
     if cmd.tokens_count > 1:
         if cmd.tokens[1].lower() in ["all", "a"]:
@@ -3418,23 +3478,68 @@ async def display_goonscape_stats(cmd):
     if normal:
         for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
     # List hidden stats
     if hidden:
-        for stat_name in [ewcfg.goonscape_halloweening_stat]:
+        for stat_name in [ewcfg.goonscape_halloweening_stat, ewcfg.goonscape_pee_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             # Format usual response, with explanation of the stat's origin.
-            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp - {origin}\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp, origin=ewcfg.legacy_stat_dict[stat_name])
+            origin = ewcfg.legacy_stat_dict.get(stat_name)
+            response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp {origin}\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp, origin=("- "+origin if origin is not None else ""))
 
     response += "```"
 
     
     await fe_utils.send_response(response, cmd)
 
+async def award_skill_capes(cmd): #this command should be removed after its been used once. it would just duplicate all capes if used again :p
+    if not cmd.message.author.guild_permissions.administrator:
+        return await cmd_utils.fake_failed_command(cmd)
+    for skill in ewcfg.gs_stat_to_level_col.keys(): #loop through skills
+        capes = bknd_core.execute_sql_query(
+            "SELECT * FROM quest_records WHERE {id_server} = %s AND {record_type} = %s AND {record_data} = %s ORDER BY {time_stamp} ASC".format(
+                id_server = ewcfg.col_id_server,
+                record_type = ewcfg.col_record_type,
+                record_data = ewcfg.col_record_data,
+                time_stamp = ewcfg.col_time_stamp,
+            ), (
+                cmd.guild.id, 
+                "skill_cape", 
+                skill,
+            )
+        )
+        placement = 1
+        for cape in capes: #loop through quest records made for achieving lv99 in a goonscape stat
+            bknd_item.item_create(
+                item_type=ewcfg.it_cosmetic,
+                id_user=cape[1],
+                id_server=cape[2],
+                item_props={
+                    'id_cosmetic': '{skill}skillcape'.format(skill=skill),
+                    'cosmetic_name': "{skill} cape".format(skill=skill.capitalize()),
+                    'cosmetic_desc': ewcfg.gs_stat_to_cape_description.get(skill).format(user_id=cape[1],placement=placement),
+                    'str_onadorn': ewcfg.str_cape_onadorn,
+                    'str_unadorn': ewcfg.str_cape_unadorn,
+                    'str_onbreak': ewcfg.str_cape_onbreak,
+                    'rarity': ewcfg.rarity_promotional,
+                    'size': 0,
+                    'attack':0,
+                    'defense':0,
+                    'speed':0,
+                    'ability': None,
+                    'durability': 42069, #man fuck this noise
+                    'original_durability': 42069,
+                    'fashion_style': ewcfg.style_skill,
+                    'freshness': 1,
+                    'adorned': 'true',
+                    'soulbound': 'true'
+                }
+            )
+            placement += 1
 
 async def clear_zero_stats(cmd):
     """Admin command to clear redundant 0 value stats from the database."""

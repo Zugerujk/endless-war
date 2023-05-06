@@ -26,6 +26,7 @@ from ew.utils import frontend as fe_utils
 from ew.utils import item as itm_utils
 from ew.utils import loop as loop_utils
 from ew.utils import poi as poi_utils
+from ew.utils import market as market_utils
 try:
     from ew.utils import rutils as relic_utils
 except:
@@ -506,6 +507,23 @@ async def order(cmd):
 
                     if premium_purchase:
                         user_data.time_lastpremiumpurchase = int(time.time())
+
+                    # If the vendor isn't in the last_interact dictionary, or if its value plus the passive chat wait time is in the past
+                    print(market_utils.vendor_last_interact)
+                    if (current_vendor not in market_utils.vendor_last_interact.keys()) or (int(market_utils.vendor_last_interact[current_vendor]) + ewcfg.vendor_passive_chat_wait_time < int(time.time())):
+                        # Update the dictionary value
+                        market_utils.vendor_last_interact[current_vendor] = int(time.time())
+
+                        # If the location has a vendor with dialogue
+                        if user_data.poi in ewcfg.vendor_order_dialogue.keys():
+                            # Make 'em talk!
+                            dialogue_response = random.choice(ewcfg.vendor_order_dialogue.get(user_data.poi))
+                            dialogue_thumbnail = ewcfg.vendor_thumbnails.get(user_data.poi)[1]
+                            dialogue_rawname = ewcfg.vendor_thumbnails.get(user_data.poi)[0]
+                            dialogue_name = "{}{}{}".format("*__", dialogue_rawname, "__*")
+                            # Bypasses the response container.
+                            await fe_utils.talk_bubble(response = dialogue_response, name = dialogue_name, image = dialogue_thumbnail, channel = cmd.message.channel)                            
+
 
                     user_data.persist()
 

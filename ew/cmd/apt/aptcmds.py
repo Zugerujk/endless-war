@@ -1709,7 +1709,7 @@ async def jeeves(cmd):
         ewutils.jeeves[user_data.id_user] = 1
         for item in item_stash:
             if item.get('name') == "brick" and item.get("item_type") == ewcfg.it_furniture:
-                await asyncio.sleep(10)
+                await asyncio.sleep(20)
                 bknd_item.item_delete(item.get('id_item'))
         ewutils.jeeves[user_data.id_user] = 0
         response = "Jeeves is all done!"
