@@ -566,7 +566,7 @@ CREATE TABLE quest_records (
 
 CREATE TABLE yachts(
     name_yacht varchar(64) NOT NULL,
-    thread_id varchar(32) NOT NULL,
+    thread_id bigint NOT NULL DEFAULT -1,
     id_user BIGINT NOT NULL DEFAULT  -1,
     id_server BIGINT NOT NULL DEFAULT  -1,
     flood DECIMAL(9, 2) NOT NULL DEFAULT 0.0,
@@ -579,21 +579,21 @@ CREATE TABLE yachts(
     y_coord INT NOT NULL DEFAULT  5,
     speed INT NOT NULL DEFAULT  0,
     direction VARCHAR(32) NOT NULL DEFAULT '',
+    slimes BIGINT NOT NULL DEFAULT 0,
 
     PRIMARY KEY (thread_id, id_server)
 );
 
 
 CREATE TABLE yacht_stats(
-    thread_id varchar(32) NOT NULL DEFAULT   -1,
+    thread_id bigint NOT NULL,
     id_stat BIGINT NOT NULL AUTO_INCREMENT,
     type_stat VARCHAR(25) NOT NULL DEFAULT  '',
     id_server BIGINT NOT NULL DEFAULT  -1,
     target BIGINT NOT NULL DEFAULT  -1,
     quantity BIGINT NOT NULL DEFAULT  -1,
 
-	PRIMARY KEY(id_stat),
-    FOREIGN KEY (thread_id) REFERENCES yachts(thread_id)) ON DELETE CASCADE
+	PRIMARY KEY(id_stat)
 );
 
 

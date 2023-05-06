@@ -143,8 +143,11 @@ async def board_ship(cmd):
                             user_data = EwUser(member=cmd.message.author)
                             user_data.poi = "yacht{}".format(selected_ship.thread_id)
                             user_data.persist()
-                            await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
-                            await user_data.move_inhabitants(id_poi=user_data.poi)
+                            try:
+                                await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
+                                await user_data.move_inhabitants(id_poi=user_data.poi)
+                            except:
+                                ewutils.logMsg("Failed to update roles.")
 
 
             else:
