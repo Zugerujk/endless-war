@@ -598,3 +598,13 @@ CREATE TABLE yacht_stats(
 		ON DELETE CASCADE
 );
 
+
+CREATE TABLE mut_rotations (
+    month int NOT NULL DEFAULT 4,
+    year int NOT NULL DEFAULT 2023,
+    id_server BIGINT NOT NULL DEFAULT -1,
+    mutation varchar(128) NOT NULL DEFAULT '',
+    context_num decimal(9, 2) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (month, year, id_server, mutation)
+);

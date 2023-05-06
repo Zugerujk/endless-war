@@ -21,10 +21,16 @@ cmd_map = {
     ewcfg.cmd_skullbash: mutationcmds.skullbash,
     ewcfg.cmd_slap: mutationcmds.slap,
     ewcfg.cmd_thirdeye: mutationcmds.tracker,
-
+    ewcfg.cmd_currentrotation: mutationcmds.display_current_rotation,
     # Debug commands
     ewcfg.cmd_forcegraft: mutationcmds.forcegraft,
     ewcfg.cmd_forcechemo: mutationcmds.forcechemo,
+    ewcfg.cmd_nextrotation:mutationcmds.display_current_rotation,
+    ewcfg.cmd_add_mut_rotation:mutationcmds.add_rotation_mut,
+    ewcfg.cmd_clear_mut_rotation:mutationcmds.drop_rotation_mut,
+    ewcfg.cmd_change_rotation_stat:mutationcmds.change_rotation_stat,
+    ewcfg.cmd_lockmutation:mutationcmds.lock_mutation,
+    ewcfg.cmd_unlockmutation:mutationcmds.unlock_mutation
 }
 
 apt_dm_cmd_map = {
@@ -50,5 +56,6 @@ apt_dm_cmd_map = {
     ewcfg.cmd_longdrop: mutationcmds.longdrop,
 
     ewcfg.cmd_thirdeye: mutationcmds.tracker,
+    ewcfg.cmd_nextrotation:mutationcmds.display_current_rotation
 
 }

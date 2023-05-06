@@ -1200,7 +1200,7 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
     )
 
     # Apply Damage Modifiers
-    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod
+    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod * ewcfg.global_damage_multiplier_dt[ctn.user_data.id_server]
 
     # apply hit chance modifiers
     ctn.hit_chance_mod += attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'] - ((5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0)

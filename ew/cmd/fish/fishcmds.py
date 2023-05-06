@@ -726,6 +726,7 @@ async def barter(cmd):
                         min_value = max_value / 10  # 60,000 slime for a colossal promo fish, 12,000 for a miniscule common fish.
 
                         slime_gain = round(random.triangular(min_value, max_value, min_value * 2))
+                        slime_gain *= ewcfg.fishgain_multiplier_dt[user_data.id_server] * ewcfg.global_slimegain_multiplier_dt[user_data.id_server]
 
                         offer.offer_receive = slime_gain
                         offer.persist()

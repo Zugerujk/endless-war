@@ -963,6 +963,13 @@ cmd_listworldevents_alt1 = cmd_prefix + 'listworldevent'
 cmd_endworldevent = cmd_prefix + 'endworldevent'
 cmd_forcegraft = cmd_prefix + 'forcegraft'
 cmd_forcechemo = cmd_prefix + 'forcechemo'
+cmd_add_mut_rotation = cmd_prefix + 'addmutrotation'
+cmd_clear_mut_rotation = cmd_prefix + 'clearmutrotation'
+cmd_change_rotation_stat = cmd_prefix + 'changemutstat'
+cmd_lockmutation = cmd_prefix + 'lockmutation'
+cmd_unlockmutation = cmd_prefix + 'unlockmutation'
+cmd_currentrotation = cmd_prefix + 'rotation'
+cmd_nextrotation = cmd_prefix + 'nextrotation'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -1558,6 +1565,19 @@ time_bhbleed = 300  # 5 minutes
 currency_slime = "slime"
 currency_slimecoin = "SlimeCoin"
 currency_soul = "soul"
+
+global_slimegain_multiplier = 1.00
+global_slimegain_multiplier_dt = {}
+fishgain_multiplier = 1.00
+fishgain_multiplier_dt = {}
+minegain_multiplier = 1.00
+minegain_multiplier_dt = {}
+farmgain_multiplier = 1.00
+farmgain_multiplier_dt = {}
+#todo implement a sewer slime multiplier and a hunting yield multiplier too
+global_damage_multiplier = 1.00
+global_damage_multiplier_dt = {}
+
 
 # inebriation
 inebriation_max = 20
@@ -2516,6 +2536,9 @@ col_time_activate = 'time_activate'
 col_time_stamp = 'time_stamp'
 col_record_type = 'record_type'
 col_record_data = 'record_data'
+col_id_context_num = "context_num"
+col_id_month = "month"
+col_id_year = "year"
 
 # Database columns for advertisements
 col_id_ad = 'id_ad'
