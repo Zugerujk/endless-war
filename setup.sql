@@ -585,7 +585,7 @@ CREATE TABLE yachts(
 
 
 CREATE TABLE yacht_stats(
-    thread_id BIGINT NOT NULL DEFAULT   -1,
+    thread_id varchar(32) NOT NULL DEFAULT   -1,
     id_stat BIGINT NOT NULL AUTO_INCREMENT,
     type_stat VARCHAR(25) NOT NULL DEFAULT  '',
     id_server BIGINT NOT NULL DEFAULT  -1,
@@ -593,9 +593,7 @@ CREATE TABLE yacht_stats(
     quantity BIGINT NOT NULL DEFAULT  -1,
 
 	PRIMARY KEY(id_stat),
-    FOREIGN KEY (thread_id)
-		REFERENCES yachts(thread_id))
-		ON DELETE CASCADE
+    FOREIGN KEY (thread_id) REFERENCES yachts(thread_id)) ON DELETE CASCADE
 );
 
 
