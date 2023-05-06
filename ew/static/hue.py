@@ -367,24 +367,31 @@ pattern_map = { #patterns with the empty # are categorized.
 "brick": "brick",
 "pinkrowddishes": "rowdy maws",
 "purplekilliflower": "killer slugs",
+"dankwheat": "weed",
 "beansinacan": "fart",
 "blacklimes": "cut limes",
 "funpizza": "fun",
-"poudrin": "poudrin",
+"slimepoudrin": "poudrin",
 "kaleidoscuttle": "tie dye",
 "vultureburger": "burger",
 "doublestuffedcrust": "pizza",
 "jestershat": "harlequin",
 "snouse": "snouse",
+"heartboxers": "hearts",
 "mysenseofhumor": "UNFUNNY",
+"doubledown": "roulette",
+"katana":"Randy Quaid's musk",
+"negapoudrin":"non-euclidean",
+"pawpawflesh":"flesh",
+"arcadecabinet":"retro",
 } # 'ancient' pattern is set in the !pattern code to be all relics NOT on this pattern list.
 #categorizes patterns into pattern types
-abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', 'camouflage'] #patterns that can't be categorized into any other category due to being unique
-allover_patterns = ['confetti', 'hawaiian', 'rowdy maws', 'killer slugs', 'shamrock', 'cut limes', 'paisley', 'cash', 'swirl'] #patterns that do not flow into themselves and repeat
-organic_patterns = ['flame', 'bone', 'banana', 'fart', 'fun', 'snouse', 'poudrin', 'pizza', 'burger'] #patterns seen in nature, animals, or otherwise made from organic parts. Contains foods because why not
-repeat_patterns = ['brick', 'cat eye', 'tartan', 'harlequin', 'polka dot', 'stripes', 'houndstooth', 'chevron', 'gingham'] #patterns that flow into themselves and repeat, like a brick wall
+abstract_patterns = ['JPG artifact', 'ink swirl', 'ooze', 'plasma', 'celestial', 'camouflage', ] #patterns that can't be categorized into any other category due to being unique
+allover_patterns = ['confetti', 'hawaiian', 'rowdy maws', 'killer slugs', 'shamrock', 'cut limes', 'paisley', 'cash', 'swirl', 'retro', 'hearts', ] #patterns that do not flow into themselves and repeat
+organic_patterns = ['flame', 'bone', 'banana', 'fart', 'fun', 'snouse', 'poudrin', 'pizza', 'burger', 'weed', 'flesh', ] #patterns seen in nature, animals, or otherwise made from organic parts. Contains foods because why not
+repeat_patterns = ['brick', 'cat eye', 'tartan', 'harlequin', 'polka dot', 'stripes', 'houndstooth', 'chevron', 'gingham', 'roulette', ] #patterns that flow into themselves and repeat, like a brick wall
 singular_patterns = ['autograph',] #patterns that aren't a fucking pattern but singular item, like an autograph
-special_patterns = ['ancient', 'UNFUNNY', ] #patterns that relate to relics or limited time events
+special_patterns = ['ancient', 'UNFUNNY', 'Randy Quaid\'s musk', ] #patterns that relate to relics or limited time events
 
 # ADDITIONALLY, you can extend this pattern map and their category with SECRET PATTERNS if you use the optional import to rutils, so you can take the piss out of it and/or make people want to start trying to rub their relics all over their cosmetics.
 #try:

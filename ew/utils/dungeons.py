@@ -124,6 +124,18 @@ def load_other_blurbs():
         except Exception as e:
             ewutils.logMsg('Error loading blurb:{}'.format(e))
 
+    vendororderblurbs = bknd_core.execute_sql_query(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
+            col_id_blurb=ewcfg.col_id_blurb,
+            col_id_id_blurb=ewcfg.col_id_id_blurb,
+            col_subcontext=ewcfg.col_id_subcontext), ('vendororder',))
+
+    for blurb in vendororderblurbs:
+        try:
+            ewcfg.vendor_order_dialogue[blurb[2]].append(blurb[1])
+        except Exception as e:
+            ewutils.logMsg('Error loading blurb:{}'.format(e))
+
     brandishblurbs = bknd_core.execute_sql_query(
         "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
             col_id_blurb=ewcfg.col_id_blurb,

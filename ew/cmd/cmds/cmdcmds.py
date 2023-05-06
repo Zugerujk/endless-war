@@ -160,13 +160,19 @@ async def data(cmd):
         enemy = cmbt_utils.find_enemy(soughtenemy, user_data)
         if enemy != None:
 
+            description = ewcfg.enemy_data_table[enemy.enemytype].get("raredescription") if enemy.rare_status else ewcfg.enemy_data_table[enemy.enemytype].get("description")
+            # Try for arctic variant description
+            if description is not None and ewcfg.enemy_data_table[enemy.enemytype].get("arcticvariant") == enemy.display_name:
+                description = ewcfg.enemy_data_table[enemy.enemytype].get("arcticdescription")
+            description = "" if description == None else description
+
             if enemy.enemytype == 'npc':
                 npc_obj = npcutils.active_npcs_map.get(enemy.enemyclass)
                 response = "{}\n{}\n{}\n{} is level {}. They have {:,} slime. ".format(npc_obj.image_profile, npc_obj.str_name, npc_obj.description, npc_obj.str_name, enemy.level, enemy.slimes)
             elif enemy.attacktype != ewcfg.enemy_attacktype_unarmed:
-                response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. ".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype)
+                response = "{} is a level {} enemy. They have {:,} slime and attack with their {}. {}".format(enemy.display_name, enemy.level, enemy.slimes, enemy.attacktype, description)
             else:
-                response = "{} is a level {} enemy. They have {:,} slime".format(enemy.display_name, enemy.level, enemy.slimes)  # , enemy.hardened_sap)
+                response = "{} is a level {} enemy. They have {:,} slime. {}".format(enemy.display_name, enemy.level, enemy.slimes, description)  # , enemy.hardened_sap)
 
             statuses = enemy.getStatusEffects()
 
@@ -720,6 +726,45 @@ async def jam(cmd):
         response = "Are you sure you have that item?"
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+"""
+    Dice wielders can DIE    
+"""
+
+
+async def rolldie(cmd):
+    validroll = False
+    
+    # Look for die
+    item_found = ewutils.flattenTokenListToString("die")
+    item_sought = bknd_item.find_item(item_search=item_found, id_user=cmd.message.author.id, id_server=cmd.guild.id)
+
+    # Check for if the user has either a die OR is Terezi Gang
+    if item_sought:
+        item = EwItem(id_item=item_sought.get('id_item'))
+        if item.item_props.get("id_furniture") == "die":
+            validroll = True
+    elif fe_utils.check_user_has_role(cmd.guild, cmd.message.author, ewcfg.role_donor_proper):
+        validroll = True
+    
+    # If the user *can* roll
+    if validroll:
+        # Send a dice rolling message
+        response = "{}".format(ewcfg.emote_dice_rolling)
+        sent_message = await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    
+        await asyncio.sleep(4)  # WAIT
+
+        # Roll dice, edit esponse
+        dieroll = random.randint(1, 6)
+        return await fe_utils.edit_message(cmd.client, sent_message, fe_utils.formatMessage(cmd.message.author, "{}".format(ewcfg.emotes_dice[dieroll - 1])))
+    
+    else:
+        response = "You're not feeling dicey enough to do that."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
 
 async def stunt(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -2574,6 +2619,11 @@ async def prank(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage((cmd.message.author if use_mention_displayname == False else cmd.mentions[0]), response))
 
 
+"""
+    ENCYCLOPEDIC COMMANDS
+"""
+
+# Gaiaslimeoids and Shamblers
 async def almanac(cmd):
     if not cmd.tokens_count > 1:
         enemy_counter = 0
@@ -3398,6 +3448,11 @@ async def display_goonscape_stats(cmd):
     normal = True
     hidden = False
 
+    if cmd.mentions_count > 0:
+        target_id = cmd.mentions[0].id
+    else:
+        target_id = cmd.message.author.id
+
     # Handle user specification
     if cmd.tokens_count > 1:
         if cmd.tokens[1].lower() in ["all", "a"]:
@@ -3410,14 +3465,14 @@ async def display_goonscape_stats(cmd):
     if normal:
         for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             response += "{stat:>10}] {level:>2}/{level:>2} ;{xp} xp\n".format(stat= "[" + stat.stat.capitalize(), level= stat.level , xp=stat.xp)
     # List hidden stats
     if hidden:
         for stat_name in [ewcfg.goonscape_halloweening_stat, ewcfg.goonscape_pee_stat]:
 
-            stat = EwGoonScapeStat(cmd.message.author.id, cmd.guild.id, stat_name)
+            stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
             # Format usual response, with explanation of the stat's origin.
             origin = ewcfg.legacy_stat_dict.get(stat_name)

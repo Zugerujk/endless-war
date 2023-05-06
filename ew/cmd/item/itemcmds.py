@@ -2063,7 +2063,7 @@ async def collect(cmd):
         response = "You must specify a collection item."
     elif item_sought_item.get('soulbound') == True:
         response = "That's bound to your soul. You can't collect it any harder if you wanted to."
-    elif item_sought_item.item_type == ewcfg.it_relic or item_sought_item.item_props.get('aquisition') == 'relic':
+    elif item_sought_item.get('item_type') == ewcfg.it_relic:
         response = "Only some sort of CURATOR can pull hyjinks like that, besides that you have a feeling someone will swipe the relic under your nose when you try to get it out anyways."
     else:
         furn_list = static_items.furniture_map
