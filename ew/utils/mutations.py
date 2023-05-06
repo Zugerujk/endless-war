@@ -100,7 +100,7 @@ def initialize_rotation(id_server):
 
 
 def insert_rotation(id_server, month, year, isFuture = 0):
-    selected_muts = create_rotation(id_server=(id_server + isFuture))
+    selected_muts = create_rotation(id_server=id_server, isFuture=isFuture)
     returned_list = []
     for mut in selected_muts:
 
@@ -129,11 +129,11 @@ def insert_rotation(id_server, month, year, isFuture = 0):
 
 
 
-def create_rotation(id_server):
+def create_rotation(id_server, isFuture = 0):
     all_mutations = []
     time_now = int(time.time())
     random_seed_mut = random.Random(id_server)
-    random_seed_mut.seed(id_server + time_now)
+    random_seed_mut.seed(id_server + time_now + isFuture)
     locked_muts = []
 
     locked_rotation_data = bknd_core.execute_sql_query(
