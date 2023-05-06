@@ -129,6 +129,8 @@ async def add_blurb(cmd):
             comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
         elif blurb_obj.context == 'vendor':
             ewcfg.vendor_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
+        elif blurb_obj.context == 'vendororder':
+            ewcfg.vendor_order_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
         elif blurb_obj.context == 'killtext':
             wep_obj = wep_static.weapon_map.get(blurb_obj.subcontext)
             if wep_obj is not None:
