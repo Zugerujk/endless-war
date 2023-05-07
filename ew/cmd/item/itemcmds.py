@@ -2127,27 +2127,35 @@ async def remove_from_collection(cmd):
     if user_data.poi != ewcfg.poi_id_bazaar:
         response = "You don't actually know how to get stuff out of this. Better find a specialist in the Bazaar."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    elif cmd.tokens_count != 3:
-        response = "You need to specify the item and the collection. Try \"!extract <collection> <item>\"."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
     collection_seek = ewutils.flattenTokenListToString(cmd.tokens[1])
     item_sought_col = bknd_item.find_item(item_search=collection_seek, id_user=user_data.id_user, id_server=user_data.id_server)
     if not item_sought_col:
         response = "That's not a real collection. Remember, it's \"!extract <collection> <item>\"."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-
-    item_seek = cmd.tokens[2]
-    item_sought_item = bknd_item.find_item(item_search=item_seek, id_user='{}collection'.format(item_sought_col.get('id_item')), id_server=user_data.id_server)
-
-    if not item_sought_item:
-        response = "Wait, that's not in this collection. That's not even a real thing."
+    elif cmd.tokens_count != 3 and not (item_sought_col.get('name') == 'treasure chest' and item_sought_col.get('item_type') == ewcfg.it_furniture):
+        response = "You need to specify the item and the collection. Try \"!extract <collection> <item>\"."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif cmd.tokens_count >= 3:
+
+        item_seek = cmd.tokens[2]
+        item_sought_item = bknd_item.find_item(item_search=item_seek, id_user='{}collection'.format(item_sought_col.get('id_item')), id_server=user_data.id_server)
+
+        if not item_sought_item:
+            response = "Wait, that's not in this collection. That's not even a real thing."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+        item = EwItem(id_item=item_sought_item.get('id_item'))
+
+        if 'collection' != item.id_owner[-10:]:
+            response = "That's not in your collection. Can't remove what isn't there."
+            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     furnlist = static_items.furniture_map
     collection = EwItem(id_item=item_sought_col.get('id_item'))
     collectiontype = collection.item_props.get('id_furniture')
-    item = EwItem(id_item=item_sought_item.get('id_item'))
+
     collection_list = furnlist.get(collection.item_props.get('id_furniture'))
     chestinv = bknd_item.inventory(id_server=cmd.guild.id, id_user='{}{}'.format(collection.id_item, 'collection'))
     if collectiontype == "portablegreenhouse":
@@ -2156,8 +2164,7 @@ async def remove_from_collection(cmd):
         price = 20000 * len(chestinv)
     if collection_list is None or collection_list.furn_set != 'collection':
         response = "Trying to pull shit out of random objects? Yeah, I did meth once too."
-    elif 'collection' != item.id_owner[-10:]:
-        response = "That's not in your collection. Can't remove what isn't there."
+
     elif user_data.slimes < int(price):
         response = "These fucking prices... The removal fee is {price} slime.".format(price = price)
     else:
@@ -2168,7 +2175,7 @@ async def remove_from_collection(cmd):
             for item in chestinv:
                 bknd_item.give_item(id_user=cmd.message.author.id, id_server=cmd.guild.id, id_item=item.get('id_item'))
             bknd_item.item_delete(collection.id_item)
-            response = "You somehow find a specialist in the smoky kiosks that can bust open this treasure chest without annhialating everything inside. You hand over {:,}, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the chest's contents, fully separated. Maybe someday you'll figure out how to do it...".format(price, random.choice(comm_cfg.bazaar_distractions))
+            response = "You somehow find a specialist in the smoky kiosks that can bust open this treasure chest without annhialating everything inside. You hand over {:,} slime, and he walks into the tent behind his stall. \n\nBefore you can figure you what it is he's doing, {}. Eventually, you find your way back to the stall. The specialist hands you the chest's contents, fully separated. Maybe someday you'll figure out how to do it...".format(price, random.choice(comm_cfg.bazaar_distractions))
         else:
             bknd_item.give_item(id_user=user_data.id_user, id_server=int(item.id_server), id_item=item_sought_item.get('id_item'))
 
