@@ -3563,7 +3563,7 @@ async def clear_zero_stats(cmd):
 
 async def loop_diagnostic(cmd):
     if 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
-        print(ewcfg.enemy_data_table)
+
         response = "Tick loop progress:\n"
         time_now = int(time.time())
 
