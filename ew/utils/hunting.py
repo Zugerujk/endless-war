@@ -369,7 +369,7 @@ def get_enemy_data(enemy_type, variant = 0, pre_chosen_rarity = None):
     maxslime = slimetable[1]
 
     slime = random.randrange(minslime, (maxslime + 1))
-    print("{}{}...".format("Getting data for", enemy_type))
+
     enemy.slimes = slime
     enemy.ai = ewcfg.enemy_data_table[enemy_type]["ai"]
     enemy.display_name = ewcfg.enemy_data_table[enemy_type]["displayname"]
