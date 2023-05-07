@@ -30,7 +30,7 @@ except:
     from ..static.rstatic_dummy import dontfilter_relics
 
 
-def item_dropsome(id_server=None, id_user=None, item_type_filter=None, fraction=None, rigor=False, ambidextrous=False) -> list:
+def item_dropsome(id_server=None, id_user=None, item_type_filter=None, fraction=None, rigor=False, ambidextrous=False, other_poi=None) -> list:
     """ Return a list of some of a user's non-exempt items to drop. """
     try:
         user_data = EwUser(id_server=id_server, id_user=id_user)
@@ -44,7 +44,7 @@ def item_dropsome(id_server=None, id_user=None, item_type_filter=None, fraction=
         for item in items:
             item_props = item.get('item_props')
             if item_props.get('context') in ["corpse", "droppable"]:
-                bknd_item.give_item(id_user=user_data.poi, id_server=id_server, id_item=item.get('id_item'))
+                bknd_item.give_item(id_user=user_data.poi if other_poi is None else other_poi, id_server=id_server, id_item=item.get('id_item'))
             if not item.get('soulbound') and not (rigor and item_props.get('preserved') == user_data.id_user) and item_props.get('context') != 'gellphone' and item_props.get('id_item') != 'gameguide':
                 drop_candidates.append(item)
 
@@ -92,7 +92,7 @@ def item_dropsome(id_server=None, id_user=None, item_type_filter=None, fraction=
         return []
 
 
-def die_dropall(user_data, item_type, kill_method='') -> list:
+def die_dropall(user_data, item_type, kill_method='', other_poi = None) -> list:
     """ Return a list of all of a user's non-exempt items to drop. """
     end_list = []
     if item_type != '':

@@ -24,11 +24,13 @@ from ..backend.hunting import EwEnemyBase
 from ..backend.item import EwItem
 from ..backend.market import EwMarket
 from ..backend.player import EwPlayer
+from ..backend.yacht import EwYacht
 from ..backend.slimeoid import EwSlimeoidBase as EwSlimeoid
 from ..backend.status import EwEnemyStatusEffect
 from ..backend.status import EwStatusEffect
 from ..backend.user import EwUserBase
 from ..model.hunting import EwEnemyEffectContainer
+from ..model.poi import EwPoi
 from ..static import cfg as ewcfg
 from ..static import cosmetics as static_cosmetics
 from ..static import food as static_food
@@ -1839,7 +1841,14 @@ class EwUser(EwUserBase):
         deathreport = await fe_utils.create_death_report(cause=cause, user_data=self, deathmessage = deathmessage)
         resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 
+        coords = None
         poi = poi_static.id_to_poi.get(self.poi)
+
+        if poi is None and self.poi[:9] == 'slimesea_':
+            coords = self.poi
+            self.poi = 'slimesea'
+            poi = poi_static.id_to_poi.get('slimesea')
+
         if cause == ewcfg.cause_weather:
             resp_cont.add_channel_response(poi.channel, deathreport)
 
@@ -1861,8 +1870,8 @@ class EwUser(EwUserBase):
                     user_has_combustion = True
                     explode_damage = ewutils.slime_bylevel(self.slimelevel) / 5
                     explode_district = EwDistrict(district=self.poi, id_server=self.id_server)
-                    explode_poi_name = self.poi
-                    explode_poi_channel = poi_static.id_to_poi.get(self.poi).channel
+                    explode_poi_name = poi.id_poi
+                    explode_poi_channel = poi.channel #poi_static.id_to_poi.get(self.poi).channel
 
             # Rigor Mortis
             if ewcfg.mutation_id_rigormortis in mutations:
@@ -1914,15 +1923,18 @@ class EwUser(EwUserBase):
 
                 ids_to_drop = []
                 # Drop some of your items
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor, ambidextrous=ambidextrous))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_item, fraction=item_fraction, rigor=rigor, ambidextrous=ambidextrous, other_poi=coords))
                 # Drop some of your foods
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor, ambidextrous=ambidextrous))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_food, fraction=food_fraction, rigor=rigor, ambidextrous=ambidextrous, other_poi=coords))
                 # Drop some of your weapons
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor, ambidextrous=ambidextrous))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_weapon, fraction=1, rigor=rigor, ambidextrous=ambidextrous, other_poi=coords))
                 # Drop some of your cosmetics
-                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor, ambidextrous=ambidextrous))
+                ids_to_drop.extend(itm_utils.item_dropsome(id_server=self.id_server, id_user=self.id_user, item_type_filter=ewcfg.it_cosmetic, fraction=cosmetic_fraction, rigor=rigor, ambidextrous=ambidextrous, other_poi=coords))
                 # Drop all of your relics
-                ids_to_drop.extend(itm_utils.die_dropall(user_data=self, item_type=ewcfg.it_relic, kill_method=cause))
+                ids_to_drop.extend(itm_utils.die_dropall(user_data=self, item_type=ewcfg.it_relic, kill_method=cause, other_poi = coords))
+
+                if coords is None:
+                    coords = self.poi
 
                 if len(ids_to_drop) > 0:
                     try:
@@ -1933,7 +1945,7 @@ class EwUser(EwUserBase):
                                 drop_list = drop_list
                             ),
                             (
-                                [self.poi]
+                                [coords]
                             ))
 
                     except Exception as e:
@@ -1942,7 +1954,7 @@ class EwUser(EwUserBase):
                     item_cache = bknd_core.get_cache(obj_type="EwItem")
                     for id in ids_to_drop:
                         cache_item = item_cache.get_entry(unique_vals={"id_item": id})
-                        cache_item.update({'id_owner': self.poi})
+                        cache_item.update({'id_owner': self.poi if coords is None else coords})
                         item_cache.set_entry(data=cache_item)
 
             self.time_lastdeath = time_now

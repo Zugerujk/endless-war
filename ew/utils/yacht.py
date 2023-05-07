@@ -98,7 +98,9 @@ async def boat_tick(id_server, tick_count):
 
         if boat_obj.flood > 100:
             #todo detect the killer and parse that in too
-            await sink(thread_id=boat_obj.thread_id, id_server=id_server)
+            
+
+            return await sink(thread_id=boat_obj.thread_id, id_server=id_server)
         boat_obj.persist()
 
 
