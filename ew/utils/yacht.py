@@ -97,10 +97,15 @@ async def boat_tick(id_server, tick_count):
                 boat_obj.flood += stat.quantity
 
         if boat_obj.flood > 100:
-            #todo detect the killer and parse that in too
-            
 
-            return await sink(thread_id=boat_obj.thread_id, id_server=id_server)
+            boatkill = bknd_core.execute_sql_query('select {target} from yacht_stats where {thread_id} = %s and {id_server} = %s group by {target} order by sum(quantity) desc limit 1'.format(
+                thread_id=ewcfg.col_thread_id,
+                id_server=ewcfg.col_id_server,
+                target = 'target'
+            ),(boat_obj.thread_id, boat_obj.id_server))
+
+            boat_killer = boatkill[0][0]
+            return await sink(thread_id=boat_obj.thread_id, id_server=id_server, killer_yacht=boat_killer)
         boat_obj.persist()
 
 
