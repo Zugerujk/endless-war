@@ -37,6 +37,7 @@ def initialize_rotation(id_server):
 
 
 
+
     current_rotation_data = bknd_core.execute_sql_query("select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
         id_mutation = ewcfg.col_id_mutation,
         context_num = ewcfg.col_id_context_num,
@@ -90,7 +91,14 @@ def initialize_rotation(id_server):
                 gamestate.number = int(modifier)
                 gamestate.persist()
 
+    inclause = "{}{}{}".format("('" , "','".join(active_mutations[id_server]), "')")
 
+    bknd_core.execute_sql_query(
+        "delete from mutations where {mutation} not in {inclause} and {id_server} = %s".format(
+            mutation=ewcfg.col_id_mutation,
+            inclause = inclause,
+            id_server=ewcfg.col_id_server
+        ), (id_server, ))
 
 
 
