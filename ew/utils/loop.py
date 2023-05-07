@@ -840,7 +840,10 @@ async def spawn_enemies_tick_loop(id_server):
     while not ewutils.TERMINATE:
         ewutils.last_loop['spawn_enemies'] = int(time.time())
         await asyncio.sleep(interval)
-        await spawn_enemies(id_server=id_server)
+        try:
+            await spawn_enemies(id_server=id_server)
+        except Exception as E:
+            ewutils.logMsg("Failed to spawn enemies: {}".format(E))
 
 
 async def enemy_action_tick_loop(id_server):
