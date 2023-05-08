@@ -876,6 +876,11 @@ async def toss_off_cliff(cmd):
     elif cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
         if item_sought:
             if item_sought.get('name') == "brick" and cmd.mentions_count > 0:
+                if ewutils.global_brick_counter > 60:
+                    return
+                else:
+                    ewutils.global_brick_counter += 1
+
                 item = EwItem(id_item=item_sought.get('id_item'))
                 target = EwUser(member=cmd.mentions[0])
                 target_apt = EwApartment(id_user=target.id_user, id_server=cmd.guild.id)

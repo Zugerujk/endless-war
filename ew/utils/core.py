@@ -73,6 +73,8 @@ square_duel = 0
 
 last_loop = {}
 
+global_brick_counter = 0
+
 class EwVector2D:
     vector = [0, 0]
 

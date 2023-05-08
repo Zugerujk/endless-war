@@ -883,6 +883,13 @@ async def release_timed_prisoners_and_blockparties(id_server, day):
             blockparty.value = ''
             blockparty.persist()
 
+async def reset_brick_loop(id_server):
+    interval = 60
+    while not ewutils.TERMINATE:
+        await asyncio.sleep(interval)
+        ewutils.global_brick_counter = 0
+
+
 
 async def spawn_prank_items_tick_loop(id_server):
     # DEBUG
