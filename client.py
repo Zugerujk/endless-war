@@ -330,6 +330,8 @@ async def on_ready():
 
         asyncio.ensure_future(loop_utils.clock_tick_loop(id_server=server.id))
 
+        asyncio.ensure_future(loop_utils.reset_brick_loop(id_server=server.id))
+
         print('\nNUMBER OF CHANNELS IN SERVER: {}\n'.format(len(server.channels)))
 
 
