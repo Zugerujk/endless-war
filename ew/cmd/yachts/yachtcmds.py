@@ -461,6 +461,7 @@ async def aim_ship(cmd):
 
 async def fire_cannon(cmd):
     user_data = EwUser(member=cmd.message.author)
+    other_ship_response = ""
     if user_data.poi[:5] != 'yacht':
         response = "What, like in a crowded theater? Sounds like fun."
     elif cmd.tokens_count < 2:
@@ -497,6 +498,7 @@ async def fire_cannon(cmd):
                 if aimed is False:
                     response = "BAM!..............splish!\nThe cannonball flies through the air, landing on sweet nothing! Aim faster next time, dumpass!"
                 else:
+                    other_ship_channel = target_ship.get_thread()
                     distance = math.sqrt((target_ship.xcoord-yacht.xcoord)**2 + (target_ship.ycoord-yacht.ycoord)**2)
                     #i just used the fucking pythagorean theorem to kill a man with cannonballs. yeah i bet you're jealous
 
@@ -507,6 +509,7 @@ async def fire_cannon(cmd):
                         random_pct = random.randint(0, 100)
                         if random_pct > int(hit_chance * 100):
                             response = "BAM!...........whoosh! You barely miss The {}!".format(target_ship.yacht_name)
+                            other_ship_response = "...whoosh! Shit, a cannonball! We're under attack!"
                         else:
                             holesize =  int(7-distance)
                             hole_dict = {
@@ -520,6 +523,7 @@ async def fire_cannon(cmd):
                             }
 
                             response = "BAM!............KKKKRRRRRAAAACKKKK! Their hull has been breached! The hole is{}!".format(hole_dict.get(holesize))
+                            other_ship_response = "BAM!............KKKKRRRRRAAAACKKKK! Your hull has been breached! The hole's{}!".format(hole_dict.get(holesize))
 
                             target_ship.applyStat(stat_type='flood', quantity=holesize, target=yacht.thread_id)
                     else:
@@ -529,6 +533,12 @@ async def fire_cannon(cmd):
                             target_ship.applyStat(stat_type="harpooned", quantity=5, target=yacht.thread_id)
                             yacht.applyStat(stat_type="harpooned", quantity=0, target=target_ship.thread_id)
                             response = "SHHHHINC! A harpoon sinks into the {}'s walls, locking your ship to theirs!".format(target_ship.yacht_name)
+                            other_ship_response = "SHHHHINC! A harpoon sinks into the {}'s walls, locking their ship to yours!".format(target_ship.yacht_name)
+
+
+    if other_ship_response != "":
+        await fe_utils.send_message(cmd.client, other_ship_channel, fe_utils.formatMessage(cmd.message.author, other_ship_response))
+
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def gangplank(cmd):
