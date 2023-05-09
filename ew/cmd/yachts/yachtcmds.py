@@ -190,67 +190,69 @@ async def man(cmd):
 async def avast(cmd):
     user_data = EwUser(member=cmd.message.author)
     extra_response = None
+    printmap = True
     if user_data.poi[:5] != 'yacht':
         response = "Yeah, man, I like that antivirus software, too."
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
         if yacht.storehouse == user_data.id_user or yacht.cannon == user_data.id_user:
-            response = "You can't see anything, you're not aboveboard!"
-        else:
+            printmap = False
+
+        if printmap:
             response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=4)
-            extra_response = "\n{} is currently ".format(yacht.yacht_name)
+        extra_response = "\n{} is currently ".format(yacht.yacht_name)
 
-            if yacht.direction == 'stop':
-                extra_response += "stopped."
-            elif yacht.direction == 'sunk':
-                extra_response += "sunk."
-            else:
-                extra_response += "headed {}.".format(yacht.direction)
+        if yacht.direction == 'stop':
+            extra_response += "stopped."
+        elif yacht.direction == 'sunk':
+            extra_response += "sunk."
+        else:
+            extra_response += "headed {}.".format(yacht.direction)
 
-            coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
-            ships = yacht_utils.find_local_boats(current_coords=coords, id_server=cmd.guild.id)
-            if len(ships) > 1:
-                extra_response += "There are ships nearby: "
-                shipnames = []
-                for ship in ships:
+        coords = yacht_utils.get_boat_coord_radius(xcoord=yacht.xcoord, ycoord=yacht.ycoord, radius=4)
+        ships = yacht_utils.find_local_boats(current_coords=coords, id_server=cmd.guild.id)
+        if len(ships) > 1:
+            extra_response += "There are ships nearby: "
+            shipnames = []
+            for ship in ships:
 
-                    if int(ship.thread_id) != int(yacht.thread_id):
-                        shipnames.append("the **{}**".format(ship.yacht_name))
-                extra_response += "{}.".format(ewutils.formatNiceList(names=shipnames))
+                if int(ship.thread_id) != int(yacht.thread_id):
+                    shipnames.append("the **{}**".format(ship.yacht_name))
+            extra_response += "{}.".format(ewutils.formatNiceList(names=shipnames))
 
-            stats = yacht.getYachtStats()
-            flood_count = 0
-            for stat in stats:
-                if stat in ['gangplanked', 'harpooned']:
-                    attached_yacht = EwYacht(id_server=yacht.id_server, id_thread=stat.target)
-                    if attached_yacht.thread_id != yacht.thread_id:
-                        extra_response += " You are {} to the {}.".format(stat.type_stat, attached_yacht.yacht_name)
-                if stat == 'embalmed':
-                    extra_response += " You have embalmed your ship to prevent it from burning up."
-                if stat == 'flood':
-                    flood_count += stat.quantity
-                if stat == 'netcast':
-                    extra_response += " You lowered the treasure net."
+        stats = yacht.getYachtStats()
+        flood_count = 0
+        for stat in stats:
+            if stat in ['gangplanked', 'harpooned']:
+                attached_yacht = EwYacht(id_server=yacht.id_server, id_thread=stat.target)
+                if attached_yacht.thread_id != yacht.thread_id:
+                    extra_response += " You are {} to the {}.".format(stat.type_stat, attached_yacht.yacht_name)
+            if stat == 'embalmed':
+                extra_response += " You have embalmed your ship to prevent it from burning up."
+            if stat == 'flood':
+                flood_count += stat.quantity
+            if stat == 'netcast':
+                extra_response += " You lowered the treasure net."
 
 
-            if flood_count > 50:
-                extra_response += " There are so many holes in the ship it's lunacy it can even stay together."
-            elif flood_count > 25:
-                extra_response += " You're taking on way too much water. Basically, you're sunk already."
-            elif flood_count > 15:
-                extra_response += " The yacht's taking on water."
-            elif flood_count > 10:
-                extra_response += " There is a large hole in the boat."
-            elif flood_count > 5:
-                extra_response += " The boat's taking on a bit of water."
+        if flood_count > 50:
+            extra_response += " There are so many holes in the ship it's lunacy it can even stay together."
+        elif flood_count > 25:
+            extra_response += " You're taking on way too much water. Basically, you're sunk already."
+        elif flood_count > 15:
+            extra_response += " The yacht's taking on water."
+        elif flood_count > 10:
+            extra_response += " There is a large hole in the boat."
+        elif flood_count > 5:
+            extra_response += " The boat's taking on a bit of water."
 
-            if yacht.flood > 0:
-                extra_response += " The ship is {}% flooded.".format(yacht.flood)
-            if yacht.filth > 0:
-                extra_response += " The ship's filth level is {}%.".format(yacht.filth)
+        if yacht.flood > 0:
+            extra_response += " The ship is {}% flooded.".format(yacht.flood)
+        if yacht.filth > 0:
+            extra_response += " The ship's filth level is {}%.".format(yacht.filth)
 
-            if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 0:
-                extra_response += " You've docked on an island and can get off now."
+        if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 0:
+            extra_response += " You've docked on an island and can get off now."
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     if extra_response is not None:
@@ -705,7 +707,7 @@ async def scoop_ship(cmd):
                 if equip.template == ewcfg.weapon_id_slimeringcan:
                     totalscoop *= 2
 
-            yacht.flood = min(0, yacht.flood-totalscoop)
+            yacht.flood = max(0, yacht.flood-totalscoop)
             yacht.persist()
 
     if response != "":

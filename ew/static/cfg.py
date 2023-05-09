@@ -1449,6 +1449,8 @@ cmd_aimship = cmd_prefix + 'aimship'
 cmd_gangplank = cmd_prefix + 'gangplank'
 cmd_seanet = cmd_prefix + 'seanet'
 cmd_swab = cmd_prefix + 'swab'
+cmd_scoop = cmd_prefix + 'scoop'
+cmd_fixship = cmd_prefix + 'repair'
 
 cmd_clean_stats = cmd_prefix + 'cleanstats'
 
