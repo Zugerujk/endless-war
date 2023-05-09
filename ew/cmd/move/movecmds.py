@@ -1443,7 +1443,7 @@ async def loop(cmd):
         move_utils.move_counter += 1
         move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You start looping to {}.".format(dest_poi_obj.str_name)))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
 
         if move_current == ewutils.moves_active[cmd.message.author.id]:
             mutation_data = EwMutation(id_mutation=ewcfg.mutation_id_landlocked, id_user=cmd.message.author.id, id_server=cmd.message.guild.id)

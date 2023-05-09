@@ -701,6 +701,7 @@ cmd_attack = cmd_prefix + 'attack'
 cmd_reload = cmd_prefix + 'reload'
 cmd_reload_alt1 = cmd_prefix + 'loadthegun'
 cmd_devour = cmd_prefix + 'devour'
+cmd_brace = cmd_prefix + 'brace'
 cmd_mine = cmd_prefix + 'mine'
 cmd_digmine = cmd_prefix + 'dig'
 cmd_hole = cmd_prefix + 'hole'
@@ -3961,6 +3962,7 @@ status_thinned_id = "thinned"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
+status_braced_id = "braced"
 
 status_enemy_hostile_id = "hostile"
 status_enemy_barren_id = "barren"

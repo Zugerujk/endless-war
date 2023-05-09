@@ -1067,3 +1067,38 @@ async def unlock_mutation(cmd):
                 target))
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def brace(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    mutations = user_data.get_mutations()
+
+    time_now = int(time.time())
+
+    if ewcfg.mutation_id_nervesofsteel not in mutations:
+        response = "Bet you'd flinch if you tried, bitch. Get stronger nerves before you attempt that kind of shit."
+    else:
+
+        mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_quantumlegs)
+        if len(mutation_data.data) > 0:
+            time_lastuse = int(mutation_data.data)
+        else:
+            time_lastuse = 0
+
+        if time_lastuse + 120 > time_now:
+            response = "You can't do that again yet. Try again in about {} minute(s)".format(math.ceil((time_lastuse + 60 * 60 - time_now) / 60))
+            #return await fe_utils.send_response(response, cmd)
+        else:
+            ewutils.moves_active[user_data.id_user] = 0
+            ewutils.active_restrictions[user_data.id_user] = 2
+            user_data.applyStatus(ewcfg.status_braced_id)
+            await fe_utils.send_response("HIT THE DECK!", cmd)
+            await asyncio.sleep(15)
+
+            for x in range(5):
+                await fe_utils.send_response("**{}!**".format(5-x), cmd)
+                await asyncio.sleep(1)
+
+            user_data.clear_status(id_status=ewcfg.status_braced_id)
+            response = "**0!**"
+            ewutils.active_restrictions[user_data.id_user] = 0
+    return await fe_utils.send_response(response, cmd)
