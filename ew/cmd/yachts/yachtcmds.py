@@ -656,5 +656,60 @@ async def swab(cmd):
 
 
 
+async def repair_ship(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "Fuck you, there aren't any ships in this game. Not even at Smitty's Yacht Shack I'm pretty sure."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if user_data.id_user in [yacht.helm, yacht.poopdeck]:
+            response = "You're aboveboard! Stop manning the helm or poop deck and you can go do that."
+        else:
+            response = "There aren't any holes to repair."
+            totalrepair = 2
+            stats = yacht.getYachtStats()
+            
+
+            for stat in stats:
+                if stat.type_stat == 'flood':
+                    await asyncio.sleep(5)
+                    if totalrepair >= stat.quantity:
+                        yacht.clearStat(id_stat=stat.id_stat)
+                    else:
+                        stat.quantity -= totalrepair
+                        stat.persist()
+                    response = "You patch some scrap wood over the hole. You should be flooding a bit less now."
+                    break
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+async def scoop_ship(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht' and user_data.id_user != 412813074991415316:
+        response = "Nah, you're not the scoop guy. That's someone else."
+    elif user_data.poi[:5] != 'yacht':
+        response = '**YEAHHHHH BRO!!!**'
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if yacht.flood == 0:
+            response = "There's no water in here."
+        elif user_data.id_user in[yacht.helm, yacht.poopdeck]:
+            response = "You're aboveboard! Stop manning the helm or poop deck and you can go do that."
+        else:
+            response = ""
+            totalscoop = 1
+            if user_data.weapon != -1:
+                equip = bknd_item.EwItem(id_item=user_data.weapon)
+                if equip.template == ewcfg.weapon_id_slimeringcan:
+                    totalscoop *= 2
+
+            yacht.flood = min(0, yacht.flood-totalscoop)
+            yacht.persist()
+
+    if response != "":
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 async def statstest(cmd):
     pass
