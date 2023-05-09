@@ -1101,4 +1101,10 @@ async def brace(cmd):
             user_data.clear_status(id_status=ewcfg.status_braced_id)
             response = "**0!**"
             ewutils.active_restrictions[user_data.id_user] = 0
+
+            mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_nervesofsteel)
+            mutation_data.data = str(time_now)
+            mutation_data.persist()
+
+
     return await fe_utils.send_response(response, cmd)
