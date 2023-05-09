@@ -1106,4 +1106,5 @@ async def brace(cmd):
             mutation_data.data = str(time_now)
             mutation_data.persist()
 
+
     return await fe_utils.send_response(response, cmd)
