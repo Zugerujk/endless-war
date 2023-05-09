@@ -323,6 +323,13 @@ EwStatusEffectDef(
         str_describe="",
         str_describe_self="",
     ),
+EwStatusEffectDef(
+        id_status=ewcfg.status_braced_id,
+        time_expire=30,
+        str_acquire="",
+        str_describe="They're bracing for impact and can't do any damage.",
+        str_describe_self="You're bracing for impact and can't do any damage."# i know there are damage mods but they're not 100% multiplicative so this doesn't work sadly
+    ),
 ]
 
 status_effects_def_map = {}

@@ -556,7 +556,15 @@ def canAttack(cmd):
             hunger_penalty = user_data.get_hunger_max() // 5
             user_data.hunger += hunger_penalty
             user_data.persist()
-
+        elif ewcfg.status_braced_id in shootee_data.getStatusEffects() or ewcfg.status_braced_id in user_data.getStatusEffects():
+            if ewcfg.status_braced_id in shootee_data.getStatusEffects():
+                response = "Your weapon bounces off their iron stance! Shit, better wait for them to lose focus."
+            else:
+                response = "You nearly considered breaking your impenetrable defense. The shame makes you want to stress eat..."
+            #10% hunger penalty to prevent spam while waiting for the cooldown
+            hunger_penalty = user_data.get_hunger_max() // 10
+            user_data.hunger += hunger_penalty
+            user_data.persist()
         elif rutils.eg_check2(time_now, shootee_data):
             response = "{} is not mired in the ENDLESS WAR right now.".format(member.display_name)
 
