@@ -27,7 +27,6 @@ from ew.utils import rolemgr as ewrolemgr
 from ew.utils import combat as cmbt_utils
 from ew.utils import stats as ewstats
 from ew.utils.combat import EwUser
-from ew.utils.yacht import EwYacht
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
 from ew.utils.user import add_xp

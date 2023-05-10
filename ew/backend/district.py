@@ -1,6 +1,7 @@
 from . import core as bknd_core
 from ..static import cfg as ewcfg
 from ..static import poi as poi_static
+from . import yacht as bknd_yacht
 
 
 class EwDistrictBase:
@@ -40,9 +41,6 @@ class EwDistrictBase:
             self.id_server = id_server
             self.name = district
 
-            if district[:5] == 'yacht':
-                district = 'yacht'
-
             # find the district's property class
             for poi in poi_static.poi_list:
                 if poi.id_poi == self.name:
@@ -76,7 +74,9 @@ class EwDistrictBase:
                 self.slimes = data[0][3]
                 self.time_unlock = data[0][4]
                 self.cap_side = data[0][5]
-
+            elif district[:5] == 'yacht':
+                yacht_obj = bknd_yacht.EwYacht(id_thread=int(district[5:]))
+                self.slimes = yacht_obj.slimes
             # ewutils.logMsg("EwDistrict object '" + self.name + "' created.  Controlling faction: " + self.controlling_faction + "; Capture progress: %d" % self.capture_points)
             else:  # create new entry
                 bknd_core.execute_sql_query("REPLACE INTO districts ({id_server}, {district}) VALUES (%s, %s)".format(
@@ -88,22 +88,27 @@ class EwDistrictBase:
                 ))
 
     def persist(self):
-        bknd_core.execute_sql_query(
-            "REPLACE INTO districts(id_server, {district}, {controlling_faction}, {capturing_faction}, {capture_points}, {slimes}, {time_unlock}, {cap_side}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)".format(
-                district=ewcfg.col_district,
-                controlling_faction=ewcfg.col_controlling_faction,
-                capturing_faction=ewcfg.col_capturing_faction,
-                capture_points=ewcfg.col_capture_points,
-                slimes=ewcfg.col_district_slimes,
-                time_unlock=ewcfg.col_time_unlock,
-                cap_side=ewcfg.col_cap_side,
-            ), (
-                self.id_server,
-                self.name,
-                self.controlling_faction,
-                self.capturing_faction,
-                self.capture_points,
-                self.slimes,
-                self.time_unlock,
-                self.cap_side,
-            ))
+        if self.name[:5] == 'yacht':
+            boat = bknd_yacht.EwYacht(id_thread=self.name[5:], id_server=self.id_server)
+            boat.slimes = self.slimes
+            boat.persist()
+        else:
+            bknd_core.execute_sql_query(
+                "REPLACE INTO districts(id_server, {district}, {controlling_faction}, {capturing_faction}, {capture_points}, {slimes}, {time_unlock}, {cap_side}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)".format(
+                    district=ewcfg.col_district,
+                    controlling_faction=ewcfg.col_controlling_faction,
+                    capturing_faction=ewcfg.col_capturing_faction,
+                    capture_points=ewcfg.col_capture_points,
+                    slimes=ewcfg.col_district_slimes,
+                    time_unlock=ewcfg.col_time_unlock,
+                    cap_side=ewcfg.col_cap_side,
+                ), (
+                    self.id_server,
+                    self.name,
+                    self.controlling_faction,
+                    self.capturing_faction,
+                    self.capture_points,
+                    self.slimes,
+                    self.time_unlock,
+                    self.cap_side,
+                ))

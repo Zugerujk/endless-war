@@ -508,7 +508,7 @@ class EwDistrict(EwDistrictBase):
     def change_slimes(self, n = 0, source = None, poi_name = None):
         change = int(n)
         self.slimes += change
-        if self.name == 'yacht' and poi_name is not None:
+        if self.name[:5] == 'yacht' and poi_name is not None:
             yacht = bknd_yacht.EwYacht(id_server=self.id_server, id_thread=int(poi_name[5:]))
             yacht.change_slimes(n=n, source=source)
             yacht.persist()

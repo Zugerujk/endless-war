@@ -200,6 +200,8 @@ async def avast(cmd):
 
         if printmap:
             response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=4)
+        else:
+            response = ""
         extra_response = "\n{} is currently ".format(yacht.yacht_name)
 
         if yacht.direction == 'stop':
@@ -254,7 +256,8 @@ async def avast(cmd):
         if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == 0:
             extra_response += " You've docked on an island and can get off now."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    if response != "":
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     if extra_response is not None:
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, extra_response))
 
