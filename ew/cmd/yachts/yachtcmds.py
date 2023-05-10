@@ -665,26 +665,31 @@ async def repair_ship(cmd):
     user_data = EwUser(member=cmd.message.author)
     if user_data.poi[:5] != 'yacht':
         response = "Fuck you, there aren't any ships in this game. Not even at Smitty's Yacht Shack I'm pretty sure."
+    elif ewutils.active_restrictions.get(user_data.id_user) is not None and ewutils.active_restrictions.get(user_data.id_user) > 0:
+        response = "You can't do that right now."
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
         if user_data.id_user in [yacht.helm, yacht.poopdeck]:
             response = "You're aboveboard! Stop manning the helm or poop deck and you can go do that."
         else:
-            response = "There aren't any holes to repair."
             totalrepair = 2
             stats = yacht.getYachtStats()
-            
-
-            for stat in stats:
-                if stat.type_stat == 'flood':
-                    await asyncio.sleep(5)
-                    if totalrepair >= stat.quantity:
-                        yacht.clearStat(id_stat=stat.id_stat)
-                    else:
-                        stat.quantity -= totalrepair
-                        stat.persist()
-                    response = "You patch some scrap wood over the hole. You should be flooding a bit less now."
-                    break
+            response = "There aren't any holes to repair."
+            if 'flood' in stats:
+                ewutils.active_restrictions[user_data.id_user] = 6
+                await asyncio.sleep(5)
+                ewutils.active_restrictions[user_data.id_user] = 0
+                stats = yacht.getYachtStats()
+                for stat in stats:
+                    if stat.type_stat == 'flood':
+                        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+                        if totalrepair >= stat.quantity:
+                            yacht.clearStat(id_stat=stat.id_stat)
+                        else:
+                            stat.quantity -= totalrepair
+                            stat.persist()
+                        response = "You patch some scrap wood over the hole. You should be flooding a bit less now."
+                        break
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
