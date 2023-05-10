@@ -75,7 +75,8 @@ class EwDistrictBase:
                 self.time_unlock = data[0][4]
                 self.cap_side = data[0][5]
             elif district[:5] == 'yacht':
-                yacht_obj = bknd_yacht.EwYacht(id_thread=int(district[5:]))
+
+                yacht_obj = bknd_yacht.EwYacht(id_thread=int(district[5:]), id_server=id_server)
                 self.slimes = yacht_obj.slimes
             # ewutils.logMsg("EwDistrict object '" + self.name + "' created.  Controlling faction: " + self.controlling_faction + "; Capture progress: %d" % self.capture_points)
             else:  # create new entry
@@ -88,7 +89,7 @@ class EwDistrictBase:
                 ))
 
     def persist(self):
-        if self.name[:5] == 'yacht':
+        if self.name[:5] == 'yacht' and len(self.name) > 5:
             boat = bknd_yacht.EwYacht(id_thread=self.name[5:], id_server=self.id_server)
             boat.slimes = self.slimes
             boat.persist()

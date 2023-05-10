@@ -282,7 +282,7 @@ async def on_ready():
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
-        yacht_utils.load_boats_to_poi(id_server=server.id)
+
 
         # create all the districts in the database
         for poi_object in poi_static.poi_list:
@@ -299,6 +299,8 @@ async def on_ready():
             resp_cont = dist.change_ownership(new_owner=dist.controlling_faction, actor="init", client=client)
             dist.persist()
             await resp_cont.post()
+
+        yacht_utils.load_boats_to_poi(id_server=server.id)
 
         asyncio.ensure_future(loop_utils.capture_tick_loop(id_server=server.id))
 
@@ -472,9 +474,9 @@ async def debugHandling(message, cmd, cmd_obj):
         await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'threado'):
-        #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
-        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)
-        print(cmd_obj.message.channel)
+        for poi in poi_static.id_to_poi.keys():
+            if 'yacht' in poi:
+                print("{}:{}".format(poi, poi_static.id_to_poi.get(poi)))
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
