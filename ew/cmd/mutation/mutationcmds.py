@@ -1078,21 +1078,21 @@ async def brace(cmd):
         response = "Bet you'd flinch if you tried, bitch. Get stronger nerves before you attempt that kind of shit."
     else:
 
-        mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_quantumlegs)
+        mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_nervesofsteel)
         if len(mutation_data.data) > 0:
             time_lastuse = int(mutation_data.data)
         else:
             time_lastuse = 0
 
         if time_lastuse + 120 > time_now:
-            response = "You can't do that again yet. Try again in about {} minute(s)".format(math.ceil((time_lastuse + 60 * 60 - time_now) / 60))
+            response = "You can't do that again yet. Try again in about {} second(s)".format((time_lastuse+120)-time_now)
             #return await fe_utils.send_response(response, cmd)
         else:
             ewutils.moves_active[user_data.id_user] = 0
             ewutils.active_restrictions[user_data.id_user] = 2
             user_data.applyStatus(ewcfg.status_braced_id)
             await fe_utils.send_response("HIT THE DECK!", cmd)
-            await asyncio.sleep(15)
+            await asyncio.sleep(25)
 
             for x in range(5):
                 await fe_utils.send_response("**{}!**".format(5-x), cmd)
