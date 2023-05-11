@@ -500,6 +500,7 @@ async def fire_cannon(cmd):
             if loaded is False:
                 response = "It's not loaded."
             else:
+                yacht.accumulate_filth()
                 if aimed is False:
                     response = "BAM!..............splish!\nThe cannonball flies through the air, landing on sweet nothing! Aim faster next time, dumpass!"
                 else:
@@ -671,6 +672,8 @@ async def repair_ship(cmd):
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
         if user_data.id_user in [yacht.helm, yacht.poopdeck]:
             response = "You're aboveboard! Stop manning the helm or poop deck and you can go do that."
+        elif yacht.filth_check():
+            response = "Your hands keep slipping thanks to all the grease around here. Someone forgot to reduce the filth."
         else:
             totalrepair = 2
             stats = yacht.getYachtStats()
@@ -683,6 +686,7 @@ async def repair_ship(cmd):
                 for stat in stats:
                     if stat.type_stat == 'flood':
                         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+                        yacht.accumulate_filth()
                         if totalrepair >= stat.quantity:
                             yacht.clearStat(id_stat=stat.id_stat)
                         else:
@@ -707,6 +711,8 @@ async def scoop_ship(cmd):
             response = "There's no water in here."
         elif user_data.id_user in[yacht.helm, yacht.poopdeck]:
             response = "You're aboveboard! Stop manning the helm or poop deck and you can go do that."
+        elif yacht.filth_check():
+            response = "You try to scoop the water out from the {}, but all the grime from the unswabbed deck absorbed it all. This hasn't made you any safer from being weighed down into Davy Jones' locker, but you certainly can't scoop it out. Fucking swabbies.".format(yacht.yacht_name)
         else:
             response = ""
             totalscoop = 1
