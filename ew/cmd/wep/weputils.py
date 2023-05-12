@@ -797,7 +797,7 @@ async def attackEnemy(cmd):
                     resp = await weapon_explosion(user_data=user_data, shootee_data=enemy_data, district_data=district_data, market_data=market_data, life_states=life_states, factions=factions, slimes_damage=bystander_damage, time_now=time_now, target_enemy=True)
                     resp_cont.add_response_container(resp)
 
-            user_data = EwUser(member=cmd.message.author)
+            user_data = EwUser(member=cmd.message.author, data_level=2)
 
     if miss:
         slimes_damage = 0
@@ -1198,7 +1198,8 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
         user_data=ctn.user_data,
         user_mutations=attacker_mutations,
         market_data=ctn.market_data,
-        district_data=district_data
+        district_data=district_data,
+        shootee_data = ctn.shootee_data
     )
     misc_def_mod = cmbt_utils.damage_mod_defend(
         shootee_data=ctn.shootee_data,

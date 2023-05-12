@@ -1284,6 +1284,8 @@ def equip_sidearm(user_data, sidearm_item = None):
 
 
 def get_fashion_stats(user_data):
+    return [1, 1, 1]
+    """
     cosmetics = inventory(
         id_user=user_data.id_user,
         id_server=user_data.id_server,
@@ -1309,7 +1311,7 @@ def get_fashion_stats(user_data):
             result[1] += int(int(cos.item_props['defense']) / cosmetic_count)
             result[2] += int(int(cos.item_props['speed']) / cosmetic_count)
 
-    return result
+    return result"""
 
 
 def get_freshness(user_data, adorned_id_list = None):

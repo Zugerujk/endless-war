@@ -1113,7 +1113,7 @@ def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = Non
     return mods
 
 
-def damage_mod_attack(user_data, market_data, user_mutations, district_data):
+def damage_mod_attack(user_data, market_data, user_mutations, district_data, shootee_data =None):
     damage_mod = 1
 
     # Weapon possession
@@ -1156,7 +1156,10 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data):
 
     # Dressed to kill
     if ewcfg.mutation_id_dressedtokill in user_mutations:
-        if user_data.freshness >= 250:
+        if shootee_data is None:
+            if user_data.freshness >= 250:
+                damage_mod *= 1.5
+        elif shootee_data.freshness < user_data.freshness:
             damage_mod *= 1.5
 
     if ewcfg.mutation_id_2ndamendment in user_mutations:
