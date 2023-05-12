@@ -176,7 +176,7 @@ async def graft(cmd):
         response = '"Your body\'s already full of mutations. Your sentient tumors will probably start bitin\' once I take out my scalpel."\n\nLevel:{}/50\nMutation Levels Added:{}/{}'.format(user_data.slimelevel, user_data.get_mutation_level(), min(user_data.slimelevel, 50))
         incompatible = True
     elif static_mutations.mutations_map.get(target).tier * 10000 > user_data.slimes:
-        response = '"We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {} slime, ya idjit!"'.format(static_mutations.mutations_map.get(target).tier * 10000)
+        response = '"We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {:,} slime, ya idjit!"'.format(static_mutations.mutations_map.get(target).tier * 10000)
         incompatible = True
 
     for mutation in mutations:
@@ -197,6 +197,22 @@ async def graft(cmd):
         response = static_mutations.mutations_map[target].str_transplant + "\n\nMutation Levels Added:{}/{}".format(user_data.get_mutation_level(), min(user_data.slimelevel, 50))
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
+async def facelift(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if cmd.message.channel.name != ewcfg.channel_clinicofslimoplasty:
+        response = "Rhinoplasty doesn't just grow on trees. You'll need to go to the clinic in Crookline to get some."
+    elif user_data.life_state == ewcfg.life_state_corpse:
+        response = '"You get out of here, dirty nega. We don\'t serve your kind." \n\n Auntie Dusttrap threatingly flails a jar of cole slaw at you. Looks like you need a body to cut up a body.'
+    elif user_data.slimes < 20000000:
+        response = 'We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {:,} slime, ya idjit!"'.format(20000000)
+    else:
+        user_data.fashion_seed = random.randrange(500000)
+        user_data.change_slimes(n=-20000000, source=ewcfg.source_spending)
+        user_data.persist()
+        response = "You throw down 20 million slime and ask Dr. Dusttrap you want to look unrecognizable. She bursts out laughing before raising her head to say \"Be careful what you wish for, sonny.\" Before you can think twice, she shoves her hand into your face, throwing you on her operating table. As she begins to painfully cut across your nose and temples with no anaesthetic, you realize your old face is probably going in the garbage can. Though blood covers your eyes and you cant see this, she pulls out her Wheel of Faces to decide the replacement. Ooh, you landed on #{}! Dusttrap quickly peels the old features off you and pops a new set back on, stitching it closed with the crocheting skils of an actually normal old lady. Once you recover, you take the bandages off your face. Hmm. Guess you're a {}/10 now.".format(random.randint(1, 100), random.randint(0, 10))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    #the appearance comment is purely cosmetic but i kinda like the idea of players using that
 
 async def preserve(cmd):
     user_data = EwUser(member=cmd.message.author)

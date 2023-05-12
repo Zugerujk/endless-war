@@ -31,7 +31,8 @@ cmd_map = {
     ewcfg.cmd_change_rotation_stat:mutationcmds.change_rotation_stat,
     ewcfg.cmd_lockmutation:mutationcmds.lock_mutation,
     ewcfg.cmd_unlockmutation:mutationcmds.unlock_mutation,
-    ewcfg.cmd_brace:mutationcmds.brace
+    ewcfg.cmd_brace:mutationcmds.brace,
+    ewcfg.cmd_facelift:mutationcmds.facelift
 }
 
 apt_dm_cmd_map = {
