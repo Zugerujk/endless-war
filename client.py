@@ -464,8 +464,26 @@ async def debugHandling(message, cmd, cmd_obj):
     time_now = int(time.time())
     market = EwMarket(id_server=cmd_obj.guild.id)
     if cmd == (ewcfg.cmd_prefix + 'enemytick'):
+        freshness_list = {}
+        procedural_list = []
+        randomlist = []
+
+        for cosmetic in cosmetics.cosmetic_items_list:
+            if cosmetic.freshness == 0:
+                continue
+            randomlist.append(int(random.triangular(1, 16, 6)))
+            procedural_list.append(float(cosmetic.freshness / max(cosmetic.size, 1)))
+            if freshness_list.get(cosmetic.rarity+cosmetic.style) is None:
+                freshness_list[cosmetic.rarity+cosmetic.style] = [float(cosmetic.freshness/max(cosmetic.size, 1))]
+            else:
+                freshness_list[cosmetic.rarity+cosmetic.style].append(float(cosmetic.freshness/max(cosmetic.size, 1)))
+        #print(freshness_list)
+        procedural_list.sort()
+        randomlist.sort()
+        print("PROCEDURAL:{}".format(procedural_list))
+        print("TRIANGULAR:{}".format(randomlist))
         #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
-        await apt_utils.rent_time(id_server=cmd_obj.guild.id)
+        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))

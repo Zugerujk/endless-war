@@ -1,3 +1,4 @@
+import random
 import time
 import traceback, sys
 
@@ -1347,7 +1348,7 @@ def get_freshness(user_data, adorned_id_list = None):
             cosmetic_count = sum(1 for cosmetic in cosmetic_items if cosmetic.item_props['cosmetic_name'] == cos.item_props['cosmetic_name']
                                  and cosmetic.item_props['adorned'] == 'true')
 
-            base_freshness += int(cos.item_props['freshness']) / cosmetic_count
+            base_freshness += get_base_freshness(item_id=cos, seed=user_data.fashion_seed) / cosmetic_count
 
             hue = hue_static.hue_map.get(cos.item_props.get('hue'))
             if hue is not None:
@@ -1384,6 +1385,27 @@ def get_freshness(user_data, adorned_id_list = None):
         style_mod = style_count[dominant_style] / adorned_cosmetics * 10
 
     return int(base_freshness * hue_mod * style_mod) + bonus_freshness
+
+
+freshseed = random.Random()
+def get_base_freshness(item_id, seed):
+    if type(item_id) is int:
+        item_obj = EwItem(id_item=item_id)
+    else:
+        item_obj = item_id
+
+    id = item_obj.item_props.get('id_cosmetic')
+
+    if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
+        return 15
+    elif id not in static_items.item_map.keys() and item_obj.item_props.get('freshness') is not None:
+        return item_obj.item_props.get('freshness')
+    elif item_obj.item_props.get('freshness') == 0 or id not in static_items.item_map.keys():
+        return 0
+
+    index = static_items.item_map.keys().index(id)
+    freshseed.seed(seed + index)
+    return int(freshseed.triangular(1, 16, 6))
 
 
 def get_weaponskill(user_data):

@@ -2343,6 +2343,7 @@ col_verified = 'verified'
 col_gender = 'gender'
 col_hogtied = 'hogtied'
 col_event_points = 'event_points'
+col_fashion_seed = 'fashion_seed'
 
 col_attack = 'attack'
 col_speed = 'speed'
