@@ -175,7 +175,7 @@ def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_mult
 
             # Multiplies the damage by the effective multiplier
             hit_damage = base_damage * effective_multiplier
-            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
+            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod)/(2 if player_has_sharptoother else 1):
                 hit_damage *= weapon_stats["crit_multiplier"]
                 hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
