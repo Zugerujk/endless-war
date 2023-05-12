@@ -1373,7 +1373,7 @@ async def transportmap(cmd):
 
 """ Check your outfit. """
 
-
+freshseed = random.Random()
 async def fashion(cmd):
     if cmd.mentions_count == 0:
         user_data = EwUser(member=cmd.message.author, data_level=2)
@@ -1392,6 +1392,17 @@ async def fashion(cmd):
         stats_breakdown = {}
 
         space_adorned = 0
+        market_data = EwMarket(id_server=user_data.id_server)
+        freshseed.seed(user_data.fashion_seed + market_data.day)
+        bonus_freshness = freshseed.randint(-20, 20)
+        if bonus_freshness < -10:
+            bonus_response = "You're really having a shit day, and your baggy-ass eyes make you look 5 years older."
+        elif bonus_freshness < 0:
+            bonus_response = "You're not feeling very photogenic right now."
+        elif bonus_freshness < 10:
+            bonus_response = "You're feeling well rested, by gangster standards anyway."
+        else:
+            bonus_response = "You look fantastic. You can smell the followers before you even take a picture."
 
         for cosmetic in cosmetic_items:
             c = EwItem(id_item=cosmetic.get('id_item'))
@@ -1417,7 +1428,7 @@ async def fashion(cmd):
         # show all the cosmetics that you have adorned.
         if len(adorned_cosmetics) > 0:
             response = "You whip out your smartphone and reverse your camera around to thoroughly analyze yourself.\n\n"
-            response += "You have a {} adorned. ".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
+            response += "{} You have a {} adorned. ".format(bonus_response, ewutils.formatNiceList(adorned_cosmetics, 'and'))
 
             # fashion outfit, freshness rating.
             if len(adorned_cosmetics) >= 2:

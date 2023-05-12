@@ -11,6 +11,7 @@ from ..static import items as static_items
 from ..static import weapons as static_weapons
 from ..utils import core as ewutils
 from ew.backend.dungeons import EwGamestate
+from ew.backend.market import EwMarket
 try:
     from ..utils import rutils as ewrelicutils
 except:
@@ -1313,6 +1314,7 @@ def get_fashion_stats(user_data):
 
     return result"""
 
+freshseed = random.Random()
 
 def get_freshness(user_data, adorned_id_list = None):
     cosmetic_items = []
@@ -1336,6 +1338,10 @@ def get_freshness(user_data, adorned_id_list = None):
     mutations = user_data.get_mutations()
     bonus_freshness = 500 if ewcfg.mutation_id_unnaturalcharisma in mutations else 0
 
+    market_data = EwMarket(id_server=user_data.id_server)
+    freshseed.seed(user_data.fashion_seed + market_data.day)
+    bonus_freshness += freshseed.randint(-20, 20)
+
     if len(cosmetic_items) == 0 or adorned_cosmetics < 2:
         return bonus_freshness
 
@@ -1351,6 +1357,8 @@ def get_freshness(user_data, adorned_id_list = None):
                                  and cosmetic.item_props['adorned'] == 'true')
 
             base_freshness += get_base_freshness(item_id=cos, seed=user_data.fashion_seed) / cosmetic_count
+
+
 
             hue = hue_static.hue_map.get(cos.item_props.get('hue'))
             if hue is not None:
@@ -1389,7 +1397,7 @@ def get_freshness(user_data, adorned_id_list = None):
     return int(base_freshness * hue_mod * style_mod) + bonus_freshness
 
 
-freshseed = random.Random()
+
 def get_base_freshness(item_id, seed):
     if type(item_id) is int:
         item_obj = EwItem(id_item=item_id)
