@@ -59,7 +59,7 @@ async def rentyacht(cmd):
             yacht = EwYacht()
             yacht.owner = cmd.message.author.id
             yacht.xcoord = 27
-            yacht.ycoord = 5
+            yacht.ycoord = 12
             yacht.direction = 'stop'
             yacht.yacht_name = "S.S. " + name
             yacht.id_server = user_data.id_server

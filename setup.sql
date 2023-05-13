@@ -576,7 +576,7 @@ CREATE TABLE yachts(
     storehouse BIGINT NOT NULL DEFAULT  -1,
     poopdeck BIGINT NOT NULL DEFAULT  -1,
     x_coord INT NOT NULL DEFAULT  27,
-    y_coord INT NOT NULL DEFAULT  5,
+    y_coord INT NOT NULL DEFAULT  12,
     speed INT NOT NULL DEFAULT  0,
     direction VARCHAR(32) NOT NULL DEFAULT '',
     slimes BIGINT NOT NULL DEFAULT 0,
