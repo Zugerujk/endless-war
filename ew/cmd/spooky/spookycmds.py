@@ -101,7 +101,12 @@ async def revive(cmd, player_auto = None):
             # Give player some initial slimes.
             player_data.change_slimes(n=ewcfg.slimes_onrevive)
             # Get the player out of the sewers.
+
+
             player_data.poi = ewcfg.poi_id_endlesswar
+
+            if player_data.poi_death == "slipsteinisland":
+                player_data.poi = player_data.poi_death
 
             # Give newly spawned juvies a foul odour
             player_data.applyStatus(ewcfg.status_repelled_id)
