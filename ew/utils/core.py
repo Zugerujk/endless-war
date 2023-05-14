@@ -32,6 +32,7 @@ DEBUG_OPTIONS = {
     'verbose_burn': False,
     'alternate_talk':False,
     'transport': False,
+    'playoffline': False
 }
 
 # Map of user IDs to their course ID.

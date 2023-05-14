@@ -1083,7 +1083,7 @@ async def on_message(message):
         # Scold/ignore offline players.
         if message.author.status == discord.Status.offline:
 
-            if ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds:
+            if (ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds) and ewutils.DEBUG_OPTIONS['playoffline'] == False:
                 response = "You cannot participate in the ENDLESS WAR while offline."
 
                 return await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
