@@ -178,7 +178,8 @@ class EwPoi:
             neighbors = None,
             topic = "",
             wikipage = "",
-            jump_dest = ""
+            jump_dest = "",
+            is_dock = ""
     ):
         self.id_poi = id_poi
         self.alias = alias
