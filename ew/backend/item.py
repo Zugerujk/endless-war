@@ -1352,11 +1352,10 @@ def get_freshness(user_data, adorned_id_list = None):
     # get base freshness, hue and style counts
     for cos in cosmetic_items:
         if cos.item_props['adorned'] == 'true':
-
             cosmetic_count = sum(1 for cosmetic in cosmetic_items if cosmetic.item_props['cosmetic_name'] == cos.item_props['cosmetic_name']
                                  and cosmetic.item_props['adorned'] == 'true')
 
-            base_freshness += get_base_freshness(item_id=cos, seed=user_data.fashion_seed) / cosmetic_count
+            base_freshness += get_base_freshness(item_id=cos.id_item, seed=user_data.fashion_seed) / cosmetic_count
 
 
 
@@ -1408,13 +1407,13 @@ def get_base_freshness(item_id, seed):
 
     if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
         return 15
-    elif id not in static_items.item_map.keys() and item_obj.item_props.get('freshness') is not None:
+    elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
         return item_obj.item_props.get('freshness')
-    elif item_obj.item_props.get('freshness') == 0 or id not in static_items.item_map.keys():
+    elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
         return 0
 
-    index = static_items.item_map.keys().index(id)
-    freshseed.seed(seed + index)
+    #index = cosmetics.cosmetic_map.keys().index(id)
+    freshseed.seed(str(seed) + id)
     return int(freshseed.triangular(1, 16, 6))
 
 

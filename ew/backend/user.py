@@ -387,9 +387,10 @@ class EwUserBase:
                     self.hogtied,
                     self.crime,
                     self.event_points,
-                    self.id_user,
-                    self.id_server,
                     self.fashion_seed,
+                    self.id_user,
+                    self.id_server
+
                 ))
 
             conn.commit()
