@@ -71,6 +71,7 @@ import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.poi as poi_static
+import ew.static.mutations as static_mut
 
 import ew.static.cfg as ewcfg
 
@@ -474,9 +475,12 @@ async def debugHandling(message, cmd, cmd_obj):
         await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'threado'):
-        for poi in poi_static.id_to_poi.keys():
-            if 'yacht' in poi:
-                print("{}:{}".format(poi, poi_static.id_to_poi.get(poi)))
+        #for poi in poi_static.id_to_poi.keys():
+        #    if 'yacht' in poi:
+        #        print("{}:{}".format(poi, poi_static.id_to_poi.get(poi)))
+
+        for mutation in static_mut.mutations_map.keys():
+            print(mutation)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))

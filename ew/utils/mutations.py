@@ -36,8 +36,6 @@ def initialize_rotation(id_server):
     future_year = year if month != 12 else year + 1
 
 
-
-
     current_rotation_data = bknd_core.execute_sql_query("select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
         id_mutation = ewcfg.col_id_mutation,
         context_num = ewcfg.col_id_context_num,
