@@ -3546,7 +3546,7 @@ async def award_skill_capes(cmd): #this command should be removed after its been
                     'durability': 42069, #man fuck this noise
                     'original_durability': 42069,
                     'fashion_style': ewcfg.style_skill,
-                    'freshness': 1,
+                    'freshness': 0,
                     'adorned': 'true',
                     'soulbound': 'true'
                 }
