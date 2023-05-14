@@ -175,8 +175,8 @@ def apt_decorate_look_str(id_server: int, id_user: int, show_capacity: bool = Fa
             # Display scrawled notes on furniture. Works on bricks. - Liz
             # TODO: Cut off messages over a certain length. "... There's no way you're reading all that."
             # Alternatively, cut off messages over a certain amount. "There's no way you're going around reading all these notes."
-            if has_message:
-                furn_response += "It has a message attatched: \"{}\" ".format(i.item_props['item_message'])
+            #if has_message:
+                #furn_response += "It has a message attatched: \"{}\" ".format(i.item_props['item_message'])
             furniture_id_list.append(i.item_props['id_furniture'])
 
         hue = hue_static.hue_map.get(i.item_props.get('hue'))
