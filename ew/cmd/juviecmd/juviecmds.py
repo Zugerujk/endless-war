@@ -494,7 +494,10 @@ async def mine(cmd):
                 
                 # Increase slime
                 mine_action.response += mine_action.user_data.change_slimes(n=mine_action.slime_yield, source=ewcfg.source_mining)
-                
+                if ewutils.DEBUG_OPTIONS['slimegainchecker'] == True:
+                    f = open("minefile.txt", "a")
+                    f.write("{},{},{}\n".format(int(time.time()), cmd.message.author.id, mine_action.slime_yield))
+
                 goonscape = True
 
             # Take hunger from user
