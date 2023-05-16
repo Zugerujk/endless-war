@@ -88,6 +88,8 @@ intents = discord.Intents.all()
 
 client = discord.Client(intents=intents)
 
+
+
 # A map containing user IDs and the last time in UTC seconds since we sent them
 # the help doc via DM. This is to prevent spamming.
 last_helped_times = {}
@@ -134,7 +136,8 @@ if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
 
-
+if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+    client._enable_debug_events = True
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 
@@ -446,6 +449,17 @@ async def on_member_join(member):
             await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
         else:
             await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
+
+
+@client.event
+async def on_socket_raw_send(payload):
+    if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+        try:
+            f = open("apifile.txt", "a")
+            f.write("{}\n".format(str(payload)))
+        except:
+            pass
+
 
 
 @client.event

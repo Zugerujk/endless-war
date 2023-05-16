@@ -33,7 +33,8 @@ DEBUG_OPTIONS = {
     'alternate_talk':False,
     'transport': False,
     'playoffline': False,
-    'slimegainchecker':False
+    'slimegainchecker':False,
+    'trackapi':False
 }
 
 # Map of user IDs to their course ID.
