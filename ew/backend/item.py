@@ -1408,7 +1408,7 @@ def get_base_freshness(item_id, seed):
     if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
         return 15
     elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
-        return item_obj.item_props.get('freshness')
+        return int(item_obj.item_props.get('freshness'))
     elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
         return 0
 
