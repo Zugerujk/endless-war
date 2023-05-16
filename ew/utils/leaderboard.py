@@ -244,8 +244,8 @@ async def make_freshness_top_board(server = None):
             for row in data:
                 if row != None:
                     entries.append(row)
-    except:
-        ewutils.logMsg("Error occured while fetching fashion leaderboard")
+    except Exception as E:
+        ewutils.logMsg("Error occured while fetching fashion leaderboard: {}".format(E))
 
     return format_board(entries=entries, title=ewcfg.leaderboard_fashion)
 
