@@ -247,7 +247,7 @@ async def adorn(cmd):
                 space_adorned += int(item_sought.item_props['size'])
 
             # If you don't have enough space, abort
-            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel):
+            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel) and i.item_props.get("size") != 0:
                 response = "Oh yeah? And, pray tell, just how do you expect to do that? You’re out of space, you can’t adorn any more garments!"
 
             # If you have enough space, adorn
