@@ -1167,8 +1167,8 @@ async def capture_tick(id_server):
                         player_capture_speed = 1
                         if ewcfg.mutation_id_lonewolf in mutations and len(gangsters_in_district) == 1:
                             player_capture_speed *= 2
-                        if ewcfg.mutation_id_patriot in mutations:
-                            player_capture_speed *= 1.5
+                        #if ewcfg.mutation_id_patriot in mutations:
+                        player_capture_speed *= 1.5
                         if ewcfg.mutation_id_unnaturalcharisma in mutations:
                             player_capture_speed += 1
 

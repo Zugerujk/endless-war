@@ -1211,8 +1211,8 @@ def damage_mod_cap(user_data, market_data, user_mutations, district_data, weapon
         else:
             damage_mod *= 2
 
-    if ewcfg.mutation_id_patriot in user_mutations:
-        damage_mod *= 1.5
+    #if ewcfg.mutation_id_patriot in user_mutations:
+    damage_mod *= 1.5
     if ewcfg.mutation_id_unnaturalcharisma in user_mutations:
         damage_mod *= 1.2
 
