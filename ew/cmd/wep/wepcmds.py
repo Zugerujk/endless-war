@@ -51,7 +51,7 @@ async def attack(cmd):
     kf_ctn = None
     start_time = time.time()
     attacker_member = cmd.message.author
-    attacker = EwUser(member=attacker_member)
+    attacker = EwUser(member=attacker_member, data_level=2)
     attacker_mutations = attacker.get_mutations()
 
     check_resp = canAttack(cmd)
@@ -65,7 +65,7 @@ async def attack(cmd):
         attacker_weapon = static_weapons.weapon_map.get(attacker_weapon_item.template)
         attacker_slimeoid = EwSlimeoid(member=attacker_member)
         target_member = cmd.mentions[0]
-        target = EwUser(member=target_member)
+        target = EwUser(member=target_member, data_level=2)
         target_mutations = target.get_mutations()
         target_weapon_item = EwItem(id_item=target.weapon) if target.weapon > 0 else None
         target_weapon = static_weapons.weapon_map.get(target_weapon_item.template) if target.weapon > 0 else None

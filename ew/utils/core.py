@@ -32,7 +32,10 @@ DEBUG_OPTIONS = {
     'verbose_burn': False,
     'alternate_talk':False,
     'transport': False,
-    'threadson': False
+    'threadson': False,
+    'playoffline': False,
+    'slimegainchecker':False,
+    'trackapi':False
 }
 
 # Map of user IDs to their course ID.

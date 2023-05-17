@@ -239,16 +239,9 @@ async def data(cmd):
                 adorned_cosmetics.append(((hue.str_name if hue is not None else "") + ('/' + hue2 if hue2 is not None else '') + (' ' + pattern + ' ' if pattern is not None else '') + (' ' if hue != None and hue2 == None else '') + cosmetic.get('name')))
                 cosmetic_id_list.append(cos.item_props['id_cosmetic'])
 
-        poi = poi_static.id_to_poi.get(user_data.poi)
 
-        shipname = ""
-        if user_data.poi[:5] == 'yacht':
 
-            ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
-            shipname = ship.yacht_name
 
-        if poi != None:
-            response = "You find yourself {} {}. ".format(poi.str_in, poi.str_name.format(boat_name=shipname))
 
 
         #get race flavor text
@@ -261,12 +254,30 @@ async def data(cmd):
             race_suffix = ""
 
         if user_data.life_state == ewcfg.life_state_corpse:
-            response += "You are a {}level {} {}dead{}.".format(race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
+            title = "{}dead{}".format(race_suffix, user_data.gender).capitalize()
         else:
-            response += "You are a {}level {} {}slime{}.".format(race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
+            title = "{}slime{}".format(race_suffix, user_data.gender)
+        response = "You are a LV{} {} {}.\n".format(user_data.slimelevel, race_prefix, title)
 
-        if user_data.has_soul == 0:
-            response += " You have no soul."
+        poi = poi_static.id_to_poi.get(user_data.poi)
+
+
+        shipname = ""
+        if user_data.poi[:5] == 'yacht':
+            ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
+            shipname = ship.yacht_name
+
+        if user_data.hunger > 0:
+            hungerblock = "You are {}% hungry. ".format(
+                round(user_data.hunger * 100.0 / user_data.get_hunger_max(), 1)
+            )
+        else:
+            hungerblock = ""
+
+        if poi != None:
+            response += "You find yourself {} {}. {}\n".format(poi.str_in, poi.str_name.format(boat_name = shipname), hungerblock)
+
+
 
         coinbounty = int(user_data.bounty / ewcfg.slimecoin_exchangerate)
 
@@ -298,45 +309,31 @@ async def data(cmd):
 
         response_block = ""
 
-        user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
-        enemy_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_pve_kills)
+        #user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
+        #enemy_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_pve_kills)
 
-        response_block += "{}{}".format(cmd_utils.get_crime_level(num=user_data.crime, forYou=1), ' ')
+        #response_block += "{}{}".format(cmd_utils.get_crime_level(num=user_data.crime, forYou=1), ' ')
 
 
-        if user_kills > 0 and enemy_kills > 0:
-            response_block += "You have {:,} confirmed kills, and {:,} confirmed hunts. ".format(user_kills,
-                                                                                                 enemy_kills)
-        elif user_kills > 0:
-            response_block += "You have {:,} confirmed kills. ".format(user_kills)
-        elif enemy_kills > 0:
-            response_block += "You have {:,} confirmed hunts. ".format(enemy_kills)
+        #if user_kills > 0 and enemy_kills > 0:
+        #    response_block += "You have {:,} confirmed kills, and {:,} confirmed hunts. ".format(user_kills,
+        #                                                                                         enemy_kills)
+        #elif user_kills > 0:
+        #    response_block += "You have {:,} confirmed kills. ".format(user_kills)
+        #elif enemy_kills > 0:
+        #    response_block += "You have {:,} confirmed hunts. ".format(enemy_kills)
 
-        if coinbounty != 0:
-            response_block += "SlimeCorp offers a bounty of {:,} SlimeCoin for your death. ".format(coinbounty)
+        #if coinbounty != 0:
+            #response_block += "SlimeCorp offers a bounty of {:,} SlimeCoin for your death. ".format(coinbounty)
 
-        if len(adorned_cosmetics) > 0:
-            response_block += "You have a {} adorned. ".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
 
-            outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
-            user_data.persist()
-
-            # If user is wearing all pieces of the a costume set, add text 
-            if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
-                response_block += "You're dressed like a fucking airplane with tits, dude. "
-            elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
-                response_block += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
             # Otherwise, generate response text for freshness and style.
-            elif outfit_map is not None:
-                response_block += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style']) + " "
-            
-        if user_data.hunger > 0:
-            response_block += "You are {}% hungry. ".format(
-                round(user_data.hunger * 100.0 / user_data.get_hunger_max(), 1)
-            )
-
+            #elif outfit_map is not None:
+                #response_block += itm_utils.get_style_freshness_rating(user_data=user_data, dominant_style=outfit_map['dominant_style']) + " "
 
         statuses = user_data.getStatusEffects()
+        if user_data.has_soul == 0:
+            response_block += " You have no soul."
 
         for status in statuses:
             status_effect = EwStatusEffect(id_status=status, user_data=user_data)
@@ -405,6 +402,18 @@ async def data(cmd):
                     )
                     if possession:
                         response_block += "{} is also possessing your {}. ".format((await fe_utils.get_member(server, ghost_in_weapon)).display_name, possession_type)
+
+        if len(adorned_cosmetics) > 0:
+            response_block += "\n\nYou have a {} adorned. ".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
+
+            #outfit_map = itm_utils.get_outfit_info(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+            user_data.persist()
+
+            # If user is wearing all pieces of the a costume set, add text
+            if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
+                response_block += "You're dressed like a fucking airplane with tits, dude. "
+            elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
+                response_block += "Your taste in clothes is a symbol of hatred to illegal aliens everywhere."
 
         # if user_data.swear_jar >= 500:
         # 	response_block += "You're going to The Underworld for the things you've said."
@@ -1386,7 +1395,7 @@ async def transportmap(cmd):
 
 """ Check your outfit. """
 
-
+freshseed = random.Random()
 async def fashion(cmd):
     if cmd.mentions_count == 0:
         user_data = EwUser(member=cmd.message.author, data_level=2)
@@ -1405,6 +1414,17 @@ async def fashion(cmd):
         stats_breakdown = {}
 
         space_adorned = 0
+        market_data = EwMarket(id_server=user_data.id_server)
+        freshseed.seed(user_data.fashion_seed + market_data.day)
+        bonus_freshness = freshseed.randint(-20, 20)
+        if bonus_freshness < -10:
+            bonus_response = "You're really having a shit day, and your baggy-ass eyes make you look 5 years older."
+        elif bonus_freshness < 0:
+            bonus_response = "You're not feeling very photogenic right now."
+        elif bonus_freshness < 10:
+            bonus_response = "You're feeling well rested, by gangster standards anyway."
+        else:
+            bonus_response = "You look fantastic. You can smell the followers before you even take a picture."
 
         for cosmetic in cosmetic_items:
             c = EwItem(id_item=cosmetic.get('id_item'))
@@ -1430,7 +1450,7 @@ async def fashion(cmd):
         # show all the cosmetics that you have adorned.
         if len(adorned_cosmetics) > 0:
             response = "You whip out your smartphone and reverse your camera around to thoroughly analyze yourself.\n\n"
-            response += "You have a {} adorned. ".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
+            response += "{} You have a {} adorned. ".format(bonus_response, ewutils.formatNiceList(adorned_cosmetics, 'and'))
 
             # fashion outfit, freshness rating.
             if len(adorned_cosmetics) >= 2:
@@ -1701,6 +1721,37 @@ async def recycle(cmd):
             response = "You don't have one"
         else:
             response = "{} which item? (check **!inventory**)".format(cmd.tokens[0])
+
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def windowshop(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    poi = poi_static.id_to_poi.get(user_data.poi)
+
+    if cmd.tokens_count <= 1:
+        response = "What are you wistfully gazing at?"
+    else:
+        value = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+        item = static_cosmetics.cosmetic_map.get(value)
+        if item is None:
+            response = "Whatever that is, it's not in the clothing aisle."
+        else:
+            market = EwMarket(id_server=cmd.guild.id)
+
+            freshness = bknd_item.get_base_freshness(seed=user_data.fashion_seed, mapkey=value)
+
+            if 'bazaar' in poi.vendors and item.id_cosmetic not in market.bazaar_wares.values():
+                response = "They don't sell that here. Not right now, anyway."
+            elif 'bazaar' not in poi.vendors and len(set(item.vendors).intersection(poi.vendors)) == 0:
+                response = "They don't sell that here."
+            elif freshness <= 3:
+                response = "Ugh, who decided to start selling {} here? Low key gross, ngl. You could barely squeeze {} freshness out of that garbage.".format(item.str_name, freshness)
+            elif freshness <= 6:
+                response = "Hard to flex in that, but you do you I guess. Wearing a {} around only nets you {} freshness.".format(item.str_name, freshness)
+            elif freshness <= 9:
+                response = "That {}'s pretty bussin, ngl ngl. It'll win you {} freshness, maybe not worthy of your socials but it's something.".format(item.str_name, freshness)
+            else:
+                response = "THAT {} SLAAAAAYS QUEEN! GET THAT {} FRESHNESS, THAT IS FIRE!! 🤯😳😭".format(item.str_name.upper(), freshness)
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
@@ -3559,7 +3610,7 @@ async def award_skill_capes(cmd): #this command should be removed after its been
                     'durability': 42069, #man fuck this noise
                     'original_durability': 42069,
                     'fashion_style': ewcfg.style_skill,
-                    'freshness': 1,
+                    'freshness': 0,
                     'adorned': 'true',
                     'soulbound': 'true'
                 }

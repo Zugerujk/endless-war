@@ -182,6 +182,7 @@ class EwPoi:
             wikipage = "",
             jump_dest = "",
             is_dock = False
+
     ):
         self.id_poi = id_poi
         self.alias = alias

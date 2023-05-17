@@ -49,6 +49,7 @@ CREATE TABLE users (
     hogtied smallint NOT NULL DEFAULT '0',
     crime bigint NOT NULL DEFAULT '0',
 	event_points bigint NOT NULL DEFAULT '0',
+	fashion_seed bigint NOT NULL DEFAULT '0'
 
 	CONSTRAINT id_user_server PRIMARY KEY (id_user, id_server)
 );

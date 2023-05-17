@@ -500,6 +500,10 @@ async def award_fish(fisher, cmd, user_data):
                 length=fisher.length,
             )
 
+            if ewutils.DEBUG_OPTIONS['slimegainchecker'] == True:
+                f = open("fishfile.txt", "a")
+                f.write("{},{},{}\n".format(int(time.time()), cmd.message.author.id, slime_gain))
+
             inhabitant_data.change_slimes(n=-slime_gain)
             inhabitant_data.persist()
             fisher.stop()

@@ -25277,3 +25277,38 @@ shred_desc = "It’s a shred of office paper. There’s definitely something wri
         is_subzone=True,
         neighbors={'thecaverns':20}
     ),
+
+        """EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_patriot,
+        str_name="Patriot",
+        alias=['pt'],
+        str_describe_self="You beam with intense pride over your faction’s sophisticated culture and history due to **Patriot**.",
+        str_describe_other="They beam with intense pride over their faction’s sophisticated culture and history due to **Patriot**.",
+        str_acquire="Your brain’s wrinkles begin to smooth themselves out, and you are suddenly susceptible to being swayed by propaganda. Suddenly, your faction’s achievements flash before your eyes. All of the glorious victories it has won, all of its sophisticated culture and history compels you to action. You have developed the mutation **Patriot**. You capture districts 1.5x faster.",
+        tier=6,
+        str_transplant="You are led into a room with a projector and told to sit down. Each slide has a different gang's propaganda on it. Every time your gang's propaganda shows up, you get a glob of slime. For your enemy gang, you get tased. The process continues until Pavlov has made you his bitch. Allegiance is all you understand.\n\nYou have developed the mutation **Patriot**. You capture districts 1.5x faster.",
+
+    ),"""
+
+
+
+    """ freshness_list = {}
+        procedural_list = []
+        randomlist = []
+
+        for cosmetic in cosmetics.cosmetic_items_list:
+            if cosmetic.freshness == 0:
+                continue
+            randomlist.append(int(random.triangular(1, 16, 6)))
+            procedural_list.append(float(cosmetic.freshness / max(cosmetic.size, 1)))
+            if freshness_list.get(cosmetic.rarity+cosmetic.style) is None:
+                freshness_list[cosmetic.rarity+cosmetic.style] = [float(cosmetic.freshness/max(cosmetic.size, 1))]
+            else:
+                freshness_list[cosmetic.rarity+cosmetic.style].append(float(cosmetic.freshness/max(cosmetic.size, 1)))
+        #print(freshness_list)
+        procedural_list.sort()
+        randomlist.sort()
+        print("PROCEDURAL:{}".format(procedural_list))
+        print("TRIANGULAR:{}".format(randomlist))
+        #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
+        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)"""

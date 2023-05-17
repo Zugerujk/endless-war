@@ -184,7 +184,7 @@ async def menu(cmd):
 # Buy items.
 async def order(cmd):
 
-    user_data = EwUser(member=cmd.message.author)
+    user_data = EwUser(member=cmd.message.author, data_level=2)
     mutations = user_data.get_mutations()
 
     market_data = EwMarket(id_server=cmd.guild.id)
@@ -274,7 +274,10 @@ async def order(cmd):
             item_type = item.item_type
             # Gets a vendor that the item is available and the player currently located in
             try:
-                current_vendor = (set(item.vendors).intersection(set(poi.vendors))).pop()
+                personal_vendors = poi.vendors.copy()
+                if ewcfg.vendor_secretbodega in personal_vendors and user_data.freshness <= ewcfg.freshnesslevel_4:
+                    personal_vendors.remove(ewcfg.vendor_secretbodega)
+                current_vendor = (set(item.vendors).intersection(set(personal_vendors))).pop()
             except:
                 current_vendor = None
 

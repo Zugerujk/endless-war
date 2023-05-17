@@ -90,6 +90,8 @@ intents = discord.Intents.all()
 
 client = discord.Client(intents=intents)
 
+
+
 # A map containing user IDs and the last time in UTC seconds since we sent them
 # the help doc via DM. This is to prevent spamming.
 last_helped_times = {}
@@ -136,7 +138,8 @@ if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
 
-
+if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+    client._enable_debug_events = True
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 
@@ -456,6 +459,17 @@ async def on_member_join(member):
 
 
 @client.event
+async def on_socket_raw_send(payload):
+    if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+        try:
+            f = open("apifile.txt", "a")
+            f.write("{}\n".format(str(payload)))
+        except:
+            pass
+
+
+
+@client.event
 async def on_message_delete(message):
     if message != None and message.guild != None and message.author.id != client.user.id and message.content.startswith(ewcfg.cmd_prefix):
         user_data = EwUser(member=message.author)
@@ -471,8 +485,9 @@ async def debugHandling(message, cmd, cmd_obj):
     time_now = int(time.time())
     market = EwMarket(id_server=cmd_obj.guild.id)
     if cmd == (ewcfg.cmd_prefix + 'enemytick'):
-        #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
-        await apt_utils.rent_time(id_server=cmd_obj.guild.id)
+        x = await bknd_leaderboard.make_freshness_top_board(server = cmd_obj.guild.id)
+        print(x)
+
 
     elif cmd == (ewcfg.cmd_prefix + 'threado'):
         #for poi in poi_static.id_to_poi.keys():
@@ -1099,7 +1114,7 @@ async def on_message(message):
         # Scold/ignore offline players.
         if message.author.status == discord.Status.offline:
 
-            if ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds:
+            if (ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds) and ewutils.DEBUG_OPTIONS['playoffline'] == False:
                 response = "You cannot participate in the ENDLESS WAR while offline."
 
                 return await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))

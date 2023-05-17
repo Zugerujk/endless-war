@@ -835,8 +835,10 @@ async def item_look(cmd):
                     response += "It's super cuuuutttiieeeeeeeeeeeee~ deeeessuusususususususuusususufuswvgslgerphi4hjetbhjhjbetbjtrrpo"
                 if item.item_props['fashion_style'] == ewcfg.style_evil:
                     response += "It's got an evil energy to it."
+                if item.item_props['fashion_style'] == ewcfg.style_skill:
+                    response += "It was gained by gooning. Fucking goons."
 
-                response += "\n\nIts freshness rating is {rating}.".format(rating=item.item_props['freshness'])
+                response += "\n\nIts freshness rating is {rating}.".format(rating=bknd_item.get_base_freshness(item_id=item, seed=user_data.fashion_seed))#item.item_props['freshness']
 
                 hue = hue_static.hue_map.get(item.item_props.get('hue'))
                 hue2 = hue_static.hue_map.get(item.item_props.get('hue2'))
