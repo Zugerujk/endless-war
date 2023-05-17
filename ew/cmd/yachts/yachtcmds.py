@@ -619,7 +619,7 @@ async def seanet(cmd):
                     chosen_stat=stat
                     break
 
-            inventory_id = "slimesea{:03}{:03}".format(yacht.xcoord, yacht.ycoord)
+            inventory_id = "slimesea_{}_{}".format(yacht.xcoord, yacht.ycoord)
             sea_inv = bknd_item.inventory(id_user=inventory_id, id_server=cmd.guild.id)
             response = "You pull up the net..."
             yacht.accumulate_filth()

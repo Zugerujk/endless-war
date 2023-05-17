@@ -880,7 +880,7 @@ async def toss_off_cliff(cmd):
 
     if user_data.poi[:5] == 'yacht':
         yacht = EwYacht(id_thread=int(user_data.poi[5:]), id_server=user_data.id_server)
-        destination = "slimesea{:03}{:03}".format(yacht.xcoord, yacht.ycoord)
+        destination = "slimesea_{}_{}".format(yacht.xcoord, yacht.ycoord)
         return await ewitem.itemcmds.discard(cmd=cmd, special_dest=destination)
     elif cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
         if item_sought:

@@ -19,9 +19,11 @@ from ew.utils import core as ewutils
 from ew.cmd.move.moveutils import one_eye_dm
 from ew.utils import frontend as ewfrontend
 from ew.utils.district import EwDistrict
+from ew.backend.yacht import EwYacht
 from ew.utils.rolemgr import updateRoles
 from ew.utils.combat import EwUser
 from ew.utils.user import add_xp
+import ew.utils.yacht as yacht_utils
 
 try:    
     from ew.utils import rutils 
@@ -293,6 +295,11 @@ async def award_fish(fisher, cmd, user_data):
     xp_type = None
     actual_fisherman = None
     actual_fisherman_data = user_data
+    coords = None
+
+    if user_data.poi[:5] == 'yacht':
+        yacht_data = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        coords = [yacht_data.xcoord, yacht_data.ycoord]
 
     if fisher.inhabitant_id:
         actual_fisherman = user_data.get_possession()[1]
@@ -300,7 +307,8 @@ async def award_fish(fisher, cmd, user_data):
 
     if fisher.current_fish in ["item", "seaitem"]:
         xp_type = "item"
-        slimesea_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=ewcfg.poi_id_slimesea)
+        #slimesea_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=ewcfg.poi_id_slimesea)
+        slimesea_item = yacht_utils.get_slimesea_item(id_server=cmd.guild.id, coords=coords)
 
         if fisher.pier.pier_type == ewcfg.fish_slime_moon and fisher.current_fish == "item":
             district = EwDistrict(id_server=cmd.guild.id, district=fisher.cast_poi.id_poi)
@@ -356,7 +364,7 @@ async def award_fish(fisher, cmd, user_data):
                 else:
                     response = "You reeled... nothing!"
 
-        elif (fisher.pier.pier_type != ewcfg.fish_slime_saltwater or len(slimesea_inventory) == 0 or random.random() < 0.2) and fisher.current_fish == "item":
+        elif (fisher.pier.pier_type != ewcfg.fish_slime_saltwater or slimesea_item is None or random.random() < 0.2) and fisher.current_fish == "item":
 
             # Choose a random item from the possible mining results - currently just poudrins
             item = random.choice(vendors.mine_results)
@@ -383,13 +391,13 @@ async def award_fish(fisher, cmd, user_data):
         # If "seaitem" is specified, get a sea item.
         else:
             # If the sea is empty
-            if len(slimesea_inventory) == 0:
+            if slimesea_item is None:
                 response = "You reel in... nothing! The Slime Sea seems to be empty of fishable litter."
 
             else:
-                item = random.choice(slimesea_inventory)
+                item = bknd_item.find_item(item_search=str(slimesea_item), id_server=cmd.guild.id)
 
-                if bknd_item.give_item(id_item=item.get('id_item'), member=cmd.message.author):
+                if bknd_item.give_item(id_item=slimesea_item, member=cmd.message.author):
                     response = "You reel in a {}!".format(item.get('name'))
                 else:
                     response = "You woulda reeled in a {}, but your back gave out under the weight of the rest of your {}s.".format(item.str_name, item.item_type)

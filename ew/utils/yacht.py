@@ -245,13 +245,17 @@ def get_boat_coord_radius(xcoord, ycoord, radius):
 
     return final_list
 
-def get_slimesea_item(id_server, treasuremap = False):
+def get_slimesea_item(id_server, treasuremap = False, coords = None):
     cartesian_shit = [] #
-    for x in range(ewdebug.max_right_bound):
-        for y in range(ewdebug.max_lower_bound):
-            cartesian_shit.append([x, y])
 
-    random.shuffle(cartesian_shit)
+    if coords == None:
+        for x in range(ewdebug.max_right_bound):
+            for y in range(ewdebug.max_lower_bound):
+                cartesian_shit.append([x, y])
+
+        random.shuffle(cartesian_shit)
+    else:
+        cartesian_shit.append(coords)
 
     for pair in cartesian_shit:
         poi_search = "{}_{}_{}".format(ewcfg.poi_id_slimesea, pair[0], pair[1])

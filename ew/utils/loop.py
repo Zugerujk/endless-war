@@ -1352,7 +1352,10 @@ async def clock_tick_loop(id_server, force_active = False):
 
                 ewutils.logMsg("Handling capture points...")
                 await give_kingpins_slime_and_decay_capture_points(id_server)
-                
+
+                ewutils.logMsg("Moving base Slime Sea items...")
+                itm_utils.move_slime_sea(id_server=id_server)
+
                 ewutils.logMsg("Sending gangbase messages...")
                 await move_utils.send_gangbase_messages(id_server, market_data.clock)
                 
@@ -1436,7 +1439,9 @@ async def clock_tick_loop(id_server, force_active = False):
 
                 elif market_data.clock == 13 and market_data.day % 28 == 0 or force_active: #regulate slimesea items every week
                     ewutils.logMsg('Regulating Slime Sea items...')
-                    number = itm_utils.cull_slime_sea(id_server=id_server)
+                    number = 0
+
+                    #number = itm_utils.cull_slime_sea(id_server=id_server)
                     ewutils.logMsg('...Slime Sea culled. {} items deleted.'.format(number))
                 elif market_data.clock == 20 or force_active:
                     response = ' The SlimeCorp Stock Exchange has closed for the night.'
