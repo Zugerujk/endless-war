@@ -113,15 +113,20 @@ async def board_ship(cmd):
                 else:
                     selected_ship = ship
             if selected_ship is not None:
-                #todo set up gangplank restrictions
-                #if selected_ship.direction != 'stop':
-                    #response = "Fuck, they just took off."
+                if ewdebug.seamap[selected_ship.ycoord][selected_ship.xcoord] != -1:
+                    onland =  True
+                else:
+                    onland = False
+
                 if user_data.poi[:5] == 'yacht' and selected_ship.thread_id == int(user_data.poi[5:]):
                     response = "You're already here, dumbass."
                 else:
                     approved = False
                     if current_ship is None:
-                        approved = True
+                        if selected_ship.owner == user_data.id_user or 'locked' not in selected_ship.getYachtStats():
+                            approved = True
+                        else:
+                            response = "The entrance is locked up, it's no good."
                     else:
                         shipstats = current_ship.getYachtStats()
                         planked = False
@@ -132,6 +137,8 @@ async def board_ship(cmd):
 
                         if not planked:
                             response = "You need to !gangplank then first, so you can cross."
+                        elif onland and 'locked' in selected_ship.getYachtStats():
+                            response = "The entrance is locked up, it's no good. Crossing via gangplank doesn't work either because you're not docked that closely."
                         else:
                             approved = True
 
@@ -727,6 +734,34 @@ async def scoop_ship(cmd):
 
     if response != "":
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+
+async def lock(cmd): #doubles as the ship unlock
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = "Your apartment is locked already. You're not stupid enough to leave it open to anyone, ever."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if user_data.id_user != yacht.owner:
+            response = "It's not your yacht, you don't have the key. Funny idea, though."
+        else:
+            response = ""
+            if cmd.tokens[0] == '!unlock':
+                if 'locked' not in yacht.getYachtStats():
+                    response = "It's already unlocked."
+                else:
+                    response = "You open the entry hatch to your vessel."
+                    for stat in yacht.getYachtStats():
+                        if stat.type_stat == 'locked':
+                            yacht.clearStat(id_stat=stat.id_stat)
+            elif cmd.tokens[1] == '!lock':
+                if 'locked' in yacht.getYachtStats():
+                    response = "It's already locked."
+                else:
+                    yacht.applyStat(stat_type='locked')
+                    response = "You lock the entry hatch to the boat."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def statstest(cmd):
     pass
