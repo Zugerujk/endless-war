@@ -1723,9 +1723,10 @@ async def windowshop(cmd):
             response = "Whatever that is, it's not in the clothing aisle."
         else:
             market = EwMarket(id_server=cmd.guild.id)
+
             freshness = bknd_item.get_base_freshness(seed=user_data.fashion_seed, mapkey=value)
-            print(set(item.vendors).intersection(poi.vendors))
-            if 'bazaar' in poi.vendors and item.id_cosmetic not in market.bazaar_wares:
+
+            if 'bazaar' in poi.vendors and item.id_cosmetic not in market.bazaar_wares.values():
                 response = "They don't sell that here. Not right now, anyway."
             elif 'bazaar' not in poi.vendors and len(set(item.vendors).intersection(poi.vendors)) == 0:
                 response = "They don't sell that here."
