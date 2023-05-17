@@ -1,6 +1,8 @@
 import ew.static.cfg as ewcfg
 import math
+import random
 from ..backend.yacht import EwYacht
+import ew.backend.item as bknd_item
 from ..backend import core as bknd_core
 import ew.static.poi as poi_static
 from ew.utils import core as coreutils
@@ -242,5 +244,31 @@ def get_boat_coord_radius(xcoord, ycoord, radius):
                 final_list.append([x, y])
 
     return final_list
+
+def get_slimesea_item(id_server, treasuremap = False):
+    cartesian_shit = [] #
+    for x in range(ewdebug.max_right_bound):
+        for y in range(ewdebug.max_lower_bound):
+            cartesian_shit.append([x, y])
+
+    random.shuffle(cartesian_shit)
+
+    for pair in cartesian_shit:
+        poi_search = "{}_{}_{}".format(ewcfg.poi_id_slimesea, pair[0], pair[1])
+        inv = bknd_item.inventory(id_server=id_server, id_user=poi_search)
+        if len(inv) == 0:
+            continue
+        else:
+            for item in inv:
+                if not treasuremap:
+                    return item.get('id_item')
+                else:
+                    item = bknd_item.EwItem(id_item=item.get('id_item'))
+                    if item.item_props.get('mapped') is not None and item.item_props.get('mapped') != 0:
+                        continue
+                    elif item.template in ewdebug.raretreasures or item.item_type == ewcfg.it_relic:
+                        return item.id_item
+    return None
+
 
 
