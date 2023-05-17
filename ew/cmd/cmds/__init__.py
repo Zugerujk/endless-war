@@ -215,6 +215,7 @@ cmd_map = {
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
     ewcfg.cmd_dual_key_release_alt1: cmdcmds.dual_key_release,
     ewcfg.cmd_setslime: cmdcmds.set_slime,
+    ewcfg.cmd_windowshop: cmdcmds.windowshop,
 
     # Debug for world events
     ewcfg.cmd_createpoievent: cmdcmds.manual_poi_event_create,

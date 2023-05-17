@@ -1362,6 +1362,8 @@ cmd_bazaar_refresh = cmd_prefix + 'refreshbazaar'
 cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
+cmd_windowshop = cmd_prefix + 'windowshop'
+
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
 cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'

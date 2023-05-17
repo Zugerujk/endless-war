@@ -1397,23 +1397,27 @@ def get_freshness(user_data, adorned_id_list = None):
 
 
 
-def get_base_freshness(item_id, seed):
-    if type(item_id) is int:
-        item_obj = EwItem(id_item=item_id)
-    else:
-        item_obj = item_id
+def get_base_freshness(seed, item_id = None,  mapkey = None):
+    id = ""
+    if mapkey is None:
+        if type(item_id) is int:
+            item_obj = EwItem(id_item=item_id)
+            id = item_obj.item_props.get('id_cosmetic')
 
-    id = item_obj.item_props.get('id_cosmetic')
+        else:
+            item_obj = item_id
+            id = item_obj.item_props.get('id_cosmetic')
 
-    if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
-        return 15
-    elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
-        return int(item_obj.item_props.get('freshness'))
-    elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
-        return 0
+
+        if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
+            return 15
+        elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
+            return int(item_obj.item_props.get('freshness'))
+        elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
+            return 0
 
     #index = cosmetics.cosmetic_map.keys().index(id)
-    freshseed.seed(str(seed) + id)
+    freshseed.seed(str(seed) + (mapkey if mapkey is not None else id))
     return int(freshseed.triangular(1, 16, 6))
 
 

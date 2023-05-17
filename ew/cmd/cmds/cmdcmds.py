@@ -1710,6 +1710,36 @@ async def recycle(cmd):
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+async def windowshop(cmd):
+    user_data = EwUser(member = cmd.message.author)
+    poi = poi_static.id_to_poi.get(user_data.poi)
+
+    if cmd.tokens_count <= 1:
+        response = "What are you wistfully gazing at?"
+    else:
+        value = ewutils.flattenTokenListToString(cmd.tokens[1:]).lower()
+        item = static_cosmetics.cosmetic_map.get(value)
+        if item is None:
+            response = "Whatever that is, it's not in the clothing aisle."
+        else:
+            market = EwMarket(id_server=cmd.guild.id)
+            freshness = bknd_item.get_base_freshness(seed=user_data.fashion_seed, mapkey=value)
+            print(set(item.vendors).intersection(poi.vendors))
+            if 'bazaar' in poi.vendors and item.id_cosmetic not in market.bazaar_wares:
+                response = "They don't sell that here. Not right now, anyway."
+            elif 'bazaar' not in poi.vendors and len(set(item.vendors).intersection(poi.vendors)) == 0:
+                response = "They don't sell that here."
+            elif freshness <= 3:
+                response = "Ugh, who decided to start selling {} here? Low key gross, ngl. You could barely squeeze {} freshness out of that garbage.".format(item.str_name, freshness)
+            elif freshness <= 6:
+                response = "Hard to flex in that, but you do you I guess. Wearing a {} around only nets you {} freshness.".format(item.str_name, freshness)
+            elif freshness <= 9:
+                response = "That {}'s pretty bussin, ngl ngl. It'll win you {} freshness, maybe not worthy of your socials but it's something.".format(item.str_name, freshness)
+            else:
+                response = "THAT {} SLAAAAAYS QUEEN! GET THAT {} FRESHNESS, THAT IS FIRE!! 🤯😳😭".format(item.str_name.upper(), freshness)
+
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
 
 """
 	advertise help services
