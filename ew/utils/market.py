@@ -16,6 +16,7 @@ import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.weapons as static_weapons
 from ew.utils import core as ewutils
+from ew.utils import yacht as ewyacht
 
 try:
     from ew.cmd import debug as ewdebug
@@ -345,9 +346,12 @@ async def refresh_bazaar(id_server = None):
         elif item in static_relic.relic_names and relic_utils.canCreateRelic(item=item, id_server=id_server) is not None:
             bazaar_relics.append(item)
 
-    print(bazaar_general_items)
+
     if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
         market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
+    elif ewyacht.get_slimesea_item(id_server=id_server, treasuremap=True) != None and random.randint(0, 4) == 0:
+        market_data.bazaar_wares['relic1'] = 'treasuremap'
+
 
     market_data.bazaar_wares['food1'] = random.choice(bazaar_foods)
     # Don't add repeated foods

@@ -204,7 +204,7 @@ async def sink(thread_id, id_server, killer_yacht = None):
 
 
 
-def draw_map(xcoord, ycoord, id_server, radius = 4 ):
+def draw_map(xcoord, ycoord, id_server, radius = 4, treasuremap = False):
     center_x = min(max(xcoord, radius+1), ewdebug.max_right_bound - radius)
     center_y = min(max(ycoord, radius+1), ewdebug.max_lower_bound - radius)
     search_coords = []
@@ -227,9 +227,13 @@ def draw_map(xcoord, ycoord, id_server, radius = 4 ):
         response += '\n'
         for x in range(-radius, radius+1):
             letter = map_key.get(ewdebug.seamap[y + center_y][x + center_x])
-            for boat in boats:
-                if boat.ycoord == y + center_y and boat.xcoord == x + center_x:
-                    letter = '⛵'
+            if not treasuremap:
+                for boat in boats:
+                    if boat.ycoord == y + center_y and boat.xcoord == x + center_x:
+                        letter = '⛵'
+            else:
+                if xcoord == x + center_x and ycoord == y + center_y:
+                    letter = '❌'
             response += letter
 
     return response
@@ -244,6 +248,21 @@ def get_boat_coord_radius(xcoord, ycoord, radius):
                 final_list.append([x, y])
 
     return final_list
+
+
+def draw_item_map(id_server):
+    id_item = get_slimesea_item(id_server=id_server, treasuremap=True)
+    if id_item is not None:
+        item_obj = bknd_item.EwItem(id_item=id_item)
+        coord_arr = item_obj.id_owner.split(separator='_')
+        if len(coord_arr) != 3:
+            return "Map error. Someone fucked up and now the map is covered in jizz or something."
+        map = draw_map(xcoord=int(coord_arr[1]), ycoord=int(coord_arr[2]), id_server=id_server, radius=8, treasuremap=True)
+        if map is not None:
+            bknd_core.execute_sql_query("delete from bazaar_wares where {id_server} = %s and {value} = %s".format(id_server=ewcfg.col_id_server, value=ewcfg.col_value), (id_server, 'treasuremap'))
+            item_obj.item_props['mapped'] = 1
+            item_obj.persist()
+        return map
 
 def get_slimesea_item(id_server, treasuremap = False, coords = None):
     cartesian_shit = [] #
@@ -273,6 +292,5 @@ def get_slimesea_item(id_server, treasuremap = False, coords = None):
                     elif item.template in ewdebug.raretreasures or item.item_type == ewcfg.it_relic:
                         return item.id_item
     return None
-
 
 

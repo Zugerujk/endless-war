@@ -1063,6 +1063,9 @@ def give_item(
             item.item_props["consecutive_hits"] = 0
             item.item_props["time_lastattack"] = 0
             item.persist()
+        elif item.item_props.get('mapped') == 1:
+            item.item_props['mapped'] = 0
+            item.persist()
     return True
 
 

@@ -27,6 +27,7 @@ from ew.utils import item as itm_utils
 from ew.utils import loop as loop_utils
 from ew.utils import poi as poi_utils
 from ew.utils import market as market_utils
+from ew.utils import yacht as yacht_utils
 try:
     from ew.utils import rutils as relic_utils
 except:
@@ -406,6 +407,8 @@ async def order(cmd):
 
                     if item.str_name == "arcade cabinet":
                         item_props['furniture_desc'] = random.choice(comm_cfg.cabinets_list)
+                    elif item.str_name == "Treasure Map":
+                        item_props['item_desc'] = item_props['item_desc'].format(mapping = yacht_utils.draw_item_map(id_server=user_data.id_server))
                     elif item.item_type == ewcfg.it_furniture:
                         if "custom" in item_props.get('id_furniture'):
                             if cmd.tokens_count < 4 or cmd.tokens[2] == "" or cmd.tokens[3] == "":

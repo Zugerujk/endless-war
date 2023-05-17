@@ -628,7 +628,8 @@ async def seanet(cmd):
                 random.shuffle(sea_inv)
                 for x in range(received_items):
                     item_obj = bknd_item.EwItem(id_item=sea_inv[x].get('id_item'))
-                    item_obj.id_owner = user_data.poi
+                    bknd_item.give_item(id_item=item_obj.id_item, id_user=user_data.poi, id_server=item_obj.id_server)
+                    #item_obj.id_owner = user_data.poi
                     item_obj.persist()
                     response += "\nYou caught a {}!".format(sea_inv[x].get('name'))
 
