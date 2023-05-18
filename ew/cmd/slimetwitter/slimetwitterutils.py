@@ -34,7 +34,7 @@ def format_generic_tweet(author,
 
     # Add the attachment
     if attachment != "":
-        print("fart")
+        # print("fart")
         tweet.set_image(url=attachment)
 
     return tweet
