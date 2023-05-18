@@ -494,7 +494,7 @@ async def piss(cmd):
 
     respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     if xp_yield != 0:
-        responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
+        responses = await add_xp(cmd.message.author.id, cmd.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
         for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
     return await respctn.post()
 
