@@ -1860,7 +1860,7 @@ async def help(cmd):
         poi = poi_static.id_to_poi.get(user_data.poi)
 
         # Get topics associated with said channel
-        channel_topics = cmd_utils.channel_help_topics(channel=cmd.message.channel.name, poi=poi)
+        channel_topics = cmd_utils.channel_help_topics(channel=poi.channel, poi=poi)
 
         if channel_topics != []:
             # Choose a random topic, in case there are > 1
