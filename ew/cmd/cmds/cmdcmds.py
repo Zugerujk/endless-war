@@ -146,6 +146,7 @@ async def score(cmd: cmd_utils.EwCmd):
 
 
 async def data(cmd):
+    #todo make !data checking other players correct threads relative to the specific channel they're used in
     member = None
     response = ""
 
