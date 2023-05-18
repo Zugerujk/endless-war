@@ -254,7 +254,7 @@ async def data(cmd):
             title = "{}dead{}".format(race_suffix, user_data.gender).capitalize()
         else:
             title = "{}slime{}".format(race_suffix, user_data.gender)
-        response = "You are a LV{} {} {}.\n".format(user_data.slimelevel, race_prefix, title)
+        response = "You are a LV{} {}{}.\n".format(user_data.slimelevel, race_prefix, title)
 
         poi = poi_static.id_to_poi.get(user_data.poi)
 
@@ -276,7 +276,7 @@ async def data(cmd):
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
 
         if weapon != None:
-            response += " {} {}{}.".format(
+            response += "{} {}{}.".format(
                 ewcfg.str_weapon_married_self if user_data.weaponmarried == True else ewcfg.str_weapon_wielding_self, (
                     "" if len(weapon_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
                         weapon_item.item_props.get("weapon_name"))), weapon.str_weapon)
@@ -291,13 +291,21 @@ async def data(cmd):
         sidearm = static_weapons.weapon_map.get(sidearm_item.item_props.get("weapon_type"))
 
         if sidearm != None:
-            response += " You have sidearmed {}{}.".format((
-                "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
-                    sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
+            if weapon == None:
+                response += "You have sidearmed {}{}.".format((
+                    "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
+                        sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
+            else:
+                response += " You have sidearmed {}{}.".format((
+                    "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
+                        sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
 
         if trauma != None:
-            response += " {}".format(trauma.str_trauma_self)
-
+            if weapon != None or sidearm != None:
+                response += " {}".format(trauma.str_trauma_self)
+            else:
+                response += "{}".format(trauma.str_trauma_self)
+    
         response_block = ""
 
         #user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
