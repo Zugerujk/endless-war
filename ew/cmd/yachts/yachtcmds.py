@@ -24,7 +24,7 @@ except:
 
 async def rentyacht(cmd):
     user_data = EwUser(member=cmd.message.author)
-    question = "You'll need {} SlimeCoin to set sail. Whaddya say, laddy? !accept or !refuse?".format(ewcfg.yachtprice)
+    question = "You'll need {:,} SlimeCoin to set sail. Whaddya say, laddy? !accept or !refuse?".format(ewcfg.yachtprice)
 
     name = ' '.join(word for word in cmd.tokens[1:])
 
@@ -45,7 +45,7 @@ async def rentyacht(cmd):
         return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/img/npc/albertalex.png")
 
     elif user_data.slimecoin < ewcfg.yachtprice:
-        response = "Ay, laddy. You'll need more coin than that to rob me of this ere girl."
+        response = "Ay, laddy. You'll need more coin than that to rob me of this ere girl. It'll be {:,} slime doubloons.".format(ewcfg.yachtprice)
         return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image = "https://rfck.app/img/npc/albertalex.png")
     else:
         accepted = await fe_utils.prompt(cmd=cmd, target = cmd.message.author, question = question, wait_time = 30, accept_command = 'accept', decline_command = 'refuse', checktarget = False)
@@ -69,7 +69,7 @@ async def rentyacht(cmd):
             poi_static.id_to_poi[new_poi] = boat_poi
 
             #starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
-            thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), type=discord.ChannelType.private, invitable=False)
+            thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), invitable=False)
 
             yacht.thread_id = thread.id
             yacht.persist()
@@ -159,15 +159,17 @@ async def board_ship(cmd):
                                 ewutils.logMsg("Failed to remove thread.")
 
                             try:
-                                await thread.add_user(user=cmd.message.author)
-                            except:
-                                ewutils.logMsg("Failed to add thread.")
-
-                            try:
                                 await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                                 await user_data.move_inhabitants(id_poi=user_data.poi)
-                            except:
-                                ewutils.logMsg("Failed to update roles.")
+                            except Exception as E:
+                                ewutils.logMsg("Failed to update roles: {}".format(E))
+
+                            try:
+                                await thread.add_user(cmd.message.author)
+                            except Exception as E:
+                                ewutils.logMsg("Failed to add thread:{}".format(E))
+
+
 
 
             else:
@@ -351,6 +353,7 @@ async def unboard(cmd):
         else:
             exit_poi = ""
             for dock in poi_static.docks:
+                print(dock)
                 dock_obj = poi_static.id_to_poi.get(dock)
                 for coord in dock_obj.coord:
                     if coord[0] == yacht.xcoord and coord[1] == yacht.ycoord:

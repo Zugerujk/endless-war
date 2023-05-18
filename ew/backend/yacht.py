@@ -154,7 +154,7 @@ class EwYacht():
     async def get_thread(self):
         client = coreutils.get_client()
         server = client.get_guild(self.id_server)
-        channel = server.get_channel(self.thread_id)
+        channel = await server.fetch_channel(self.thread_id)
         return channel
 
     def applyStat(self, stat_type, quantity = 0, target = 0):

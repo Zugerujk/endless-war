@@ -328,7 +328,8 @@ async def refresh_bazaar(id_server = None):
     # For every item within the bazaar's vendor inventory, assign them to lists based on their type.
     for item in vendors.vendor_inv.get(ewcfg.vendor_bazaar):
         if item in static_items.item_names:
-            bazaar_general_items.append(item)
+            if item != 'treasuremap':
+                bazaar_general_items.append(item)
 
         elif item in static_food.food_names:
             bazaar_foods.append(item)
@@ -347,9 +348,9 @@ async def refresh_bazaar(id_server = None):
             bazaar_relics.append(item)
 
 
-    if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
+    if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0) and not ewutils.DEBUG:
         market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
-    elif ewyacht.get_slimesea_item(id_server=id_server, treasuremap=True) != None and random.randint(0, 4) == 0:
+    elif ewyacht.get_slimesea_item(id_server=id_server, treasuremap=True) != None and (random.randint(0, 4) == 0 or ewutils.DEBUG):
         market_data.bazaar_wares['relic1'] = 'treasuremap'
 
 

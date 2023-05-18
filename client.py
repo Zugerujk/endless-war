@@ -31,7 +31,7 @@ import ew.cmd.item as ewitem
 import ew.utils.apt as apt_utils
 import ew.utils.cmd as cmd_utils
 import ew.utils.combat as combat_utils
-import ew.utils.cosmeticitem as cosmetic_utils
+import ew.utils.market as market_utils
 import ew.utils.dungeons as dungeon_utils
 import ew.utils.frontend as fe_utils
 import ew.utils.item as itm_utils
@@ -485,8 +485,9 @@ async def debugHandling(message, cmd, cmd_obj):
     time_now = int(time.time())
     market = EwMarket(id_server=cmd_obj.guild.id)
     if cmd == (ewcfg.cmd_prefix + 'enemytick'):
-        x = await bknd_leaderboard.make_freshness_top_board(server = cmd_obj.guild.id)
-        print(x)
+        #x = await bknd_leaderboard.make_freshness_top_board(server = cmd_obj.guild.id)
+        #print(x)
+        await market_utils.refresh_bazaar(id_server=cmd_obj.guild.id)
 
 
     elif cmd == (ewcfg.cmd_prefix + 'threado'):

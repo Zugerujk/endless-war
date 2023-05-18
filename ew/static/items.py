@@ -2014,7 +2014,8 @@ EwGeneralItem(
         id_item='treasuremap',
         str_name="Treasure Map",
         str_desc = "{mapping}\nLooks like something's hidden out on the Slime Sea. X marks the spot, you know what they say.",
-        price = 15000000
+        price = 15000000,
+        vendors=[ewcfg.vendor_bazaar]
     )
 ]
 # item_list += ewdebug.debugitem_set

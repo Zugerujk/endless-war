@@ -74,7 +74,7 @@ class EwDistrictBase:
                 self.slimes = data[0][3]
                 self.time_unlock = data[0][4]
                 self.cap_side = data[0][5]
-            elif district[:5] == 'yacht':
+            elif district[:5] == 'yacht' and len(district) > 5:
 
                 yacht_obj = bknd_yacht.EwYacht(id_thread=int(district[5:]), id_server=id_server)
                 self.slimes = yacht_obj.slimes
