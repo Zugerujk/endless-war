@@ -445,10 +445,13 @@ async def on_member_join(member):
         )
         # Wait a bit, send a message
         await asyncio.sleep(30)
-        if random.random() < 0.0666:
-            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
-        else:
-            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
+        try:
+            if random.random() < 0.0666:
+                await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
+            else:
+                await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
+        except discord.errors.Forbidden:
+            ewutils.logMsg("New user {} had DMs blocked.".format(member.id))
 
 
 @client.event
