@@ -209,6 +209,23 @@ async def refresh_user_perms(client, id_server, used_member, new_poi=None):
     else:
         ewutils.logMsg(f"Couldn't apply overwrites for user {user_data.id_user}, channel {user_poi_obj.channel} doesn't exist.")
 
+"""
+async def refresh_threads(client, id_server, used_member, new_poi=None):
+    user_data = EwUser(member=used_member)
+    #if user_data.poi not in [ewcfg.poi_id_thesewers, ewcfg.poi_id_endlesswar] and user_data.poi[:5] != 'yacht': #don't bother with a refresh
+        #return
+        #
+
+    server = client.get_guild(id_server)
+    channel_slime_sea = fe_utils.get_channel(server, "slime-sea")
+    threads = server.threads
+    for channel in threads:
+        if channel.type in [discord.ChannelType.private_thread] or ewutils.DEBUG and [discord.ChannelType.private_thread, discord.ChannelType.public_thread]:
+            if channel.parent_id == channel_slime_sea.id:
+                try:
+                    channel.get_member
+
+"""
 
 # Remove all user overwrites in the server's POI channels
 async def remove_user_overwrites(cmd):

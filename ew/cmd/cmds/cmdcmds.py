@@ -266,6 +266,14 @@ async def data(cmd):
         if user_data.poi[:5] == 'yacht':
             ship = EwYacht(id_server=user_data.id_server, id_thread=int(user_data.poi[5:]))
             shipname = ship.yacht_name
+            thread = await ship.get_thread()
+            members = thread.fetch_members()
+            if user_data.id_user not in [member.id for member in members]:
+                try:
+                    await thread.add_user(cmd.message.author)
+                except:
+                    ewutils.logMsg("Failed to refresh thread.")
+
 
         if user_data.hunger > 0:
             hungerblock = "You are {}% hungry. ".format(

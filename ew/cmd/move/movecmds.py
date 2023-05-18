@@ -1140,6 +1140,7 @@ async def teleport_player_multi(cmd):
 
 
 async def teleport_player(cmd):
+    #todo set up thread support for TPP
     author = cmd.message.author
     user_data = EwUser(member=author)
 

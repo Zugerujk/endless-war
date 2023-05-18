@@ -490,12 +490,20 @@ async def debugHandling(message, cmd, cmd_obj):
 
 
     elif cmd == (ewcfg.cmd_prefix + 'threado'):
+        td = await cmd_obj.guild.fetch_channel(1108553243929358467)
+        members = await td.fetch_members()
+        print(members)
+        #td = cmd_obj.guild.get_channel(1108553243929358467)
+        #print(td.members)
+
+        print()
+
         #for poi in poi_static.id_to_poi.keys():
         #    if 'yacht' in poi:
         #        print("{}:{}".format(poi, poi_static.id_to_poi.get(poi)))
 
-        for mutation in static_mut.mutations_map.keys():
-            print(mutation)
+        #for mutation in static_mut.mutations_map.keys():
+        #    print(mutation)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
@@ -1038,6 +1046,16 @@ async def on_message(message):
         else:
             guild_used = message.guild
             admin_permissions = message.author.guild_permissions.administrator
+
+        if usermodel.poi[:5] == 'yacht': #corrective measure inside a different thread in case
+            if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private] and int(usermodel.poi[5:]) != message.channel.id:
+                seachannel = fe_utils.get_channel(guild_used, 'slime-sea')
+                if message.channel.parent.id == seachannel.id:
+                    try:
+                        await message.channel.remove_user(message.author)
+                    except:
+                        ewutils.logMsg("Failed to remove thread perms.")
+
 
         # Create command object
         cmd_obj = cmd_utils.EwCmd(

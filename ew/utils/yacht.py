@@ -182,6 +182,12 @@ async def sink(thread_id, id_server, killer_yacht = None):
 
     sunk_yacht.persist()
 
+    thread = await sunk_yacht.get_thread()
+    members = await thread.fetch_members()
+
+    for member in members:
+        await thread.remove_user(member)
+
     for player in players:
         player_obj = EwUser(id_user=player, id_server=id_server)
         if player_obj.slimes > 0:

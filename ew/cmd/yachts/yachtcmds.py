@@ -68,8 +68,8 @@ async def rentyacht(cmd):
             new_poi = '{}{}'.format('yacht', yacht.thread_id)
             poi_static.id_to_poi[new_poi] = boat_poi
 
-            starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
-            thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), message=starting_message, type=discord.ChannelType.private, invitable=False)
+            #starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
+            thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), type=discord.ChannelType.private, invitable=False)
 
             yacht.thread_id = thread.id
             yacht.persist()
@@ -150,6 +150,19 @@ async def board_ship(cmd):
                             user_data = EwUser(member=cmd.message.author)
                             user_data.poi = "yacht{}".format(selected_ship.thread_id)
                             user_data.persist()
+                            thread = await selected_ship.get_thread()
+                            try:
+                                if current_ship is not None:
+                                    currentthread = await current_ship.get_thread()
+                                    await currentthread.remove_user(cmd.message.author)
+                            except:
+                                ewutils.logMsg("Failed to remove thread.")
+
+                            try:
+                                await thread.add_user(user=cmd.message.author)
+                            except:
+                                ewutils.logMsg("Failed to add thread.")
+
                             try:
                                 await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                                 await user_data.move_inhabitants(id_poi=user_data.poi)
@@ -351,10 +364,20 @@ async def unboard(cmd):
                 response = "LAND HO!"
                 move_utils.move_counter += 1
                 move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
+
+
                 if move_current == ewutils.moves_active[cmd.message.author.id]:
                     user_data = EwUser(member=cmd.message.author)
                     user_data.poi = exit_poi
                     user_data.persist()
+
+                    try:
+                        if yacht is not None:
+                            currentthread = await yacht.get_thread()
+                            await currentthread.remove_user(cmd.message.author)
+                    except:
+                        ewutils.logMsg("Failed to remove thread.")
+
                     await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
                     await user_data.move_inhabitants(id_poi=user_data.poi)
 
