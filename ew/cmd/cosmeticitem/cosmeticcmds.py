@@ -691,7 +691,7 @@ async def dye(cmd):
 async def pattern(cmd):
     if len(cmd.tokens) < 5:
         response = f"You gotta {cmd.tokens[0]} <cosmetic> <dye1> <dye2> <pattern>"
-        await fe_utils.send_response(response, cmd)
+        return await fe_utils.send_response(response, cmd)
     hat_id = ewutils.flattenTokenListToString(cmd.tokens[1])
     dye_id = ewutils.flattenTokenListToString(cmd.tokens[2])
     dye_id2 = ewutils.flattenTokenListToString(cmd.tokens[3])
