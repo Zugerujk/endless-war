@@ -21,6 +21,7 @@ from . import leaderboard as leaderboard_utils
 from . import weather as weather_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
+from . import mutations as mut_utils
 try:
     from . import rutils as rutils
 except:
@@ -301,6 +302,13 @@ async def decaySlimes(id_server = None):
             cursor.close()
             bknd_core.databaseClose(conn_info)
 
+
+async def misc_hourly_function(id_server): #right now it just switches Hide's personality, we could use this for other bits and bobs like this
+    hide_value = random.randint(0, 2)
+    thumbnail = ewcfg.hide_taka_thumbnail[hide_value]
+    ewcfg.vendor_thumbnails[ewcfg.poi_id_foodcourt] = ["HIDE TAKA", thumbnail]
+    dialogue = ewcfg.hide_dialogue.get(hide_value)
+    ewcfg.vendor_dialogue[ewcfg.poi_id_foodcourt] = dialogue
 
 
 
@@ -832,7 +840,10 @@ async def spawn_enemies_tick_loop(id_server):
     while not ewutils.TERMINATE:
         ewutils.last_loop['spawn_enemies'] = int(time.time())
         await asyncio.sleep(interval)
-        await spawn_enemies(id_server=id_server)
+        try:
+            await spawn_enemies(id_server=id_server)
+        except Exception as E:
+            ewutils.logMsg("Failed to spawn enemies: {}".format(E))
 
 
 async def enemy_action_tick_loop(id_server):
@@ -867,6 +878,13 @@ async def release_timed_prisoners_and_blockparties(id_server, day):
             blockparty.bit = 0
             blockparty.value = ''
             blockparty.persist()
+
+async def reset_brick_loop(id_server):
+    interval = 60
+    while not ewutils.TERMINATE:
+        await asyncio.sleep(interval)
+        ewutils.global_brick_counter = 0
+
 
 
 async def spawn_prank_items_tick_loop(id_server):
@@ -1149,8 +1167,8 @@ async def capture_tick(id_server):
                         player_capture_speed = 1
                         if ewcfg.mutation_id_lonewolf in mutations and len(gangsters_in_district) == 1:
                             player_capture_speed *= 2
-                        if ewcfg.mutation_id_patriot in mutations:
-                            player_capture_speed *= 1.5
+                        #if ewcfg.mutation_id_patriot in mutations:
+                        player_capture_speed *= 1.5
                         if ewcfg.mutation_id_unnaturalcharisma in mutations:
                             player_capture_speed += 1
 
@@ -1317,6 +1335,9 @@ async def clock_tick_loop(id_server, force_active = False):
                 ewutils.logMsg("Handling inebriation...")
                 await pushdownServerInebriation(id_server)
 
+                ewutils.logMsg('Updating rotations...')
+                mut_utils.initialize_rotation(id_server)
+
                 ewutils.logMsg("Killing offers...")
                 # Remove fish offers which have timed out
                 bknd_fish.kill_dead_offers(id_server)
@@ -1333,6 +1354,9 @@ async def clock_tick_loop(id_server, force_active = False):
                 
                 ewutils.logMsg("Kicking AFK players...")
                 await move_utils.kick(id_server)  
+
+                ewutils.logMsg("Running misc. events...")
+                await misc_hourly_function(id_server=id_server)
 
                 sex_channel = fe_utils.get_channel(server=server, channel_name=ewcfg.channel_stockexchange)
 

@@ -392,116 +392,134 @@ blurb_context_map = {
 revolverkilltext = [
     "A lone tumbleweed bounces through the road. **BANG!!** {name_target}’s head pops like a bloody grape while {name_player} blows the smoke off of their barrel. {emote_skull}",
     "{name_player} blows out {name_target}'s leg with a high caliber shot. {name_target} tries to crawl away but gets stomped out. {emote_skull}",
-    "{name_player} is fanning the hammer! {name_target} catches the brunt of the bullets in their vital organs. {emote_skull}"
+    "{name_player} is fanning the hammer! {name_target} catches the brunt of the bullets in their vital organs. {emote_skull}",
+    "**Ding!** {name_player} flings a spare slimecoin into the air! {name_target} glances upwards in confusion before being immediately nailed in the forehead by a stylish ricochet, caking {name_player} and the surroundings in fresh blood. {emote_skull}"
 ]
 
 dualpistolskilltext = [
     "{name_player} does a backflip off a nearby building, blasting their pistols into {name_target}. {name_target} is dead before they even hit the ground. {emote_skull}",
     "{name_player} graciously twirls around like a ballet dancer, pistols in hand. They fire off round after round into {name_target}, who now lays dead.",
-    "{name_player} squeezes their pistol triggers rapidly. **POP POP POP POP!** Lead pierces {name_target}’s lungs several times over. {emote_skull}"
+    "{name_player} squeezes their pistol triggers rapidly. **POP POP POP POP!** Lead pierces {name_target}’s lungs several times over. {emote_skull}",
+    "{name_player} caps {name_target}'s knees repeatedly, knocking them prone in a pool of their blood. To finish the kill, {name_player} crouches next to them and places a pistol barrel into each eye. **POP POP!** {emote_skull}"
 ]
 
 yoyokilltext = [
     "{name_player} wraps their yo-yo around {name_target}'s neck. Pulling it back, {name_target} is cleanly decapitated by the string. {emote_skull}",
     "{name_player} starts doing some insane yo-yo tricks! They walk the dog, rock the cradle, even do an around the world! Oh, and they also killed {name_target}. {emote_skull}",
-    "{name_player} unleashes a barrage of yo-yo strikes! **SMAAAASH!!** {name_target} became tame. {emote_skull}"
+    "{name_player} unleashes a barrage of yo-yo strikes! **SMAAAASH!!** {name_target} became tame. {emote_skull}",
+    "{name_player} adds a dozen counterweights to their yo-yo before ambushing {name_target} with a heavyhanded overhead swing, crushing them under a hail of plastic. {emote_skull}"
 ]
 
 fingernailskilltext = [
     "{name_player} lunges at {name_target} with their fingernails bared. {name_target} is chopped into small meaty chunks by a few claw swipes. {emote_skull}",
     "{name_player} delivers a devastating claw slash across {name_target}’s chest. {name_target}’s internal organs slop out of the fresh wound. {emote_skull}",
-    "{name_player} pounces upon {name_target} and proceeds to scratch wildly. By the end of it, {name_target}’s face is an unrecognizable stain. {emote_skull}"
+    "{name_player} pounces upon {name_target} and proceeds to scratch wildly. By the end of it, {name_target}’s face is an unrecognizable stain. {emote_skull}",
+    "\"It's {name_player}ing time!\" They {name_player} all over {name_target} with fatal results. Terminally unfunny bystanders quickly upload it to slime twitter seconds before getting {name_player}ed too. #{name_player}Sweep {emote_skull}"
 ]
 
 pistolskilltext = [
     "{name_player} unloads several shots into {name_target}’s chest, following it up with an overhead pistol whip that brutally fractures their skull and knocks them down. {emote_skull}",
     "{name_player} and {name_target} cross paths. {name_player} whips out their pistol and fires a few rounds into their opponent, calmly walking away from the crime scene. {emote_skull}",
-    "{name_player} sneaks up from behind, planting their pistol on the crown of {name_target}’s head. **BAM!** {name_target} drops dead, smoke steaming from the pistol’s barrel. {emote_skull}"
+    "{name_player} sneaks up from behind, planting their pistol on the crown of {name_target}’s head. **BAM!** {name_target} drops dead, smoke steaming from the pistol’s barrel. {emote_skull}",
+    "{name_player} ambushes {name_target}, socking them in the jaw with such force that they land facefirst on the pavement. {name_player} cocks their pistol and finishes them off with one shot to the head. {emote_skull}"
 ]
 
 combatknifekilltext = [
     "{name_player} shanks {name_target} right in the gut! As {name_target} struggles, {name_player} pulls their blade to the side and lets {name_target}’s intestines spill out all over the floor. {emote_skull}",
     "{name_player} encounters {name_target} on the mean streets, pulling out their trusty dagger and shaking them down for anything they’ve got. When they’re unwilling to give away their hard earned slime {name_target} gets a slash to the throat. {emote_skull}",
-    "{name_player} sneaks around, knife in hand. They spy {name_target} minding their own business, a perfect prey. Swooping in from the shadows, {name_player} delivers a crippling backstab that severs their spinal column. {emote_skull}"
+    "{name_player} sneaks around, knife in hand. They spy {name_target} minding their own business, a perfect prey. Swooping in from the shadows, {name_player} delivers a crippling backstab that severs their spinal column. {emote_skull}",
+    "{name_player} wields their knife and rushes recklessly! {name_target} flees in desperation, only to be stopped by an inconveniently placed unbudging door. {name_player} catches up and dices them into bits. {emote_skull}"
 ]
 
 riflekilltext = [
     "{name_player} fires their rifle wildly in the general direction of {name_target}. {name_target} is dead, along with some nearby civilians. Oops. {emote_skull}",
     "**BLAM BLAM BLAM!** {name_player} launches a hailstorm of bullets in {name_target}'s direction. They try to jump for cover but get blown away. {emote_skull}",
-    "{name_player} unloads an entire rifle magazine on {name_target}! Bullets pierce them several times over, leaving them looking like swiss cheese. {emote_skull}"
+    "{name_player} unloads an entire rifle magazine on {name_target}! Bullets pierce them several times over, leaving them looking like swiss cheese. {emote_skull}",
+    "{name_player} aims down the sights and peeks {name_target} with an unending barrage of headshots, utterly annihilating everything from the shoulder up. Looks like they are going to need a closed casket funeral. {emote_skull}"
 ]
 
 smgkilltext = [
     "{name_player} wildly blasts away at {name_target}. All but one of the bullets missed, with the one shot that hit perfectly piercing {name_target}'s skull. {emote_skull}",
     "{name_player} blasts {name_target} point blank with an SMG. After their magazine empties, all that remains of {name_target} is a smoldering stain. {emote_skull}",
-    "{name_player} drives up beside {name_target}, blasting an SMG at them from the driver's seat before speeding away.  {emote_skull}"
+    "{name_player} drives up beside {name_target}, blasting an SMG at them from the driver's seat before speeding away.  {emote_skull}",
+    "{name_player} holds the SMG sideways and swings it forth! A clean line of bullet holes forms across {name_target}'s torso, and they pass out from blood loss before they even realize. An additional bullet to the head seals the deal. {emote_skull}"
 ]
 
 nunchuckskilltext = [
     "{name_player} does a badass nun-chuck flourish before making a \"come at me\" gesture to {name_target}. {name_target} runs up and gets put away with one swing. {emote_skull}",
     "{name_player} delivers a flurry of nun-chuck strikes to {name_target} only to follow up with a solid kick to the face. {name_target} falls to the curb, out cold. {emote_skull}",
-    "{name_player} takes a deep breath to charge their inner ki… {name_target} stands confused, before getting an all-out nun-chuck beatdown. {emote_skull}"
+    "{name_player} takes a deep breath to charge their inner ki… {name_target} stands confused, before getting an all-out nun-chuck beatdown. {emote_skull}",
+    "{name_player} staggers {name_target} with a barrage of nun-chuck strikes, then wraps the cord around their neck. They promptly use the secret forbidden !killing technique: the ki-powered neck snap. {emote_skull}"
 ]
 
 boomerangkilltext = [
     "{name_player}’s boomerang soars through the air, its sharpened metal rim shimmering in the light. It cleanly cuts through {name_target}’s neck in its flight for a clean decapitation. {emote_skull}",
     "{name_player} preps their throwing arm for a hearty toss! Their boomerang embeds itself through {name_target}’s chest. When pulled out, {name_target}’s heart is stuck on the sharp parts. {emote_skull}",
-    "{name_player} throws their boomerang out towards {name_target}. It messily slops off {name_target}’s arm, returning back and chopping off the other. {emote_skull}"
+    "{name_player} throws their boomerang out towards {name_target}. It messily slops off {name_target}’s arm, returning back and chopping off the other. {emote_skull}",
+    "{name_player} tosses their boomerang forth towards {name_target}, but barely misses! {name_target} laughs, but is quickly silenced by something impaling them from behind. {name_player} snickers as they pull the boomerang out. {emote_skull}"
 ]
 
 batkilltext = [
     "{name_player} raises their bat for an overhead swing. **CRRUNCHH** {name_target}'s skull cracks open, spilling gray matter over the concrete. {emote_skull}",
     "{name_player} strikes {name_target} square in the cranium. Much to the cheers of some bystanders, {name_target}'s head flies out of the park in a bloody spiral! {emote_skull}",
-    "{name_player} brings {name_target} to their knees with a strike to the kneecaps before knocking them out cold with a bat straight to the face, knocking out a handful of teeth. {emote_skull}"
+    "{name_player} brings {name_target} to their knees with a strike to the kneecaps before knocking them out cold with a bat straight to the face, knocking out a handful of teeth. {emote_skull}",
+    "{name_player} wields their bat and pokes {name_target}'s back with the business end. They turn around and receive an upwards swing to the jaw, followed by a crushing low blow, and finally an overhead swing that hits like a force of nature, crushing {name_target}'s head into mush. {name_player} snacks a scrumptious sandwich afterwards. {emote_skull}"
 ]
 
 brassknuckleskilltext = [
     "{name_player} slugs {name_target} right in the throat before finishing off with a brass knuckle uppercut that breaks off most of their lower jaw. {emote_skull}",
     "{name_player} perfectly executes a cheap fighting game combo! {name_target} is stuck in an infinite, continually getting brass to the face before eventually dying. {emote_skull}",
-    "{name_player} hits their brass knuckles together, prepping for a big strike. They crush {name_target}’s head between their fists, pushing until their skull pops. {emote_skull}"
+    "{name_player} hits their brass knuckles together, prepping for a big strike. They crush {name_target}’s head between their fists, pushing until their skull pops. {emote_skull}",
+    "{name_player} challenges {name_target} to duck this one! Before {name_target} can even process the words, they get socked in the jaw so utterly hard that Endless War winces for a second. What is left of them is a mere slime stain on the pavement. {emote_skull}"
 ]
 
 basskilltext = [
     "{name_player} knocks {name_target} out cold with a bass to the back of the head. Afterwards, {name_player} plays an epic tune to their victory. {emote_skull}",
     "{name_player} brutally bashes {name_target} over the head with their bass. With each swing the guitar twangs loudly as it dents more and more. {emote_skull}",
-    "{name_player} grabs their pick and begins to lay down a *sick nasty* bass solo. {name_target} stands in awe and the sheer epicness of it liquifies them. {emote_skull}"
+    "{name_player} grabs their pick and begins to lay down a *sick nasty* bass solo. {name_target} stands in awe and the sheer epicness of it liquifies them. {emote_skull}",
+    "{name_player} stands on the sidewalk and lets loose with a sweet bass tune! {name_target} dances along, unaware of the incoming truck. **Splat.** {emote_skull}"
 ]
 
 skateboardkilltext = [
     "{name_player} bails out hard! They crash into {name_target} who absorbs all the impact, breaking most their bones. Thankfully, {name_player} is fine. {emote_skull}",
     "{name_player} smacks {name_target} in the head with a board, then proceeds to film themselves kickflipping over their body. {name_player} makes sure to finish them off before skating away. {emote_skull}",
-    "{name_player} slides their board underneath {name_target}, causing them to slip and fall. {name_player} takes the opportunity to face stomp them against the concrete. {emote_skull}"
+    "{name_player} slides their board underneath {name_target}, causing them to slip and fall. {name_player} takes the opportunity to face stomp them against the concrete. {emote_skull}",
+    "{name_player} approaches an unsuspecting {name_target} at peak speed! {name_target} tries to jump out of the way, but gets caught in a 720 that makes them look like they got stuck in a ceiling fan. {emote_skull}"
 ]
 
 machetekilltext = [
     "{name_player} hacks away at {name_target}, chopping away chunks of flesh with every swing. They finish with an overhead chop that splits {name_target}’s head in half, exposing their mushy inner-workings. {emote_skull}",
     "{name_player} chases down {name_target} while screaming bloody murder, holding up their machete like a horror movie serial killer. Eventually {name_player} catches up, brutally slicing into their victim with sadistic glory. {emote_skull}",
-    "{name_player} slices through {name_target} like butter, their machete’s blade lopping off limb after limb until all that remains is just a torso. {name_player} drives the blade through their victim’s chest, the coup de grace. {emote_skull}"
+    "{name_player} slices through {name_target} like butter, their machete’s blade lopping off limb after limb until all that remains is just a torso. {name_player} drives the blade through their victim’s chest, the coup de grace. {emote_skull}",
+    "{name_player} reels back and launches their machete forward! It spins in the air before gruesomely embedding itself into {name_target}'s jugular. {name_player} closes the distance and pulls it out, unleashing a geyser of blood. {emote_skull}"
 ]
 
 bowkilltext = [
     "{name_player} quickly enchants their bow with Fire Aspect I. {name_target} gets struck by a flaming arrow, burning into a crisp in an instant. {emote_skull}",
     "{name_player} nocks arrow after arrow into their bow, launching them into {name_target}. {name_target} looks less like a person and more like a porcupine. {emote_skull}",
-    "{name_player} chases around {name_target}, right clicking their bow over and over. {name_target} turns red and falls over, disappearing into smoke particles. {emote_skull}"
+    "{name_player} chases around {name_target}, right clicking their bow over and over. {name_target} turns red and falls over, disappearing into smoke particles. {emote_skull}",
+    "{name_player} squints at the city horizon as they draw back their bow! **Ding!** A single arrow lands squarely in {name_target}'s chest, knocking them off balance and into an open manhole straight to the sewers. ```{name_target} fell out of the world.``` {emote_skull}"
 ]
 
 kniveskilltext = [
     "{name_player} grabs handfuls of knives and tosses them in the direction of {name_target}. All of the knives pierce through {name_target}, leaving their corpse pinned to a wall. {emote_skull}",
     "{name_player} lobs a knife at {name_target}. **PLUNK!** The knife lands right between {name_target}'s eyes with satisfying precision, killing them instantly. {emote_skull}",
-    "{name_player} holds a knife in one hand and focuses in for a throw... **THUNK!** The knife embeds itself in {name_target}’s throat, spurting blood in a crimson red fountain. {emote_skull}"
+    "{name_player} holds a knife in one hand and focuses in for a throw... **THUNK!** The knife embeds itself in {name_target}’s throat, spurting blood in a crimson red fountain. {emote_skull}",
+    "{name_player} tosses blade after blade with murderous glee! Each of them strike {name_target}'s internals with pinpoint precision, leaving them a gutted husk. {emote_skull}"
 ]
 
 monowhipkilltext = [
     "{name_player} repeatedly lashes {name_target} with their monowhip. {name_target} stumbles backwards before eventually falling into tiny meat slices. {emote_skull}",
     "{name_player} tosses out their monowhip, snagging it around {name_target}'s chest. With one tug, {name_target} is reduced to nothing but a bleeding torso. {emote_skull}",
-    "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a messy pile of body parts. {emote_skull}"
+    "{name_player} rapidly strikes {name_target} with their monowhip. An arm, a leg, and eventually {name_target}'s head are all severed in a messy pile of body parts. {emote_skull}",
+    "{name_player}'s monowhip faintly glimmers in the air! {name_target} turns the corner in pursuit, only to run at full speed into the trap and get messily decapitated on the spot. {emote_skull}"
 ]
 
 juvierangkilltext = [
-    "**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}",
+    "**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_target}'s throat to finish the kill. {emote_skull}"
 ]
 
-foodbasketkilltext = [
+basketkilltext = [
     "{name_player} opens their basket and pulls out something unintelligible! The last moments of {name_target}'s life is getting beaten to death by what was once edible long, long ago. {emote_skull}",
     "{name_player} makes a fatal throw of inedible foodstuffs right into {name_target}'s mouth! They choke to death on the hunk of petrified food. {emote_skull}"
 ]
@@ -509,37 +527,43 @@ foodbasketkilltext = [
 broadswordkilltext = [
     "{name_player} raises their sword overhead and violently slams it down on {name_target}. {name_target} gets messily chopped into two pieces, blood and guts spurting everywhere. {emote_skull}",
     "{name_player} skewers {name_target} through the back to the hilt of their sword before kicking them off in a gruesome fashion. {name_player} then points downward several times out of disrespect. {emote_skull}",
-    "{name_player} embeds their broadsword in the side of {name_target}'s chest. Oop. Shit. It's really stuck in there. It takes a few minutes but {name_player} manages to pry it out of {name_target}'s corpse. {emote_skull}"
+    "{name_player} embeds their broadsword in the side of {name_target}'s chest. Oop. Shit. It's really stuck in there. It takes a few minutes but {name_player} manages to pry it out of {name_target}'s corpse. {emote_skull}",
+    "{name_player} winds up for an overhead swing! {name_target} tries to outsmart them by rolling away from danger, only to instead receive a flurry of cheap kicks that knock them off a nearby ledge and into their doom. {emote_skull}"
 ]
 
 chainsawkilltext = [
     "{name_player} revs up their chainsaw while cackling evilly. {name_target} tries to run away in a panicked fear but is quickly reduced to a bloody pile. {emote_skull}",
     "{name_player} drives their chainsaw right into {name_target}'s chest. Blood, guts, and gore are all sent flying in every direction, painting {name_player} and the surroundings a crimson red. {emote_skull}",
-    "{name_player} wildly swings their chainsaw around with reckless abandon! {name_target} gets in the way and is chopped to pieces by the automatic blade. {name_player} squeals with savage delight. {emote_skull}"
+    "{name_player} wildly swings their chainsaw around with reckless abandon! {name_target} gets in the way and is chopped to pieces by the automatic blade. {name_player} squeals with savage delight. {emote_skull}",
+    "{name_player} leaps out of a nearby skyscraper, using their chainsaw blade to slide down the building with style! A distracted {name_target} barely hears a sick anime opening in the distance before being gruesomely dissected from above. {emote_skull}"
 ]
 
 scythekilltext = [
     "{name_player} starts doing a spin with their scythe, like a bladed top. {name_target} gets in the way and is quickly chopped into several small slices. {emote_skull}",
     "{name_player} drives their scythe cleanly through {name_target}. {name_target} stumbles, feeling their body for wounds before their torso and legs slide off of each other. {emote_skull}",
-    "{name_player} sweeps {name_target}'s legs with their blade, chopping both into bloody stumps. They try crawling away, only to get carved through the back. {emote_skull}"
+    "{name_player} sweeps {name_target}'s legs with their blade, chopping both into bloody stumps. They try crawling away, only to get carved through the back. {emote_skull}",
+    "Bells toll as {name_player} reels their scythe back for an overhead swing! {name_target} shrieks in dread before being vertically impaled all the way down by the wicked blade. {emote_skull}"
 ]
 
 shotgunkilltext = [
     "{name_player} places their shotgun barrel on {name_target}'s chest. **BLAM!!** {name_target}'s internal organs are sent flying out of the gaping holes through their torso. {emote_skull}",
     "{name_player} lodges the barrel of their shotgun into {name_target}’s maw. **BOOM!!** {name_target}’s head is splattered into chunks of meat like a gray matter pinata. {emote_skull}",
-    "{name_player} fires a devastating blast into {name_target}, leaving them stunned as they try to hold in their guts. {name_player} grabs their shotgun by the business end and caves in {name_target}'s skull with the stock. {emote_skull}"
+    "{name_player} fires a devastating blast into {name_target}, leaving them stunned as they try to hold in their guts. {name_player} grabs their shotgun by the business end and caves in {name_target}'s skull with the stock. {emote_skull}",
+    "{name_player} fires blast after blast as they slowly walk towards poor {name_target}, progressively turning their already dead body into leaden flesh-cereal. Crunchy. {emote_skull}"
 ]
 
 sledgehammerkilltext = [
     "{name_player} brings their sledge to one of {name_target}'s kneecaps, bending their leg backwards with a sickly crunch. As {name_target} yelps in pain they get their skull caved in by an overhead swing. {emote_skull}",
     "{name_player} starts to spin around, sledge in hand. As they let go it goes flying directly into {name_target}'s chest, shattering most of their rib bones upon impact and fracturing their lungs. {emote_skull}",
-    "{name_player} hits {name_target} on the side of the head with their sledge, bringing {name_target} to the ground. Winding up a finishing swing, {name_target}'s head is messily crushed like a watermelon. {emote_skull}"
+    "{name_player} hits {name_target} on the side of the head with their sledge, bringing {name_target} to the ground. Winding up a finishing swing, {name_target}'s head is messily crushed like a watermelon. {emote_skull}",
+    "{name_player} puts their sledgehammer aside to show a comically large nail to {name_target}! The next day, chunks of their pummeled corpse are found nailed to a nearby alleyway. {emote_skull}"
 ]
 
 katanakilltext = [
     "{name_player} slowly unsheathes their katana before a bright flash of light envelops the screen. {name_player} is suddenly behind {name_target}, who is now in two pieces.",
     "{name_player} ambushes {name_target} from above, slicing their katana through them like butter. As they sheath the blade {name_target} suddenly explodes in a fountain of blood. {emote_skull}",
-    "{name_player} delivers a devastating katana slash across {name_target}’s chest. Their intestines spill out, bringing them to their knees before getting a swift decapitation. {emote_skull}"
+    "{name_player} delivers a devastating katana slash across {name_target}’s chest. Their intestines spill out, bringing them to their knees before getting a swift decapitation. {emote_skull}",
+    "{name_player} takes a slight slash at {name_target}'s face, severing one of their eyes! As the poor sap holds their face in agony, {name_player} briefly smirks before slicing {name_target}'s arm clean off, spraying blood in a fresh arc. {emote_skull}"
 ]
 
 huntingriflekilltext = [
@@ -557,31 +581,36 @@ sniperkilltext = [
 grenadekilltext = [
     "{name_player} casually strides by an unaware {name_target}, slipping a live grenade in their pocket. By the time {name_target} has realized it's there, it’s far too late. {emote_skull}",
     "{name_player} tosses a grenade towards {name_target}. {name_target} tries their best to run away, but can’t get out of the blast radius in time. {emote_skull}",
-    "{name_player} throws a grenade underneath a conveniently placed car, causing it to explode in violent fury. {name_target}, some nearby civilians, and an entire building are blasted away. {emote_skull}"
+    "{name_player} throws a grenade underneath a conveniently placed car, causing it to explode in violent fury. {name_target}, some nearby civilians, and an entire building are blasted away. {emote_skull}",
+    "{name_player} bites the ring out of the grenade and spits it at {name_target}'s face! {name_target} bitches about the disrespect for a while, never noticing the live explosive ticking under their feet. **BOOM!** {emote_skull}"
 ]
 
 molotovkilltext = [
     "{name_player} lobs their molotov with an overhead swing. In its arc, it gets sniped out of the air by a stray bullet. The flames and broken glass shards rain down upon {name_target}, killing them near instantly. {emote_skull}",
     "{name_player} chucks a molotov in the direction of {name_target}. It’s a direct hit, causing {name_target} to burn up into a crisp with some blood-curdling screeches of agony. {emote_skull}",
-    "{name_player} tosses molotov after molotov, burning up the surrounding area with the grace of a pyromaniac. Alongside the carnage, {name_target} gets swallowed by the flames. {emote_skull}"
+    "{name_player} tosses molotov after molotov, burning up the surrounding area with the grace of a pyromaniac. Alongside the carnage, {name_target} gets swallowed by the flames. {emote_skull}",
+    "{name_player} pitches a molotov that sets {name_target} ablaze! They shriek in agony crawling out of the flames, but {name_player} walks up to them and shatters an empty bottle over their head. {emote_skull}"
 ]
 
 dclawkilltext = [
     "{name_player} viciously claws at {name_target} with raging fury. By the end of the rampage, {name_target} is nothing more than a charred pile of mush. {emote_skull}",
     "{name_player} blasts searing flames at {name_target} from their palm. {name_target} burns up rather easily into a fine crisp. The soul of the dragon is temporarily satisfied. {emote_skull}",
-    "{name_player} hits {name_target} with an overhead slash! The deep cuts alight, burning them up from the inside out. {name_target}'s body chars a crisp black. Mmm… smells like bacon. {emote_skull}"
+    "{name_player} hits {name_target} with an overhead slash! The deep cuts alight, burning them up from the inside out. {name_target}'s body chars a crisp black. Mmm… smells like bacon. {emote_skull}",
+    "{name_player} crouches briefly as they bare their dragon claw, punishing {name_target}'s approach with a devastating flaming uppercut! {name_target}'s bisected halves are sent flying several stories into the air, burning into ash before they even hit the ground. The dragon soul snarls in delight. {emote_skull}"
 ]
 
 umbrellakilltext = [
     "{name_player} playfully baps {name_target} with their umbrella over and over. It’s all fun and games until the soft thuds turn into gruesome cracks of bone {emote_skull}",
     "{name_player} skewers {name_target} through the chest with their ‘brella. Hoisting them above their head, the umbrella opens with an explosive rain of gore and blood. {emote_skull}",
-    "{name_player} hooks their umbrella handle around {name_target}’s neck. With a solid tug and a satisfying crack, {name_target}’s body falls limp. {emote_skull}"
+    "{name_player} hooks their umbrella handle around {name_target}’s neck. With a solid tug and a satisfying crack, {name_target}’s body falls limp. {emote_skull}",
+    "{name_player} quickly checks the !forecast, then holds back a mischievous laugh as they hand their umbrella over to {name_target}! {name_target} awkwardly accepts, only to be immediately picked up by a sudden gust of wind that bangs them at terminal velocity against a nearby skyscraper. Wasn't me. {emote_skull}"
 ]
 
 staffkilltext = [
     "{name_player} recites an unholy incantation. All of the slime inside {name_target}’s body becomes boiling hot, cooking them from the inside out. The blood-curdling screams of agony take a while to die out. {emote_skull}",
     "{name_player}’s eyes temporarily glaze over as they speak the words of black magic. Several demons burst out from the floor, dragging {name_target} kicking and screaming through the pavement to the sewers. {emote_skull}",
-    "{name_player} casts fireball! {name_target} rolls for saving throw. 1. {emote_skull}"
+    "{name_player} casts fireball! {name_target} rolls for saving throw. 1. {emote_skull}",
+    "{name_player} unleashes a flurry of vicious swings with their staff! {name_target} is rapidly overtaken by swollen necrotic flesh with each hit, quickly becoming a gruesome sack of negaslime. Gross. {emote_skull}"
 ]
 
 garrotekilltext = [
@@ -593,13 +622,15 @@ garrotekilltext = [
 minigunkilltext = [
     "{name_player} holds down the minigun’s trigger for a solid minute. By the time the dust settles, there’s nothing left of {name_target} except for some red and green stains across the pavement. {emote_skull}",
     "{name_player} gives {name_target} a taste of 4,000 RPM fury. {name_target}’s body is sent flying by the impacts, landing gracefully into an open dumpster. {emote_skull}",
-    "{name_player} blasts their minigun in {name_target}’s vicinity. Holes line the nearby area, taking out several bystanders and leaving {name_target} with several large gaping holes in their body. {emote_skull}"
+    "{name_player} blasts their minigun in {name_target}’s vicinity. Holes line the nearby area, taking out several bystanders and leaving {name_target} with several large gaping holes in their body. {emote_skull}",
+    "{name_player} revs up their minigun and jumps around the corner! {name_target} is promptly saturated with enough lead to be considered an environmental hazard, turning their slime into something almost resembling mercury. {emote_skull}"
 ]
 
 missilelauncherkilltext = [
     "{name_player} blasts a missile at {name_target} at close range! {name_target} is obliterated, with the explosive force sending {name_player} flying through the air! It’s a rough landing, but they’ll be fine. {emote_skull}",
     "{name_player} sends a rocket careening into {name_target}. Direct hit! The surrounding area explodes beautifully, at the cost of the overwhelming pain on your wrists from firing this thing. {emote_skull}",
-    "{name_player} rocket jumps high into the sky! They rain patriotic hell upon the {name_target} below, blowing them to smithereens. It’s a glorious sight, up until you hit the ground and eat shit. {emote_skull}"
+    "{name_player} rocket jumps high into the sky! They rain patriotic hell upon the {name_target} below, blowing them to smithereens. It’s a glorious sight, up until you hit the ground and eat shit. {emote_skull}",
+    "{name_player} fires a crocket towards {name_target}'s feet, the blast sending {name_target} flying high into the air! {name_player} sends forth a second rocket for good measure, impacting {name_target} in mid air and turning them into morbidly beautiful fireworks in the night sky. {emote_skull}"
 ]
 
 whistlebladeskilltext = [
@@ -635,7 +666,8 @@ whistlespikeskilltext = [
 whistleelectricitykilltext = [
     ", filled with unlimited power, charges up for a massive powerful arc, unleashing a blinding lightning strike. The taste of metal fills the static-charged atmosphere before its prey is struck with 80 jigawatts of power.",
     "blasts jolt after jolt of electricity directly into their prey. {name_target}’s eyes pop like blood red juicy grapes, the rest of their corpse charring to a nice crispy black.",
-    "'s sheer power extends to the skies. They call upon a lightning bolt that cracks down upon {name_target} with righteous fury. {name_target} is reduced to ashes."
+    "'s sheer power extends to the skies. They call upon a lightning bolt that cracks down upon {name_target} with righteous fury. {name_target} is reduced to ashes.",
+    "draws astronomical levels of electricity from the surroundings, causing district-wide blackouts as they await their master's command! With nowhere to run, {name_target} gulps in dread. **\"NOW!\"** An arc of lightning directly pierces {name_target} straight through the heart in a flash, which is left looking like a rotisserie."
 ]
 
 whistleslamkilltext = [
@@ -646,7 +678,8 @@ whistleslamkilltext = [
 
 spraycankilltext = [
     "{name_player} grabs {name_target} tightly, forcing spray can fumes down their throat. {name_target} coughs and wheezes, their eyes rolling into the back of their head while they spaz out on the floor. {emote_skull}",
-    "{name_player} sprays {name_target} in the color they hate the most! What the fuck! {name_target} quickly commits suicide in an attempt to save their honor. It didn’t work. {emote_skull}"
+    "{name_player} sprays {name_target} in the color they hate the most! What the fuck! {name_target} quickly commits suicide in an attempt to save their honor. It didn’t work. {emote_skull}",
+    "{name_player} lobs a cheap spraycan towards {name_target}'s direction! A stray bullet catches it in the air, detonating the delicate container into a thick cloud of caustic fumes that choke {name_target} to death. {emote_skull}"
 ]
 
 paintgunkilltext = [
@@ -656,12 +689,16 @@ paintgunkilltext = [
 
 paintrollerkilltext = [
     "{name_player} cracks {name_target} over the skull with their roller a few times, eventually exposing the brainy contents inside like a back alley lobotomy. {emote_skull}",
-    "{name_player} pulls out a paint roller! {name_target} looks confused at their opponents choice of weaponry. It’s a laughing matter until {name_player} somehow pulls off a Raging Demon with it. {emote_skull}"
+    "{name_player} pulls out a paint roller! {name_target} looks confused at their opponents choice of weaponry. It’s a laughing matter until {name_player} somehow pulls off a Raging Demon with it. {emote_skull}",
+    "{name_target} crosses the street without looking both ways. {name_player} zooms by at full speed with a massive paint roller, flattening them into slimy paste. They paint an \"L\" on the sidewalk afterwards. {emote_skull}",
+    "{name_target} stops to look both ways before crossing the street. {name_player} jumps off a nearby roof and crushes {name_target} with the paint roller in mid air, caking the sidewalk in fresh slime and gang paint. {emote_skull}"
 ]
 
 paintbrushkilltext = [
     "{name_player} shouts some mean things to {name_target} to get into a chase. Ducking behind a corner, {name_player} quickly paints a fake tunnel to look like they went through it. {name_target}, attempting to pursue, didn’t survive the impact. {emote_skull}",
-    "{name_player} paints a nice gift for {name_target}! As they unfold the paper given to them, they witness the most mortifying and scarring drawing they’ve ever seen. They !suicide to try to get rid of the memory but it sticks with them forever. {emote_skull}"
+    "{name_player} paints a nice gift for {name_target}! As they unfold the paper given to them, they witness the most mortifying and scarring drawing they’ve ever seen. They !suicide to try to get rid of the memory but it sticks with them forever. {emote_skull}",
+    "harnessing their inner failed artist, {name_player} paints a masterpiece on the wall, then lies in wait. As {name_target} gawks in awe at it's beauty, {name_player} leaves the shadows to drive the paintbrush handle all the way through their noggin. {emote_skull}",
+    "{name_player} dips their brush in deep blue paint and wails away at {name_player} in a colorful frenzy! The latter seems unfazed, until a dozen bystanders mistake their smurf-looking ass for a cop and gather into a crowd to beat them up. {emote_skull}"
 ]
 
 watercolorskilltext = [
@@ -676,7 +713,8 @@ thinnerbombskilltext = [
 
 roombakilltext = [
     "{name_player} grabs the roomba following close by them and bashes {name_target} over the head with it several times! After the brutality, the roomba mops up some of the blood spilled across the floor. {emote_skull}",
-    "{name_player} tosses their roomba like a frisbee! It careens into {name_target}’s face, knocking them out cold. {name_player} takes this opportunity to stomp their head in while they’re down. {emote_skull}"
+    "{name_player} tosses their roomba like a frisbee! It careens into {name_target}’s face, knocking them out cold. {name_player} takes this opportunity to stomp their head in while they’re down. {emote_skull}",
+    "{name_player} sneaks behind {name_target}, placing the roomba on their head with murderous glee! {name_target} shrieks in utter agony as the blades immediately begin spinning at top speed, latching into their scalp and blending their brain into juice. {name_player} pets the slimesoaked cleaning robot, which beeps with happiness. {emote_skull}"
 ]
 
 hoekilltext = [
@@ -691,7 +729,9 @@ pitchforkkilltext = [
 
 shovelkilltext = [
     "{name_player} winds back their shovel, slamming {name_target} over the skull. After they die from their brain injuries, {name_target} digs their target a shallow grave in a nearby patch of dirt. {emote_skull}",
-    "{name_player} is reeling back a big hit! Their shovel makes violent contact with {name_target}’s head, messily decapitating them from the force alone. It rolls away into a nearby alleyway, violently spurting blood. {emote_skull}"
+    "{name_player} is reeling back a big hit! Their shovel makes violent contact with {name_target}’s head, messily decapitating them from the force alone. It rolls away into a nearby alleyway, violently spurting blood. {emote_skull}",
+    "{name_player} drops from a nearby roof into {name_target}, holding down their shovel like a pogo stick! {name_player} lands on top of them with a satisfying crunch, bouncing off {name_target}'s annihilated skull. {emote_skull}",
+    "{name_player} strikes the earth with their shovel, stunning {name_target} with a barrage of dirt and poudrins! {name_player} quickly follows with a fell swing to {name_target}'s noggin, knocking them out cold. {emote_skull}"
 ]
 
 slimeringcankilltext = [
@@ -701,7 +741,9 @@ slimeringcankilltext = [
 
 pickaxekilltext = [
     "{name_player} gradually !mines {name_target}’s body for their resources. Breaking through the rough outer shell, they finally get what they’re looking for. {name_target}ium ore. Sweeeet. {emote_skull}",
-    "{name_player} is mining away at a nearby building’s infrastructure, weakening it bit by bit. As {name_target} passes by the street, {name_player} breaks the last bit of supports, bringing it all falling down upon {name_target}. {emote_skull}"
+    "{name_player} is mining away at a nearby building’s infrastructure, weakening it bit by bit. As {name_target} passes by the street, {name_player} breaks the last bit of supports, bringing it all falling down upon {name_target}. {emote_skull}",
+    "{name_player} strikes {name_target} in the head from behind with their pickaxe, tearing the muscle, fracturing the skull and tearing the brain! ```{name_target} has been struck down.``` {emote_skull}",
+    "{name_player} throws their pick to the sky! It sails in an arc, later falling down to perfectly nail {name_target} between the eyes. Ah, the wonders of free lobotomy. {emote_skull}"
 ]
 
 fishingrodkilltext = [
@@ -711,10 +753,25 @@ fishingrodkilltext = [
 
 unarmedkilltext = [
     "{name_player} shoves {name_target}, who then shoves them back. This spurs a bare-knuckle fist fight and it’s almost sad to watch. The two fight with the grace of black-out drunks. {name_player} eventually stands victorious. {emote_skull}",
-    "{name_player} and {name_target} get into a pitiful slap fight. Crowds gather around to watch this beautifully pathetic flurry of hands. {name_player} is the one who walks out of there, much to the cheer of those betting on them. {emote_skull}"
+    "{name_player} and {name_target} get into a pitiful slap fight. Crowds gather around to watch this beautifully pathetic flurry of hands. {name_player} is the one who walks out of there, much to the cheer of those betting on them. {emote_skull}",
+    "{name_player} is not going to sugarcoat it! !kill {at}{name_target} Enter CtrlZ. {emote_skull}",
+    "{name_player} makes a series of cool finger guns pointed at {name_target}! {name_target} stands confused before suddenly exploding into a pummeled heap. {emote_skull}"
 ]
 
 diamondpickaxekilltext = [
     "{name_player}'s shiny diamond pickaxe inspires awe from passersby. {name_target} tries to diss their style, only to meet the business end of the pick. {emote_skull}",
-    "{name_player} is flaunting their style! They're a block game PvP master, expertly block jumping and sprint dashing like the best of them. {name_target} stands no chance and gets blown away. {name_player} crouch spams in disrespect. {emote_skull}"
+    "{name_player} is flaunting their style! They're a block game PvP master, expertly block jumping and sprint dashing like the best of them. {name_target} stands no chance and gets blown away. {name_player} crouch spams in disrespect. {emote_skull}",
+    "{name_player} moves their diamond pickaxe from side to side, side side to side! A crowd of bystanders sing along, muffling {name_target}'s screams of agony as they are gradually !mined into rubble. {emote_skull}",
+    "{name_player} quickly enchants their diamond pick with Silk Touch! They effortlessly punch it through {name_target}'s chest, cleanly extracting their still-beating heart to be later thrown into a furnace. {emote_skull}"
 ]
+
+
+graffiti = [
+    "https://media.discordapp.net/attachments/431605021852041237/1068223499161845780/graffiti.png?width=984&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1055778876388823090/goosegraffiticontestminecraft.png?width=887&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1045800531014189187/ewthink2.png?width=616&height=657",
+    "https://media.discordapp.net/attachments/431605021852041237/1044479366341611580/graffiti.png"
+]
+modified_graffiti = []
+for graf in graffiti:
+    modified_graffiti.append("()" + graf)

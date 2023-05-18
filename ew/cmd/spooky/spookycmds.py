@@ -32,7 +32,7 @@ try:
 except:
     from ew.cmd.debugr_dummy import debug13
 
-cookingresponses = ['A fat man slams his fist down, demanding his chicken nuggies!\nquick! **!serve** !', 'A truly fashionable man, wearing a kimono, slides up to the bar and asks you for a drink.\nquick! **!serve** !', 'A girl with a "Ghots FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A killer with four lip piercings slams their slime on the counter! They want a big ass cake!\nQuick! **!serve** !', 'Past president Ronald Reagan demands some nice ghost pie!\nQuick! **!serve** !', 'A large humanoid slug slithers into the cafe! He wants the worst pie ever!\nQuick! **!serve** !', 'The human version of a pile of phlegm enters the cafe. He wants to drink your best brew with ghost milk!\nQuick! **!serve** !', "A little creature enters the cafe. They want a big pile of ghost pancakes!\nQuick!**!serve** !", 'A girl with a "Ghosts FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A girl with a "Goats FTW" shirt demands some authentic quizie!\nQuick! **!serve** !']
+cookingresponses = ['A fat man slams his fist down, demanding his chicken nuggies!\nQuick! **!serve** !', 'A truly fashionable man, wearing a kimono, slides up to the bar and asks you for a drink.\nQuick! **!serve** !', 'A girl with a "Ghots FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A killer with four lip piercings slams their slime on the counter! They want a big ass cake!\nQuick! **!serve** !', 'Past president Ronald Reagan demands some nice ghost pie!\nQuick! **!serve** !', 'A large humanoid slug slithers into the cafe! He wants the worst pie ever!\nQuick! **!serve** !', 'The human version of a pile of phlegm enters the cafe. He wants to drink your best brew with ghost milk!\nQuick! **!serve** !', "A little creature enters the cafe. They want a big pile of ghost pancakes!\nQuick! **!serve** !", 'A girl with a "Ghosts FTW" shirt demands some authentic quizie!\nQuick! **!serve** !', 'A girl with a "Goats FTW" shirt demands some authentic quizie!\nQuick! **!serve** !']
 
 async def negapool(cmd):
     # Add persisted negative slime.
@@ -159,22 +159,24 @@ async def revive(cmd, player_auto = None):
 
             response = '{slime4} Geysers of fresh slime erupt from every manhole in the city, showering their surrounding districts. {slime4} {name} has been reborn in slime. {slime4}'.format(
                 slime4=ewcfg.emote_slime4, name=cmd.message.author.display_name)
+            
+            if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
+                reunite = ""
+                brain = sl_static.brain_map.get(slimeoid.ai)
+                reunite += brain.str_revive.format(
+                    slimeoid_name=slimeoid.name
+                )
+                new_poi = poi_static.id_to_poi.get(player_data.poi)
+                revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
+                reunite = fe_utils.formatMessage(cmd.message.author, reunite)
+                await fe_utils.send_message(cmd.client, revivechannel, reunite)
+                
         else:
             response = 'You\'re not dead just yet.'
 
         #	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.display_name, ewcfg.emote_slimeskull)
         #	deathreport = "{} ".format(ewcfg.emote_slimeskull) + fe_utils.formatMessage(member, deathreport)
 
-        if slimeoid.life_state == ewcfg.slimeoid_state_active and slimeoid.sltype != ewcfg.sltype_nega:
-            reunite = ""
-            brain = sl_static.brain_map.get(slimeoid.ai)
-            reunite += brain.str_revive.format(
-                slimeoid_name=slimeoid.name
-            )
-            new_poi = poi_static.id_to_poi.get(player_data.poi)
-            revivechannel = fe_utils.get_channel(cmd.guild, new_poi.channel)
-            reunite = fe_utils.formatMessage(cmd.message.author, reunite)
-            await fe_utils.send_message(cmd.client, revivechannel, reunite)
 
     # Send the response to the player.
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -311,7 +313,7 @@ async def haunt(cmd):
                 if ewcfg.dh_active:
                     responses = []
 
-                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, haunted_slimes//2)
+                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, max(0,haunted_slimes//2))
 
                     for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
 
@@ -553,7 +555,7 @@ async def unpossess_fishing_rod(cmd):
     elif not user_data.get_possession('rod'):
         response = "You want to unpossess a fishing rod you aren't possessing?\n" \
                    "Huh, curious.\n" \
-                   "ARE YOU RETARDED?"
+                   "ARE YOU STUPID?"
     else:
         response = "You let go the fishing rod so your fishing partner doesn't need your help anymore, the tendrils near their hook begin to dissappear into a grey fog."
         user_data.cancel_possession()
@@ -645,6 +647,7 @@ async def favor(cmd):
 async def startshift(cmd):
 	user_data = EwUser(member = cmd.message.author)
 	response = ""
+	hardmode = False
 	if user_data.poi != 'ghostmaidcafe' or poi_static.chname_to_poi.get(cmd.message.channel.name).id_poi != 'ghostmaidcafe':
 		response = "Sowwy, you can't stawt cooking unwess you'we at the maid cafe! (✿◡‿◡)"
 	elif user_data.life_state != ewcfg.life_state_corpse:
@@ -653,15 +656,17 @@ async def startshift(cmd):
 		if cmd.message.author.id not in chefs.keys():
 			chefs[cmd.message.author.id] = EwChef()
 		chef = chefs[cmd.message.author.id]
-
+		if (len(cmd.tokens) > 1 and cmd.tokens[1].lower() == "hardmode"): 
+			hardmode = True 
+			chef.difficulty = "hardmode"
 		if chef.cooking == True:
 			response = "You are already on the clock! You might boil the milk if you try to do more dishes!"
 		else:
 			market_data = EwMarket(id_server=cmd.guild.id)
 			chef.cooking = True
-			chef.prompts = random.randrange(1, 50)
+			chef.prompts = random.randrange(1, 200 if hardmode else 50)
 			reward = chef.prompts * random.randrange(20, 50)
-			response = "You punch your time card and get ready to serve!"
+			response = "**!WARNING!** You see on the news that a new anime has started airing about maids, and thousands of spherical men are swarming the cafe! The windows are smashed in and your shift begins." if hardmode else "You punch your time card and get ready to serve!"
 			await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 			await asyncio.sleep(5)
 			
@@ -673,7 +678,7 @@ async def startshift(cmd):
 					response = random.choice(cookingresponses)
 					await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 					chef.serve = True
-					await asyncio.sleep(random.randrange(3, 6))
+					await asyncio.sleep( 1 if hardmode else random.randrange(3, 6))
 					if chef.serve == True:
 						response = "You messed up and dwopped the dish ಥ_ಥ! Your manager angwily shoos you away into the bathwoom to cwean up and takes cawe of the guest. You eawned no moneyz!"
 						chef.stop()
@@ -684,7 +689,7 @@ async def startshift(cmd):
 						response = "you slide the dish over to the customer! nice job!"
 						await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 						chef.prompts -= 1
-						await asyncio.sleep(random.randrange(5, 9))
+						await asyncio.sleep( random.choice([1,2,1,7,5,1,3,1,19,23,23,24,1,1,1,1,2,4,1,1,5,5,6,4,2,2,2,2,1,1,1,1,1,58,32,42,18,49,23,1,3,1,1,13,11,5,27,3]) if hardmode else random.randrange(5, 9)) #weeeeeeeee!!!!
 				else:
 					response = "You finish up youw shift and punch out! You wost {} slime!!!".format(reward)
 					user_data.change_slimes(n=-reward)
@@ -692,7 +697,7 @@ async def startshift(cmd):
 					user_data.persist()
 					market_data.persist()
 					chef.cooking = False
-					funnything = random.randrange(1, 5)
+					funnything = random.randrange(1, 5 if hardmode else 15)
 					if funnything == 3:
 								token_data = static_items.item_map.get('ghosttoken')
 								item_props = item_utils.gen_item_props(token_data)
@@ -720,9 +725,14 @@ async def serve(cmd):
 		response = "Sowwy, you awen't enough of a degenewate to do that. UwU <3"
 	elif chef.serve != True:
 		response = "No one is hewe... (┬┬﹏┬┬)"
-	else:
+		if chef.difficulty == "hardmode":
+			response += ".... youg start play phone games......"
+			chef.cooking = False
+	elif chef.cooking:
 		chef.serve = False
 		response = "You gwab a dish and..."
+	else:
+		response = "uhoh.. wher is it ＼(º □ º l|l)/"
 	return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def sow_cloth(cmd):

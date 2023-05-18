@@ -32,6 +32,9 @@ DEBUG_OPTIONS = {
     'verbose_burn': False,
     'alternate_talk':False,
     'transport': False,
+    'playoffline': False,
+    'slimegainchecker':False,
+    'trackapi':False
 }
 
 # Map of user IDs to their course ID.
@@ -61,6 +64,8 @@ active_slimeoidbattles = {}
 
 active_televisions = {}
 
+jeeves = {}
+
 tv_counter = 0
 
 
@@ -69,6 +74,8 @@ conversations = {}
 square_duel = 0
 
 last_loop = {}
+
+global_brick_counter = 0
 
 class EwVector2D:
     vector = [0, 0]
@@ -499,12 +506,9 @@ def weapon_carry_capacity_bylevel(slimelevel) -> int:
 
 def max_adornspace_bylevel(slimelevel) -> int:
     """ Calculates how many cosmetics the player can adorn """
-    if slimelevel < 4:
-        adorn_space = 0
-    else:
-
-        adorn_space = math.floor(math.sqrt(slimelevel - 2) - 0.40)
-
+    ### OLD COSMETIC SLOT EQ: adorn_space = math.floor(math.sqrt(slimelevel - 2) - 0.40) ## Note had to have a condition where adorn_space was 0 when slimelevel < 4 in an if-else statement.
+    adorn_space = min(max(math.floor((slimelevel-5)/5),0),7)+1 #you get your first cosmetic slot at 5, and another for every 5 levels (10 at level 50). Caps at 8 so no more is gotten at level 45, etc.
+    #To change the max, you want to change the 7 to another number, creating a hard cap per 5 levels, so make it 10 if you want to hardcap level 55 as the top cosmetic level at 11, 60 for 12, and so on.
     return adorn_space
 
 
@@ -855,8 +859,8 @@ def is_district_empty(poi = ''):  # quick function to check presence in a distri
         id_user=ewcfg.col_id_user,
         time_last_action=ewcfg.col_time_last_action,
         time_last_enter = ewcfg.col_time_lastenter),
-        (poi, time_now-120, time_now-120), fetchone = True)
-    if data is not None:
+        (poi, time_now-300, time_now-300), fetchone = True)
+    if data is not None or DEBUG:
         return False
     else:
         return True

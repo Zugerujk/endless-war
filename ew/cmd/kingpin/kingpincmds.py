@@ -5,6 +5,7 @@ from ew.static import cfg as ewcfg
 from ew.static import cosmetics
 from ew.static import poi as poi_static
 import ew.static.items as static_items
+from ew.static import npc as npc_static
 from ew.utils import cmd as cmd_utils
 from ew.utils import core as ewutils
 from ew.utils import frontend as fe_utils
@@ -32,21 +33,48 @@ async def pa_command(cmd):
     if not cmd.message.author.guild_permissions.administrator and user_data.life_state != ewcfg.life_state_executive:
         return await cmd_utils.fake_failed_command(cmd)
     else:
+        is_talkbubble = False
+
         if cmd.tokens_count >= 3:
-            poi = ewutils.flattenTokenListToString(cmd.tokens[1])
+            if cmd.tokens_count >= 5:
+                if cmd.tokens[3] == "npc":
+                    npc_obj = npc_static.active_npcs_map.get(cmd.tokens[4])
+                    if npc_obj is not None:
+                        is_talkbubble = True
+                        npc_name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
+                        npc_img = npc_obj.image_profile
+
+
+            patext = cmd.tokens[1]
+
+            poi = ewutils.flattenTokenListToString(cmd.tokens[2])
 
             poi_obj = poi_static.id_to_poi.get(poi)
-            if poi == "auditorium":
-                channel = "auditorium"
+            if poi in ["nursesoffice", "suggestionbox", "detentioncenter", "communityservice", "playground", "graffitiwall", "postslimedrip", "outsidethelunchroom", "outsidethelunchrooom", "outsidethelunchroooom", "orientation", "auditorium", "nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+                detcen_translator = {"nursesoffice":"nurses-office",
+                                     "suggestionbox":"suggestion-box",
+                                     "detentioncenter":"detention-center",
+                                     "communityservice":"community-service",
+                                     "graffitiwall":"graffiti-wall",
+                                     "postslimedrip":"post-slime-drip",
+                                     "outsidethelunchroom":"outside-the-lunchroom",
+                                     "outsidethelunchrooom":"outside-the-lunchrooom",
+                                     "outsidethelunchroooom":"outside-the-lunchroooom"}
+                if poi in detcen_translator.keys():
+                    channel = detcen_translator.get(poi)
+                else:
+                    channel = poi
             else:
                 channel = poi_obj.channel
 
             loc_channel = fe_utils.get_channel(cmd.guild, channel)
 
             if poi is not None:
-                patext = re.sub("<.+>", "", cmd.message.content[(len(cmd.tokens[0]) + len(cmd.tokens[1]) + 1):]).strip()
+                #patext = re.sub("<.+>", "", cmd.message.content[(len(cmd.tokens[0]) + len(cmd.tokens[1]) + 1):]).strip()
                 if len(patext) > 500:
                     patext = patext[:-500]
+                if is_talkbubble:
+                    return await fe_utils.talk_bubble(response=patext, name=npc_name, image=npc_img, channel=loc_channel)
                 return await fe_utils.send_message(cmd.client, loc_channel, patext)
 
 
@@ -230,21 +258,22 @@ async def create(cmd):
         response = 'Lowly Non-Kingpins cannot hope to create items with their bare hands.'
         return await fe_utils.send_response(response, cmd)
 
-    if len(cmd.tokens) not in [4, 5, 6, 7]:
+    if len(cmd.tokens) not in [4, 5, 6, 7, 8]:
         response = 'Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity(optional)>, <context>(optional).\n'
         return await fe_utils.send_response(response, cmd)
 
     item_name = cmd.tokens[1]
     item_desc = cmd.tokens[2]
     # recipient is the third token
-    style = cmd.tokens[4] if len(cmd.tokens) >= 5 and ewutils.flattenTokenListToString(cmd.tokens[4]) in ewcfg.fashion_styles else ewcfg.style_cool
-    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'plebeian', 'patrician'] else 'princeps'
-    context = cmd.tokens[6] if len(cmd.tokens) >= 7 else ''
+    style = cmd.tokens[4] if len(cmd.tokens) >= 5 and ewutils.flattenTokenListToString(cmd.tokens[4]) in ewcfg.valid_styles else ewcfg.style_cool
+    rarity = cmd.tokens[5] if len(cmd.tokens) >= 6 and ewutils.flattenTokenListToString(cmd.tokens[5]) in ['princeps', 'Plebeian', 'Patrician', 'Pcapitromotional'] else 'princeps'
+    freshness = int(cmd.tokens[6]) if len(cmd.tokens) >= 7 else 100
+    context = cmd.tokens[7] if len(cmd.tokens) >= 8 else ''
 
     if cmd.mentions and cmd.mentions[0]:
         recipient = cmd.mentions[0]
     else:
-        response = 'You need to specify a recipient. Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity>(optional) <context>(optional)'
+        response = 'You need to specify a recipient. Usage: !create "<item_name>" "<item_desc>" <recipient> <style>(optional) <rarity>(optional) <freshness>(optional) <context>(optional)'
         return await fe_utils.send_response(response, cmd)
     
     # princeps stopped assigning durability and stuff for... reasons (idk!!!! something with the caching update???? As far as I can tell????) so I just assigned them here lol
@@ -263,7 +292,7 @@ async def create(cmd):
         "durability": ewcfg.base_durability * 100,
         "size": 1,
         "fashion_style": style,
-        "freshness": 100,
+        "freshness": freshness,
         "adorned": "false",
         "context": context
     }
@@ -277,7 +306,7 @@ async def create(cmd):
 
     itm_utils.soulbind(new_item_id)
 
-    response = 'Item "{}" successfully created.'.format(item_name)
+    response = 'Item "{}" with ID {} successfully created.'.format(item_name, new_item_id)
     return await fe_utils.send_response(response, cmd)
 
 

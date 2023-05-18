@@ -274,7 +274,7 @@ def get_style_freshness_rating(user_data, dominant_style = None):
                 response += " You know extensive facts about bands that are so underground they’ve released their albums through long-since-expired Vocaroo links. You’re a leading hashtag warrior on various internet forums, and your opinions are well known by everyone who has spoken to you for more than five minutes. Everyone wants to knock your lights out, but… you’re just too fresh. "
         elif dominant_style == ewcfg.style_beautiful:
             if user_data.freshness < ewcfg.freshnesslevel_4:
-                response += " You’re looking extremely handsome in all of those beautiful garments. If only this refined, elegant reflected in your manners when cracking into a Arizonian Kingpin Crab."
+                response += " You’re looking extremely handsome in all of those beautiful garments. If only this refined, elegant look reflected in your manners when cracking into a Arizonian Kingpin Crab."
             else:
                 response += " You’re the belle of the ball at every ball you attend, which has never happened. But, if you *were* to ever attend one, your beautiful outfit would surely distinguish you from the crowd. Who knows, you might even find TRUE LOVE because of it and get MARRIED. That is, if you weren’t already married to slime."
         elif dominant_style == ewcfg.style_cute:
@@ -287,6 +287,11 @@ def get_style_freshness_rating(user_data, dominant_style = None):
                 response += " You're starting to make your relatives and friends worry about what you'll do next. Somewhere along the lines you've started to be led astray from society accepting your fashion norms. Is it a phase? That's an astounding HELL NO, hypothetical dad! You're evil and that's final!"
             else:
                 response += " You've been barred from entry to most public schools, libraries, city hall, anywhere the city that the local NLACakaNM government can as a preventive measure to make sure you don't destroy it all, and all of your instagrime followers are edgy teenagers and actual goths who watch your every post for inspiration. Everyone else can't help but shudder and flinch while you walk past them on the streets. Your clothes is a mirror of your mental state, and you can't wait to make everyone shocked at your devious plans."
+        elif dominant_style == ewcfg.style_skill:
+            if user_data.freshness < ewcfg.freshnesslevel_4:
+                response += " You're skilling the fashion game so hard, google searches of any kind struggle to not show your face."
+            else:
+                response += " You've solved fashion."
     return response
 
 

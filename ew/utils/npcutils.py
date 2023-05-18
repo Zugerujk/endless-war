@@ -8,7 +8,7 @@ from ew.static import items as static_items
 from ew.static import food as static_food
 from ew.static import cosmetics as static_cosmetics
 from ew.static import weapons as static_weapons
-
+from ew.utils import district as ewdistrict
 import ew.backend.core as bknd_core
 from ew.backend.item import EwItem
 import ew.utils.combat as ewcombat
@@ -181,15 +181,41 @@ async def drinkster_npc_action(keyword = '', enemy = None, channel = None, item 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #specific reaction functions here
 
+async def trader_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == "move":
+        pass
+    elif keyword == "give":
+        return await trade_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await chatty_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+async def notasnake_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+
+    if keyword == "give":
+        return await trade_give(channel=channel, npc_obj=npc_obj, enemy=enemy, item=item)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
+
+async def ratqueen_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
+    if keyword == "act":
+        return await ratqueen_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
+    else:
+        return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 
-
-async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None): #sends npc dialogue, including context specific and rare variants
+async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None, bonus_flavor = None, clear_message = 0): #sends npc dialogue, including context specific and rare variants
     delete_after = None
     if 'loop' in keyword_override:
         delete_after = 30
+    elif clear_message > 0:
+        delete_after = clear_message
     if ewutils.is_district_empty(poi=enemy.poi):
         return
+
+    potential_dialogue = []
 
     rare_keyword = "rare{}".format(keyword_override)
     location_keyword = '{}{}'.format(enemy.poi, keyword_override)
@@ -199,18 +225,19 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
-    potential_dialogue = npc_obj.dialogue.get(keyword_override)
+    potential_dialogue.extend(npc_obj.dialogue.get(keyword_override))
 
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
     if potential_dialogue is not None:
-        response = random.choice(potential_dialogue).format(player_name= "" if player is None else player.display_name)
+        response = random.choice(potential_dialogue).format(bonus = bonus_flavor, player_name= "" if player is None else player.display_name)
     else:
         response = None
 
 
     if response is not None:
+
         if response[:2] == '()':  # for exposition that doesn't use a talk bubble
             response = response[2:]
             return await fe_utils.send_message(None, channel, response)
@@ -292,7 +319,7 @@ async def conditional_act(channel, npc_obj, enemy): #attacks when hostile. other
         if npc_obj.dialogue.get('loop') is not None:
             return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='loop', enemy=enemy)
         elif npc_obj.dialogue.get('talk') is not None:
-            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy)
+            return await generic_talk(channel=channel, npc_obj=npc_obj, keyword_override='talk', enemy=enemy, clear_message=30)
         else:
             response = "..."
             name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
@@ -310,7 +337,7 @@ async def police_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     potential_dialogue = npc_obj.dialogue.get(keyword_override)
     drop_held_items(enemy=enemy)
     response = random.choice(potential_dialogue)
-    await fe_utils.send_message(None, channel, response)
+    #await fe_utils.send_message(None, channel, response)
     name = "{}{}{}".format('**__', npc_obj.str_name.upper(), '__**')
     await fe_utils.send_message(None, channel, "{} is dead!".format(npc_obj.str_name))
     if response is not None:
@@ -359,6 +386,12 @@ async def chief_die(channel, npc_obj, keyword_override = 'die', enemy = None):
     await fe_utils.send_message(None, channel, response)
 
 
+async def ratqueen_act(channel=None, npc_obj=None, enemy=None):
+    district = ewdistrict.EwDistrict(district=enemy.poi, id_server=enemy.id_server)
+    if district.capture_points > 0 and random.randint(0, 20) == 0:
+        district.decay_capture_points()
+        district.persist()
+    return await generic_act(channel=channel, npc_obj=npc_obj, enemy=enemy)
 
 def drop_held_items(enemy):
     owner_id = "npcinv{}".format(enemy.enemyclass)
@@ -535,7 +568,7 @@ async def feeder_give(channel, npc_obj, enemy, item, willEatExpired = False):
         await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
         bknd_item.item_delete(item.get('id_item'))
     else:
-        response = "{} turns their nose at your offer."
+        response = "{} turns their nose at your offer.".format(npc_obj.str_name)
         return await fe_utils.send_message(None, channel, response)
 
 
@@ -551,7 +584,10 @@ async def dojomaster_hit(channel, npc_obj, enemy, territorial = True, probabilit
         user_data = ewcombat.EwUser(id_user=user_data.id_user, id_server=user_data.id_server)
         weapon_item = EwItem(id_item=user_data.weapon)
         itemtype = weapon_item.template
-        user_data.add_weaponskill(n=1, weapon_type = itemtype)
+        delta = 1
+        if ewcfg.status_repelled_id in user_data.getStatusEffects(): #prevent cheesing this
+            delta = (-5)
+        user_data.add_weaponskill(n=delta, weapon_type = itemtype)
         user_data.persist()
 
 async def needy_talk(channel, npc_obj, keyword_override = 'talk', enemy = None, user_data = None):
@@ -647,12 +683,13 @@ async def crush_drink(channel = None, id_item = None):
     return await fe_utils.send_message(None, channel, response)
 
 
-async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc trade system
+async def trade_give(channel, npc_obj, enemy, item):
     if item is not None:
         item_obj = EwItem(id_item=item.get('id_item'))
         id_user = item_obj.id_owner
         dialogue = npc_obj.dialogue
         direct = dialogue.get('trade' + item_obj.template)
+        name_received = None
         if direct == None:
             direct = dialogue.get('trade' + item_obj.item_type)
             if direct == None:
@@ -662,7 +699,7 @@ async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc 
             item_received = random.choice(direct)
             if item_received != 'nothing':
                 item = static_items.item_map.get(item_received)
-
+                name = None
                 item_type = ewcfg.it_item
                 if item != None:
                     item_id = item.id_item
@@ -700,14 +737,34 @@ async def trade_give(channel, npc_obj, enemy, item): #thus far is an unused npc 
                         item_id = item.id_weapon
                         name = item.str_weapon
 
-                item_props = itm_utils.gen_item_props(item)
+                if name is not None:
+                    name_received = name
+                    item_props = itm_utils.gen_item_props(item)
 
-                bknd_item.item_create(
-                    item_type=item_type,
-                    id_user=id_user,
-                    id_server=item_obj.id_server,
-                    item_props=item_props
-                )
+                    bknd_item.item_create(
+                        item_type=item_type,
+                        id_user=id_user,
+                        id_server=item_obj.id_server,
+                        item_props=item_props
+                    )
 
-        bknd_item.item_delete(item_obj.id_item)
-        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='give')
+        if name_received is not None:
+            bknd_item.item_delete(item_obj.id_item)
+            if item_obj.item_type == ewcfg.it_weapon:
+                user_data = util_combat.EwUser(id_user=item_obj.id_owner, id_server=item_obj.id_server)
+                if user_data.weapon == item_obj.id_item:
+                    user_data.weapon = -1
+                    user_data.persist()
+                elif user_data.sidearm == item_obj.id_item:
+                    user_data.sidearm = -1
+                    user_data.persist()
+
+        await generic_talk(channel=channel, npc_obj=npc_obj, enemy=enemy, keyword_override='tradefail' if name_received is None else 'give', bonus_flavor=name_received)
+
+
+def is_user_voter(id_user, id_server):
+    results = bknd_core.execute_sql_query( "select {id_user} from votes where {id_user} = %s and {id_server} = %s".format(id_user=id_user, id_server=id_server), (id_user, id_server))
+    if len(results) > 0:
+        return True
+    else:
+        return False

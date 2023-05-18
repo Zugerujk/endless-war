@@ -118,12 +118,13 @@ async def depart(cmd = None, isGoto = False, movecurrent = None):
             user_data.visiting = ewcfg.location_id_empty
             user_data.time_lastenter = int(time.time())
             ewutils.active_target_map[user_data.id_user] = ""
-            user_data.persist()
+
 
             ewutils.end_trade(user_data.id_user)
             await user_data.move_inhabitants(id_poi=poi_dest.id_poi)
 
-            await ewrolemgr.updateRoles(client=client, member=member_object)
+            await ewrolemgr.updateRoles(client=client, member=member_object, new_poi=user_data.poi)
+            user_data.persist()
 
             if isGoto:
                 response = "You arrive in {}.".format(poi_dest.str_name)
@@ -1689,4 +1690,30 @@ async def flush(cmd):
             user_data.persist()
     else:
         response = "Are you sure you have that item?"
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def jeeves(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    poi = poi_static.id_to_poi(user_data.poi)
+
+    if user_data.visiting != ewcfg.location_id_empty:
+        response = "You can't just tell somebody else's butler what to do."
+    elif not poi.is_apartment:
+        response = "You're not in an apartment. Jeeves isn't gonna listen out here, he has anxiety."
+    elif ewutils.jeeves.get(user_data.id_user) == 1:
+        response = "Jeeves is already on that, be patient."
+    elif bknd_item.find_item(item_search="butler", id_user=str(user_data.id_user) + ewcfg.compartment_id_decorate, id_server=user_data.id_server, item_type_filter=ewcfg.it_furniture):
+        item_stash = bknd_item.inventory(id_server=user_data.id_server, id_user=str(user_data.id_user) + ewcfg.compartment_id_decorate)
+        response = "Jeeves begins to clean out your apartment."
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        ewutils.jeeves[user_data.id_user] = 1
+        for item in item_stash:
+            if item.get('name') == "brick" and item.get("item_type") == ewcfg.it_furniture:
+                await asyncio.sleep(20)
+                bknd_item.item_delete(item.get('id_item'))
+        ewutils.jeeves[user_data.id_user] = 0
+        response = "Jeeves is all done!"
+    else:
+        response = "Jeeves? Who the fuck's that?"
+
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))

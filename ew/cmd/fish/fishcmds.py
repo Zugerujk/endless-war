@@ -178,8 +178,8 @@ async def cast(cmd):
                     elif id_food == "druggumbo":
                         fisher.pier.pier_type = ewcfg.fish_slime_event
 
-                    elif id_food == "masterbait":
-                        high_value_bait_used = True
+                    # elif id_food == "masterbait":
+                    #     high_value_bait_used = True
 
                     elif id_food == "ferroslimeoid":
                         fisher.current_fish = "seaitem"
@@ -346,21 +346,20 @@ async def cast(cmd):
                     # Damp is a random number between 0 and (fun - 1). If damp is <= 10, a fish will bite.
                     damp = random.randrange(fun)
 
-                # Wait this many seconds until trying for a bite - 30 if high on weed, 5 if debug bait, 60 if regular.
+                # Wait this many seconds until trying for a bite
+                time_to_wait = 60
+                if fisher.high:
+                    time_to_wait /= 2
+                if fishing_frenzy:
+                    time_to_wait /= 2
+                if fisher.pier.pier_type == ewcfg.fish_slime_moon:
+                    time_to_wait *= 7/6  # 70 normally, 35 if high
+
                 if high_value_bait_used:
-                    await asyncio.sleep(5)
-                elif fishing_frenzy:
-                    await asyncio.sleep(30)
-                elif fisher.pier.pier_type == ewcfg.fish_slime_moon:
-                    if fisher.high:
-                        await asyncio.sleep(35)
-                    else:
-                        await asyncio.sleep(70)
-                else:
-                    if fisher.high:
-                        await asyncio.sleep(30)
-                    else:
-                        await asyncio.sleep(60)
+                    time_to_wait = 5
+
+                time_to_wait = int(round(time_to_wait))
+                await asyncio.sleep(time_to_wait)  # Pause
 
                 # Cancel if fishing was interrupted
                 if current_fishing_id != fisher.fishing_id:
@@ -727,6 +726,7 @@ async def barter(cmd):
                         min_value = max_value / 10  # 60,000 slime for a colossal promo fish, 12,000 for a miniscule common fish.
 
                         slime_gain = round(random.triangular(min_value, max_value, min_value * 2))
+                        slime_gain = int(float(slime_gain) * float(ewcfg.fishgain_multiplier_dt[user_data.id_server]) * float(ewcfg.global_slimegain_multiplier_dt[user_data.id_server]))
 
                         offer.offer_receive = slime_gain
                         offer.persist()

@@ -1,9 +1,9 @@
 import datetime
-
+import random
 # Global configuration options.
 
 
-version = "v4.2 SEASON 4 ACT 2"
+version = "v4.22 SEASON 4 ACT 2 - Mutation Rotations"
 
 
 
@@ -669,6 +669,9 @@ channel_relicexhibits = "relic-exhibits"
 channel_aquarium = "aquarium"
 channel_artexhibits = "art-exhibits"
 
+# Other
+channel_communityservice = "community-service"
+
 hideout_channels = [channel_rowdyroughhouse, channel_copkilltown, channel_breakroom]
 hideout_by_faction = {
     faction_rowdys: channel_rowdyroughhouse,
@@ -696,6 +699,8 @@ cmd_attack = cmd_prefix + 'attack'
 cmd_reload = cmd_prefix + 'reload'
 cmd_reload_alt1 = cmd_prefix + 'loadthegun'
 cmd_devour = cmd_prefix + 'devour'
+cmd_brace = cmd_prefix + 'brace'
+cmd_facelift = cmd_prefix + 'facelift'
 cmd_mine = cmd_prefix + 'mine'
 cmd_digmine = cmd_prefix + 'dig'
 cmd_hole = cmd_prefix + 'hole'
@@ -896,6 +901,7 @@ cmd_coinflip = cmd_prefix + 'co1nfl1p'
 cmd_spook = cmd_prefix + 'spook'
 cmd_sacrifice = cmd_prefix + 'sacrifice'
 cmd_makecostume = cmd_prefix + 'makecostume'
+cmd_rolldie = cmd_prefix + 'rolldie'
 cmd_stunt = cmd_prefix + 'stunt'
 cmd_stuntalt1 = cmd_prefix + 'skate'
 cmd_stuntalt2 = cmd_prefix + 'sk8'
@@ -934,6 +940,9 @@ cmd_dyecosmetic = cmd_prefix + 'dyecosmetic'
 cmd_dyecosmetic_alt1 = cmd_prefix + 'dyehat'
 cmd_dyecosmetic_alt2 = cmd_prefix + 'saturatecosmetic'
 cmd_dyecosmetic_alt3 = cmd_prefix + 'saturatehat'
+cmd_patterncosmetic = cmd_prefix + 'patterncosmetic'
+cmd_patterncosmetic_alt1 = cmd_prefix + 'patternhat'
+cmd_patterncosmetic_alt2 = cmd_prefix + 'pattern'
 cmd_create = cmd_prefix + 'create'
 cmd_forgemasterpoudrin = cmd_prefix + 'forgemasterpoudrin'
 cmd_createitem = cmd_prefix + 'createitem'
@@ -954,6 +963,13 @@ cmd_listworldevents_alt1 = cmd_prefix + 'listworldevent'
 cmd_endworldevent = cmd_prefix + 'endworldevent'
 cmd_forcegraft = cmd_prefix + 'forcegraft'
 cmd_forcechemo = cmd_prefix + 'forcechemo'
+cmd_add_mut_rotation = cmd_prefix + 'addmutrotation'
+cmd_clear_mut_rotation = cmd_prefix + 'clearmutrotation'
+cmd_change_rotation_stat = cmd_prefix + 'changemutstat'
+cmd_lockmutation = cmd_prefix + 'lockmutation'
+cmd_unlockmutation = cmd_prefix + 'unlockmutation'
+cmd_currentrotation = cmd_prefix + 'rotation'
+cmd_nextrotation = cmd_prefix + 'nextrotation'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -1034,6 +1050,10 @@ cmd_serve = cmd_prefix + 'serve'
 cmd_sow_cloth = cmd_prefix + 'sowcloth'
 cmd_sow_cloth_alt1 = cmd_prefix + 'sewcloth'
 cmd_sow_cloth_alt2 = cmd_prefix + 'sewfabric'
+cmd_bespoke = cmd_prefix + "bespoke"
+cmd_bespoke_alt1 = cmd_prefix + 'tailor'
+cmd_restyle = cmd_prefix + "restyle"
+cmd_restyle_alt1 = cmd_prefix + "stitch"
 
 cmd_preserve = cmd_prefix + 'preserve'
 cmd_stink = cmd_prefix + 'stink'
@@ -1091,6 +1111,7 @@ cmd_apartment = cmd_prefix + 'apartment'
 cmd_apartment_alt = cmd_prefix + 'apt'
 cmd_aptname = cmd_prefix + 'aptname'
 cmd_aptdesc = cmd_prefix + 'aptdesc'
+cmd_jeeves = cmd_prefix + 'jeeves'
 cmd_upgrade = cmd_prefix + 'aptupgrade'  # do we need the apt at the beginning?
 cmd_knock = cmd_prefix + 'knock'
 cmd_trickortreat = cmd_prefix + 'trickortreat'
@@ -1229,6 +1250,7 @@ cmd_shutdownbot = cmd_prefix + 'shutdownbot'
 cmd_checkbot = cmd_prefix + 'checkbot'
 cmd_set_debug_option = cmd_prefix + 'debugoption'
 
+cmd_award_skill_capes = cmd_prefix + 'awardskillcapes'
 
 cmd_reroll_mutation = cmd_prefix + 'rerollmutation'
 cmd_clear_mutations = cmd_prefix + 'sterilizemutations'
@@ -1375,6 +1397,8 @@ cmd_hogtie = cmd_prefix + 'hogtie'
 
 # Slime Twitter
 cmd_tweet = cmd_prefix + 'tweet'
+cmd_qrt = cmd_prefix + 'quoteresplat'
+cmd_qrt_alt1 = cmd_prefix + 'quoteretweet'
 cmd_verification = cmd_prefix + 'requestverification'
 cmd_verification_alt = cmd_prefix + '#verify'
 
@@ -1493,7 +1517,7 @@ hunger_pershot = 10
 hunger_perspar = 10
 hunger_perfarm = 50
 hunger_permine = 1
-hunger_perminereset = 25
+hunger_perminereset = 30
 hunger_perfish = 15
 hunger_perscavenge = 2
 hunger_pertick = 3
@@ -1519,6 +1543,19 @@ time_bhbleed = 300  # 5 minutes
 currency_slime = "slime"
 currency_slimecoin = "SlimeCoin"
 currency_soul = "soul"
+
+global_slimegain_multiplier = 1.00
+global_slimegain_multiplier_dt = {}
+fishgain_multiplier = 1.00
+fishgain_multiplier_dt = {}
+minegain_multiplier = 1.00
+minegain_multiplier_dt = {}
+farmgain_multiplier = 1.00
+farmgain_multiplier_dt = {}
+#todo implement a sewer slime multiplier and a hunting yield multiplier too
+global_damage_multiplier = 1.00
+global_damage_multiplier_dt = {}
+
 
 # inebriation
 inebriation_max = 20
@@ -1811,7 +1848,7 @@ time_raidboss_movecooldown = 2.5 * 60
 max_enemies = 5
 
 #The current curator
-current_curator = "amy"
+current_curator = random.choice(["amy", "curator"])
 
 # response string used to let attack function in ewwep know that an enemy is being attacked
 enemy_targeted_string = "ENEMY-TARGETED"
@@ -1849,6 +1886,7 @@ emote_dice3 = "<:dice3:436942524041527298>"
 emote_dice4 = "<:dice4:436942524406300683>"
 emote_dice5 = "<:dice5:436942524444049408>"
 emote_dice6 = "<:dice6:436942524469346334>"
+emote_dice_rolling = "<a:diceroll:1086894063267102750>"
 emote_negaslime = "<:ns:453826200616566786>"
 emote_bustin = "<:bustin:455194248741126144>"
 emote_ghost = "<:lordofghosts:434002083256205314>"
@@ -1934,6 +1972,24 @@ emote_ms_6 = ":six:"
 emote_ms_7 = ":seven:"
 emote_ms_8 = ":eight:"
 
+# Emotes for Bubblebreaker - all unused. Can't do custom emotes emotes sadly (crops), message becomes too long to be sent as 1
+emote_bb_empty = "➰"
+emote_bb_0 = "🍍"
+emote_bb_1 = "🍓"
+emote_bb_2 = "🍇"
+emote_bb_3 = "🥑"
+emote_bb_4 = "🫐"
+emote_bb_glob = "🥭"  
+
+# Emote for poudrin
+emote_poudrin = "<:poudrin:638900988560015400>"
+
+# Emotes for Slime Twitter & debugging
+emote_slimetwitter_like = "<:slimetwitterlike:822277824324960266>"
+emote_slimetwitter_resplat = "<:slimeresplat:822277898102112297>"
+emote_slimetwitter_like_debug = "💚"
+emote_slimetwitter_resplat_debug = "♻️"
+
 # Emote for deleting slime tweets
 emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
@@ -1981,6 +2037,16 @@ emote_thrash,
 ]
 
 
+# Dice emote list
+emotes_dice = [
+emote_dice1,
+emote_dice2,
+emote_dice3,
+emote_dice4,
+emote_dice5,
+emote_dice6
+]
+
 # mining types
 mining_type_minesweeper = "minesweeper"
 mining_type_pokemine = "pokemine"
@@ -2016,6 +2082,25 @@ cell_bubble_2 = "2"
 cell_bubble_3 = "3"
 cell_bubble_4 = "4"
 cell_bubble_glob = "⋆"
+
+bubble_emote_map = {
+    cell_bubble_empty: emote_bb_empty,
+    cell_bubble_0: emote_bb_0,
+    cell_bubble_1: emote_bb_1,
+    cell_bubble_2: emote_bb_2,
+    cell_bubble_3: emote_bb_3,
+    cell_bubble_4: emote_bb_4,
+    cell_bubble_glob: emote_bb_glob,
+}
+
+# first letter of each fruit
+letter_to_cell = {
+    "p": "5",
+    "s": "1",
+    "g": "2",
+    "a": "3",
+    "b": "4",
+}
 
 cell_bubbles = [
     cell_bubble_0,
@@ -2098,7 +2183,7 @@ festivity_dye_bonus = 500 # Bonus for dyeing a gifted cosmetic
 festivity_scrawl_bonus = 100 # Bonus for scrawling on a gift
 festivity_name_bonus = 100 # Bonus for naming a weapon gift
 festivity_smelt_bonus = 500 # Bonus for gifting something handmade
-festivity_pleb_bonus = 10 # Bonus for plebian tier gifts
+festivity_pleb_bonus = 10 # Bonus for plebeian tier gifts
 festivity_patr_bonus = 100 # Bonus for patrician tier gifts
 festivity_othr_bonus = 600 # Bonus for any other tier gifts
 
@@ -2136,6 +2221,9 @@ str_generic_onbreak = "Their {} broke!!"
 str_soul_onadorn = "{} has begun swirling around you."
 str_soul_unadorn = "{} has stopped swirling around you and you place it back into your hammerspace."
 str_soul_onbreak = "{} has ***SHATTERED.*** Uh oh."
+str_cape_onadorn = "You skillfully adorn your {} and flourish it several times."
+str_cape_unadorn = "You skillfully unadorn your {}."
+str_cape_onbreak = "Your {} tears! Better hope they skill issue replacements."
 str_generic_inv_limit = "You can't fit another {} in your inventory!"
 
 generic_role_name = 'NLACakaNM'
@@ -2256,6 +2344,7 @@ col_verified = 'verified'
 col_gender = 'gender'
 col_hogtied = 'hogtied'
 col_event_points = 'event_points'
+col_fashion_seed = 'fashion_seed'
 
 col_attack = 'attack'
 col_speed = 'speed'
@@ -2424,6 +2513,9 @@ col_time_activate = 'time_activate'
 col_time_stamp = 'time_stamp'
 col_record_type = 'record_type'
 col_record_data = 'record_data'
+col_id_context_num = "context_num"
+col_id_month = "month"
+col_id_year = "year"
 
 # Database columns for advertisements
 col_id_ad = 'id_ad'
@@ -2492,6 +2584,8 @@ rarity_patrician = "Patrician"
 rarity_profollean = "Profollean"
 rarity_promotional = "Promotional"  # Cosmetics awarded at events / achieved through limited ways
 rarity_princeps = "princeps"
+
+normal_rarities = [rarity_plebeian, rarity_patrician, rarity_profollean]
 
 # Leaderboard score categories
 leaderboard_slimes = "SLIMIEST"
@@ -2666,7 +2760,7 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
-stat_foodbasket_kills = 'foodbasket_kills'
+stat_basket_kills = 'basket_kills'
 
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
@@ -2778,11 +2872,23 @@ vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
 vendor_gumballmachine = "Gumball Machine"
 
+vendor_passive_chat_wait_time = 60 * 60 * 12  # 12 hours
+
 
 museum_thumbnails = {
     "amy":["AMY HART", "https://rfck.app/npc/AMY_HART_pfp.png"],
     "curator":["THE CURATOR", "https://rfck.app/npc/CURATOR_GOOD_HEAD.png"]
 }
+
+hide_value = random.randint(0, 2)
+
+hide_taka_thumbnail = ["https://rfck.app/npc/hide_taka_taco.png", "https://rfck.app/npc/hide_taka_pizza.png", "https://rfck.app/npc/hide_taka_kfc.png"]
+hide_dialogue = {
+    0:["I hope you choke on it.", "If you order another barbecue sauce packet and nothing else I'm going to scream.", " My boss will fire me if he catches me talking to you. Go on, shoo. I have tuition to pay.", "Go on. Make the same order repeatedly and then get out of here, like you always do."],#tacobell, stoic
+    1:["Lovely day out, am I right?", "Hey, pal, can you keep a secret? We're selling chicken nuggets under the table.", "I've been told to tell you that we cook all our food right here, in the food court. That's right, there's a robust kitchen through that door. All freshly defrroooo... fried!", "I tried to talk about starting a union but, they got the whole place bugged so they threw my partner down the sewers. Call for help, man!"],#pizza, cheerful
+    2:["*Licks fingers* Good.", "No spam ordering, man. You're running me ragged.", "()*Hide picks a taco shell out of their hair and eats it*", "We import all our food from Jamaica Avenue. When the pizza crusts grow mold they can mutate it into chicken. Heh, I don't know how it works."] #kfc, chill
+}
+
 
 vendor_thumbnails = {
     poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/npc/albertalex.png"],
@@ -2790,16 +2896,19 @@ vendor_thumbnails = {
     "basedhardware":["BETTY BAMALAM", "https://rfck.app/npc/bet.png"],
     "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
     "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
-    "neomilwaukeestate":["PROFESSOR BRAINSLIME", "https://rfck.app/npc/albertalex.png"],
+    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/brainslime.png"],
     "themuseum":museum_thumbnails.get(current_curator),
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
-    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"]
+    "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
+    poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]],
+    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"],
+    poi_id_apt_littlechernobyl:["JERMA", "https://rfck.app/npc/jerma.png"]
 }
 
 
 museum_dialogue = {
     "amy":["God, this is frustrating.", "Hoss isn't here. Did you need something?", "The truckers out here are kind of mental. I tried importing a crate of Takis since they're not stocked in the city and shipping cost me 260 mega.", "Hey...you don't look quite right. Guess that's normal around here, but how did you end up looking like that?", "Truthfully, I'd rather not talk history right now. It's a sore subject with you gangsters, I'll keep my research to myself.", "Hey wait, is that a...Nah, it's just an ordinary weapon. Forget I said anything.", "It'd be nice to go along with Hoss, but there's a strong possibility ENDLESS WAR might endanger us somehow if we both left at the same time. We're hedging our bets.", "I'm not an exhibit. I don't think I'm flattered that you thought otherwise, heh."],
-    "curator":[""]
+    "curator":["CAN YOU SMELL THE FISH? I'VE BEEN STEWING IN THIS FARMSTINK FOR SO BLOODY LONG IT'S BECOME MY DEFAULT NOW.", "I KNOW YOU'RE GOING TO STEAL THE RELICS YOU DONATE, YOU STALEVAPED TICKDANCER ZOOMERTYPE. JUST TAKE THEM. IF YOU DON'T THEN SOME OTHER IMBECILE WILL INSTEAD.", "ALL THIS TALK OF CANDIDATES, YOU THINK THEY CAN TRICK ME?! I'LL VOTE WHEN HELL SLEETS ITS TROUSERS!", "HAVE YOU HEARD WORD OF THIS BICARBONATE FOUNTAIN? I MIGHT HAVE SOME CHANCE TO ESCAPE USING IT, BUT THE DOC'S ORDERS TELL ME I SHOULDN'T BE TRYING TO ZUCK MYSELF FOR ANOTHER YEAR OR TWO.", "NO, I WON'T GIVE YOU FREE SLIME, YOU WILTING PATHETIC GUTTERHANGER. EARN IT OR YOU WON'T BE PROUD OF IT."]
 }
 
 
@@ -2807,13 +2916,21 @@ vendor_dialogue = {
     poi_id_speakeasy:["Ferry's 'ere, lad.","Aye, I was like ye once, 'fore that cannon licked me at the knee","*Stares wistfully out the window into the bay*","Me ship ran aground on the western shore of Snake Island. How a wooden sailin' vessel lasted so long in that slimy drink I'll never know. Speaking of slimy drinks, care fer a Manhattan Project?","Yarr."],
     "clinicofslimoplasty":["Nice kidney. If you think you'll die before your next !piss I might just buy it off you.", "I'll give you a discount if you let me fix you up after I've had a few drinks. I'm playing Malpractice Bingo with a heart surgeon in Poudrin Alley.", "You get the kid's discount. I don't do it because it's good for business, really. I just like hurting children.", "Sonny, do you know about any gingerbread houses deep in the woods in this town? I'm looking to retire and could use a new space.", "I'll probably wind up repeating something I said to you. That's the dementia, pay it no mind.", "Lots of slimeoid operations recently. I don't care for 'em. Too many syringes."],
     "themuseum":museum_dialogue.get(current_curator),
-    "neomiluakeestate":["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
+    poi_id_neomilwaukeestate:["Threat assessment is important to navigating NLACakaNM. Using !scout regularly and paying attention to active gangsters is important to not getting killed.", "CTRL hotkeys, once mastered, increase your speed drastically. You probably know about Cut, Copy, and Paste, but CTRL+A can select all, and CTRL+Z on a Discord window can repeat your previous message. Just be careful, the law under NLACakaNM Statute AHK-2 Subsection 3 bans the use of macros and self-bots for combat purposes. The jailtime penalties are higher than meth production, if you can believe that.", "Capping rules can get fairly in-depth. If you want to avoid gangsters staining your house pink or purple every other day, it helps to know their tactics. There is a 200,000 slime minimum. Rowdys and Killers have to be the only gang in a district for capping to progress. Slime count beyond that limit does not affect capping speed, but the number of gangsters and each individual member's mutation sets are relevant, specifically Patriot, Lone Wolf, and Unnatural Charisma."],
     "realestateagency":["😎", "hey. I don't really care if you buy real estate, lol. slimecoin isn't profitable  at all, we keep afloat off a government subsidy", "hope there's no hard feelings about the whole slimecorp thing, dog. I was losing them millions just by playing scribblenauts instead of doing any marketing", "hope youre not looking for magicksrampage. they signed on as a janitor with us for a few days but realized their mistake and got out", "i'll add some of my sick taste in decor to you apartment for some slime under the table.", "there's this guy on the street named bobo cuatro who will buy a mixtape from anybody. this dudes my hero i swear", "i was never a booze guy at slimecorp but i'm starting to learn a few things. lol guess the party doesn't have to stop."],
     "saloon":["ALL THE WORLD'S IS HALF-JUGGALO BABY! HALF AT LEAST!", "!thrash !dab !thrash !dab !thrash !dab !thrab !dash", "A🤡A🤡A🤡A🤡A🤡A🤡A🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H🤡A🤡H", "SERVE ME SOME OF THAT CHERRY SODA you WILD CRACK BABY SQUICKHEADS!", "I'll rip off your dick and give you a motherfucking nose job with it! I did it once and I'll do it again!", "I'm not a president yet, but I'm the president of RIGHT HERE, RIGHT NOW! THAT'S RIGHT YOU GLORIOUS FREAKS, SUCK MY COCK AND DIE!", "Those killers are juggalos to me. I just see them as equals. They're clowning on the inside, I know all about it.", "Let me get a shout out from those rowdys in the house! THRASH THIS WHOLE PLACE DOWN, YEAH!"],
     "oozegardensfarms":["AT ATOMIC FOREST STOCKPILE, WE GANKERS HAVE ACCRUED TOOLS FOR THOU TO PURCHASE!", "THY FARMS OF OOZE GARDENS TEEM WITH LIFE THIS MORN!", "PRITHEE, YOUNG JUVE! SOW THY FIELDS WITH CARE.", "DOST THOU JUVE KNOW OF GAIASLIMEOIDS? 'TWAS A PHOEBUS-GIVEN GIFT!", "SHALL THE LIGHT SHINE DOWN UPON US AND THINE GLORIOUS FIELDS."],
     "basedhardware":["The name's \"Black\" Betty Bamalam", "If someone else brings up the metric system one more time I swear to god.", "Nobody ever buys my wrenches. Maybe I should put them lower on the shelf.", "Some corked up 30-something lady came in here and asked for a fork-shaped plug socket. What is happening to people these days?", "If they tried to let me go from this gig the SSB Mafia would tear it down in no time. So I can call you human garbage and it's not a big deal.", "Our Wreckington location makes way more money than out here, I'll be honest with ya. But they're real busy.", "Get out of here. They don't let me play my reggae while you're shopping.", "Bronx accent? I've never been to the Bronx. I don't know that Musset guy either, but uh. Not for nothin', is that guy single?"],
-    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"]
+    poi_id_slimypersuits:["Hey bro! I just got a new stash of mango vape pods, fresh from the Philippines. I promise these ones aren't laced!", "This place is so *boooooring*, dude! I'm straight DEPRESSED with how dead this store is.", "I munched on some of the candies this place sells bro, and I got turnt UP for a bit! It's like Adderall plus! Those slimeoids really gotta be on some crazy sorta stuff!", "Dunno what's so appealing about a part-time job to kids. If it wasn't for my, *heh*, \"side hustle\", I couldn't even *afford* rent in a junkhole like West Glocksbury. Lotta business there though, ha!", "You want a rigid candy? That was me when I was doin' your mom last night! Ha!", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!", "If I've got any advice, it's drop out of college and follow your dreams! I ain't joshin' you, it's foolproof. Worked for me!"],
+    poi_id_foodcourt:hide_dialogue.get(hide_value),
+    poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."],
+    poi_id_apt_littlechernobyl:["Hope you enjoy the toilets. They're handpicked by me."]
 
+}
+
+vendor_order_dialogue = {
+    poi_id_slimypersuits:["Thanks for shopping at Slimy Persuits, ha!", "That one tastes reeeaaal good, dude. Trust me!", "Hey kid — you want anything... extra, with that purchase?", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!"],
+    "oozegardensfarms":["THOU DESERVES TIDINGS FOR THY PURCHASE.", "GREAT CHOICE!", "MAY THOU FIELDS TEEM WITH LIFE!"]
 }
 
 
@@ -2824,7 +2941,7 @@ museum_curator_dialogue = {
     "caughtcheatfish":"\"YOU THINK I WAS BORN YESTERDAY, YOU FISH-ROIDING {insult}? THE BLOODY {fish}'S BEEN EMBIGGENED TO HELL AND BACK! BELLENDS LIKE YOU LOSE THEIR {fish} PRIVILEGES. QUITE SO.\"",
     "fishdonate":"The curator is taken aback by the sheer girth of your {}! But, without missing a beat he swipes your fish from you and runs behind the tanks to drop it right in with the rest of them. After a few minutes, he returns with the old record-setting fish impaled through the gills by harpoon gun.\"THEY CAN'T ALL BE WINNERS, EH? OH YEAH, HERE'S YOUR TIP.\"\n\nYou got {} slime!",
     "redonaterelic":"\"WHAT ARE YOU DOING WITH THAT SHODDY REPLICA? I HAVE THE REAL ONE HERE IN MY MUSEUM.\"",
-    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. This guy's such a goddamn idiot.",
+    "donaterelic":"The curator takes the {} and excitedly jaunts into his backroom, casually tossing {:,} slime your way. You wait for him to carefully examine it, write up a plaque, and get all the fanboying out of his system, before he comes back to set up the museum display. He also hands you a meticulously constructed replica for your trouble.\n\n While he isn't looking, you swap the copied relic with the original. He turns around to catch you in the act, but shrugs and doesn't respond to your crime.",
     "spoons":"\"MORE SPOONS? HEY AMY, PUT THIS ONE WITH THE OTHER SPOON PICTURES. YEAH, OVER THERE IN THE FURNACE. ANYWAY, THANKS FOR DONATING.\"",
     "artnametaken":"\"YOU THINK YOU CAN RIP OFF SOMEONE ELSE\'S WORK? DON'T BE A {insult} AND NAME IT SOMETHING ELSE.\"",
     "colon":"\"THE LAST TIME I SAW THIS MANY COLONS WAS WHEN I PUT UP FLYERS UP NEAR THE GAY BAR IN GREENLIGHT. TAKE OUT THE \"::\" OR IT'S NOT GETTING IN.\"",
@@ -3192,7 +3309,7 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
-weapon_id_foodbasket = 'petrifiedfoodbasket'
+weapon_id_basket = 'basket'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -3215,7 +3332,9 @@ goonscape_mine_stat = "mining"
 goonscape_fish_stat = "fishing"
 goonscape_farm_stat = "farming"
 goonscape_eat_stat = "feasting"
-# Double Halloween Exclusive. Won't appear after Halloween.
+goonscape_clout_stat = "clout"
+goonscape_pee_stat = "piss"
+# Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
 
 # Database columns for goonscape stats
@@ -3227,7 +3346,11 @@ col_id_farming_level = goonscape_farm_stat + "_level"
 col_id_farming_xp = goonscape_farm_stat + "_xp"
 col_id_feasting_level = goonscape_eat_stat + "_level"
 col_id_feasting_xp = goonscape_eat_stat + "_xp"
-# Double Halloween
+col_id_clout_level = goonscape_clout_stat + "_level"
+col_id_clout_xp = goonscape_clout_stat + "_xp"
+col_id_peeing_level = goonscape_pee_stat + "_level"
+col_id_peeing_xp = goonscape_pee_stat + "_xp"
+# Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
 
@@ -3237,14 +3360,30 @@ gs_stat_to_level_col = {
     goonscape_fish_stat: col_id_fishing_level,
     goonscape_farm_stat: col_id_farming_level,
     goonscape_eat_stat: col_id_feasting_level,
-    goonscape_halloweening_stat: col_id_halloweening_level, # DH
+    goonscape_clout_stat: col_id_clout_level,
+    goonscape_halloweening_stat: col_id_halloweening_level,
+    goonscape_pee_stat: col_id_peeing_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
     goonscape_fish_stat: col_id_fishing_xp,
     goonscape_farm_stat: col_id_farming_xp,
     goonscape_eat_stat: col_id_feasting_xp,
+    goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
+    goonscape_pee_stat: col_id_peeing_xp,
+}
+
+minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
+
+gs_stat_to_cape_description = {
+    goonscape_mine_stat: "Mining: A cape earned by {user_id} for maxing out the mining stat. Soot and dirt trails along it's ornate patterns, physical evidence of the hours spent toiling for poudrins and XP. Cape Number #{placement}",
+    goonscape_fish_stat: "A cape earned by {user_id} for maxing out the fishing stat. It makes for handy shade when spending hours at the pier, and glimmers like the scales of the fish caught and traded in to obtain it. Cape Number #{placement}",
+    goonscape_farm_stat: "A cape earned by {user_id} for maxing out the farming stat. It comes built-in with several pouches for holding seeds and crops, and is hemmed with beautiful juvie green. Cape Number #{placement}",
+    goonscape_eat_stat: " A cape earned by {user_id} for maxing out the feasting stat. The stains prove it's seen its fair usage as a bib as well as a cape. We can't believe {user_id} ate the whole thing. Cape Number #{placement}",
+    goonscape_clout_stat: "A cape earned by {user_id} for maxing out the clout stat. It's like a diamond play button but even more worthless! Cape Number #{placement}",
+    goonscape_halloweening_stat: "A cape earned by {user_id} for maxing out the halloween stat, obtainable during Double Halloween 2022. It shimmers purple with fabric made of double halloween grist, haunted by the hours wasted grinding this stat out. Cape Number #{placement}",
+    goonscape_pee_stat: "A cape earned by {user_id} for pissing to the extreme. The cape hangs heavy with a brutal yellow hue, raditating power. And also pee. Cape Number #{placement}",
 }
 
 legacy_stat_dict = {
@@ -3506,8 +3645,10 @@ style_smart = "smart"
 style_beautiful = "beautiful"
 style_cute = "cute"
 style_evil = "evil"
+style_skill = "skill"
 
-fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil]
+fashion_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil, style_skill]
+valid_styles = [style_cool, style_tough, style_smart, style_beautiful, style_cute, style_evil] #dont let noncapes get the skill style!
 
 freshnesslevel_1 = 500
 freshnesslevel_2 = 1000
@@ -3519,6 +3660,13 @@ base_durability = 2500000  # 2.5 mega
 
 generic_scalp_durability = 25000  # 25k
 soul_durability = 100000000  # 100 mega
+
+# Yeah the repair cost
+cosmetic_repair_cost = 10000
+cosmetic_bespoke_cost = 100000 #raw slime, and princeps only
+cosmetic_reroll_plebeian_cost = 25 #in poudrins
+cosmetic_reroll_patrician_cost = 50 #in poudrins
+cosmetic_reroll_profollean_cost = 75 #in poudrins
 
 cosmetic_id_raincoat = "raincoat"
 
@@ -3769,6 +3917,7 @@ status_thinned_id = "thinned"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
+status_braced_id = "braced"
 
 status_enemy_hostile_id = "hostile"
 status_enemy_barren_id = "barren"
@@ -3880,13 +4029,13 @@ help_responses = {
     "ghosts": "Ghost gameplay revolves around the acquisition of antislime, through haunting and possession. Every use of **'!haunt'** away a small portion of slime from the haunted player, and grants it to the ghost as antislime. The amount of slime taken starts at 1/1000th and varies depending on a number of conditions, and you may also add a customized message by doing '!haunt [@player] [message]'. It can be done face-to-face like with !kill, or done remotely with decreased potency. As a ghost, you can only leave the sewers after being dead for at least a day. Furthermore, if a player has consumed **coleslaw**, they can **'!bust'** ghosts, which sends them back to the sewers. After amassing sufficient **Negative Slime** ghosts can conjure **Negaslimoids** at Waffle House. Ghosts can also **!inhabit** living players to move alongside them. If a ghost has sufficient antislime, they may also **!possessweapon** or **!possessfishingrod** to grant bonuses to the player they're inhabiting, with a potential reward in antislime if conditions are fulfilled. For more detailed information on ghost mechanics, see https://rfck.miraheze.org/wiki/Ghosts",
     # Additional gameplay mechanics, part 2
     "slimeoids": "**SLIMEOIDS** are sentient masses of slime that you can keep as **pets**. To learn how to make one for yourself, visit **The Slimeoid Laboratory** in Brawlden and check the enclosed **'!instructions'**. After you've made one, you can also battle it out with other slimeoids in **The Arena**, located in Vandal Park. Slimeoids can also be used to fight **Negaslimeoids** that have been conjured by ghosts. If your slimeoid dies, it's **HEART** is dropped, which can be sown in the ground like a poudrin, or taken to the labs to revive your slimeoid with **'!restoreslimeoid'**. In regards to your slimeoid's stats, a slimeoid's **'Moxie'** represents its physical attack, **'Chutzpah'** its special attack, and **'Grit'** its defense. Additionally, the color you dye your slimeoid with **'!saturateslimeoid'** also plays into combat. Your slimeoid gets attack bonuses against slimeoids that have its split complementary hue and resist slimeoids with its analgous hues. For more information, see the diagrams linked below (credits to Slimepunk#3355). There are also various commands you can perform on your slimeoid, such as **'!observeslimeoid'**, **'!petslimeoid'**, **'!walkslimeoid'**, and **'!playfetch'**. To humanely and ethically euthanize your slimeoid, use **'!dissolveslimeoid'** at the laboratory. To store and release your slimeoid in a bottle (Warning: This bottle is dropped upon death!!), use **'!bottleslimeoid'** and **'!unbottleslimeoid [slimeoid]'**, respectively. To add a description to your slimeoid, use **!tagslimeoid** with a dog tag. To remove this description, **!untagslimeoid**. To battle to the **DEATH**, use **'slimeoidbattle [@] todeath'**.\n<https://cdn.discordapp.com/attachments/492088204053184533/586310921274523648/SLIMEOID-HUE.png>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662087653064706/SLIMEOID-HUE.gif>\n<https://cdn.discordapp.com/attachments/177891183173959680/586662095848996894/SLIMEOID_HUE_NOTE.png>",
-    "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a random one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming with the exception of Evil Studs, which is gained from sowing player scalps instead. Cosmetics can either be of 'plebian', 'patrician', or 'profollean' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
+    "cosmetics": "**Cosmetics** are items that the player may wear. To equip and un-equip a cosmetic, use **'!adorn [cosmetic]'** and **'!dedorn [cosmetic]'**. If you have four slime poudrins and a cosmetic material, you can use **'!smelt'** to create a random one from scratch. These cosmetic materials can be obtained from using **'!crush'** on vegetables gained by farming with the exception of Evil Studs, which is gained from sowing player scalps instead. Cosmetics can either be of 'plebeian', 'patrician', or 'profollean' quality, indicating their rarity. If you win an art contest held for the community, a Kingpin will make a **Princep** cosmetic for you, which is custom tailored, and will not leave your inventory upon death. Cosmetics can be dyed with **!dyecosmetic [cosmetic name/id] [dye name/id]**. To check which cosmetics you have adorned, you can use !fashion.",
     "realestate": "The **Real Estate Agency** is, well, the agency where you buy real estate. First, check out the property you want with **'!consult [district]'**. The real estate agent will tell you a bit about the area. \nOnce you've made your decision, you can **'!signlease [district]'** to seal the deal. There's a down payment, and you will be charged rent every 2 IRL days. Fair warning, though, if you already have an apartment and you rent a second one, you will be moved out of the first.\n\nFinally, if you own an apartment already, you can **'!aptupgrade'** it, improving its storage capabilities, but you'll be charged a huge down payment and your rent will double. The biggest upgrade stores 32 closet items, 32 food items, 96 shelved items, and 24 pieces of furniture (And can be doubled if you have mutation Packrat). And if you're ready to cut and run, use **'!breaklease'** to end your contract. It'll cost another down payment, though.\n\nYou can !addkey to acquire a housekey. Giving this item to some lucky fellow gives them access to your apartment, including all your prized posessions. Getting burglarized? Use !changelocks to eliminate all housekeys you created. Both cost a premium, though.",
     "apartments": "Once you've gotten yourself an apartment, there are a variety of things you can do inside it. To enter your apartment, do **'!retire'** in the district your apartment is located in. Alternatively, you can **'!goto apt'**. To change the name and description of your apartment, do **'!aptname [name]'** and **'!aptdesc [description]'**, respectively. To place and remove furniture (purchasable in The Bazaar and elsewhere), do **'!decorate [furniture]'** and **'!undecorate [furniture]'**. You can store and remove items with **'!stow'** and **'!snag'**, which will store them in either the Fridge (for food items), the Bookshelf (for zines), or the Closet. Each of these can store a certain amount of their respective items, which can be viewed with **'!fridge'**, **'!shelf'**, and **'!closet'**. You can also check the capacity of your apartment and any decorated collections with **'!decorate'** standalone. To store and remove your slimeoid or negaslimeoid, do **'!freeze'** and **'!unfreeze'**. \n\nFor information on collection functionality, use **'!help collections'**.\n\nTo enter someone else's apartment, you can do **'!knock [player]'**, which will prompt them to let you in.",
     "stocks": "**The Stock Exchange** is a sub-zone within downtown NLACakaNM, open only during the daytime (6AM-8PM). It allows players to **'!invest'** in various **'!stocks'**, which not only affects their own personal monetary gains, but the city's economy as well. Stocks will shift up and down value, which affects the price of food associated with the food chains of those respective stocks. The rate of exchange for stocks can be checked with **'!rates'**, and to withdraw your **'!shares'** from a stock, use **'!withdraw [amount] [stock]'** (the same logic also applies to !invest). Additionally, players may **'!transfer'** their slimecoin to other players at any time of the day while in the stock exchange, but at the cost of a 5% broker's fee and a 5 minute cooldown on subsequent transfers.",
     # Additional gameplay mechanics, part 3
     "trading": "Trading allows you to exchange multiple items at once with another player. You can ask someone to trade with you by using **!trade [player]**. Should they accept, you will be able to offer items with **!offer [item]**. Use **!removeoffer [item]** to remove an item from your offers. You can check both player's offers by using **!trade** again. When you're ready to finish the trade, use **!completetrade**. The items will only be exchanged when both players do the command. Note that if a player adds or removes an item afterwards you will no longer be set as ready and will need to redo the command. Should you want to cancel the trade, you can do so by using **!canceltrade**.",
-    "weather": "The weather of NLACakaNM can have certain outcomes on gameplay, most notably in regards to mutations like White Nationalist or Light As A Feather. Right now, however, you should be most concerned with **Natural Disasters**, which can ruin your day. To check the weather, use **'!weather'**. To check the forecast, use **'!forecast'**.",
+    "weather": "Like most cities, NLACakaNM has a vibrant weather cycle. There are 7 major weather types within NLACakaNM: **sunny**, **rainy**, **windy**, **cloudy**, **foggy**, **snow**, and **lightning**. The weather primarily activates certain mutation-based buffs, as well as changing what fish are available within the city's water sources. To check the current weather, use **'!weather'**. To check the forecast, use **'!forecast [long/short]'**. \n\nYou may also notice the **moon phase**, which depends on a 29-day cycle. There's 7 major phases: the **new moon**, the **waxing horns**, the **waxing mandibles**, the **crescent moon**, the **waning maw**, the **waning sliver**, and the uncommon **green moon**. \n\nNLACakaNM is also faced with many **Natural Disasters**. These will affect one district in particular for a specific amount of time, and be visible from '!weather' and announced within gangbases. Though varying in their natural-ness, the current disasters facing NLACakaNM include **tornadoes**, **meteor showers**, **smog warnings**, **poudrin hail**, **radiation storms**, **japestorms**, **firestorms**, **raider incursions**, **slimeunist protests**, **dimensional rifts**, **fishing frenzies**, and **gas leaks**. \n\n**Tornadoes** will launch you out of an affected district (unless you have Big Boned), **Meteor Showers** will light up the night sky, **Smog Warnings** will make you unable to !scout that district, **Poudrin Hail** will crush you if you stand around too long without an umbrella, **Radiation Storms** will cuase you to generate slime while standing in the district (while also attracting radioactive creatures), **Japestorms** will cause all manner of laughery, **Firestorms** will set anyone without Napalm Snot ablaze, **Raider Incursions** will see raiders invade the district, **Slimeunist Protests** will see protesters fill the streets, **Dimensional Rifts** will open rifts between districts, **Fishing Frenzies** will cause fish to bite 2x as fast, and **Gas Leaks** will lessen hunger penalty from mining.",
     "casino": "**The Casino** is a sub-zone in Green Light District where players may bet their slime and slimecoin in various games, including **'!slimepachinko'**, **'!slimecraps'**, **'!slimeslots'**, **'!slimeroulette'**, **'!slimebaccarat'**, and **!slimeskat**. Some games allow you to bet certain amounts, while other games have a fixed cost. Furthermore, the casino allows you to challenge other players to a game of **'!russianroulette'**, where most of the loser's slime is transferred to the winner. To bet with slime, simply add 'slime' to the name of the game you wish to play. Example: **!slimeslots 500 slime**. You can gamble through your gellphone, but only with slimecoin.",
     "bleeding": "When you get hit by someone using a '!kill' command, certain things happen to your slime. Let's say you take 20,000 points of damage. **50%** of that slime, in this case 10,000, immediately becomes scavengeable. However, the other 50%, provided that you didn't die instantly, will undergo the **bleeding** process. 25% of that slime, in this case 5,000, is immediately added to a 'bleed pool', causing it to slowly trickle out of your body and onto the ground for it to be scavenged. The remaining 25% of that slime will **slowly** be added to the 'bleed pool', where it will then bleed, just as previously stated. Upon dying, your 'bleed pool' is immediately dumped onto the ground, ready to be scavenged. Think of it like the 'rolling HP' system from the game *EarthBound*. When you get hit, you don't take all your damage upfront, it instead slowly trickles down.",
     "offline": "Given that ENDLESS WAR is a **Discord** game, there are a few peculiarities surrounding it and how it interacts with Discord itself. When you set your status to **'Offline'**, you can still move between districts if you typed a '!goto' command beforehand. You won't show up on the sidebar in that district's channel, but people can still scout for you, and see the '[player] has entered [district]' message when you do enter the district they're in. Furthermore, you **can't** use commands while offline, and can only use commands **5 seconds** after coming online again. Often times, you may find yourself using '!scout' or '!look' on a district, only to find that **no one** is there besides yourself. This is likely because they're in that district, just with their status set to offline. The exception to this, of course, is if you have the **Chameleon Skin** mutation, which lets you type a handful of commands even while offline, including **!goto**, **!look**, **!scout**, **!survey**, **!embark**, and **!disembark**.",
@@ -3899,12 +4048,12 @@ help_responses = {
     # Additional gameplay mechanics, part 5
     "burying": "**Burying** is a mechanic that allows one to store an item within a location secretly, only retrievable through a password linked to the item.\n\nTo put an item in the ground, you first must !equip a **shovel**, sold at Atomic Forest Stockpile in the Ooze Gardens Farms. Once equipped, you can **!bury [coordinates] [item]**. The coordinates can be any string you enter, and will be saved with no spaces, punctuation, or case. For example, entering \"!bury DustTrap poudrin\" while in Cratersville will result in a slime poudrin being buried in Cratersville with the coordinates \"DUSTTRAP\". Once you bury an item, the message sent by ENDLESS WAR indicating the correct coordinates of the item will disappear after a short time. Make sure you write the coordinates elsewhere, as **once buried, an item cannot be recovered without the correct coordinates**.\n\nTo **!unearth** an item, simply go to the location it was buried in and type **!unearth [coordinates]**. You do **not need a shovel** to !unearth buried items, just the location and coordinates. Be aware anyone can !unearth buried items, not just the player who buried them, and so this can be utilized as if a sort of dead drop. Finally, if multiple items are buried in the same location with the same coordinates, you must !unearth [coordinates] multiple times to unearth all of the items.\n\nHappy burying!", 
     "stats": "Within ENDLESS WAR, **Stats** are a mechanic that allow the player to showcase their skill in specific areas. You can gain XP through your actions in-game, and you'll level-up as you accrue more and more XP. There are currently 4 stats: mining, farming, fishing, and feasting. To check your stats, use **!stats**. To check now-unobtainable stats, or to check all stats, use **!stats hidden** or **!stats all** respectively. Keep in mind, stats currently have **no effect**, and a player with Level 99 mining will function identical to a player with Level 1 mining. \n\nStat List:\n**MINING** - Mining XP is gained through !mining within mines, with the amount of XP gained being based on the amount of slime mined. \n**FARMING** - Farming XP is gained through !reaping mature crops, with the amount of XP gained being based on both number of crops gained and amount of slime gained. \n**FISHING** - Fishing XP is gained through !reeling up fish or items, with the amount of XP gained being based upon the rarity of the !reel. \n**FEASTING** - Feasting XP is gained through !eating or !ordering food, with the amount of XP gained being based upon the hunger restoration of the food.",
-    "collections": "**Collections** are furniture items that can store other items within them. You can buy different types of collections at the Museum: **scalp collections** that can hold scalps, **large aquariums** that can hold fish, **soul cylinders** that can hold souls, **weapon chests** that can hold weapons, **portable greenhouses** that can hold crops, and **general collections** that can hold anything. Specialized collections can store **50** of a specific type of item, and have **unique flavor text upon '!inspect'ing**. General collections can store **10** of any non-collection item and do not unique flavor text. Placing a collection in your apartment will give it its own named line in '!look' text.\n\nOnce you have a collection, while in your apartment, you can **'!collect <collection> <item>'** to store an item in the collection. If you have the mutation **Packrat**, you can !collect into any collection in your inventory while outside your apartment. To remove an item from a collection, go to the Bazaar, and you can **'!extract <collection> <item>'** for **100,000 slime**. You can rename collections while in your apartment with **'!renamecollection <collection> [name]'**. Once a collection is placed, you can **'!inspect <collection>'** to view its contents and any accompanying flavor text or information. General collections will have an italicized name on upon '!look', as to distinguish that they do not have any accompanying flavor text or information. Finally, with **'!contents <collection>'**, you can view a collection as if it were a community chest.",
+    "collections": "**Collections** are furniture items that can store other items within them. You can buy different types of collections at the Museum: **scalp collections** that can hold scalps, **large aquariums** that can hold fish, **soul cylinders** that can hold souls, **weapon chests** that can hold weapons, **portable greenhouses** that can hold crops, and **general collections** that can hold anything. Specialized collections can store **50** of a specific type of item, and have **unique flavor text upon '!inspect'ing**. General collections can store **10** of any non-collection item and do not unique flavor text. Placing a collection in your apartment will give it its own named line in '!look' text.\n\nOnce you have a collection, while in your apartment, you can **'!collect <collection> <item>'** to store an item in the collection. If you have the mutation **Packrat**, you can !collect into any collection in your inventory while outside your apartment. To remove an item from a collection, go to the Bazaar, and you can **'!extract <collection> <item>'** for **100,000 slime** (greenhouses only cost **1,000 slime**). You can rename collections while in your apartment with **'!renamecollection <collection> [name]'**. Once a collection is placed, you can **'!inspect <collection>'** to view its contents and any accompanying flavor text or information. General collections will have an italicized name on upon '!look', as to distinguish that they do not have any accompanying flavor text or information. Finally, with **'!contents <collection>'**, you can view a collection as if it were a community chest.",
     # Misc.
     "slimeball": "**Slimeball** is a sport where two teams of players compete to get the ball into the opposing team's goal to score points. A game of Slimeball is started when a player does !slimeball [team] in a district. Other players can join in by doing the same command in the same district. Once you've joined a game, you can do !slimeball to see your data, the ball's location and the score. To move around the field, use !slimeballgo [coordinates]. You can kick the ball by running into it. To stop, use !slimeballstop. Each team's goal is open between 20 and 30 Y, and located at the ends of the field (0 and 99 X for purple and pink respectively). To leave a game, do !slimeballleave, or join a different game. A game of Slimeball ends when no players are left.",
     "relics": "**Relics** are one-of-a-kind items hidden all over the city. You can !donate them to the museum in Ooze Gardens for a big slime payout and some additional information about that part of the city. The Curator is pretty airheaded though, so he won't notice if you swipe them back. Long story, he makes replicas, you get the idea. If you are killed with a relic, it gets passed to your killer. Also, hoarding too many might result in graverobbers creeping down your back stair. Be careful, now!",
     "basics": "**The Basics** are things you'll pick up within mere minutes of playing, but hey, we were all beginners at first. Ahem...\n\nYou are a delinquent JUVENILE, recently busted for attempting a scandalous act of vandalism and distribution of highly coveted SLIME. Luckily for you, the juvenile detention center you’ve been assigned to is notoriously corrupt and it’s an open secret how easy escape is. All you have to do for freedom and protection is align yourself to one of the many GANG LEADERS that recruit poor, unfortunate juveniles like yourself. Too pussy to fight directly, they’ve resorted to brainwashed child soldiers to fight their proxy wars for them. Day after day, night after night, from dawn ‘till dusk and dusk ‘till dawn, these troubled youths fight without reason or purpose. Yes, it feels as though a presence pervades this city, from the most poverty-stricken slums to the most gentrified high rise apartments. It is the influence of ENDLESS WAR.\n\nFor a list of essential commands, you can use \"!commands basic\". For help with other things, check out the rest of \"!help\" and, if you need to figure out specific commands, \"!commands\" to figure out categories. Best of luck getting slime in the mines, juvenile.",
-    "blurbs": "**Blurbs** are a community feature that allows aspiring writers to add flavor text to the game. The command is only directly accessible by mods and developers, but if one of them approves your idea it can be instantly added. As you might imagine, they can only be a Discord post's length. \nTypes of flavor text you can add:\nAll NPC and Vendor Dialogue\nDistrict !huff Responses\n!brandish responses with any weapon type\nFishing text of any sub-category\nResponses to !jam(music links) and !pray\nTV responses when !watch-ing\nSkateboard tricks and the descriptions on arcade cabinets\nServer advertisements on a !browse\nText displayed during a meteor shower\nStiltwalker responses and Slimeglobe text\nText from the one obscure mechanic in the bazaar where you remove items from collections and get distracted by something",
+    "blurbs": "**Blurbs** are a community feature that allows aspiring writers to add flavor text to the game. The command is only directly accessible by mods and developers, but if one of them approves your idea it can be instantly added. As you might imagine, they can only be a Discord post's length. \nTypes of flavor text you can add:\nAll NPC and Vendor Dialogue\nDistrict !huff Responses\n!brandish and !kill responses with any weapon type\nFishing text of any sub-category\nResponses to !jam(music links) and !pray\nTV responses when !watch-ing\nSkateboard tricks and the descriptions on arcade cabinets\nServer advertisements on a !browse\nText displayed during a meteor shower\nStiltwalker responses and Slimeglobe text\nText from the one obscure mechanic in the bazaar where you remove items from collections and get distracted by something",
 
     # Weapon Types
     "normal": "**Normal weapons** include the **Dual Pistols**, **Revolver**, **Yo-yo**, **Pistol**, and **Combat Knife**. These are straightforward weapons with no gimmicks and average damage.",
@@ -4035,8 +4184,8 @@ mutation_descriptions = {
     mutation_id_whitenationalist: "Cannot be scouted regularly and you scavenge 50% more slime while weather is snowy, which also stacks with the Webbed Feet mutation. Use **'!weather'** to check if it's snowing. You can still be scouted by players with the Keen Smell mutation.",
     mutation_id_spoiledappetite: "You can eat spoiled food.",
     mutation_id_bigbones: "The amount of food items you can hold in your inventory is doubled.",
-    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger.",
-    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger.",
+    mutation_id_fatchance: "Take 25% less damage from attacks when above 50% hunger, AKA when you're less than half full.",
+    mutation_id_fastmetabolism: "Movement speed is increased by 33% when below 40% hunger. Stay full to retain the effect.",
     mutation_id_bingeeater: "Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds. Eating lots of food at once puts you in a raging food coma, increasing defense.",
     mutation_id_lonewolf: "50% more damage and 2x capping speed when in a district without any friendly gangsters. Stacks with the Patriot mutation.",
     mutation_id_quantumlegs: "You can now use the !tp command, allowing you to teleport to a district up to two locations away from you after an uninterrupted 15 second running start, with a cooldown of 1 hour.",
@@ -4045,7 +4194,7 @@ mutation_descriptions = {
     mutation_id_socialanimal: "Your damage increases by 10% for every ally in your district.",
     mutation_id_threesashroud: "Cannot be scouted and crit chance is doubled if there are more than 3 allies in your district. Cannot be scouted by players with the Keen Smell mutation.",
     mutation_id_aposematicstench: "For every 5 levels you gain, you appear as 1 more person when being scouted. Cannot be scouted by players with the Keen Smell mutation. Use !stink to produce a monster repelling effect. Attacking enemies with it on causes a temporary damage nerf and the removal of the effect.",
-    mutation_id_lucky: "33% higher chance to get slime poudrins from mining and farming, and better luck at casino games. Increased !reel chance.",
+    mutation_id_lucky: "Higher chance to create mining events while mining, higher chance to unearth poudrins, better luck at casino games, and increased !reel chance.",
     mutation_id_dressedtokill: "50% more damage if freshness is at least 250.",
     mutation_id_keensmell: "Scouting will list off the names of players and enemies within a district. Will not work on players with the Aposematic Stench or Three's A Shroud mutations.",
     mutation_id_enlargedbladder: "You can use the !piss command. The most cost-effective mutation, and therefore the best one.",
@@ -4059,16 +4208,16 @@ mutation_descriptions = {
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",
-    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide.",
+    mutation_id_nervesofsteel: " Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play Russian Roulette and commit suicide.",
     mutation_id_napalmsnot: "You do some burn damage when attacking with any weapon, in addition to its normal damage. You also gain immunity to burn damage.",
     mutation_id_ditchslap: "Use !slap @user <location> on an ally to instantly launch them to an adjacent district. If you are in a safe zone, the target must use !clench before they can be hit. Any given ally can't be slapped again for a 5 minute cooldown.",
     mutation_id_greenfingers: "Farming wait time is decreased by 33%, and yields are increased by 20%.",
-    mutation_id_lightminer: "You are immune to mineshaft collapses.",
+    mutation_id_lightminer: " Mineshaft collapses result in hunger loss instead. In addition, Mining Events are slightly more likely.",
     mutation_id_longarms: "You can !longdrop <destination> <item> to drop an item in an adjacent district.",
     mutation_id_lethalfingernails: "If you have no weapon, you will use your fingernails instead. They do the same damage as a level 6 revolver with no miss.",
     mutation_id_davyjoneskeister: "When making deals with Captain Albert Alexander, you only receive offers for slime, not items.",
     mutation_id_onemansjunk: "When bartering fish with Alexander, you will only receive offers for items, not slime",
-    mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you'ree currently tracking, use !thirdeye.",
+    mutation_id_oneeyeopen: "Use !track @user to keep your eye on a specific player. If they move to a PVP zone, you will receive  a DM. If you are being tracked, you can !shakeoff @user to remove their tracking. To check who you're currently tracking, use !thirdeye.",
     mutation_id_bottomlessappetite: "Your maximum hunger is doubled.",
     mutation_id_airlock: "Combined weather effects of all weather-based mutations. This mutation is mutually exclusive with those.",
     mutation_id_ambidextrous: "If you are unarmed or have a tool equipped, and have a weapon in your sidearm slot, you will default to that weapon. Any weapon that you have mastery 7 or higher with will not be dropped on death.",
@@ -4129,7 +4278,7 @@ external_link_commands = "!map: Pull up the world map.\n!time: Get the latest RF
 combat_commands = "!kill <player>: Kill your enemies. Depending on your weapon, you need to enter a captcha after this.\n!equip <tool/weapon>: Equip a tool or weapon.\n!sidearm: Sidearm a tool or weapon into a secondary slot.\n!switch: Switch weapons between your weapon and sidearm slots.\n!aim <player>: Increase accuracy toward a target.\n!taunt <player>: Decrease you opponent's accuracy.\n!dodge <player>: Increase evasion for a short time.\n!reload: Some weapons have limited ammo and need to reload."
 item_commands = "!inv: Displays inventory. Add keywords after the command to filter or sort items. Keywords are: type, name, id, stack, search, general, food, cosmetic, color, furniture, weapon, weapontype, preserved, <item color>, <weapon type>.\n!inv search <contents>: Display all items that contain <contents>.\n!inspect <item>: Inspect an item in your inventory.\n!discard <item>: Discard an item.\n!use <item>: Some items can be used.\n!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade.\n!smelt <item>: Smelt an item form ingredients.\n!whatcanimake <item>:Shows what you can smelt with an item.\n!scrawl <item> <description>: Add a message to an item.\n!strip <item>: Remove a message from an item\n!give @player <item>: Giving away items increases festivity."
 cosmetics_dyes_commands = "!adorn <cosmetic>: Wear a cosmetic\n!dedorn <cosmetic>: Take a cosmetic off.\n!dyecosmetic <cosmetic> <dye>: Dye a cosmetic using dyes in your inventory.\n!dyefurniture <furniture> <dye>: Change the color of furniture with dye.\n!saturateslimeoid <dye>: Dye your slimeoid."
-miscellaneous_commands = "!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!changespray <tag>:Change the image link that displays on a !tag.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
+miscellaneous_commands = "!scrutinize <object>: Examine specific objects in an area. Usually reserved for dungeons and ARGs.\n!shakeoff: If someone with the One Eye Open mutation is following you, use this to shake them off. Alternatively, if within a gangbase, use this to shake off any body spray you have active.\n!extractsoul: Remove your soul. from your body and bottle it.\n!returnsoul: Return your soul to your body, only if you have it in your inventory.\n!squeezesoul <soul>: Squeeze a soul. The soul's owner will vomit 1/4 of their slime on the ground.\n!ads: View ads in a district.\n!knock <player>: Knock on a player's apartment door, if you're in the district.\n!changespray <tag>:Change the image link that displays on a !tag.\n!endlesswar: Check the total ammassed slime of all players.\n!negaslime: Check total amassed antislime."
 flavor_commands = "Command list: \n!salute\n!unsalute\n!hurl\n!howl\n!moan\n!pot\n!bully <target>\n!lol\n!jam <instrument>\n!measure <subject>\n!skate\n!brandish\n!tag"
 slimeoid_commands = "!slimeoid: Check your or another player's slimeoid.\n!saturateslimeoid <dye>: Dye your slimeoid. Some colors are strong against others in battle.\n!bottleslimeoid:Put your slimeoid in a bottle, turning them into an item.\n!unbottleslimeoid: Unbottle a slimeoid.\n!feedslimeoid <food>: Feed your slimeoid stat modifying candy, or normal food so they can fight again sooner.\n!dressslimeoid <cosmetic>: Dress up your slimeoid.\n!undressslimeoid: Take cosmetics off your slimeoid.\n!slimeoidbattle <player>: Challenge another player to a slimeoid battle. Add keywords to modify the battle. Keywords are: death, bet <number>, size <number>.\n!slimeoidduel <player>: Varient of !slimeoidbattle which includes a countdown before the match begins (swap dyes)\n!playfetch, !petslimeoid, !abuseslimeoid, !walkslimeoid, !observeslimeoid: You can interact with your own slimeoid, or somebody's you share quadrants with, in various ways."
 trading_commands = "!trade <player>: Open a trade with a player.\n!offer <item>: Add an item to a trade.\n!removeoffer <item>:Remove an item from the trade.\n!completetrade: Finish the trade.\n!canceltrade:Cancel a trade."
@@ -4146,11 +4295,11 @@ universities_commands = "**UNIVERSITIES**\n!help <category>: Use this to teach y
 apartment_commands = "**APARTMENTS**\n!stow <item>: Put an item within the closet/fridge/bookshelf.\n!snag <item>: Take an item from the closet/fridge/bookshelf.\n!decorate <item>: Place a furniture item in the apartment.\n!undecorate <item>: Take a furniture item from the apartment.\n!propstand <item>: Turn an item into a piece of furniture.\n!collect <collection> <item>: Add an item to a collection box.\n!contents <collection>: Search a collection's contents as if a community chest.\n!aptname <name>: Rename apartment.\n!aptdesc <description>: Change apartment's description.\n!renamecollection <collection> [name]: Rename a collection.\n!unpot: Remove a potted crop from its pot.\n\nGo to the Bazaar to undo prop stands, aquariums, and collections."
 
 mutation_unique_commands = {
-    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.",
+    "oneeyeopen": "**ONE EYE OPEN**\n!thirdeye: Check the current status of your third eye.\n!track <player>:Get your eye to focus on someone and check their movements.\n!shakeoff <player>: Used to break a person's thirdeye tracking from yourself. Anybody can use this.",
     "aposematicstench": "**APOSEMATIC STENCH**\n!stink: Gain stink, which drives away monsters. It functions like Fuck Energy Body Spray.",
     "bleedingheart": "**BLEEDING HEART**\n!bleedout: Purge your bleed storage onto the ground all at once.",
     "longarms": "**LONG ARMS**\n!longdrop <location> <item>: Drop an item in an adjacent district.",
-    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.",
+    "rigormortis": "**RIGOR MORTIS**\n!preserve <item>: Prevent an item from dropping when you die.\n!inventory preserved: Shows you which items you have preserved already.",
     "ditchslap": "**DITCH SLAP**\n!slap <player> <location>: Slap an ally into another district.\n!clench: Clench your butt cheeks to prepare to be slapped. Have your allies use this.",
     "landlocked": "**LANDLOCKED**\n!loop: Use this on a district bordering an outskirt. It will loop you to the opposite end of the map.",
     "organicfursuit": "**ORGANIC FURSUIT**\n!fursuit: Check for the next full moon when your next \"furry episode\" begins.",
@@ -4180,6 +4329,7 @@ item_unique_commands = {
     "television": "**TV**\n!watch: Watch TV if it's in your apartment. Stop watching by taking the TV out of your apartment.",
     "vape": "**VAPE**\n!vape <vape pod>: Smoke vape pods in your inventory.",
     "washingmachine": "**WASHING MACHINE**\n!wash <object>: Remove the dye from a slimeoid or a piece of clothing if it is in your apartment.",
+    "die": "**DIE**\n!rolldie: Roll the die.",
 }
 
 item_group_commands = {
@@ -4223,6 +4373,7 @@ district_unique_commands = {
     "blimp": "**BLIMP**:\nGo skydiving. No parachute, but you can pretend.",
     "themuseum": "**THE MUSEUM**\n!donate <relic/fish/frame>: Donate something to the Curator's museum.",
     "wafflehouse": "**WAFFLE HOUSE**\n!restorenegaslimeoid <negaslimeoid>: Restore a Negaslimeoid from a core.\n!destroyslimeoid: Destroy a Slimeoid or Negaslimeoid in your possession.\n!instructions: Go over the many commands used to make a negaslimeoid.",
+    "ghostmaidcafe": "**GHOST MAID CAFE**\n!startshift <hardmode>: Begin working to earn antislime and ghost tokens. Write hardmode after the command to challenge yourself.\n!serve: Serve customers during a shift to avoid failing before your pay.",
     "doorsofthesludgenant": "**DOOR OF THE SLUDGENANT**\n!question: Get a question from that stone face up there.\n!answer <answer>: Answer the question to try opening up a door."
 }
 
@@ -4409,7 +4560,7 @@ if slimernalia_active == True:
     defense_up_enemies.extend = [enemy_type_miserablemiser]
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime, enemy_type_greeneyesslimedragon, enemy_type_megaslime, enemy_type_dinoslime]
 slimeoid_trainers = [enemy_type_npc]
 
 
@@ -4642,7 +4793,7 @@ enemy_drop_tables = {
         {item_id_giftribbon: [100, 2, 5]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [100, 1, 1]},
+        {weapon_id_basket: [100, 1, 1]},
         {rarity_patrician: [50, 1, 1]},
         {item_id_slimepoudrin: [10, 10, 25]},
     ],
@@ -4706,17 +4857,22 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_unarmed,
         "displayname": "Sand Bag",
         "raredisplayname": "Durable Sand Bag",
-        "aliases": ["sandbag", "bag o sand", "bag of sand"]
+        "aliases": ["sandbag", "bag o sand", "bag of sand"],
+        "description": "\n\nA sandbag, prepared by the Dojo Master himself.",
+        "raredescription": "\n\nhttps://cdn.discordapp.com/attachments/619271859627753512/1083146436360818748/Untitled-2.png",
     },
-        enemy_type_juvie: {
-            "slimerange": [10000, 50000],
-            "ai": enemy_ai_coward, 
-            "attacktype": enemy_attacktype_unarmed,
-            "displayname": "Lost Juvie",
-            "raredisplayname": "Shellshocked Juvie",
-            "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
-            "arcticvariant" : "Frostbitten Juvie",
-            "dhvariant": "Accursed Juvie"
+    enemy_type_juvie: {
+        "slimerange": [10000, 50000],
+        "ai": enemy_ai_coward, 
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Lost Juvie",
+        "raredisplayname": "Shellshocked Juvie",
+        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
+        "arcticvariant" : "Frostbitten Juvie",
+        "dhvariant": "Accursed Juvie",
+        "description": "\n\n> A living citizen of NLACakaNM, unaffiliated with any gang. Despite its life in such hostile conditions, this prey seems adamant to stay neutral in the conflict. It would be admirable, were it not so pathetic. It is often they wander away from their farms into the Outskirts, but they're hardly even worth killing.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004453371052051/The_Venators_Encyclopedia3.png",
+        "raredescription": "\n\n> A lost juvenile that has adapted to life in the Outskirts. I came across this puny little thing as I was out hunting larger game. It appeared to be in a constant state of panic, likely induced by it living in this wasteland for so long.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004469795684384/The_Venators_Encyclopedia4.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_dinoslime: {
         "slimerange": [250000, 500000],
@@ -4727,6 +4883,9 @@ enemy_data_table = {
         "aliases": ["dino", "slimeasaur"],
         "arcticvariant":"Sabertooth Tigerslime",
         "dhvariant": "Ravenous Dinoshambler",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a velociraptor. After the advent of slime, these creatures began to appear in the Outskirts near the sea. Since then, they've gradually spread out their territory, encompassing the whole of the Outskirts.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004498078138508/The_Venators_Encyclopedia6.png",
+        "raredescription": "\n\n> A more powerful and aggressive variation of the Dinoslime, due to a genetic alteration. I have seen many a beast in my days, but none quite as grotesque as this one. It seems whatever this thing is has no context of pack hunting strategy, killing on instinct (even its own kind!).\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004512162611227/The_Venators_Encyclopedia7.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_slimeadactyl: {
         "slimerange": [500000, 750000],
@@ -4736,6 +4895,8 @@ enemy_data_table = {
         "raredisplayname": "Predatory Slimeadactyl",
         "aliases": ["bird", "dactyl"],
         "dhvariant": "Mutated Crow",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a pterodactyl. Yet more of these dinosaur-esque creatures. It seems that they originate from near the sea, just as the dinoslimes had. Due to them being airborne, it can be difficult to land a blow on them, but they don't pose too much of a threat otuside of that.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004527555444746/The_Venators_Encyclopedia8.png",
+        "raredescription": "\n\n> A more powerful Slimeadactyl resembling a quetzalcoatlus, due to a genetic alteration. More and more mutant versions of creatures seem to be popping up these days, though I couldn't tell you why. What I do know is that this prey is massive. I would certainly classify taking it down as an accomplishment.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004542059610142/The_Venators_Encyclopedia9.png",
     },
     enemy_type_desertraider: {
         "slimerange": [250000, 750000],
@@ -4746,6 +4907,9 @@ enemy_data_table = {
         "aliases": ["raider", "scytheboy", "desertraider", "desert"],
         "arcticvariant":"Tundra Graverobber",
         "dhvariant": "Reaper",
+        "description": "\n\n> A wandering raider left to fend for itself in the outskirts. One of many fiendish outcasts roaming these wastelands. Over time, and with no access to the outside world, the people who once lived here became the bloodthirsty savages seen in the outskirts today. \n> ARCHIVAL NOTE: The Venator's statements may not be historically true.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004563785842809/The_Venators_Encyclopedia10.png ",
+        "raredescription": "\n\n> An especially powerful desert raider that has become a ruler due to its strength. Only the toughest of the tough and the strongest of the strong are fit to lead raiders, and it certainly shows in battle. Definitely a prey to watch out for.\n> ARCHIVAL NOTE: The Venator's statements may not be historically true.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004585688760439/The_Venators_Encyclopedia11.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_mammoslime: {
         "slimerange": [650000, 950000],
@@ -4754,17 +4918,23 @@ enemy_data_table = {
         "displayname": "Mammoslime",
         "raredisplayname": "Territorial Mammoslime",
         "aliases": ["mammoth", "brunswick"],
-        "arcticvariant": "Mammoslime",
+        "arcticvariant": "Frozen Mammoslime",
         "dhvariant": "Irritated Mammoshambler",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a mammoth. Perhaps the fossils underground met with the unique properties of slime, allowing them to !revive? In any case, watch out for this one, its poudrin-tusks pack a punch if you don't steer clear. I learned that the hard way...\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004606643372102/The_Venators_Encyclopedia12.png",
+        "raredescription": "\n\n> A more powerful and aggressive variation of the Mammoslime, due to a genetic alteration. This thing is fucking massive. I'm not fucking around. You may think that its name is in reference to it being protective over its own territory, but no, it's because this creature is so large it can be classified as a territory in and of itself. It can't be natural, whatever it is.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004622564950016/The_Venators_Encyclopedia13.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_microslime: {
         "slimerange": [10000, 50000],
         "ai": enemy_ai_defender,
         "attacktype": enemy_attacktype_body,
         "displayname": "Microslime",
-        "raredisplayname": "Irridescent Microslime",
+        "raredisplayname": "Iridescent Microslime",
         "aliases": ["micro", "pinky"],
         "dhvariant": "Micro Pumpkislime",
+        "description": "\n\n> A miniature being made entirely of slime. This thing may put up a fight, but its idea of \"a fight\" is pathetic, quite frankly. However - despite the act of killing it not being that engaging in and of itself - what IS rewarding is the treasure it contains. If you see one, go straight for it.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004649484124250/The_Venators_Encyclopedia14.png",
+        "raredescription": "\n\n> A glowing, miniature being made entirely of slime. Exactly the same as a Microslime, except this one is glowing, and has even more treasure held within itself.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004667058126968/The_Venators_Encyclopedia15.png",  
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_grey: {
         "slimerange": [250000, 750000],
@@ -4773,7 +4943,10 @@ enemy_data_table = {
         "displayname": "Grey Alien",
         "raredisplayname": "Grey with a Burger King Crown On Its Head",
         "aliases": ["greys", "galien", "unnervingfightingoperator", "unnerving"],
-        "arcticvariant":"Grey Alien"
+        "arcticvariant":"Grey Alien with a Scarf On",
+        "description": "\n\n> ENTRY 8194 - Grey Aliens are ██████████ with little regard for human or inhuman life. Origin unknown. Repeated attempts at dissection have yielded little knowledge on their internals.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 10442 - Grey Aliens with Burger King Crowns On Their Head are aberrant-type ██████████ with an increased ability to terrorize human or inhuman life. Little is known as to how they obtain burger king crowns, nor why seemingly only aberrant-type ██████████ have them. \n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_tangeloid: {
         "slimerange": [250000, 500000],
@@ -4781,7 +4954,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_raygun,
         "displayname": "Tangeloid",
         "raredisplayname": "Squiggled Tangeloid",
-        "aliases": ["tangela", "tangle", "millite", "milly", "squiggle", "squig"]
+        "aliases": ["tangela", "tangle", "millite", "milly", "squiggle", "squig"],
+        "description": "\n\n> ENTRY 11709 - Tangeloids are cyan-colored ██████████, whose bodies are made up of large, tube-like knots. Origin unknown. They appear to be more intelligent than other ██████████, and possess a great to Field Agents. Their crab-like eyes are a known weak point.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 11723 - Squiggled Tangeloids are aberrant-type ██████████ who sport a much more orderly and distinguished demeanor. As aberrant-types, they are much stronger and more intelligent than they appear. Some may show human intelligence, but be aware! This is only a dangerous front to trick the empathetic among Us.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
     },
     enemy_type_alienscum: {
         "slimerange": [500000, 750000],
@@ -4789,7 +4964,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_feed,
         "displayname": "Alien Scum",
         "raredisplayname": "Unhinged Alien Psycho",
-        "aliases": ["scum", "ascum", "psycho", "unhinged"]
+        "aliases": ["scum", "ascum", "psycho", "unhinged"],
+        "description": "\n\n> ENTRY 9900 - Alien Scum are ██████████ who seem to have adversely reacted with Slime. It is unknown why ██████████ would devolve from Slime, but nonetheless, these pose a severe threat to Field Agents. Dissection has been met only with Slime. \n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 9945 - Unhigned Alien Psychos are aberrant-type ██████████ who seem to have adversely reacted with Slime. For these ██████████, all Extraterrestrial Research Staff are encouraged to kill on sight, no matter the circumstances. No further notes.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
     },
     enemy_type_slimeofgreed: {
         "slimerange": [20000, 100000],
@@ -4799,6 +4976,8 @@ enemy_data_table = {
         "raredisplayname": "Slime Of Avarice",
         "aliases": ["slime", "slimeofgreed", "pot", "potofgreed", "draw2cards"],
         "dhvariant": "Slime of Dichotomy",
+        "description": "\n\n> Draw 2 cards.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Target 5 Secreatures in the Sewers; shuffle all 5 into your Inventory, then draw 2 cards.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_doubleheadlessdoublehorseman: {
         "slimerange": [100000000, 150000000],
@@ -4825,6 +5004,9 @@ enemy_data_table = {
         "aliases": ["mega", "smooze", "muk"],
         "arcticvariant":"Antifreeze Megaslime",
         "dhvariant": "Grave Megaslime",
+        "description": "\n\n> {emote} An especially large being made entirely of slime. These things have been around for as long as I can remember. Somehow, due to slime's unique life-bringing effect, when enough of it is gathered together it will begin to animate on its own. There seems to only be one thing on its mind once it is brought to life; demolish everything in its immediate vicinity.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004684627935242/The_Venators_Encyclopedia16.png".format(emote=emote_megaslime),
+        "raredescription": "\n\n> {emote} A massive, genetically mutated being made entirely of slime. They all seem determined to head directly towards the city, first thing. They only started showing up recently, but as soon as they did, the regular Megaslimes started to mimic their behavior. Perhaps it is a sort of hivemind they share?\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004708019568640/The_Venators_Encyclopedia17.png".format(emote=emote_megaslime),
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_slimeasaurusrex: {
         "slimerange": [1750000, 3000000],
@@ -4833,8 +5015,11 @@ enemy_data_table = {
         "displayname": "Slimeasaurus Rex",
         "raredisplayname": "Sex Rex",
         "aliases": ["rex", "trex", "slimeasaurusrex", "slimeasaurus"],
-        "arcticvariant": "Slimeasaurus Rex",
+        "arcticvariant": "Iced-T-Rex",
         "dhvariant": "Pumpkisaurus Rex",
+        "description": "\n\n> A gigantic slime-based lifeform, similar in appearance to a Tyrannosaurus Rex. The last, but certainly not least, of the suarian subset of slimey secreatures. Usually the Outskirts are their singular territory, but recently they've been going into the city along with the Megaslimes. I suggested a hivemind previously, but it would seem something else is at play...\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004729926680656/The_Venators_Encyclopedia18.png",
+        "raredescription": "\n\n> HEY GUYS IT'S ME THE SEX REX\n - Sex Rex",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_greeneyesslimedragon: {
         "slimerange": [3500000, 5000000],
@@ -4843,8 +5028,11 @@ enemy_data_table = {
         "displayname": "Green Eyes Slime Dragon",
         "raredisplayname": "Green Eyes JPEG Dragon",
         "aliases": ["dragon", "greeneyes", "greeneyesslimedragon", "green"],
-        "arcticvariant": "Green Eyes Slime Dragon",
+        "arcticvariant": "Blue Eyes Slime Dragon",
         "dhvariant": "Red-Eyes Negaslime Dragon",
+        "description": "\n\n> The Green Eyes Slime Dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.\n - *Encyclopædia Limus*, NLACakaNM Museum of History \n - https://cdn.discordapp.com/attachments/667820533454340112/745004766483972177/The_Venators_Encyclopedia20.png",
+        "raredescription": "\n\n> Due to the sheer amount of JPEG artifacts coating its skin, the Green Eyes JPEG Dragon is significantly more dangerous than its slime counterpart. When it roars, it's reminiscent of a scream filtered through a 2000s-era microphone.\n - *Encyclopædia Limus*, NLACakaNM Museum of History \n - https://cdn.discordapp.com/attachments/667820533454340112/745004791222239232/The_Venators_Encyclopedia21.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_unnervingfightingoperator: {
         "slimerange": [1000000, 3000000],
@@ -4854,7 +5042,10 @@ enemy_data_table = {
         "raredisplayname": "Unyielding Fierce Operator",
         "aliases": ["ufo", "alien", "unnervingfightingoperator", "unnerving"],
         "arcticvariant":"Unflinching Frozen Operator",
-        "dhvariant": "Unworldly Ferocious Owl"
+        "dhvariant": "Unworldly Ferocious Owl",
+        "description": "\n\n> An enigmatic enemy of unknown species and origin. It feels strange to document these unusual beings, considering I know so little about them. \n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004817738367136/The_Venators_Encyclopedia22.png",
+        "raredescription": "\n\n> An exponentially more powerful variation of the Unnerving Fighting Operator. These entities are somehow even harder to come by and gather information on than their less-powerful counterparts.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004840295333969/The_Venators_Encyclopedia23.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_titanoslime: {
         "slimerange": [5000000, 7000000],
@@ -4864,6 +5055,8 @@ enemy_data_table = {
         "raredisplayname": "Miscreated Titanoslime",
         "aliases": ["titano", "titanoslime", "biglizard"],
         "dhvariant": "Ghoulific Titanogreslime",
+        "description": "\n\n> Titanic beasts, Titanoslimes are horrific additions to NLACakaNM's sauropod population. Created in labs by the now-dead N6, Titanoslimes were unleashed prior to the raid against the now-defunct Slimecorp. Nowadays, they've taken up their own niche in NLACakaNM's wild ecosystem.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Malformed variants of their genetically-stable counterparts, Miscreated Titanoslimes came out of the lab vats *wrong*. Their specific deformities vary, but nonetheless, they are unparalleled in maiming citizens.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_mutated_titanoslime: {
         "slimerange": [10000000, 10000000],
@@ -4880,7 +5073,10 @@ enemy_data_table = {
         "displayname": "Piloslime",
         "raredisplayname": "Shiny Piloslime",
         "aliases": ["piloswine", "mammoslimejr", "pleboslime", "shinypiloslime"],
-        "arcticvariant":"Piloslime"
+        "arcticvariant":"Terastallized Piloslime",
+        "description": "\n\n> A Piloslime is covered by a thick coat of long hair for enduring freezing cold. It uses its tusks to dig up food that has been buried underground.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Shiny Piloslimes are rarer variants of Piloslimes, with bright yellow coats. This shaggy coat makes it unable to see. It checks surroundings with its sensitive nose instead.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_spacecarp: {
         "slimerange": [100000, 100000],
@@ -4897,16 +5093,20 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_tusks,
         "displayname": "Mammoslime Bull",
         "raredisplayname": "Apex Mammoslime",
-        "aliases": ["mammoswinebull", "swinebull", "mammobull", "apex", "apexmammoslime"]
+        "aliases": ["mammoswinebull", "swinebull", "mammobull", "apex", "apexmammoslime"],
+        "description": "\n\n> More hostile than their larger counterparts, Mammoslime Bulls are smaller, rowdier, more aggressive Mammoslimes. Their fur was frequently used for Pueblo clothing, so make sure to snag its pelt if you ever get the chance.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Even *more* hostile than their less rare counterpart, Apex Mammoslimes are the fiercest Mammoslimes in all of NLACakaNM. Despite still being smaller than their larger Mammoslime counterparts, they are still known for overcoming them in a fight.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_microgullswarm: {
         "slimerange": [100000, 100000],
-        "ai": enemy_ai_attacker_a,
+        "ai ": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_beak,
         "displayname": "Micro Gull Swarm",
         "raredisplayname": "Micro Gull Cloud",
         "aliases": ["microgull", "smallgull", "birdswarm", "gullcloud", "gullswarm"],
         "dhvariant": "MiCrow Swarm",
+        "description": "\n\n> A bunch of little fucking birds. What else can be written about these?\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> When many Micro Gull Swarms meet, they form a Micro Gull Cloud. These masses of bird can act as one mind, making them a horrifically deadly phenomenon.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_civilian: {
         "slimerange": [100001, 100001],
@@ -4998,7 +5198,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gnash,
         "displayname": "Deathclaw",
         "raredisplayname": "Legendary Deathclaw",
-        "aliases": ["legendarydeathclaw"]
+        "aliases": ["legendarydeathclaw"],
+        "description": "\n\n> The Deathclaw is a mysterious cryptid that is rumored to haunt Little Chernobyl in times of great calamity. Little is known about its true nature, and its veracity is frequently debated by Slime historians. \n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> My God! My God! A Legendary Deathclaw has got my baby!\n - *Martha*, Mother (Later Arrested for Child Murder)",
     },
     enemy_type_mutatedbarrel: {
         "slimerange": [1000, 5000],
@@ -5006,7 +5208,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gunkshot,
         "displayname": "Bipedal Mutated Barrel",
         "raredisplayname": "Quadrupedal Mutated Barrel",
-        "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"]
+        "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"],
+        "description": "\n\n> The Bipedal Mutated Barrel is a cryptid that originates from Little Chernobyl's Nuclear Power Plant, though how exactly it emerged isn't clear. It is said this nuclear barrel with legs is known to play with Little Chernobyl children on the haziest of nights.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> The Bipedal Mutated Barrel's cryptid pet, the Quadrupedal Mutated Barrel is a ferocious dog in the shape of a nuclear barrel with legs. It is said it eats children who are too obedient to their parents.\n - *Encyclopædia Limus*, NLACakaNM Museum of History"
     },
     enemy_type_lesserwerewolf: {
         "slimerange": [100000, 2000000], # BIG range
@@ -5028,9 +5232,11 @@ enemy_data_table = {
         "slimerange": [1000, 5000],
         "ai": enemy_ai_defender,
         "attacktype": enemy_attacktype_axe,
-        "displayname": "Alm Fire Emblem https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
-        "raredisplayname": "Alm Fire Emblem Conqueror https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
-        "aliases": ["alm", "fireemblem"]
+        "displayname": "Alm Fire Emblem",
+        "raredisplayname": "Alm Fire Emblem Conqueror",
+        "aliases": ["alm", "fireemblem"],
+        "description": "https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
+        "raredescription": "https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
     }, 
     enemy_type_slimernaliajuvie: {
         "slimerange": [1000000, 3000000],
@@ -5210,7 +5416,10 @@ item_id_aushucks: emote_aushucks,
 item_id_partypoppeppers: emote_partypoppeppers,
 }
 
+# Not actual world events - used for mining.
 event_type_slimeglob = "slimeglob"
+event_type_poudringlob = "poudringlob"
+
 event_type_slimefrenzy = "slimefrenzy"
 event_type_poudrinfrenzy = "poudrinfrenzy"
 event_type_minecollapse = "minecollapse"

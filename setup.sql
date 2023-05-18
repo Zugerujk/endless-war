@@ -49,6 +49,7 @@ CREATE TABLE users (
     hogtied smallint NOT NULL DEFAULT '0',
     crime bigint NOT NULL DEFAULT '0',
 	event_points bigint NOT NULL DEFAULT '0',
+	fashion_seed bigint NOT NULL DEFAULT '0'
 
 	CONSTRAINT id_user_server PRIMARY KEY (id_user, id_server)
 );
@@ -537,6 +538,12 @@ CREATE TABLE goonscape_stats (
 	halloween_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
 	halloween_xp INT UNSIGNED NOT NULL DEFAULT 0,
 
+	clout_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	clout_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
+	piss_level TINYINT UNSIGNED NOT NULL DEFAULT 1,
+	piss_xp INT UNSIGNED NOT NULL DEFAULT 0,
+
 	PRIMARY KEY (id_user, id_server)
 
 );
@@ -556,3 +563,12 @@ CREATE TABLE quest_records (
 );
 
 
+CREATE TABLE mut_rotations (
+    month int NOT NULL DEFAULT 4,
+    year int NOT NULL DEFAULT 2023,
+    id_server BIGINT NOT NULL DEFAULT -1,
+    mutation varchar(128) NOT NULL DEFAULT '',
+    context_num decimal(9, 2) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (month, year, id_server, mutation)
+);

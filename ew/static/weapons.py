@@ -175,7 +175,7 @@ def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_mult
 
             # Multiplies the damage by the effective multiplier
             hit_damage = base_damage * effective_multiplier
-            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
+            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod)/(2 if player_has_sharptoother else 1):
                 hit_damage *= weapon_stats["crit_multiplier"]
                 hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
@@ -912,7 +912,6 @@ weapon_list = [
     EwWeapon(  # 19
         id_weapon=ewcfg.weapon_id_fishingrod,
         alias=[
-            "fish",
             "fishing",
             "rod",
             "super",
@@ -1866,7 +1865,7 @@ weapon_list = [
         clip_size = 1,
         captcha_length = 11,
         price = 1500000,
-        str_brandish="As a show of patriotism, you attempt to fire upon a helicopter and miss.",
+        str_brandish=["As a show of patriotism, you attempt to fire upon a helicopter and miss."],
         str_reload = "You push the missile launcher off your shoulder, pull out a new missile, and recklessly shove it right in.",
         str_reload_warning = "Quick, reload before someone gets here!",
         # str_trauma = "It looks like they are still searching for a missing body part.",
@@ -1897,7 +1896,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_coalitionsurplus],
         stat=ewcfg.stat_pistol_kills,
-        str_brandish="{name} fires several rounds into the air with {weapon}, waking up all the neighbors!",
+        str_brandish=["{name} fires several rounds into the air with {weapon}, waking up all the neighbors!"],
     ),
     EwWeapon(  # 51
         id_weapon=ewcfg.weapon_id_combatknife,
@@ -1924,7 +1923,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_combatknife_kills,
-        str_brandish="{name} holds {weapon} up to a random passerby, shaking them down for all their goods!",
+        str_brandish=["{name} holds {weapon} up to a random passerby, shaking them down for all their goods!"],
     ),
     EwWeapon(  # 52
         id_weapon=ewcfg.weapon_id_machete,
@@ -1948,7 +1947,7 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_machete_kills,
-        str_brandish="{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!",
+        str_brandish=["{name} emerges from the shadows wielding {weapon}, scaring the shit out of anyone nearby!"],
     ),
     EwWeapon(  # 53
         id_weapon=ewcfg.weapon_id_boomerang,
@@ -1974,29 +1973,29 @@ weapon_list = [
         price=10000,
         vendors=[ewcfg.vendor_dojo],
         stat=ewcfg.stat_boomerang_kills,
-        str_brandish="{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves.",
+        str_brandish=["{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves."],
     ),
     EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
-        id_weapon=ewcfg.weapon_id_foodbasket,
+        id_weapon=ewcfg.weapon_id_basket,
         alias=[
-            "petrifiedfoods", "basket", "petrified", "food", "picnicbasket",
+            "petrifiedfoods", "foobasket", "petrified", "picnicbasket",
         ],
         str_crit="**Critical hit!!** {name_player}’s hurls a large petrified roast at {name_target}, breaking their {hitzone}!",
         str_miss="**MISS!!** {name_player} drops their basket and stumbles over to pick it back up!",
         str_equip="You slip the basket's handles over your forearm.",
-        str_name="foodbasket",
+        str_name="basket",
         str_weapon="a food basket",
         str_weaponmaster_self="You are a rank {rank} {title} picnicker.",
         str_weaponmaster="They are a rank {rank} {title} picnicker.",
-        str_kill=comm_cfg.foodbasketkilltext,
+        str_kill=comm_cfg.basketkilltext,
         str_killdescriptor="yogi'd",
         str_damage="{name_target} gets impacted by a lump of petrified food in their {hitzone}!!",
         str_duel="{name_player} and {name_target} have a pleseant picnic. It ends prematurely due to a bear storming into the dojo.",
         str_description="It's a food basket, made from reinforced wick weaving.",
         str_scalp=" It's completely petrified.",
         fn_effect=get_normal_attack(weapon_type='small_game'),
-        stat=ewcfg.stat_foodbasket_kills,
-        str_brandish="{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing.",
+        stat=ewcfg.stat_basket_kills,
+        str_brandish=["{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing."],
     ),
 ]
 

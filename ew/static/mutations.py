@@ -125,9 +125,9 @@ mutations = [
         alias=['fc', 'fat', 'chance', 'obesity'],
         str_describe_self="Your impressive girth provides ample amounts of armor against attacks due to **Fat Chance**.",
         str_describe_other="Their impressive girth provides ample amounts of armor against attacks due to **Fat Chance**.",
-        str_acquire="Your body begins to swell, providing you with easily hundreds of extra pounds nigh instantaneously. Walking becomes difficult, breathing even more so. Your fat solidifies into a brick-like consistency, turning you into a living fortress. You only have slightly increased mobility than a regular fortress, however. You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger.",
+        str_acquire="Your body begins to swell, providing you with easily hundreds of extra pounds nigh instantaneously. Walking becomes difficult, breathing even more so. Your fat solidifies into a brick-like consistency, turning you into a living fortress. You only have slightly increased mobility than a regular fortress, however. You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger, AKA when you're less than half full.",
         tier=5,
-        str_transplant="'Alright', Dusttrap says, 'I want to go to the food court and eat as many Doritos Locos Tacos as you can steal, then take these pills.' You have an amazing time mercilessly stuffing your face and getting away with grand theft taco scot-free. That said, you think you got scammed by that doctor. The pills are placebos, you basically only needed to get really fat.\n\n You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger.",
+        str_transplant="'Alright', Dusttrap says, 'I want to go to the food court and eat as many Doritos Locos Tacos as you can steal, then take these pills.' You have an amazing time mercilessly stuffing your face and getting away with grand theft taco scot-free. That said, you think you got scammed by that doctor. The pills are placebos, you basically only needed to get really fat.\n\n You have developed the mutation **Fat Chance**. Take 25% less damage when above 50% hunger, AKA when you're less than half full.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_fastmetabolism,
@@ -135,9 +135,9 @@ mutations = [
         alias=['fm', 'metabolism'],
         str_describe_self="Fierce boiling and sizzling can be heard from deep inside your stomach due to **Fast Metabolism**.",
         str_describe_other="Fierce boiling and sizzling can be heard from deep inside their stomach due to **Fast Metabolism**.",
-        str_acquire="An intense heat is felt in the pit of your stomach, which wails in pain as it’s dissolved from the inside out. Your gastric acid roars to an unthinkably destructive fever pitch, ready to completely annihilate whatever poor calories may enter your body before instantly turning them into pure leg muscle. You have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger.",
+        str_acquire="An intense heat is felt in the pit of your stomach, which wails in pain as it’s dissolved from the inside out. Your gastric acid roars to an unthinkably destructive fever pitch, ready to completely annihilate whatever poor calories may enter your body before instantly turning them into pure leg muscle. You have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger. Stay full to retain the effect.",
         tier=6,
-        str_transplant="Dusttrap grabs a small bottle in the back. 'You're gonna have to take all these pills. I bought these from infomercials and I'm not really sure which ones work yet.' Welp, bottoms up. With the hesitation of a hardened gangster, you slide the pills down your gullet. In your stomach they begin to bubble and boil, and you can sense a hint of smoke in your breath.\n\nYou have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger.",
+        str_transplant="Dusttrap grabs a small bottle in the back. 'You're gonna have to take all these pills. I bought these from infomercials and I'm not really sure which ones work yet.' Welp, bottoms up. With the hesitation of a hardened gangster, you slide the pills down your gullet. In your stomach they begin to bubble and boil, and you can sense a hint of smoke in your breath.\n\nYou have developed the mutation **Fast Metabolism**. +33% movement speed when below 40% hunger. Stay full to retain the effect.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_bingeeater,
@@ -180,17 +180,6 @@ mutations = [
 
     ),
     EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_patriot,
-        str_name="Patriot",
-        alias=['pt'],
-        str_describe_self="You beam with intense pride over your faction’s sophisticated culture and history due to **Patriot**.",
-        str_describe_other="They beam with intense pride over their faction’s sophisticated culture and history due to **Patriot**.",
-        str_acquire="Your brain’s wrinkles begin to smooth themselves out, and you are suddenly susceptible to being swayed by propaganda. Suddenly, your faction’s achievements flash before your eyes. All of the glorious victories it has won, all of its sophisticated culture and history compels you to action. You have developed the mutation **Patriot**. You capture districts 1.5x faster.",
-        tier=6,
-        str_transplant="You are led into a room with a projector and told to sit down. Each slide has a different gang's propaganda on it. Every time your gang's propaganda shows up, you get a glob of slime. For your enemy gang, you get tased. The process continues until Pavlov has made you his bitch. Allegiance is all you understand.\n\nYou have developed the mutation **Patriot**. You capture districts 1.5x faster.",
-
-    ),
-    EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_socialanimal,
         str_name="Social Animal",
         alias=['social', 'animal'],
@@ -228,9 +217,9 @@ mutations = [
         alias=['luck'],
         str_describe_self="You are extremely fortunate due to **Lucky**.",
         str_describe_other="They are extremely fortunate due to **Lucky**.",
-        str_acquire="Just as you level up, you are struck by lightning. You struggle to stand at first, but after the initial shock wears off you quickly dust the cartoonish soot from your clothes and begin walking again. Then, you’re struck again. You stand up again. This happens a few more times before you’re forced by the astronomically low odds of you being alive to conclude you are a statistical anomaly and thus normal concepts of fortune do not apply to you. You have developed the mutation **Lucky**. Drastically increased chance to unearth slime poudrins and odds of winning slime casino games. !reel chance also increases.",
+        str_acquire="Just as you level up, you are struck by lightning. You struggle to stand at first, but after the initial shock wears off you quickly dust the cartoonish soot from your clothes and begin walking again. Then, you’re struck again. You stand up again. This happens a few more times before you’re forced by the astronomically low odds of you being alive to conclude you are a statistical anomaly and thus normal concepts of fortune do not apply to you. You have developed the mutation **Lucky**. Drastically increased chance to unearth slime poudrins and odds of winning slime casino games, as well as !reel chance and mining event chance.",
         tier=5,
-        str_transplant="\"Tough luck, runt,\" the doctor says, 'but this is still an experimental treatment.' You roll your eyes, knowing that basically all her surgeries are like that. She starts by taking out her stash of dead leprechauns and transplanting a few body parts. She unexpectedly shoots you through the hand, and you scream in pain. \"Quit yer whinin' I have to do this. If the gun's not jamming that means it didn't work.\" She tried everything in the book, rabbit's foot fingers, lucky penny tooth fillings, you name it. More bullets to the hand. Eventually the luck charm takes after she cuts three of your toes off. Doesn't make sense, but at least nothing unfortunate will happen to you now.\n\nYou have developed the mutation **Lucky**. Drastically increased chance to unearth slime poudrins and odds of winning slime casino games. !reel chance also increases.",
+        str_transplant="\"Tough luck, runt,\" the doctor says, 'but this is still an experimental treatment.' You roll your eyes, knowing that basically all her surgeries are like that. She starts by taking out her stash of dead leprechauns and transplanting a few body parts. She unexpectedly shoots you through the hand, and you scream in pain. \"Quit yer whinin' I have to do this. If the gun's not jamming that means it didn't work.\" She tried everything in the book, rabbit's foot fingers, lucky penny tooth fillings, you name it. More bullets to the hand. Eventually the luck charm takes after she cuts three of your toes off. Doesn't make sense, but at least nothing unfortunate will happen to you now.\n\nYou have developed the mutation **Lucky**. Drastically increased chance to unearth slime poudrins and odds of winning slime casino games, as well as !reel chance and mining event chance.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_dressedtokill,
@@ -276,7 +265,7 @@ mutations = [
         str_describe_other="They have the mouth of a sailor and the vocabulary of a fourteen year old due to **Trash Mouth**.",
         str_acquire="You drop down onto your knees, your inhibitions wash away as a new lust overtakes you. You begin shoveling literally everything you can pry off the floor into your mouth with such supernatural vigor that a nearby priest spontaneously dies. You have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
         tier=5,
-        str_transplant="You get off the fucking chair in the goddamn waiting room and ask for a dirty mouth. The bitch doctor thinks you're a retard but slices your body up anyway. After a million fucking years of bullshit you eventually start to develop an extreme oral fixation and want to suck on everything in Dusttrap's office, even including Dusttrap's dusttrap. Whoops, I meant her cunt.\n\nYou have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
+        str_transplant="You get off the fucking chair in the goddamn waiting room and ask for a dirty mouth. Dr. Dusttrap thinks you're brain damaged, but slices your body up anyway. After a million fucking years of bullshit, you eventually start to develop an extreme oral fixation and want to suck on everything in Dusttrap's office, even including Dusttrap's dusttrap. Whoops, I meant her cunt.\n\nYou have developed the mutation **Trash Mouth**. Reach maximum power scavenges faster. You can eat furniture and cosmetics with !devour <item>.",
 
     ),
     EwMutationFlavor(
@@ -352,9 +341,9 @@ mutations = [
         alias=['nos', 'nerves', 'nerve'],
         str_describe_self="You are absolutely fearless due to **Nerves of Steel**.",
         str_describe_other="They are absolutely fearless due to **Nerves of Steel**.",
-        str_acquire="You feel a sudden coldness sinking into the back of your head. Parts of your brain rapidly shut down, but you have no idea which ones are going because you can no longer access them. Without thinking, you run a knife down your hand, and although it's painful, you're completely detatched from the sensation. A gun to your head? No fear. If you die, you die. You have developed the mutation **Nerves of Steel**. As a juvie, you can play russian roulette and commit suicide.",
-        tier=1,
-        str_transplant="Dr. Dusttrap decides to take what she calls \"a traditional approach\". She takes out a syringe full of neurotoxin and pokes it right into your noggin. She tells you she's going to disable the part of your brain that processes fear, but the fact she's constantly referencing her brain anatomy chart is concerning. She manages to make you fearless, but sadly at the expense of a few precious childhood memories.\n\nYou have developed the mutation **Nerves of Steel**. As a juvie, you can play russian roulette and commit suicide.",
+        str_acquire="You feel a sudden coldness sinking into the back of your head. Parts of your brain rapidly shut down, but you have no idea which ones are going because you can no longer access them. Without thinking, you run a knife down your hand, and although it's painful, you're completely detatched from the sensation. A gun to your head? No fear. If you die, you die. You have developed the mutation **Nerves of Steel**. Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play russian roulette and commit suicide.",
+        tier=5,
+        str_transplant="Dr. Dusttrap decides to take what she calls \"a traditional approach\". She takes out a syringe full of neurotoxin and pokes it right into your noggin. She tells you she's going to disable the part of your brain that processes fear, but the fact she's constantly referencing her brain anatomy chart is concerning. She manages to make you fearless, but sadly at the expense of a few precious childhood memories.\n\nYou have developed the mutation **Nerves of Steel**. Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play russian roulette and commit suicide.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_packrat,
@@ -523,9 +512,9 @@ mutations = [
         alias=['lm', 'miner'],
         str_describe_self="You've adapted to mining in any conditions due to **Light Miner**.",
         str_describe_other="They've adapted to mining in any conditions due to **Light Miner**.",
-        str_acquire="Several adaptations bombard your body all at once. You feel a aching friction in your eyes, and your vision begins to hyperfocus on small objects on the street. You start to notice you're able to see in the dark, even the cracks in the sidewalk or the slime in a nearby burning trash can. Meanwhile, your arms and legs become thinner and lankier and you find yourself nimbly sidestepping even the smallest of responsibilities. You have developed the mutation **Light Miner**. Mineshaft collapses do not affect you.",
+        str_acquire="Several adaptations bombard your body all at once. You feel a aching friction in your eyes, and your vision begins to hyperfocus on small objects on the street. You start to notice you're able to see in the dark, even the cracks in the sidewalk or the slime in a nearby burning trash can. Meanwhile, your arms and legs become thinner and lankier and you find yourself nimbly sidestepping even the smallest of responsibilities. You have developed the mutation **Light Miner**. Mineshaft collapses result in hunger loss instead. In addition, Mining Events are slightly more likely.",
         tier=4,
-        str_transplant="Dr. Dusttrap gets out the needles. \"Sucks to be you, but your measly surgery fee could only afford me 80s era steroids. Basically, horse tranquilizers, these. There are some wigs in the back in case your hair goes though, so take one if you need it.\" Of course, being the idiot you were, you didn't think she would go for an eye injection. She went for the eye injection. The good news is you can see better than ever. Damn, Dusttrap really should clean this place.\n\nYou have developed the mutation **Light Miner**. Mineshaft collapses do not affect you.",
+        str_transplant="Dr. Dusttrap gets out the needles. \"Sucks to be you, but your measly surgery fee could only afford me 80s era steroids. Basically, horse tranquilizers, these. There are some wigs in the back in case your hair goes though, so take one if you need it.\" Of course, being the idiot you were, you didn't think she would go for an eye injection. She went for the eye injection. The good news is you can see better than ever. Damn, Dusttrap really should clean this place.\n\nYou have developed the mutation **Light Miner**. Mineshaft collapses result in hunger loss instead. In addition, Mining Events are slightly more likely.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_amnesia,

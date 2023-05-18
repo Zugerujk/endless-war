@@ -1,3 +1,4 @@
+import random
 import time
 import traceback, sys
 
@@ -10,6 +11,7 @@ from ..static import items as static_items
 from ..static import weapons as static_weapons
 from ..utils import core as ewutils
 from ew.backend.dungeons import EwGamestate
+from ew.backend.market import EwMarket
 try:
     from ..utils import rutils as ewrelicutils
 except:
@@ -1283,6 +1285,8 @@ def equip_sidearm(user_data, sidearm_item = None):
 
 
 def get_fashion_stats(user_data):
+    return [1, 1, 1]
+    """
     cosmetics = inventory(
         id_user=user_data.id_user,
         id_server=user_data.id_server,
@@ -1308,8 +1312,9 @@ def get_fashion_stats(user_data):
             result[1] += int(int(cos.item_props['defense']) / cosmetic_count)
             result[2] += int(int(cos.item_props['speed']) / cosmetic_count)
 
-    return result
+    return result"""
 
+freshseed = random.Random()
 
 def get_freshness(user_data, adorned_id_list = None):
     cosmetic_items = []
@@ -1333,6 +1338,10 @@ def get_freshness(user_data, adorned_id_list = None):
     mutations = user_data.get_mutations()
     bonus_freshness = 500 if ewcfg.mutation_id_unnaturalcharisma in mutations else 0
 
+    market_data = EwMarket(id_server=user_data.id_server)
+    freshseed.seed(user_data.fashion_seed + market_data.day)
+    bonus_freshness += freshseed.randint(-20, 20)
+
     if len(cosmetic_items) == 0 or adorned_cosmetics < 2:
         return bonus_freshness
 
@@ -1343,11 +1352,12 @@ def get_freshness(user_data, adorned_id_list = None):
     # get base freshness, hue and style counts
     for cos in cosmetic_items:
         if cos.item_props['adorned'] == 'true':
-
             cosmetic_count = sum(1 for cosmetic in cosmetic_items if cosmetic.item_props['cosmetic_name'] == cos.item_props['cosmetic_name']
                                  and cosmetic.item_props['adorned'] == 'true')
 
-            base_freshness += int(cos.item_props['freshness']) / cosmetic_count
+            base_freshness += get_base_freshness(item_id=cos.id_item, seed=user_data.fashion_seed) / cosmetic_count
+
+
 
             hue = hue_static.hue_map.get(cos.item_props.get('hue'))
             if hue is not None:
@@ -1384,6 +1394,27 @@ def get_freshness(user_data, adorned_id_list = None):
         style_mod = style_count[dominant_style] / adorned_cosmetics * 10
 
     return int(base_freshness * hue_mod * style_mod) + bonus_freshness
+
+
+
+def get_base_freshness(item_id, seed):
+    if type(item_id) is int:
+        item_obj = EwItem(id_item=item_id)
+    else:
+        item_obj = item_id
+
+    id = item_obj.item_props.get('id_cosmetic')
+
+    if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
+        return 15
+    elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
+        return int(item_obj.item_props.get('freshness'))
+    elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
+        return 0
+
+    #index = cosmetics.cosmetic_map.keys().index(id)
+    freshseed.seed(str(seed) + id)
+    return int(freshseed.triangular(1, 16, 6))
 
 
 def get_weaponskill(user_data):

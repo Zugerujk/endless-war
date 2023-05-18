@@ -539,7 +539,7 @@ def canAttack(cmd):
 
         if shootee_data.life_state == ewcfg.life_state_kingpin:
             # Disallow killing generals.
-            response = "He is hiding in his ivory tower and playing video games like a retard."
+            response = "He is hiding in his ivory tower and playing video games, like a starving artist who doesn't make art."
         elif poi.id_poi == 'hangemsquare' and market.clock != 12 and (ewcfg.status_dueling not in user_data.getStatusEffects() or ewcfg.status_dueling not in shootee_data.getStatusEffects()) and ewutils.square_duel != 2:
             response = "It's not noon yet. Everything in its own time."
         elif (time_now - user_data.time_lastkill) < ewcfg.cd_kill:
@@ -556,7 +556,15 @@ def canAttack(cmd):
             hunger_penalty = user_data.get_hunger_max() // 5
             user_data.hunger += hunger_penalty
             user_data.persist()
-
+        elif ewcfg.status_braced_id in shootee_data.getStatusEffects() or ewcfg.status_braced_id in user_data.getStatusEffects():
+            if ewcfg.status_braced_id in shootee_data.getStatusEffects():
+                response = "Your weapon bounces off their iron stance! Shit, better wait for them to lose focus."
+            else:
+                response = "You nearly considered breaking your impenetrable defense. The shame makes you want to stress eat..."
+            #10% hunger penalty to prevent spam while waiting for the cooldown
+            hunger_penalty = user_data.get_hunger_max() // 10
+            user_data.hunger += hunger_penalty
+            user_data.persist()
         elif rutils.eg_check2(time_now, shootee_data):
             response = "{} is not mired in the ENDLESS WAR right now.".format(member.display_name)
 
@@ -789,7 +797,7 @@ async def attackEnemy(cmd):
                     resp = await weapon_explosion(user_data=user_data, shootee_data=enemy_data, district_data=district_data, market_data=market_data, life_states=life_states, factions=factions, slimes_damage=bystander_damage, time_now=time_now, target_enemy=True)
                     resp_cont.add_response_container(resp)
 
-            user_data = EwUser(member=cmd.message.author)
+            user_data = EwUser(member=cmd.message.author, data_level=2)
 
     if miss:
         slimes_damage = 0
@@ -902,8 +910,8 @@ async def attackEnemy(cmd):
             user_data.change_crime(n=ewcfg.cr_cop_kill)
 
         if weapon != None:
-            weapon_item.item_props["kills"] = (int(weapon_item.item_props.get("kills")) if weapon_item.item_props.get("kills") != None else 0) + 1
-            weapon_item.item_props["totalkills"] = (int(weapon_item.item_props.get("totalkills")) if weapon_item.item_props.get("totalkills") != None else 0) + 1
+            weapon_item.item_props["hunts"] = (int(weapon_item.item_props.get("hunts")) if weapon_item.item_props.get("hunts") != None else 0) + 1
+            weapon_item.item_props["totalhunts"] = (int(weapon_item.item_props.get("totalhunts")) if weapon_item.item_props.get("totalhunts") != None else 0) + 1
             ewstats.increment_stat(user=user_data, metric=weapon.stat)
 
         # Give a bonus to the player's weapon skill for killing a stronger enemy.
@@ -1190,7 +1198,8 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
         user_data=ctn.user_data,
         user_mutations=attacker_mutations,
         market_data=ctn.market_data,
-        district_data=district_data
+        district_data=district_data,
+        shootee_data = ctn.shootee_data
     )
     misc_def_mod = cmbt_utils.damage_mod_defend(
         shootee_data=ctn.shootee_data,
@@ -1200,7 +1209,7 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
     )
 
     # Apply Damage Modifiers
-    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod
+    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod * float(ewcfg.global_damage_multiplier_dt[ctn.user_data.id_server])
 
     # apply hit chance modifiers
     ctn.hit_chance_mod += attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'] - ((5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0)

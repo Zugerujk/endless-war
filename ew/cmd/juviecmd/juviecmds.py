@@ -338,7 +338,7 @@ async def renounce(cmd):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif user_data.life_state != ewcfg.life_state_enlisted:
-        response = "What exactly are you renouncing? Your lackadaisical, idyllic life free of vice and violence? You aren't actually currently enlisted in any gang, retard."
+        response = "What exactly are you renouncing? Your lackadaisical, idyllic life free of vice and violence? You aren't actually currently enlisted in any gang, dumbass."
 
     elif user_data.poi not in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_thebreakroom]:
         response = "To turn in your badge, you must return to your soon-to-be former gang base."
@@ -395,6 +395,7 @@ async def mine(cmd):
 
         else:
             grid_cont = None
+            grid_type = ""
             toolused = "nothing"
             goonscape = False
             
@@ -432,7 +433,8 @@ async def mine(cmd):
                                                      hunger_cost_multiplier=1,
                                                      toolused=toolused,
                                                      response=response,
-                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,
+                                                     unearthed_item_chance=1/ewcfg.unearthed_item_rarity,  # 1/1500
+                                                     value_mod=1,  # Var for determining other random calcs
             )
             
             # Check for a mine collapse
@@ -450,6 +452,9 @@ async def mine(cmd):
             # If !mine doesn't result in a collapse, run worldevent checks and bonus checks
             if mine_action.collapse == False and mine_action.slime_yield != 0:
                 
+                # Check to create a mining event
+                create_mining_event(cmd, mine_action, mutations, grid_type)
+
                 # Check for currently-running world events
                 juviecmdutils.check_for_mining_world_events(world_events, mine_action)
 
@@ -458,20 +463,8 @@ async def mine(cmd):
                     poi = poi_static.id_to_poi.get(mine_action.user_data.poi)
                     juviecmdutils.dig_hole(cmd, mine_action, poi)
 
-                # Check to create a world event
-                if random.random() < 0.05:
-                    create_mining_event(cmd, mine_action)
-
-                # Unearth item check
-                if mine_action.user_data.life_state == ewcfg.life_state_juvenile:
-                    mine_action.unearthed_item_chance *= 2
-                elif mine_action.toolused == ewcfg.weapon_id_pickaxe:
-                    mine_action.unearthed_item_chance *= 1.5
-                if ewcfg.mutation_id_lucky in mutations:
-                    mine_action.unearthed_item_chance *= 1.777
-                    
-                if random.random() < mine_action.unearthed_item_chance:
-                    juviecmdutils.unearth_item(cmd, mine_action)
+                # Check to unearth an item
+                juviecmdutils.unearth_item(cmd, mine_action, mutations)
 
             # If there WAS an uncleared collapse, do the flavor text and calcs for that
             if mine_action.collapse == True:
@@ -493,6 +486,7 @@ async def mine(cmd):
                     mine_action.slime_yield *= 2
                 elif mine_action.user_data.life_state == ewcfg.life_state_juvenile:
                     mine_action.slime_yield *= 2
+                mine_action.slime_yield = int(float(mine_action.slime_yield) * float(ewcfg.minegain_multiplier_dt[user_data.id_server]) * float(ewcfg.global_slimegain_multiplier_dt[user_data.id_server]))
 
                 # Add the multiplier-free bonus yield, make sure it's not negative!!!!
                 mine_action.slime_yield += mine_action.bonus_slime_yield
@@ -500,7 +494,10 @@ async def mine(cmd):
                 
                 # Increase slime
                 mine_action.response += mine_action.user_data.change_slimes(n=mine_action.slime_yield, source=ewcfg.source_mining)
-                
+                if ewutils.DEBUG_OPTIONS['slimegainchecker'] == True:
+                    f = open("minefile.txt", "a")
+                    f.write("{},{},{}\n".format(int(time.time()), cmd.message.author.id, mine_action.slime_yield))
+
                 goonscape = True
 
             # Take hunger from user

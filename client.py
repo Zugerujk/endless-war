@@ -43,10 +43,14 @@ import ew.utils.slimeoid as slimeoid_utils
 import ew.utils.sports as sports_utils
 import ew.utils.transport as transport_utils
 import ew.utils.weather as bknd_weather
+import ew.utils.mutations as mut_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
+from ew.utils.user import add_xp
 
 from ew.cmd.race.racecmds import ree as racecmdsree
+from ew.cmd.slimetwitter.slimetwitterutils import separate_id_from_slimetwitter_embed
+from ew.cmd.slimetwitter.slimetwitterutils import send_qrt_command
 
 import ew.backend.core as bknd_core
 import ew.backend.farm as bknd_farm
@@ -83,6 +87,8 @@ logger.addHandler(handler)
 intents = discord.Intents.all()
 
 client = discord.Client(intents=intents)
+
+
 
 # A map containing user IDs and the last time in UTC seconds since we sent them
 # the help doc via DM. This is to prevent spamming.
@@ -130,7 +136,8 @@ if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
 
-
+if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+    client._enable_debug_events = True
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 
@@ -273,7 +280,7 @@ async def on_ready():
 
         ewdebug.initialize_gamestate(id_server=server.id)
 
-
+        mut_utils.initialize_rotation(id_server=server.id)
 
         # get or make the weapon items for fists and fingernails
         combat_utils.set_unarmed_items(server.id)
@@ -325,6 +332,8 @@ async def on_ready():
         asyncio.ensure_future(sports_utils.slimeball_tick_loop(id_server=server.id))
 
         asyncio.ensure_future(loop_utils.clock_tick_loop(id_server=server.id))
+
+        asyncio.ensure_future(loop_utils.reset_brick_loop(id_server=server.id))
 
         print('\nNUMBER OF CHANNELS IN SERVER: {}\n'.format(len(server.channels)))
 
@@ -443,6 +452,17 @@ async def on_member_join(member):
 
 
 @client.event
+async def on_socket_raw_send(payload):
+    if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+        try:
+            f = open("apifile.txt", "a")
+            f.write("{}\n".format(str(payload)))
+        except:
+            pass
+
+
+
+@client.event
 async def on_message_delete(message):
     if message != None and message.guild != None and message.author.id != client.user.id and message.content.startswith(ewcfg.cmd_prefix):
         user_data = EwUser(member=message.author)
@@ -458,8 +478,26 @@ async def debugHandling(message, cmd, cmd_obj):
     time_now = int(time.time())
     market = EwMarket(id_server=cmd_obj.guild.id)
     if cmd == (ewcfg.cmd_prefix + 'enemytick'):
+        freshness_list = {}
+        procedural_list = []
+        randomlist = []
+
+        for cosmetic in cosmetics.cosmetic_items_list:
+            if cosmetic.freshness == 0:
+                continue
+            randomlist.append(int(random.triangular(1, 16, 6)))
+            procedural_list.append(float(cosmetic.freshness / max(cosmetic.size, 1)))
+            if freshness_list.get(cosmetic.rarity+cosmetic.style) is None:
+                freshness_list[cosmetic.rarity+cosmetic.style] = [float(cosmetic.freshness/max(cosmetic.size, 1))]
+            else:
+                freshness_list[cosmetic.rarity+cosmetic.style].append(float(cosmetic.freshness/max(cosmetic.size, 1)))
+        #print(freshness_list)
+        procedural_list.sort()
+        randomlist.sort()
+        print("PROCEDURAL:{}".format(procedural_list))
+        print("TRIANGULAR:{}".format(randomlist))
         #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
-        await apt_utils.rent_time(id_server=cmd_obj.guild.id)
+        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
@@ -924,6 +962,7 @@ async def on_message(message):
     if message.guild is not None:
 
         try:
+            usermodel.time_last_action = int(time.time())
             bknd_core.execute_sql_query("UPDATE users SET {time_last_action} = %s WHERE id_user = %s AND id_server = %s".format(
                 time_last_action=ewcfg.col_time_last_action
             ), (
@@ -965,7 +1004,7 @@ async def on_message(message):
     if message.channel.type not in [discord.ChannelType.text, discord.ChannelType.private]:
         return
 
-    if message.content.startswith(ewcfg.cmd_prefix) or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
+    if message.content.startswith(ewcfg.cmd_prefix) or message.content in ewdebug.debug_content_check or message.guild is None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())) or message.channel in ["nurses-office", "suggestion-box", "detention-center", "community-service", "playground", "graffiti-wall", "post-slime-drip", "outside-the-lunchroom", "outside-the-lunchrooom", "outside-the-lunchroooom"]:
         """
             Wake up if we need to respond to messages. If it's in a basic channel, Could be:
                 message starts with !
@@ -1076,7 +1115,7 @@ async def on_message(message):
         # Scold/ignore offline players.
         if message.author.status == discord.Status.offline:
 
-            if ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds:
+            if (ewcfg.mutation_id_chameleonskin not in mutations or cmd not in ewcfg.offline_cmds) and ewutils.DEBUG_OPTIONS['playoffline'] == False:
                 response = "You cannot participate in the ENDLESS WAR while offline."
 
                 return await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, response))
@@ -1177,11 +1216,16 @@ async def on_raw_reaction_add(payload):
     if payload.guild_id is None:
         # Was a DM
         return
+    
+    # Don't handle our own reactions
+    if payload.user_id == client.user.id:
+        return
 
     server = client.get_guild(payload.guild_id)
 
     slime_twitter = fe_utils.get_channel(server, ewcfg.channel_slimetwitter)
     deviant_splaart = fe_utils.get_channel(server, ewcfg.channel_deviantsplaart)
+    community_service = fe_utils.get_channel(server, ewcfg.channel_communityservice)
 
     # Slime Twitter Emote Handling
     if slime_twitter is not None and payload.channel_id == slime_twitter.id:
@@ -1189,9 +1233,28 @@ async def on_raw_reaction_add(payload):
         if len(message.embeds) > 0:
             embed = message.embeds[0]
             userid = "<@!{}>".format(payload.user_id)
+            # If the person reacting made the tweet
             if embed.description.startswith(userid):
+                # If the reply is :blank:
                 if str(payload.emoji) == ewcfg.emote_delete_tweet:
                     await message.delete()
+            # If person reacting didn't make the tweet
+            else:
+                # If the reply is :slimetwitterlike:
+                if str(payload.emoji) in [ewcfg.emote_slimetwitter_like, ewcfg.emote_slimetwitter_like_debug]:
+                    try:
+                        og_id_user = separate_id_from_slimetwitter_embed(embed)
+                        await add_xp(og_id_user, payload.guild_id, ewcfg.goonscape_clout_stat, 13000)
+                    except:
+                        ewutils.logMsg('Failed to increase Clout XP for user with ID {}.'.format(og_id_user))
+                # If the reply is :slimeresplat:
+                elif str(payload.emoji) in [ewcfg.emote_slimetwitter_resplat, ewcfg.emote_slimetwitter_resplat_debug]:
+                    try:
+                        await send_qrt_command(client, server, payload.user_id, payload.message_id)
+                        og_id_user = separate_id_from_slimetwitter_embed(embed)
+                        await add_xp(og_id_user, payload.guild_id, ewcfg.goonscape_clout_stat, 4300)
+                    except:
+                        ewutils.logMsg('Failed to increase Clout XP for user with ID {}, and failed to send Quote Resplat message to user with ID {}'.format(og_id_user, payload.id_user))
 
     # Deviant Splaart Emote Handling
     elif deviant_splaart is not None and payload.channel_id == deviant_splaart.id:
@@ -1209,6 +1272,10 @@ async def on_raw_reaction_add(payload):
                     await fe_utils.send_message(client, art_exhibits, msgtext)
                     await message.delete()
 
+    # Community Service Clout
+    elif community_service is not None and payload.channel_id == community_service.id:
+        message = await community_service.fetch_message(payload.message_id)
+        await add_xp(message.author.id, payload.guild_id, ewcfg.goonscape_clout_stat, 6500)
 
 # find our REST API token
 token = ewutils.getToken()

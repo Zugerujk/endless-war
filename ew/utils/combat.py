@@ -12,6 +12,7 @@ from . import item as itm_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 from . import npcutils as npcutils
+from . import mutations as mut_utils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from .user import get_move_speed, add_xp
@@ -39,6 +40,8 @@ from ..static import poi as poi_static
 from ..static import slimeoid as sl_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
+
+
 try:
     from .rutils import debug45    
 except:
@@ -1110,7 +1113,7 @@ def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = Non
     return mods
 
 
-def damage_mod_attack(user_data, market_data, user_mutations, district_data):
+def damage_mod_attack(user_data, market_data, user_mutations, district_data, shootee_data =None):
     damage_mod = 1
 
     # Weapon possession
@@ -1153,7 +1156,10 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data):
 
     # Dressed to kill
     if ewcfg.mutation_id_dressedtokill in user_mutations:
-        if user_data.freshness >= 250:
+        if shootee_data is None:
+            if user_data.freshness >= 250:
+                damage_mod *= 1.5
+        elif shootee_data.freshness < user_data.freshness:
             damage_mod *= 1.5
 
     if ewcfg.mutation_id_2ndamendment in user_mutations:
@@ -1205,8 +1211,8 @@ def damage_mod_cap(user_data, market_data, user_mutations, district_data, weapon
         else:
             damage_mod *= 2
 
-    if ewcfg.mutation_id_patriot in user_mutations:
-        damage_mod *= 1.5
+    #if ewcfg.mutation_id_patriot in user_mutations:
+    damage_mod *= 1.5
     if ewcfg.mutation_id_unnaturalcharisma in user_mutations:
         damage_mod *= 1.2
 
@@ -1938,7 +1944,7 @@ class EwUser(EwUserBase):
             self.time_lastdeath = time_now
             self.life_state = ewcfg.life_state_corpse
             self.poi_death = self.poi
-            self.poi = ewcfg.poi_id_thesewers
+            self.poi = 'altlock' if self.poi == 'altlock' else ewcfg.poi_id_thesewers
             self.weapon = -1
             self.sidearm = -1
             self.time_expirpvp = 0
@@ -2025,7 +2031,8 @@ class EwUser(EwUserBase):
             weapon = static_weapons.weapon_map.get(weapon_type)
             if ewcfg.weapon_class_paint in weapon.classes and self.weaponskill > 16:
                 self.weaponskill = 16
-
+            elif self.weaponskill < 0:
+                self.weaponskill = 0
             ewutils.weaponskills_set(
                 id_server=self.id_server,
                 id_user=self.id_user,
@@ -2099,7 +2106,7 @@ class EwUser(EwUserBase):
 
             self.hunger -= hunger_restored
             if self.hunger < 0:
-                xp_hunger += self.hunger #only count actual hunger restored for xp no over eating for free points >:[ 
+                xp_hunger = max(0, xp_hunger - self.hunger) #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
             if self.inebriation > 20:
@@ -2257,6 +2264,8 @@ class EwUser(EwUserBase):
 
                 # Retry if player already has the mutation
                 if result in current_mutations:
+                    continue
+                if result not in mut_utils.active_mutations[self.id_server]:
                     continue
                 # Retry if the mutation is incompatible with an already-had mutation
                 for mutations in current_mutations:

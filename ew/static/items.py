@@ -1,15 +1,9 @@
-import json
-import os
-import random
 from . import cfg as ewcfg
-from . import community_cfg
 from ..model.item import EwFurniture
 from ..model.item import EwGeneralItem
 from ..model.item import EwItemDef
 from ..model.item import EwPrankItem
 from ..model.slimeoid import EwSlimeoidFood
-from ew.static.community_cfg import slimeglobe_list
-import random
 
 """
     The list of item definitions. Instances of items are always based on these
@@ -1285,7 +1279,7 @@ item_list = [
         prank_type=ewcfg.prank_type_response,
         prank_desc="You see a bag of candy lying on the ground. Neaby, you can see {} cackling to themselves like a madman. Maybe it's best to **!ignorethecandy**.",
         response_desc_1="You scoop up the bag and ingest its contents instead. Yuck! These taste awful! Another bag of candy dropped close by catches your attention. **!ignorethecandy**.",
-        response_desc_2="You eat the next bag of candy, which tastes even worse than the previous! Seriously, maybe you should stop being retarded and **!ignorethecandy**.",
+        response_desc_2="You eat the next bag of candy, which tastes even worse than the previous! Seriously, maybe you should stop being mentally deranged and **!ignorethecandy**.",
         response_desc_3="You eat the third bag of candy in a row. Oh jesus fucking christ, you just cant help yourself at this point, and gobble up the awful confectionary without a second thought. Maybe it's time to **!ignorethecandy**.",
         response_desc_4="You eat the last and final bag of candy. They taste like literal dogshit. What the fuck were you thinking?",
         response_command="ignorethecandy",
@@ -2038,7 +2032,7 @@ for item in item_list:
 # list of dyes you're able to saturate your Slimeoid with
 dye_list = []
 dye_map = {}
-# seperate the dyes from the other normal items
+# seperate the dyes from the normal items
 for c in item_list:
 
     if c.context != "dye":
@@ -2046,6 +2040,7 @@ for c in item_list:
     else:
         dye_list.append(c)
         dye_map[c.str_name] = c.id_item
+
 
 slimexodia_parts = []
 
@@ -2165,9 +2160,10 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 40000,
-        vendors = ['bazaar'],
+        vendors = ['Based Hardware'],
         furniture_place_desc = "You set the chair where you think it's appropriate. How exciting.",
         furniture_look_desc = "There's a chair in the room.",
+        furn_set = "default",
     ),
     EwFurniture(
         id_furniture = "desk",
@@ -2176,7 +2172,7 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 80000,
-        vendors = ['bazaar'],
+        vendors = ['Based Hardware'],
         furniture_place_desc = "You set up the desk in the corner of the room.",
         furniture_look_desc = "You see a desk in the corner.",
     ),
@@ -2187,9 +2183,10 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 120000,
-        vendors = ['bazaar'],
+        vendors = ['Based Hardware'],
         furniture_place_desc = "You get some friend or another to help you move the couch in. They pretended like they were happy to do it, but you know they weren't.",
         furniture_look_desc = "There's a comfy couch up against the wall.",
+        furn_set = "default",
     ),
     EwFurniture(
         id_furniture = "lamp",
@@ -2198,7 +2195,7 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 10000,
-        vendors = ['bazaar'],
+        vendors = ['Based Hardware'],
         furniture_place_desc = "You set up the lamp, plug it in, and watch the one-light light show.",
         furniture_look_desc = "The lamp casts a warm light throughout the room.",
     ),
@@ -2262,6 +2259,7 @@ furniture_list = [
         furniture_look_desc = "There's a rainbow bed in the bedroom.",
         furn_set = "lgbt",
     ),
+    ## added to "default" set (Not actually default, name is a joke) - Liz
     EwFurniture(
         id_furniture = "bed",
         str_name = "bed",
@@ -2269,9 +2267,10 @@ furniture_list = [
         rarity = "Plebeian",
         acquisition = "bartering",
         price = 150000,
-        vendors = ['bazaar'],
+        vendors = ['Based Hardware'],
         furniture_place_desc = "The IKEA instructions are confusing, so it takes a few attempts to make the bed.",
         furniture_look_desc = "There's a bed in the bedroom.",
+        furn_set = "default",
     ),
     EwFurniture(
         id_furniture = "hauntedbed",
@@ -2644,6 +2643,18 @@ furniture_list = [
         furniture_place_desc = "You set the chair up. You realize you're basically sitting on your enemies' heads and giggle about it.",
         furniture_look_desc = "A nice leather chair is set up.",
         furn_set = "leather",
+    ),
+    EwFurniture(
+        id_furniture = "table",
+        str_name = "table",
+        str_desc = "A basic table ready-made for spilling coffee on.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 150000,
+        vendors = ['Based Hardware'],
+        furniture_place_desc = "With some clever turning, you finally manage to get this table through the door.",
+        furniture_look_desc = "There's a table here.",
+        furn_set = "default",
     ),
     EwFurniture(
         id_furniture = "pictureframe",
@@ -3827,6 +3838,103 @@ EwFurniture(
         furniture_look_desc = "A Slimexodia Hummel is propped up on your shelf.",
         furn_set = "hummels",
     ),
+    EwFurniture(
+        id_furniture = "flamingbarrel",
+        str_name = "Flaming Barrel",
+        str_desc = "It's an oil drum full of unknown contents that constantly has a fire stoked in it. You can use it as a lamp, if you don't mind the smoke.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You drop the barrel down and toss in a match.",
+        furniture_look_desc = "An oil drum is set up here, and whatever's inside is on fire.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "trashbag",
+        str_name = "Trash Bag",
+        str_desc = "It's a black trash bag that someone threw out. It's leaking out garbage juice.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You throw the trash bag next to the doorway. *You'll take it out at some point*, you think to yourself.",
+        furniture_look_desc = "There is a trash bag set up here.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "tippedrecyclingbin",
+        str_name = "Tipped Recycling Bin",
+        str_desc = "This is that blue trash can they hand out for recycling. It's useless to you, so maybe you can tip it over and use it like a sofa.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You set the recycle bin up, then kick it on its side. Take that, you smog-hating treefuckers.",
+        furniture_look_desc = "A recycling bin is tipped over in the middle of the room.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "metaltrashcan",
+        str_name = "Metal Trash Can",
+        str_desc = "Oscar the Grouch had the right idea, this thing looks comfy.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You bang the lid against the wall for a few seconds until you get bored and line the ol' can up against it.",
+        furniture_look_desc = "The trash can is gathering flies.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "plasticdumpster",
+        str_name = "Dumpster",
+        str_desc = "It's a big ol' metal dumpster. How did you get ahold of this? God only knows.",
+        rarity = "Plebeian",
+        acquisition = "npc",
+        furniture_place_desc = "You call upon the sewer rats, promising them rewards of dumpster food if they carry this up to your apartment. You were always good at coercing those guys.",
+        furniture_look_desc = "A dumpster has been jammed in here somehow.",
+        furn_set = "trash",
+    ),
+    EwFurniture(
+        id_furniture = "floralsofa",
+        str_name = "Floral Sofa",
+        str_desc = "A rustic sofa with an obnoxious floral design. It smells like soap and sepia.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 2500000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "Struggling to lift your Floral Sofa, You call up a few friends to move in the couch. You manage to spend some time catching up before offering them some cookies as they leave. What lovely company!",
+        furniture_look_desc = "A frilly floral sofa sits daintily in the living room.",
+        furn_set = "elderly"
+    ),
+    EwFurniture(
+        id_furniture = "rockingchair",
+        str_name = "Rocking Chair",
+        str_desc = "A simple rustic chair designed to rock back and forth. Comes with a pair of used knitting needles.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 250000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You simply pick up the rocking chair and hoist it into place. If only all furniture was this easy to move.",
+        furniture_look_desc = "A cozy rocking chair creaks back and forth.",
+        furn_set = "elderly"
+    ),
+    EwFurniture(
+        id_furniture = "staleairdispenser",
+        str_name = "Stale Air Dispenser",
+        str_desc = "A small metal spraycan advertising STALE AIR! Allegedly makes you 'smell like a century'.",
+        rarity = "Plebeian",
+        acquisition = "bartering",
+        price = 3000000,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You shake up your can of Stale Air and spray it around. Noticing you can't smell a thing, you spray until the can stops working and toss it aside. Then it all hits you at once and the scent of old books and aged soap make you dry-heave, forcing you to steady yourself with the wall. You aren't getting that smell out any time soon.",
+        furniture_look_desc = "This place is thick with dust and memories.",
+        furn_set = "elderly"
+    ),    
+    EwFurniture(
+        id_furniture = "die",
+        str_name = "Die",
+        str_desc = "It's a die. You could try to \"!rolldie\" with it, or get 2 and call them \"Dice\".",
+        rarity = "Plebeian",
+        acquisition = "bartering",        
+        price = 234156,
+        vendors = ['bazaar'],
+        furniture_place_desc = "You toss the die out of your pocket, and see it careen across the ground. Just as it looks like it's about to stop rolling... it falls between the floorboards. Damnit!",
+        furniture_look_desc = "There's a die stuck in the floorboards.",
+    ),
 ]
 
 
@@ -3849,6 +3957,9 @@ furniture_specialhue = []
 furniture_collection = []
 furniture_hatealiens = []
 furniture_hummels = []
+furniture_trash = []
+furniture_elderly = []
+furniture_default = []
 
 for furniture in furniture_list:
     furniture_map[furniture.id_furniture] = furniture
@@ -3885,3 +3996,9 @@ for furniture in furniture_list:
         furniture_hatealiens.append(furniture.id_furniture)
     elif furniture.furn_set == "hummels":
         furniture_hummels.append(furniture.id_furniture)
+    elif furniture.furn_set == "trash":
+        furniture_trash.append(furniture.id_furniture)
+    elif furniture.furn_set == "elderly":
+        furniture_elderly.append(furniture.id_furniture)
+    elif furniture.furn_set == "default":
+        furniture_default.append(furniture.id_furniture)

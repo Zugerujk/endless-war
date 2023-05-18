@@ -2,7 +2,7 @@
 from ..model.hunting import EwAttackType
 from ..model.hunting import EwNpc
 from . import cfg as ewcfg
-
+from . import community_cfg as commcfg
 
 from ew.utils import npcutils
 from . import poi as poi_static
@@ -155,7 +155,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/pork.png",
     defaultslime = 6911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [100, 2, 3],
@@ -183,7 +183,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/riot.png",
     defaultslime = 4911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [50, 1, 1],
@@ -213,7 +213,7 @@ EwNpc(
     func_ai = npcutils.police_npc_action,
     image_profile = "https://rfck.app/npc/sleuth.png",
     defaultslime = 5911000,
-    defaultlevel = 50,
+    defaultlevel = 40,
     is_threat=True,
     rarity=7,
     rewards = [
@@ -241,7 +241,7 @@ EwNpc(
     func_ai = npcutils.police_chief_npc_action,
     image_profile = "https://rfck.app/npc/mrc.png",
     defaultslime = 3000000,
-    defaultlevel = 100,
+    defaultlevel = 80,
     is_threat=True,
     rarity=1,
     rewards = [
@@ -250,7 +250,7 @@ EwNpc(
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
-    condition = lambda user_data, enemy_data: True if user_data.crime > 1250000 else False,
+    condition = lambda user_data, enemy_data: True if user_data.crime > 2250000 else False,
 
     #if the cop is trigger happy or if you're above a certain crime level
 ),
@@ -260,7 +260,7 @@ EwNpc(
     str_name = "Slimes MacKenzie", # Knockoff of beloved Slurms MacKenzie, which is a knockoff of Spuds MacKenzie
     description = 'MacKenzie\'s here, guys. It\'s a real party now.',
     poi_list = [ewcfg.poi_id_vagrantscorner, ewcfg.poi_id_speakeasy, ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_beachresort],
-    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!", "Hey you want some cocktails Im pretty sure I can break into Gramps stash in Vagrants Corner.", "Man this place is a lot hotter than back home if I wasn’t slime I’m pretty sure I’d be melting", "I am not saying my fucking catchphrase simp!", "Hey I heard you got the tier three sub from some sandwich shop…I’ll give you an autograph if you give me it.", "Did you know the speak easy also turns into a boat. Yeah me either.", "Check out the tiki bar out in grand toronto when you get the chance dude!"],
+    dialogue = {"talk":["Hey, you want some cocktails? I'm pretty sure I can break into my quad-G GGGGramp's stash.", "Man, this place is a lot hotter than back home. If I wasn't slime I'd be melting.", "SLIME, my dude!!!", "Let's party!", "Slimmy slime slime slozzle!", "Hey you want some cocktails Im pretty sure I can break into Gramps stash in Vagrants Corner.", "Man this place is a lot hotter than back home if I wasn’t slime I’m pretty sure I’d be melting", "I am not saying my fucking catchphrase simp!", "Hey I heard you got the tier three sub from some sandwich shop…I’ll give you an autograph if you give me it.", "Check out the tiki bar out in grand toronto when you get the chance dude!"],
                 "raretalk":["I'm gonna go lie down.", "I'm not saying my fucking catchphrase."],
                 "hit":["HUK---", "HYEHK-", "OW! WHAT THE FUCKS WRONG WITH YOU!"],
                 "die":["Party on, contest winners. Party on.", "Oh…No…B R O…"],
@@ -294,7 +294,7 @@ EwNpc(
     func_ai = npcutils.condition_hostile_action,
     image_profile = "https://rfck.app/npc/rf1.png",
     defaultslime = 6479,
-    defaultlevel = 32,
+    defaultlevel = 12,
     is_threat=True,
     rewards = [
     {'rfconsortmarble': [100, 1, 1]}
@@ -361,7 +361,7 @@ EwNpc(
                 "die":["Back to the sauce I go..."],
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766477312020/kimblychadnpc.png",
+    image_profile = "https://rfck.app/npc/kimblynpcchad.png",
     defaultslime = 2560000,
     is_threat=True,
     defaultlevel = 40,
@@ -384,7 +384,7 @@ EwNpc(
                 "die":["T-There was spaghetti in my controller..."],
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://media.discordapp.net/attachments/976385581498138624/998073766682824704/kimblytipsnpc.png",
+    image_profile = "https://rfck.app/npc/kimblynpctips.png",
     defaultslime = 2560000,
     defaultlevel = 40,
     is_threat=True,
@@ -407,7 +407,7 @@ EwNpc(
                 "die":["Someone... Please check on my plushies..."],
                 },
     func_ai = npcutils.generic_npc_action,
-    image_profile = "https://cdn.discordapp.com/attachments/976385581498138624/998073766909313144/kimblynpc.png",
+    image_profile = "https://rfck.app/npc/kimblynpcKimbly.png",
     defaultslime = 1550000,
     defaultlevel = 35,
     rewards = [
@@ -523,7 +523,7 @@ EwNpc(
     description = "Eww. Looks like somebody smelted a stuffed crust pizza wrong. Better let the thing just go about its business.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["()It starts to snarl at you! Oh shit!", "WRYYYYYYYYYY!"],
-                "loop":["()*slurp smack* ", "AJAJAJA!!", "*munch munch*", "...", "WRYYYYYYYYYY! *Yawn...*"],
+                "loop":["*slurp smack*", "AJAJAJA!!", "*munch munch*", "...", "WRYYYYYYYYYY! *Yawn...*"],
                 "hit":["!!", "HCK!"],
                 "die":["()The creature melts into a pizza puddle on the ground...", "WEHHHHHHH!"],
                 "give":["()Mozz takes your spoiled food and runs away with it!"]
@@ -619,7 +619,176 @@ EwNpc(
     ],
     starting_statuses = [ewcfg.status_enemy_juviemode_id, '1leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
+EwNpc(
+    id_npc = "thenoid",
+    active = True,
+    str_name = "The Noid",
+    description = "It's obvious, just avoid the Noid. Don't touch it.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["AVOOOOOID THE NOOOOOID!", "WHEEEE!", "ANFMXKAKNCNAEJD"],
+                "loop":["HEHAHAHAHAHAHAHA!", "NOID!", "()https://s3-prod.adage.com/s3fs-public/20210429%29_Noid_3x2.jpg", "()https://static.wikia.nocookie.net/noid/images/a/ae/Mrgreen_dab_base.png/revision/latest/scale-to-width-down/250?cb=20180705000434", "()https://static.wikia.nocookie.net/noid/images/8/89/Mrgreen_angry_base.png/revision/latest?cb=20180705000425", "I'M GONNA SAY PENIS!", "()https://images-ext-2.discordapp.net/external/iJ1Gv0mAX2KsSrzwPosYNgkcJAf-fvdYkuhcsmLYOQI/https/media.tenor.com/3vy4MVq4ms4AAAPo/breaking-bad-pizza.mp4", "()https://images-ext-2.discordapp.net/external/BMYY--1kwHktu4BXMEg0uOevsJxXa-SlxH6SJ2HcuyY/%3Fcid%3D73b8f7b1b5606a879da93500c3cae5f2de6109a01b9882f7%26rid%3Dgiphy.mp4%26ct%3Ds/https/media4.giphy.com/media/XbhTOfqVoIrlMIQhHZ/giphy.mp4", "()https://static.wikia.nocookie.net/noid/images/f/f0/Mrgreen_surprised_base.png/revision/latest?cb=20180705000456", "()https://cdn.discordapp.com/attachments/431240644464214017/1072654857015677028/image.png", "()https://tenor.com/view/pizza-fail-funny-drop-cooking-gif-23785565", "DOMINOS OR BUST", "YOU CAN'T AVOID ME!", "()https://tenor.com/view/pizza-party-oddly-soothing-serenity-now-pizza-lost-gif-5500152", "()https://tenor.com/view/pizza-pizza-party-gif-10580277", "I AM A CLUMSY LONG EARED MAN."],
+                },
+    func_ai = npcutils.needy_npc_action,
+    image_profile = "https://compote.slate.com/images/fd2f8338-ec23-479f-bd89-f405909bf2d0.jpg",
+    defaultslime = 15,
+    defaultlevel = 1,
+    slimeoid_name = "peperoni",
+    rewards = [
+    {"meatlovers": [80, 1, 3]},
+    ],
+    starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
+),
+EwNpc(
+    id_npc = "walterpboils",
+    active = True,
+    str_name = "Walter P. Boils",
+    description = "Prosecutor Boils really likes democracy. How dare you desecrate it by voting.",
+    poi_list = ['dreadford'],
+    dialogue = {"talk":["Don't interrupt, boy. I got ta prosecute these gosh dang fraudsters.", "Voter fraud's everywhere these days. Better not catch you votin'.", "You hear tell about these sailin' machines? Can't stand 'em.", "Marty's an honest man, I can see it in his eyes. His jaggedy, freaky lookin' eyes."],
+                "loop":["Hey, everybody, let's...Aw heck, that's right. The polls are closed.", "You can vote fer anyone, just don't vote me late for dinner. That's freedom, bucko.", "That American eagle in the sky don't got hands so it don't got the right to vote. I like ta think I'm voting in place of that eagle."],
+                "die":["GUILTY! I KNEW IT ALL ALONG!"],
+                "hit":["HEY", "CONTEMPT OF COURT! CONTEMPT I SAY!!", "YOU'LL BE NEEDING MY EYEPATCH SOON!", "AGGRAVATED ASSAULT!"]
+                },
+    func_ai = npcutils.condition_hostile_action,
+    image_profile = "https://rfck.app/npc/Boils.png",
+    defaultslime = 150000,
+    defaultlevel = 25,
+    slimeoid_name = "Puppy Liberty",
+    rewards = [
+    {"necktie": [100, 1, 1]},
+    ],
+    starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=True,
+    condition = lambda user_data, enemy_data: True if npcutils.is_user_voter(id_server=user_data.id_server, id_user = user_data.id_user) or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+),
+EwNpc(
+    id_npc = "slimderman",
+    active = True,
+    str_name = "Slimederman",
+    description = "It's that guy from the creepypoud stories. You might want to check your inventory, maybe you collected a page on accident or something.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["ooglhlghl im the slimederman", "find my 8 slimy pages if you dare", "boo", "i'll !harvest your soulllllll", "oooooooh look at me im the slimederman"],
+                "loop":["()https://rfck.app/npc/slimderman.png"],
+                "die":[""],
+                "hit":["!!!"]
+                },
+    func_ai = npcutils.chatty_npc_action,
+    image_profile = "https://rfck.app/npc/slimderman.png",
+    defaultslime = 390000,
+    defaultlevel = 25,
+    rewards = [
+    {"necktie": [10, 1, 1],
+    "slimdermancosplaymask":[1, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_dodgy_id],
+    is_threat=False
+),
+EwNpc(
+    id_npc = "poudrinpurveyors",
+    active = True,
+    str_name = "The Poudrin Purveyors",
+    description = "Oh look, it's the Poudrin Purveyors! They trade drugs and weapons for the poudrins in their stock.",
+    poi_list = poi_static.outskirts,
+    dialogue = {"talk":["I will kill your wife, your son, your infant daughter, and I'll do it for half the price of my family-slaying competitors! Add in a stepmom at no extra charge!", "Trade in some weapons for poudrins. Quick, before I die of cancer again.", "They call me...Heisenblob.", "Nah, we're not selling poudrin meth to children quite yet. That's not until later in my character arc."],
+                "loop":["Poudrins for sale! Just poudrins.", "We accept meth, major credit cards, weapons, drug-related materials, and Taco Bell stock exclusively.", "Jesse, I think I'm developing a chemotherapy fetsh. Ms. Dusttrap's giving me the sweats."],
+                "die":["May my death satisfy you..."],
+                "hit":["!!!"],
+                "tradeweapon":[ewcfg.item_id_slimepoudrin],
+                "trade"+ewcfg.item_id_dankwheat:[ewcfg.item_id_slimepoudrin],
+                'tradepileofmysteriouspowder':[ewcfg.item_id_slimepoudrin],
+                "trade"+ewcfg.item_id_seaweedjoint:[ewcfg.item_id_slimepoudrin],
+                "tradefail":["We accept guns and drugs only. No half measures."],
+                "give":["ENDLESS JESSE! GET OVER HERE! Jesse takes your offering and hands you a poudrin for your trouble."]
+                },
+    func_ai = npcutils.trader_action,
+    image_profile = "https://rfck.app/npc/poudrinpurveyors.png",
+    defaultslime = 0,
+    defaultlevel = 1,
+    rewards = [
+    {"necktie": [10, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_juviemode_id],
+    str_juviemode="Nah, they have all kinds of connections in the underworld. You wouldn't want to lose their patronage as a gangster yourself.",
+    is_threat=False
+),
+EwNpc(
+    id_npc = "gully",
+    active = True,
+    str_name = "Gully, The Sludge Agglomeration",
+    description = "Look at this lil' fella! He likes to trade you old CDs for various bits of trash. Seems a little pointless, but you appreciate the hustle.",
+    poi_list = ['draintrench'],
+    dialogue = {"talk":["()The shape within the drain shifts towards you, one poudrin eye in socket, the other face gives it's best customer service smile. 😄", "()You try to have a conversation with Gully. It'd be enlightening if you could understand a goddamn word it said.", "muk kfo yn! blublubllll..."],
+                "loop":["()You hear some banging in a drainpipe.", "()Something smells horrible.", "Glblblblbl...flashyyn.", "()You hear some lazy gurgling."],
+                "die":["()*flush*"],
+                "hit":["!!!"],
+                "tradeoldcd":["flamingbarrel", "trashbag", "tippedrecyclingbin", "metaltrashcan", "plasticdumpster", ewcfg.item_id_slimepoudrin],
+                "tradefail":["()He only takes old CDs. They call 'em \"trash tokens\" in the business."],
+                "give":["()Glghlgrl! Gully hands you a {bonus}!", "()Gleeel? blublub. Gully tosses a {bonus} your way."]
+                },
+    func_ai = npcutils.trader_action,
+    image_profile = "https://rfck.app/npc/gully.png",
+    defaultslime = 50231,
+    defaultlevel = 1,
+    rewards = [
+    {"necktie": [10, 1, 1]},
+    ],
+    starting_statuses = [ewcfg.status_enemy_juviemode_id],
+    str_juviemode="You can't get 'em between the bars of that drainpipe!.",
+    is_threat=False
+),
+EwNpc(
+    id_npc = "notasnake",
+    active = True,
+    str_name = " Definitely *not* A Snake",
+    description = "See? It's got legs and everything.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["()When you let the first letter out of your mouth, the coated creature pauses its business, and looks at you, dead in the eyes, just before skimming your appearance. It moves a little further and pretends like you aren't there. Great..."],
+                "loop":["()Definitely not a snake, but a coated figure, scavenges around something on the street corner. The sound of the trashcans it is looking trough echoes trough the entire district.", "()Definitely not a snake, but a coated figure, tries to light up a cigarette it picked up from the ground. It is likely trying to imitate someone it saw.", "()Definitely not a snake, but a coated figure, observes a few of the windows on the lower floors of the buildings. You could swear it teared up just a little bit.", "()Definitely not a snake, but a coated figure, peeks into a sewer. It recoils when a small \"boooo....\" makes its presence."],
+                "die":["WRYYYY!!"],
+                "hit":["()Definitely not a snake reels from the blow, contradicting its own name by opening it's mouth wide-open! It hisses loudly, doing a poor man's imitation of a rattlesnake's tail shake! How...ambiguous."],
+                "traderandom":[ewcfg.item_id_slimepoudrin, "freeapple", ewcfg.item_id_snakeinacan, ewcfg.item_id_oldcd, ewcfg.item_id_windupchatterteeth, "funpizza", ewcfg.item_id_promotradingcardpack, "kepi", "rfconsortmarble", "billshat", "packofluckyslimes", ewcfg.item_id_foodbase],
+                "give":["()The little guy dashes to the side a little when it sees your hand. It hisses once and just stares you from there. After it analyses you a bit more closely, it picks up what you were holding with its tail, sniffs it a little bit, and pushes the whole thing down its throat. It proceeds to do the worst noise you have ever heard, almost as if a bunch of demons were screeching all of the ten most obscure country songs at once, and spits out a {bonus}. It takes its breath for a while, and goes right back into checking if there's any other junk to eat. You begrudgingly pick up your digestive-fluid-covered part of the deal.", "()You get closer to the long critter. It turns around, with some old toys and a few used bullets in-mouth. It more than quickly notices your great offer, takes it, gulps it along, and ear-damagingly coughs out a {bonus}. You take your reward, and it goes right back into a trash pile."],
+                "tradefail":["()You hand out your offering to the fake snake. The whip-shaped being gives it a good look, even tasting a bit around the edge, but it does an expression of disgust while doing so. Something isn't right for digestion, or it just doesn't want to get that thing inside. It pushes it next to you and continues own with its own business."]
+                },
+    func_ai = npcutils.notasnake_action,
+    image_profile = "https://rfck.app/npc/slimesnake.png",
+    defaultslime = 220000,
+    defaultlevel = 10,
+    attacktype = 'fangs',
+    rewards = [
+    {"hatthatlookslikeanelephant": [10, 1, 1]},
+    ],
+    slimeoid_name = "Actually Is a Snake",
+    starting_statuses = ['8leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=True
+),
+EwNpc(
+    id_npc = "ratqueen",
+    active = True,
+    str_name = "Rat Queen",
+    description = "She's always using that spray can of hers. Banksy over here doesn't care about gangs marking the territory, though.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {"talk":["Hey fuck off kid, don’t you see I’m busy?", "The shit y’all spray in this city kinda sucks, I’m doin’ you a favor.", "The cops here are seriously gullible, it’s so fuckin’ cash!", "Fuckers keep calling me a furry, y’all just don’t understand ART!"],
+                "loop":commcfg.modified_graffiti,
+                "die":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
+                "hit":["()Rat Queen unleashes her spray cans, leaving you coughing in a haze of paint as she flees."],
+                "give":["Oh. Uh...thanks, kid."],
+                 },
+    func_ai = npcutils.ratqueen_action,
+    image_profile = "https://rfck.app/npc/ratqueen.png",
+    defaultslime = 10001,
+    defaultlevel = 2,
+    rewards = [
+    {ewcfg.weapon_id_spraycan: [100, 1, 5]},
+    ],
+    slimeoid_name = "Master Splinter",
+    starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
+    is_threat=False
+),
 ]
+
+for npc in npc_list:
+    npc.starting_statuses.append(ewcfg.status_enemy_delay_id)
 
 active_npcs_map = {}
 spawn_probability_list = []

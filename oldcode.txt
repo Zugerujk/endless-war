@@ -25264,3 +25264,28 @@ debug5 = "  Huh? This one's sorta rigid. Heavy, too. You shrug and open it up an
 invitation_desc = "It’s an invitation for some kind of a formal event hosted in BF93 of the SlimeCorp Labratory in Brawlden. There’s a barcode at the bottom of the page that is just begging to be scanned. You probably guessed that’s what it was already, though. You’re one smart cookie, y’know that pal? You’re one reeeaaalll smart cookie."
 # Item descriptions
 shred_desc = "It’s a shred of office paper. There’s definitely something written on it, but you can’t make out what it is because it’s just a single shred of paper. Maybe if you got a big enough pile of paper shreds you could smelt something legible."
+
+
+    EwPoi(
+        id_poi="levystomb",
+        alias=['tomb', 'lvt', 'catacombs', 'laevateinnstomb', 'laevateinn', 'levy'],
+        str_name="Tomb of Emperor Laevateinn",
+        str_desc="You were told not to bring in any water to this crusty, millenia-old tomb. One mere drop of spittle could release a smell so foul it would kill anyone inside. The stone torches in here got refueled and relit by those folks at the museum, so you can pretty clearly see how half-assed the wall hieroglyphs lining the walls are. \n\nIt was here they entombed Emperor Laevateinn Jaevateinn I, crowned first known staydead for his legendary First Bitch. It was a speech of protest that led him and many others to leave the land of the living. He's completely entombed(inactive) these days, but sometimes his descendants poke around here, toking up on the asbestos-like residue that lines the ceiling. This area leads back to the Caverns.",
+        channel="laevateinns-tomb",
+        permissions={'laevateinns-tomb': ['read', 'send', 'connect']},
+        property_class="",
+        is_subzone=True,
+        neighbors={'thecaverns':20}
+    ),
+
+        """EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_patriot,
+        str_name="Patriot",
+        alias=['pt'],
+        str_describe_self="You beam with intense pride over your faction’s sophisticated culture and history due to **Patriot**.",
+        str_describe_other="They beam with intense pride over their faction’s sophisticated culture and history due to **Patriot**.",
+        str_acquire="Your brain’s wrinkles begin to smooth themselves out, and you are suddenly susceptible to being swayed by propaganda. Suddenly, your faction’s achievements flash before your eyes. All of the glorious victories it has won, all of its sophisticated culture and history compels you to action. You have developed the mutation **Patriot**. You capture districts 1.5x faster.",
+        tier=6,
+        str_transplant="You are led into a room with a projector and told to sit down. Each slide has a different gang's propaganda on it. Every time your gang's propaganda shows up, you get a glob of slime. For your enemy gang, you get tased. The process continues until Pavlov has made you his bitch. Allegiance is all you understand.\n\nYou have developed the mutation **Patriot**. You capture districts 1.5x faster.",
+
+    ),"""

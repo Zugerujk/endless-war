@@ -845,7 +845,7 @@ async def scout(cmd):
 
         # No filtering is done on enemies themselves. Enemies that pose a threat to the player are filtered instead.
         enemies_in_district = district_data.get_enemies_in_district(scout_used=True)
-        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True)
+        threats_in_district = district_data.get_enemies_in_district(min_level=min_level, scout_used=True, npc_threats_only=True)
 
         num_enemies = 0
         enemies_resp = ""
@@ -870,7 +870,9 @@ async def scout(cmd):
         else:
             players_resp += "You feel the ground rumble from a stampeding horde of gangsters in this district."
 
-        if ewcfg.mutation_id_keensmell in mutations and num_players >= 1:
+        if (ewcfg.mutation_id_keensmell in mutations or user_data.poi == poi.id_poi) and num_players >= 1:
+            if ewcfg.mutation_id_keensmell not in mutations:
+                detailed_players_resp = detailed_players_resp.replace("You pick up the scent of ", "You spot ")
             players_resp += " " + detailed_players_resp
 
         # to avoid visual clutter, no scouting message is sent out for 0 enemies, and by extension, threats.
@@ -1409,7 +1411,7 @@ async def loop(cmd):
         move_utils.move_counter += 1
         move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You start looping to {}.".format(dest_poi_obj.str_name)))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
 
         if move_current == ewutils.moves_active[cmd.message.author.id]:
             mutation_data = EwMutation(id_mutation=ewcfg.mutation_id_landlocked, id_user=cmd.message.author.id, id_server=cmd.message.guild.id)

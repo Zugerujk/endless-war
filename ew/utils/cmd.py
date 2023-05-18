@@ -134,11 +134,11 @@ def gen_data_text(
             race_suffix = ""
 
         if user_data.life_state == ewcfg.life_state_corpse:
-            response = "{} is a {}level {} {}dead{}.".format(display_name, race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
+            title = "{}dead{}".format(race_suffix, user_data.gender).capitalize()
         else:
-            response = "{} is a {}level {} {}slime{}.".format(display_name, race_prefix, user_data.slimelevel, race_suffix, user_data.gender)
+            title = "{}slime{}".format(race_suffix, user_data.gender)
+        response = "{} is a LV{} {} {}.\n".format(display_name, user_data.slimelevel, race_prefix, title)
 
-        coinbounty = int(user_data.bounty / ewcfg.slimecoin_exchangerate)
 
         weapon_item = EwItem(id_item=user_data.weapon)
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
@@ -168,25 +168,25 @@ def gen_data_text(
 
         response_block = ""
 
-        user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
+        #user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
 
-        enemy_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_pve_kills)
+        #enemy_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_pve_kills)
 
-        response_block += "{}{}".format(get_crime_level(num=user_data.crime, forYou=0), " ")
+        #response_block += "{}{}".format(get_crime_level(num=user_data.crime, forYou=0), " ")
 
-        if user_kills > 0 and enemy_kills > 0:
-            response_block += "They have {:,} confirmed kills, and {:,} confirmed hunts. ".format(user_kills,
-                                                                                                  enemy_kills)
-        elif user_kills > 0:
-            response_block += "They have {:,} confirmed kills. ".format(user_kills)
-        elif enemy_kills > 0:
-            response_block += "They have {:,} confirmed hunts. ".format(enemy_kills)
+        #if user_kills > 0 and enemy_kills > 0:
+            #response_block += "They have {:,} confirmed kills, and {:,} confirmed hunts. ".format(user_kills,
+                                                                                                  #enemy_kills)
+        #elif user_kills > 0:
+            #response_block += "They have {:,} confirmed kills. ".format(user_kills)
+        #elif enemy_kills > 0:
+            #response_block += "They have {:,} confirmed hunts. ".format(enemy_kills)
 
-        if coinbounty != 0:
-            response_block += "SlimeCorp offers a bounty of {:,} SlimeCoin for their death. ".format(coinbounty)
+        #if coinbounty != 0:
+            #response_block += "SlimeCorp offers a bounty of {:,} SlimeCoin for their death. ".format(coinbounty)
 
         if len(adorned_cosmetics) > 0:
-            response_block += "They have a {} adorned. ".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
+            response_block += "\n\nThey have a {} adorned. \n\n".format(ewutils.formatNiceList(adorned_cosmetics, 'and'))
        
             # If user is wearing all pieces of a costume set, add text 
             if all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_nmsmascot):
@@ -194,16 +194,16 @@ def gen_data_text(
             elif all(elem in cosmetic_id_list for elem in static_cosmetics.cosmetic_hatealiens):
                 response_block += "Their taste in clothes is a symbol of hatred to illegal aliens everywhere."
             # Otherwise, generate response text.
-            elif user_data.freshness < ewcfg.freshnesslevel_1:
-                response_block += "Their outfit is starting to look pretty fresh, but They’ve got a long way to go if they wanna be NLACakaNM’s next top model. "
-            elif user_data.freshness < ewcfg.freshnesslevel_2:
-                response_block += "Their outfit is low-key on point, not gonna lie. They’re goin’ places, kid. "
-            elif user_data.freshness < ewcfg.freshnesslevel_3:
-                response_block += "Their outfit is lookin’ fresh as hell, goddamn! They shop so much they can probably speak Italian. "
-            elif user_data.freshness < ewcfg.freshnesslevel_4:
-                response_block += "Their outfit is straight up **GOALS!** Like, honestly. I’m being, like, totally sincere right now. Their Instragrime has attracted a small following. "
-            else:
-                response_block += "Holy shit! Their outfit is downright, positively, without a doubt, 100% **ON FLEEK!!** They’ve blown up on Instragrime, and they’ve got modeling gigs with fashion labels all across the city. "
+            #elif user_data.freshness < ewcfg.freshnesslevel_1:
+            #    response_block += "Their outfit is starting to look pretty fresh, but They’ve got a long way to go if they wanna be NLACakaNM’s next top model. "
+            #elif user_data.freshness < ewcfg.freshnesslevel_2:
+            #    response_block += "Their outfit is low-key on point, not gonna lie. They’re goin’ places, kid. "
+            #elif user_data.freshness < ewcfg.freshnesslevel_3:
+            #    response_block += "Their outfit is lookin’ fresh as hell, goddamn! They shop so much they can probably speak Italian. "
+            #elif user_data.freshness < ewcfg.freshnesslevel_4:
+            #    response_block += "Their outfit is straight up **GOALS!** Like, honestly. I’m being, like, totally sincere right now. Their Instragrime has attracted a small following. "
+            #else:
+                #response_block += "Holy shit! Their outfit is downright, positively, without a doubt, 100% **ON FLEEK!!** They’ve blown up on Instragrime, and they’ve got modeling gigs with fashion labels all across the city. "
 
         statuses = user_data.getStatusEffects()
 
@@ -307,7 +307,7 @@ def get_crime_level(num, forYou = 1):
         if num <= level:
             response = ewcfg.crime_status.get(level).format(they=pronounThey, them=pronounThem, their=pronounTheir)
             return response.capitalize()
-    return ewcfg.crime_status.get(1000000)
+    return ewcfg.crime_status.get(1000000).format(they=pronounThey, them=pronounThem, their=pronounTheir).capitalize()
 
 
 # Determine if a channel has any topics that relate to it in !help

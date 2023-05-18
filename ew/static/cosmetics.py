@@ -2572,6 +2572,24 @@ EwCosmeticItem(
         style = "evil",
         freshness = 0
     ),
+    EwCosmeticItem(
+        id_cosmetic = "slimdermancosplaymask",
+        str_name = "Slimderman Cosplay Mask",
+        str_desc = "Now you too can look just like your favorite creepypoud crush! Strike fear into the hearts of your enemies as they think you are the one and only terrifying Slimederman.",
+        rarity = "patrician",
+        durability = 250000,
+        style = "smart",
+        freshness = 8
+    ),
+    EwCosmeticItem(
+        id_cosmetic = "hatthatlookslikeanelephant",
+        str_name = "Hat that Looks like an Elephant",
+        str_desc = "It's exactly what it sounds like. The elephant's legs droop down over your eyes, as though you had horse blinders on.",
+        rarity = "patrician",
+        durability = 250000,
+        style = "cute",
+        freshness = 3
+    ),
 ]
 
 

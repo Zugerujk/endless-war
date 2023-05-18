@@ -51,7 +51,7 @@ async def attack(cmd):
     kf_ctn = None
     start_time = time.time()
     attacker_member = cmd.message.author
-    attacker = EwUser(member=attacker_member)
+    attacker = EwUser(member=attacker_member, data_level=2)
     attacker_mutations = attacker.get_mutations()
 
     check_resp = canAttack(cmd)
@@ -65,7 +65,7 @@ async def attack(cmd):
         attacker_weapon = static_weapons.weapon_map.get(attacker_weapon_item.template)
         attacker_slimeoid = EwSlimeoid(member=attacker_member)
         target_member = cmd.mentions[0]
-        target = EwUser(member=target_member)
+        target = EwUser(member=target_member, data_level=2)
         target_mutations = target.get_mutations()
         target_weapon_item = EwItem(id_item=target.weapon) if target.weapon > 0 else None
         target_weapon = static_weapons.weapon_map.get(target_weapon_item.template) if target.weapon > 0 else None
@@ -308,7 +308,7 @@ async def attack(cmd):
             if target_killed:
                 # Value Changes
                 attacker.hunger = 0 if ewcfg.mutation_id_fungalfeaster in attacker_mutations else attacker.hunger
-                if attacker_weapon_item.item_type == ewcfg.weapon_id_molotov:
+                if attacker_weapon_item.template == ewcfg.weapon_id_molotov:
                     attacker.change_crime(n=ewcfg.cr_arson_points)
                 else:
                     attacker.change_crime(n=ewcfg.cr_murder_points)
@@ -1205,7 +1205,7 @@ async def divorce(cmd):
         response = "I appreciate your forward thinking attitude, but how do you expect to get a divorce when you haven’t even gotten married yet? Throw your life away first, then we can talk."
     # Checks to make sure you're in the dojo.
     elif user_data.poi != ewcfg.poi_id_dojo:
-        response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the retarded decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
+        response = "As much as it would be satisfying to just chuck your {} down an alley and be done with it, here in civilization we deal with things *maturely.* You’ll have to speak to the guy that got you into this mess in the first place, or at least the guy that allowed you to make the inane decision in the first place. Luckily for you, they’re the same person, and he’s at the Dojo.".format(
             weapon.str_weapon)
     elif user_data.life_state == ewcfg.life_state_juvenile:
         response = "The Dojo Master offers annulment services to paying customers only. Enlist in a gang and he'll consider removing you from your hellish facade of a relationship."
@@ -1230,7 +1230,7 @@ async def divorce(cmd):
             response = "You hastily decide that maybe this dumpster fire of a relationship is worth saving after all. Probably. Maybe."
         else:
             # Unpreform the ceremony
-            response = "You decide it’s finally time to end the frankly obviously retarded farce that is your marriage with your {}. Things were good at first, you both wanted the same things out of life. But, that was then and this is now. You reflect briefly on your myriad of woes; the constant bickering, the mundanity of your everyday routine, the total lack of communication. You’re a slave. But, a slave you will be no longer! You know what you must do." \
+            response = "You decide it’s finally time to end the frankly obviously inane farce that is your marriage with your {}. Things were good at first, you both wanted the same things out of life. But, that was then and this is now. You reflect briefly on your myriad of woes; the constant bickering, the mundanity of your everyday routine, the total lack of communication. You’re a slave. But, a slave you will be no longer! You know what you must do." \
                         "\nYou approach the Dojo Master yet again, and explain to him your troubles. He solemnly nods along to every beat of your explanation. Luckily, he has a quick solution. He rips apart the marriage paperwork he forged last flavor text, and just like that you’re divorced from {}. It receives half of your SlimeCoin in the settlement, a small price to pay for your freedom. You hand over what used to be your most beloved possession and partner to the old man, probably to be pawned off to whatever bumfuck juvie waddles into the Dojo next. You don’t care, you just don’t want it in your data. " \
                         "So, yeah. You’re divorced. Damn, that sucks.".format(weapon.str_weapon, weapon_name)
 
