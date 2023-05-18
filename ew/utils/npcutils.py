@@ -230,7 +230,7 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    if potential_dialogue is not None:
+    if len(potential_dialogue) > 0:
         response = random.choice(potential_dialogue).format(bonus = bonus_flavor, player_name= "" if player is None else player.display_name)
     else:
         response = None
