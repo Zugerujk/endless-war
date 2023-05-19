@@ -182,8 +182,8 @@ class EwGoonScapeStat:
                         'fashion_style': ewcfg.style_skill,
                         'freshness': 0,
                         'adorned': 'true',
-                        'soulbound': 'true'
-                    }
+                    },
+                    soulbound=True
                 )
                 await create_quest_record(int(time.time()), self.id_user, self.id_server, "skill_cape", self.stat)
 
