@@ -197,15 +197,19 @@ def delete_world_event(id_event):
 
 def create_void_connection(id_server):
     existing_connections = get_void_connection_pois(id_server)
-    new_connection_poi = random.choice([poi.id_poi for poi in poi_static.poi_list
-                                        if poi.is_district
-                                        and not poi.is_gangbase
-                                        and poi.id_poi != ewcfg.poi_id_thevoid
-                                        and poi.id_poi != ewcfg.poi_id_underworld
-                                        and poi.id_poi != ewcfg.poi_id_themoon
-                                        and poi.enemy_lock != True
-                                        and poi.id_poi not in existing_connections
-                                        ])
+    choices = [poi.id_poi for poi in poi_static.poi_list
+                if poi.is_district
+                and not poi.is_gangbase
+                and poi.id_poi != ewcfg.poi_id_thevoid
+                and poi.id_poi != ewcfg.poi_id_underworld
+                and poi.id_poi != ewcfg.poi_id_themoon
+                and poi.enemy_lock != True
+                and poi.id_poi not in existing_connections]
+
+    if len(choices) == 0:
+        return
+
+    new_connection_poi = random.choice(choices)
 
     # add the new connection's POI as a neighbor for the void
     void_poi = poi_static.id_to_poi.get(ewcfg.poi_id_thevoid)
@@ -221,6 +225,8 @@ def create_void_connection(id_server):
         time_expir=time_now + (60 * random.randrange(20, 60)),  # 20 to 60 minutes
         event_props=event_props
     )
+
+    return
 
 
 def get_void_connection_pois(id_server):

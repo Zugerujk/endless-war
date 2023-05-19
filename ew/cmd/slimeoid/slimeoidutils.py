@@ -996,7 +996,7 @@ def can_slimeoid_battle(challenger: EwUser = None, challengee = None, challenger
 
             elif (time_now - target_slimeoid.time_defeated) < ewcfg.cd_slimeoiddefeated:
                 time_until = ewcfg.cd_slimeoiddefeated - (time_now - target_slimeoid.time_defeated)
-                response = "{}'s {} is still recovering from its last defeat! It'll be ready in {} seconds.".format(challengee_player.display_name, slimeoidtype, int(time_until))
+                response = "{}'s {} is still recovering from its last defeat! It'll be ready in {} seconds.".format(challengee_player.display_name if is_pvp else challengee_data.display_name, slimeoidtype, int(time_until))
 
             elif ewutils.active_slimeoidbattles.get(target_slimeoid.id_slimeoid):
                 response = "They are already in the middle of a challenge."

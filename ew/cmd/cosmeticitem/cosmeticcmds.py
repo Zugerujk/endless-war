@@ -246,8 +246,9 @@ async def adorn(cmd):
             if int(item_sought.item_props['size']) > 0:
                 space_adorned += int(item_sought.item_props['size'])
 
-            # If you don't have enough space, abort
-            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel) and i.item_props.get("size") != 0:
+            # If you don't have enough space, abort unless it is a skill cape.
+            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel) and (i.item_props.get('fashion_style') != 'skill' and i.item_props.get('size') != 0):
+                print(i.item_props)
                 response = "Oh yeah? And, pray tell, just how do you expect to do that? You’re out of space, you can’t adorn any more garments!"
 
             # If you have enough space, adorn
@@ -691,7 +692,7 @@ async def dye(cmd):
 async def pattern(cmd):
     if len(cmd.tokens) < 5:
         response = f"You gotta {cmd.tokens[0]} <cosmetic> <dye1> <dye2> <pattern>"
-        await fe_utils.send_response(response, cmd)
+        return await fe_utils.send_response(response, cmd)
     hat_id = ewutils.flattenTokenListToString(cmd.tokens[1])
     dye_id = ewutils.flattenTokenListToString(cmd.tokens[2])
     dye_id2 = ewutils.flattenTokenListToString(cmd.tokens[3])

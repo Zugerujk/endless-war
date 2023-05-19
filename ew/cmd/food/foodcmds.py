@@ -515,7 +515,7 @@ async def order(cmd):
                         user_data.time_lastpremiumpurchase = int(time.time())
 
                     # If the vendor isn't in the last_interact dictionary, or if its value plus the passive chat wait time is in the past
-                    print(market_utils.vendor_last_interact)
+                    # print(market_utils.vendor_last_interact)
                     if (current_vendor not in market_utils.vendor_last_interact.keys()) or (int(market_utils.vendor_last_interact[current_vendor]) + ewcfg.vendor_passive_chat_wait_time < int(time.time())):
                         # Update the dictionary value
                         market_utils.vendor_last_interact[current_vendor] = int(time.time())
