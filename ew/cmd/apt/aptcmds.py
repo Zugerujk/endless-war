@@ -58,15 +58,15 @@ async def retire(cmd = None, isGoto = False, movecurrent = None):
         return await usekey(cmd, owner_user)
     if cmd.message.guild is None or not ewutils.channel_name_is_poi(cmd.message.channel.name):
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+    elif apt_data.rent == 0:
+        response = "You don't *have* an apartment, dumbass."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
         response = "You can't do that right now."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     elif apt_zone != poi.id_poi:
         response = "You don't own an apartment here."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-    elif apt_data.rent == 0:
-        response = "You don't *have* an apartment, dumbass."
-        return await fe_utils.semd_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if isGoto:
             move_current = movecurrent
