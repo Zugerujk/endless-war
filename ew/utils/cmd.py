@@ -137,14 +137,14 @@ def gen_data_text(
             title = "{}dead{}".format(race_suffix, user_data.gender).capitalize()
         else:
             title = "{}slime{}".format(race_suffix, user_data.gender)
-        response = "{} is a LV{} {} {}.\n".format(display_name, user_data.slimelevel, race_prefix, title)
+        response = "{} is a LV{} {}{}.\n".format(display_name, user_data.slimelevel, race_prefix, title)
 
 
         weapon_item = EwItem(id_item=user_data.weapon)
         weapon = static_weapons.weapon_map.get(weapon_item.item_props.get("weapon_type"))
 
         if weapon != None:
-            response += " {} {}{}.".format(
+            response += "{} {}{}.".format(
                 ewcfg.str_weapon_married if user_data.weaponmarried == True else ewcfg.str_weapon_wielding, (
                     "" if len(weapon_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
                         weapon_item.item_props.get("weapon_name"))), weapon.str_weapon)
@@ -157,14 +157,22 @@ def gen_data_text(
         sidearm = static_weapons.weapon_map.get(sidearm_item.item_props.get("weapon_type"))
 
         if sidearm != None:
-            response += " They have sidearmed {}{}.".format((
-                "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
-                    sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
+            if weapon == None:
+                response += "They have sidearmed {}{}.".format((
+                    "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
+                        sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
+            else:
+                response += "They have sidearmed {}{}.".format((
+                    "" if len(sidearm_item.item_props.get("weapon_name")) == 0 else "{}, ".format(
+                        sidearm_item.item_props.get("weapon_name"))), sidearm.str_weapon)
 
         trauma = se_static.trauma_map.get(user_data.trauma)
 
         if trauma != None:
-            response += " {}".format(trauma.str_trauma)
+            if weapon != None or sidearm != None:
+                response += " {}".format(trauma.str_trauma)
+            else:
+                response += "{}".format(trauma.str_trauma)
 
         response_block = ""
 
