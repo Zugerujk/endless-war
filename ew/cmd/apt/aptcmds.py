@@ -44,7 +44,6 @@ async def retire(cmd = None, isGoto = False, movecurrent = None):
     apt_data = EwApartment(id_server=cmd.guild.id, id_user=cmd.message.author.id)
     apt_zone = apt_data.poi
 
-
     poi_dest = poi_static.id_to_poi.get(ewcfg.poi_id_apt + apt_zone)  # there isn't an easy way to change this, apologies for being a little hacky
 
     owner_user = None
@@ -65,6 +64,9 @@ async def retire(cmd = None, isGoto = False, movecurrent = None):
     elif apt_zone != poi.id_poi:
         response = "You don't own an apartment here."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    elif apt_data.rent == 0:
+        response = "You don't *have* an apartment, dumbass."
+        return await fe_utils.semd_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
         if isGoto:
             move_current = movecurrent
