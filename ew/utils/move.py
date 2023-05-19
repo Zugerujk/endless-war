@@ -594,7 +594,8 @@ async def kick(id_server):
                         await fe_utils.send_message(client, mother_district_channel, fe_utils.formatMessage(member_object, response))
                         ewutils.logMsg('moved inactive player {} out of subzone {}. Last action: {}'.format(user_data.id_user, user_data.poi, user_data.time_last_action))
         except:
-            ewutils.logMsg('failed to move inactive player out of subzone with poi {}: {}'.format(player[0], player[1]))
+            if (player[0] != 'altlock'):
+                ewutils.logMsg('failed to move inactive player out of subzone with poi {}: {}'.format(player[0], player[1]))
 
 
 async def send_gangbase_messages(server_id, clock):
