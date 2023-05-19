@@ -52,13 +52,15 @@ class EwApartment:
             elif id_server is not None and id_user is not None:
                 # Create a new database entry if the object is missing.
                 bknd_core.execute_sql_query(
-                    sql_query = "REPLACE INTO apartment({}, {}) VALUES(%s, %s)".format(
-                    ewcfg.col_id_user,
-                    ewcfg.col_id_server
+                    sql_query = "REPLACE INTO apartment({}, {}, {}) VALUES(%s, %s, %s)".format(
+                        ewcfg.col_id_user,
+                        ewcfg.col_id_server,
+                        ewcfg.col_poi
                     ), 
                     sql_replacements = (
-                    self.id_user,
-                    self.id_server
+                        self.id_user,
+                        self.id_server,
+                        self.poi
                     )
                 )
 
