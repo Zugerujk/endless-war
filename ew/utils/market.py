@@ -345,7 +345,7 @@ async def refresh_bazaar(id_server = None):
         elif item in static_relic.relic_names and relic_utils.canCreateRelic(item=item, id_server=id_server) is not None:
             bazaar_relics.append(item)
 
-    print(bazaar_general_items)
+    # print(bazaar_general_items)
     if (ewdebug.bazaarTurnout() == 1) and (len(bazaar_relics) > 0):
         market_data.bazaar_wares['relic1'] = random.choice(bazaar_relics)
 

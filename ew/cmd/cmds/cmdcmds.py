@@ -1783,7 +1783,7 @@ async def help(cmd):
                 # New line
                 response += "\n"
 
-            channel_topics = cmd_utils.channel_help_topics(channel=cmd.message.channel.name)
+            channel_topics = cmd_utils.channel_help_topics(channel=poi_static.id_to_poi.get(user_data.poi).channel)
 
             if channel_topics != []:
                 response += "\n*Based on your location, you may want to read up on **{}.***\n".format(ewutils.formatNiceList(names=channel_topics, conjunction="**and**"))
@@ -1891,7 +1891,7 @@ async def help(cmd):
         poi = poi_static.id_to_poi.get(user_data.poi)
 
         # Get topics associated with said channel
-        channel_topics = cmd_utils.channel_help_topics(channel=cmd.message.channel.name, poi=poi)
+        channel_topics = cmd_utils.channel_help_topics(channel=poi.channel, poi=poi)
 
         if channel_topics != []:
             # Choose a random topic, in case there are > 1
