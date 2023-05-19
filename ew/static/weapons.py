@@ -821,7 +821,6 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=4,
         str_brandish=["{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."]
     ),
     EwWeapon(  # 16
@@ -1315,7 +1314,7 @@ weapon_list = [
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_staff_kills,
         # sap_cost = 2,
-        captcha_length=10,
+        # captcha_length=4,
         str_brandish=["{name} lifts {weapon} and begins to chant unholy incantations! Small rocks slowly rise from the ground around them... \n\nWhoops, they forgot the last bit. The spell collapses."]
     ),
     EwWeapon(  # 31
@@ -1339,7 +1338,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_hoe_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} takes the piece of hay out of their mouth and spits chewing tobacco onto the ground! Varmints round here get {weapon} to the face."]
     ),
@@ -1364,7 +1363,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_pitchfork_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} raises {weapon} into the air. Kill them! Kill them all!"]
     ),
@@ -1389,7 +1388,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_shovel_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} rams {weapon} into the ground. Time to strike the earth!"]
     ),
@@ -1414,7 +1413,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_slimeringcan_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["OK, {name}. I get that you're trying to be scary with {weapon} and all. It's a fucking watering can. Get real, garden boy."]
     ),
@@ -1443,7 +1442,7 @@ weapon_list = [
         price=0,
         stat=ewcfg.stat_fingernails_kills,
         # sap_cost = 3,
-        captcha_length=8,
+        # captcha_length=2,
         str_brandish=[""]
     ),
     EwWeapon(  # 35
