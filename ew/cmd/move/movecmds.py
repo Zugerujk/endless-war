@@ -572,7 +572,6 @@ async def look(cmd):
     else:
         str_desc = poi.str_desc
 
-
     dock_resp = ""
     if poi.is_dock:
         boats = yacht_utils.find_local_boats(poi=poi.id_poi, id_server=user_data.id_server)
@@ -583,7 +582,6 @@ async def look(cmd):
             temp_resp_dock = "\n\n" + ewutils.formatNiceList(names=names)
             dock_resp += temp_resp_dock[0].upper() + temp_resp_dock[1:]
             dock_resp += " {} docked here.".format("is" if len(names) == 1 else "are")
-
 
     if poi.is_subzone or poi.id_poi == ewcfg.poi_id_thevoid:  # Triggers if you input the command in the void or a sub-zone.
         wikichar = '\n\n<{}>'.format(poi.wikipage) if poi.wikipage != '' else ''
@@ -665,7 +663,8 @@ async def look(cmd):
 
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(
             cmd.message.author,
-            "{}{}{}{}{}{}{}{}{}{}".format(
+            "{}\n{}{}{}{}{}{}{}{}{}{}".format(
+                dock_resp,
                 capped_resp,
                 slimes_resp,
                 items_resp,

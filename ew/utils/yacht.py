@@ -155,7 +155,6 @@ def find_local_boats(poi = None, name = None, id_server = None, current_coords =
             poi_match = 1
         if poi_match == 1 and(name is None or coreutils.flattenTokenListToString(name).lower() in coreutils.flattenTokenListToString(yacht.yacht_name).lower()):
             boats.append(yacht)
-
     return boats
 
 
