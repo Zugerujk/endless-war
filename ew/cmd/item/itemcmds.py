@@ -1267,7 +1267,7 @@ async def discard(cmd, special_dest = None):
 
             response = "You throw away your " + item_sought.get("name")
 
-            if special_dest is not None and "slimesea" in special_dest:
+            if special_dest is not None and 'yacht' in user_data.poi:
                 response = "You toss your {} overboard.".format(item_sought.get("name"))
             itm_utils.item_drop(id_item=item.id_item, other_poi=special_dest)
 

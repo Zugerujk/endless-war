@@ -65,9 +65,11 @@ from ..wep import wepcmds as wep_cmds
 try:
     from ..debug import debug24
     from ew.static import rstatic as relic_static
+    from ew.cmd import debug as ewdebug
 except:
     from ..debug_dummy import debug24
     from ew.static import rstatic_dummy as relic_static
+    from ew.cmd import debug_dummy as ewdebug
 
 """ show player's slime score """
 
@@ -896,8 +898,18 @@ async def toss_off_cliff(cmd):
 
     if user_data.poi[:5] == 'yacht':
         yacht = EwYacht(id_thread=int(user_data.poi[5:]), id_server=user_data.id_server)
-        destination = "slimesea_{}_{}".format(yacht.xcoord, yacht.ycoord)
-        return await ewitem.itemcmds.discard(cmd=cmd, special_dest=destination)
+        if ewdebug.seamap[yacht.ycoord][yacht.xcoord] < 0:
+            destination = "slimesea_{}_{}".format(yacht.xcoord, yacht.ycoord)
+            return await ewitem.itemcmds.discard(cmd=cmd, special_dest=destination)
+        else:
+            exit_poi = None
+            for dock in poi_static.docks:
+                dock_obj = poi_static.id_to_poi.get(dock)
+                for coord in dock_obj.coord:
+                    if coord[0] == yacht.xcoord and coord[1] == yacht.ycoord:
+                        exit_poi = dock
+            if exit_poi is not None:
+                return await ewitem.itemcmds.discard(cmd=cmd, special_dest=exit_poi)
     elif cmd.message.channel.name != ewcfg.channel_slimesendcliffs:
         if item_sought:
             if item_sought.get('name') == "brick" and cmd.mentions_count > 0:
