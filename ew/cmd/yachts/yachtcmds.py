@@ -90,7 +90,7 @@ async def board_ship(cmd):
 
     name = ' '.join(word for word in cmd.tokens[1:])
 
-    if not poi.is_dock:
+    if user_data.poi[:5] != 'yacht' and not poi.is_dock:
         response = "There are no ships here."
 
     elif cmd.tokens_count == 1:
@@ -250,8 +250,10 @@ async def avast(cmd):
         for stat in stats:
             if stat in ['gangplanked', 'harpooned']:
                 attached_yacht = EwYacht(id_server=yacht.id_server, id_thread=stat.target)
-                if attached_yacht.thread_id != yacht.thread_id:
+                if attached_yacht.thread_id != yacht.thread_id and attached_yacht.xcoord == yacht.xcoord and attached_yacht.ycoord == yacht.ycoord:
                     extra_response += " You are {} to the {}.".format(stat.type_stat, attached_yacht.yacht_name)
+                elif attached_yacht.thread_id != yacht.thread_id:
+                    yacht.clearStat(id_stat=stat.id_stat)
             if stat == 'embalmed':
                 extra_response += " You have embalmed your ship to prevent it from burning up."
             if stat == 'flood':
@@ -597,7 +599,7 @@ async def gangplank(cmd):
 
         boats = yacht_utils.find_local_boats(current_coords=coord_me, id_server=cmd.guild.id, name=target_name)
         if len(boats) < 1:
-            response = "There's nobody to gangplank with that name."
+            response = "There's nobody close enough to gangplank with that name. "
         elif yacht.filth_check():
             response = "You can't find the plank under all this filth. God dammit, where is that blasted thing!"
         else:

@@ -109,6 +109,10 @@ async def boat_tick(id_server, tick_count):
         for stat in stats:
             if stat == 'flood' and ewdebug.seamap[boat_obj.ycoord][boat_obj.xcoord] != 0:
                 boat_obj.flood += stat.quantity
+            elif stat == 'gangplanked':
+                attached_yacht = EwYacht(id_server=boat_obj.id_server, id_thread=stat.target)
+                if attached_yacht.xcoord != boat_obj.xcoord or attached_yacht.ycoord != boat_obj.ycoord:
+                    boat_obj.clearStat(id_stat=stat.id_stat)
 
         if boat_obj.flood > 100:
 
