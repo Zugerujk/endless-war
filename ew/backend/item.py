@@ -315,8 +315,6 @@ def item_create(
 ):
 
     item_def = static_items.item_def_map.get(item_type)
-    if soulbound is not None:
-        item_def.soulbound = soulbound
     badRelic = 0
 
     if item_def == None:
@@ -368,7 +366,7 @@ def item_create(
                 item_type,
                 id_user,
                 id_server,
-                (1 if item_def.soulbound else 0),
+                (1 if (item_def.soulbound if soulbound is None else soulbound) else 0),
                 stack_max,
                 stack_size,
                 template_id,
