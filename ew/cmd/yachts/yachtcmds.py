@@ -71,8 +71,9 @@ async def rentyacht(cmd):
             #starting_message = await fe_utils.send_message(cmd.client, channel_slimesea, "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
             thread = await channel_slimesea.create_thread(name="S.S. {}".format(name), invitable=False)
 
-            yacht.thread_id = thread.id
+            yacht.thread_id = thread.id,
             yacht.persist()
+            yacht.applyStat(stat_type='locked')
             return await fe_utils.talk_bubble(response=response, name="**__SMITTY ALEXANDER__**", channel=cmd.message.channel, image="https://rfck.app/npc/albertalex.png")
 
         else:
@@ -773,7 +774,7 @@ async def lock(cmd): #doubles as the ship unlock
             response = "It's not your yacht, you don't have the key. Funny idea, though."
         else:
             response = ""
-            if cmd.tokens[0] == '!unlock':
+            if cmd.tokens[0] == '!unlockboat':
                 if 'locked' not in yacht.getYachtStats():
                     response = "It's already unlocked."
                 else:
@@ -781,7 +782,7 @@ async def lock(cmd): #doubles as the ship unlock
                     for stat in yacht.getYachtStats():
                         if stat.type_stat == 'locked':
                             yacht.clearStat(id_stat=stat.id_stat)
-            elif cmd.tokens[1] == '!lock':
+            elif cmd.tokens[0] == '!lockboat':
                 if 'locked' in yacht.getYachtStats():
                     response = "It's already locked."
                 else:
