@@ -301,10 +301,9 @@ async def create(cmd):
         id_server=cmd.guild.id,
         id_user=recipient.id,
         item_type=ewcfg.it_cosmetic,
-        item_props=item_props
+        item_props=item_props,
+        soulbound=True
     )
-
-    itm_utils.soulbind(new_item_id)
 
     response = 'Item "{}" with ID {} successfully created.'.format(item_name, new_item_id)
     return await fe_utils.send_response(response, cmd)
@@ -366,12 +365,12 @@ async def exalt(cmd):
             item_type=medallion.item_type,
             id_user=user_id,
             id_server=cmd.guild.id,
-            item_props=medallion_props
+            item_props=medallion_props,
+            soulbound=True
         )
 
         # Soulbind the medallion. A player can get at most twice, but later on a new command could be added to destroy them/trade them in.
         # I imagine this would be something similar to how players can destroy Australium Wrenches in TF2, which broadcasts a message to everyone in the game, or something.
-        itm_utils.soulbind(medallion_id)
 
         response = "**{} has been gifted the Double Halloween Medallion!!**\n".format(display_name)
     elif ewcfg.swilldermuk_active:
@@ -395,10 +394,9 @@ async def exalt(cmd):
                 item_type=mask.item_type,
                 id_user=recipient.id,
                 id_server=cmd.guild.id,
-                item_props=mask_props
+                item_props=mask_props,
+                soulbound=True
             )
-
-            itm_utils.soulbind(mask_id)
 
             response = "In light of their supreme reign over Swilldermuk, and in honor of their pranking prowess, {} recieves the Janus Mask!".format(recipient.display_name)
 
@@ -418,10 +416,9 @@ async def exalt(cmd):
                 item_type=sword.item_type,
                 id_user=recipient.id,
                 id_server=cmd.guild.id,
-                item_props=sword_props
+                item_props=sword_props,
+                soulbound=True
             )
-
-            itm_utils.soulbind(sword_id)
 
             response = "In response to their unparalleled ability to let everything go to shit and be the laughingstock of all of NLACakaNM, {} recieves the SWORD OF SEETHING! God help us all...".format(recipient.display_name)
     else:

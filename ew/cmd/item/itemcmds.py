@@ -1730,12 +1730,11 @@ async def forge_master_poudrin(cmd):
         id_server=cmd.guild.id,
         id_user=user_data.id_user,
         item_type=ewcfg.it_cosmetic,
-        item_props=item_props
+        item_props=item_props,
+        soulbound=True
     )
 
     ewutils.logMsg("Master poudrin created. Slime stored: {}, Cosmetic ID = {}".format(user_data.slimes, new_item_id))
-
-    itm_utils.soulbind(new_item_id)
 
     user_data.slimes = 0
     user_data.persist()
