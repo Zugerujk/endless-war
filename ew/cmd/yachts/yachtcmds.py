@@ -1,6 +1,7 @@
 import discord
 import time
 from ew.utils.combat import EwUser
+from ew.backend.item import EwItem
 import ew.backend.item as bknd_item
 import ew.static.cfg as ewcfg
 from ew.backend.yacht import EwYacht
@@ -790,6 +791,47 @@ async def lock(cmd): #doubles as the ship unlock
                 else:
                     yacht.applyStat(stat_type='locked')
                     response = "You lock the entry hatch to the boat."
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def cut_harpoon(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if user_data.poi[:5] != 'yacht':
+        response = 'Wait, I though we already cut the harpoon. Did it get added back?'
+    elif ewutils.active_restrictions.get(user_data.id_user) is not None and ewutils.active_restrictions.get(user_data.id_user) > 0:
+        response = "You can't do that right now."
+    else:
+        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+        if user_data.id_user in [yacht.cannon, yacht.storehouse]:
+            response = "You're belowdeck! Stop manning the cannon or storehouse and you can go do that."
+        elif yacht.filth_check():
+            response = "Your hands keep slipping thanks to all the grease around here. Someone forgot to reduce the filth."
+        else:
+            totalrepair = 2
+            stats = yacht.getYachtStats()
+            if user_data.weapon != -1:
+                weapon = EwItem(id_item=user_data.weapon)
+                if weapon.template == ewcfg.weapon_id_knives:
+                    totalrepair = 5
+            response = "There aren't any holes to repair."
+            if 'flood' in stats:
+                ewutils.active_restrictions[user_data.id_user] = 6
+                await asyncio.sleep(5)
+                ewutils.active_restrictions[user_data.id_user] = 0
+                stats = yacht.getYachtStats()
+                for stat in stats:
+                    if stat.type_stat == 'harpooned':
+                        yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
+                        yacht.accumulate_filth()
+                        if totalrepair >= stat.quantity:
+                            yacht.clearStat(id_stat=stat.id_stat)
+                        else:
+                            stat.quantity -= totalrepair
+                            stat.persist()
+                        response = "You cut some of the ropes holding your ships together."
+                        break
+                if 'harpooned' not in stats:
+                    response += " You're free!"
+
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def statstest(cmd):
