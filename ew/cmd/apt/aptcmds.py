@@ -1,6 +1,8 @@
 import asyncio
 import random
 import time
+import traceback
+import sys
 
 from ew.backend import item as bknd_item
 from ew.backend import worldevent as bknd_event
@@ -289,63 +291,76 @@ async def apartment(cmd):
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
+upgrade_dict = {}
 async def upgrade(cmd):
     usermodel = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     apt_model = EwApartment(id_server=cmd.guild.id, id_user=cmd.message.author.id)
+    can_upgrade, response = False, "I'm sorry Dave, I can't let you do that."
 
     if apt_model.rent == 0:
         response = "You don't have an apartment."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif usermodel.poi != ewcfg.poi_id_realestate:
         response = "Upgrade your home at the apartment agency."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif (apt_model.apt_class == ewcfg.property_class_s):
         response = "Fucking hell, man. You're loaded, and we're not upgrading you."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
     elif (usermodel.slimecoin < apt_model.rent * 8):
         response = "You can't even afford the down payment. We're not entrusting an upgrade to a 99%er like you."
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    
+    elif (usermodel.id_user in upgrade_dict.keys()):
+        response = "Heard you the first time dick."
+        upgrade_dict[usermodel.id_user] = True
 
     else:
+        can_upgrade = True
 
-        response = "Are you sure? The upgrade cost is {:,} SC, and rent goes up to {:,} SC per week. To you !accept the deal, or do you !refuse it?".format(apt_model.rent * 8, apt_model.rent * 2)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    if not can_upgrade:
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+    upgrade_dict.update({usermodel.id_user: False})
+    response = "Are you sure? The upgrade cost is {:,} SC, and rent goes up to {:,} SC per week. To you !accept the deal, or do you !refuse it?".format(apt_model.rent * 8, apt_model.rent * 2)
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    accepted = spammed = False
+
+    try:
+        if upgrade_dict.get(usermodel.id_user, False):
+            msg = ewcfg.cmd_upgrade
+        else:
+            msg = (await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower().split()[0] in [ewcfg.cmd_accept, ewcfg.cmd_refuse, ewcfg.cmd_upgrade])).content
+
+        if msg.lower()[:len(ewcfg.cmd_accept)] == ewcfg.cmd_accept:
+            accepted = True
+        if msg.lower()[:len(ewcfg.cmd_refuse)] == ewcfg.cmd_refuse:
+            accepted = False
+        if msg.lower()[:len(ewcfg.cmd_upgrade)] == ewcfg.cmd_upgrade:
+            accepted = False
+            spammed = True
+    except:
         accepted = False
 
-        try:
-            message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
+    if not accepted:
+        response = "Eh. Your loss." if not spammed else "Now you're definitely not getting it."
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return upgrade_dict.pop(usermodel.id_user)
 
-            if message != None:
-                if message.content.lower() == ewcfg.cmd_accept:
-                    accepted = True
-                if message.content.lower() == ewcfg.cmd_refuse:
-                    accepted = False
-        except:
-            accepted = False
+    usermodel = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+    apt_model = EwApartment(id_server=cmd.guild.id, id_user=cmd.message.author.id)
 
-        if not accepted:
-            response = "Eh. Your loss."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    usermodel.change_slimecoin(n=apt_model.rent * -8, coinsource=ewcfg.coinsource_spending)
 
-        else:
-            usermodel = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
-            apt_model = EwApartment(id_server=cmd.guild.id, id_user=cmd.message.author.id)
+    apt_model.rent *= 2
 
-            usermodel.change_slimecoin(n=apt_model.rent * -8, coinsource=ewcfg.coinsource_spending)
+    if apt_model.apt_class in ewcfg.apartment_classes:
+        current_index = ewcfg.apartment_classes.index(apt_model.apt_class)
+        apt_model.apt_class = ewcfg.apartment_classes[current_index + 1]
 
-            apt_model.rent *= 2
-
-            if apt_model.apt_class in ewcfg.apartment_classes:
-                current_index = ewcfg.apartment_classes.index(apt_model.apt_class)
-                apt_model.apt_class = ewcfg.apartment_classes[current_index + 1]
-
-            usermodel.persist()
-            apt_model.persist()
-            response = "The deed is done. Back at your apartment, a builder nearly has a stroke trying to speed-renovate. You're now rank {}.".format(apt_model.apt_class)
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    usermodel.persist()
+    apt_model.persist()
+    response = "The deed is done. Back at your apartment, a builder nearly has a stroke trying to speed-renovate. You're now rank {}.".format(apt_model.apt_class)
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    return upgrade_dict.pop(usermodel.id_user)
 
 
 async def knock(cmd = None):
