@@ -822,76 +822,101 @@ async def dyefurniture(cmd):
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'You need to specify which furniture you want to paint and which dye you want to use! Check your **!inventory**.'))
 
 
+addkey_dict = {}
 async def add_key(cmd):
     playermodel = EwPlayer(id_user=cmd.message.author.id)
     user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
-
     apartment_data = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+    can_add, response = False, "I'm sorry Dave, I can't let you do that."
+
     if user_data.poi != ewcfg.poi_id_realestate:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You need to request a housekey at the Real Estate Agency."))
+        response = "You need to request a housekey at the Real Estate Agency."
+        
     elif apartment_data.rent == 0:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You don't have an apartment."))
+        response = "You don't have an apartment."
+        
     elif apartment_data.apt_class == ewcfg.property_class_c:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You're practically homeless yourself with that slumhouse you've leased out. Upgrade your house to get a roommate!"))
+        response = "You're practically homeless yourself with that slumhouse you've leased out. Upgrade your house to get a roommate!"
+        
     elif (apartment_data.apt_class == ewcfg.property_class_b or apartment_data.apt_class == ewcfg.property_class_a) and apartment_data.num_keys >= 1:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You already have a roommate. If we let you guys create hippie communes like you're trying we'd go out of business."))
+        response = "You already have a roommate. If we let you guys create hippie communes like you're trying we'd go out of business."
+        
     elif apartment_data.apt_class == ewcfg.property_class_s and apartment_data.num_keys >= 2:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "2 roommates is enough. You upgraded the apartment, and we upgraded its fragile load bearing capacity. But not by much."))
+        response = "2 roommates is enough. You upgraded the apartment, and we upgraded its fragile load bearing capacity. But not by much."
+        
     elif user_data.slimecoin < apartment_data.rent:
-        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You need to pay base rent in order to receive a new housekey. It sadly appears as though you can't even afford a new friend."))
+        response = "You need to pay base rent in order to receive a new housekey. It sadly appears as though you can't even afford a new friend."
+
+    elif user_data.id_user in addkey_dict.keys():
+        response = "Heard you the first time dick."
+        addkey_dict[user_data.id_user] = True
+
     else:
-        poi = poi_static.id_to_poi.get(user_data.poi)
+        can_add = True
 
-        response = "Adding a key will change your rent to {:,} SlimeCoin. It will cost {:,} Slimcoin, as a down payment. Do you !accept or !refuse?".format(int(apartment_data.rent * 1.5), apartment_data.rent)
-        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
-        try:
-            accepted = False
-            message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and
-                                                                                             message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse, ewcfg.cmd_addkey])
+    if not can_add:
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
-            if message != None:
-                if message.content.lower() == ewcfg.cmd_accept:
-                    accepted = True
-                if message.content.lower() == ewcfg.cmd_refuse:
-                    accepted = False
-                if message.content.lower() == ewcfg.cmd_addkey: # If this isn't here, !addkey can spammed to get past 2 keys. No multiple keys, posers.
-                    accepted = False
-        except:
-            accepted = False
-        if not accepted:
-            response = "Ok, sure. Live alone forever. See if I care."
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    addkey_dict.update({user_data.id_user: False})
+    poi = poi_static.id_to_poi.get(user_data.poi)
 
+    response = "Adding a key will change your rent to {:,} SlimeCoin. It will cost {:,} Slimcoin, as a down payment. Do you !accept or !refuse?".format(int(apartment_data.rent * 1.5), apartment_data.rent)
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    accepted = spammed = False
+
+    try:
+        if addkey_dict.get(user_data.id_user, False):
+            msg = ewcfg.cmd_addkey
         else:
-            user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
-            user_data.change_slimecoin(n=-apartment_data.rent, coinsource=ewcfg.coinsource_spending)
-            user_data.persist()
+            msg = (await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower().split()[0] in [ewcfg.cmd_accept, ewcfg.cmd_refuse, ewcfg.cmd_addkey])).content
 
-            new_item_id = bknd_item.item_create(
-                id_user=cmd.message.author.id,
-                id_server=cmd.guild.id,
-                item_type=ewcfg.it_item,
-                item_props={
-                    'item_name': "key to {}'s house".format(playermodel.display_name),
-                    'id_item': "housekey",
-                    'item_desc': "A key to {}'s house. They must trust you a lot.".format(playermodel.display_name),
-                    'rarity': ewcfg.rarity_plebeian,
-                    'houseID': "{}".format(cmd.message.author.id),
-                    'context': "housekey"
-                }
-            )
-            new_item = EwItem(id_item=new_item_id)
-            new_item.soulbound = True
-            new_item.persist()
+        if msg.lower().split()[0] == ewcfg.cmd_accept:
+            accepted = True
+        if msg.lower().split()[0] == ewcfg.cmd_refuse:
+            accepted = False
+        if msg.lower().split()[0] == ewcfg.cmd_addkey:
+            accepted = False
+            spammed = True
+    except:
+        accepted = False
 
-            apartment_data.num_keys += 1
-            apartment_data.rent = apartment_data.rent * 1.5
-            if apartment_data.key_1 == 0:
-                apartment_data.key_1 = new_item_id
-            else:
-                apartment_data.key_2 = new_item_id
-            apartment_data.persist()
-            return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "The realtor examines your profile for a bit before opening his filing cabinet and pulling out a key from the massive pile. 'You two lovebirds enjoy yourselves', he sleepily remarks before tossing it onto the desk. Sweet, new key!"))
+    if not accepted:
+        response = "Ok, sure. Live alone forever. See if I care." if not spammed else "No new key if you're gonna be that annoying about it."
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+        return addkey_dict.pop(user_data.id_user)
+
+    user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+    user_data.change_slimecoin(n=-apartment_data.rent, coinsource=ewcfg.coinsource_spending)
+    user_data.persist()
+
+    new_item_id = bknd_item.item_create(
+        id_user=cmd.message.author.id,
+        id_server=cmd.guild.id,
+        item_type=ewcfg.it_item,
+        item_props={
+            'item_name': "key to {}'s house".format(playermodel.display_name),
+            'id_item': "housekey",
+            'item_desc': "A key to {}'s house. They must trust you a lot.".format(playermodel.display_name),
+            'rarity': ewcfg.rarity_plebeian,
+            'houseID': "{}".format(cmd.message.author.id),
+            'context': "housekey"
+        }
+    )
+    new_item = EwItem(id_item=new_item_id)
+    new_item.soulbound = True
+    new_item.persist()
+
+    apartment_data.num_keys += 1
+    apartment_data.rent = apartment_data.rent * 1.5
+
+    if apartment_data.key_1 == 0:
+        apartment_data.key_1 = new_item_id
+    else:
+        apartment_data.key_2 = new_item_id
+
+    apartment_data.persist()
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "The realtor examines your profile for a bit before opening his filing cabinet and pulling out a key from the massive pile. 'You two lovebirds enjoy yourselves', he sleepily remarks before tossing it onto the desk. Sweet, new key!"))
+    return addkey_dict.pop(user_data.id_user)
 
 
 async def manual_changelocks(cmd):
