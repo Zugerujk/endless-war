@@ -79,6 +79,18 @@ async def boat_tick(id_server, tick_count):
                     if response != "":
                         thread = await boat_obj.get_thread()
                         await fe_utils.send_message(None, thread, response)
+                elif ewdebug.seamap[seacursor_y][seacursor_x] == -2:
+                    dest = random.randint(0, 4)
+                    new_coords = ewdebug.loc_arr.get(dest)
+                    boat_obj.xcoord = new_coords[0]
+                    boat_obj.ycoord = new_coords[1]
+                    if radius > 0:
+                        boat_obj.persist()
+                        response += draw_map(xcoord=boat_obj.xcoord, ycoord=boat_obj.ycoord, id_server=boat_obj.id_server, radius=radius)
+                    if response != "":
+                        response += "\nThe whirlpool warped you somewhere else..."
+                        thread = await boat_obj.get_thread()
+                        await fe_utils.send_message(None, thread, response)
                 elif ewdebug.seamap[seacursor_y][seacursor_x] == 0 and ewdebug.seamap[boat_obj.ycoord][boat_obj.xcoord] == -1:
                     boat_obj.xcoord = seacursor_x
                     boat_obj.ycoord = seacursor_y
@@ -240,7 +252,8 @@ def draw_map(xcoord, ycoord, id_server, radius = 4, treasuremap = False):
     map_key = {
         -1: '🟦',  # blue
         3: '⬛',  # black
-        0: '🟩'  # green
+        0: '🟩',  # green
+        -2: '🌀' #WARP ZONE
 
     }
 

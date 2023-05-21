@@ -115,7 +115,7 @@ async def board_ship(cmd):
                 else:
                     selected_ship = ship
             if selected_ship is not None:
-                if ewdebug.seamap[selected_ship.ycoord][selected_ship.xcoord] != -1:
+                if ewdebug.seamap[selected_ship.ycoord][selected_ship.xcoord] >= 0:
                     onland =  True
                 else:
                     onland = False
@@ -351,7 +351,7 @@ async def unboard(cmd):
         response = "You gotta get boarded first."
     else:
         yacht = EwYacht(id_server=cmd.guild.id, id_thread=int(user_data.poi[5:]))
-        if ewdebug.seamap[yacht.ycoord][yacht.xcoord] == -1:
+        if ewdebug.seamap[yacht.ycoord][yacht.xcoord] < 0:
             resp_cont = fe_utils.EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
 
             user_data.poi = ewcfg.poi_id_slimesea
@@ -548,6 +548,8 @@ async def fire_cannon(cmd):
                 yacht.accumulate_filth()
                 if aimed is False:
                     response = "BAM!..............splish!\nThe cannonball flies through the air, landing on sweet nothing! Aim faster next time, dumpass!"
+                elif (19 < target_ship.xcoord < 33 and 0 < target_ship.ycoord < 14) or (19 < yacht.xcoord < 33 and 0 < yacht.ycoord < 14):
+                    response = "You can't fire in Slime's End airspace, Smitty will get sued! He had to go through hell just to get the permits."
                 else:
                     other_ship_channel = target_ship.get_thread()
                     distance = math.sqrt((target_ship.xcoord-yacht.xcoord)**2 + (target_ship.ycoord-yacht.ycoord)**2)
