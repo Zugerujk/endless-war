@@ -860,7 +860,7 @@ def is_district_empty(poi = ''):  # quick function to check presence in a distri
         time_last_action=ewcfg.col_time_last_action,
         time_last_enter = ewcfg.col_time_lastenter),
         (poi, time_now-300, time_now-300), fetchone = True)
-    if data is not None or DEBUG:
+    if (data is not None and len(data) > 0) or DEBUG:
         return False
     else:
         return True
