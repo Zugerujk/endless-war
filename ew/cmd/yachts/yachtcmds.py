@@ -226,7 +226,15 @@ async def avast(cmd):
             response = yacht_utils.draw_map(xcoord=yacht.xcoord, ycoord=yacht.ycoord, id_server=cmd.guild.id, radius=4)
         else:
             response = ""
-        extra_response = "\n{} is currently ".format(yacht.yacht_name)
+
+        item_sought = bknd_item.find_item(item_search="sextant", id_user=cmd.message.author.id, id_server=cmd.guild.id)
+        latlong = ""
+        if item_sought:
+            item = EwItem(id_item=item_sought.get('id_item'))
+            if item.item_props.get("id_item") == "sextant":
+                latlong = "**38.{}{} N -112.{}{} W**\n".format(322+yacht.xcoord, random.randint(10, 99), 205+yacht.ycoord, random.randint(10, 99))
+
+        extra_response = "\n{}{} is currently ".format(latlong, yacht.yacht_name)
 
         if yacht.direction == 'stop':
             extra_response += "stopped."

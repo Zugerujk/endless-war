@@ -917,6 +917,13 @@ item_list = [
             "zucker"
         ]
     ),
+    EwGeneralItem(
+        id_item='sextant',
+        str_name="Sextant",
+        str_desc="They measure angles. Teehee.",
+        vendors=[ewcfg.vendor_basedhardware],
+        price=690000
+    ),
     EwSlimeoidFood(
         id_item=ewcfg.item_id_fragilecandy,
         alias=[
@@ -3953,6 +3960,7 @@ EwFurniture(
         furniture_place_desc = "You toss the die out of your pocket, and see it careen across the ground. Just as it looks like it's about to stop rolling... it falls between the floorboards. Damnit!",
         furniture_look_desc = "There's a die stuck in the floorboards.",
     ),
+
 ]
 
 
