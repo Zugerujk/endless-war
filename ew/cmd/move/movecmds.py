@@ -604,7 +604,9 @@ async def look(cmd):
     else:
         controlled_data = district_data
 
-    capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
+    capped_resp = ""
+    if poi.is_capturable:
+        capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
     slimes_resp = get_slimes_resp(user_data, district_data)
     items_resp = get_items_resp(user_data, district_data)
     players_resp = get_players_look_resp(user_data, district_data)
@@ -703,7 +705,9 @@ async def survey(cmd):
     else:
         controlled_data = district_data
 
-    capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
+    capped_resp = ""
+    if poi.is_capturable:
+        capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
     slimes_resp = get_slimes_resp(user_data, district_data)
     items_resp = get_items_resp(user_data, district_data)
     players_resp = get_players_look_resp(user_data, district_data)
