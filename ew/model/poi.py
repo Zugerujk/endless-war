@@ -135,7 +135,7 @@ class EwPoi:
     jump_dest = ""
 
     #specific keywords for looking at parts of a district
-    keyword_blurbs = {}
+    keyword_blurbs = None
 
     def __init__(
             self,
