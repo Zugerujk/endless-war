@@ -125,6 +125,9 @@ async def add_blurb(cmd):
                 npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
             else:
                 npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
+        elif blurb_obj.context == 'districtkey':
+            poi = poi_static.id_to_poi.get(blurb_obj.subcontext)
+            poi.keyword_blurbs[blurb_obj.subsubcontext] = blurb_obj.blurb
         elif blurb_obj.context == 'district':
             comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
         elif blurb_obj.context == 'vendor':
