@@ -232,7 +232,7 @@ async def avast(cmd):
         if item_sought:
             item = EwItem(id_item=item_sought.get('id_item'))
             if item.item_props.get("id_item") == "sextant":
-                latlong = "**38.{}{} N -112.{}{} W**\n".format(322+yacht.xcoord, random.randint(10, 99), 205+yacht.ycoord, random.randint(10, 99))
+                latlong = "**38.{}{} N -112.{}{} W**\n".format(322-yacht.ycoord, random.randint(10, 99), 205-yacht.xcoord, random.randint(10, 99))
 
         extra_response = "\n{}{} is currently ".format(latlong, yacht.yacht_name)
 
