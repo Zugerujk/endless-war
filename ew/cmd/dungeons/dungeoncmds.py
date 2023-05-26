@@ -105,9 +105,10 @@ async def tutorial_cmd(cmd):
 async def add_blurb(cmd):
     if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
         channel = fe_utils.get_channel(server=cmd.guild, channel_name='suggestion-box')
-
+        if cmd.tokens_count >= 2:
+            cmd.tokens[1] = "\"" + cmd.tokens[1] + "\""
         prompt = " ".join(cmd.tokens)
-        sugg_response = "from {}({}):\n{}".format(cmd.message.author.display_name, cmd.message.author.id, prompt)
+        sugg_response = "blurb from {}({}):\n{}".format(cmd.message.author.display_name, cmd.message.author.id, prompt)
         await fe_utils.send_message(cmd.client, channel, sugg_response)
         response = "Added a blurb to suggestion-box."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
