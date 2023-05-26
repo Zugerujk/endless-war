@@ -3606,8 +3606,8 @@ async def award_skill_capes(cmd): #this command should be removed after its been
                     'fashion_style': ewcfg.style_skill,
                     'freshness': 0,
                     'adorned': 'true',
-                    'soulbound': 'true'
-                }
+                },
+                soulbound=True
             )
             placement += 1
 
