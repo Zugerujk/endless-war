@@ -594,7 +594,7 @@ async def forecast(cmd):
 
 
 """
-	Killers DAB
+    Killers DAB
 """
 
 
@@ -607,14 +607,14 @@ async def dab(cmd):
         
     #Other factions being dumb
     elif (user_data.life_state == ewcfg.life_state_enlisted or user_data.life_state == ewcfg.life_state_kingpin) and user_data.faction == ewcfg.faction_rowdys:
-	final_response = "The fuck you think you're doing, bustah?"
+        final_response = "The fuck you think you're doing, bustah?"
     else:
-	final_response = "You're too much of a coward to !dab, dumbass."
-	
+        final_response = "You're too much of a coward to !dab, dumbass."
+
     await fe_utils.send_response(final_response, cmd)
 
 """
-	Rowdys THRASH
+    Rowdys THRASH
 """
 
 
@@ -627,33 +627,32 @@ async def thrash(cmd):
         
     #Other factions being dumb	
     elif (user_data.life_state == ewcfg.life_state_enlisted or user_data.life_state == ewcfg.life_state_kingpin) and user_data.faction == ewcfg.faction_killers:
-	final_response = "EXCUSE ME <@177731019322032128> WE GOT A TRAITOR HERE" # Yeah it @s Ben Saint lol
+        final_response = "EXCUSE ME <@177731019322032128> WE GOT A TRAITOR HERE" # Yeah it @s Ben Saint lol
     else:
-	final_response = "You're too much of a coward to !thrash, dumbass."
+        final_response = "You're too much of a coward to !thrash, dumbass."
 
-    await fe_utils.send_response(final_response, cmd)
+    await fe_utils.send_response(final_response, cmd, format_ats=False)
 
 """
-	Ghosts BOO
+    Ghosts BOO
 """
 
 
 async def boo(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    resp_cont = EwResponseContainer(id_server=user_data.id_server)
     if user_data.life_state == ewcfg.life_state_corpse or user_data.life_state == ewcfg.life_state_grandfoe:
-        resp_cont = EwResponseContainer(id_server=user_data.id_server)
         response = '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + '\n' + "{emote}" + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + "{emote}" + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead
         final_response = response.format(emote=random.choice(ewcfg.boo_emotes))
 
     #Other factions being dumb
     else:
-	final_response = "Why would you want to lower yourself to the level of a filthy ghost?"
+        final_response = "Why would you want to lower yourself to the level of a filthy ghost?"
     
-    await fe_utils.send_response(final_response, cmd)	
-    # resp_cont.add_channel_response(cmd.message.channel.name, response)
+    #await fe_utils.send_response(final_response, cmd)
+    resp_cont.add_channel_response(cmd.message.channel.name, final_response)
     # if user_data.life_state == ewcfg.life_state_corpse or user_data.life_state == ewcfg.life_state_grandfoe:
-    # await resp_cont.post()
+    await resp_cont.post()
 
 
 # await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_ghost + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_srs + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_ghost + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + '\n' + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_negaslime + ewcfg.emote_srs + ewcfg.emote_negaslime + ewcfg.emote_staydead + ewcfg.emote_staydead + ewcfg.emote_blank + ewcfg.emote_blank + ewcfg.emote_blank))
@@ -665,7 +664,7 @@ async def spook(cmd):
 
 
 """
-	Juvies DANCE
+    Juvies DANCE
 """
 
 
@@ -678,12 +677,12 @@ async def dance(cmd):
     
     #Other factions being dumb
     else:
-	response = "You don't feel groovy enough to dance right now."
+        response = "You don't feel groovy enough to dance right now."
 
     await fe_utils.send_response(response, cmd, format_name=False)
 
 """
-	Slimecorp PROPAGANDIZES
+    Slimecorp PROPAGANDIZES
 """
 
 
@@ -696,7 +695,7 @@ async def propaganda(cmd):
 
 
 """
-	Terezi Gang FLIP COINS
+    Terezi Gang FLIP COINS
 """
 
 
@@ -1102,53 +1101,53 @@ async def jump(cmd):
         if roll == 0:
             response = "You start running and taking the momentum to then make the fucking highest jump you've ever done. When you reach the ground, you somehow manage to land a backflip. Damn, guess you were good at parkour in the end!"
         # Bigger chance to fuck up
-	if roll >= 1 and roll <=4:
-	    response = "You start running and taking the momentum to then make the fucking highest jump you've ever done. You fuck up midair and end up landing face first, breaking your teeth. What did you expect?"
-	else:
+        if roll >= 1 and roll <=4:
+            response = "You start running and taking the momentum to then make the fucking highest jump you've ever done. You fuck up midair and end up landing face first, breaking your teeth. What did you expect?"
+        else:
             response = "You jump. Nope. Still not good at parkour."
     
     # Jump off the cliffs
     else:
-	# Ghosts and kingpins can't jump
-    	elif user_data.life_state == ewcfg.life_state_corpse:
-        	response = "You're already dead. You'd just hover above the drop."
-    	elif user_data.life_state == ewcfg.life_state_kingpin:
-        	response = "You try to end things right here. Sadly, the gangster sycophants that kiss the ground you walk on grab your ankles in desperation and prevent you from suicide. Oh, the price of fame."
-	
-	# Everyone else fucking dies
+    # Ghosts and kingpins can't jump
+        if user_data.life_state == ewcfg.life_state_corpse:
+            response = "You're already dead. You'd just hover above the drop."
+        elif user_data.life_state == ewcfg.life_state_kingpin:
+            response = "You try to end things right here. Sadly, the gangster sycophants that kiss the ground you walk on grab your ankles in desperation and prevent you from suicide. Oh, the price of fame."
+
+    # Everyone else fucking dies
         else:
-		response = "Hmm. The cliff looks safe enough. You imagine, with the proper diving posture, you'll be able to land in the slime unharmed. You steel yourself for the fall, run along the cliff, and swan dive off its steep edge. Of course, you forgot that the Slime Sea is highly corrosive, there are several krakens there, and you can't swim. Welp, time to die."
+            response = "Hmm. The cliff looks safe enough. You imagine, with the proper diving posture, you'll be able to land in the slime unharmed. You steel yourself for the fall, run along the cliff, and swan dive off its steep edge. Of course, you forgot that the Slime Sea is highly corrosive, there are several krakens there, and you can't swim. Welp, time to die."
 
-        	# Take all of the player's items
-        	cliff_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=user_data.id_user)
-        	for item in cliff_inventory:
-            	item_object = EwItem(id_item=item.get('id_item'))
-            	# Don't put soulbound items in the sea.
-            	if item.get('soulbound'):
-                	pass
+            # Take all of the player's items
+            cliff_inventory = bknd_item.inventory(id_server=cmd.guild.id, id_user=user_data.id_user)
+            for item in cliff_inventory:
+                item_object = EwItem(id_item=item.get('id_item'))
+                # Don't put soulbound items in the sea.
+                if item.get('soulbound'):
+                    pass
 
-		    # If a weapon is equipped or sidearmed, put it directly in the sea's inventory.
-		    elif item_object.item_type == ewcfg.it_weapon:
-			if item.get('id_item') == user_data.weapon or item.get('id_item') == user_data.sidearm:
-			    bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
-			# Otherwise goes through regular cliff !toss checks. 
-			else:
-			    item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
+                # If a weapon is equipped or sidearmed, put it directly in the sea's inventory.
+                if item_object.item_type == ewcfg.it_weapon:
+                    if item.get('id_item') == user_data.weapon or item.get('id_item') == user_data.sidearm:
+                        bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
+                    # Otherwise goes through regular cliff !toss checks.
+                    else:
+                        item_off(id_item=item.get('id_item'),  item_name=item.get('name'), id_server=cmd.guild.id)
 
-		    # If an item is adorned, put it directly into the sea's inventory.
-		    elif item_object.item_props.get('adorned') == 'true':
-			bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
+                # If an item is adorned, put it directly into the sea's inventory.
+                elif item_object.item_props.get('adorned') == 'true':
+                    bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
-		    # Otherwise goes through regular cliff !toss checks.
-		    else:
-			item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
+                # Otherwise goes through regular cliff !toss checks.
+                else:
+                    item_off(id_item=item.get('id_item'),  item_name=item.get('name'), id_server=cmd.guild.id)
 
-		# Kill the player
-		user_data.trauma = ewcfg.trauma_id_environment
-		die_resp = await user_data.die(cause=ewcfg.cause_cliff)
-		if die_resp != EwResponseContainer(id_server=cmd.guild.id):
-		    await die_resp.post()
-	    return await fe_utils.send_response(response, cmd)
+        # Kill the player
+        user_data.trauma = ewcfg.trauma_id_environment
+        die_resp = await user_data.die(cause=ewcfg.cause_cliff)
+        if die_resp != EwResponseContainer(id_server=cmd.guild.id):
+            await die_resp.post()
+    return await fe_utils.send_response(response, cmd)
 
 
 async def push(cmd):
@@ -1244,7 +1243,7 @@ async def push(cmd):
                     bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
                 else:
-                    item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
+                    item_off(id_item=item.get('id_item'), item_name=item.get('name'), id_server=cmd.guild.id)
 
             elif item_object.item_props.get('adorned'):
                 if "slimeoid" in item_object.item_props and item_object.item_props.get("slimeoid"):
@@ -1258,7 +1257,7 @@ async def push(cmd):
                     bknd_item.give_item(id_item=item_object.id_item, id_user=ewcfg.poi_id_slimesea, id_server=cmd.guild.id)
 
             else:
-                item_off(id_item=item.get('id_item'), is_pushed_off=True, item_name=item.get('name'), id_server=cmd.guild.id)
+                item_off(id_item=item.get('id_item'), item_name=item.get('name'), id_server=cmd.guild.id)
 
         targetmodel.trauma = ewcfg.trauma_id_environment
         die_resp = await targetmodel.die(cause=ewcfg.cause_cliff)
@@ -1395,7 +1394,7 @@ async def cancel(cmd):
 
 
 """
-	Link to the world map.
+    Link to the world map.
 """
 
 
@@ -1404,7 +1403,7 @@ async def map(cmd):
 
 
 """
-	Link to the subway map
+    Link to the subway map
 """
 
 
@@ -1777,7 +1776,7 @@ async def windowshop(cmd):
 
 
 """
-	advertise help services
+    advertise help services
 """
 
 
@@ -2116,8 +2115,8 @@ async def cmd_moan(cmd):
 
 
 """
-	Harvest is not and has never been a command.
-	(Krak made it a command once you fool)
+    Harvest is not and has never been a command.
+    (Krak made it a command once you fool)
 """
 
 
@@ -2127,7 +2126,7 @@ async def harvest(cmd):
 
 
 """
-	Salute the NLACakaNM flag.
+    Salute the NLACakaNM flag.
 """
 
 
@@ -2137,7 +2136,7 @@ async def salute(cmd):
 
 
 """
-	Burn the NLACakaNM flag.
+    Burn the NLACakaNM flag.
 """
 
 
@@ -2147,7 +2146,7 @@ async def unsalute(cmd):
 
 
 """
-	TFAAAP HURL GIF
+    TFAAAP HURL GIF
 """
 
 
@@ -2157,7 +2156,7 @@ async def hurl(cmd):
 
 
 """
-	advertise patch notes
+    advertise patch notes
 """
 
 
@@ -2166,7 +2165,7 @@ async def patchnotes(cmd):
 
 
 """
-	Link to the RFCK wiki.
+    Link to the RFCK wiki.
 """
 
 
@@ -2175,7 +2174,7 @@ async def wiki(cmd):
 
 
 """
-	Link to the fan art booru.
+    Link to the fan art booru.
 """
 
 
@@ -2184,7 +2183,7 @@ async def booru(cmd):
 
 
 """
-	Link to the RFCK bandcamp.
+    Link to the RFCK bandcamp.
 """
 
 
@@ -2193,7 +2192,7 @@ async def bandcamp(cmd):
 
 
 """
-	Link to the Gameplay category in the RFCK wiki
+    Link to the Gameplay category in the RFCK wiki
 """
 
 
@@ -2202,7 +2201,7 @@ async def tutorial(cmd):
 
 
 """
-	Link to the leaderboards on rfck.app.
+    Link to the leaderboards on rfck.app.
 """
 
 
@@ -2962,7 +2961,7 @@ async def check_bot(cmd):
 
 
 """
-	Ban a player from participating in the game
+    Ban a player from participating in the game
 """
 
 
@@ -3006,7 +3005,7 @@ async def arrest(cmd):
 
 
 """
-	Allow a player to participate in the game again
+    Allow a player to participate in the game again
 """
 
 
@@ -3171,7 +3170,7 @@ async def post_leaderboard(cmd):
 
 
 """
-	Grants executive status
+    Grants executive status
 """
 
 
