@@ -591,8 +591,10 @@ async def request_petting(cmd):
             response = "You would die of overpetting."
         if cmd.mentions_count == 1:
             target_member = cmd.mentions[0]
-            proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
-           
+            if target_member.race != ewcfg.race_critter:
+                proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
+            else:
+                proposal_response = "You approach {} and rub against them affectionately. Will they **{}** and reciprocate your affection, or do they **{}** it?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
             await fe_utils.send_response(proposal_response, cmd)
 
             accepted = False
@@ -608,13 +610,23 @@ async def request_petting(cmd):
                 accepted = False
 
             if accepted:
-                responses = [
-                    "{user} gets on their back, and {target} gives them a thorough belly rub!",
-                    "{target} cups {user}'s head between their hands, rubbing near their little ears with their thumbs.",
-                    "{target} picks {user} up and carries them over the place for a little while, so they can see things from above.",
-                    "{target} sits down next to {user}, who gets on their lap. They both lie there for a while, comforting one another.",
-                    "{target} gets on the floor and starts petting the heck out of {user}!",
-                ]
+                if target_member.race != ewcfg.race_critter:
+                    responses = [
+                        "{user} gets on their back, and {target} gives them a thorough belly rub!",
+                        "{target} cups {user}'s head between their hands, rubbing near their little ears with their thumbs.",
+                        "{target} picks {user} up and carries them over the place for a little while, so they can see things from above.",
+                        "{target} sits down next to {user}, who gets on their lap. They both lie there for a while, comforting one another.",
+                        "{target} gets on the floor and starts petting the heck out of {user}!",
+                        "{target} rubs {user}'s neck while they stretch their head up. They seem to be enjoying it a lot.",
+                    ]
+                else:
+                    responses = [
+                        "{user} lies on their back while {target} tenderly licks their fur.",
+                        "{target} lies on their back while {user} fondly licks their fur.",
+                        "{user} and {target} freeze for a second, to then jump at each other as if they were fighting.",
+                        "{user} decides to lay down and chill for a while, {target} sees that and lays besides them.",
+                        "{target} and {user} rub their heads together as a sign of affection.",
+                    ]
                 accepted_response = random.choice(responses).format(user=cmd.message.author.display_name, target=target_member.display_name)
                 await fe_utils.send_response(accepted_response, cmd)
 
@@ -625,7 +637,7 @@ async def request_petting(cmd):
     if response:
         return await fe_utils.send_response(response, cmd)
 
-
+    
 async def rampage(cmd):
     user_data = EwUser(member=cmd.message.author)
     response = ""
