@@ -655,6 +655,8 @@ async def seanet(cmd):
         stats = yacht.getYachtStats()
         if yacht.direction != 'stop':
             response = "You can only do that when the boat's not moving."
+        elif ewdebug.seamap[yacht.ycoord][yacht.xcoord] != -1:
+            response = "You bought a retirement's worth of slimecoin on a yacht, and you're gonna use it to fish on land. Phoebus christ, people like you should be euthanized."
         elif yacht.poopdeck != user_data.id_user:
             response = "If you're gonna scoop shit from the bottom of the sea, you'll need to be on the poop deck."
         elif yacht.filth_check():
@@ -686,8 +688,16 @@ async def seanet(cmd):
                 response = "You pull up the net...and nothing's in it."
         else:
             yacht.accumulate_filth()
+            bait = 0
+            if cmd.tokens_count > 1:
+                item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
+                item_sought = bknd_item.find_item(item_search=item_search, id_server=cmd.guild.id, id_user=cmd.message.author.id)
+                if item_sought:
+                    item_obj = EwItem(id_item=item_sought.get('id_item'))
+                    if item_obj.template == 'netbait':
+                        bait = item_obj.item_props.get('quality', 0)
             response = "You drop the salvage net into the depths of the Slime Sea."
-            yacht.applyStat(stat_type='netcast', quantity=time_now)
+            yacht.applyStat(stat_type='netcast', quantity=time_now, target=bait)
 
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
