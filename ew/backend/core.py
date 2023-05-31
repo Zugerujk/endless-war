@@ -386,7 +386,7 @@ def databaseClose(conn_info):
 """
 
 
-def execute_sql_query(sql_query = None, sql_replacements = None, fetchone = False):
+def execute_sql_query(sql_query = None, sql_replacements = None, fetchone = False, lastrowid = False):
     data = None
     cursor = None
     conn_info = None
@@ -396,9 +396,15 @@ def execute_sql_query(sql_query = None, sql_replacements = None, fetchone = Fals
         conn = conn_info.get('conn')
         cursor = conn.cursor()
         cursor.execute(sql_query, sql_replacements)
+
         if sql_query.lower().startswith("select"):
             data = cursor.fetchall() if not fetchone else cursor.fetchone()
+
+        if sql_query.lower().startswith("insert") and lastrowid:
+            data = cursor.lastrowid
+
         conn.commit()
+
     finally:
         # Clean up the database handles.
         if cursor is not None: cursor.close()

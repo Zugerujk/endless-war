@@ -19,6 +19,32 @@ import traceback
 
 import discord
 
+# Ensure arguments get through before initializations
+import ew.utils.core as ewutils
+import ew.static.cfg as ewcfg
+
+debug = False
+db_prefix = '--db='
+while sys.argv:
+    arg_lower = sys.argv[0].lower()
+    if arg_lower == '--debug':
+        debug = True
+    elif arg_lower == '--debugallon': #set all debug option true at startup
+        debug = True
+        for option in ewutils.DEBUG_OPTIONS:
+            ewutils.DEBUG_OPTIONS[option] = True
+    elif arg_lower == '--initiate':
+        makebp = True
+    elif arg_lower.startswith(db_prefix):
+        ewcfg.database = arg_lower[len(db_prefix):]
+
+    for arg in sys.argv:
+        if arg[2:].lower() in ewutils.DEBUG_OPTIONS.keys() and arg[:2] == "--":
+            ewutils.DEBUG_OPTIONS[arg[2:]] = True
+            ewutils.logMsg('Enabled the {} debug option.'.format(arg[2:]))
+
+    sys.argv = sys.argv[1:]
+
 from ew.cmd import cmd_map, dm_cmd_map, apt_dm_cmd_map
 import ew.cmd.cmds as ewcmd
 try:
@@ -64,15 +90,10 @@ from ew.backend.player import EwPlayer
 from ew.backend.status import EwStatusEffect
 from ew.backend.fish import EwRecord
 
-import ew.utils.core as ewutils
-
 import ew.static.cosmetics as cosmetics
 import ew.static.food as static_food
 import ew.static.items as static_items
 import ew.static.poi as poi_static
-
-import ew.static.cfg as ewcfg
-
 
 ewutils.logMsg('Starting up...')
 init_complete = False
@@ -95,56 +116,20 @@ last_helped_times = {}
 # Map of server ID to a map of active users on that server.
 active_users_map = {}
 
-# Map of all command words in the game to their implementing function.
-
-#cmd_map = cmds.cmd_map
-
-# Map of commands always allowed in dms
-#dm_cmd_map = cmds.dm_cmd_map
-
-# Map of commands only allowed in dms while in an apartment
-#apt_dm_cmd_map = cmds.apt_dm_cmd_map
-
-
-debug = False
-db_prefix = '--db='
-while sys.argv:
-    arg_lower = sys.argv[0].lower()
-    if arg_lower == '--debug':
-        debug = True
-    elif arg_lower == '--debugallon': #set all debug option true at startup
-        debug = True
-        for option in ewutils.DEBUG_OPTIONS:
-            ewutils.DEBUG_OPTIONS[option] = True
-    elif arg_lower == '--initiate':
-        makebp = True
-    elif arg_lower.startswith(db_prefix):
-        ewcfg.database = arg_lower[len(db_prefix):]
-
-    for arg in sys.argv:
-        if arg[2:].lower() in ewutils.DEBUG_OPTIONS.keys() and arg[:2] == "--":
-            ewutils.DEBUG_OPTIONS[arg[2:]] = True
-            ewutils.logMsg('Enabled the {} debug option.'.format(arg[2:]))
-
-
-    sys.argv = sys.argv[1:]
-
 # When debug is enabled, additional commands are turned on.
 if debug == True:
     ewutils.DEBUG = True
     ewutils.logMsg('Debug mode enabled.')
 
-
+if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+    client._enable_debug_events = True
 
 ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 
-
+# This can be done in debug inits please
 ewcfg.debugpiers = ewdebug.debugpiers
 ewcfg.debugfish_response = ewdebug.debugfish_response
 ewcfg.debugfish_goal = ewdebug.debugfish_goal
-
-
-
 
 # ewcfg.debug5 = ewdebug.debug5
 
@@ -442,10 +427,23 @@ async def on_member_join(member):
         )
         # Wait a bit, send a message
         await asyncio.sleep(30)
-        if random.random() < 0.0666:
-            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
-        else:
-            await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
+        try:
+            if random.random() < 0.0666:
+                await fe_utils.send_message(client, member, fe_utils.formatMessage(member, "https://cdn.discordapp.com/attachments/431275470902788107/1042615477492535337/jessie.png"))
+            else:
+                await fe_utils.send_message(client, member, fe_utils.formatMessage(member, ewcfg.server_join_message))
+        except discord.errors.Forbidden:
+            ewutils.logMsg("New user {} had DMs blocked.".format(member.id))
+
+
+@client.event
+async def on_socket_raw_send(payload):
+    if ewutils.DEBUG_OPTIONS['trackapi'] == True:
+        try:
+            f = open("apifile.txt", "a")
+            f.write("{}\n".format(str(payload)))
+        except:
+            pass
 
 
 @client.event
@@ -458,32 +456,16 @@ async def on_message_delete(message):
             ewutils.logMsg("deleted message from {}: {}".format(message.author.display_name, message.content))
             await fe_utils.send_message(client, message.channel, fe_utils.formatMessage(message.author, '**I SAW THAT.**'))
 
+
 # consolidates the debug conditions into their own function. poorly ordered because no function prototyping in python, boo
 async def debugHandling(message, cmd, cmd_obj):
     # Test item creation
     time_now = int(time.time())
     market = EwMarket(id_server=cmd_obj.guild.id)
     if cmd == (ewcfg.cmd_prefix + 'enemytick'):
-        freshness_list = {}
-        procedural_list = []
-        randomlist = []
+        x = await bknd_leaderboard.make_freshness_top_board(server = cmd_obj.guild.id)
+        print(x)
 
-        for cosmetic in cosmetics.cosmetic_items_list:
-            if cosmetic.freshness == 0:
-                continue
-            randomlist.append(int(random.triangular(1, 16, 6)))
-            procedural_list.append(float(cosmetic.freshness / max(cosmetic.size, 1)))
-            if freshness_list.get(cosmetic.rarity+cosmetic.style) is None:
-                freshness_list[cosmetic.rarity+cosmetic.style] = [float(cosmetic.freshness/max(cosmetic.size, 1))]
-            else:
-                freshness_list[cosmetic.rarity+cosmetic.style].append(float(cosmetic.freshness/max(cosmetic.size, 1)))
-        #print(freshness_list)
-        procedural_list.sort()
-        randomlist.sort()
-        print("PROCEDURAL:{}".format(procedural_list))
-        print("TRIANGULAR:{}".format(randomlist))
-        #await loop_utils.spawn_enemies(id_server=message.guild.id, debug=True)
-        #await apt_utils.rent_time(id_server=cmd_obj.guild.id)
 
     elif cmd == (ewcfg.cmd_prefix + 'quickrevive'):
         print("Created {} Joined {}".format(message.author.created_at.timestamp(), message.author.joined_at.timestamp()))
@@ -905,6 +887,7 @@ async def debugHandling(message, cmd, cmd_obj):
             response += ("\n" + hue_str + new_sl.name)
         return await fe_utils.send_message(client, message.channel, response)
 
+
 @client.event
 async def on_message(message):
     time_now = int(time.time())
@@ -1088,9 +1071,7 @@ async def on_message(message):
             # Nothing else to do in a DM.
             return
 
-
         # assign the appropriate roles to a user with less than @everyone, faction, both location roles
-
         if usermodel.arrested > 0:
             return
 

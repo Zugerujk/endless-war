@@ -1362,6 +1362,8 @@ cmd_bazaar_refresh = cmd_prefix + 'refreshbazaar'
 cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
+cmd_windowshop = cmd_prefix + 'windowshop'
+
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
 cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
@@ -1995,7 +1997,7 @@ emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
 emote_verified = "<:slime_checkmark:797234128398319626>"
 
-# Emotes for !thrash and !dab variants
+# Emotes for !thrash, !dab and !boo variants
 emote_benkart = "<a:benkart:644520407734550529>"
 emote_munchykart = "<a:munchykart:644520408002854913>"
 emote_taasenchamp = "<:TaasenChamp:804369420583567392>"
@@ -2007,7 +2009,10 @@ emote_strawberrymilk = "<:strawberrymilk:431282128421126144>"
 emote_dab = "<a:dab:805341290220093450>"
 emote_thrash = "<a:thrash:805341344331202620>"
 emote_benwtf = "<:benwtf:981830620080635914>"
-
+emote_gcool = "<:ghostcool:985321953218945075>"
+emote_nslog = "<:negalog:698581983537922189>"
+emote_invsrs = "<:srs_invert:657793228673646612>"
+emote_nega111 = "<:nega111:638907899778695188>"
 
 # Miscellaneous
 emote_tfwslime = "<:tfwslime:713609663832391680>"
@@ -2033,9 +2038,17 @@ emote_munchykart,
 emote_freaker,
 emote_sweetmunch,
 emote_strawberrymilk,
-emote_thrash,
+emote_thrash
 ]
 
+boo_emotes = [
+emote_moon,
+emote_ghost,
+emote_gcool,
+emote_nslog,
+emote_invsrs,
+emote_nega111
+]
 
 # Dice emote list
 emotes_dice = [

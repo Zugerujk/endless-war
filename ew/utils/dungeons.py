@@ -98,6 +98,18 @@ def load_other_blurbs():
 
 
 
+    dist_keywordblurbs = bknd_core.execute_sql_query(
+        "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext}, {col_subsubcontext} from blurbs where context = %s".format(
+            col_id_blurb=ewcfg.col_id_blurb,
+            col_id_id_blurb=ewcfg.col_id_id_blurb,
+            col_subcontext=ewcfg.col_id_subcontext,
+            col_subsubcontext=ewcfg.col_id_subsubcontext), ('districtkey',))
+
+    for blurb in dist_keywordblurbs:
+        poi = poi_static.id_to_poi.get(blurb[2])
+        if poi is not None:
+            poi.keyword_blurbs[blurb[3]] = blurb[1]
+
     districtblurbs = bknd_core.execute_sql_query(
         "SELECT {col_id_id_blurb}, {col_id_blurb}, {col_subcontext} from blurbs where context = %s".format(
             col_id_blurb=ewcfg.col_id_blurb,

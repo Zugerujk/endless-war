@@ -145,7 +145,7 @@ async def chemo(cmd):
 
 async def graft(cmd):
     user_data = EwUser(member=cmd.message.author)
-    print(mut_utils.active_mutations)
+    # print(mut_utils.active_mutations)
     if cmd.message.channel.name != ewcfg.channel_clinicofslimoplasty:
         response = "Chemotherapy doesn't just grow on trees. You'll need to go to the clinic in Crookline to get some."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -494,7 +494,7 @@ async def piss(cmd):
 
     respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     if xp_yield != 0:
-        responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
+        responses = await add_xp(cmd.message.author.id, cmd.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
         for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
     return await respctn.post()
 
@@ -976,7 +976,7 @@ async def drop_rotation_mut(cmd):
     today = datetime.date.today()
     month = int(today.month)
     year = int(today.year)
-    print("{} {} {}".format(cmd.guild.id, year, target))
+    # print("{} {} {}".format(cmd.guild.id, year, target))
     if not cmd.message.author.guild_permissions.administrator:
         return
     if target == 0:

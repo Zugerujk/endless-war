@@ -225,19 +225,20 @@ async def generic_talk(channel, npc_obj, keyword_override = 'talk', enemy = None
     if rare_keyword in npc_obj.dialogue.keys() and random.randint(1, 20) == 2:
         keyword_override = rare_keyword #rare dialogue has a 1 in 20 chance of firing
 
-    potential_dialogue.extend(npc_obj.dialogue.get(keyword_override))
+    potential_dialogue.extend(npc_obj.dialogue.get(keyword_override, []))
 
     if location_keyword in npc_obj.dialogue.keys() and 'rare' not in keyword_override:
         potential_dialogue += npc_obj.dialogue.get(location_keyword)
 
-    if potential_dialogue is not None:
+    if len(potential_dialogue) > 0:
         response = random.choice(potential_dialogue).format(bonus = bonus_flavor, player_name= "" if player is None else player.display_name)
     else:
         response = None
 
 
-    if response is not None:
-
+    if response is None:
+        return
+    else:
         if response[:2] == '()':  # for exposition that doesn't use a talk bubble
             response = response[2:]
             return await fe_utils.send_message(None, channel, response)

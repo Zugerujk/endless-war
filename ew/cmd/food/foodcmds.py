@@ -184,7 +184,7 @@ async def menu(cmd):
 # Buy items.
 async def order(cmd):
 
-    user_data = EwUser(member=cmd.message.author)
+    user_data = EwUser(member=cmd.message.author, data_level=2)
     mutations = user_data.get_mutations()
 
     market_data = EwMarket(id_server=cmd.guild.id)
@@ -274,7 +274,10 @@ async def order(cmd):
             item_type = item.item_type
             # Gets a vendor that the item is available and the player currently located in
             try:
-                current_vendor = (set(item.vendors).intersection(set(poi.vendors))).pop()
+                personal_vendors = poi.vendors.copy()
+                if ewcfg.vendor_secretbodega in personal_vendors and user_data.freshness <= ewcfg.freshnesslevel_4:
+                    personal_vendors.remove(ewcfg.vendor_secretbodega)
+                current_vendor = (set(item.vendors).intersection(set(personal_vendors))).pop()
             except:
                 current_vendor = None
 
@@ -509,7 +512,7 @@ async def order(cmd):
                         user_data.time_lastpremiumpurchase = int(time.time())
 
                     # If the vendor isn't in the last_interact dictionary, or if its value plus the passive chat wait time is in the past
-                    print(market_utils.vendor_last_interact)
+                    # print(market_utils.vendor_last_interact)
                     if (current_vendor not in market_utils.vendor_last_interact.keys()) or (int(market_utils.vendor_last_interact[current_vendor]) + ewcfg.vendor_passive_chat_wait_time < int(time.time())):
                         # Update the dictionary value
                         market_utils.vendor_last_interact[current_vendor] = int(time.time())
