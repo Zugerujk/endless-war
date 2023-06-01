@@ -833,7 +833,8 @@ def check_for_minecollapse(cmd, world_events, mine_action):
                         event_data.event_props['mines'] = int(event_data.event_props['mines']) + 1
                         event_data.persist()
 
-                        mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})\n".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
+                        if int(event_data.event_props.get('mines')) <= 1:
+                            mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})\n".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
 
                     else:
                         mine_action.valid = True

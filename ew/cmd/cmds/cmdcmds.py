@@ -3,6 +3,8 @@ import discord
 import random
 import sys
 import time
+import datetime
+
 from ew.backend import core as bknd_core
 from ew.backend import item as bknd_item
 from ew.backend import worldevent as bknd_worldevent
@@ -470,15 +472,15 @@ async def mutations(cmd):
 
 
 
-        # if ewcfg.mutation_id_gay in mutations:
-        #     # PRESENT DAY
-        #     # PRESENT TIME
-        #     the_month = datetime.datetime.now().month
-        #     if the_month != 6: # If it's not pride month, sorry bucko.
-        #         resp_cont = EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
-        #         die_resp = user_data.die(cause=ewcfg.cause_gay)
-        #         resp_cont.add_response_container(die_resp)
-        #         return await resp_cont.post()
+        if ewcfg.mutation_id_gay in mutations:
+            # PRESENT DAY
+            # PRESENT TIME
+            the_month = datetime.datetime.now().month
+            if the_month != 6: # If it's not pride month, sorry bucko.
+                resp_cont = EwResponseContainer(client=cmd.client, id_server=user_data.id_server)
+                die_resp = user_data.die(cause=ewcfg.cause_gay)
+                resp_cont.add_response_container(die_resp)
+                return await resp_cont.post()
 
 
         for mutation in mutations:
