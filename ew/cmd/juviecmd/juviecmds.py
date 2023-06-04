@@ -586,7 +586,7 @@ async def talk(cmd):
             await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel, user_data=user_data)
 
     else: #No tokens, no mentions, just the bare command
-        response = "Who do you want to **!talk** to?"
+        response = "There's nobody living here who would talk to you."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 """ mine for slime (or endless rocks) """
