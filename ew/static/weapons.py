@@ -1977,7 +1977,7 @@ weapon_list = [
     EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
         id_weapon=ewcfg.weapon_id_basket,
         alias=[
-            "petrifiedfoods", "foobasket", "petrified", "picnicbasket",
+            "petrifiedfoods", "basket", "petrified", "picnicbasket",
         ],
         str_crit="**Critical hit!!** {name_player}’s hurls a large petrified roast at {name_target}, breaking their {hitzone}!",
         str_miss="**MISS!!** {name_player} drops their basket and stumbles over to pick it back up!",

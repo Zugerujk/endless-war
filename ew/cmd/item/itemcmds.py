@@ -836,7 +836,7 @@ async def item_look(cmd):
                 if item.item_props['fashion_style'] == ewcfg.style_evil:
                     response += "It's got an evil energy to it."
                 if item.item_props['fashion_style'] == ewcfg.style_skill:
-                    response += "It was gained by gooning. Fucking goons."
+                    response += "It exudes the creator's skill. "
 
                 response += "\n\nIts freshness rating is {rating}.".format(rating=bknd_item.get_base_freshness(item_id=item, seed=user_data.fashion_seed))#item.item_props['freshness']
 
