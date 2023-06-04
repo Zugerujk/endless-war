@@ -2046,9 +2046,10 @@ EwSmeltingRecipe(
             'maid outfit'
         ],
         ingredients = {
-            ewcfg.item_id_ghostlycloth : 5,
-            ewcfg.item_id_negapoudrin : 1,
-            ewcfg.item_id_cute_material : 2
+            ewcfg.item_id_ghostlycloth : 3,
+            ewcfg.item_id_negapoudrin : 3,
+            ewcfg.item_id_cute_material : 2,
+            ewcfg.item_id_ghosttoken : 2,
         },
         products=['maidoutfit']
     ),
@@ -2062,7 +2063,8 @@ EwSmeltingRecipe(
         ],
         ingredients={
             'cigarette': 1,
-            ewcfg.item_id_stick: 1
+            ewcfg.item_id_stick: 2,
+            ewcfg.item_id_ghosttoken : 1
         },
         products=['cigaretteholder']
     ),
@@ -2077,6 +2079,7 @@ EwSmeltingRecipe(
         ingredients = {
             ewcfg.item_id_ghostlycloth: 3,
             ewcfg.item_id_blacklimeade : 2,
+            ewcfg.item_id_ghosttoken : 1
         },
         products=['widebrimmedhat']
     ),
@@ -2091,7 +2094,8 @@ EwSmeltingRecipe(
         ingredients = {
             ewcfg.item_id_ghostlycloth : 4,
             ewcfg.item_id_negapoudrin : 1,
-            ewcfg.item_id_faggot : 1
+            ewcfg.item_id_faggot : 1,
+            ewcfg.item_id_ghosttoken : 1
         },
         products = ['drapeddress']
     ),
