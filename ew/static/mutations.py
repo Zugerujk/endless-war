@@ -180,17 +180,6 @@ mutations = [
 
     ),
     EwMutationFlavor(
-        id_mutation=ewcfg.mutation_id_patriot,
-        str_name="Patriot",
-        alias=['pt'],
-        str_describe_self="You beam with intense pride over your faction’s sophisticated culture and history due to **Patriot**.",
-        str_describe_other="They beam with intense pride over their faction’s sophisticated culture and history due to **Patriot**.",
-        str_acquire="Your brain’s wrinkles begin to smooth themselves out, and you are suddenly susceptible to being swayed by propaganda. Suddenly, your faction’s achievements flash before your eyes. All of the glorious victories it has won, all of its sophisticated culture and history compels you to action. You have developed the mutation **Patriot**. You capture districts 1.5x faster.",
-        tier=6,
-        str_transplant="You are led into a room with a projector and told to sit down. Each slide has a different gang's propaganda on it. Every time your gang's propaganda shows up, you get a glob of slime. For your enemy gang, you get tased. The process continues until Pavlov has made you his bitch. Allegiance is all you understand.\n\nYou have developed the mutation **Patriot**. You capture districts 1.5x faster.",
-
-    ),
-    EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_socialanimal,
         str_name="Social Animal",
         alias=['social', 'animal'],
@@ -352,9 +341,9 @@ mutations = [
         alias=['nos', 'nerves', 'nerve'],
         str_describe_self="You are absolutely fearless due to **Nerves of Steel**.",
         str_describe_other="They are absolutely fearless due to **Nerves of Steel**.",
-        str_acquire="You feel a sudden coldness sinking into the back of your head. Parts of your brain rapidly shut down, but you have no idea which ones are going because you can no longer access them. Without thinking, you run a knife down your hand, and although it's painful, you're completely detatched from the sensation. A gun to your head? No fear. If you die, you die. You have developed the mutation **Nerves of Steel**. As a juvie, you can play russian roulette and commit suicide.",
-        tier=1,
-        str_transplant="Dr. Dusttrap decides to take what she calls \"a traditional approach\". She takes out a syringe full of neurotoxin and pokes it right into your noggin. She tells you she's going to disable the part of your brain that processes fear, but the fact she's constantly referencing her brain anatomy chart is concerning. She manages to make you fearless, but sadly at the expense of a few precious childhood memories.\n\nYou have developed the mutation **Nerves of Steel**. As a juvie, you can play russian roulette and commit suicide.",
+        str_acquire="You feel a sudden coldness sinking into the back of your head. Parts of your brain rapidly shut down, but you have no idea which ones are going because you can no longer access them. Without thinking, you run a knife down your hand, and although it's painful, you're completely detatched from the sensation. A gun to your head? No fear. If you die, you die. You have developed the mutation **Nerves of Steel**. Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play russian roulette and commit suicide.",
+        tier=5,
+        str_transplant="Dr. Dusttrap decides to take what she calls \"a traditional approach\". She takes out a syringe full of neurotoxin and pokes it right into your noggin. She tells you she's going to disable the part of your brain that processes fear, but the fact she's constantly referencing her brain anatomy chart is concerning. She manages to make you fearless, but sadly at the expense of a few precious childhood memories.\n\nYou have developed the mutation **Nerves of Steel**. Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play russian roulette and commit suicide.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_packrat,

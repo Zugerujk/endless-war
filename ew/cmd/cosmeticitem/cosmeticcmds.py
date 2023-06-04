@@ -246,8 +246,9 @@ async def adorn(cmd):
             if int(item_sought.item_props['size']) > 0:
                 space_adorned += int(item_sought.item_props['size'])
 
-            # If you don't have enough space, abort
-            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel):
+            # If you don't have enough space, abort unless it is a skill cape.
+            if space_adorned > ewutils.max_adornspace_bylevel(user_data.slimelevel) and (i.item_props.get('fashion_style') != 'skill' and i.item_props.get('size') != 0):
+                print(i.item_props)
                 response = "Oh yeah? And, pray tell, just how do you expect to do that? You’re out of space, you can’t adorn any more garments!"
 
             # If you have enough space, adorn
@@ -691,7 +692,7 @@ async def dye(cmd):
 async def pattern(cmd):
     if len(cmd.tokens) < 5:
         response = f"You gotta {cmd.tokens[0]} <cosmetic> <dye1> <dye2> <pattern>"
-        await fe_utils.send_response(response, cmd)
+        return await fe_utils.send_response(response, cmd)
     hat_id = ewutils.flattenTokenListToString(cmd.tokens[1])
     dye_id = ewutils.flattenTokenListToString(cmd.tokens[2])
     dye_id2 = ewutils.flattenTokenListToString(cmd.tokens[3])
@@ -764,10 +765,10 @@ async def pattern(cmd):
                     response = "You rub the relic all over the item, if Amy Hart saw you doing this, she'd most definitely try to kill you."
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_relic'))
                     donotdeletethisfuckingitem = True
-                    if patternchoice == None and pattern_item.template in relic_static.alt_relics:
+                    if patternchoice == None and pattern_item.template is not relic_static.alt_relics:
+                        patternchoice = 'ancient'
+                    elif patternchoice == None and pattern_item.template in relic_static.alt_relics:
                         patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_item'))
-                        if patternchoice == None: #allows all relics to give a default relic-exclusive pattern unless specified otherwise in the pattern_map
-                            patternchoice = 'ancient'
                     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
                 elif hat_id == pattern_id: #prevents you from sacrificing the item you are trying to pattern, without this you'd be able to make the item delete itself.
                     response = "While making a black hole form in your bare hands in the middle of the city SOUNDS cool, I promise you paradoxical items are not as fun as you may think."
@@ -778,7 +779,7 @@ async def pattern(cmd):
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_furniture'))
                 elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_cosmetic') != None: #allows you to sacrifice allowed other cosmetics for patterns.
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_cosmetic'))
-                    if patternchoice == 'snouse': #for obvious reasons i can't test this, but this should be fine.
+                    if pattern_item.item_props.get('id_item') == 'snouse':
                         response += "The snouse scurries away after your gross negligence to its feelings. No snice were harmed in the altering of this cosmetic."
                 elif pattern_item.item_props.get('id_item') == None and pattern_item.item_props.get('id_food') != None: #allows you to sacrifice allowed food items for patterns.
                     patternchoice = hue_static.pattern_map.get(pattern_item.item_props.get('id_food'))

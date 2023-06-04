@@ -175,7 +175,7 @@ def get_normal_attack(weapon_type = "normal", bystander_damage = None, cost_mult
 
             # Multiplies the damage by the effective multiplier
             hit_damage = base_damage * effective_multiplier
-            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod):
+            if guarantee_crit or random.random() < (weapon_stats["crit_chance"] + ctn.crit_mod)/(2 if player_has_sharptoother else 1):
                 hit_damage *= weapon_stats["crit_multiplier"]
                 hit_backfire *= weapon_stats.get("backfire_crit_mult", 2)
                 if not ("shots" in weapon_stats):
@@ -821,7 +821,6 @@ weapon_list = [
         vendors=[ewcfg.vendor_dojo, ewcfg.vendor_breakroom],
         classes=[ewcfg.weapon_class_burning],
         stat=ewcfg.stat_molotov_kills,
-        captcha_length=4,
         str_brandish=["{name} lights {weapon}'s fuse for just a second. Heheh, just you wait."]
     ),
     EwWeapon(  # 16
@@ -1315,7 +1314,7 @@ weapon_list = [
         acquisition=ewcfg.acquisition_smelting,
         stat=ewcfg.stat_staff_kills,
         # sap_cost = 2,
-        captcha_length=10,
+        # captcha_length=4,
         str_brandish=["{name} lifts {weapon} and begins to chant unholy incantations! Small rocks slowly rise from the ground around them... \n\nWhoops, they forgot the last bit. The spell collapses."]
     ),
     EwWeapon(  # 31
@@ -1339,7 +1338,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_hoe_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} takes the piece of hay out of their mouth and spits chewing tobacco onto the ground! Varmints round here get {weapon} to the face."]
     ),
@@ -1364,7 +1363,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_pitchfork_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} raises {weapon} into the air. Kill them! Kill them all!"]
     ),
@@ -1389,7 +1388,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_shovel_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["{name} rams {weapon} into the ground. Time to strike the earth!"]
     ),
@@ -1414,7 +1413,7 @@ weapon_list = [
         classes=[ewcfg.weapon_class_farming, ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_slimeringcan_kills,
         # sap_cost = 2,
-        captcha_length=2,
+        # captcha_length=2,
         is_tool=1,
         str_brandish=["OK, {name}. I get that you're trying to be scary with {weapon} and all. It's a fucking watering can. Get real, garden boy."]
     ),
@@ -1443,7 +1442,7 @@ weapon_list = [
         price=0,
         stat=ewcfg.stat_fingernails_kills,
         # sap_cost = 3,
-        captcha_length=8,
+        # captcha_length=2,
         str_brandish=[""]
     ),
     EwWeapon(  # 35
@@ -1976,25 +1975,25 @@ weapon_list = [
         str_brandish=["{name} tosses out {weapon}. When it flies back they manage to grab it without cutting themselves."],
     ),
     EwWeapon(  # 54 ##Ben stole slimernalia 2022, these have never been obtained as of 1/3/23.
-        id_weapon=ewcfg.weapon_id_foodbasket,
+        id_weapon=ewcfg.weapon_id_basket,
         alias=[
             "petrifiedfoods", "basket", "petrified", "picnicbasket",
         ],
         str_crit="**Critical hit!!** {name_player}’s hurls a large petrified roast at {name_target}, breaking their {hitzone}!",
         str_miss="**MISS!!** {name_player} drops their basket and stumbles over to pick it back up!",
         str_equip="You slip the basket's handles over your forearm.",
-        str_name="foodbasket",
+        str_name="basket",
         str_weapon="a food basket",
         str_weaponmaster_self="You are a rank {rank} {title} picnicker.",
         str_weaponmaster="They are a rank {rank} {title} picnicker.",
-        str_kill=comm_cfg.foodbasketkilltext,
+        str_kill=comm_cfg.basketkilltext,
         str_killdescriptor="yogi'd",
         str_damage="{name_target} gets impacted by a lump of petrified food in their {hitzone}!!",
         str_duel="{name_player} and {name_target} have a pleseant picnic. It ends prematurely due to a bear storming into the dojo.",
         str_description="It's a food basket, made from reinforced wick weaving.",
         str_scalp=" It's completely petrified.",
         fn_effect=get_normal_attack(weapon_type='small_game'),
-        stat=ewcfg.stat_foodbasket_kills,
+        stat=ewcfg.stat_basket_kills,
         str_brandish=["{name} tries to eat a piece of \"food\" from {weapon}. Numerous teeth are chipped or missing."],
     ),
 ]

@@ -70,7 +70,9 @@ def get_slimes_resp(user_data, district_data):
     if ewcfg.mutation_id_stinkeye in mutations:
         shownumber = True
 
-    if slimes < 10000:
+    if slimes == 0:
+        slimes_resp = ""
+    elif slimes < 10000:
         if shownumber:
             slimes_resp += "There is roughly {:,} slime splattered across the city streets.".format(slimes)
         else:
@@ -151,7 +153,7 @@ def get_players_look_resp(user_data, district_data):
     num_players = len(players_in_district)
     players_resp = "\n\n"
     if num_players == 0:
-        players_resp += "You don’t notice any activity from this district."
+        players_resp = ""
     elif num_players == 1:
         players_resp += "You can hear the occasional spray of a spray can from a gangster in this district."
     elif num_players <= 5:

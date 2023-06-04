@@ -838,7 +838,7 @@ async def item_look(cmd):
                 if item.item_props['fashion_style'] == ewcfg.style_skill:
                     response += "It exudes the creator's skill. "
 
-                response += "\n\nIts freshness rating is {rating}.".format(rating=item.item_props['freshness'])
+                response += "\n\nIts freshness rating is {rating}.".format(rating=bknd_item.get_base_freshness(item_id=item, seed=user_data.fashion_seed))#item.item_props['freshness']
 
                 hue = hue_static.hue_map.get(item.item_props.get('hue'))
                 hue2 = hue_static.hue_map.get(item.item_props.get('hue2'))
@@ -1065,20 +1065,9 @@ async def manually_edit_item_properties(cmd):
         column_name = cmd.tokens[2]
         column_value = cmd.tokens[3]
 
-        target_data = bknd_core.get_cache_result(obj_type="EwItem", id_item = item_id)
-        if target_data is not False:
-            target_data.get("item_props").update({column_name: column_value})
-            bknd_core.cache_data(obj_type="EwItem", data=target_data)
-
-        bknd_core.execute_sql_query("REPLACE INTO items_prop({}, {}, {}) VALUES(%s, %s, %s)".format(
-            ewcfg.col_id_item,
-            ewcfg.col_name,
-            ewcfg.col_value
-        ), (
-            item_id,
-            column_name,
-            column_value
-        ))
+        target_item = EwItem(id_item=item_id)
+        target_item.item_props[column_name] = column_value
+        target_item.persist()
 
         response = "Edited item with ID {}. It's {} value has been set to {}.".format(item_id, column_name, column_value)
 
@@ -1741,12 +1730,11 @@ async def forge_master_poudrin(cmd):
         id_server=cmd.guild.id,
         id_user=user_data.id_user,
         item_type=ewcfg.it_cosmetic,
-        item_props=item_props
+        item_props=item_props,
+        soulbound=True
     )
 
     ewutils.logMsg("Master poudrin created. Slime stored: {}, Cosmetic ID = {}".format(user_data.slimes, new_item_id))
-
-    itm_utils.soulbind(new_item_id)
 
     user_data.slimes = 0
     user_data.persist()
@@ -2065,7 +2053,7 @@ async def collect(cmd):
         response = "You must specify a collection item."
     elif item_sought_item.get('soulbound') == True:
         response = "That's bound to your soul. You can't collect it any harder if you wanted to."
-    elif item_sought_item.item_type == ewcfg.it_relic or item_sought_item.item_props.get('aquisition') == 'relic':
+    elif item_sought_item.get('item_type') == ewcfg.it_relic:
         response = "Only some sort of CURATOR can pull hyjinks like that, besides that you have a feeling someone will swipe the relic under your nose when you try to get it out anyways."
     else:
         furn_list = static_items.furniture_map

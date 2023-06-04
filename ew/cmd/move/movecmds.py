@@ -558,10 +558,15 @@ async def look(cmd):
     bonus_flavor_list = zone_bonus_flavor.get(poi.id_poi)
     if bonus_flavor_list is not None:
         str_desc = poi.str_desc.format(bonusflavor = random.choice(bonus_flavor_list))
+        for key in poi.keyword_blurbs.keys():
+            str_desc = str_desc.replace(key, "**{}**".format(key))
     elif ewcfg.status_thinned_id in user_data.getStatusEffects():
         str_desc = random.choice(commcfg.district_blurbs.get(poi.id_poi))
     else:
         str_desc = poi.str_desc
+        for key in poi.keyword_blurbs.keys():
+            str_desc = str_desc.replace(key, "**{}**".format(key))
+
 
     if poi.is_subzone or poi.id_poi == ewcfg.poi_id_thevoid:  # Triggers if you input the command in the void or a sub-zone.
         wikichar = '\n\n<{}>'.format(poi.wikipage) if poi.wikipage != '' else ''
@@ -583,7 +588,9 @@ async def look(cmd):
     else:
         controlled_data = district_data
 
-    capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
+    capped_resp = ""
+    if poi.is_capturable:
+        capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
     slimes_resp = get_slimes_resp(user_data, district_data)
     items_resp = get_items_resp(user_data, district_data)
     players_resp = get_players_look_resp(user_data, district_data)
@@ -673,7 +680,9 @@ async def survey(cmd):
     else:
         controlled_data = district_data
 
-    capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
+    capped_resp = ""
+    if poi.is_capturable:
+        capped_resp = "This district is controlled by {}.\n\n".format("the " + controlled_data.controlling_faction.capitalize() if controlled_data.controlling_faction != "" else "no one")
     slimes_resp = get_slimes_resp(user_data, district_data)
     items_resp = get_items_resp(user_data, district_data)
     players_resp = get_players_look_resp(user_data, district_data)
@@ -1411,7 +1420,7 @@ async def loop(cmd):
         move_utils.move_counter += 1
         move_current = ewutils.moves_active[cmd.message.author.id] = move_utils.move_counter
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "You start looping to {}.".format(dest_poi_obj.str_name)))
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
 
         if move_current == ewutils.moves_active[cmd.message.author.id]:
             mutation_data = EwMutation(id_mutation=ewcfg.mutation_id_landlocked, id_user=cmd.message.author.id, id_server=cmd.message.guild.id)

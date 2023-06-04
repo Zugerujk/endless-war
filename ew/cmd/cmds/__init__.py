@@ -49,6 +49,9 @@ cmd_map = {
     # Terezi Gang can flip coins
     ewcfg.cmd_coinflip: cmdcmds.coinflip,
 
+    # Die wielders can die
+    ewcfg.cmd_rolldie: cmdcmds.rolldie,
+
     # Bass weilders can jam out
     ewcfg.cmd_jam: cmdcmds.jam,
     ewcfg.cmd_stunt: cmdcmds.stunt,
@@ -212,6 +215,7 @@ cmd_map = {
     ewcfg.cmd_dual_key_release:cmdcmds.dual_key_release,
     ewcfg.cmd_dual_key_release_alt1: cmdcmds.dual_key_release,
     ewcfg.cmd_setslime: cmdcmds.set_slime,
+    ewcfg.cmd_windowshop: cmdcmds.windowshop,
 
     # Debug for world events
     ewcfg.cmd_createpoievent: cmdcmds.manual_poi_event_create,

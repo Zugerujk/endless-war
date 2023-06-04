@@ -32,6 +32,9 @@ DEBUG_OPTIONS = {
     'verbose_burn': False,
     'alternate_talk':False,
     'transport': False,
+    'playoffline': False,
+    'slimegainchecker':False,
+    'trackapi':False
 }
 
 # Map of user IDs to their course ID.
@@ -71,6 +74,8 @@ conversations = {}
 square_duel = 0
 
 last_loop = {}
+
+global_brick_counter = 0
 
 class EwVector2D:
     vector = [0, 0]
@@ -855,7 +860,7 @@ def is_district_empty(poi = ''):  # quick function to check presence in a distri
         time_last_action=ewcfg.col_time_last_action,
         time_last_enter = ewcfg.col_time_lastenter),
         (poi, time_now-300, time_now-300), fetchone = True)
-    if data is not None or DEBUG:
+    if data is not None:
         return False
     else:
         return True

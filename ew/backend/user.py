@@ -87,6 +87,8 @@ class EwUserBase:
 
     move_speed = 1  # not a database column
 
+    fashion_seed = 0
+
     """ fix data in this object if it's out of acceptable ranges """
 
     def limit_fix(self):
@@ -138,7 +140,7 @@ class EwUserBase:
                 # Retrieve object
 
                 cursor.execute(
-                    "SELECT  {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM users WHERE id_user = %s AND id_server = %s".format(
+                    "SELECT  {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM users WHERE id_user = %s AND id_server = %s".format(
                         ewcfg.col_slimes,
                         ewcfg.col_slimelevel,
                         ewcfg.col_hunger,
@@ -184,7 +186,8 @@ class EwUserBase:
                         ewcfg.col_gender,
                         ewcfg.col_hogtied,
                         ewcfg.col_crime,
-                        ewcfg.col_event_points
+                        ewcfg.col_event_points,
+                        ewcfg.col_fashion_seed
 
                     ), (
                         id_user,
@@ -240,7 +243,7 @@ class EwUserBase:
                     self.hogtied = result[43]
                     self.crime = result[44]
                     self.event_points = result[45]
-
+                    self.fashion_seed = random.randrange(500000) if result[46] == 0 else result[46]
 
                 else:
                     self.poi = ewcfg.poi_id_downtown
@@ -283,7 +286,7 @@ class EwUserBase:
             # Save the object.
 
             cursor.execute(
-                "UPDATE users SET {id_user} = %s, {id_server} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s WHERE {id_user} = %s AND {id_server} = %s".format(
+                "UPDATE users SET {id_user} = %s, {id_server} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s, {} = %s WHERE {id_user} = %s AND {id_server} = %s".format(
                     ewcfg.col_slimes,
                     ewcfg.col_slimelevel,
                     ewcfg.col_hunger,
@@ -332,6 +335,7 @@ class EwUserBase:
                     ewcfg.col_hogtied,
                     ewcfg.col_crime,
                     ewcfg.col_event_points,
+                    ewcfg.col_fashion_seed,
                     id_user = ewcfg.col_id_user,
                     id_server = ewcfg.col_id_server,
                 ), (
@@ -383,8 +387,10 @@ class EwUserBase:
                     self.hogtied,
                     self.crime,
                     self.event_points,
+                    self.fashion_seed,
                     self.id_user,
                     self.id_server
+
                 ))
 
             conn.commit()

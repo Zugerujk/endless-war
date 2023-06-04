@@ -1,3 +1,4 @@
+import random
 import time
 import traceback, sys
 
@@ -10,6 +11,7 @@ from ..static import items as static_items
 from ..static import weapons as static_weapons
 from ..utils import core as ewutils
 from ew.backend.dungeons import EwGamestate
+from ew.backend.market import EwMarket
 try:
     from ..utils import rutils as ewrelicutils
 except:
@@ -308,19 +310,16 @@ def item_create(
         id_server = None,
         stack_max = -1,
         stack_size = 0,
-        item_props = None
+        item_props = None,
+        soulbound = None
 ):
 
     item_def = static_items.item_def_map.get(item_type)
     badRelic = 0
 
-
     if item_def == None:
         ewutils.logMsg('Tried to create invalid item_type: {}'.format(item_type))
         return
-
-
-
 
     if item_type == ewcfg.it_item:
         if "id_name" in item_props.keys():
@@ -343,7 +342,6 @@ def item_create(
         template_id = "player book"
     elif item_type == ewcfg.it_medal:
         template_id = "MEDAL ITEM????" #p sure these are fake news
-
     elif item_type == ewcfg.it_questitem:
         template_id = "QUEST ITEM????"
     else:
@@ -353,15 +351,9 @@ def item_create(
         badRelic = 1
 
     if badRelic == 0:
-        try:
-            # Get database handles if they weren't passed.
-            conn_info = bknd_core.databaseConnect()
-            conn = conn_info.get('conn')
-            cursor = conn.cursor()
-
-            # Create the item in the database.
-
-            cursor.execute("INSERT INTO items({}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s)".format(
+        # Create the item in the database.
+        item_id = bknd_core.execute_sql_query(
+            sql_query = "INSERT INTO items({}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s)".format(
                 ewcfg.col_item_type,
                 ewcfg.col_id_user,
                 ewcfg.col_id_server,
@@ -369,41 +361,37 @@ def item_create(
                 ewcfg.col_stack_max,
                 ewcfg.col_stack_size,
                 ewcfg.col_template
-            ), (
+            ),
+            sql_replacements = (
                 item_type,
                 id_user,
                 id_server,
-                (1 if item_def.soulbound else 0),
+                (1 if (item_def.soulbound if soulbound is None else soulbound) else 0),
                 stack_max,
                 stack_size,
                 template_id,
-            ))
+            ),
+            lastrowid = True
+        )
 
-            item_id = cursor.lastrowid
-            conn.commit()
+        if item_id > 0:
+            # If additional properties are specified in the item definition or in this create call, create and persist them.
+            if item_props != None or item_def.item_props != None:
+                item_inst = EwItem(id_item = item_id)
 
-            if item_id > 0:
-                # If additional properties are specified in the item definition or in this create call, create and persist them.
-                if item_props != None or item_def.item_props != None:
-                    item_inst = EwItem(id_item = item_id)
+                if item_inst.item_type == ewcfg.it_relic:
+                    gamestate = EwGamestate(id_state=template_id, id_server=id_server)
+                    gamestate.number = item_id
+                    gamestate.persist()
+                if item_def.item_props != None:
+                    item_inst.item_props.update(item_def.item_props)
 
-                    if item_inst.item_type == ewcfg.it_relic:
-                        gamestate = EwGamestate(id_state=template_id, id_server=id_server)
-                        gamestate.number = item_id
-                        gamestate.persist()
-                    if item_def.item_props != None:
-                        item_inst.item_props.update(item_def.item_props)
+                if item_props != None:
+                    item_inst.item_props.update(item_props)
+                item_inst.persist()
+                
+            return item_id
 
-                    if item_props != None:
-                        item_inst.item_props.update(item_props)
-                    item_inst.persist()
-
-                conn.commit()
-        finally:
-            # Clean up the database handles.
-            cursor.close()
-            bknd_core.databaseClose(conn_info)
-        return item_id
     return None
 
 
@@ -1283,6 +1271,8 @@ def equip_sidearm(user_data, sidearm_item = None):
 
 
 def get_fashion_stats(user_data):
+    return [1, 1, 1]
+    """
     cosmetics = inventory(
         id_user=user_data.id_user,
         id_server=user_data.id_server,
@@ -1308,8 +1298,9 @@ def get_fashion_stats(user_data):
             result[1] += int(int(cos.item_props['defense']) / cosmetic_count)
             result[2] += int(int(cos.item_props['speed']) / cosmetic_count)
 
-    return result
+    return result"""
 
+freshseed = random.Random()
 
 def get_freshness(user_data, adorned_id_list = None):
     cosmetic_items = []
@@ -1333,6 +1324,10 @@ def get_freshness(user_data, adorned_id_list = None):
     mutations = user_data.get_mutations()
     bonus_freshness = 500 if ewcfg.mutation_id_unnaturalcharisma in mutations else 0
 
+    market_data = EwMarket(id_server=user_data.id_server)
+    freshseed.seed(user_data.fashion_seed + market_data.day)
+    bonus_freshness += freshseed.randint(-20, 20)
+
     if len(cosmetic_items) == 0 or adorned_cosmetics < 2:
         return bonus_freshness
 
@@ -1343,11 +1338,12 @@ def get_freshness(user_data, adorned_id_list = None):
     # get base freshness, hue and style counts
     for cos in cosmetic_items:
         if cos.item_props['adorned'] == 'true':
-
             cosmetic_count = sum(1 for cosmetic in cosmetic_items if cosmetic.item_props['cosmetic_name'] == cos.item_props['cosmetic_name']
                                  and cosmetic.item_props['adorned'] == 'true')
 
-            base_freshness += int(cos.item_props['freshness']) / cosmetic_count
+            base_freshness += get_base_freshness(item_id=cos.id_item, seed=user_data.fashion_seed) / cosmetic_count
+
+
 
             hue = hue_static.hue_map.get(cos.item_props.get('hue'))
             if hue is not None:
@@ -1384,6 +1380,31 @@ def get_freshness(user_data, adorned_id_list = None):
         style_mod = style_count[dominant_style] / adorned_cosmetics * 10
 
     return int(base_freshness * hue_mod * style_mod) + bonus_freshness
+
+
+
+def get_base_freshness(seed, item_id = None,  mapkey = None):
+    id = ""
+    if mapkey is None:
+        if type(item_id) is int:
+            item_obj = EwItem(id_item=item_id)
+            id = item_obj.item_props.get('id_cosmetic')
+
+        else:
+            item_obj = item_id
+            id = item_obj.item_props.get('id_cosmetic')
+
+
+        if item_obj.item_props.get('rarity') == ewcfg.rarity_princeps:
+            return 15
+        elif id not in cosmetics.cosmetic_map.keys() and item_obj.item_props.get('freshness') is not None:
+            return int(item_obj.item_props.get('freshness'))
+        elif item_obj.item_props.get('freshness') == 0 or id not in cosmetics.cosmetic_map.keys():
+            return 0
+
+    #index = cosmetics.cosmetic_map.keys().index(id)
+    freshseed.seed(str(seed) + (mapkey if mapkey is not None else id))
+    return int(freshseed.triangular(1, 16, 6))
 
 
 def get_weaponskill(user_data):

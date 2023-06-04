@@ -40,3 +40,6 @@ ew/cmd/debug/__init__.py
 
 faction_graphic.py
 buildfactionmap.sh
+minefile.csv
+apifile.txt
+minefile.txt

@@ -12,6 +12,7 @@ from . import item as itm_utils
 from . import rolemgr as ewrolemgr
 from . import stats as ewstats
 from . import npcutils as npcutils
+from . import mutations as mut_utils
 from .district import EwDistrict
 from .frontend import EwResponseContainer
 from .user import get_move_speed, add_xp
@@ -39,6 +40,8 @@ from ..static import poi as poi_static
 from ..static import slimeoid as sl_static
 from ..static import status as se_static
 from ..static import weapons as static_weapons
+
+
 try:
     from .rutils import debug45    
 except:
@@ -1110,7 +1113,7 @@ def get_shootee_status_mods(user_data = None, shooter_data = None, hitzone = Non
     return mods
 
 
-def damage_mod_attack(user_data, market_data, user_mutations, district_data):
+def damage_mod_attack(user_data, market_data, user_mutations, district_data, shootee_data =None):
     damage_mod = 1
 
     # Weapon possession
@@ -1205,8 +1208,8 @@ def damage_mod_cap(user_data, market_data, user_mutations, district_data, weapon
         else:
             damage_mod *= 2
 
-    if ewcfg.mutation_id_patriot in user_mutations:
-        damage_mod *= 1.5
+    #if ewcfg.mutation_id_patriot in user_mutations:
+    damage_mod *= 1.5
     if ewcfg.mutation_id_unnaturalcharisma in user_mutations:
         damage_mod *= 1.2
 
@@ -2258,6 +2261,8 @@ class EwUser(EwUserBase):
 
                 # Retry if player already has the mutation
                 if result in current_mutations:
+                    continue
+                if result not in mut_utils.active_mutations[self.id_server]:
                     continue
                 # Retry if the mutation is incompatible with an already-had mutation
                 for mutations in current_mutations:

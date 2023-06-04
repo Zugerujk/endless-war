@@ -2420,7 +2420,7 @@ EwCosmeticItem(
         str_desc = "It's what everyone from bomb squads wear for protection. Of course, this isn't going to prevent you from getting your ass blasted sideways from across the air when someone has Spontaneous Combustion, but it will make you look better doing it!",
         rarity = "Patrician",
         durability = 250000,
-        style = "Tough",
+        style = "tough",
         freshness = 10,
         price = 500000,
         vendors = ['Coalition Surplus'],

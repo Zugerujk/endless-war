@@ -1,6 +1,7 @@
 import asyncio
 import random
 import time
+import datetime
 import math
 
 from ew.backend import core as bknd_core
@@ -23,6 +24,7 @@ from ew.utils import poi as poi_utils
 from ew.utils import prank as prank_utils
 from ew.utils import rolemgr as ewrolemgr
 from ew.utils import cmd as cmd_utils
+from ew.utils import mutations as mut_utils
 from ew.utils.combat import EwUser
 from ew.utils.district import EwDistrict
 from ew.utils.frontend import EwResponseContainer
@@ -143,7 +145,7 @@ async def chemo(cmd):
 
 async def graft(cmd):
     user_data = EwUser(member=cmd.message.author)
-
+    # print(mut_utils.active_mutations)
     if cmd.message.channel.name != ewcfg.channel_clinicofslimoplasty:
         response = "Chemotherapy doesn't just grow on trees. You'll need to go to the clinic in Crookline to get some."
         return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
@@ -164,6 +166,9 @@ async def graft(cmd):
     if target == 0:
         response = '"What? My ears aren\'t what they used to be. I thought you suggested I give you {}. Only braindead squicks would say that."'.format(' '.join(cmd.tokens[1:]))
         incompatible = True
+    elif target not in mut_utils.active_mutations[user_data.id_server]:
+        response = '"Plumb forgot how to do that surgery, sorry kid. My Alzheimers only lets me remember the procedures in the monthly rotation. A little too convenient, if you ask me."'
+        incompatible = True
     elif target in mutations:
         response = '"Nope, you already have that mutation. Hey, I thought I was supposed to be the senile one here!"'
         incompatible = True
@@ -171,7 +176,7 @@ async def graft(cmd):
         response = '"Your body\'s already full of mutations. Your sentient tumors will probably start bitin\' once I take out my scalpel."\n\nLevel:{}/50\nMutation Levels Added:{}/{}'.format(user_data.slimelevel, user_data.get_mutation_level(), min(user_data.slimelevel, 50))
         incompatible = True
     elif static_mutations.mutations_map.get(target).tier * 10000 > user_data.slimes:
-        response = '"We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {} slime, ya idjit!"'.format(static_mutations.mutations_map.get(target).tier * 10000)
+        response = '"We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {:,} slime, ya idjit!"'.format(static_mutations.mutations_map.get(target).tier * 10000)
         incompatible = True
 
     for mutation in mutations:
@@ -192,6 +197,22 @@ async def graft(cmd):
         response = static_mutations.mutations_map[target].str_transplant + "\n\nMutation Levels Added:{}/{}".format(user_data.get_mutation_level(), min(user_data.slimelevel, 50))
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
+
+async def facelift(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    if cmd.message.channel.name != ewcfg.channel_clinicofslimoplasty:
+        response = "Rhinoplasty doesn't just grow on trees. You'll need to go to the clinic in Crookline to get some."
+    elif user_data.life_state == ewcfg.life_state_corpse:
+        response = '"You get out of here, dirty nega. We don\'t serve your kind." \n\n Auntie Dusttrap threatingly flails a jar of cole slaw at you. Looks like you need a body to cut up a body.'
+    elif user_data.slimes < 20000000:
+        response = 'We\'re not selling gumballs here. It\'s cosmetic surgery. It\'ll cost at least {:,} slime, ya idjit!"'.format(20000000)
+    else:
+        user_data.fashion_seed = random.randrange(500000)
+        user_data.change_slimes(n=-20000000, source=ewcfg.source_spending)
+        user_data.persist()
+        response = "You throw down 20 million slime and ask Dr. Dusttrap you want to look unrecognizable. She bursts out laughing before raising her head to say \"Be careful what you wish for, sonny.\" Before you can think twice, she shoves her hand into your face, throwing you on her operating table. As she begins to painfully cut across your nose and temples with no anaesthetic, you realize your old face is probably going in the garbage can. Though blood covers your eyes and you cant see this, she pulls out her Wheel of Faces to decide the replacement. Ooh, you landed on #{}! Dusttrap quickly peels the old features off you and pops a new set back on, stitching it closed with the crocheting skils of an actually normal old lady. Once you recover, you take the bandages off your face. Hmm. Guess you're a {}/10 now.".format(random.randint(1, 100), random.randint(0, 10))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+    #the appearance comment is purely cosmetic but i kinda like the idea of players using that
 
 async def preserve(cmd):
     user_data = EwUser(member=cmd.message.author)
@@ -473,7 +494,7 @@ async def piss(cmd):
 
     respctn.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     if xp_yield != 0:
-        responses = await add_xp(cmd.message.author.id, cmd.message.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
+        responses = await add_xp(cmd.message.author.id, cmd.guild.id, ewcfg.goonscape_pee_stat, xp_yield)
         for resp in responses: respctn.add_channel_response(cmd.message.channel, resp)
     return await respctn.post()
 
@@ -876,3 +897,230 @@ async def forcechemo(cmd):
         response = "You have forcibly chemo'd {}.".format(target)
     # Send message
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def display_current_rotation(cmd):
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+
+    if cmd.tokens[0] == ewcfg.cmd_prefix + 'nextrotation' and cmd.message.author.guild_permissions.administrator:
+        month = (month % 12) + 1
+        year = year if month != 12 else year + 1
+    elif cmd.tokens[0] == ewcfg.cmd_prefix + 'nextrotation':
+        return
+
+    current_rotation_data = bknd_core.execute_sql_query(
+        "select {id_mutation}, {context_num} from mut_rotations where {month} = %s and {year} = %s and {id_server} = %s".format(
+            id_mutation=ewcfg.col_id_mutation,
+            context_num=ewcfg.col_id_context_num,
+            month=ewcfg.col_id_month,
+            year=ewcfg.col_id_year,
+            id_server=ewcfg.col_id_server
+        ), (month, year, cmd.guild.id))
+
+    response = 'ACTIVE MUTATIONS\n'
+    stat_resp = '\nADDITIONAL MODIFIERS\n'
+    for piece in current_rotation_data:
+        if piece[0] in mut_utils.stat_ranges.keys():
+            if piece[1] == 1:
+                continue
+            stat_resp += mut_utils.stat_ranges.get(piece[0])[2].format(piece[1])
+        else:
+            mutation_obj = static_mutations.mutations_map.get(piece[0])
+            response += mutation_obj.str_name + ', '
+
+    if stat_resp != '\nADDITIONAL MODIFIERS\n':
+        response += stat_resp
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def add_rotation_mut(cmd):
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+            if 'future' in cmd.tokens:
+                month = (month % 12) + 1
+                year = year if month != 12 else year + 1
+            else:
+                mut_utils.active_mutations.get(cmd.guild.id).append(target)
+
+            response = "Added."
+
+            bknd_core.execute_sql_query(
+                "replace into mut_rotations({id_server}, {id_month}, {id_year}, {mutation}, {context_num}) values(%s, %s, %s, %s, %s)".format(
+                    id_server=ewcfg.col_id_server,
+                    id_month=ewcfg.col_id_month,
+                    id_year=ewcfg.col_id_year,
+                    mutation=ewcfg.col_id_mutation,
+                    context_num=ewcfg.col_id_context_num
+                ), (cmd.guild.id,
+                    month,
+                    year,
+                    target,
+                    1))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def drop_rotation_mut(cmd):
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    # print("{} {} {}".format(cmd.guild.id, year, target))
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        if 'future' in cmd.tokens:
+            month = (month % 12) + 1
+            year = year if month != 12 else year + 1
+        else:
+            mut_utils.active_mutations[cmd.guild.id].remove(target)
+        response = "Removed."
+        bknd_core.execute_sql_query(
+            "delete from mut_rotations where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation
+            ), (cmd.guild.id,
+                month,
+                year,
+                target))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def change_rotation_stat(cmd):
+    target_name = cmd.tokens[1]
+    today = datetime.date.today()
+    month = int(today.month)
+    year = int(today.year)
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+    if cmd.tokens_count != 3:
+        response = "You failed to fuck with everything. Try !changerotation <stat> <value>"
+    else:
+        if 'future' in cmd.tokens:
+            month = (month % 12) + 1
+            year = year if month != 12 else year + 1
+        targetnum = round(float(cmd.tokens[2]), 2)
+        response = "Successfully fucked with everything by setting {} to {}. You may need to restart to apply changes.".format(target_name, targetnum)
+        bknd_core.execute_sql_query(
+            "update mut_rotations set {context_num} = %s where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation,
+                context_num=ewcfg.col_id_context_num
+            ), (targetnum,
+                cmd.guild.id,
+                month,
+                year,
+                target_name))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def lock_mutation(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        response = "Locked in."
+
+        bknd_core.execute_sql_query(
+            "replace into mut_rotations({id_server}, {id_month}, {id_year}, {mutation}, {context_num}) values(%s, %s, %s, %s, %s)".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation,
+                context_num=ewcfg.col_id_context_num
+            ), (cmd.guild.id,
+                0,
+                0,
+                target,
+                1))
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+
+async def unlock_mutation(cmd):
+    if not cmd.message.author.guild_permissions.administrator:
+        return
+
+    target_name = cmd.tokens[1]
+    target = ewutils.get_mutation_alias(target_name)
+
+    if target == 0:
+        response = "Not a mutation, genius. Can you believe this dev and/or mod runs the place?"
+    else:
+        response = "Released the lock for this mutation."
+
+        bknd_core.execute_sql_query(
+            "delete from mut_rotations where {id_server} = %s and {id_month} = %s  and {id_year} = %s and {mutation} = %s".format(
+                id_server=ewcfg.col_id_server,
+                id_month=ewcfg.col_id_month,
+                id_year=ewcfg.col_id_year,
+                mutation=ewcfg.col_id_mutation
+            ), (cmd.guild.id,
+                0,
+                0,
+                target))
+
+    return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
+
+async def brace(cmd):
+    user_data = EwUser(member=cmd.message.author)
+    mutations = user_data.get_mutations()
+
+    time_now = int(time.time())
+
+    if ewcfg.mutation_id_nervesofsteel not in mutations:
+        response = "Bet you'd flinch if you tried, bitch. Get stronger nerves before you attempt that kind of shit."
+    else:
+
+        mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_nervesofsteel)
+        if len(mutation_data.data) > 0:
+            time_lastuse = int(mutation_data.data)
+        else:
+            time_lastuse = 0
+
+        if time_lastuse + 120 > time_now:
+            response = "You can't do that again yet. Try again in about {} second(s)".format((time_lastuse+120)-time_now)
+            #return await fe_utils.send_response(response, cmd)
+        else:
+            ewutils.moves_active[user_data.id_user] = 0
+            ewutils.active_restrictions[user_data.id_user] = 2
+            user_data.applyStatus(ewcfg.status_braced_id)
+            await fe_utils.send_response("HIT THE DECK!", cmd)
+            await asyncio.sleep(25)
+
+            for x in range(5):
+                await fe_utils.send_response("**{}!**".format(5-x), cmd)
+                await asyncio.sleep(1)
+
+            user_data.clear_status(id_status=ewcfg.status_braced_id)
+            response = "**0!**"
+            ewutils.active_restrictions[user_data.id_user] = 0
+
+            mutation_data = EwMutation(id_user=user_data.id_user, id_server=user_data.id_server, id_mutation=ewcfg.mutation_id_nervesofsteel)
+            mutation_data.data = str(time_now)
+            mutation_data.persist()
+
+
+    return await fe_utils.send_response(response, cmd)

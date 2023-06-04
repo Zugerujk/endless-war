@@ -80,5 +80,5 @@ async def debug45(enemy_data):
 async def debug114(cmd):
     pass
 
-async def debug256():
-    pass
+async def debug256(id_server):
+    return 1

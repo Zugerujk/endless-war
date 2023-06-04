@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.2 SEASON 4 ACT 2"
+version = "v4.22 SEASON 4 ACT 2 - Mutation Rotations"
 
 
 
@@ -699,6 +699,8 @@ cmd_attack = cmd_prefix + 'attack'
 cmd_reload = cmd_prefix + 'reload'
 cmd_reload_alt1 = cmd_prefix + 'loadthegun'
 cmd_devour = cmd_prefix + 'devour'
+cmd_brace = cmd_prefix + 'brace'
+cmd_facelift = cmd_prefix + 'facelift'
 cmd_mine = cmd_prefix + 'mine'
 cmd_digmine = cmd_prefix + 'dig'
 cmd_hole = cmd_prefix + 'hole'
@@ -899,6 +901,7 @@ cmd_coinflip = cmd_prefix + 'co1nfl1p'
 cmd_spook = cmd_prefix + 'spook'
 cmd_sacrifice = cmd_prefix + 'sacrifice'
 cmd_makecostume = cmd_prefix + 'makecostume'
+cmd_rolldie = cmd_prefix + 'rolldie'
 cmd_stunt = cmd_prefix + 'stunt'
 cmd_stuntalt1 = cmd_prefix + 'skate'
 cmd_stuntalt2 = cmd_prefix + 'sk8'
@@ -960,6 +963,13 @@ cmd_listworldevents_alt1 = cmd_prefix + 'listworldevent'
 cmd_endworldevent = cmd_prefix + 'endworldevent'
 cmd_forcegraft = cmd_prefix + 'forcegraft'
 cmd_forcechemo = cmd_prefix + 'forcechemo'
+cmd_add_mut_rotation = cmd_prefix + 'addmutrotation'
+cmd_clear_mut_rotation = cmd_prefix + 'clearmutrotation'
+cmd_change_rotation_stat = cmd_prefix + 'changemutstat'
+cmd_lockmutation = cmd_prefix + 'lockmutation'
+cmd_unlockmutation = cmd_prefix + 'unlockmutation'
+cmd_currentrotation = cmd_prefix + 'rotation'
+cmd_nextrotation = cmd_prefix + 'nextrotation'
 cmd_give = cmd_prefix + 'give'
 cmd_discard = cmd_prefix + 'discard'
 cmd_discard_alt1 = cmd_prefix + 'drop'
@@ -1352,6 +1362,8 @@ cmd_bazaar_refresh = cmd_prefix + 'refreshbazaar'
 cmd_cockdraw = cmd_prefix + 'cockdraw'
 cmd_measurecock = cmd_prefix + 'measurecock'
 
+cmd_windowshop = cmd_prefix + 'windowshop'
+
 cmd_dual_key_ban = cmd_prefix + 'dualkeyban'
 cmd_dual_key_ban_alt1 = cmd_prefix + 'dkb'
 cmd_dual_key_release = cmd_prefix + 'dualkeyrelease'
@@ -1533,6 +1545,19 @@ time_bhbleed = 300  # 5 minutes
 currency_slime = "slime"
 currency_slimecoin = "SlimeCoin"
 currency_soul = "soul"
+
+global_slimegain_multiplier = 1.00
+global_slimegain_multiplier_dt = {}
+fishgain_multiplier = 1.00
+fishgain_multiplier_dt = {}
+minegain_multiplier = 1.00
+minegain_multiplier_dt = {}
+farmgain_multiplier = 1.00
+farmgain_multiplier_dt = {}
+#todo implement a sewer slime multiplier and a hunting yield multiplier too
+global_damage_multiplier = 1.00
+global_damage_multiplier_dt = {}
+
 
 # inebriation
 inebriation_max = 20
@@ -1863,6 +1888,7 @@ emote_dice3 = "<:dice3:436942524041527298>"
 emote_dice4 = "<:dice4:436942524406300683>"
 emote_dice5 = "<:dice5:436942524444049408>"
 emote_dice6 = "<:dice6:436942524469346334>"
+emote_dice_rolling = "<a:diceroll:1086894063267102750>"
 emote_negaslime = "<:ns:453826200616566786>"
 emote_bustin = "<:bustin:455194248741126144>"
 emote_ghost = "<:lordofghosts:434002083256205314>"
@@ -1971,7 +1997,7 @@ emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
 emote_verified = "<:slime_checkmark:797234128398319626>"
 
-# Emotes for !thrash and !dab variants
+# Emotes for !thrash, !dab and !boo variants
 emote_benkart = "<a:benkart:644520407734550529>"
 emote_munchykart = "<a:munchykart:644520408002854913>"
 emote_taasenchamp = "<:TaasenChamp:804369420583567392>"
@@ -1983,7 +2009,10 @@ emote_strawberrymilk = "<:strawberrymilk:431282128421126144>"
 emote_dab = "<a:dab:805341290220093450>"
 emote_thrash = "<a:thrash:805341344331202620>"
 emote_benwtf = "<:benwtf:981830620080635914>"
-
+emote_gcool = "<:ghostcool:985321953218945075>"
+emote_nslog = "<:negalog:698581983537922189>"
+emote_invsrs = "<:srs_invert:657793228673646612>"
+emote_nega111 = "<:nega111:638907899778695188>"
 
 # Miscellaneous
 emote_tfwslime = "<:tfwslime:713609663832391680>"
@@ -2009,9 +2038,27 @@ emote_munchykart,
 emote_freaker,
 emote_sweetmunch,
 emote_strawberrymilk,
-emote_thrash,
+emote_thrash
 ]
 
+boo_emotes = [
+emote_moon,
+emote_ghost,
+emote_gcool,
+emote_nslog,
+emote_invsrs,
+emote_nega111
+]
+
+# Dice emote list
+emotes_dice = [
+emote_dice1,
+emote_dice2,
+emote_dice3,
+emote_dice4,
+emote_dice5,
+emote_dice6
+]
 
 # mining types
 mining_type_minesweeper = "minesweeper"
@@ -2310,6 +2357,7 @@ col_verified = 'verified'
 col_gender = 'gender'
 col_hogtied = 'hogtied'
 col_event_points = 'event_points'
+col_fashion_seed = 'fashion_seed'
 
 col_attack = 'attack'
 col_speed = 'speed'
@@ -2478,6 +2526,9 @@ col_time_activate = 'time_activate'
 col_time_stamp = 'time_stamp'
 col_record_type = 'record_type'
 col_record_data = 'record_data'
+col_id_context_num = "context_num"
+col_id_month = "month"
+col_id_year = "year"
 
 # Database columns for advertisements
 col_id_ad = 'id_ad'
@@ -2722,7 +2773,7 @@ stat_pistol_kills = 'pistol_kills'
 stat_combatknife_kills = 'combat_knife_kills'
 stat_machete_kills = 'machete_kills'
 stat_boomerang_kills = 'boomerang_kills'
-stat_foodbasket_kills = 'foodbasket_kills'
+stat_basket_kills = 'basket_kills'
 
 
 private_stat_string = "'gambit', 'credence', 'credenceused'" #added into a query elsewhere to prevent stats from showing in certain places
@@ -2834,6 +2885,8 @@ vendor_rpcity = "RP City"  # Double halloween costume store
 vendor_coalitionsurplus = "Coalition Surplus" # Glocksbury vendor
 vendor_gumballmachine = "Gumball Machine"
 
+vendor_passive_chat_wait_time = 60 * 60 * 12  # 12 hours
+
 
 museum_thumbnails = {
     "amy":["AMY HART", "https://rfck.app/npc/AMY_HART_pfp.png"],
@@ -2886,6 +2939,11 @@ vendor_dialogue = {
     poi_id_greenlightdistrict:["The establishment isn't even trying to hide that our death furnace has been co-opted by anti-warfare, Israeli slimermaid apologists. Of course, you're not allowed to notice that.", "This episode of Fucker Carlson is sponsored by \"Survive Headless\" dietary supplements. Be a sigma, be an alpha, have so many Greek letters in front of your name that the only surface they can all be written on is if they're tattooed on your massive pecs. Survive Headless.", "Coming up next, choosing the Minecraft bow, and how it could lead to a rampant homosexuality crisis.", "What is the Killer kingpin up to? He has done nothing to stop Coalition Surplus from buying back our weapons from the dojo. In fact, he has done nothing at all.", "All we have to do to solve this financial crisis, is to drain the ghosts into the Slime Sea to haunt shipwrecks, and then nail every new immigrant to a cross. They might tell you otherwise, but it worked for El Paso."],
     poi_id_apt_littlechernobyl:["Hope you enjoy the toilets. They're handpicked by me."]
 
+}
+
+vendor_order_dialogue = {
+    poi_id_slimypersuits:["Thanks for shopping at Slimy Persuits, ha!", "That one tastes reeeaaal good, dude. Trust me!", "Hey kid — you want anything... extra, with that purchase?", "Don't forget to tell all your pals about where to find me, kid. I've got the best deals in town!"],
+    "oozegardensfarms":["THOU DESERVES TIDINGS FOR THY PURCHASE.", "GREAT CHOICE!", "MAY THOU FIELDS TEEM WITH LIFE!"]
 }
 
 
@@ -3264,7 +3322,7 @@ weapon_id_pistol = 'pistol'
 weapon_id_combatknife = 'combatknife'
 weapon_id_machete = 'machete'
 weapon_id_boomerang = 'boomerang'
-weapon_id_foodbasket = 'petrifiedfoodbasket'
+weapon_id_basket = 'basket'
 
 
 weapon_id_spraycan = 'spraycan'
@@ -3872,6 +3930,7 @@ status_thinned_id = "thinned"
 status_modelovaccine_id = "modelovaccine"
 status_slapped_id = "slapped"
 status_foodcoma_id = "foodcoma"
+status_braced_id = "braced"
 
 status_enemy_hostile_id = "hostile"
 status_enemy_barren_id = "barren"
@@ -4162,7 +4221,7 @@ mutation_descriptions = {
     mutation_id_stickyfingers: "When using !order at a store, there is a 20% chance to get the item for free. You still need to have the slime to purchase it, though.",
     mutation_id_unnaturalcharisma: "Additive +1 to capping speed (not multiplied by Lone Wolf or Patriot). You also gain 500 freshness.",
     mutation_id_rigormortis: "You are able to !preserve up to 5 items. These items will not drop when you are killed. You must have this mutation for the preservation to take effect, and the items must be in your inventory.",
-    mutation_id_nervesofsteel: "As a juvie, you can play Russian Roulette and commit suicide.",
+    mutation_id_nervesofsteel: " Use !brace to freeze movement, preventing outgoing and incoming damage for 20 seconds. As a juvie, you can play Russian Roulette and commit suicide.",
     mutation_id_napalmsnot: "You do some burn damage when attacking with any weapon, in addition to its normal damage. You also gain immunity to burn damage.",
     mutation_id_ditchslap: "Use !slap @user <location> on an ally to instantly launch them to an adjacent district. If you are in a safe zone, the target must use !clench before they can be hit. Any given ally can't be slapped again for a 5 minute cooldown.",
     mutation_id_greenfingers: "Farming wait time is decreased by 33%, and yields are increased by 20%.",
@@ -4283,6 +4342,7 @@ item_unique_commands = {
     "television": "**TV**\n!watch: Watch TV if it's in your apartment. Stop watching by taking the TV out of your apartment.",
     "vape": "**VAPE**\n!vape <vape pod>: Smoke vape pods in your inventory.",
     "washingmachine": "**WASHING MACHINE**\n!wash <object>: Remove the dye from a slimeoid or a piece of clothing if it is in your apartment.",
+    "die": "**DIE**\n!rolldie: Roll the die.",
 }
 
 item_group_commands = {
@@ -4513,7 +4573,7 @@ if slimernalia_active == True:
     defense_up_enemies.extend = [enemy_type_miserablemiser]
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
-arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime]
+arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime, enemy_type_greeneyesslimedragon, enemy_type_megaslime, enemy_type_dinoslime]
 slimeoid_trainers = [enemy_type_npc]
 
 
@@ -4746,7 +4806,7 @@ enemy_drop_tables = {
         {item_id_giftribbon: [100, 2, 5]},
     ],
     enemy_type_spiritofslimernaliapast: [
-        {weapon_id_foodbasket: [100, 1, 1]},
+        {weapon_id_basket: [100, 1, 1]},
         {rarity_patrician: [50, 1, 1]},
         {item_id_slimepoudrin: [10, 10, 25]},
     ],
@@ -4810,17 +4870,22 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_unarmed,
         "displayname": "Sand Bag",
         "raredisplayname": "Durable Sand Bag",
-        "aliases": ["sandbag", "bag o sand", "bag of sand"]
+        "aliases": ["sandbag", "bag o sand", "bag of sand"],
+        "description": "\n\nA sandbag, prepared by the Dojo Master himself.",
+        "raredescription": "\n\nhttps://cdn.discordapp.com/attachments/619271859627753512/1083146436360818748/Untitled-2.png",
     },
-        enemy_type_juvie: {
-            "slimerange": [10000, 50000],
-            "ai": enemy_ai_coward, 
-            "attacktype": enemy_attacktype_unarmed,
-            "displayname": "Lost Juvie",
-            "raredisplayname": "Shellshocked Juvie",
-            "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
-            "arcticvariant" : "Frostbitten Juvie",
-            "dhvariant": "Accursed Juvie"
+    enemy_type_juvie: {
+        "slimerange": [10000, 50000],
+        "ai": enemy_ai_coward, 
+        "attacktype": enemy_attacktype_unarmed,
+        "displayname": "Lost Juvie",
+        "raredisplayname": "Shellshocked Juvie",
+        "aliases": ["juvie", "greenman", "lostjuvie", "lost", "frost", "frostbitten", "accursed"],
+        "arcticvariant" : "Frostbitten Juvie",
+        "dhvariant": "Accursed Juvie",
+        "description": "\n\n> A living citizen of NLACakaNM, unaffiliated with any gang. Despite its life in such hostile conditions, this prey seems adamant to stay neutral in the conflict. It would be admirable, were it not so pathetic. It is often they wander away from their farms into the Outskirts, but they're hardly even worth killing.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004453371052051/The_Venators_Encyclopedia3.png",
+        "raredescription": "\n\n> A lost juvenile that has adapted to life in the Outskirts. I came across this puny little thing as I was out hunting larger game. It appeared to be in a constant state of panic, likely induced by it living in this wasteland for so long.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004469795684384/The_Venators_Encyclopedia4.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_dinoslime: {
         "slimerange": [250000, 500000],
@@ -4831,6 +4896,9 @@ enemy_data_table = {
         "aliases": ["dino", "slimeasaur"],
         "arcticvariant":"Sabertooth Tigerslime",
         "dhvariant": "Ravenous Dinoshambler",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a velociraptor. After the advent of slime, these creatures began to appear in the Outskirts near the sea. Since then, they've gradually spread out their territory, encompassing the whole of the Outskirts.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004498078138508/The_Venators_Encyclopedia6.png",
+        "raredescription": "\n\n> A more powerful and aggressive variation of the Dinoslime, due to a genetic alteration. I have seen many a beast in my days, but none quite as grotesque as this one. It seems whatever this thing is has no context of pack hunting strategy, killing on instinct (even its own kind!).\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004512162611227/The_Venators_Encyclopedia7.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_slimeadactyl: {
         "slimerange": [500000, 750000],
@@ -4840,6 +4908,8 @@ enemy_data_table = {
         "raredisplayname": "Predatory Slimeadactyl",
         "aliases": ["bird", "dactyl"],
         "dhvariant": "Mutated Crow",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a pterodactyl. Yet more of these dinosaur-esque creatures. It seems that they originate from near the sea, just as the dinoslimes had. Due to them being airborne, it can be difficult to land a blow on them, but they don't pose too much of a threat otuside of that.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004527555444746/The_Venators_Encyclopedia8.png",
+        "raredescription": "\n\n> A more powerful Slimeadactyl resembling a quetzalcoatlus, due to a genetic alteration. More and more mutant versions of creatures seem to be popping up these days, though I couldn't tell you why. What I do know is that this prey is massive. I would certainly classify taking it down as an accomplishment.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004542059610142/The_Venators_Encyclopedia9.png",
     },
     enemy_type_desertraider: {
         "slimerange": [250000, 750000],
@@ -4850,6 +4920,9 @@ enemy_data_table = {
         "aliases": ["raider", "scytheboy", "desertraider", "desert"],
         "arcticvariant":"Tundra Graverobber",
         "dhvariant": "Reaper",
+        "description": "\n\n> A wandering raider left to fend for itself in the outskirts. One of many fiendish outcasts roaming these wastelands. Over time, and with no access to the outside world, the people who once lived here became the bloodthirsty savages seen in the outskirts today. \n> ARCHIVAL NOTE: The Venator's statements may not be historically true.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004563785842809/The_Venators_Encyclopedia10.png ",
+        "raredescription": "\n\n> An especially powerful desert raider that has become a ruler due to its strength. Only the toughest of the tough and the strongest of the strong are fit to lead raiders, and it certainly shows in battle. Definitely a prey to watch out for.\n> ARCHIVAL NOTE: The Venator's statements may not be historically true.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004585688760439/The_Venators_Encyclopedia11.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_mammoslime: {
         "slimerange": [650000, 950000],
@@ -4858,17 +4931,23 @@ enemy_data_table = {
         "displayname": "Mammoslime",
         "raredisplayname": "Territorial Mammoslime",
         "aliases": ["mammoth", "brunswick"],
-        "arcticvariant": "Mammoslime",
+        "arcticvariant": "Frozen Mammoslime",
         "dhvariant": "Irritated Mammoshambler",
+        "description": "\n\n> A slime-based lifeform, similar in appearance to a mammoth. Perhaps the fossils underground met with the unique properties of slime, allowing them to !revive? In any case, watch out for this one, its poudrin-tusks pack a punch if you don't steer clear. I learned that the hard way...\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004606643372102/The_Venators_Encyclopedia12.png",
+        "raredescription": "\n\n> A more powerful and aggressive variation of the Mammoslime, due to a genetic alteration. This thing is fucking massive. I'm not fucking around. You may think that its name is in reference to it being protective over its own territory, but no, it's because this creature is so large it can be classified as a territory in and of itself. It can't be natural, whatever it is.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004622564950016/The_Venators_Encyclopedia13.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_microslime: {
         "slimerange": [10000, 50000],
         "ai": enemy_ai_defender,
         "attacktype": enemy_attacktype_body,
         "displayname": "Microslime",
-        "raredisplayname": "Irridescent Microslime",
+        "raredisplayname": "Iridescent Microslime",
         "aliases": ["micro", "pinky"],
         "dhvariant": "Micro Pumpkislime",
+        "description": "\n\n> A miniature being made entirely of slime. This thing may put up a fight, but its idea of \"a fight\" is pathetic, quite frankly. However - despite the act of killing it not being that engaging in and of itself - what IS rewarding is the treasure it contains. If you see one, go straight for it.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004649484124250/The_Venators_Encyclopedia14.png",
+        "raredescription": "\n\n> A glowing, miniature being made entirely of slime. Exactly the same as a Microslime, except this one is glowing, and has even more treasure held within itself.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004667058126968/The_Venators_Encyclopedia15.png",  
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_grey: {
         "slimerange": [250000, 750000],
@@ -4877,7 +4956,10 @@ enemy_data_table = {
         "displayname": "Grey Alien",
         "raredisplayname": "Grey with a Burger King Crown On Its Head",
         "aliases": ["greys", "galien", "unnervingfightingoperator", "unnerving"],
-        "arcticvariant":"Grey Alien"
+        "arcticvariant":"Grey Alien with a Scarf On",
+        "description": "\n\n> ENTRY 8194 - Grey Aliens are ██████████ with little regard for human or inhuman life. Origin unknown. Repeated attempts at dissection have yielded little knowledge on their internals.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 10442 - Grey Aliens with Burger King Crowns On Their Head are aberrant-type ██████████ with an increased ability to terrorize human or inhuman life. Little is known as to how they obtain burger king crowns, nor why seemingly only aberrant-type ██████████ have them. \n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_tangeloid: {
         "slimerange": [250000, 500000],
@@ -4885,7 +4967,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_raygun,
         "displayname": "Tangeloid",
         "raredisplayname": "Squiggled Tangeloid",
-        "aliases": ["tangela", "tangle", "millite", "milly", "squiggle", "squig"]
+        "aliases": ["tangela", "tangle", "millite", "milly", "squiggle", "squig"],
+        "description": "\n\n> ENTRY 11709 - Tangeloids are cyan-colored ██████████, whose bodies are made up of large, tube-like knots. Origin unknown. They appear to be more intelligent than other ██████████, and possess a great to Field Agents. Their crab-like eyes are a known weak point.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 11723 - Squiggled Tangeloids are aberrant-type ██████████ who sport a much more orderly and distinguished demeanor. As aberrant-types, they are much stronger and more intelligent than they appear. Some may show human intelligence, but be aware! This is only a dangerous front to trick the empathetic among Us.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
     },
     enemy_type_alienscum: {
         "slimerange": [500000, 750000],
@@ -4893,7 +4977,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_feed,
         "displayname": "Alien Scum",
         "raredisplayname": "Unhinged Alien Psycho",
-        "aliases": ["scum", "ascum", "psycho", "unhinged"]
+        "aliases": ["scum", "ascum", "psycho", "unhinged"],
+        "description": "\n\n> ENTRY 9900 - Alien Scum are ██████████ who seem to have adversely reacted with Slime. It is unknown why ██████████ would devolve from Slime, but nonetheless, these pose a severe threat to Field Agents. Dissection has been met only with Slime. \n - *NMS Astronomy Databanks (Declassified)*, NMS",
+        "raredescription": "\n\n> ENTRY 9945 - Unhigned Alien Psychos are aberrant-type ██████████ who seem to have adversely reacted with Slime. For these ██████████, all Extraterrestrial Research Staff are encouraged to kill on sight, no matter the circumstances. No further notes.\n - *NMS Astronomy Databanks (Declassified)*, NMS",
     },
     enemy_type_slimeofgreed: {
         "slimerange": [20000, 100000],
@@ -4903,6 +4989,8 @@ enemy_data_table = {
         "raredisplayname": "Slime Of Avarice",
         "aliases": ["slime", "slimeofgreed", "pot", "potofgreed", "draw2cards"],
         "dhvariant": "Slime of Dichotomy",
+        "description": "\n\n> Draw 2 cards.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Target 5 Secreatures in the Sewers; shuffle all 5 into your Inventory, then draw 2 cards.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_doubleheadlessdoublehorseman: {
         "slimerange": [100000000, 150000000],
@@ -4929,6 +5017,9 @@ enemy_data_table = {
         "aliases": ["mega", "smooze", "muk"],
         "arcticvariant":"Antifreeze Megaslime",
         "dhvariant": "Grave Megaslime",
+        "description": "\n\n> {emote} An especially large being made entirely of slime. These things have been around for as long as I can remember. Somehow, due to slime's unique life-bringing effect, when enough of it is gathered together it will begin to animate on its own. There seems to only be one thing on its mind once it is brought to life; demolish everything in its immediate vicinity.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004684627935242/The_Venators_Encyclopedia16.png".format(emote=emote_megaslime),
+        "raredescription": "\n\n> {emote} A massive, genetically mutated being made entirely of slime. They all seem determined to head directly towards the city, first thing. They only started showing up recently, but as soon as they did, the regular Megaslimes started to mimic their behavior. Perhaps it is a sort of hivemind they share?\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004708019568640/The_Venators_Encyclopedia17.png".format(emote=emote_megaslime),
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_slimeasaurusrex: {
         "slimerange": [1750000, 3000000],
@@ -4937,8 +5028,11 @@ enemy_data_table = {
         "displayname": "Slimeasaurus Rex",
         "raredisplayname": "Sex Rex",
         "aliases": ["rex", "trex", "slimeasaurusrex", "slimeasaurus"],
-        "arcticvariant": "Slimeasaurus Rex",
+        "arcticvariant": "Iced-T-Rex",
         "dhvariant": "Pumpkisaurus Rex",
+        "description": "\n\n> A gigantic slime-based lifeform, similar in appearance to a Tyrannosaurus Rex. The last, but certainly not least, of the suarian subset of slimey secreatures. Usually the Outskirts are their singular territory, but recently they've been going into the city along with the Megaslimes. I suggested a hivemind previously, but it would seem something else is at play...\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004729926680656/The_Venators_Encyclopedia18.png",
+        "raredescription": "\n\n> HEY GUYS IT'S ME THE SEX REX\n - Sex Rex",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_greeneyesslimedragon: {
         "slimerange": [3500000, 5000000],
@@ -4947,8 +5041,11 @@ enemy_data_table = {
         "displayname": "Green Eyes Slime Dragon",
         "raredisplayname": "Green Eyes JPEG Dragon",
         "aliases": ["dragon", "greeneyes", "greeneyesslimedragon", "green"],
-        "arcticvariant": "Green Eyes Slime Dragon",
+        "arcticvariant": "Blue Eyes Slime Dragon",
         "dhvariant": "Red-Eyes Negaslime Dragon",
+        "description": "\n\n> The Green Eyes Slime Dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.\n - *Encyclopædia Limus*, NLACakaNM Museum of History \n - https://cdn.discordapp.com/attachments/667820533454340112/745004766483972177/The_Venators_Encyclopedia20.png",
+        "raredescription": "\n\n> Due to the sheer amount of JPEG artifacts coating its skin, the Green Eyes JPEG Dragon is significantly more dangerous than its slime counterpart. When it roars, it's reminiscent of a scream filtered through a 2000s-era microphone.\n - *Encyclopædia Limus*, NLACakaNM Museum of History \n - https://cdn.discordapp.com/attachments/667820533454340112/745004791222239232/The_Venators_Encyclopedia21.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_unnervingfightingoperator: {
         "slimerange": [1000000, 3000000],
@@ -4958,7 +5055,10 @@ enemy_data_table = {
         "raredisplayname": "Unyielding Fierce Operator",
         "aliases": ["ufo", "alien", "unnervingfightingoperator", "unnerving"],
         "arcticvariant":"Unflinching Frozen Operator",
-        "dhvariant": "Unworldly Ferocious Owl"
+        "dhvariant": "Unworldly Ferocious Owl",
+        "description": "\n\n> An enigmatic enemy of unknown species and origin. It feels strange to document these unusual beings, considering I know so little about them. \n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004817738367136/The_Venators_Encyclopedia22.png",
+        "raredescription": "\n\n> An exponentially more powerful variation of the Unnerving Fighting Operator. These entities are somehow even harder to come by and gather information on than their less-powerful counterparts.\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004840295333969/The_Venators_Encyclopedia23.png",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_titanoslime: {
         "slimerange": [5000000, 7000000],
@@ -4968,6 +5068,8 @@ enemy_data_table = {
         "raredisplayname": "Miscreated Titanoslime",
         "aliases": ["titano", "titanoslime", "biglizard"],
         "dhvariant": "Ghoulific Titanogreslime",
+        "description": "\n\n> Titanic beasts, Titanoslimes are horrific additions to NLACakaNM's sauropod population. Created in labs by the now-dead N6, Titanoslimes were unleashed prior to the raid against the now-defunct Slimecorp. Nowadays, they've taken up their own niche in NLACakaNM's wild ecosystem.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Malformed variants of their genetically-stable counterparts, Miscreated Titanoslimes came out of the lab vats *wrong*. Their specific deformities vary, but nonetheless, they are unparalleled in maiming citizens.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_mutated_titanoslime: {
         "slimerange": [10000000, 10000000],
@@ -4984,7 +5086,10 @@ enemy_data_table = {
         "displayname": "Piloslime",
         "raredisplayname": "Shiny Piloslime",
         "aliases": ["piloswine", "mammoslimejr", "pleboslime", "shinypiloslime"],
-        "arcticvariant":"Piloslime"
+        "arcticvariant":"Terastallized Piloslime",
+        "description": "\n\n> A Piloslime is covered by a thick coat of long hair for enduring freezing cold. It uses its tusks to dig up food that has been buried underground.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Shiny Piloslimes are rarer variants of Piloslimes, with bright yellow coats. This shaggy coat makes it unable to see. It checks surroundings with its sensitive nose instead.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
     enemy_type_spacecarp: {
         "slimerange": [100000, 100000],
@@ -5001,16 +5106,20 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_tusks,
         "displayname": "Mammoslime Bull",
         "raredisplayname": "Apex Mammoslime",
-        "aliases": ["mammoswinebull", "swinebull", "mammobull", "apex", "apexmammoslime"]
+        "aliases": ["mammoswinebull", "swinebull", "mammobull", "apex", "apexmammoslime"],
+        "description": "\n\n> More hostile than their larger counterparts, Mammoslime Bulls are smaller, rowdier, more aggressive Mammoslimes. Their fur was frequently used for Pueblo clothing, so make sure to snag its pelt if you ever get the chance.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> Even *more* hostile than their less rare counterpart, Apex Mammoslimes are the fiercest Mammoslimes in all of NLACakaNM. Despite still being smaller than their larger Mammoslime counterparts, they are still known for overcoming them in a fight.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_microgullswarm: {
         "slimerange": [100000, 100000],
-        "ai": enemy_ai_attacker_a,
+        "ai ": enemy_ai_attacker_a,
         "attacktype": enemy_attacktype_beak,
         "displayname": "Micro Gull Swarm",
         "raredisplayname": "Micro Gull Cloud",
         "aliases": ["microgull", "smallgull", "birdswarm", "gullcloud", "gullswarm"],
         "dhvariant": "MiCrow Swarm",
+        "description": "\n\n> A bunch of little fucking birds. What else can be written about these?\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> When many Micro Gull Swarms meet, they form a Micro Gull Cloud. These masses of bird can act as one mind, making them a horrifically deadly phenomenon.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
     },
     enemy_type_civilian: {
         "slimerange": [100001, 100001],
@@ -5102,7 +5211,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gnash,
         "displayname": "Deathclaw",
         "raredisplayname": "Legendary Deathclaw",
-        "aliases": ["legendarydeathclaw"]
+        "aliases": ["legendarydeathclaw"],
+        "description": "\n\n> The Deathclaw is a mysterious cryptid that is rumored to haunt Little Chernobyl in times of great calamity. Little is known about its true nature, and its veracity is frequently debated by Slime historians. \n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> My God! My God! A Legendary Deathclaw has got my baby!\n - *Martha*, Mother (Later Arrested for Child Murder)",
     },
     enemy_type_mutatedbarrel: {
         "slimerange": [1000, 5000],
@@ -5110,7 +5221,9 @@ enemy_data_table = {
         "attacktype": enemy_attacktype_gunkshot,
         "displayname": "Bipedal Mutated Barrel",
         "raredisplayname": "Quadrupedal Mutated Barrel",
-        "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"]
+        "aliases": ["bipedalmutatedbarrel", "quadrupedalmutatedbarrel", "barrel"],
+        "description": "\n\n> The Bipedal Mutated Barrel is a cryptid that originates from Little Chernobyl's Nuclear Power Plant, though how exactly it emerged isn't clear. It is said this nuclear barrel with legs is known to play with Little Chernobyl children on the haziest of nights.\n - *Encyclopædia Limus*, NLACakaNM Museum of History",
+        "raredescription": "\n\n> The Bipedal Mutated Barrel's cryptid pet, the Quadrupedal Mutated Barrel is a ferocious dog in the shape of a nuclear barrel with legs. It is said it eats children who are too obedient to their parents.\n - *Encyclopædia Limus*, NLACakaNM Museum of History"
     },
     enemy_type_lesserwerewolf: {
         "slimerange": [100000, 2000000], # BIG range
@@ -5132,9 +5245,11 @@ enemy_data_table = {
         "slimerange": [1000, 5000],
         "ai": enemy_ai_defender,
         "attacktype": enemy_attacktype_axe,
-        "displayname": "Alm Fire Emblem https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
-        "raredisplayname": "Alm Fire Emblem Conqueror https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
-        "aliases": ["alm", "fireemblem"]
+        "displayname": "Alm Fire Emblem",
+        "raredisplayname": "Alm Fire Emblem Conqueror",
+        "aliases": ["alm", "fireemblem"],
+        "description": "https://cdn.fireemblemwiki.org/thumb/2/29/Portrait_alm_fe15.png/150px-Portrait_alm_fe15.png",
+        "raredescription": "https://cdn.fireemblemwiki.org/d/d7/FESoV_Conqueror_concept.png",
     }, 
     enemy_type_slimernaliajuvie: {
         "slimerange": [1000000, 3000000],

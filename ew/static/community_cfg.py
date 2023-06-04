@@ -516,10 +516,10 @@ monowhipkilltext = [
 ]
 
 juvierangkilltext = [
-    "**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_player}'s throat to finish the kill. {emote_skull}"
+    "**WHAP!** {name_target} is knocked to the ground by {name_player}'s juvierang. {name_player} picks it up and cleaves {name_target}'s throat to finish the kill. {emote_skull}"
 ]
 
-foodbasketkilltext = [
+basketkilltext = [
     "{name_player} opens their basket and pulls out something unintelligible! The last moments of {name_target}'s life is getting beaten to death by what was once edible long, long ago. {emote_skull}",
     "{name_player} makes a fatal throw of inedible foodstuffs right into {name_target}'s mouth! They choke to death on the hunk of petrified food. {emote_skull}"
 ]
