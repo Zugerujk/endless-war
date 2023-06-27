@@ -88,16 +88,16 @@ mutations = [
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_whitenationalist,
-        str_name="White Nationalist",
-        alias=['wn', 'white', 'racism'],
-        str_describe_self="Your bleached white, peeling skin is surely the envy of lesser races due to **White Nationalist**.",
-        str_describe_other="Their bleached white, peeling skin is surely the envy of lesser races due to **White Nationalist**.",
-        str_acquire="Every pore on your skin suddenly feels like it’s being punctured by a rusty needle. Your skin’s pigment rapidly desaturates to the point of pure #ffffff whiteness. You suddenly love country music, too. Wow, that was a really stupid joke. You have developed the mutation **White Nationalist**. Scavenge bonus and cannot be scouted while weather is snowy.",
+        str_name="Snow Warning",
+        alias=['snow', 'warning', 'snowwarning', "sw"],
+        str_describe_self="Your presence calls forth any surrounding snow due to **Snow Warning**.",
+        str_describe_other="Their presence calls forth the surrounding snow due to **Snow Warning**.",
+        str_acquire="A curious chill runs down your spine. Your fingers rapidly beginning turning a shade of blue while your breath takes on solid form. Snow jacket could protect you from this kind of cold. Wow, that was a really stupid joke. You have developed the mutation **Snow Warning**. Scavenge bonus and cannot be scouted while weather is snowy.",
         tier=1,
         incompatible = {
             ewcfg.mutation_id_airlock : '"Nope, you already have that mutation. It\'s even got a bunch extra tacked on."'
         },
-        str_transplant="You are led to the clinic's basement, where you find an empty laptop sitting on the dark cement floor. The keyboard and mouse are broken, and it's got Richard Spencer tirades on autoplay. All of a sudden, the door locks. You spend an indefinite amount of time slowly falling in love with his dreamy soft-serve flip haircut, and as you waste away you eventually grow deathly pale, too.\n\nYou have developed the mutation **White Nationalist**. Scavenge bonus and cannot be scouted while weather is snowy.",
+        str_transplant="You select the antifreeze special. Dr. Dusttrap injects you with a strange liquid and then leads you to her freezer. With a push, kick, and a shove, you're locked inside. Your body temperature quickly begins dropping, but you miraculously stay alive. It's like Frozen in here, yo. After a while, you're graciously let free by Dr. Dusttrap.\n\nYou have developed the mutation **Snow Warning**. Scavenge bonus and cannot be scouted while weather is snowy.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_spoiledappetite,
@@ -431,7 +431,7 @@ mutations = [
             ewcfg.mutation_id_slurpsup: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_deathfromabove: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
         },
-        str_transplant="Dr. Dusttrap straps a small, high-grade air purifier around your neck, and runs a cord through your nose and into your stomach. The cords take somme getting used to, but this procedure was shockingly painless.\n\nYou have developed the mutation **Air Lock**. Gain the effects of White Nationalist and Light as a Feather. These effects do not stack with those mutations.",
+        str_transplant="Dr. Dusttrap straps a small, high-grade air purifier around your neck, and runs a cord through your nose and into your stomach. The cords take somme getting used to, but this procedure was shockingly painless.\n\nYou have developed the mutation **Air Lock**. Gain the weather-based effects of all weather mutations. These effects do not stack with those mutations.",
     ),
     EwMutationFlavor(
         id_mutation=ewcfg.mutation_id_unnaturalcharisma,

@@ -4213,7 +4213,7 @@ mutation_descriptions = {
     mutation_id_enlargedbladder: "You can use the !piss command. The most cost-effective mutation, and therefore the best one.",
     mutation_id_dumpsterdiver: "10x chance to get items while scavenging with just '!scavenge'. Captcha scavenges search for items using a random single letter of the captcha.",
     mutation_id_trashmouth: "Reach maximum power scavenges 3 times as fast. Example: The soft cooldown of 15 seconds on scavenging is now reduced to 5 seconds. You can also eat cosmetics and furniture. You can also eat furniture and cosmetics using !devour <item>.",
-    mutation_id_webbedfeet: "Your scavenging power increases the more slime there is in a district. Caps out at 400% more slime gained from scavenging, but does stack with the White Nationalist mutation. You can feel out the amount of slime you scavenge.",
+    mutation_id_webbedfeet: "Your scavenging power increases the more slime there is in a district. Caps out at 400% more slime gained from scavenging, but does stack with the Snow Warning mutation. You can feel out the amount of slime you scavenge.",
 
     mutation_id_dyslexia: "The size of captchas is decreased by 1 character. If a captcha is 1, the captcha length will stay the same.",
     mutation_id_handyman: "If you kill an enemy gangster with a tool instead of a weapon, your kingpin gets double the slime they normally do.",

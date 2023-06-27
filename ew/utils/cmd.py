@@ -174,6 +174,9 @@ def gen_data_text(
             else:
                 response += "{}".format(trauma.str_trauma)
 
+        if user_data.inebriation > 0:
+            response += " Their slime alcohol content is {} ppm.".format(user_data.inebriation)
+
         response_block = ""
 
         #user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)

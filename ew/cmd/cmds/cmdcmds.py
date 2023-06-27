@@ -307,6 +307,9 @@ async def data(cmd):
                 response += " {}".format(trauma.str_trauma_self)
             else:
                 response += "{}".format(trauma.str_trauma_self)
+
+        if user_data.inebriation > 0:
+            response += " Your slime alcohol content is {} ppm.".format(user_data.inebriation)
     
         response_block = ""
 
