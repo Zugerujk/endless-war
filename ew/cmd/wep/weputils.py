@@ -1091,7 +1091,7 @@ async def attackEnemy(cmd):
     district_data.persist()
 
     # If an enemy is a raidboss, announce that kill in the killfeed
-    if was_killed and (enemy_data.enemytype in ewcfg.raid_bosses):
+    if was_killed and (enemy_data.enemytype in ewcfg.raid_bosses) and not True:
         # announce raid boss kill in kill feed channel
 
         resp_cont.format_channel_response(cmd.message.channel.name, cmd.message.author)
