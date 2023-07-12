@@ -1786,7 +1786,6 @@ weapon_list = [
         vendors=[ewcfg.vendor_basedhardware],
         classes=[ewcfg.weapon_class_juvie],
         stat=ewcfg.stat_sledgehammer_kills,
-        is_tool=1,
         str_brandish=["{name} finds the closest thing to destroy and hurls {weapon} into it!"]
     ),
     EwWeapon(  # 47

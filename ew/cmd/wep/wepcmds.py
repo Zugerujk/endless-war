@@ -86,7 +86,7 @@ async def attack(cmd):
 
         # Calculate some base values
         skill_mult = (0.05 * attacker.weaponskill) + 1
-        base_cost = ((max(35, attacker.slimelevel) ** 4) / 30) if attacker_weapon.is_tool else ((attacker.slimelevel ** 4) / 30) * float(ewcfg.global_damage_multiplier[attacker.id_server])
+        base_cost = ((max(35, attacker.slimelevel) ** 4) / 30) if attacker_weapon.is_tool else ((attacker.slimelevel ** 4) / 30) * float(ewcfg.global_damage_multiplier_dt[attacker.id_server])
         base_dmg = 5 * base_cost * skill_mult
 
         # Generate some random values
