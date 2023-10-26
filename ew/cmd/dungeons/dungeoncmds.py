@@ -104,44 +104,54 @@ async def tutorial_cmd(cmd):
 
 async def add_blurb(cmd):
     if not 0 < ewrolemgr.check_clearance(member=cmd.message.author) < 4:
-        return await cmd_utils.fake_failed_command(cmd)
-
-    if len(cmd.tokens) > 5 or len(cmd.tokens) < 3:
-        response = "The syntax is !addblurb \"blurb\" \"context\" \"subcontext\" \"subsubcontext\" Only the first context is required."
+        channel = fe_utils.get_channel(server=cmd.guild, channel_name='suggestion-box')
+        if cmd.tokens_count >= 2:
+            cmd.tokens[1] = "\"" + cmd.tokens[1] + "\""
+        prompt = " ".join(cmd.tokens)
+        sugg_response = "blurb from {}({}):\n{}".format(cmd.message.author.display_name, cmd.message.author.id, prompt)
+        await fe_utils.send_message(cmd.client, channel, sugg_response)
+        response = "Added a blurb to suggestion-box."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
     else:
-        blurb_obj = EwBlurb()
-        blurb_obj.id_server = cmd.guild.id
-        blurb_obj.blurb = cmd.tokens[1]
-        blurb_obj.context = cmd.tokens[2]
-        if len(cmd.tokens) > 3:
-            blurb_obj.subcontext = cmd.tokens[3]
-        if len(cmd.tokens) > 4:
-            blurb_obj.subsubcontext = cmd.tokens[4]
-        blurb_obj.persist()
+        if len(cmd.tokens) > 5 or len(cmd.tokens) < 3:
+            response = "The syntax is !addblurb \"blurb\" \"context\" \"subcontext\" \"subsubcontext\" Only the first context is required."
+        else:
+            blurb_obj = EwBlurb()
+            blurb_obj.id_server = cmd.guild.id
+            blurb_obj.blurb = cmd.tokens[1]
+            blurb_obj.context = cmd.tokens[2]
+            if len(cmd.tokens) > 3:
+                blurb_obj.subcontext = cmd.tokens[3]
+            if len(cmd.tokens) > 4:
+                blurb_obj.subsubcontext = cmd.tokens[4]
+            blurb_obj.persist()
 
-        if blurb_obj.context == 'npc':
-            npc = npc_static.active_npcs_map.get(blurb_obj.subcontext)
-            if npc.dialogue.get(blurb_obj.subsubcontext) is not None:
-                npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
-            else:
-                npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
-        elif blurb_obj.context == 'district':
-            comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
-        elif blurb_obj.context == 'vendor':
-            ewcfg.vendor_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
-        elif blurb_obj.context == 'vendororder':
-            ewcfg.vendor_order_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
-        elif blurb_obj.context == 'killtext':
-            wep_obj = wep_static.weapon_map.get(blurb_obj.subcontext)
-            if wep_obj is not None:
-                wep_obj.str_kill.append(blurb_obj.blurb)
-        list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
-        if list_to_update is not None:
-            list_to_update.append(blurb_obj.blurb)
+            if blurb_obj.context == 'npc':
+                npc = npc_static.active_npcs_map.get(blurb_obj.subcontext)
+                if npc.dialogue.get(blurb_obj.subsubcontext) is not None:
+                    npc.dialogue[blurb_obj.subsubcontext].append(blurb_obj.blurb)
+                else:
+                    npc.dialogue[blurb_obj.subsubcontext] = [blurb_obj.blurb]
+            elif blurb_obj.context == 'districtkey':
+                poi = poi_static.id_to_poi.get(blurb_obj.subcontext)
+                poi.keyword_blurbs[blurb_obj.subsubcontext] = blurb_obj.blurb
+            elif blurb_obj.context == 'district':
+                comm_cfg.district_blurbs[blurb_obj.subcontext].append(blurb_obj.blurb)
+            elif blurb_obj.context == 'vendor':
+                ewcfg.vendor_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
+            elif blurb_obj.context == 'vendororder':
+                ewcfg.vendor_order_dialogue[blurb_obj.subcontext].append(blurb_obj.blurb)
+            elif blurb_obj.context == 'killtext':
+                wep_obj = wep_static.weapon_map.get(blurb_obj.subcontext)
+                if wep_obj is not None:
+                    wep_obj.str_kill.append(blurb_obj.blurb)
+            list_to_update = comm_cfg.blurb_context_map.get(blurb_obj.context)
+            if list_to_update is not None:
+                list_to_update.append(blurb_obj.blurb)
 
-        response = "Added a blurb."
+            response = "Added a blurb."
 
-    await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
+        await fe_utils.send_message(cmd.client, cmd.message.channel,fe_utils.formatMessage(cmd.message.author, response))
 
 
 

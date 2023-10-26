@@ -8,7 +8,7 @@ class EwApartment:
 
     name = "a city apartment."
     description = "It's drafty in here! You briefly consider moving out, but your SlimeCoin is desperate to leave your pocket."
-    poi = "downtown"
+    poi = ""
     rent = 0
     apt_class = "c"
     num_keys = 0
@@ -24,13 +24,8 @@ class EwApartment:
             self.id_user = id_user
             self.id_server = id_server
 
-            try:
-                conn_info = bknd_core.databaseConnect()
-                conn = conn_info.get('conn')
-                cursor = conn.cursor()
-
-                # Retrieve object
-                cursor.execute("SELECT {}, {}, {}, {}, {}, {}, {}, {} FROM apartment WHERE id_user = %s and id_server = %s".format(
+            result = bknd_core.execute_sql_query(
+                sql_query = "SELECT {}, {}, {}, {}, {}, {}, {}, {} FROM apartment WHERE id_user = %s and id_server = %s".format(
                     ewcfg.col_apt_name,
                     ewcfg.col_apt_description,
                     ewcfg.col_poi,
@@ -39,36 +34,35 @@ class EwApartment:
                     ewcfg.col_num_keys,
                     ewcfg.col_key_1,
                     ewcfg.col_key_2
+                ),
+                sql_replacements = (self.id_user, self.id_server),
+                fetchone = True
+            )
 
-                ), (self.id_user,
-                    self.id_server))
-                result = cursor.fetchone();
-
-                if result != None:
-                    # Record found: apply the data to this object.
-                    self.name = result[0]
-                    self.description = result[1]
-                    self.poi = result[2]
-                    self.rent = result[3]
-                    self.apt_class = result[4]
-                    self.num_keys = result[5]
-                    self.key_1 = result[6]
-                    self.key_2 = result[7]
-                elif id_server != None:
-                    # Create a new database entry if the object is missing.
-                    cursor.execute("REPLACE INTO apartment({}, {}) VALUES(%s, %s)".format(
+            if result != None:
+                # Record found: apply the data to this object.
+                self.name = result[0]
+                self.description = result[1]
+                self.poi = result[2]
+                self.rent = result[3]
+                self.apt_class = result[4]
+                self.num_keys = result[5]
+                self.key_1 = result[6]
+                self.key_2 = result[7]
+            elif id_server is not None and id_user is not None:
+                # Create a new database entry if the object is missing.
+                bknd_core.execute_sql_query(
+                    sql_query = "REPLACE INTO apartment({}, {}, {}) VALUES(%s, %s, %s)".format(
                         ewcfg.col_id_user,
-                        ewcfg.col_id_server
-                    ), (
+                        ewcfg.col_id_server,
+                        ewcfg.col_poi
+                    ), 
+                    sql_replacements = (
                         self.id_user,
-                        self.id_server
-                    ))
-
-                    conn.commit()
-            finally:
-                # Clean up the database handles.
-                cursor.close()
-                bknd_core.databaseClose(conn_info)
+                        self.id_server,
+                        self.poi
+                    )
+                )
 
     def persist(self):
         bknd_core.execute_sql_query(

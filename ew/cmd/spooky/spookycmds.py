@@ -654,7 +654,6 @@ async def favor(cmd):
 async def startshift(cmd):
 	user_data = EwUser(member = cmd.message.author)
 	response = ""
-	hardmode = False
 	if user_data.poi != 'ghostmaidcafe' or poi_static.chname_to_poi.get(cmd.message.channel.name).id_poi != 'ghostmaidcafe':
 		response = "Sowwy, you can't stawt cooking unwess you'we at the maid cafe! (✿◡‿◡)"
 	elif user_data.life_state != ewcfg.life_state_corpse:
@@ -663,17 +662,15 @@ async def startshift(cmd):
 		if cmd.message.author.id not in chefs.keys():
 			chefs[cmd.message.author.id] = EwChef()
 		chef = chefs[cmd.message.author.id]
-		if (len(cmd.tokens) > 1 and cmd.tokens[1].lower() == "hardmode"): 
-			hardmode = True 
-			chef.difficulty = "hardmode"
+        
 		if chef.cooking == True:
 			response = "You are already on the clock! You might boil the milk if you try to do more dishes!"
 		else:
 			market_data = EwMarket(id_server=cmd.guild.id)
 			chef.cooking = True
-			chef.prompts = random.randrange(1, 200 if hardmode else 50)
+			chef.prompts = random.randrange(1, 50)
 			reward = chef.prompts * random.randrange(20, 50)
-			response = "**!WARNING!** You see on the news that a new anime has started airing about maids, and thousands of spherical men are swarming the cafe! The windows are smashed in and your shift begins." if hardmode else "You punch your time card and get ready to serve!"
+			response = "You punch your time card and get ready to serve!"
 			await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 			await asyncio.sleep(5)
 			
@@ -685,7 +682,7 @@ async def startshift(cmd):
 					response = random.choice(cookingresponses)
 					await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 					chef.serve = True
-					await asyncio.sleep( 1 if hardmode else random.randrange(3, 6))
+					await asyncio.sleep(random.randrange(3, 6))
 					if chef.serve == True:
 						response = "You messed up and dwopped the dish ಥ_ಥ! Your manager angwily shoos you away into the bathwoom to cwean up and takes cawe of the guest. You eawned no moneyz!"
 						chef.stop()
@@ -696,7 +693,7 @@ async def startshift(cmd):
 						response = "you slide the dish over to the customer! nice job!"
 						await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 						chef.prompts -= 1
-						await asyncio.sleep( random.choice([1,2,1,7,5,1,3,1,19,23,23,24,1,1,1,1,2,4,1,1,5,5,6,4,2,2,2,2,1,1,1,1,1,58,32,42,18,49,23,1,3,1,1,13,11,5,27,3]) if hardmode else random.randrange(5, 9)) #weeeeeeeee!!!!
+						await asyncio.sleep(random.randrange(5, 9))
 				else:
 					response = "You finish up youw shift and punch out! You wost {} slime!!!".format(reward)
 					user_data.change_slimes(n=-reward)
@@ -704,7 +701,7 @@ async def startshift(cmd):
 					user_data.persist()
 					market_data.persist()
 					chef.cooking = False
-					funnything = random.randrange(1, 5 if hardmode else 15)
+					funnything = random.randrange(1, 5)
 					if funnything == 3:
 								token_data = static_items.item_map.get('ghosttoken')
 								item_props = item_utils.gen_item_props(token_data)
@@ -731,15 +728,10 @@ async def serve(cmd):
 	elif user_data.life_state != ewcfg.life_state_corpse:
 		response = "Sowwy, you awen't enough of a degenewate to do that. UwU <3"
 	elif chef.serve != True:
-		response = "No one is hewe... (┬┬﹏┬┬)"
-		if chef.difficulty == "hardmode":
-			response += ".... youg start play phone games......"
-			chef.cooking = False
-	elif chef.cooking:
+		response = "No one is hewe... (┬┬﹏┬┬)"		
+	else:
 		chef.serve = False
 		response = "You gwab a dish and..."
-	else:
-		response = "uhoh.. wher is it ＼(º □ º l|l)/"
 	return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 async def sow_cloth(cmd):

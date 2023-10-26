@@ -3174,6 +3174,7 @@ id_to_poi = {}
 coord_to_poi = {}
 chname_to_poi = {}
 alias_to_coord = {}
+district_keyword_blurb = {}
 capturable_districts = []
 transports = []
 transport_stops = []

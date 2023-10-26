@@ -634,22 +634,18 @@ mutations = [
         },
         str_transplant="Dr. Dusttrap pulls out a sawblade. \"I ran out of anesthesia a little bit ago, so you'll have to stay awake for this one.\" Turning it on, she saws your legs off. Ouch! She then stabs poles into them, stretching them to over 2x their original length. With some bandages, she reattaches them to your bloody midsection. \n\nYou have developed the mutation **Stiltwalker**. You can !jump. Like, for **REAL** dude. You can reach the blimp from the ground and the mines from the Waffle House.",
     ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_gay,
+        str_name="Gay",
+        alias=['lgbt'],
+        str_describe_self="You're **Gay**.",
+        str_describe_other="They're **Gay**.",
+        str_acquire="You're gay now.",
+        tier=1,
+        str_transplant="Dr. Dusttrap sits down and has a frank conversation with you. After a few quizzes on Google, a thorough analysis of your dating history, and a pamphlet, you find yourself screaming \"I'm a homosexual!\" You have developed the mutation **Gay**. You're gay.",
+    ),
 ]
 
-# PRESENT DAY
-# PRESENT TIME TODO: Fix this by 2023
-# the_month = datetime.datetime.now().month
-# if the_month == 6: # June - pride month
-#     mutations.append(EwMutationFlavor(
-#         id_mutation=ewcfg.mutation_id_gay,
-#         str_name="Gay",
-#         alias=['lgbt'],
-#         str_describe_self="You're **Gay**.",
-#         str_describe_other="They're **Gay**.",
-#         str_acquire="You're gay now.",
-#         tier=1,
-#         str_transplant="Dr. Dusttrap sits down and has a frank conversation with you. After a few quizzes on Google, a thorough analysis of your dating history, and a pamphlet, you find yourself screaming \"I'm a homosexual!\" You have developed the mutation **Gay**. You're gay.",
-#     ))
 
 mutations_map = {}
 

@@ -641,9 +641,15 @@ def get_mining_yield_minesweeper(cmd, mine_action, grid_cont):
         # Set a collapse to happen and its properties
         mine_action.valid = True
         mine_action.collapse = True
-        mine_action.hunger_cost_multiplier *= int(ewcfg.hunger_perlmcollapse)
-        mine_action.collapse_penalty = 0.3
         mine_action.grid_effect = 2
+        # Beginning cell immunity
+        if grid_cont.cells_mined <= 1:
+            mine_action.collapse_penalty = 0.0
+            mine_action.hunger_cost_multiplier = 1
+        else:
+            mine_action.hunger_cost_multiplier *= int(ewcfg.hunger_perlmcollapse)
+            mine_action.collapse_penalty = 0.3
+
 
     elif grid[row][col] == ewcfg.cell_empty:
         # Set cell to open and get slime yield
@@ -827,7 +833,8 @@ def check_for_minecollapse(cmd, world_events, mine_action):
                         event_data.event_props['mines'] = int(event_data.event_props['mines']) + 1
                         event_data.persist()
 
-                        mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})\n".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
+                        if int(event_data.event_props.get('mines')) <= 1:
+                            mine_action.response = "The mineshaft is collapsing around you!\nGet out of there! (!mine {})\n".format(ewutils.text_to_regional_indicator(event_data.event_props.get('captcha')))
 
                     else:
                         mine_action.valid = True

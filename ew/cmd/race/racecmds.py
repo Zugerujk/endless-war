@@ -304,36 +304,40 @@ async def rattle(cmd):
         responses = []
         
         if cmd.mentions_count == 1:
+            target_member = cmd.mentions[0]
             target_name = cmd.mentions[0].display_name
+            if (target_member.id == cmd.message.author.id):
+                response = "You rattle at... yourself?"
+            else:
 
-            agroskelly_response = [
-                ", sending a shiver down their spine.",
-                ", who clearly does not appreciate it.",
-                ". They almost faint in shock.",
-                ", scaring them so bad they pee themselves a little.",
-                ". **NYEEEH!**",
-                ", trying to appeal to the bones deep within them.",
-                " a little bit too hard. Oof ouch owie.",
-                " so viciously they actually get offended.",
-                " in an attempt to socialize, but they don't think you should.",
-                ", inviting them to have a bad time.", #blame loom
-                ", coaxing the skeleton within to become without.",
-                ", assuring them it's too late.",
-                ", wondering if they know who the girl next door is, living in the haunted mansion.",
-                " to assure them that this is, in fact, Halloween."
-            ]
-            responses = [
-                "You rattle your bones at {}{}".format(target_name, random.choice(agroskelly_response)),
-                "You clack your jaw at {}{}".format(target_name, random.choice(agroskelly_response)),
-                "You waggle your bony finger at {}{}".format(target_name, random.choice(agroskelly_response)),
-                "{} is bone-tired of your sass.".format(target_name),
-                "{} is shaken down for all they're worth! It ain't much.".format(target_name), #blame ebola
-                "You start removing ribs and throwing them at {}. Rib fight!".format(target_name),
-                "You have a bone to pick with {}.".format(target_name), # blame org
-                "You rib with {}.".format(target_name)
-            ]
+                agroskelly_response = [
+                    ", sending a shiver down their spine.",
+                    ", who clearly does not appreciate it.",
+                    ". They almost faint in shock.",
+                    ", scaring them so bad they pee themselves a little.",
+                    ". **NYEEEH!**",
+                    ", trying to appeal to the bones deep within them.",
+                    " a little bit too hard. Oof ouch owie.",
+                    " so viciously they actually get offended.",
+                    " in an attempt to socialize, but they don't think you should.",
+                    ", inviting them to have a bad time.", #blame loom
+                    ", coaxing the skeleton within to become without.",
+                    ", assuring them it's too late.",
+                    ", wondering if they know who the girl next door is, living in the haunted mansion.",
+                    " to assure them that this is, in fact, Halloween."
+                ]
+                responses = [
+                    "You rattle your bones at {}{}".format(target_name, random.choice(agroskelly_response)),
+                    "You clack your jaw at {}{}".format(target_name, random.choice(agroskelly_response)),
+                    "You waggle your bony finger at {}{}".format(target_name, random.choice(agroskelly_response)),
+                    "{} is bone-tired of your sass.".format(target_name),
+                    "{} is shaken down for all they're worth! It ain't much.".format(target_name), #blame ebola
+                    "You start removing ribs and throwing them at {}. Rib fight!".format(target_name),
+                    "You have a bone to pick with {}.".format(target_name), # blame org
+                    "You rib with {}.".format(target_name)
+                ]
 
-            response = random.choice(responses)
+                response = random.choice(responses)
 
         # rattle alone
         else:
@@ -445,24 +449,27 @@ async def yiff(cmd):
     if user_data.race == ewcfg.race_furry:
         if cmd.mentions_count == 1:
             target_data = EwUser(member=cmd.mentions[0])
-            if target_data.race == ewcfg.race_furry:
-                poi = poi_static.id_to_poi.get(user_data.poi)
-                if (target_data.poi == user_data.poi) and poi.is_apartment:  # low effort
-                    responses = [
-                        "Wow.",
-                        "Mhmm.",
-                        "You yiff.",
-                        "Yikes.",
-                        "🤮",
-                        "Yup."
-                        "Congratulations."
-                    ]
-                    response = random.choice(responses)
-                else:
-                    response = "Out here, in the streets? Fuck no, what's wrong with you?"
+            if (target_data.id_user == cmd.message.author.id):
+                response = "You better find yourself a partner for *that*."
             else:
-                response = "Only furries can yiff, better find another partner."
-            pass
+                if target_data.race == ewcfg.race_furry:
+                    poi = poi_static.id_to_poi.get(user_data.poi)
+                    if (target_data.poi == user_data.poi) and poi.is_apartment:  # low effort
+                        responses = [
+                            "Wow.",
+                            "Mhmm.",
+                            "You yiff.",
+                            "Yikes.",
+                            "🤮",
+                            "Yup."
+                            "Congratulations."
+                        ]
+                        response = random.choice(responses)
+                    else:
+                        response = "Out here, in the streets? Fuck no, what's wrong with you?"
+                else:
+                    response = "Only furries can yiff, better find another partner."
+                pass
         elif cmd.mentions_count == 0:
             response = "You can't yiff by yourself."
         elif cmd.mentions_count > 1:
@@ -497,32 +504,35 @@ async def jiggle(cmd):
         if cmd.mentions_count == 1:
             target_member = cmd.mentions[0]
             target_data = EwUser(member=target_member)
+            if (target_member.id == cmd.message.author.id):
+                response = "You jiggle at... yourself?"
 
-            #jiggle with fellow slime-derived
-            if target_data.race == ewcfg.race_slimederived:
-                response = "You jiggle along with {}.".format(target_member.display_name)
-            
-            #jiggle at ghost
-            elif target_data.life_state == ewcfg.life_state_corpse and user_data.life_state != ewcfg.life_state_corpse:
-                response = "You jiggle in fear of {}.".format(target_member.display_name)
-
-            #jiggle at kingpin
-            elif target_data.life_state == ewcfg.life_state_kingpin:
-                if target_data.life_state == ewcfg.life_state_enlisted and target_data.faction != user_data.faction:
-                    response = "You spitefully jiggle at {}.".format(target_member.display_name)
-                else:
-                    response = "You jiggle in awe of {}.".format(target_member.display_name)
-                
-            #jiggle at gangster
-            elif target_data.life_state == ewcfg.life_state_enlisted:
-                if target_data.faction == user_data.faction:
-                    response = "You jiggle at {} as a gesture of friendship.".format(target_member.display_name)
-                else:
-                    response = "You jiggle at {} menacingly.".format(target_member.display_name)
-            
-            #catch all
             else:
-                response = "You jiggle at {}.".format(target_member.display_name)
+                #jiggle with fellow slime-derived
+                if target_data.race == ewcfg.race_slimederived:
+                    response = "You jiggle along with {}.".format(target_member.display_name)
+
+                #jiggle at ghost
+                elif target_data.life_state == ewcfg.life_state_corpse and user_data.life_state != ewcfg.life_state_corpse:
+                    response = "You jiggle in fear of {}.".format(target_member.display_name)
+
+                #jiggle at kingpin
+                elif target_data.life_state == ewcfg.life_state_kingpin:
+                    if target_data.life_state == ewcfg.life_state_enlisted and target_data.faction != user_data.faction:
+                        response = "You spitefully jiggle at {}.".format(target_member.display_name)
+                    else:
+                        response = "You jiggle in awe of {}.".format(target_member.display_name)
+
+                #jiggle at gangster
+                elif target_data.life_state == ewcfg.life_state_enlisted:
+                    if target_data.faction == user_data.faction:
+                        response = "You jiggle at {} as a gesture of friendship.".format(target_member.display_name)
+                    else:
+                        response = "You jiggle at {} menacingly.".format(target_member.display_name)
+
+                #catch all
+                else:
+                    response = "You jiggle at {}.".format(target_member.display_name)
     else:
         response = "You people are not allowed to do that."
 
@@ -591,35 +601,51 @@ async def request_petting(cmd):
             response = "You would die of overpetting."
         if cmd.mentions_count == 1:
             target_member = cmd.mentions[0]
-            proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
-           
-            await fe_utils.send_response(proposal_response, cmd)
-
-            accepted = False
-            try:
-                msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == target_member and
-                                                                                             message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
-                if msg != None:
-                    if msg.content.lower() == ewcfg.cmd_accept:
-                        accepted = True
-                    elif msg.content.lower() == ewcfg.cmd_refuse:
-                        accepted = False
-            except:
-                accepted = False
-
-            if accepted:
-                responses = [
-                    "{user} gets on their back, and {target} gives them a thorough belly rub!",
-                    "{target} cups {user}'s head between their hands, rubbing near their little ears with their thumbs.",
-                    "{target} picks {user} up and carries them over the place for a little while, so they can see things from above.",
-                    "{target} sits down next to {user}, who gets on their lap. They both lie there for a while, comforting one another.",
-                    "{target} gets on the floor and starts petting the heck out of {user}!",
-                ]
-                accepted_response = random.choice(responses).format(user=cmd.message.author.display_name, target=target_member.display_name)
-                await fe_utils.send_response(accepted_response, cmd)
-
+            if (target_member.id == cmd.message.author.id):
+                response = "You pat yourself on the head. Congrats, I guess."
             else:
-                response = "The pain of rejection will only make you stronger, {}.".format(cmd.message.author.display_name)
+                target_data = EwUser(member=target_member)
+                if target_data.race != ewcfg.race_critter:
+                    proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
+                else:
+                    proposal_response = "You approach {} and rub against them affectionately. Will they **{}** and reciprocate your affection, or do they **{}** it?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
+                await fe_utils.send_response(proposal_response, cmd)
+
+                accepted = False
+                try:
+                    msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == target_member and
+                                                                                                 message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
+                    if msg != None:
+                        if msg.content.lower() == ewcfg.cmd_accept:
+                            accepted = True
+                        elif msg.content.lower() == ewcfg.cmd_refuse:
+                            accepted = False
+                except:
+                    accepted = False
+
+                if accepted:
+                    if target_data.race != ewcfg.race_critter:
+                        responses = [
+                            "{user} gets on their back, and {target} gives them a thorough belly rub!",
+                            "{target} cups {user}'s head between their hands, rubbing near their little ears with their thumbs.",
+                            "{target} picks {user} up and carries them over the place for a little while, so they can see things from above.",
+                            "{target} sits down next to {user}, who gets on their lap. They both lie there for a while, comforting one another.",
+                            "{target} gets on the floor and starts petting the heck out of {user}!",
+                            "{target} rubs {user}'s neck while they stretch their head up. They seem to be enjoying it a lot.",
+                        ]
+                    else:
+                        responses = [
+                            "{user} lies on their back while {target} tenderly licks their fur.",
+                            "{target} lies on their back while {user} fondly licks their fur.",
+                            "{user} and {target} freeze for a second, to then jump at each other as if they were fighting.",
+                            "{user} decides to lay down and chill for a while, {target} sees that and lays besides them.",
+                            "{target} and {user} rub their heads together as a sign of affection.",
+                        ]
+                    accepted_response = random.choice(responses).format(user=cmd.message.author.display_name, target=target_member.display_name)
+                    await fe_utils.send_response(accepted_response, cmd)
+
+                else:
+                    response = "The pain of rejection will only make you stronger, {}.".format(cmd.message.author.display_name)
     else:
         response = "You people are not allowed to do that."
     if response:
@@ -678,17 +704,20 @@ async def confuse(cmd):
         if cmd.mentions_count == 1:
             target_member = cmd.mentions[0]
             target_data = EwUser(member=target_member)
-            if target_data.race == ewcfg.race_other:
-                response = "You and {} actually understand each other in a way, despite your differences.".format(target_member.display_name)
+            if (target_member.id == cmd.message.author.id):
+                response = "You confuse yourself. What?"
             else:
-                responses = [
-                    "{} doesn't know what on earth they're looking at.".format(target_member.display_name),
-                    "{} stares at you, expressionless, then turns away.".format(target_member.display_name),
-                    "{} gets a little dizzy from staring at you for too long.".format(target_member.display_name),
-                    "{} wonders how you're even alive. Are you?".format(target_member.display_name),
-                    "{} has seen some shit. Now they've seen some more.".format(target_member.display_name)
-                ]
-                response = random.choice(responses)
+                if target_data.race == ewcfg.race_other:
+                    response = "You and {} actually understand each other in a way, despite your differences.".format(target_member.display_name)
+                else:
+                    responses = [
+                        "{} doesn't know what on earth they're looking at.".format(target_member.display_name),
+                        "{} stares at you, expressionless, then turns away.".format(target_member.display_name),
+                        "{} gets a little dizzy from staring at you for too long.".format(target_member.display_name),
+                        "{} wonders how you're even alive. Are you?".format(target_member.display_name),
+                        "{} has seen some shit. Now they've seen some more.".format(target_member.display_name)
+                    ]
+                    response = random.choice(responses)
     else:
         response = "You people are not allowed to do that."
 
@@ -725,14 +754,21 @@ async def honk(cmd):
 
         if cmd.mentions_count == 1:
             target_name = cmd.mentions[0].display_name
-            responses = [
-                "You grab {target} by the shnoz and honk it reeeeeeal loud. Gee golly!",
-                "You grab {target} by the cock and honk it reeeeeeal loud. Gee golly!",
-                "You sneak up on {target} and blast a shitty bicycle horn directly into their ear. Wow, real fuckin funny. No, no, seriously, everyone thinks you're the life of the fucking party over here. Asshole.",
-                "Hey, {target}, knock knock! Who's there, you say? Why it's- https://www.youtube.com/watch?v=al1Cqs_yof8&ab_channel=SoundEffects ",
-                "You try to !honk {target}. You succeed.",
-                "You HONK at {target} like a goose. That's fucked up.", # Would be cool to add anything of worth, but alas, I have no fucking idea how to do any of this. :pensive:
-            ]
+            target_member = cmd.mentions[0]
+            if (target_member.id == cmd.message.author.id):
+                responses = [
+                    "You honk at yourself and hurt your eardrums. Why did you think this was a good idea?",
+                ]
+            else:
+                responses = [
+                    "You grab {target} by the shnoz and honk it reeeeeeal loud. Gee golly!",
+                    "You grab {target} by the cock and honk it reeeeeeal loud. Gee golly!",
+                    "You sneak up on {target} and blast a shitty bicycle horn directly into their ear. Wow, real fuckin funny. No, no, seriously, everyone thinks you're the life of the fucking party over here. Asshole.",
+                    "You sneak up on {target} and honk directly into their ear. They slap you on the face. You kinda deserved it not gonna lie.",
+                    "Hey, {target}, knock knock! Who's there, you say? Why it's- https://www.youtube.com/watch?v=al1Cqs_yof8&ab_channel=SoundEffects ",
+                    "You try to !honk {target}. You succeed.",
+                    "You HONK at {target} like a goose. That's fucked up.", # Would be cool to add anything of worth, but alas, I have no fucking idea how to do any of this. :pensive:
+                ]
         else:
             roll = random.randrange(50)
 
@@ -770,17 +806,23 @@ async def netrun(cmd):
         responses = []
 
         if cmd.mentions_count == 1:
+            target_member = cmd.mentions[0]
             target_name = cmd.mentions[0].display_name
-            responses = [
-                "You decrypt {target}'s hard drive and delete system32. Whoops!",
-                "You hack into {target}'s Instagrime and delete their most liked picture. You monster!",
-                "Whipping on your **HACKER GLASSES**, you decipher {target}'s Slime Twitter profile name. Hack'd.",
-                "{target} suddenly trips! You deleted their legs in the cyberspace. **pwn'd**.",
-                "Scanning {target}, you use your **haker skilz** to determine their Discord User ID. Right Click -> Copy ID -> Ctrl+V. **doxxed**",
-                "You attempt to cyber-rob {target}'s bank info, but your Gellphone dies! Guess you'll have to find a charger...",
-                "Yu try t cnnect t the netscape t hack {target}, but yur  key is brken!!! Prbably shuldn't have chsen such a cmpliated passwrd.", # Would be cool to remove any O's from {target}, but alas, I am not "good" at coding
-                "You break into {target}'s mecha-dick and turn off their cum. Take that!",
-            ]
+            if (target_member.id == cmd.message.author.id):
+                responses = [
+                    "You accidentally leaked your own data on the deep dark slimeweb. Someone has left you a Original Double Stuffed Crust® pizza on the door. Yum!"
+                ]
+            else:
+                responses = [
+                    "You decrypt {target}'s hard drive and delete system32. Whoops!",
+                    "You hack into {target}'s Instagrime and delete their most liked picture. You monster!",
+                    "Whipping on your **HACKER GLASSES**, you decipher {target}'s Slime Twitter profile name. Hack'd.",
+                    "{target} suddenly trips! You deleted their legs in the cyberspace. **pwn'd**.",
+                    "Scanning {target}, you use your **haker skilz** to determine their Discord User ID. Right Click -> Copy ID -> Ctrl+V. **doxxed**",
+                    "You attempt to cyber-rob {target}'s bank info, but your Gellphone dies! Guess you'll have to find a charger...",
+                    "Yu try t cnnect t the netscape t hack {target}, but yur  key is brken!!! Prbably shuldn't have chsen such a cmpliated passwrd.", # Would be cool to remove any O's from {target}, but alas, I am not "good" at coding
+                    "You break into {target}'s mecha-dick and turn off their cum. Take that!",
+                ]
         else:
             roll = random.randrange(50)
 

@@ -552,7 +552,10 @@ async def talk(cmd):
     if cmd.mentions_count > 0:
         target_data = EwUser(member = cmd.mentions[0])
         if target_data.poi == user_data.poi:
-            response = random.choice(ewcfg.pvp_dialogue).format(cmd.mentions[0].display_name)
+            if target_data.id_user != user_data.id_user:
+                response = random.choice(ewcfg.pvp_dialogue).format(cmd.mentions[0].display_name)
+            else:
+                response = "This is quite sad, you know that right?"
         else:
             response = "You strike up a conversation with- oh. They're not here. You miss {}...".format(cmd.mentions[0].display_name)
 
@@ -581,6 +584,10 @@ async def talk(cmd):
         else:
             npc_obj = static_npc.active_npcs_map.get(checked_npc.enemyclass)
             await npc_obj.func_ai(keyword='talk', enemy = checked_npc, channel = cmd.message.channel, user_data=user_data)
+
+    else: #No tokens, no mentions, just the bare command
+        response = "There's nobody living here who would talk to you."
+        return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 """ mine for slime (or endless rocks) """
 

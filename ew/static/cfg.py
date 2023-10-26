@@ -2028,7 +2028,7 @@ emote_delete_tweet = emote_blank
 # Slime twitter verified checkmark
 emote_verified = "<:slime_checkmark:797234128398319626>"
 
-# Emotes for !thrash and !dab variants
+# Emotes for !thrash, !dab and !boo variants
 emote_benkart = "<a:benkart:644520407734550529>"
 emote_munchykart = "<a:munchykart:644520408002854913>"
 emote_taasenchamp = "<:TaasenChamp:804369420583567392>"
@@ -2040,7 +2040,10 @@ emote_strawberrymilk = "<:strawberrymilk:431282128421126144>"
 emote_dab = "<a:dab:805341290220093450>"
 emote_thrash = "<a:thrash:805341344331202620>"
 emote_benwtf = "<:benwtf:981830620080635914>"
-
+emote_gcool = "<:ghostcool:985321953218945075>"
+emote_nslog = "<:negalog:698581983537922189>"
+emote_invsrs = "<:srs_invert:657793228673646612>"
+emote_nega111 = "<:nega111:638907899778695188>"
 
 # Miscellaneous
 emote_tfwslime = "<:tfwslime:713609663832391680>"
@@ -2066,9 +2069,17 @@ emote_munchykart,
 emote_freaker,
 emote_sweetmunch,
 emote_strawberrymilk,
-emote_thrash,
+emote_thrash
 ]
 
+boo_emotes = [
+emote_moon,
+emote_ghost,
+emote_gcool,
+emote_nslog,
+emote_invsrs,
+emote_nega111
+]
 
 # Dice emote list
 emotes_dice = [
@@ -3870,7 +3881,7 @@ mutation_id_airlock = "airlock"
 mutation_id_lightminer = "lightminer"
 mutation_id_amnesia = "amnesia"
 mutation_id_stinkeye = "stinkeye"
-# mutation_id_gay = "gay"
+mutation_id_gay = "gay"
 
 mutation_id_monplanto = "monplanto"
 mutation_id_foghorn = "foghorn"
@@ -4279,7 +4290,7 @@ mutation_descriptions = {
     mutation_id_landlocked: "When standing in a street either bordering an outskirt or the Slime Sea, use !loop to warp to the opposite side of the map. This also works on the ferry and at Slime's End Cliffs. There is a 60 second travel time when using !loop.",
     mutation_id_amnesia: "Your display name is replaced with ????? in EW's messages, and you can delete your message commands without ENDLESS WAR reacting. On a kill, the kill feed message is delayed by 60 seconds.",
     mutation_id_stinkeye: "When surveying a district, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
-    # mutation_id_gay: "You're gay.",
+    mutation_id_gay: "You're gay.",
     mutation_id_monplanto: "Wilted crops can be reaped normally, and during sunny weather you gain passive hunger regeneration.",
     mutation_id_foghorn: "During foggy weather, gain an increased critical hit chance.",
     mutation_id_slurpsup: "During rainy weather you are immune to fire. In addition, when attacking, 50% of splattered slime is absorbed directly into your slimecount. Cumulative with Noseferatu.",

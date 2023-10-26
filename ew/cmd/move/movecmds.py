@@ -567,10 +567,15 @@ async def look(cmd):
     bonus_flavor_list = zone_bonus_flavor.get(poi.id_poi)
     if bonus_flavor_list is not None:
         str_desc = poi.str_desc.format(bonusflavor = random.choice(bonus_flavor_list))
+        for key in poi.keyword_blurbs.keys():
+            str_desc = str_desc.replace(key, "**{}**".format(key))
     elif ewcfg.status_thinned_id in user_data.getStatusEffects():
         str_desc = random.choice(commcfg.district_blurbs.get(poi.id_poi))
     else:
         str_desc = poi.str_desc
+        for key in poi.keyword_blurbs.keys():
+            str_desc = str_desc.replace(key, "**{}**".format(key))
+
 
     dock_resp = ""
     if poi.is_dock:

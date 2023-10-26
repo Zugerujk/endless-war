@@ -134,7 +134,12 @@ class EwPoi:
     #if !jump will take you anywhere
     jump_dest = ""
 
+
     is_dock = False
+
+    #specific keywords for looking at parts of a district
+    keyword_blurbs = None
+
 
     def __init__(
             self,
@@ -181,8 +186,9 @@ class EwPoi:
             topic = "",
             wikipage = "",
             jump_dest = "",
-            is_dock = False
+            is_dock = False,
 
+            keyword_blurbs = None
     ):
         self.id_poi = id_poi
         self.alias = alias
@@ -228,6 +234,9 @@ class EwPoi:
         self.wikipage = wikipage
         self.jump_dest = jump_dest
         self.is_dock = is_dock
+        self.keyword_blurbs = {} if keyword_blurbs is None else keyword_blurbs
+
+
         self.neighbors = neighbors
         if self.neighbors == None:
             self.neighbors = {}
