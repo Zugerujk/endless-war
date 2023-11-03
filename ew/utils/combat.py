@@ -2094,7 +2094,7 @@ class EwUser(EwUserBase):
             else:
                 ewutils.food_multiplier[self.id_user] = 1
 
-            if ewcfg.status_high_id in statuses:
+            if ewcfg.status_high_id in statuses or ((ewcfg.mutation_id_penjamincity in mutations) and self.inebriation >= 1):
                 hunger_restored *= 0.5
 
             hunger_restored = round(hunger_restored)

@@ -60,7 +60,7 @@ mutations = [
         str_describe_self="Your freakishly huge, hooked schnoz and pointed ears give you a ghoulish appearance due to **Noseferatu**.",
         str_describe_other="Their freakishly huge, hooked schnoz and pointed ears give them a ghoulish appearance due to **Noseferatu**.",
         str_acquire="The bridge of your nose nearly triples in size. You recoil as the heat of nearby lights sear your skin, forcing you to seek cover under the shadows of dark, secluded alleyways. Your freakish appearance make you a social outcast, filling you with a deep resentment which evolves into unbridled rage. You will have your revenge. You have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount. Cumulative with Slurp's Up.",
-        tier=5,
+        tier=4,
         str_transplant="You ask for the super jumbo size nose job. The doctor blindfolds you and takes you to her van. A quick drive later, you arrive at N.L.A.C.U. Labs, where you descend to the embiggening ward. A small amount of bright green fluid gets injected into the tip of your nose, and it grows to sizes beyond your wildest dreams.\n\nYou have developed the mutation **Noseferatu**. At night, when attacking, 60% of splattered slime is absorbed directly into your slimecount. Cumulative with Slurp's Up.",
     ),
     EwMutationFlavor(
@@ -146,7 +146,7 @@ mutations = [
         str_describe_self="You’re always one criticism away from devouring several large pizzas due to **Binge Eater**.",
         str_describe_other="They’re always one criticism away from devouring several large pizzas due to **Binge Eater**.",
         str_acquire="Your mouth begins to mimic chewing over and over again, opening and closing all on it’s own. You’re suddenly able to smell the food being carried by passersby for sometimes hours after they’ve left your sight. Your mouth dries and you sweat profusely even just being in the same room as food. Even now, just thinking about food, you begin to tremble. You can barely contain yourself. You don’t need it. You don’t need it. You don’t need it. You don’t need it... You need it. You have developed the mutation **Binge Eater**. Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds.  If you eat many food items at once, go into a 5 minute food coma that buffs your defense.",
-        tier=5,
+        tier=4,
         str_transplant="Dr. Dusttrap offers you some cookies from her employee lounge. You decide to accept. However, she didn't tell you they be full of morphine and 70-year old antidepressants. You compulsively start eating and your metabolism begins to enter a state of eternal balls-tripping. The magnitude of hunger is so uncontrollable you consider cannibalizing Dusttrap herself. Don't worry, eventually it will calm down, so long as you don't have a relapse.\n\n You have developed the mutation **Binge Eater**. Upon eating food, the restored hunger is multiplied by the number of dishes you’ve consumed in the past 5 seconds. If you eat many food items at once, go into a 5 minute food coma that buffs your defense."
     ),
     EwMutationFlavor(
@@ -208,7 +208,7 @@ mutations = [
         str_describe_self="A putrid stench permeates around you all hours of the day due to **Aposematic Stench**.",
         str_describe_other="A putrid stench permeates around them all hours of the day due to **Aposematic Stench**.",
         str_acquire="Your eyes water as you begin secreting pheromones into the air from every indecent nook and cranny on your body. You smell so unbelievably terrible that even you are not immune from frequent coughs and wheezes when you catch a particularly bad whiff. You have developed the mutation **Aposematic Stench**. For every 5 levels you gain, you appear as 1 more person when being scouted. Use !stink to put on secreature repellent at any time.",
-        tier=3,
+        tier=2,
         str_transplant="Dr. Dusttrap installs a slot in the small of your back that fits Fuck Energy Bodyspray canisters into it. She tells you that this will augment your hormones to make you smell terrible. Makes sense, you suppose. It'd be nice if she didn't take sponsorships from Slimecorp, though.\n\nYou have developed the mutation **Aposematic Stench**. For every 5 levels you gain, you appear as 1 more person when being scouted. Use !stink to put on secreature repellent at any time.",
     ),
     EwMutationFlavor(
@@ -228,7 +228,7 @@ mutations = [
         str_describe_self="You’re fabulously accompanied by a wide range of luxurious cosmetics due to **Dressed to Kill**.",
         str_describe_other="They’re fabulously accompanied by a wide range of luxurious cosmetics due to **Dressed to Kill**.",
         str_acquire="You are rocked by a complete fundamental change in your brain’s chemistry. Practically every cell in your body is reworked to apply this, the most ambitious mutation yet. You gain an appreciation for French haute couture. You have developed the mutation **Dressed to Kill**. Damage bonus if freshness is at least 250.",
-        tier=7,
+        tier=6,
         str_transplant="Some would say acclimating a juvenile delinquent to French haute coture is impossible. There's a simple way to do it, as you quickly find out. The easiest way in is by showing them the insane violence of the French Revolution. Using heads on pikes as a gateway drug, you quickly become cultured in their frou frou mannerisms.\n\n You have developed the mutation **Dressed to Kill**. Damage bonus if freshness is at least 250.",
 
     ),
@@ -275,7 +275,7 @@ mutations = [
         str_describe_self="Your toes are connected by a thin layer of skin due to **Webbed Feet**.",
         str_describe_other="Their toes are connected by a thin layer of skin due to **Webbed Feet**.",
         str_acquire="Your feet grow a thin layer of skin, allowing you to swim through piles of slime, soaking up their precious nutrients easily. You have developed the mutation **Webbed Feet**. Your scavenging power increases the more slime there is in a district. You can also feel out the amount of slime you scavenge.",
-        tier=4,
+        tier=6,
         str_transplant="Your feet receive a new transplant, where skinflaps are sewn into the spaces between your toes. Not much complexity or detail work there. You decide that's a good thing.\n\nYou have developed the mutation **Webbed Feet**. Your scavenging power increases the more slime there is in a district. You can also feel out the amount of slime you scavenge.",
 
     ),
@@ -332,7 +332,7 @@ mutations = [
         str_describe_self="Ghosts fear your arteries due to **Cole Blooded**.",
         str_describe_other="Ghosts fear their arteries due to **Cole Blooded**.",
         str_acquire="Your begin to hear your pulse pounding in your ear, louder and louder, duller and duller. A choking sensation creeps up your neck as the flow of your blood begins to settle. You smell a faint hint of mayonnaise, and the redness begins to vanish from your skin. Is this cole slaw in your veins? Well, whatever it is, you feel purified, if a little queasy. You have developed the mutation **Cole Blooded**. Ghosts lose negaslime when haunting you, and you can bust them without cole slaw.",
-        tier=2,
+        tier=1,
         str_transplant="You ask to fill your veins with obscene amounts of cole slaw. \"Guess we'll have to get the big IV then.\"It really is a big IV. Attached to the needle is a full bodybag filled with probably-maybe-refrigerated cole slaw. Sitting for hours as your blood is replaced with cole slaw dripped through an IV is very tedious, too. It tingles whenever one of the cabbage bits gets stuck, so you can never quite fall asleep.\n\nYou have developed the mutation **Cole Blooded**. Ghosts lose negaslime when haunting you, and you can bust them without cole slaw.",
     ),
     EwMutationFlavor(
@@ -362,7 +362,7 @@ mutations = [
         str_describe_self="You feel trapped in a loop due to **Landlocked**.",
         str_describe_other="They feel trapped in a loop due to due to **Landlocked**.",
         str_acquire="You start to feel lightheaded, and your vision blurs. When you're lucid again, you notice that the sky is filled with amorphous neon patches. They look like dimensional rifts, don't they? Whatever the case, it seems like you're able to see them now. Wonder what happens if you charge right in? You have developed the mutation **Landlocked**. Use !loop at a street bordering the outskirts to warp to the opposite side.",
-        tier=7,
+        tier=8,
         str_transplant="Dusttrap somehow manages to pull out a Slimecorp teleportation core from her little box of tricks. Christ, it's the size of a dinner plate... She plugs it into her computer and does a bit of finagling with the GPS, when replaces your appendix with it. What a deal, you got an appendix removal out of the surgery!\n\nYou have developed the mutation **Landlocked**. Use !loop at a street bordering the outskirts to warp to the opposite side.",
     ),
     EwMutationFlavor(
@@ -422,7 +422,7 @@ mutations = [
         str_describe_self="The weather is your bitch due to **Airlock**.",
         str_describe_other="The weather is their bitch due to **Airlock**.",
         str_acquire="Without thinking you take a deep breath. The air is so clean! You feel like this is your first taste of oxygen in years. A droplet falls on you from above, but it just runs off you, rolling down your face with a refreshing coolness. For once, the quantum wind has shown mercy. You have developed the mutation **Air Lock**. Gain the weather-based effects of all weather mutations. These effects do not stack with those mutations.",
-        tier=7,
+        tier=6,
         incompatible = {
             ewcfg.mutation_id_whitenationalist: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
             ewcfg.mutation_id_lightasafeather: '"Nope, you already have that mutation, or at least part of it anyway. They don\'t multiply, you know."',
@@ -533,7 +533,7 @@ mutations = [
         str_describe_self="Your eyes are secreting green due to **Stink Eye**.",
         str_describe_other="Their eyes are secreting green due to **Stink Eye**.",
         str_acquire="Drops of slime fly into your eyeballs, causing them to sting viciously. You quickly go to rub them, but that only makes the pain worse! After a prolonged writhing, you open your oozing eyes with a new view of your environment. You can truly SEE the slime around you. You can CONNECT with the slime MENTALLY. Your sight spheres become conduits for the world. You have developed the mutation **Stink Eye**. When surveying, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
-        tier=4,
+        tier=5,
         str_transplant="Dr. Dusttrap walks to the back of clinic and returns with a pickled punk. She unscrews the lid and carefully removes the preserved human fetus with tongs. \"This operation's a bit archaic, but it's not like you've got any real qualms, right?\" She instructs you to lie down, and holding your eyes open, Dr Dusttrap carefully positions the fetus above you horizontally. She lowers it inches from your head before giving it a harsh squeeze. Gallons of fetal juice pour directly into your eyes. Dusttrap puts the fetus back in the jar, then returns it to the back of the clinic. By the time she returns, your eyes have become horribly infected. \n\nYou have developed the mutation **Stink Eye**. When surveying, the amount of slime on the ground is shown, along with 4 items starting with the lowest IDs.",
     ),
     EwMutationFlavor(
@@ -641,8 +641,18 @@ mutations = [
         str_describe_self="You're **Gay**.",
         str_describe_other="They're **Gay**.",
         str_acquire="You're gay now.",
-        tier=1,
+        tier=2,
         str_transplant="Dr. Dusttrap sits down and has a frank conversation with you. After a few quizzes on Google, a thorough analysis of your dating history, and a pamphlet, you find yourself screaming \"I'm a homosexual!\" You have developed the mutation **Gay**. You're gay.",
+    ),
+    EwMutationFlavor(
+        id_mutation=ewcfg.mutation_id_penjamincity,
+        str_name="Penjamin City",
+        alias=['pen', 'pc', 'penjamin', 'pcity'],
+        str_describe_self="You're faded then a hoe due to **Penjamin City**.",
+        str_describe_other="They're faded then a hoe due to **Penjamin City**.",
+        str_acquire="You start to hyperventilate as you feel your lungs expand. You gasp for air as smoke envelops your lungs. But damn, y'know. I'm just out here in the bathroom. You have developed the mutation **Penjamin City**. Whenever you're inebriated, you act as if you're high.",
+        tier=4,
+        str_transplant="You take a sip of that mud.\n\nYou have developed the mutation **Penjamin City**. Whenever you're inebriated, you act as if you're high.",
     ),
 ]
 

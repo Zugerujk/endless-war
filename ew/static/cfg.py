@@ -3840,6 +3840,8 @@ mutation_id_scopicretinas = "scopicretinas"
 mutation_id_magicbullettheory = "magicbullettheory"
 mutation_id_stiltwalker = "stiltwalker"
 
+mutation_id_penjamincity = "penjamincity"
+
 mutation_milestones = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 bingeeater_cap = 5
@@ -4247,6 +4249,7 @@ mutation_descriptions = {
     mutation_id_scopicretinas: "You can !scout up to two districts away.",
     mutation_id_magicbullettheory: "Upon !reloading an ammunition-based weapon, you will gain an extra bullet in the weapon's clip.",
     mutation_id_stiltwalker: "You can !jump to the blimp from the ground, and into a random mine from Waffle House.",
+    mutation_id_penjamincity: "Whenever you're inebriated, you act as if you're high."
 }
 
 consult_responses = {
