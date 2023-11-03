@@ -1599,7 +1599,7 @@ weapon_list = [
         stat=ewcfg.stat_harpoon_kills,
         price=1000000000,
         # YOU EITHER KILL 'EM OR YOU DON'T, BROTHERRRR
-        clip_size=1,
+        clip_size=0,
         str_brandish=["{name} takes out {weapon} and racks their brain for a quote from Moby Dick. They can't think of a quote from Moby Dick."]
     ),
     EwWeapon(  # 40
