@@ -1008,7 +1008,7 @@ async def change_rotation_stat(cmd):
     year = int(today.year)
     if not cmd.message.author.guild_permissions.administrator:
         return
-    if cmd.tokens_count != 3:
+    if cmd.tokens_count < 3:
         response = "You failed to fuck with everything. Try !changerotation <stat> <value>"
     else:
         if 'future' in cmd.tokens:
