@@ -451,7 +451,7 @@ item_list = [
     EwGeneralItem(
         id_item=ewcfg.item_id_faggot,
         str_name="faggot",
-        str_desc="Wow, incredible! We’ve evolved from one dumb stick to several, all tied together for the sake of a retarded pseudo-pun! Truly, ENDLESS WAR has reached its peak. It’s all downhill from here, folks.",
+        str_desc="Wow, incredible! We’ve evolved from one dumb stick to several, all tied together for the sake of some pseudo-pun! Truly, ENDLESS WAR has reached its peak. It’s all downhill from here, folks.",
         acquisition=ewcfg.acquisition_smelting
     ),
     EwGeneralItem(

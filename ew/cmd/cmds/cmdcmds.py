@@ -1795,7 +1795,8 @@ async def help(cmd):
     # checks if user is in a college or if they have a game guide
     gameguide = bknd_item.find_item(item_search="gameguide", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter=ewcfg.it_item)
 
-    if user_data.poi == ewcfg.poi_id_neomilwaukeestate or user_data.poi == ewcfg.poi_id_nlacu or gameguide:
+    # if user_data.poi == ewcfg.poi_id_neomilwaukeestate or user_data.poi == ewcfg.poi_id_nlacu or gameguide:
+    if True:
         if not len(cmd.tokens) > 1:
             # list off help topics to player at college
             response = "(Use !help [topic] to learn about a topic. Example: \"!help basics\")\n\nWhat would you like to learn about? Topics include: \n"
@@ -3573,7 +3574,7 @@ async def display_goonscape_stats(cmd):
 
     # List all normal stats
     if normal:
-        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat]:
+        for stat_name in [ewcfg.goonscape_mine_stat, ewcfg.goonscape_farm_stat, ewcfg.goonscape_fish_stat, ewcfg.goonscape_eat_stat, ewcfg.goonscape_clout_stat, ewcfg.goonscape_dslimernalia_stat]:
 
             stat = EwGoonScapeStat(target_id, cmd.guild.id, stat_name)
 
