@@ -2402,7 +2402,7 @@ EwSmeltingRecipe(
     ),
 ]
 if ewcfg.dh_active:
-    smelting_recipe_list.append([ #Accepts only one addition, so if someone wants to add more: change append to extend.
+    smelting_recipe_list.extend([ #Accepts only one addition, so if someone wants to add more: change append to extend.
     EwSmeltingRecipe(
         id_recipe = "ticket",
         str_name = "Ticket to the White Line",

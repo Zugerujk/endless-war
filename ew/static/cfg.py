@@ -28,9 +28,9 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = False
+dh_active = True
 #Existing Stages for Double Halloween. As the years go by we may add on to this
-dh_stage = 0
+dh_stage = 1
 
 #Slimernalia Features
 slimernalia_active = True
@@ -3391,7 +3391,7 @@ gs_stat_to_xp_col = {
     goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
     goonscape_pee_stat: col_id_peeing_xp,
-    goonscape_dslimernalia_stat: col_id_dslimernalia_level,
+    goonscape_dslimernalia_stat: col_id_dslimernalia_xp,
 }
 
 minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
@@ -3409,7 +3409,7 @@ gs_stat_to_cape_description = {
 
 legacy_stat_dict = {
     goonscape_halloweening_stat: "Was obtainable during Double Halloween 2022.",
-    goonscape_halloweening_stat: "Is obtainable during Double Slimernalia 2023.",
+    goonscape_dslimernalia_stat: "Was obtainable during Double Slimernalia 2023.",
 }
 
 #GoonScape Stat
