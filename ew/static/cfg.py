@@ -3369,8 +3369,8 @@ col_id_peeing_xp = goonscape_pee_stat + "_xp"
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
 # Double Slimernalia 2023
-col_id_dslimernalia_level = goonscape_halloweening_stat + "_level"
-col_id_dslimernalia_xp = goonscape_halloweening_stat + "_xp"
+col_id_dslimernalia_level = goonscape_dslimernalia_stat + "_level"
+col_id_dslimernalia_xp = goonscape_dslimernalia_stat + "_xp"
 
 
 gs_stat_to_level_col = {
