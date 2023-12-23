@@ -511,8 +511,8 @@ EwNpc(
     attacktype = ewcfg.weapon_id_brassknuckles,
     slimeoid_name = 'Lil\' Bruiser',
     rewards = [
-    {ewcfg.weapon_id_brassknuckles:[5, 1, 1]},
-     ewcfg.item_id_slimepoudrin[70, 1, 3]
+    {ewcfg.weapon_id_brassknuckles:[5, 1, 1],
+     ewcfg.item_id_slimepoudrin:[70, 1, 3]}
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
