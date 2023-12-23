@@ -1118,7 +1118,7 @@ def damage_mod_attack(user_data, market_data, user_mutations, district_data, sho
 
     # Weapon possession
     if user_data.get_possession('weapon'):
-        if ewcfg.dh_stage < 8:
+        if ewcfg.dh_stage < 1:
             damage_mod *= 1.2
         else:
             damage_mod *= 2
@@ -1197,7 +1197,7 @@ def damage_mod_cap(user_data, market_data, user_mutations, district_data, weapon
 
     # Weapon possession
     if user_data.get_possession('weapon'):
-        if ewcfg.dh_stage < 8:
+        if ewcfg.dh_stage < 1:
             damage_mod *= 1.2
         else:
             damage_mod *= 2
@@ -1430,7 +1430,8 @@ async def enemy_perform_action(id_server):
             bknd_hunt.delete_enemy(enemy)
 
             if enemy.enemytype in ewcfg.raid_den_bosses:
-                await debug45(enemy)
+                # await debug45(enemy)
+                pass
 
         else:
             # If an enemy is an activated raid boss, it has a 1/20 chance to move between districts.

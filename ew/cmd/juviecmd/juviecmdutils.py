@@ -811,7 +811,7 @@ def check_for_minecollapse(cmd, world_events, mine_action):
 
                 # If the player enters the right captcha
                 if (captcha.lower() in tokens_lower) and captcha_count == 1:
-                    if mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active:
+                    if mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active and False:
                         # Horribly overpowered unbalanced numbers. Calc this shit when adding stuff I stg
                         mine_action.valid = True
                         mine_action.collapse = False
@@ -962,7 +962,7 @@ def create_mining_event(cmd, mine_action, mutations, grid_type):
         if common_event_triggered:
             randomn = random.random()
             #Forces all common events into mineshaft collapses if you have a sledgehammer
-            if (mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active):
+            if mine_action.toolused == ewcfg.weapon_id_sledgehammer and ewcfg.slimernalia_active and False:
                 event_type = ewcfg.event_type_minecollapse
             elif randomn < 0.5:
                 event_type = ewcfg.event_type_slimeglob  # 4x glob of slime

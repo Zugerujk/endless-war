@@ -778,11 +778,11 @@ async def spawn_enemies(id_server = None, debug = False):
         if market_data.weather == ewcfg.weather_bicarbonaterain:
             if random.randrange(3) < 2:
                 weathertype = ewcfg.enemy_weathertype_rainresist
-        # if ewcfg.dh_stage == 3 and ewcfg.dh_active:
-        #     chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
-        #     if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
-        #         #chosen_POI = 'westoutskirts'
-        #         pass
+        if ewcfg.dh_active:
+            chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
+            if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
+                #chosen_POI = 'westoutskirts'
+                pass
 
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway

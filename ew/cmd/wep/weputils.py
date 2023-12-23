@@ -235,7 +235,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage_target - slimes_tobleed
                 slimes_splatter = slimes_damage_target - slimes_toboss - slimes_tobleed - slimes_drained
 
-                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -340,7 +340,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
                 slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -862,7 +862,7 @@ async def attackEnemy(cmd):
         slimes_drained *= 0.5
         slimes_splatter *= 0.5
 
-    if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+    if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
         slimes_splatter *= .4
     
@@ -1209,8 +1209,8 @@ def apply_attack_modifiers(ctn, hitzone, attacker_mutations, target_mutations, t
     )
 
     # Apply Damage Modifiers
-    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod * float(ewcfg.global_damage_multiplier_dt[ctn.user_data.id_server])
-
+    ctn.slimes_damage *= attacker_status_mods['dmg'] * target_status_mods['dmg'] * misc_atk_mod * misc_def_mod
+    #* float(ewcfg.global_damage_multiplier_dt[ctn.user_data.id_server])
     # apply hit chance modifiers
     ctn.hit_chance_mod += attacker_status_mods['hit_chance'] + target_status_mods['hit_chance'] - ((5-ctn.user_data.weaponskill)/10 if ctn.user_data.weaponskill < 5 else 0)
 

@@ -138,7 +138,10 @@ async def crush(cmd):
                 gristnum = random.randrange(2) + 1
                 gristcount = 0
 
-                response = "You crush the {} with an iron grip. You gain {} piece(s) of Double Halloween Grist!".format(item_name, gristnum)
+                response = "You crush the {} with an iron grip. You gain {} piece(s) of Double Halloween Grist, as well as 11,000 Double Slimernalia XP!".format(item_name, gristnum)
+                XPresponse = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_dslimernalia_stat, 11000)
+                if XPresponse != "":
+                    resp_cont.add_channel_response(cmd.message.channel, fe_utils.formatMessage(cmd.message.author, XPresponse))
 
                 while gristcount < gristnum:
                     grist = static_items.item_map.get(ewcfg.item_id_doublehalloweengrist)

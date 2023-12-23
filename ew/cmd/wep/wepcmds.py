@@ -86,7 +86,7 @@ async def attack(cmd):
 
         # Calculate some base values
         skill_mult = (0.05 * attacker.weaponskill) + 1
-        base_cost = ((max(35, attacker.slimelevel) ** 4) / 30) if attacker_weapon.is_tool else ((attacker.slimelevel ** 4) / 30)
+        base_cost = ((max(35, attacker.slimelevel) ** 4) / 30) if attacker_weapon.is_tool else ((attacker.slimelevel ** 4) / 30) * float(ewcfg.global_damage_multiplier_dt[attacker.id_server])
         base_dmg = 5 * base_cost * skill_mult
 
         # Generate some random values
@@ -201,7 +201,7 @@ async def attack(cmd):
                 to_district = ctn.slimes_damage/4
 
         # nosferatu gives attacker 60% of splatter
-        if to_district > 0 and (ewcfg.mutation_id_nosferatu in attacker_mutations or ewcfg.dh_stage >= 4) and (20 <= market_data.clock or market_data.clock < 6):
+        if to_district > 0 and (ewcfg.mutation_id_nosferatu in attacker_mutations or ewcfg.dh_stage >= 1) and (20 <= market_data.clock or market_data.clock < 6):
             to_attacker += to_district * 0.6
             to_district *= 0.4
 
