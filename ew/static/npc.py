@@ -22,7 +22,7 @@ npc_list = [
         defaultlevel = 22,
         slimeoid_name = "Orange Crush",
         rewards = [
-        {ewcfg.item_id_slimepoudrin: [75, 5, 6]}
+        {ewcfg.item_id_slimepoudrin: [75, 2, 6]}
         ],
         starting_statuses=[ewcfg.status_enemy_juviemode_id, ewcfg.status_enemy_trainer_id]
     ),
@@ -39,9 +39,9 @@ EwNpc(
         defaultslime = 200,
         defaultlevel = 1,
         rewards = [
-        {ewcfg.item_id_slimepoudrin: [75, 5, 6]},
+        {ewcfg.item_id_slimepoudrin: [75, 2, 6]},
         {ewcfg.rarity_patrician: [20, 1, 1]},
-        {ewcfg.item_id_monsterbones: [100, 1, 3]},
+        {ewcfg.item_id_monsterbones: [90, 1, 3]},
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id]
     ),
@@ -61,7 +61,7 @@ EwNpc(
         defaultlevel = 1,
         rarity=7,
         rewards = [
-        {ewcfg.item_id_oldcd: [100, 1, 1],
+        {ewcfg.item_id_oldcd: [95, 1, 1],
          }, #"bobocuatroscalp":[100, 1, 1]
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer', ewcfg.status_enemy_trainer_id],
@@ -88,8 +88,8 @@ EwNpc(
     rewards = [
     {ewcfg.item_id_slimepoudrin: [75, 1, 3]},
     {'earbuds': [60, 1, 1]},
-    {'rollerblades': [5, 1, 1]},
-    {ewcfg.weapon_id_bass: [5, 1, 1]}
+    {'rollerblades': [3, 1, 1]},
+    {ewcfg.weapon_id_bass: [2, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '1leveltrainer', ewcfg.status_enemy_trainer_id] #Killable, probably shouldn't drop slime?
 ),
@@ -108,9 +108,9 @@ EwNpc(
     defaultlevel = 13,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [75, 1, 2]},
-    {'shorts': [50, 1, 1]},
-    {'shortshorts': [50, 1, 1]},
-    {'shortshortshorts': [50, 1, 1]},
+    {'shorts': [35, 1, 1]},
+    {'shortshorts': [35, 1, 1]},
+    {'shortshortshorts': [35, 1, 1]},
     {'autographedshorts': [10, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_trainer_id, '2leveltrainer', ewcfg.status_enemy_trainer_id] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
@@ -133,8 +133,8 @@ EwNpc(
     defaultlevel = 17,
     rarity=1,
     rewards = [
-    {'carrottopsmohawk': [100, 1, 1]},
-    {ewcfg.item_id_slimepoudrin: [50, 1, 4]},
+    {'carrottopsmohawk': [50, 1, 1]},
+    {ewcfg.item_id_slimepoudrin: [50, 1, 3]},
     {'quesarito': [30, 1, 3]},
     {"crop": [80, 2, 5]},
     ],
@@ -158,8 +158,8 @@ EwNpc(
     defaultlevel = 40,
     rarity=7,
     rewards = [
-    {"jellyfilleddoughnut": [100, 2, 3],
-     "officercopbadge":[100, 1, 1]}
+    {"jellyfilleddoughnut": [80, 2, 3],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -187,9 +187,9 @@ EwNpc(
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [50, 1, 1],
-    "gasmask":[50, 1, 1],
-     "heavymetalarmor":[20, 1, 1],
-     "officercopbadge":[100, 1, 1]}
+    "gasmask":[30, 1, 1],
+     "heavymetalarmor":[10, 1, 1],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -218,9 +218,9 @@ EwNpc(
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [20, 1, 1],
-    "revolver":[50, 1, 1],
-     "trenchcoat":[50, 1, 1],
-     "officercopbadge":[100, 1, 1]}
+    "revolver":[3, 1, 1],
+     "trenchcoat":[10, 1, 1],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -246,7 +246,7 @@ EwNpc(
     rarity=1,
     rewards = [
     {
-     "officercopbadge":[100, 1, 1]}
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -273,7 +273,7 @@ EwNpc(
     rewards = [
     {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
     {'pairofsunglasses': [50, 1, 1]},
-    {'bitchenergy': [100, 1, 2]},
+    {'bitchenergy': [90, 1, 2]},
     {'slimynipple': [50, 1, 1]}
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '2leveltrainer', ewcfg.status_enemy_trainer_id]
@@ -320,11 +320,11 @@ EwNpc(
     defaultlevel = 23,
     is_threat=True,
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
+    {ewcfg.item_id_slimepoudrin: [90, 1, 4]},
     {'pairofsunglasses': [100, 1, 1]},
     {'reinforcedkfcbucket': [5, 1, 1]},
     {ewcfg.item_id_454casullround: [80, 1, 1]},
-    {'crop': [100, 1, 3]}
+    {'crop': [90, 1, 3]}
     ],
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
     ),
@@ -344,10 +344,10 @@ EwNpc(
     defaultslime = 10000,
     defaultlevel = 1,
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 1, 2]},
-    {'jeans': [70, 1, 1]},
-    {'dogtag': [70, 1, 1]},
-    {ewcfg.weapon_id_katana: [15, 1, 1]}
+    {ewcfg.item_id_slimepoudrin: [80, 1, 2]},
+    {'jeans': [40, 1, 1]},
+    {'dogtag': [40, 1, 1]},
+    {ewcfg.weapon_id_katana: [5, 1, 1]}
     ],
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id]
     ),
@@ -411,8 +411,8 @@ EwNpc(
     defaultslime = 1550000,
     defaultlevel = 35,
     rewards = [
-    {ewcfg.item_id_gameguide: [100, 1, 1]},
-    {'crop': [100, 2, 5]}
+    {ewcfg.item_id_gameguide: [70, 1, 1]},
+    {'crop': [100, 1, 3]}
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '3leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
@@ -437,8 +437,8 @@ EwNpc(
     is_threat=True,
     attacktype = 'juvieman',
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
-    {ewcfg.weapon_id_juvierang: [50, 1, 1]},
+    {ewcfg.item_id_slimepoudrin: [90, 3, 6]},
+    {ewcfg.weapon_id_juvierang: [20, 1, 1]},
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
@@ -486,7 +486,7 @@ EwNpc(
     rarity=3,
     slimeoid_name='Fortunate Son',
     rewards = [
-    {"necktie":[100, 1, 1]}
+    {"necktie":[50, 1, 1]}
     ],
     starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
 
@@ -511,8 +511,8 @@ EwNpc(
     attacktype = ewcfg.weapon_id_brassknuckles,
     slimeoid_name = 'Lil\' Bruiser',
     rewards = [
-    {
-     ewcfg.weapon_id_brassknuckles:[20, 1, 1]}
+    {ewcfg.weapon_id_brassknuckles:[5, 1, 1]},
+     ewcfg.item_id_slimepoudrin[70, 1, 3]
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
@@ -536,9 +536,9 @@ EwNpc(
     is_threat=True,
     attacktype = 'pizzagraspers',
     rewards = [
-    {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
-     ewcfg.item_id_quadruplestuffedcrust:[100, 2, 4],
-     ewcfg.item_id_doublestuffedcrust:[100, 2, 4]}
+    {ewcfg.item_id_octuplestuffedcrust:[40, 1, 1],
+     ewcfg.item_id_quadruplestuffedcrust:[60, 1, 2],
+     ewcfg.item_id_doublestuffedcrust:[75, 1, 2]}
     ],
     starting_statuses=[ewcfg.status_enemy_tanky_id, ewcfg.status_enemy_dodgy_id, ewcfg.status_enemy_barren_id],
 ),
@@ -634,7 +634,7 @@ EwNpc(
     defaultlevel = 1,
     slimeoid_name = "peperoni",
     rewards = [
-    {"meatlovers": [80, 1, 3]},
+    {"meatlovers": [80, 1, 2]},
     ],
     starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
@@ -655,7 +655,7 @@ EwNpc(
     defaultlevel = 25,
     slimeoid_name = "Puppy Liberty",
     rewards = [
-    {"necktie": [100, 1, 1]},
+    {"necktie": [80, 1, 1]},
     ],
     starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
     is_threat=True,
@@ -779,7 +779,8 @@ EwNpc(
     defaultslime = 10001,
     defaultlevel = 2,
     rewards = [
-    {ewcfg.weapon_id_spraycan: [100, 1, 5]},
+    {ewcfg.item_id_slimepoudrin: [100, 1, 1],
+    ewcfg.item_id_slimepoudrin: [50, 1, 4]},
     ],
     slimeoid_name = "Master Splinter",
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
