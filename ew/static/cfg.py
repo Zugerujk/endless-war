@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.22 SEASON 4 ACT 2 - Mutation Rotations"
+version = "v4.23 SEASON 4 ACT 2 - Double Slimernalia"
 
 
 
@@ -33,7 +33,7 @@ dh_active = False
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = False
+slimernalia_active = True
 
 #Swilldermuk Features
 swilldermuk_active = False
@@ -3349,6 +3349,8 @@ goonscape_clout_stat = "clout"
 goonscape_pee_stat = "piss"
 # Double Halloween 2022 Exclusive
 goonscape_halloweening_stat = "halloween"
+# Double Slimernalia 2023 Exclusive
+goonscape_dslimernalia_stat = "dubnalia"
 
 # Database columns for goonscape stats
 col_id_mining_level = goonscape_mine_stat + "_level"
@@ -3366,6 +3368,9 @@ col_id_peeing_xp = goonscape_pee_stat + "_xp"
 # Double Halloween 2022
 col_id_halloweening_level = goonscape_halloweening_stat + "_level"
 col_id_halloweening_xp = goonscape_halloweening_stat + "_xp"
+# Double Slimernalia 2023
+col_id_dslimernalia_level = goonscape_dslimernalia_stat + "_level"
+col_id_dslimernalia_xp = goonscape_dslimernalia_stat + "_xp"
 
 
 gs_stat_to_level_col = {
@@ -3376,6 +3381,7 @@ gs_stat_to_level_col = {
     goonscape_clout_stat: col_id_clout_level,
     goonscape_halloweening_stat: col_id_halloweening_level,
     goonscape_pee_stat: col_id_peeing_level,
+    goonscape_dslimernalia_stat: col_id_dslimernalia_level,
 }
 gs_stat_to_xp_col = {
     goonscape_mine_stat: col_id_mining_xp,
@@ -3385,6 +3391,7 @@ gs_stat_to_xp_col = {
     goonscape_clout_stat: col_id_clout_xp,
     goonscape_halloweening_stat: col_id_halloweening_xp,
     goonscape_pee_stat: col_id_peeing_xp,
+    goonscape_dslimernalia_stat: col_id_dslimernalia_level,
 }
 
 minecraft_parodies = ["WE'LL MINE AGAIN", "I BANNED YOU", "MINE ODDITY", "WHAT ABOUT FRIENDS", "JUST GIVE ME MY DIAMONDS", "STOP CHEATING", "DIAMONDS", "WELCOME TO MY MINE", "ALL THE OTHER PLAYERS", "MINE DIAMONDS", "DIAMOND MINE", "MINER", "50 WAYS TO DIE IN MINECRAFT", "MINE ON", "MINECRAFT STEVE", "MINE ODDITY", "BREAK MY MINE", "TNT", "HARDCORE", "DIAMOND ORES", "GONNA GET MY DIAMONDS BACK", "MINING IN SEPTEMBER", "GRIEFING IT ALL", "IN THE MINE AGAIN", "I MINE DIAMONDS NOT COAL", "MINESHAFT OF BROKEN PICKS", "DIAMOND WALL", "MINING OUT", "CAZE SIZE DIAMONDS", "THIS IS MINECRAFT", "I MINED IT"]
@@ -3397,10 +3404,12 @@ gs_stat_to_cape_description = {
     goonscape_clout_stat: "A cape earned by {user_id} for maxing out the clout stat. It's like a diamond play button but even more worthless! Cape Number #{placement}",
     goonscape_halloweening_stat: "A cape earned by {user_id} for maxing out the halloween stat, obtainable during Double Halloween 2022. It shimmers purple with fabric made of double halloween grist, haunted by the hours wasted grinding this stat out. Cape Number #{placement}",
     goonscape_pee_stat: "A cape earned by {user_id} for pissing to the extreme. The cape hangs heavy with a brutal yellow hue, raditating power. And also pee. Cape Number #{placement}",
+    goonscape_dslimernalia_stat: "A cape earned by {user_id} for maxing out the dubnalia stat, obtainable during Double Slimernalia 2023. It's filled with both Double Halloween spirit *and* Slimernalia cheer. Yippee! Cape Number #{placement}",
 }
 
 legacy_stat_dict = {
     goonscape_halloweening_stat: "Was obtainable during Double Halloween 2022.",
+    goonscape_halloweening_stat: "Is obtainable during Double Slimernalia 2023.",
 }
 
 #GoonScape Stat
@@ -4566,11 +4575,11 @@ defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 raid_den_bosses = [enemy_type_alm]
 
 if slimernalia_active == True:
-    common_enemies.extend[enemy_type_spiritofslimernaliapast, enemy_type_drugdealer]
-    uncommon_enemies.extend[enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser]
-    raid_bosses.extend = [enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser]
-    enemy_movers.extend = [enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_slimeoidabuser, enemy_type_miserablemiser]
-    defense_up_enemies.extend = [enemy_type_miserablemiser]
+    common_enemies.extend([enemy_type_spiritofslimernaliapast, enemy_type_drugdealer])
+    uncommon_enemies.extend([enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_drugdealer, enemy_type_slimeoidabuser])
+    raid_bosses.extend([enemy_type_slimernaliajuvie, enemy_type_slimernaliagangster, enemy_type_miserablemiser])
+    enemy_movers.extend([enemy_type_slimernaliajuvie, enemy_type_vandal, enemy_type_illegalimmigrant, enemy_type_arsonist, enemy_type_slimernaliagangster, enemy_type_slimeoidabuser, enemy_type_miserablemiser])
+    defense_up_enemies.extend([enemy_type_miserablemiser])
 # List of enemies that spawn in the Nuclear Beach
 pre_historic_enemies = [enemy_type_slimeasaurusrex, enemy_type_dinoslime, enemy_type_slimeadactyl, enemy_type_mammoslime]
 arctic_enemies = [enemy_type_desertraider, enemy_type_slimeasaurusrex, enemy_type_juvie, enemy_type_unnervingfightingoperator, enemy_type_grey, enemy_type_mammoslime, enemy_type_piloslime, enemy_type_greeneyesslimedragon, enemy_type_megaslime, enemy_type_dinoslime]
@@ -5481,24 +5490,7 @@ random_poi_events = [
     event_type_gas_leak,
 ]
 
-poi_events = random_poi_events + [event_type_raid_den, event_type_rally, event_type_rally_end]
-
-# DH dates
-day_map = {
-    datetime.date(2022, 10, 28): 0,
-    datetime.date(2022, 10, 29): 1,
-    datetime.date(2022, 10, 30): 2,
-    datetime.date(2022, 10, 31): 3,
-    datetime.date(2022, 11, 1):  4,
-    datetime.date(2022, 11, 2):  5,
-    datetime.date(2022, 11, 3):  6,
-    datetime.date(2022, 11, 4):  7,
-    datetime.date(2022, 11, 5):  8,
-    datetime.date(2022, 11, 6):  9,
-    datetime.date(2022, 11, 7):  9,
-    datetime.date(2022, 11, 8):  9,
-    datetime.date(2022, 11, 9):  9,
-}
+poi_events = random_poi_events + [event_type_rally, event_type_rally_end]
 
 # Events that need to be checked up on every time the market updates
 # All hourly_events MUST include a "time" event_prop!

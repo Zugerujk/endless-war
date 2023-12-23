@@ -235,7 +235,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage_target - slimes_tobleed
                 slimes_splatter = slimes_damage_target - slimes_toboss - slimes_tobleed - slimes_drained
 
-                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -340,7 +340,7 @@ async def weapon_explosion(user_data = None, shootee_data = None, district_data 
                 slimes_directdamage = slimes_damage - slimes_tobleed  # 7/8
                 slimes_splatter = slimes_damage - slimes_tobleed - slimes_drained  # 1/8
 
-                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+                if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
                     user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
                     slimes_splatter *= .4
 
@@ -862,7 +862,7 @@ async def attackEnemy(cmd):
         slimes_drained *= 0.5
         slimes_splatter *= 0.5
 
-    if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 4) and (market_data.clock < 6 or market_data.clock >= 20):
+    if (ewcfg.mutation_id_nosferatu in user_mutations or ewcfg.dh_stage >= 1) and (market_data.clock < 6 or market_data.clock >= 20):
         levelup_response += user_data.change_slimes(n=slimes_splatter * 0.6, source=ewcfg.source_killing)
         slimes_splatter *= .4
     
