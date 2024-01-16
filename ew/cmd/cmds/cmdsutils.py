@@ -187,14 +187,19 @@ def holiday_commands(header = True):
     else:
         response = ""
     if ewcfg.dh_active:
-        return "{}{}".format(response, ewcfg.holidaycommands.get('doublehalloween'))
-    elif ewcfg.slimernalia_active:
+        if response != "":
+            response += "\n"
+        response += "{}{}".format(response, ewcfg.holidaycommands.get('doublehalloween'))
+    if ewcfg.slimernalia_active:
+        if response != "":
+            response += "\n"
         return "{}{}".format(response, ewcfg.holidaycommands.get('slimernalia'))
-    elif ewcfg.swilldermuk_active:
+    if ewcfg.swilldermuk_active:
+        if response != "":
+            response += "\n"
         return "{}{}".format(response, ewcfg.holidaycommands.get('swilldermuk'))
 
-    else:
-        return ''
+    return response
 
 """ used for !shares """
 

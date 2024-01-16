@@ -3,7 +3,6 @@ import math
 
 from . import core as bknd_core
 from ..static import cfg as ewcfg
-from ew.utils.frontend import send_response
 
 from ew.backend.questrecords import create_quest_record
 from ew.backend.questrecords import fetch_quest_records

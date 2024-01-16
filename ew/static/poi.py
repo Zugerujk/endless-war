@@ -613,7 +613,7 @@ poi_list = [
         is_district=True,
         enemy_lock=True,
         neighbors={'underworldsubwaystation': 20, 'thevoid': 180},
-        topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
+        topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a rarely-used punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
         wikipage="https://rfck.miraheze.org/wiki/The_Underworld",
     ),
     EwPoi(
