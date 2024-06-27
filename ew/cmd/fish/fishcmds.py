@@ -89,7 +89,7 @@ async def cast(cmd):
                 if weapon.id_weapon == "fishingrod":
                     has_fishingrod = True
 
-            if ewcfg.status_high_id in statuses or ((ewcfg.mutation_id_penjamincity in mutations) and user_data.inebriation >= 1):
+            if ewcfg.status_high_id in statuses:
                 fisher.high = True
 
             fisher.fishing = True
@@ -354,6 +354,9 @@ async def cast(cmd):
                     time_to_wait /= 2
                 if fisher.pier.pier_type == ewcfg.fish_slime_moon:
                     time_to_wait *= 7/6  # 70 normally, 35 if high
+                if user_data.inebriation >= 1:
+                    time_to_wait *= random.uniform(0.9, 1.3)
+
                 if high_value_bait_used:
                     time_to_wait = 5
 

@@ -461,7 +461,10 @@ async def check_farm(cmd):
                     response = "Your crop looks powerful and bursting with nutrients."
 
         else:
-            farm_action = farm_static.id_to_farm_action.get(farm.action_required)
+            if user_data.inebriation >= 1:
+                farm_action = random.choice(farm_static.farm_actions)
+            else:
+                farm_action = farm_static.id_to_farm_action.get(farm.action_required)
             response = farm_action.str_check
 
     await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
