@@ -371,7 +371,7 @@ async def rattle(cmd):
            # rare rattles
             elif roll > 1:
                 bones = random.randrange(206)
-                # grammar is important, retards
+                # grammar is important
                 if bones > 1:
                     insult1 = "s "
                     insult2 = "."

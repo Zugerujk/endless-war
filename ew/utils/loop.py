@@ -778,7 +778,7 @@ async def spawn_enemies(id_server = None, debug = False):
         if market_data.weather == ewcfg.weather_bicarbonaterain:
             if random.randrange(3) < 2:
                 weathertype = ewcfg.enemy_weathertype_rainresist
-        # if ewcfg.dh_stage == 3 and ewcfg.dh_active:
+        # if ewcfg.dh_active:
         #     chosen_type = random.choice([ewcfg.enemy_type_unnervingfightingoperator, ewcfg.enemy_type_grey, ewcfg.enemy_type_tangeloid, ewcfg.enemy_type_alienscum])
         #     if chosen_type == ewcfg.enemy_type_unnervingfightingoperator:
         #         #chosen_POI = 'westoutskirts'
@@ -824,7 +824,7 @@ async def spawn_enemies(id_server = None, debug = False):
     if ewcfg.dh_active and ewcfg.dh_stage >= 1:
         dhspawn = EwGamestate(id_server = id_server, id_state='dhorsemankills')
         count = int(dhspawn.value)
-        if count < 2:
+        if count < 4:
             market_data = EwMarket(id_server=id_server)
             underworld_district = EwDistrict(district=ewcfg.poi_id_underworld, id_server=id_server)
             enemies_count = len(underworld_district.get_enemies_in_district())
