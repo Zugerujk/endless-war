@@ -696,7 +696,7 @@ async def survey(cmd):
 
     direction_image = ""
     if poi.is_capturable or poi.id_poi in[ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
-        direction_image = '\nhttp://rfck.app/img/direction/{}_directions.png'.format(poi.id_poi)
+        direction_image = '\nhttp://rfck.zugerujk.net/img/direction/{}_directions.png'.format(poi.id_poi)
     # post result to channel
     if poi != None:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(

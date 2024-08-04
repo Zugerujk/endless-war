@@ -679,7 +679,7 @@ def find_drink(id_server, user_data = None, item = None):
     return None
 
 async def crush_drink(channel = None, id_item = None):
-    response = "https://rfck.app/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
+    response = "http://rfck.zugerujk.net/npc/drinksterdance.gif\nThe Drinkster went and crushed your drink! Damn it, that guy just won't leave you alone..."
     bknd_item.item_delete(id_item)
     return await fe_utils.send_message(None, channel, response)
 

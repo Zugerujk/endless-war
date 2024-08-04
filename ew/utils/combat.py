@@ -2080,7 +2080,7 @@ class EwUser(EwUserBase):
             response = "You realize that the {} you were trying to eat is already spoiled. Ugh, not eating that.".format(food_item.name)
         # ewitem.item_drop(food_item.id_item)
         elif npcutils.find_drinkster(user_data=self, isDrink=isDrink):
-            response = "Oh shit, it's the Drinkster! He snatches the {} right out of your hand and crushes it!\nhttps://rfck.app/npc/drinksterdance.gif".format(food_item.name)
+            response = "Oh shit, it's the Drinkster! He snatches the {} right out of your hand and crushes it!\nhttp://rfck.zugerujk.net/npc/drinksterdance.gif".format(food_item.name)
             bknd_item.item_delete(food_item.id_item)
             return [response]
         else:

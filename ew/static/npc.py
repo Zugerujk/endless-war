@@ -17,12 +17,12 @@ npc_list = [
                     "give":["Thanks, buddy! I'll take it, but honestly I'd rather have something to drink."],
                     "loop":["...", "Feeling kind of thirsty..."]},  # list of dialogue an npc can use
         func_ai = npcutils.drinkster_npc_action,  # function the enemy's AI uses
-        image_profile = "https://rfck.app/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
+        image_profile = "http://rfck.zugerujk.net/npc/drinkster_thumb.png",  # image link to add to dialogue embeds
         defaultslime = 2036231,
         defaultlevel = 22,
         slimeoid_name = "Orange Crush",
         rewards = [
-        {ewcfg.item_id_slimepoudrin: [75, 5, 6]}
+        {ewcfg.item_id_slimepoudrin: [75, 2, 6]}
         ],
         starting_statuses=[ewcfg.status_enemy_juviemode_id, ewcfg.status_enemy_trainer_id]
     ),
@@ -39,9 +39,9 @@ EwNpc(
         defaultslime = 200,
         defaultlevel = 1,
         rewards = [
-        {ewcfg.item_id_slimepoudrin: [75, 5, 6]},
+        {ewcfg.item_id_slimepoudrin: [75, 2, 6]},
         {ewcfg.rarity_patrician: [20, 1, 1]},
-        {ewcfg.item_id_monsterbones: [100, 1, 3]},
+        {ewcfg.item_id_monsterbones: [90, 1, 3]},
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_hostile_id]
     ),
@@ -61,7 +61,7 @@ EwNpc(
         defaultlevel = 1,
         rarity=7,
         rewards = [
-        {ewcfg.item_id_oldcd: [100, 1, 1],
+        {ewcfg.item_id_oldcd: [95, 1, 1],
          }, #"bobocuatroscalp":[100, 1, 1]
         ],
         starting_statuses=[ewcfg.status_enemy_barren_id, '5leveltrainer', ewcfg.status_enemy_trainer_id],
@@ -82,14 +82,14 @@ EwNpc(
                 "greenlightdistrictloop":["*Miku is gleefully shopping.*"],
                 "slimesendcliffsloop":["*Noticing the ocean waves, Miku frantically scrambles for land.*"]},
     func_ai = npcutils.chatty_npc_action,
-    image_profile = "https://rfck.app/npc/juviemiku_thumb.png", # "I'll illustrate one soon" - not final
+    image_profile = "http://rfck.zugerujk.net/npc/juviemiku_thumb.png", # "I'll illustrate one soon" - not final
     defaultslime = 160000,
     defaultlevel = 20,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [75, 1, 3]},
     {'earbuds': [60, 1, 1]},
-    {'rollerblades': [5, 1, 1]},
-    {ewcfg.weapon_id_bass: [5, 1, 1]}
+    {'rollerblades': [3, 1, 1]},
+    {ewcfg.weapon_id_bass: [2, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '1leveltrainer', ewcfg.status_enemy_trainer_id] #Killable, probably shouldn't drop slime?
 ),
@@ -108,9 +108,9 @@ EwNpc(
     defaultlevel = 13,
     rewards = [
     {ewcfg.item_id_slimepoudrin: [75, 1, 2]},
-    {'shorts': [50, 1, 1]},
-    {'shortshorts': [50, 1, 1]},
-    {'shortshortshorts': [50, 1, 1]},
+    {'shorts': [35, 1, 1]},
+    {'shortshorts': [35, 1, 1]},
+    {'shortshortshorts': [35, 1, 1]},
     {'autographedshorts': [10, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, ewcfg.status_enemy_trainer_id, '2leveltrainer', ewcfg.status_enemy_trainer_id] # Didn't specify whether hostile or not - considering the guy in Pokemon is, I'd assume so?
@@ -133,8 +133,8 @@ EwNpc(
     defaultlevel = 17,
     rarity=1,
     rewards = [
-    {'carrottopsmohawk': [100, 1, 1]},
-    {ewcfg.item_id_slimepoudrin: [50, 1, 4]},
+    {'carrottopsmohawk': [50, 1, 1]},
+    {ewcfg.item_id_slimepoudrin: [50, 1, 3]},
     {'quesarito': [30, 1, 3]},
     {"crop": [80, 2, 5]},
     ],
@@ -153,13 +153,13 @@ EwNpc(
                 "give":["What a morsel..."]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/npc/pork.png",
+    image_profile = "http://rfck.zugerujk.net/npc/pork.png",
     defaultslime = 6911000,
     defaultlevel = 40,
     rarity=7,
     rewards = [
-    {"jellyfilleddoughnut": [100, 2, 3],
-     "officercopbadge":[100, 1, 1]}
+    {"jellyfilleddoughnut": [80, 2, 3],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['7leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -181,15 +181,15 @@ EwNpc(
                 "give":["GIMME THAT!"]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/npc/riot.png",
+    image_profile = "http://rfck.zugerujk.net/npc/riot.png",
     defaultslime = 4911000,
     defaultlevel = 40,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [50, 1, 1],
-    "gasmask":[50, 1, 1],
-     "heavymetalarmor":[20, 1, 1],
-     "officercopbadge":[100, 1, 1]}
+    "gasmask":[30, 1, 1],
+     "heavymetalarmor":[10, 1, 1],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['5leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -211,16 +211,16 @@ EwNpc(
                 "give":["What, this some sorta clue?"]
                 },
     func_ai = npcutils.police_npc_action,
-    image_profile = "https://rfck.app/npc/sleuth.png",
+    image_profile = "http://rfck.zugerujk.net/npc/sleuth.png",
     defaultslime = 5911000,
     defaultlevel = 40,
     is_threat=True,
     rarity=7,
     rewards = [
     {"jellyfilleddoughnut": [20, 1, 1],
-    "revolver":[50, 1, 1],
-     "trenchcoat":[50, 1, 1],
-     "officercopbadge":[100, 1, 1]}
+    "revolver":[3, 1, 1],
+     "trenchcoat":[10, 1, 1],
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -239,14 +239,14 @@ EwNpc(
                 "give":["We'll have our officers look over this."]
                 },
     func_ai = npcutils.police_chief_npc_action,
-    image_profile = "https://rfck.app/npc/mrc.png",
+    image_profile = "http://rfck.zugerujk.net/npc/mrc.png",
     defaultslime = 3000000,
     defaultlevel = 80,
     is_threat=True,
     rarity=1,
     rewards = [
     {
-     "officercopbadge":[100, 1, 1]}
+     "officercopbadge":[20, 1, 1]}
     ],
     starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
@@ -273,7 +273,7 @@ EwNpc(
     rewards = [
     {ewcfg.item_id_slimepoudrin: [80, 1, 3]},
     {'pairofsunglasses': [50, 1, 1]},
-    {'bitchenergy': [100, 1, 2]},
+    {'bitchenergy': [90, 1, 2]},
     {'slimynipple': [50, 1, 1]}
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '2leveltrainer', ewcfg.status_enemy_trainer_id]
@@ -292,7 +292,7 @@ EwNpc(
                 "die":["*It looks like RF really wasn't cut out to be a Rowdy.* {}".format(ewcfg.emote_slimeskull)]
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://rfck.app/npc/rf1.png",
+    image_profile = "http://rfck.zugerujk.net/npc/rf1.png",
     defaultslime = 6479,
     defaultlevel = 12,
     is_threat=True,
@@ -320,11 +320,11 @@ EwNpc(
     defaultlevel = 23,
     is_threat=True,
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 2, 6]},
+    {ewcfg.item_id_slimepoudrin: [90, 1, 4]},
     {'pairofsunglasses': [100, 1, 1]},
     {'reinforcedkfcbucket': [5, 1, 1]},
     {ewcfg.item_id_454casullround: [80, 1, 1]},
-    {'crop': [100, 1, 3]}
+    {'crop': [90, 1, 3]}
     ],
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
     ),
@@ -344,10 +344,10 @@ EwNpc(
     defaultslime = 10000,
     defaultlevel = 1,
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 1, 2]},
-    {'jeans': [70, 1, 1]},
-    {'dogtag': [70, 1, 1]},
-    {ewcfg.weapon_id_katana: [15, 1, 1]}
+    {ewcfg.item_id_slimepoudrin: [80, 1, 2]},
+    {'jeans': [40, 1, 1]},
+    {'dogtag': [40, 1, 1]},
+    {ewcfg.weapon_id_katana: [5, 1, 1]}
     ],
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id]
     ),
@@ -361,7 +361,7 @@ EwNpc(
                 "die":["Back to the sauce I go..."],
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://rfck.app/npc/kimblynpcchad.png",
+    image_profile = "http://rfck.zugerujk.net/npc/kimblynpcchad.png",
     defaultslime = 2560000,
     is_threat=True,
     defaultlevel = 40,
@@ -384,7 +384,7 @@ EwNpc(
                 "die":["T-There was spaghetti in my controller..."],
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://rfck.app/npc/kimblynpctips.png",
+    image_profile = "http://rfck.zugerujk.net/npc/kimblynpctips.png",
     defaultslime = 2560000,
     defaultlevel = 40,
     is_threat=True,
@@ -407,12 +407,12 @@ EwNpc(
                 "die":["Someone... Please check on my plushies..."],
                 },
     func_ai = npcutils.generic_npc_action,
-    image_profile = "https://rfck.app/npc/kimblynpcKimbly.png",
+    image_profile = "http://rfck.zugerujk.net/npc/kimblynpcKimbly.png",
     defaultslime = 1550000,
     defaultlevel = 35,
     rewards = [
-    {ewcfg.item_id_gameguide: [100, 1, 1]},
-    {'crop': [100, 2, 5]}
+    {ewcfg.item_id_gameguide: [70, 1, 1]},
+    {'crop': [100, 1, 3]}
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '3leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
@@ -437,8 +437,8 @@ EwNpc(
     is_threat=True,
     attacktype = 'juvieman',
     rewards = [
-    {ewcfg.item_id_slimepoudrin: [100, 6, 9]},
-    {ewcfg.weapon_id_juvierang: [50, 1, 1]},
+    {ewcfg.item_id_slimepoudrin: [90, 3, 6]},
+    {ewcfg.weapon_id_juvierang: [20, 1, 1]},
     ],
     starting_statuses = [ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
     condition= lambda user_data, enemy_data: True if user_data.life_state != 1 and ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False
@@ -480,13 +480,13 @@ EwNpc(
                 "give":["Thanks for the donation! I assure you it won't go to waste!", "Eheheheh..."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "https://rfck.app/npc/herb_pfp.png",
+    image_profile = "http://rfck.zugerujk.net/npc/herb_pfp.png",
     defaultslime = 20,
     defaultlevel = 1,
     rarity=3,
     slimeoid_name='Fortunate Son',
     rewards = [
-    {"necktie":[100, 1, 1]}
+    {"necktie":[50, 1, 1]}
     ],
     starting_statuses=['1leveltrainer', ewcfg.status_enemy_trainer_id],
 
@@ -504,15 +504,15 @@ EwNpc(
                 "give":["Ey, buddy. Dat means a lot.", "Do I recognize you, kid? Anyhow, I 'preciate dat."]
                 },
     func_ai = npcutils.candidate_action,
-    image_profile = "https://rfck.app/npc/n11reformed.png",
+    image_profile = "http://rfck.zugerujk.net/npc/n11reformed.png",
     defaultslime = 4000000,
     defaultlevel = 55,
     rarity=3,
     attacktype = ewcfg.weapon_id_brassknuckles,
     slimeoid_name = 'Lil\' Bruiser',
     rewards = [
-    {
-     ewcfg.weapon_id_brassknuckles:[20, 1, 1]}
+    {ewcfg.weapon_id_brassknuckles:[5, 1, 1],
+     ewcfg.item_id_slimepoudrin:[70, 1, 3]}
     ],
     starting_statuses=['6leveltrainer', ewcfg.status_enemy_trainer_id],
 ),
@@ -529,16 +529,16 @@ EwNpc(
                 "give":["()Mozz takes your spoiled food and runs away with it!"]
                 },
     func_ai = npcutils.mozz_action,
-    image_profile = "https://rfck.app/npc/mozz.png",
+    image_profile = "http://rfck.zugerujk.net/npc/mozz.png",
     defaultslime = 9999000,
     defaultlevel = 1,
     rarity=5,
     is_threat=True,
     attacktype = 'pizzagraspers',
     rewards = [
-    {ewcfg.item_id_octuplestuffedcrust:[100, 1, 1],
-     ewcfg.item_id_quadruplestuffedcrust:[100, 2, 4],
-     ewcfg.item_id_doublestuffedcrust:[100, 2, 4]}
+    {ewcfg.item_id_octuplestuffedcrust:[40, 1, 1],
+     ewcfg.item_id_quadruplestuffedcrust:[60, 1, 2],
+     ewcfg.item_id_doublestuffedcrust:[75, 1, 2]}
     ],
     starting_statuses=[ewcfg.status_enemy_tanky_id, ewcfg.status_enemy_dodgy_id, ewcfg.status_enemy_barren_id],
 ),
@@ -555,7 +555,7 @@ EwNpc(
                 "give":["()The slox takes your gift and brings it back to their resting place to share it with their friend."]
                 },
     func_ai = npcutils.slox_action,
-    image_profile = "https://rfck.app/npc/sloxes_f.png",
+    image_profile = "http://rfck.zugerujk.net/npc/sloxes_f.png",
     defaultslime = 300,
     attacktype = 'slox',
     defaultlevel = 1,
@@ -578,7 +578,7 @@ EwNpc(
                 "give":["テグン道の格言 7: 見知らぬ人からの好意は、血で返す覚悟がない限り受け入れてはならない。ありがとう、私の息子。"]
                 },
     func_ai = npcutils.dojomaster_action,
-    image_profile = "https://rfck.app/npc/dojomaster.png",
+    image_profile = "http://rfck.zugerujk.net/npc/dojomaster.png",
     defaultslime = 15000000,
     attacktype = ewcfg.enemy_attacktype_dojoman,
     defaultlevel = 99,
@@ -601,7 +601,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "queenofengland",
-    active = True,
+    active = False,
     str_name = "Her Late Majesty Queen Elizabeth",
     description = 'She\'s fallen on hard times ever since...well, you know.',
     poi_list = poi_static.capturable_districts,
@@ -609,7 +609,7 @@ EwNpc(
                 "loop":["Cash?", "Can I have some cash?", "Hi, hey! Cash!", "Do you speak British?", "Cash, please?", "I want 100 po- I mean slime.", "Ca-ca-cash?", "May I have another poudrin?", "Alms for the poor?", "Alms for the pudgy?", "I'm not the Queen, I'm different. I need some cash for the train.", "Cash!", "Cash??", "CASH.", "Cash...", "Cash... 🥺", "I need some cash, good sir...🧐🧐🧐"],
                 },
     func_ai = npcutils.needy_npc_action,
-    image_profile = "https://rfck.app/npc/slimequeen.png",
+    image_profile = "http://rfck.zugerujk.net/npc/slimequeen.png",
     defaultslime = 15,
     defaultlevel = 1,
     str_juviemode = "You decide to just kill the Queen to get her off your back, but you decide the only thing more annoying than her is causing an international incident. Christ alive, she's just gonna spend it on alcohol anyway.",
@@ -634,7 +634,7 @@ EwNpc(
     defaultlevel = 1,
     slimeoid_name = "peperoni",
     rewards = [
-    {"meatlovers": [80, 1, 3]},
+    {"meatlovers": [80, 1, 2]},
     ],
     starting_statuses = ['7leveltrainer', ewcfg.status_enemy_trainer_id]
 ),
@@ -650,12 +650,12 @@ EwNpc(
                 "hit":["HEY", "CONTEMPT OF COURT! CONTEMPT I SAY!!", "YOU'LL BE NEEDING MY EYEPATCH SOON!", "AGGRAVATED ASSAULT!"]
                 },
     func_ai = npcutils.condition_hostile_action,
-    image_profile = "https://rfck.app/npc/Boils.png",
+    image_profile = "http://rfck.zugerujk.net/npc/Boils.png",
     defaultslime = 150000,
     defaultlevel = 25,
     slimeoid_name = "Puppy Liberty",
     rewards = [
-    {"necktie": [100, 1, 1]},
+    {"necktie": [80, 1, 1]},
     ],
     starting_statuses = ['5leveltrainer', ewcfg.status_enemy_trainer_id],
     is_threat=True,
@@ -668,12 +668,12 @@ EwNpc(
     description = "It's that guy from the creepypoud stories. You might want to check your inventory, maybe you collected a page on accident or something.",
     poi_list = poi_static.capturable_districts,
     dialogue = {"talk":["ooglhlghl im the slimederman", "find my 8 slimy pages if you dare", "boo", "i'll !harvest your soulllllll", "oooooooh look at me im the slimederman"],
-                "loop":["()https://rfck.app/npc/slimderman.png"],
+                "loop":["()http://rfck.zugerujk.net/npc/slimderman.png"],
                 "die":[""],
                 "hit":["!!!"]
                 },
     func_ai = npcutils.chatty_npc_action,
-    image_profile = "https://rfck.app/npc/slimderman.png",
+    image_profile = "http://rfck.zugerujk.net/npc/slimderman.png",
     defaultslime = 390000,
     defaultlevel = 25,
     rewards = [
@@ -701,7 +701,7 @@ EwNpc(
                 "give":["ENDLESS JESSE! GET OVER HERE! Jesse takes your offering and hands you a poudrin for your trouble."]
                 },
     func_ai = npcutils.trader_action,
-    image_profile = "https://rfck.app/npc/poudrinpurveyors.png",
+    image_profile = "http://rfck.zugerujk.net/npc/poudrinpurveyors.png",
     defaultslime = 0,
     defaultlevel = 1,
     rewards = [
@@ -726,7 +726,7 @@ EwNpc(
                 "give":["()Glghlgrl! Gully hands you a {bonus}!", "()Gleeel? blublub. Gully tosses a {bonus} your way."]
                 },
     func_ai = npcutils.trader_action,
-    image_profile = "https://rfck.app/npc/gully.png",
+    image_profile = "http://rfck.zugerujk.net/npc/gully.png",
     defaultslime = 50231,
     defaultlevel = 1,
     rewards = [
@@ -751,7 +751,7 @@ EwNpc(
                 "tradefail":["()You hand out your offering to the fake snake. The whip-shaped being gives it a good look, even tasting a bit around the edge, but it does an expression of disgust while doing so. Something isn't right for digestion, or it just doesn't want to get that thing inside. It pushes it next to you and continues own with its own business."]
                 },
     func_ai = npcutils.notasnake_action,
-    image_profile = "https://rfck.app/npc/slimesnake.png",
+    image_profile = "http://rfck.zugerujk.net/npc/slimesnake.png",
     defaultslime = 220000,
     defaultlevel = 10,
     attacktype = 'fangs',
@@ -764,7 +764,7 @@ EwNpc(
 ),
 EwNpc(
     id_npc = "ratqueen",
-    active = True,
+    active = False,
     str_name = "Rat Queen",
     description = "She's always using that spray can of hers. Banksy over here doesn't care about gangs marking the territory, though.",
     poi_list = poi_static.capturable_districts,
@@ -775,11 +775,12 @@ EwNpc(
                 "give":["Oh. Uh...thanks, kid."],
                  },
     func_ai = npcutils.ratqueen_action,
-    image_profile = "https://rfck.app/npc/ratqueen.png",
+    image_profile = "http://rfck.zugerujk.net/npc/ratqueen.png",
     defaultslime = 10001,
     defaultlevel = 2,
     rewards = [
-    {ewcfg.weapon_id_spraycan: [100, 1, 5]},
+    {ewcfg.item_id_slimepoudrin: [100, 1, 1],
+    ewcfg.item_id_slimepoudrin: [50, 1, 4]},
     ],
     slimeoid_name = "Master Splinter",
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
