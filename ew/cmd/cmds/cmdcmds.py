@@ -434,7 +434,7 @@ async def data(cmd):
         if len(response_block) > 0:
             response += "\n" + response_block
 
-        response += "\n\nhttps://rfck.app/stats/player.html?pl={}".format(user_data.id_user)
+        response += "\n\nhttp://rfck.zugerujk.net/stats/player.html?pl={}".format(user_data.id_user)
 
     # other data check
     else:
@@ -445,7 +445,7 @@ async def data(cmd):
             display_name=member.display_name,
         )
 
-        response += "\n\nhttps://rfck.app/stats/player.html?pl={}".format(member.id)
+        response += "\n\nhttp://rfck.zugerujk.net/stats/player.html?pl={}".format(member.id)
 
     # Send the response to the player.
     await fe_utils.send_response(response, cmd)
@@ -1401,7 +1401,7 @@ async def cancel(cmd):
 
 
 async def map(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Online world map: https://rfck.app/map/'))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Online world map: http://rfck.zugerujk.net/map/'))
 
 
 """
@@ -2164,7 +2164,7 @@ async def hurl(cmd):
 
 
 async def patchnotes(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Look for the latest patchnotes on the news page: https://rfck.app/news/'))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Look for the latest patchnotes on the news page: http://rfck.zugerujk.net/news/'))
 
 
 """
@@ -2204,12 +2204,12 @@ async def tutorial(cmd):
 
 
 """
-    Link to the leaderboards on rfck.app.
+    Link to the leaderboards on http://rfck.zugerujk.net.
 """
 
 
 async def leaderboard(cmd):
-    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Live leaderboards: https://rfck.app/stats/'))
+    await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, 'Live leaderboards: http://rfck.zugerujk.net/stats/'))
 
 
 async def lol(cmd):

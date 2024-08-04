@@ -933,7 +933,7 @@ poi_list = [
         is_subzone=True,
         mother_districts=['downtown'],
         neighbors={'downtown': 20},
-        topic="https://rfck.app/market/",
+        topic="http://rfck.zugerujk.net/market/",
         wikipage="https://rfck.miraheze.org/wiki/Downtown_NLACakaNM#Slime_Stock_Exchange",
     ),
     EwPoi(

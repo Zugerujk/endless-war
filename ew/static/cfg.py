@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.231 SEASON 4 ACT 2 - Double Slimernalia"
+version = "v4.232 SEASON 4 ACT 2 - First in a While"
 
 
 
@@ -2889,13 +2889,13 @@ vendor_passive_chat_wait_time = 60 * 60 * 12  # 12 hours
 
 
 museum_thumbnails = {
-    "amy":["AMY HART", "https://rfck.app/npc/AMY_HART_pfp.png"],
-    "curator":["THE CURATOR", "https://rfck.app/npc/CURATOR_GOOD_HEAD.png"]
+    "amy":["AMY HART", "http://rfck.zugerujk.net/npc/AMY_HART_pfp.png"],
+    "curator":["THE CURATOR", "http://rfck.zugerujk.net/npc/CURATOR_GOOD_HEAD.png"]
 }
 
 hide_value = random.randint(0, 2)
 
-hide_taka_thumbnail = ["https://rfck.app/npc/hide_taka_taco.png", "https://rfck.app/npc/hide_taka_pizza.png", "https://rfck.app/npc/hide_taka_kfc.png"]
+hide_taka_thumbnail = ["http://rfck.zugerujk.net/npc/hide_taka_taco.png", "http://rfck.zugerujk.net/npc/hide_taka_pizza.png", "http://rfck.zugerujk.net/npc/hide_taka_kfc.png"]
 hide_dialogue = {
     0:["I hope you choke on it.", "If you order another barbecue sauce packet and nothing else I'm going to scream.", " My boss will fire me if he catches me talking to you. Go on, shoo. I have tuition to pay.", "Go on. Make the same order repeatedly and then get out of here, like you always do."],#tacobell, stoic
     1:["Lovely day out, am I right?", "Hey, pal, can you keep a secret? We're selling chicken nuggets under the table.", "I've been told to tell you that we cook all our food right here, in the food court. That's right, there's a robust kitchen through that door. All freshly defrroooo... fried!", "I tried to talk about starting a union but, they got the whole place bugged so they threw my partner down the sewers. Call for help, man!"],#pizza, cheerful
@@ -2904,18 +2904,18 @@ hide_dialogue = {
 
 
 vendor_thumbnails = {
-    poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "https://rfck.app/npc/albertalex.png"],
-    "saloon":["OL' BOY RUSTLE", "https://rfck.app/npc/olboyrustle.png"],
-    "basedhardware":["BETTY BAMALAM", "https://rfck.app/npc/bet.png"],
+    poi_id_speakeasy:["CAPTAIN ALBERT ALEXANDER", "http://rfck.zugerujk.net/npc/albertalex.png"],
+    "saloon":["OL' BOY RUSTLE", "http://rfck.zugerujk.net/npc/olboyrustle.png"],
+    "basedhardware":["BETTY BAMALAM", "http://rfck.zugerujk.net/npc/bet.png"],
     "oozegardensfarms":["HORTISOLIS", "https://cdn.discordapp.com/attachments/927511705519538226/1005995514073972766/unknown.png"],
-    "realestateagency":["MR. CHADI, FORMERLY N2", "https://rfck.app/npc/n2double.png"],
-    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "https://rfck.app/npc/brainslime.png"],
+    "realestateagency":["MR. CHADI, FORMERLY N2", "http://rfck.zugerujk.net/npc/n2double.png"],
+    poi_id_neomilwaukeestate:["PROFESSOR BRAINSLIME", "http://rfck.zugerujk.net/npc/brainslime.png"],
     "themuseum":museum_thumbnails.get(current_curator),
     poi_id_slimypersuits:["BAILEY", "https://cdn.discordapp.com/attachments/858397413568151582/977066095288664074/unknown.png"],
     "clinicofslimoplasty":["DR. DUSTTRAP", "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"],
     poi_id_foodcourt:["HIDE TAKA", hide_taka_thumbnail[hide_value]],
-    poi_id_greenlightdistrict:["FUCKER CARLSON", "https://rfck.app/npc/fuckercarlson.png"],
-    poi_id_apt_littlechernobyl:["JERMA", "https://rfck.app/npc/jerma.png"]
+    poi_id_greenlightdistrict:["FUCKER CARLSON", "http://rfck.zugerujk.net/npc/fuckercarlson.png"],
+    poi_id_apt_littlechernobyl:["JERMA", "http://rfck.zugerujk.net/npc/jerma.png"]
 }
 
 
@@ -4021,7 +4021,7 @@ trauma_class_hunger = "hunger"
 
 server_join_message = "You are a delinquent JUVENILE, recently busted for attempting a scandalous act of vandalism and distribution of highly coveted SLIME. Luckily for you, the juvenile detention center you’ve been assigned to is notoriously corrupt and it’s an open secret how easy escape is. All you have to do for freedom and protection is align yourself to one of the many GANG LEADERS that recruit poor, unfortunate juveniles like yourself. Too pussy to fight directly, they’ve resorted to brainwashed child soldiers to fight their proxy wars for them. Day after day, night after night, from dawn ‘till dusk and dusk ‘till dawn, these troubled youths fight without reason or purpose. Yes, it feels as though a presence pervades this city, from the most poverty-stricken slums to the most gentrified high rise apartments. It is the influence of ENDLESS WAR.\n\nNow get out of DMs and go to #detention-center, juvie. If you need help with ENDLESS WAR, try **!help** or **!commands** there. Alternatively, ask your fellow JUVENILES for help."
 
-generic_help_response = "Check out the guide for help: https://rfck.app/guide/\n\nThe guide won't cover everything though, and may even be a bit outdated in some places, so you can also visit N.L.A.C.U. (!goto uni) or Neo Milwaukee State (!goto nms) to get more in-depth descriptions about how various game mechanics work by using the !help command there. **Portable game guides** can also be bought there for 10,000 slime."
+generic_help_response = "Check out the guide for help: http://rfck.zugerujk.net/guide/\n\nThe guide won't cover everything though, and may even be a bit outdated in some places, so you can also visit N.L.A.C.U. (!goto uni) or Neo Milwaukee State (!goto nms) to get more in-depth descriptions about how various game mechanics work by using the !help command there. **Portable game guides** can also be bought there for 10,000 slime."
 
 # Dict of all help responses linked to their associated topics
 help_responses = {

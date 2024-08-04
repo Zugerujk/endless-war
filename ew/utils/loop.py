@@ -787,7 +787,7 @@ async def spawn_enemies(id_server = None, debug = False):
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_weather=weathertype, pre_chosen_type=chosen_type, pre_chosen_poi=chosen_POI))
     # One in two chance of spawning a slimeoid trainer in either the Battle Arena or Subway
     # Why did I make this into incredibly hacky code? Because.
-    if random.randrange(5) == 0 and npc_enemies_count <= ewcfg.max_npcs:
+    if random.randrange((5 + (npc_enemies_count * 3))) == 0 and npc_enemies_count <= ewcfg.max_npcs:
         resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_npc))
             #if random.randrange(2) == 0:
                 #resp_list.append(hunt_utils.spawn_enemy(id_server=id_server, pre_chosen_type=ewcfg.enemy_type_slimeoidtrainer))
@@ -1164,13 +1164,13 @@ async def capture_tick(id_server):
 
                     else:  # if the district isn't already controlled by the player's faction and the capture isn't halted by an enemy
                         faction_capture = player_faction
-                        player_capture_speed = 1
+                        player_capture_speed = 4
                         if ewcfg.mutation_id_lonewolf in mutations and len(gangsters_in_district) == 1:
                             player_capture_speed *= 2
                         #if ewcfg.mutation_id_patriot in mutations:
                         player_capture_speed *= 1.5
                         if ewcfg.mutation_id_unnaturalcharisma in mutations:
-                            player_capture_speed += 1
+                            player_capture_speed += 4
 
                         capture_speed += player_capture_speed
                         num_capturers += 1
