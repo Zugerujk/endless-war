@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.22 SEASON 4 ACT 2 - Mutation Rotations"
+version = "v4.232 SEASON 4 ACT 2 - First in a While"
 
 
 
