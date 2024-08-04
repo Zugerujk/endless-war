@@ -313,7 +313,7 @@ async def haunt(cmd):
                 if ewcfg.dh_active:
                     responses = []
 
-                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_halloweening_stat, max(0,haunted_slimes//2))
+                    responses = await add_xp(user_data.id_user, user_data.id_server, ewcfg.goonscape_dslimernalia_stat, max(0,haunted_slimes//2))
 
                     for resp in responses: resp_cont.add_channel_response(cmd.message.channel, resp)
 

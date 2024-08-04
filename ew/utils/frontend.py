@@ -18,6 +18,7 @@ from ..static import poi as poi_static
 from ..static import weapons as static_weapons
 from ew.backend.dungeons import EwGamestate
 from ew.utils import stats as ewstats
+from ew.utils.user import add_xp
 
 channel_map = {}
 """
@@ -597,6 +598,7 @@ async def update_slimernalia_kingpin(client, server):
     # Reset the new kingpin's festivity upon getting the award
     old_festivity = ewstats.get_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity)
     ewstats.set_stat(id_server=server.id, id_user=new_kingpin_id, metric=ewcfg.stat_festivity, value=0)
+    await add_xp(old_kingpin_id, server.id, ewcfg.goonscape_dslimernalia_stat, old_festivity * 23)
 
     new_kingpin_member = None
     try:

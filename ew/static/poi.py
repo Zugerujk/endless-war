@@ -613,7 +613,7 @@ poi_list = [
         is_district=True,
         enemy_lock=True,
         neighbors={'underworldsubwaystation': 20, 'thevoid': 180},
-        topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
+        topic="A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a rarely-used punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
         wikipage="https://rfck.miraheze.org/wiki/The_Underworld",
     ),
     EwPoi(
@@ -816,7 +816,7 @@ poi_list = [
         id_poi="arsonbrookstreetb",
         alias=['cinderstateforest', 'cinderstate', 'cinder'],
         str_name="Cinder State Forest",
-        str_desc="This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimifed version that's called something supremely retarded like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fires, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This street connects back into Arsonbrook. This street is connected to Astatine Trail, Stillwater town, and Tilly Hill.",
+        str_desc="This spruce forest is locked in a pertupal cycle of holocaust and rebirth. It seems like no matter how many times local arsonists set the forest ablaze, nor how many times a wayward cigarette butt level swathes of the territory, the western hemlock population bounces back, stronger than ever. This place is Smokey Bear's wet dream. Good thing I have literally no clue who Smokey Bear is because his name is Smokey the Bear, and good thing I have literally no clue who Smokey the Bear is because we probably have a slimified version that's called something supremely dumb like Slimey the Bear, and good thing this whole diversion was ventured upon in error because it wouldn't be Smokey the Bear's wet dream because he doesn't even like forest fires, his whole thing is that he doesn't like them so I don't even know why I started talking about this in the first place. Wait, his name actually *is* Smokey Bear? Holy shit. This street connects back into Arsonbrook. This street is connected to Astatine Trail, Stillwater town, and Tilly Hill.",
         channel="cinder-state-forest",
         permissions={'arsonbrookstreetb': ['read', 'send', 'connect']},
         property_class="b",
