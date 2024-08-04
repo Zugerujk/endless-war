@@ -1100,13 +1100,16 @@ async def attackEnemy(cmd):
         killfeed_resp = "*{}*: {}".format(cmd.message.author.display_name, old_response)
         killfeed_resp += "\n`-------------------------`{}".format(ewcfg.emote_megaslime)
 
-        killfeed_resp_cont = EwResponseContainer(id_server=cmd.guild.id)
-        killfeed_resp_cont.add_channel_response(ewcfg.channel_killfeed, killfeed_resp)
+        gangbase_resp_cont = EwResponseContainer(id_server=cmd.guild.id)
+
+        channels = ewcfg.hideout_channels
+        for ch in channels:
+            gangbase_resp_cont.add_channel_response(ch, killfeed_resp)
 
         if ewcfg.mutation_id_amnesia in user_mutations:
             await asyncio.sleep(60)
 
-        await killfeed_resp_cont.post()
+        await gangbase_resp_cont.post()
     elif was_killed and enemy_data.enemytype == ewcfg.enemy_type_npc:
         npc_obj = static_npc.active_npcs_map.get(enemy_data.enemyclass)
         await npc_obj.func_ai(keyword='die', enemy=enemy_data, channel=cmd.message.channel)
