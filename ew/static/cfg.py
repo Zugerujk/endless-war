@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.232 SEASON 4 ACT 2 - First in a While"
+version = "v4.233 SEASON 4 ACT 2 - Double Slimernalia 2024"
 
 
 
@@ -33,7 +33,7 @@ dh_active = False
 dh_stage = 0
 
 #Slimernalia Features
-slimernalia_active = False
+slimernalia_active = True
 
 #Swilldermuk Features
 swilldermuk_active = False
