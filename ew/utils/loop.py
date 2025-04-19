@@ -248,14 +248,15 @@ async def decaySlimes(id_server = None):
                 # User will gain slime while in a blockparty/rad storm
                 if user_data.poi in slimeboost_pois:
                     slimes_to_decay -= ewcfg.blockparty_slimebonus_per_tick
-
-                if slimes_to_decay >= 1:
-                    user_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_decay)
-                    user_data.persist()
-                    total_decayed += slimes_to_decay
-                elif slimes_to_decay < 1:
-                    user_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_blockparty)
-                    user_data.persist()
+                # slime stops decaying below 1 megaslime (Could probably go up.)
+                if user_data.slimes >= 1000000:
+                    if slimes_to_decay >= 1:
+                        user_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_decay)
+                        user_data.persist()
+                        total_decayed += slimes_to_decay
+                    elif slimes_to_decay < 1:
+                        user_data.change_slimes(n=-slimes_to_decay, source=ewcfg.source_blockparty)
+                        user_data.persist()
 
             cursor.execute("SELECT district FROM districts WHERE id_server = %s AND {slimes} > 1".format(
                 slimes=ewcfg.col_district_slimes
@@ -858,6 +859,83 @@ async def enemy_action_tick_loop(id_server):
         except Exception as e:
             ewutils.logMsg('Enemy tick loop failed. Reason:{}'.format(e))
 
+severity_limit = {
+    "low": 5,
+    "medium" : 15,
+    "high" : 25,
+    "wasted" : 50,
+    "wrecked" : 90,
+    "totalled" : 100
+}
+async def drunk_effects(id_server):
+    while not ewutils.TERMINATE:
+        timer=30
+        await asyncio.sleep(timer)
+        users = bknd_core.execute_sql_query("SELECT inebriation, id_user FROM users WHERE inebriation >0")
+        server = ewcfg.server_list[id_server]
+        if users:
+            for inebriation, user in users:
+                user_data = EwUser(id_server=id_server, id_user=user)
+                player = EwPlayer(id_user=user)
+                inebriation=user_data.inebriation
+                mutations = user_data.get_mutations()
+                chance = max(1, 50-inebriation)
+                channelname=poi_static.id_to_poi.get(user_data.poi).channel
+                channel = fe_utils.get_channel(server,channelname)
+                #More frequently, the more drunk
+                if random.randint(1,chance)==1:
+                    user_data = EwUser(id_server=id_server, id_user=user)
+                    injury_text = ""
+                    slimeloss=0
+                    slime = user_data.slimes
+                    savingthrow = random.randint(1,20)
+                    # Lucky rolls with advantage
+                    if ewcfg.mutation_id_lucky in mutations:
+                        savingthrow = max(random.randint(1,20),random.randint(1,20)) 
+                    if inebriation<=severity_limit.get("low"):
+                        injury_text=["{name} stumbles around.".format(name=player.display_name),"{name} slurs their words as they attempt to speak.".format(name=player.display_name),"{name} burps.".format(name=player.display_name)]
+                        
+                    elif inebriation<=severity_limit.get("medium"):
+                        if savingthrow > 10:
+                            injury_text = ["{name} tries to stay balanced... they succeed!".format(name=player.display_name),"{name} belches.".format(name=player.display_name)]       
+                        else:
+                            slimeloss = min(50,slime)
+                            injury_text = ["{name} tries to stay balanced but fails, falling to the ground, catching a few grazes on the arm they used to brace. **They lose {slime} slime!**".format(name=player.display_name, slime=slimeloss),"{name} Walks into a lamppost. **They lose {slime} slime!**".format(name=player.display_name, slime=slimeloss)]         
+                    elif inebriation<=severity_limit.get("high"):
+                        if savingthrow > 12:
+                            injury_text = ["{name} begins to tilt over, before they can fall and faceplant the pavement they catch themselves on a railing. Nice save!".format(name=player.display_name),"{name} gurks.".format(name=player.display_name)]
+                        else:
+                            slimeloss = min(250,slime)
+                            injury_text = ["{name} suddenly faceplants onto the floor from standing leaving a nasty bruise. **They lose {slime} slime!**".format(name=player.display_name, slime = slimeloss)]
+
+                    elif inebriation<=severity_limit.get("wasted"):
+                        if savingthrow > 15:
+                            injury_text = ["{name} attempts to walk, stumbles slightly, but manages to correct themselves. Good job!".format(name=player.display_name,slime=slimeloss),"{name} eructates.".format(name=player.display_name)]
+                        else:
+                            slimeloss = slime * 0.05 # 5% slimeloss
+                            injury_text = ["{name} attempts to walk, accidentally standing on the side of their foot. Their ankle is almost instantly sprained and in their pained hopping they manage to topple over a nearby railing falling backfirst onto the pavement. **They lose {slime} slime!**".format(name=player.display_name,slime=slimeloss)]
+                    
+
+                    elif inebriation<=severity_limit.get("wrecked"):
+                        if savingthrow > 18:
+                            injury_text = ["{name} drunkenly punches a nearby window but the glass doesn't break. Phew!".format(name=player.display_name,slime=slimeloss)]
+                        else:
+                            slimeloss = slime * 0.1 # 10% slimeloss
+                            injury_text = ["{name} drunkenly punches a nearby window. The glass shatters and their hand is cut to ribbons by the resultant shards!! **They lose {slime} slime!**".format(name=player.display_name,slime=slimeloss)]
+                    
+
+                    else:
+                        if savingthrow == 20:
+                            injury_text = ["{name} mindlessly stumbles out into a nearby road. An oncoming car bleats and {name} hears it! They only just scramble away from the oncoming car. Nice save!".format(name=player.display_name)]
+                        else:
+                            slimeloss = slime * 0.2 # 20% slimeloss
+                            injury_text = ["{name} mindlessly stumbles out into a nearby road. An oncoming car bleats, but they are too inebriated to hear it, their hip is clipped by the cars headlight. **SMASH!!** They are sent spiralling into the air, spinning at least 3 full revolutions before falling back onto the pavement with a healthy *crunch*. They spew out the contents of their stomach as they stumble back to their feet. A symphony of slime, bile, and blood coats the asphalt. **They lose {slime} slime!**".format(name=player.display_name, slime=slimeloss)]
+                    user_data.change_slimes(n=-slimeloss)
+                    user_data.persist()
+                    response = random.choice(injury_text)
+                    await fe_utils.send_response(response, cmd= None, channel=channel, delete_after=32)
+                
+
 
 async def release_timed_prisoners_and_blockparties(id_server, day):
     users = bknd_core.execute_sql_query("SELECT id_user FROM users WHERE {arrests} <= %s and {arrests} > 0".format(arrests = ewcfg.col_arrested), (day,))
@@ -1277,14 +1355,15 @@ async def give_kingpins_slime_and_decay_capture_points(id_server):
             kingpin.persist()
 
             ewutils.logMsg(kingpin_role + " just received %d" % total_slimegain + " slime for their captured districts.")
-
+    
+    # Disabled
     # Decay capture points.
-    for id_district in poi_static.capturable_districts:
-        district = EwDistrict(id_server=id_server, district=id_district)
+    # for id_district in poi_static.capturable_districts:
+    #     district = EwDistrict(id_server=id_server, district=id_district)
 
-        responses = district.decay_capture_points()
-        resp_cont_decay_loop.add_response_container(responses)
-        district.persist()
+    #     responses = district.decay_capture_points()
+    #     resp_cont_decay_loop.add_response_container(responses)
+    #     district.persist()
 
     return await resp_cont_decay_loop.post()
 

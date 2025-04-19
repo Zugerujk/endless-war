@@ -309,7 +309,9 @@ async def data(cmd):
                 response += "{}".format(trauma.str_trauma_self)
     
         response_block = ""
-
+        
+        if user_data.inebriation > 0:
+            response += " Your slime alcohol content is {} ppm.".format(user_data.inebriation)
         #user_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_kills)
         #enemy_kills = ewstats.get_stat(user=user_data, metric=ewcfg.stat_pve_kills)
 

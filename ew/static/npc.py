@@ -786,7 +786,69 @@ EwNpc(
     starting_statuses = ['6leveltrainer', ewcfg.status_enemy_trainer_id],
     is_threat=False
 ),
+EwNpc(
+    id_npc = "juvie",
+    active = True,
+    str_name = "Juvie",
+    description = "A regular juvie going on with their day, mining slime, milling crops, and generally engaging in unrepentant acts of cowardness.",
+    poi_list = ["themines","juviesrow","greenlightdistrict","juviesrowpier","juviesrowfarms","vagrantscorner"],
+    dialogue = {"talk":["Hi!", "Do you want some of my slime?"],
+                "theminesloop":["*The juvie mines away, hard at work*", "*tink tink tink"],
+                "juviesrowfarms":["*The juvie tends to their crops, hard at work*"],
+                "juviesrowpier":["*The juvie casts a line and waits.*", "*The juvie whistles the melody of Extra Cheese Please."],
+                "rareloop":["I wonder if I'll be able to afford my own apartment one day..."],
+                "loop":["I worked hard today, it felt good!", "I can't wait to get back to mining!!","I wonder what I should sow today... maybe some Dire Apples or a Pawpaw!","I hope I catch a big fish today... I also hope that captain doesn't trade me a tin can for it again..."],
+                "hit":["Why are you hurting me!?", "Please stop!!", "Ow ow ow!"],
+                "die":["No....", "But I...", "Why...?", "Mom... I'm getting cold..."]
+                },
+    func_ai = npcutils.chatty_npc_action,
+    image_profile = "https://file.garden/Zqi4XgvJG2OU4NGu/RFCK/juvie.png",
+    defaultslime = 100000,
+    defaultlevel = 17,
+    rarity=6,
+    rewards = [
+
+        {
+        ewcfg.item_id_slimepoudrin: [20, 1, 1],
+        "mininghelmet": [20,1,1],
+        ewcfg.weapon_id_pickaxe: [5,1,1],
+        
+
+        }
+    ],
+),
+#((le epic oldhead refrance😁))
+EwNpc(
+    id_npc = "undercovercop",
+    active = True,
+    str_name = "Undercover Cop",
+    description = "Some kind of undercover cop. Not a particularly good one considering he openly advertises that he is in fact a cop but you gotta respect the hustle in the face of extreme mental adversity.",
+    poi_list = poi_static.capturable_districts,
+    dialogue = {
+                "loop":["""🚨 THIS IS THE POLICE 🚨\n
+🚔 ✋🏿 HANDS UP 🤚🏿 🚔\n
+🔫 YOU ARE ALL UNDER ARREST FOR ILLEGAL POSSESSION OF SLIME AND MULTIPLE OTHER CHARGES 🔫\n
+🚨 
+()https://discord.com/channels/431237299137675295/431237299137675297/436404634131628032                     
+"""],
+                "hit":["🚔 ✋🏿 HANDS UP 🤚🏿 🚔"],
+                "die":["🚨 THIS IS THE... *cough cough splurt* POLICE 🚨"],
+                },
+    func_ai = npcutils.police_npc_action,
+    image_profile = "https://file.garden/Zqi4XgvJG2OU4NGu/RFCK/undercovercoppfp.png",
+    defaultslime = 150000,
+    defaultlevel = 19,
+    rarity=3,
+    rewards = [
+    {
+     "officercopbadge":[20, 1, 1]}
+    ],
+    attacktype = 'police',
+    condition = lambda user_data, enemy_data: True if user_data.crime > 10000 or ewcfg.status_enemy_hostile_id in enemy_data.getStatusEffects() else False,
+    is_threat=True
+),
 ]
+
 
 for npc in npc_list:
     npc.starting_statuses.append(ewcfg.status_enemy_delay_id)
