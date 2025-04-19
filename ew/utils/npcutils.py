@@ -30,6 +30,18 @@ import ew.utils.item as itm_utils
 #die: action when the enemy dies
 #hit: action when the enemy gets hit
 
+async def undo_capture(enemy = None):
+    id_server=int(enemy.id_server)
+    district = ewdistrict.EwDistrict(district=enemy.poi, id_server=id_server)
+    districtName = poi_static.id_to_poi[enemy.poi].str_name
+    if district.capture_points > 0 and random.randint(0, 15) == 0:
+        response = str(enemy.display_name + " is decapturing " +districtName)            
+        await fe_utils.post_in_hideouts(id_server,response)
+        district.decay_capture_points()
+        district.persist()
+        #return False
+    return
+
 async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None, user_data = None):
     if npc_obj is None:
         npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
@@ -61,6 +73,7 @@ async def chatty_npc_action(keyword = '', enemy = None, channel = None, item = N
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 async def police_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None): #similar to the generic npc, but with loopable dialogue
+    await undo_capture(enemy)
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
 
     if keyword == 'act':
@@ -73,6 +86,7 @@ async def police_npc_action(keyword = '', enemy = None, channel = None, item = N
         return await generic_npc_action(keyword=keyword, enemy=enemy, channel=channel, item=item)
 
 async def police_chief_npc_action(keyword = '', enemy = None, channel = None, item = None, user_data = None):
+    await undo_capture(enemy)
     npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)
     #run the police set of actions, except for on death
     if keyword == 'die':

@@ -269,7 +269,7 @@ def formatMessage(user_target, message):
 
 async def post_in_channels(id_server, message, channels = None):
     client = ewutils.get_client()
-    server = client.get_guild(id=id_server)
+    server = client.get_guild(id_server)
 
     if channels is None and server is not None:
         channels = server.channels
