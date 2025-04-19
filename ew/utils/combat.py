@@ -2107,8 +2107,8 @@ class EwUser(EwUserBase):
                 xp_hunger = max(0, xp_hunger - self.hunger) #only count actual hunger restored for xp no over eating for free points >:[ 
                 self.hunger = 0
             self.inebriation += int(item_props['inebriation'])
-            if self.inebriation > 20:
-                self.inebriation = 20
+            if self.inebriation > ewcfg.inebriation_max:
+                self.inebriation = ewcfg.inebriation_max
             
 
             if item_has_expired:

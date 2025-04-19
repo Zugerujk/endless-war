@@ -1560,7 +1560,7 @@ global_damage_multiplier_dt = {}
 
 
 # inebriation
-inebriation_max = 20
+inebriation_max = 100
 inebriation_pertick = 2
 
 # max item amounts
