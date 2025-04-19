@@ -790,7 +790,7 @@ EwNpc(
     id_npc = "juvie",
     active = True,
     str_name = "Juvie",
-    description = "A regular juvie going on with their day, mining slime, milling crops and generally engaging in unrepentant acts of cowardness.",
+    description = "A regular juvie going on with their day, mining slime, milling crops, and generally engaging in unrepentant acts of cowardness.",
     poi_list = ["themines","juviesrow","greenlightdistrict","juviesrowpier","juviesrowfarms","vagrantscorner"],
     dialogue = {"talk":["Hi!", "Do you want some of my slime?"],
                 "theminesloop":["*The juvie mines away, hard at work*", "*tink tink tink"],
