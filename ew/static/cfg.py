@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.234 SEASON 4 ACT 2 - Killing Slimernalia"
+version = "v4.235 SEASON 4 ACT 2 - Police on the Prowl"
 
 
 
