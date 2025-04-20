@@ -32,11 +32,14 @@ import ew.utils.item as itm_utils
 
 async def undo_capture(enemy = None):
     id_server=int(enemy.id_server)
+    server =ewcfg.server_list[enemy.id_server]
     district = ewdistrict.EwDistrict(district=enemy.poi, id_server=id_server)
     districtName = poi_static.id_to_poi[enemy.poi].str_name
     if district.capture_points > 0 and random.randint(0, 15) == 0:
-        response = str(enemy.display_name + " is decapturing " +districtName)            
-        await fe_utils.post_in_hideouts(id_server,response)
+        response = str(enemy.display_name + " is decapturing " +districtName)   
+        for gangbase in ewcfg.hideout_channels:
+            channel = fe_utils.get_channel(server,gangbase)
+            await fe_utils.send_response(response, cmd= None, channel=channel, delete_after=32)
         district.decay_capture_points()
         district.persist()
         #return False
