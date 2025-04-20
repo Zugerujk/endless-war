@@ -912,7 +912,7 @@ async def drunk_effects(id_server):
                         if savingthrow > 15:
                             injury_text = ["{name} attempts to walk, stumbles slightly, but manages to correct themselves. Good job!".format(name=player.display_name,slime=slimeloss),"{name} eructates.".format(name=player.display_name)]
                         else:
-                            slimeloss = round(slime * 0.05) # 5% slimeloss, rounded
+                            slimeloss = max(500,round(slime * 0.05)) # 5% slimeloss, rounded
                             injury_text = ["{name} attempts to walk, accidentally standing on the side of their foot. Their ankle is almost instantly sprained and in their pained hopping they manage to topple over a nearby railing falling backfirst onto the pavement. **They lose {slime} slime!**".format(name=player.display_name,slime=slimeloss)]
                     
 
@@ -920,7 +920,7 @@ async def drunk_effects(id_server):
                         if savingthrow > 18:
                             injury_text = ["{name} drunkenly punches a nearby window but the glass doesn't break. Phew!".format(name=player.display_name,slime=slimeloss)]
                         else:
-                            slimeloss = round(slime * 0.1) # 10% slimeloss, rounded
+                            slimeloss = max(1000,round(slime * 0.1)) # 10% slimeloss, rounded
                             injury_text = ["{name} drunkenly punches a nearby window. The glass shatters and their hand is cut to ribbons by the resultant shards!! **They lose {slime} slime!**".format(name=player.display_name,slime=slimeloss)]
                     
 
@@ -928,7 +928,7 @@ async def drunk_effects(id_server):
                         if savingthrow == 20:
                             injury_text = ["{name} mindlessly stumbles out into a nearby road. An oncoming car bleats and {name} hears it! They only just scramble away from the oncoming car. Nice save!".format(name=player.display_name)]
                         else:
-                            slimeloss = round(slime * 0.2) # 20% slimeloss
+                            slimeloss = max(2000,round(slime * 0.2)) # 20% slimeloss
                             injury_text = ["{name} mindlessly stumbles out into a nearby road. An oncoming car bleats, but they are too inebriated to hear it, their hip is clipped by the cars headlight. **SMASH!!** They are sent spiralling into the air, spinning at least 3 full revolutions before falling back onto the pavement with a healthy *crunch*. They spew out the contents of their stomach as they stumble back to their feet. A symphony of slime, bile, and blood coats the asphalt. **They lose {slime} slime!**".format(name=player.display_name, slime=slimeloss)]
                     # user_data.change_slimes(n=-slimeloss)
                     user_data.bleed_storage+=slimeloss
