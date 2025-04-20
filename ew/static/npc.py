@@ -836,8 +836,8 @@ EwNpc(
                 },
     func_ai = npcutils.police_npc_action,
     image_profile = "https://file.garden/Zqi4XgvJG2OU4NGu/RFCK/undercovercoppfp.png",
-    defaultslime = 150000,
-    defaultlevel = 19,
+    defaultslime = 1500000,
+    defaultlevel = 34,
     rarity=3,
     rewards = [
     {
