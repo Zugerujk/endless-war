@@ -51,6 +51,15 @@ async def negaslime(cmd):
     else:
         await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "There is no negative slime in this world."))
 
+async def negacrime(cmd):
+    total = bknd_core.execute_sql_query("SELECT SUM(crime) FROM users WHERE crime < 0 AND id_server = '{}'".format(cmd.guild.id))
+    total_negacrime = total[0][0]
+
+    if total_negacrime:
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "The meek have amassed {:,} negative crime.".format(total_negacrime)))
+    else:
+        await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, "There is no negative crime in this world."))
+
 
 """ revive yourself from the dead. """
 

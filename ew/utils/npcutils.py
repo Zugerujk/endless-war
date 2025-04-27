@@ -34,17 +34,26 @@ async def undo_capture(enemy = None):
     id_server=int(enemy.id_server)
     server =ewcfg.server_list[enemy.id_server]
     district = ewdistrict.EwDistrict(district=enemy.poi, id_server=id_server)
-    districtName = poi_static.id_to_poi[enemy.poi].str_name
-    if district.capture_points > 0 and random.randint(0, 15) == 0:
-        response = str(enemy.display_name + " is decapturing " +districtName)   
+    district_name = poi_static.id_to_poi[enemy.poi].str_name
+    is_not_surrounded = not district.all_neighbors_friendly()
+    if district.capture_points > 0 and random.randint(0, 20) == 0 and is_not_surrounded:
+        controlling_faction=district.controlling_faction
+        response = "{enemy} is decapturing {district}".format(
+                enemy=enemy.display_name,
+                district=district_name)
+        if controlling_faction:
+            response = "{enemy} is decapturing {district} from the {controllingfaction}".format(
+                enemy=enemy.display_name,
+                district=district_name,
+                controllingfaction=controlling_faction)      
         for gangbase in ewcfg.hideout_channels:
             channel = fe_utils.get_channel(server,gangbase)
-            await fe_utils.send_response(response, cmd= None, channel=channel, delete_after=32)
+            await fe_utils.send_response(response, cmd= None, channel=channel, delete_after=120)
+        
         district.decay_capture_points()
         district.persist()
         #return False
     return
-
 async def generic_npc_action(keyword = '', enemy = None, channel = None, npc_obj = None, item = None, user_data = None):
     if npc_obj is None:
         npc_obj = static_npc.active_npcs_map.get(enemy.enemyclass)

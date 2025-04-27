@@ -2010,6 +2010,11 @@ EwGeneralItem(
         price=15000,
         vendors=[ewcfg.vendor_bazaar],
     ),
+    EwGeneralItem(
+        id_item="ultradenseslime",
+        str_name="Ultra Dense Slime",
+        str_desc="A globule of slime that has condensed at the core of something truly massive, almost turning into another substance entirely. Despite just barely fitting into your hand it weighs about as much as schoolbus. Good thing your grit stats are maxxed out otherwise you'd surely pop a disc.",
+    ),
 ]
 # item_list += ewdebug.debugitem_set
 

@@ -13,6 +13,9 @@ cmd_map = {
     # Show the total of negative slime in the world.
     ewcfg.cmd_negaslime: spookycmds.negaslime,
 
+    # Show the total of negative crime in the world.
+    ewcfg.cmd_negacrime: spookycmds.negacrime,
+
     # revive yourself as a juvenile after having been killed.
     ewcfg.cmd_revive: spookycmds.revive,
 
