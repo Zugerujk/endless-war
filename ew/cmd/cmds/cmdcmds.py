@@ -2171,6 +2171,7 @@ async def extinguish(cmd):
                 
     else:
         response = "There is nothing you can extinguish moron."
+    user_data.persist()
     return await fe_utils.send_message(cmd.client, cmd.message.channel, fe_utils.formatMessage(cmd.message.author, response))
 
 
