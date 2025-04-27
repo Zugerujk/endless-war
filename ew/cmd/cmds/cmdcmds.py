@@ -2120,8 +2120,14 @@ async def cmd_moan(cmd):
 
 async def unsheath(cmd):
     user_data = EwUser(member=cmd.message.author)
-    if user_data.weapon == 64:
-        response = 'You unsheath your katana. Your enemies better watch out!'
+    weapon_item = EwItem(id_item=user_data.weapon)
+    weapon_type = weapon_item.item_props.get("weapon_type")
+    weapon_name = weapon_type
+    if weapon_item.item_props.get("weapon_name"):
+        weapon_name = weapon_item.item_props.get("weapon_name")
+
+    if weapon_type == "katana":
+        response = 'You unsheath your {katana}. Your enemies better watch out!'.format(katana=weapon_name)
         
     else:
         response = "You don't have anything to unsheath."
@@ -2129,8 +2135,14 @@ async def unsheath(cmd):
 
 async def sheath(cmd):
     user_data = EwUser(member=cmd.message.author)
-    if user_data.weapon == 64:
-        response = 'You sheath your katana. Heh, looks like your enemies got lucky.'
+    weapon_item = EwItem(id_item=user_data.weapon)
+    weapon_type = weapon_item.item_props.get("weapon_type")
+    weapon_name = weapon_type
+    if weapon_item.item_props.get("weapon_name"):
+        weapon_name = weapon_item.item_props.get("weapon_name")
+
+    if weapon_type == "katana":
+        response = 'You sheath your {katana}. Heh, looks like your enemies got lucky.'.format(katana=weapon_name)
         
     else:
         response = "You don't have anything to sheath"
@@ -2140,6 +2152,7 @@ async def extinguish(cmd):
     user_data = EwUser(member=cmd.message.author)
     response = ""
     statuses = user_data.getStatusEffects()
+    mutations = user_data.get_mutations()
     if ewcfg.status_burning_id in statuses:       
         response = "You look around for something to put yourself out with but find nothing. Womp womp!"
         if ewcfg.mutation_id_enlargedbladder in mutations:
