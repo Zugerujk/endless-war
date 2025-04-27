@@ -4690,8 +4690,8 @@ enemy_drop_tables = {
         {rarity_patrician: [7, 1, 1]},
     ],
     enemy_type_gigaslime: [
-        {item_id_slimepoudrin: [100, 4, 8]},
-        {"ultradenseslime": [100, 4, 8]},
+        {item_id_slimepoudrin: [100, 20, 30]},
+        {"ultradenseslime": [50, 1, 1]},
         {rarity_patrician: [20, 1, 1]},
     ],
     enemy_type_slimeasaurusrex: [
