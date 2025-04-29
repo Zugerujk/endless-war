@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.236 SEASON 4 ACT 2 - Negacrime: Descend"
+version = "v4.236.1 SEASON 4 ACT 2 - Negacrime: Descend"
 
 
 
@@ -129,7 +129,7 @@ blockparty_slimebonus_per_tick = 250000
 
 # ID tags for points of interest that are needed in code.
 poi_id_thesewers = "thesewers"
-poi_id_slimeoidlab = "slimeoidlaboratory"
+poi_id_slimeoidlab = "slimecorpslimeoidlaboratory"
 poi_id_realestate = "realestateagency"
 poi_id_glocksburycomics = "glocksburycomics"
 poi_id_slimypersuits = "slimypersuits"

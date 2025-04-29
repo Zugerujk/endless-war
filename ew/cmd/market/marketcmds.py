@@ -330,7 +330,7 @@ async def donate(cmd):
             market_data.donated_poudrins += 1
             market_data.persist()
 
-            response = "You hand off one of your hard-earned poudrins to the front desk receptionist, who is all too happy to collect it. Pretty uneventful, but at the very least you’re glad donating isn’t physically painful anymore."
+            response = "You hand off one of your hard-earned poudrins to the front desk receptionist, who is all too happy to collect it. She inserts that bad boy into the weather machine they've got sequestered to a dusty corner, and... it works! The weather forecast has changed..."
 
     else:
         response = "To donate slime, go to the SlimeCorp HQ in Downtown. To donate museum goods, go to the Museum in Ooze Gardens."
