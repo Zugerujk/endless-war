@@ -217,6 +217,15 @@ cmd_map = {
     ewcfg.cmd_setslime: cmdcmds.set_slime,
     ewcfg.cmd_windowshop: cmdcmds.windowshop,
 
+    # Boss weapon verbs
+
+
+    #Flavour Stuff
+    ewcfg.cmd_sheath: cmdcmds.sheath,
+    ewcfg.cmd_unsheath: cmdcmds.unsheath,
+    ewcfg.cmd_sheath_alt1: cmdcmds.sheath,
+    ewcfg.cmd_unsheath_alt1: cmdcmds.unsheath,
+
     # Debug for world events
     ewcfg.cmd_createpoievent: cmdcmds.manual_poi_event_create,
     ewcfg.cmd_listworldevents: cmdcmds.list_worldevents,

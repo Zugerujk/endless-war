@@ -907,9 +907,8 @@ async def scrub(cmd):
         if random.randint(0, 2) == 0:
             district.change_capture_points(progress=-1, actor=ewcfg.actor_decay)
             district.persist()
-        if user_data.crime >= 1:
-            user_data.change_crime(n = -1)
-            user_data.persist()
+        user_data.change_crime(n = -1)
+        user_data.persist()
         response = "-"
 
     if response != "-":

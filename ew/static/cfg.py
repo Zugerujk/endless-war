@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.235 SEASON 4 ACT 2 - Police on the Prowl"
+version = "v4.236 SEASON 4 ACT 2 - Negacrime: Descend"
 
 
 
@@ -809,6 +809,7 @@ cmd_setstockvalue = cmd_prefix + 'setstockvalue'
 cmd_setstockshares = cmd_prefix + 'setstockshares'
 cmd_negapool = cmd_prefix + 'negapool'
 cmd_negaslime = cmd_prefix + 'negaslime'
+cmd_negacrime = cmd_prefix + 'negacrime'
 cmd_endlesswar = cmd_prefix + 'endlesswar'
 cmd_swear_jar = cmd_prefix + 'swearjar'
 cmd_equip = cmd_prefix + 'equip'
@@ -1433,6 +1434,15 @@ cmd_talk = cmd_prefix + 'talk'
 
 cmd_clean_stats = cmd_prefix + 'cleanstats'
 
+# Weapon Specific
+
+#cmd_immolate= cmd_prefix + 'immolate'
+
+cmd_sheath = cmd_prefix + 'sheath'
+cmd_unsheath = cmd_prefix + 'unsheath'
+
+cmd_sheath_alt1 = cmd_prefix + 'sheathe'
+cmd_unsheath_alt1 = cmd_prefix + 'unsheathe'
 
 offline_cmds = [
     cmd_move,
@@ -1734,6 +1744,12 @@ cr_unlawful_stunting = 1
 
 
 crime_status = {
+-5000:"{they} have done more to fight crime than perhaps anyone else. Forget juvieman and forget Mr. C, there's a new sherrif in town.",
+-1000:"{they} are a one man police force.",
+-100:"{they} have contributed towards the peace and prosperity of NLACakaNM.",
+-20:"{they} have done their fair share of volunteer work at slimeoid shelters, nursing wounded slimeoids back to health and helping to reintroduce them into the wild.",
+-5:"{they} have helped more than a few grandmas cross the street. Some say {they} don't even snatch their purses.",
+-1:"{they} must be confused. You're supposed to commit gang violence, not undo it.",
 0:"{their} record is spotless.",
 1:"{they} have stepped over the line to vaguely uncouth behavior, but {they}'re still the pussy {they}'ve always been.",
 5:"{they} appear to be trying to appear \"hard\". Oh, how {they} have failed.",
@@ -1748,7 +1764,6 @@ crime_status = {
 500000: "The civilians who see {their} face believe {them} to be a plague incarnate. Maybe they're right.",
 1000000:"Not even {their} fellow gangsters can tolerate the sight of {them} now. {their} voice is spun of poison and {their} footsteps leave destruction in {their} wake. Fucking goons."
 }
-
 #if a profile image is absent, this is used
 default_thumbnail = "https://yt3.ggpht.com/ytc/AKedOLQCV-tLjbp8R3Ua3-NYtax1F_T86YzV14UY16cHhQ=s900-c-k-c0x00ffffff-no-rj"
 
@@ -4506,6 +4521,8 @@ enemy_type_slimeofgreed = 'slimeofgreed'
 enemy_type_microgullswarm = 'microgullswarm'
 enemy_type_policeofficer = 'policeofficer'
 # Raid bosses
+
+
 enemy_type_megaslime = 'megaslime'
 
 enemy_type_slimeasaurusrex = 'slimeasaurusrex'
@@ -4670,6 +4687,7 @@ enemy_drop_tables = {
         {rarity_plebeian: [20, 1, 2]},
         {rarity_patrician: [7, 1, 1]},
     ],
+
     enemy_type_slimeasaurusrex: [
         {item_id_slimepoudrin: [100, 8, 15]},
         {rarity_plebeian: [12, 1, 2]},
@@ -5030,6 +5048,7 @@ enemy_data_table = {
         "raredescription": "\n\n> {emote} A massive, genetically mutated being made entirely of slime. They all seem determined to head directly towards the city, first thing. They only started showing up recently, but as soon as they did, the regular Megaslimes started to mimic their behavior. Perhaps it is a sort of hivemind they share?\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004708019568640/The_Venators_Encyclopedia17.png".format(emote=emote_megaslime),
         # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
+
     enemy_type_slimeasaurusrex: {
         "slimerange": [1750000, 3000000],
         "ai": enemy_ai_attacker_b,

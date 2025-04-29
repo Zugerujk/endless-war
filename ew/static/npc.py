@@ -240,7 +240,7 @@ EwNpc(
                 },
     func_ai = npcutils.police_chief_npc_action,
     image_profile = "http://rfck.zugerujk.net/npc/mrc.png",
-    defaultslime = 3000000,
+    defaultslime = 30000000,
     defaultlevel = 80,
     is_threat=True,
     rarity=1,
@@ -248,7 +248,7 @@ EwNpc(
     {
      "officercopbadge":[20, 1, 1]}
     ],
-    starting_statuses=[ewcfg.status_enemy_barren_id, '9leveltrainer', ewcfg.status_enemy_trainer_id],
+    starting_statuses=['9leveltrainer', ewcfg.status_enemy_trainer_id],
     attacktype = 'police',
     condition = lambda user_data, enemy_data: True if user_data.crime > 2250000 else False,
 

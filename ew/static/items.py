@@ -2010,6 +2010,7 @@ EwGeneralItem(
         price=15000,
         vendors=[ewcfg.vendor_bazaar],
     ),
+
 ]
 # item_list += ewdebug.debugitem_set
 

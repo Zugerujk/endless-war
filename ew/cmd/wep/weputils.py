@@ -632,6 +632,7 @@ async def attackEnemy(cmd):
     if user_data.slimelevel <= 0:
         user_data.slimelevel = 1
         user_data.persist()
+    does_explode = ewcfg.weapon_class_exploding in weapon.classes
 
     # Get target's info.
     huntedenemy = " ".join(cmd.tokens[1:]).lower()
@@ -642,6 +643,7 @@ async def attackEnemy(cmd):
         sandbag_mode = True
 
     user_mutations = user_data.get_mutations()
+
 
     district_data = EwDistrict(district=user_data.poi, id_server=cmd.guild.id)
 
@@ -728,7 +730,10 @@ async def attackEnemy(cmd):
         slimes_spent = ctn.slimes_spent
         bystander_damage = ctn.bystander_damage
         # user_data and enemy_data should be passed by reference, so there's no need to assign them back from the effect container.
-
+        if (ewcfg.mutation_id_deathfromabove in user_mutations or ewcfg.mutation_id_airlock in user_mutations) and market_data.weather == ewcfg.weather_lightning and not does_explode:
+            does_explode = True
+            bystander_damage = slimes_damage / 10
+            
         if sandbag_mode:
             slimes_spent_sandbag = slimes_spent
             slimes_spent = 0
@@ -787,7 +792,7 @@ async def attackEnemy(cmd):
                     resp = await apply_status_bystanders(user_data=user_data, status=ewcfg.status_burning_id, value=bystander_damage, life_states=life_states, factions=factions, district_data=district_data)
                     resp_cont.add_response_container(resp)
 
-            if ewcfg.weapon_class_exploding in weapon.classes:
+            if does_explode:
 
                 user_data.persist()
                 enemy_data.persist()
