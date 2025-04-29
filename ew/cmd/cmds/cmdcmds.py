@@ -2127,10 +2127,10 @@ async def unsheath(cmd):
         weapon_name = weapon_item.item_props.get("weapon_name")
 
     if weapon_type == "katana":
-        response = 'You unsheath your {katana}. Your enemies better watch out!'.format(katana=weapon_name)
+        response = 'You unsheathe your {katana}. Your enemies better watch out!'.format(katana=weapon_name)
         
     else:
-        response = "You don't have anything to unsheath."
+        response = "You don't have anything to unsheathe."
     await fe_utils.send_response(response, cmd)
 
 async def sheath(cmd):
@@ -2142,10 +2142,10 @@ async def sheath(cmd):
         weapon_name = weapon_item.item_props.get("weapon_name")
 
     if weapon_type == "katana":
-        response = 'You sheath your {katana}. Heh, looks like your enemies got lucky.'.format(katana=weapon_name)
+        response = 'You sheathe your {katana}. Heh, looks like your enemies got lucky.'.format(katana=weapon_name)
         
     else:
-        response = "You don't have anything to sheath"
+        response = "You don't have anything to sheathe."
     await fe_utils.send_response(response, cmd)
 
 

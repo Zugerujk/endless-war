@@ -1441,7 +1441,8 @@ cmd_clean_stats = cmd_prefix + 'cleanstats'
 cmd_sheath = cmd_prefix + 'sheath'
 cmd_unsheath = cmd_prefix + 'unsheath'
 
-
+cmd_sheath_alt1 = cmd_prefix + 'sheathe'
+cmd_unsheath_alt1 = cmd_prefix + 'unsheathe'
 
 offline_cmds = [
     cmd_move,
