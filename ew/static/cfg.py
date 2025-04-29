@@ -1743,7 +1743,7 @@ cr_unlawful_stunting = 1
 
 
 crime_status = {
--5000:"{they} have done more to fight crime than perhaps anyone else. Forget juvieman and forget Mr. C, There is a new sherrif in town.",
+-5000:"{they} have done more to fight crime than perhaps anyone else. Forget juvieman and forget Mr. C, there's a new sherrif in town.",
 -1000:"{they} are a one man police force.",
 -100:"{they} have contributed towards the peace and prosperity of NLACakaNM.",
 -20:"{they} have done their fair share of volunteer work at slimeoid shelters, nursing wounded slimeoids back to health and helping to reintroduce them into the wild.",
