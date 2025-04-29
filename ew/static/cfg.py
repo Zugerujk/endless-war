@@ -1437,7 +1437,6 @@ cmd_clean_stats = cmd_prefix + 'cleanstats'
 # Weapon Specific
 
 #cmd_immolate= cmd_prefix + 'immolate'
-cmd_extinguish= cmd_prefix + 'extinguish'
 
 cmd_sheath = cmd_prefix + 'sheath'
 cmd_unsheath = cmd_prefix + 'unsheath'
@@ -1746,10 +1745,10 @@ cr_unlawful_stunting = 1
 crime_status = {
 -5000:"{they} have done more to fight crime than perhaps anyone else. Forget juvieman and forget Mr. C, There is a new sherrif in town.",
 -1000:"{they} are a one man police force.",
--100:"{they} have contributed towards the peace and prosperity of this city.",
--20:"{they} have done their fair share of volunteer work at slimeoid shelters. Nursing wounded slimeoids back to health and helping to reintroduce them into the wild.",
+-100:"{they} have contributed towards the peace and prosperity of NLACakaNM.",
+-20:"{they} have done their fair share of volunteer work at slimeoid shelters, nursing wounded slimeoids back to health and helping to reintroduce them into the wild.",
 -5:"{they} have helped more than a few grandmas cross the street. Some say {they} don't even snatch their purses.",
--1:"{they} must be confused. You're supposed to commit gang violence not undo it.",
+-1:"{they} must be confused. You're supposed to commit gang violence, not undo it.",
 0:"{their} record is spotless.",
 1:"{they} have stepped over the line to vaguely uncouth behavior, but {they}'re still the pussy {they}'ve always been.",
 5:"{they} appear to be trying to appear \"hard\". Oh, how {they} have failed.",
@@ -4521,7 +4520,6 @@ enemy_type_slimeofgreed = 'slimeofgreed'
 enemy_type_microgullswarm = 'microgullswarm'
 enemy_type_policeofficer = 'policeofficer'
 # Raid bosses
-enemy_type_gigaslime = 'gigaslime'
 
 
 enemy_type_megaslime = 'megaslime'
@@ -4587,8 +4585,8 @@ common_enemies = []
 common_enemies = [enemy_type_sandbag, enemy_type_juvie, enemy_type_dinoslime]
 uncommon_enemies = [enemy_type_slimeadactyl, enemy_type_desertraider, enemy_type_mammoslime, enemy_type_spacecarp]
 rare_enemies = [enemy_type_microslime, enemy_type_slimeofgreed, enemy_type_mammoslimebull, enemy_type_microgullswarm]
-raid_bosses = [enemy_type_gigaslime,enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
-enemy_movers = [enemy_type_gigaslime,enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+raid_bosses = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
+enemy_movers = [enemy_type_megaslime, enemy_type_slimeasaurusrex, enemy_type_greeneyesslimedragon, enemy_type_unnervingfightingoperator, enemy_type_titanoslime]
 defense_up_enemies = [enemy_type_mutatedbarrel, enemy_type_alm]
 raid_den_bosses = [enemy_type_alm]
 
@@ -4618,7 +4616,6 @@ raid_boss_tiers = {
     "micro": [enemy_type_megaslime, enemy_type_slimernaliajuvie],
     "monstrous": [enemy_type_slimeasaurusrex, enemy_type_unnervingfightingoperator, enemy_type_miserablemiser],
     "mega": [enemy_type_greeneyesslimedragon, enemy_type_titanoslime, enemy_type_slimernaliagangster],
-    "giga" :[enemy_type_gigaslime]
     # This can be left empty until we get more raid boss ideas.
     # "nega": [],
 }
@@ -4689,11 +4686,7 @@ enemy_drop_tables = {
         {rarity_plebeian: [20, 1, 2]},
         {rarity_patrician: [7, 1, 1]},
     ],
-    enemy_type_gigaslime: [
-        {item_id_slimepoudrin: [100, 20, 30]},
-        {"ultradenseslime": [50, 1, 1]},
-        {rarity_patrician: [20, 1, 1]},
-    ],
+
     enemy_type_slimeasaurusrex: [
         {item_id_slimepoudrin: [100, 8, 15]},
         {rarity_plebeian: [12, 1, 2]},
@@ -5054,19 +5047,7 @@ enemy_data_table = {
         "raredescription": "\n\n> {emote} A massive, genetically mutated being made entirely of slime. They all seem determined to head directly towards the city, first thing. They only started showing up recently, but as soon as they did, the regular Megaslimes started to mimic their behavior. Perhaps it is a sort of hivemind they share?\n - *The Venator's Encyclopedia*, The Venator\n - https://cdn.discordapp.com/attachments/667820533454340112/745004708019568640/The_Venators_Encyclopedia17.png".format(emote=emote_megaslime),
         # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
     },
-    enemy_type_gigaslime: {
-        "slimerange": [100000000, 100000000],
-        "ai": enemy_ai_attacker_a,
-        "attacktype": enemy_attacktype_gunkshot,
-        "displayname": "Gigaslime",
-        "raredisplayname": "Gangerous Gigaslime",
-        "aliases": ["giga"],
-        "arcticvariant":"Glacial Gigaslime",
-        "dhvariant": "Ghastly Gigaslime",
-        "description": "\n\n> {emote} A nightmarishly huge abomination made entirely of slime, and lots of it. How such a huge amount of slime ammased to begin with is anyones guess.".format(emote=emote_megaslime),
-        "raredescription": "\n\n> {emote} A nightmarishly huge abomination made entirely of slime, and lots of it. How such a huge amount of slime ammased to begin with is anyones guess.".format(emote=emote_megaslime),
-        # "arcticdescription": "\n\n> \n - *MT. SRXEK GUIDEBOOK*, Author Unknown",
-    },
+
     enemy_type_slimeasaurusrex: {
         "slimerange": [1750000, 3000000],
         "ai": enemy_ai_attacker_b,

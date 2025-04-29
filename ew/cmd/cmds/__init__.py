@@ -218,7 +218,6 @@ cmd_map = {
     ewcfg.cmd_windowshop: cmdcmds.windowshop,
 
     # Boss weapon verbs
-    ewcfg.cmd_extinguish: cmdcmds.extinguish,
 
 
     #Flavour Stuff
