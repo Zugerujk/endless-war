@@ -1,4 +1,4 @@
-#Values a%e sorted by the chance to the drop an item, and then the minimum and maximum amount of times to drop that item.
+#Values are sorted by the chance to the drop an item, and then the minimum and maximum amount of times to drop that item.
 from ..model.hunting import EwAttackType
 from ..model.hunting import EwNpc
 from . import cfg as ewcfg
