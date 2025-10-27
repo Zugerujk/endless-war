@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.236.1 SEASON 4 ACT 2 - Negacrime: Descend"
+version = "v4.236.2 SEASON 4 ACT 2 - Double Halloween I Guess"
 
 
 
