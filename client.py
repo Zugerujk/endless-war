@@ -199,6 +199,8 @@ async def on_ready():
     if init_complete:
         return
     init_complete = True
+
+    ewutils.logMsg("Exploooooding my penits")
     ewcfg.set_client(client)
     ewutils.logMsg('Logged in as {} ({}).'.format(client.user.name, client.user.id))
     ewutils.logMsg("Passed that part correctly.")
