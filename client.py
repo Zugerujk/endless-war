@@ -105,10 +105,17 @@ handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(logging.Formatter('[%(asctime)s]:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-intents = discord.Intents.all()
 
+ewutils.logMsg("All working here.")
+intents = discord.Intents.all()
+intents.members = True
+intents.presences = True
+intents.message_content = True
+
+ewutils.logMsg("About to log intents.")
 client = discord.Client(intents=intents)
 
+ewutils.logMsg("Logged intents.")
 # A map containing user IDs and the last time in UTC seconds since we sent them
 # the help doc via DM. This is to prevent spamming.
 last_helped_times = {}
