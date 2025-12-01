@@ -28,9 +28,9 @@ permissions_tries = 1
 territory_time_gain = 10
 
 #Double Halloween Features
-dh_active = True
+dh_active = False
 #Existing Stages for Double Halloween. As the years go by we may add on to this
-dh_stage = 11
+dh_stage = 3
 
 #Slimernalia Features
 slimernalia_active = False
