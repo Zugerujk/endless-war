@@ -196,6 +196,8 @@ async def on_ready():
         ewutils.logMsg("Failed to change_presence!")
 
     global init_complete
+    print("Is the init complete?")
+    print(init_complete)
     if init_complete:
         return
     init_complete = True
