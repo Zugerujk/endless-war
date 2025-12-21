@@ -5938,10 +5938,6 @@ server_list = {}
 
 
 def update_server_list(server):
-    print("Updating server list")
-    print(server_list)
-    print(server.id)
-    print(server)
     server_list[server.id] = server
 
 

@@ -201,7 +201,6 @@ async def on_ready():
     init_complete = True
     ewcfg.set_client(client)
     ewutils.logMsg('Logged in as {} ({}).'.format(client.user.name, client.user.id))
-    ewutils.logMsg("Passed that part correctly.")
 
     ewutils.logMsg("Loaded NLACakaNM world map. ({}x{})".format(move_utils.map_width, move_utils.map_height))
     move_utils.map_draw()
