@@ -106,6 +106,8 @@ handler.setFormatter(logging.Formatter('[%(asctime)s]:%(levelname)s:%(name)s: %(
 logger.addHandler(handler)
 
 intents = discord.Intents.all()
+print(intents)
+ewutils.logMsg(intents)
 
 client = discord.Client(intents=intents)
 
@@ -206,7 +208,6 @@ async def on_ready():
     ewutils.logMsg('Logged in as {} ({}).'.format(client.user.name, client.user.id))
     ewutils.logMsg("Passed that part correctly.")
 
-    ewutils.logMsg("pleasepleasepleasepleaseplease")
     ewutils.logMsg("Loaded NLACakaNM world map. ({}x{})".format(move_utils.map_width, move_utils.map_height))
     move_utils.map_draw()
 

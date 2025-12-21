@@ -1439,8 +1439,7 @@ def load_items_cache():
         tracker += 1
         EwItem(id_item=row[0])
         if tracker % 1000 == 0:
-            pass
-            # ewutils.logMsg("Loaded {} EwItems into cache.".format(tracker))
+            ewutils.logMsg("Loaded {} EwItems into cache.".format(tracker))
 
     # Tell the client it didn't error out halfway
     return True
