@@ -348,6 +348,11 @@ async def weather_cycle(id_server):
                     while market_data.weather == weather_old:
                         pick = market_random_class.randrange(len(weather_static.weather_list))
                         market_data.weather = weather_static.weather_list[pick].name
+
+                        # If it's slimernalia, allow for infinite snowstorms.
+                        if (ewcfg.slimernalia_active) and (market_data.weather == weather_old):
+                            break
+
                     market_data.persist()
                 # Log message for statistics tracking.
                 ewutils.logMsg("The weather changed. It's now {}.".format(market_data.weather))

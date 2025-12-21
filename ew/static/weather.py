@@ -110,6 +110,64 @@ weather_list = [
     # ),
 ]
 
+# Really messy, appends 4 snows to the list to approximately triple the snow chance from 1/7 to 5/11 (close to 3/7) if it's slimernalia.
+if ewcfg.slimernalia_active:
+    weather_list.extend([
+    EwWeather(
+        name=ewcfg.weather_snow,
+        sunrise="The morning sun glints off the thin layer of powdery snow that blankets the city.",
+        day="Flakes of snow clump together and whip through the bitter cold air in the winter wind.",
+        sunset="The chilly air grows colder as the sky darkens and snow piles higher in the streets.",
+        night_new="Icy winds whip through the city, white snowflakes glittering in the black of night.",
+        night_waxing_start="Horns of ice fall from the night sky, piercing directly into pedestrians' skulls.",
+        night_waxing_end="Flurries of snow sweep garbage off the street as the moon's gaping maw hangs above.",
+        night_full="The crescent moon illuminates the still snowy night. Sparse snowflakes blanket the quiet city streets.",
+        night_waning_start="The streets are covered with thick sheets of sleet, covered with a light blanket of snow.",
+        night_waning_end="Icy winds whip through the city, white snowflakes glittering from the sliver of moonlight.",
+        night_special="Verdigris snow streams through open windows as the green moon casts its dim glow."
+        ),
+    EwWeather(
+        name=ewcfg.weather_snow,
+        sunrise="The morning sun glints off the thin layer of powdery snow that blankets the city.",
+        day="Flakes of snow clump together and whip through the bitter cold air in the winter wind.",
+        sunset="The chilly air grows colder as the sky darkens and snow piles higher in the streets.",
+        night_new="Icy winds whip through the city, white snowflakes glittering in the black of night.",
+        night_waxing_start="Horns of ice fall from the night sky, piercing directly into pedestrians' skulls.",
+        night_waxing_end="Flurries of snow sweep garbage off the street as the moon's gaping maw hangs above.",
+        night_full="The crescent moon illuminates the still snowy night. Sparse snowflakes blanket the quiet city streets.",
+        night_waning_start="The streets are covered with thick sheets of sleet, covered with a light blanket of snow.",
+        night_waning_end="Icy winds whip through the city, white snowflakes glittering from the sliver of moonlight.",
+        night_special="Verdigris snow streams through open windows as the green moon casts its dim glow."
+        ),
+    EwWeather(
+        name=ewcfg.weather_snow,
+        sunrise="The morning sun glints off the thin layer of powdery snow that blankets the city.",
+        day="Flakes of snow clump together and whip through the bitter cold air in the winter wind.",
+        sunset="The chilly air grows colder as the sky darkens and snow piles higher in the streets.",
+        night_new="Icy winds whip through the city, white snowflakes glittering in the black of night.",
+        night_waxing_start="Horns of ice fall from the night sky, piercing directly into pedestrians' skulls.",
+        night_waxing_end="Flurries of snow sweep garbage off the street as the moon's gaping maw hangs above.",
+        night_full="The crescent moon illuminates the still snowy night. Sparse snowflakes blanket the quiet city streets.",
+        night_waning_start="The streets are covered with thick sheets of sleet, covered with a light blanket of snow.",
+        night_waning_end="Icy winds whip through the city, white snowflakes glittering from the sliver of moonlight.",
+        night_special="Verdigris snow streams through open windows as the green moon casts its dim glow."
+        ),
+    EwWeather(
+        name=ewcfg.weather_snow,
+        sunrise="The morning sun glints off the thin layer of powdery snow that blankets the city.",
+        day="Flakes of snow clump together and whip through the bitter cold air in the winter wind.",
+        sunset="The chilly air grows colder as the sky darkens and snow piles higher in the streets.",
+        night_new="Icy winds whip through the city, white snowflakes glittering in the black of night.",
+        night_waxing_start="Horns of ice fall from the night sky, piercing directly into pedestrians' skulls.",
+        night_waxing_end="Flurries of snow sweep garbage off the street as the moon's gaping maw hangs above.",
+        night_full="The crescent moon illuminates the still snowy night. Sparse snowflakes blanket the quiet city streets.",
+        night_waning_start="The streets are covered with thick sheets of sleet, covered with a light blanket of snow.",
+        night_waning_end="Icy winds whip through the city, white snowflakes glittering from the sliver of moonlight.",
+        night_special="Verdigris snow streams through open windows as the green moon casts its dim glow."
+        ),
+    ]
+    )
+
 # A map of name to EwWeather objects.
 weather_map = {}
 for weather in weather_list:

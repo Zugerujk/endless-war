@@ -243,8 +243,8 @@ async def on_ready():
 
     for server in client.guilds:
         # Force discord to send all users, even offline ones
-        await server.chunk()
-
+        # await server.chunk() # TODO: This causes the bot to not work for some reason, so it's disabled. 
+ 
         # Update server data in the database
         bknd_server.server_update(server=server)
 
