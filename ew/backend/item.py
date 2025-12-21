@@ -1443,7 +1443,7 @@ def load_items_cache():
             # ewutils.logMsg("Loaded {} EwItems into cache.".format(tracker))
 
     # Tell the client it didn't error out halfway
-    ewutils.logMsg("Done loading the cache.")
+    print("Done loading items in cache yippee")
     return True
 
     #except:
