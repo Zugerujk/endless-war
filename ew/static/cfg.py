@@ -5959,10 +5959,9 @@ def get_client():
 
 
 def set_client(cl):
-    print("this works right?")
     global client_ref
     client_ref = cl
-    print("client_ref")
+
     return client_ref
 
 
