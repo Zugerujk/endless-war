@@ -350,7 +350,7 @@ async def weather_cycle(id_server):
                         market_data.weather = weather_static.weather_list[pick].name
 
                         # If it's slimernalia, allow for infinite snowstorms.
-                        if (ewcfg.slimernalia_active) and (market_data.weather == weather_old):
+                        if (ewcfg.slimernalia_active) and (market_data.weather == weather_old) and (market_data.weather == "snow"):
                             break
 
                     market_data.persist()
@@ -408,6 +408,11 @@ def forecast_txt(id_server=None, resp_type="long"):
                 while current_weather == weather_old:
                     pick = market_random_class.randrange(len(weather_static.weather_list))
                     current_weather = weather_static.weather_list[pick].name
+
+                    # If it's slimernalia, allow for infinite snowstorms.
+                    if (ewcfg.slimernalia_active) and (market_data.weather == weather_old) and (market_data.weather == "snow"):
+                        break
+
                 weather_icon = ewcfg.weather_icon_map.get(current_weather)
 
         # Place icon

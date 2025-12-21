@@ -3,7 +3,7 @@ import random
 # Global configuration options.
 
 
-version = "v4.237 SEASON 4 ACT 2 - Slimernalia 2025"
+version = "v4.237.1 SEASON 4 ACT 2 - Slimernalia 2025"
 
 
 
