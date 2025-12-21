@@ -106,8 +106,6 @@ handler.setFormatter(logging.Formatter('[%(asctime)s]:%(levelname)s:%(name)s: %(
 logger.addHandler(handler)
 
 intents = discord.Intents.all()
-print(intents)
-ewutils.logMsg(intents)
 
 client = discord.Client(intents=intents)
 
@@ -203,7 +201,6 @@ async def on_ready():
     init_complete = True
 
     ewutils.logMsg("Exploooooding my penits")
-
     ewcfg.set_client(client)
     ewutils.logMsg('Logged in as {} ({}).'.format(client.user.name, client.user.id))
     ewutils.logMsg("Passed that part correctly.")
